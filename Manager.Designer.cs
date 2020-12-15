@@ -1,7 +1,7 @@
 ﻿
 namespace Manager
 {
-    partial class Form1
+    partial class Manager
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,10 +29,17 @@ namespace Manager
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // Manager
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.Name = "Manager";
+            this.Text = "Manager";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
