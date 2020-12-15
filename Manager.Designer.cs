@@ -1,17 +1,10 @@
 ﻿
 namespace Manager
 {
-    partial class Manager
+    partial class MainWindow
     {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -29,20 +22,255 @@ namespace Manager
         /// </summary>
         private void InitializeComponent()
         {
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EndColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Year = new System.Windows.Forms.TextBox();
+            this.addYear = new System.Windows.Forms.Button();
+            this.subtractYear = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // Manager
+            // tabControl1
+            // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(2, 3);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(802, 437);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.button8);
+            this.tabPage1.Controls.Add(this.button7);
+            this.tabPage1.Controls.Add(this.button6);
+            this.tabPage1.Controls.Add(this.button5);
+            this.tabPage1.Controls.Add(this.button4);
+            this.tabPage1.Controls.Add(this.button3);
+            this.tabPage1.Controls.Add(this.dataGridView1);
+            this.tabPage1.Controls.Add(this.Year);
+            this.tabPage1.Controls.Add(this.addYear);
+            this.tabPage1.Controls.Add(this.subtractYear);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(794, 409);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Calendar";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button8
+            // 
+            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button8.Enabled = false;
+            this.button8.Location = new System.Drawing.Point(674, 10);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(50, 23);
+            this.button8.TabIndex = 9;
+            this.button8.Text = "Save";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Enabled = false;
+            this.button7.Location = new System.Drawing.Point(734, 10);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(50, 23);
+            this.button7.TabIndex = 8;
+            this.button7.Text = "Open";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.Enabled = false;
+            this.button6.Location = new System.Drawing.Point(549, 378);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(125, 23);
+            this.button6.TabIndex = 7;
+            this.button6.Text = "Update website";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Enabled = false;
+            this.button5.Location = new System.Drawing.Point(684, 378);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(100, 23);
+            this.button5.TabIndex = 6;
+            this.button5.Text = "Export PDF";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button4.Enabled = false;
+            this.button4.Location = new System.Drawing.Point(95, 378);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 5;
+            this.button4.Text = "Remove";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button3.Enabled = false;
+            this.button3.Location = new System.Drawing.Point(10, 378);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 4;
+            this.button3.Text = "Add";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.StartColumn,
+            this.EndColumn,
+            this.NameColumn,
+            this.DescriptionColumn});
+            this.dataGridView1.Location = new System.Drawing.Point(10, 43);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.RowTemplate.Height = 25;
+            this.dataGridView1.Size = new System.Drawing.Size(774, 324);
+            this.dataGridView1.TabIndex = 3;
+            // 
+            // StartColumn
+            // 
+            this.StartColumn.DataPropertyName = "StartTime";
+            this.StartColumn.FillWeight = 39.11343F;
+            this.StartColumn.HeaderText = "Start";
+            this.StartColumn.Name = "StartColumn";
+            this.StartColumn.Width = 75;
+            // 
+            // EndColumn
+            // 
+            this.EndColumn.DataPropertyName = "EndTime";
+            this.EndColumn.FillWeight = 44.62484F;
+            this.EndColumn.HeaderText = "End";
+            this.EndColumn.Name = "EndColumn";
+            this.EndColumn.Width = 86;
+            // 
+            // NameColumn
+            // 
+            this.NameColumn.DataPropertyName = "Name";
+            this.NameColumn.FillWeight = 132.2595F;
+            this.NameColumn.HeaderText = "Name";
+            this.NameColumn.Name = "NameColumn";
+            this.NameColumn.Width = 253;
+            // 
+            // DescriptionColumn
+            // 
+            this.DescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.DescriptionColumn.DataPropertyName = "Description";
+            this.DescriptionColumn.FillWeight = 184.0022F;
+            this.DescriptionColumn.HeaderText = "Description";
+            this.DescriptionColumn.Name = "DescriptionColumn";
+            // 
+            // Year
+            // 
+            this.Year.Location = new System.Drawing.Point(38, 10);
+            this.Year.Name = "Year";
+            this.Year.Size = new System.Drawing.Size(100, 23);
+            this.Year.TabIndex = 2;
+            this.Year.Text = "2020";
+            this.Year.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // addYear
+            // 
+            this.addYear.Location = new System.Drawing.Point(143, 10);
+            this.addYear.Name = "addYear";
+            this.addYear.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.addYear.Size = new System.Drawing.Size(23, 23);
+            this.addYear.TabIndex = 1;
+            this.addYear.Text = "+";
+            this.addYear.UseVisualStyleBackColor = true;
+            this.addYear.Click += new System.EventHandler(this.addYear_Click);
+            // 
+            // subtractYear
+            // 
+            this.subtractYear.Location = new System.Drawing.Point(10, 10);
+            this.subtractYear.Name = "subtractYear";
+            this.subtractYear.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.subtractYear.Size = new System.Drawing.Size(23, 23);
+            this.subtractYear.TabIndex = 0;
+            this.subtractYear.Text = "-";
+            this.subtractYear.UseVisualStyleBackColor = true;
+            this.subtractYear.Click += new System.EventHandler(this.subtractYear_Click);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(794, 409);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Help";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "Manager";
+            this.ClientSize = new System.Drawing.Size(804, 441);
+            this.Controls.Add(this.tabControl1);
+            this.MinimumSize = new System.Drawing.Size(500, 250);
+            this.Name = "MainWindow";
             this.Text = "Manager";
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button addYear;
+        private System.Windows.Forms.Button subtractYear;
+        private System.Windows.Forms.TextBox Year;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StartColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EndColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DescriptionColumn;
     }
 }
 
