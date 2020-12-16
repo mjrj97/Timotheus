@@ -1,22 +1,26 @@
-﻿using System.ComponentModel;
+﻿using Manager.Schedule;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Manager
 {
     public partial class MainWindow : Form
     {
-        int year = 2020;
-
-        BindingList<Event> events = new BindingList<Event>();
-
+        private int year = 2020;
+        
         public MainWindow()
         {
-            events.Add(new Event(2019, 2020, "Event name", "Description of event"));
-
             InitializeComponent();
             UpdateYearText();
 
-            dataGridView1.DataSource = new BindingSource(events,null);
+            string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
+            string fullName = Path.Combine(desktopPath, "Data.txt");
+            StreamReader steamReader = new StreamReader(fullName);
+            string[] content = steamReader.ReadToEnd().Split("\n");
+            steamReader.Close();
+
+            Calendar cal = new Calendar(content[0].Trim(), content[1].Trim(), content[2].Trim());
+            CalendarView.DataSource = new BindingSource(cal.events, null);
         }
 
         private void UpdateYearText()
@@ -24,13 +28,13 @@ namespace Manager
             Year.Text = year.ToString();
         }
 
-        private void addYear_Click(object sender, System.EventArgs e)
+        private void AddYear_Click(object sender, System.EventArgs e)
         {
             year++;
             UpdateYearText();
         }
 
-        private void subtractYear_Click(object sender, System.EventArgs e)
+        private void SubtractYear_Click(object sender, System.EventArgs e)
         {
             year--;
             UpdateYearText();

@@ -30,18 +30,18 @@ namespace Manager
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.CalendarView = new System.Windows.Forms.DataGridView();
             this.StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EndColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Year = new System.Windows.Forms.TextBox();
-            this.addYear = new System.Windows.Forms.Button();
-            this.subtractYear = new System.Windows.Forms.Button();
+            this.AddYear = new System.Windows.Forms.Button();
+            this.SubtractYear = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -65,10 +65,10 @@ namespace Manager
             this.tabPage1.Controls.Add(this.button5);
             this.tabPage1.Controls.Add(this.button4);
             this.tabPage1.Controls.Add(this.button3);
-            this.tabPage1.Controls.Add(this.dataGridView1);
+            this.tabPage1.Controls.Add(this.CalendarView);
             this.tabPage1.Controls.Add(this.Year);
-            this.tabPage1.Controls.Add(this.addYear);
-            this.tabPage1.Controls.Add(this.subtractYear);
+            this.tabPage1.Controls.Add(this.AddYear);
+            this.tabPage1.Controls.Add(this.SubtractYear);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -143,24 +143,24 @@ namespace Manager
             this.button3.Text = "Add";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // CalendarView
             // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.CalendarView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.CalendarView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.CalendarView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.StartColumn,
             this.EndColumn,
             this.NameColumn,
             this.DescriptionColumn});
-            this.dataGridView1.Location = new System.Drawing.Point(10, 43);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(774, 324);
-            this.dataGridView1.TabIndex = 3;
+            this.CalendarView.Location = new System.Drawing.Point(10, 43);
+            this.CalendarView.Name = "CalendarView";
+            this.CalendarView.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.CalendarView.RowHeadersVisible = false;
+            this.CalendarView.RowTemplate.Height = 25;
+            this.CalendarView.Size = new System.Drawing.Size(774, 324);
+            this.CalendarView.TabIndex = 3;
             // 
             // StartColumn
             // 
@@ -168,7 +168,6 @@ namespace Manager
             this.StartColumn.FillWeight = 39.11343F;
             this.StartColumn.HeaderText = "Start";
             this.StartColumn.Name = "StartColumn";
-            this.StartColumn.Width = 75;
             // 
             // EndColumn
             // 
@@ -176,7 +175,6 @@ namespace Manager
             this.EndColumn.FillWeight = 44.62484F;
             this.EndColumn.HeaderText = "End";
             this.EndColumn.Name = "EndColumn";
-            this.EndColumn.Width = 86;
             // 
             // NameColumn
             // 
@@ -203,27 +201,27 @@ namespace Manager
             this.Year.Text = "2020";
             this.Year.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // addYear
+            // AddYear
             // 
-            this.addYear.Location = new System.Drawing.Point(143, 10);
-            this.addYear.Name = "addYear";
-            this.addYear.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
-            this.addYear.Size = new System.Drawing.Size(23, 23);
-            this.addYear.TabIndex = 1;
-            this.addYear.Text = "+";
-            this.addYear.UseVisualStyleBackColor = true;
-            this.addYear.Click += new System.EventHandler(this.addYear_Click);
+            this.AddYear.Location = new System.Drawing.Point(143, 10);
+            this.AddYear.Name = "AddYear";
+            this.AddYear.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.AddYear.Size = new System.Drawing.Size(23, 23);
+            this.AddYear.TabIndex = 1;
+            this.AddYear.Text = "+";
+            this.AddYear.UseVisualStyleBackColor = true;
+            this.AddYear.Click += new System.EventHandler(this.AddYear_Click);
             // 
-            // subtractYear
+            // SubtractYear
             // 
-            this.subtractYear.Location = new System.Drawing.Point(10, 10);
-            this.subtractYear.Name = "subtractYear";
-            this.subtractYear.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
-            this.subtractYear.Size = new System.Drawing.Size(23, 23);
-            this.subtractYear.TabIndex = 0;
-            this.subtractYear.Text = "-";
-            this.subtractYear.UseVisualStyleBackColor = true;
-            this.subtractYear.Click += new System.EventHandler(this.subtractYear_Click);
+            this.SubtractYear.Location = new System.Drawing.Point(10, 10);
+            this.SubtractYear.Name = "SubtractYear";
+            this.SubtractYear.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.SubtractYear.Size = new System.Drawing.Size(23, 23);
+            this.SubtractYear.TabIndex = 0;
+            this.SubtractYear.Text = "-";
+            this.SubtractYear.UseVisualStyleBackColor = true;
+            this.SubtractYear.Click += new System.EventHandler(this.SubtractYear_Click);
             // 
             // tabPage2
             // 
@@ -247,7 +245,7 @@ namespace Manager
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -257,10 +255,10 @@ namespace Manager
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Button addYear;
-        private System.Windows.Forms.Button subtractYear;
+        private System.Windows.Forms.Button AddYear;
+        private System.Windows.Forms.Button SubtractYear;
         private System.Windows.Forms.TextBox Year;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView CalendarView;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button6;
