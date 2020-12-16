@@ -82,6 +82,8 @@ namespace Manager.Schedule
             timezone = tempTimeZone;
             version = tempVersion;
             prodid = tempProdID;
+
+            DeleteEvent(AddEvent("Fantastisk", DateTime.Now, DateTime.Now.AddMinutes(30)));
         }
 
         public string AddEvent(string name, DateTime startTime, DateTime endTime)
@@ -125,22 +127,35 @@ namespace Manager.Schedule
             return null;
         }
 
+        public void DeleteEvent(string id)
+        {
+            HttpRequest("DELETE", id);
+        }
+
         public string[] HttpRequest(string method, string dataString)
         {
             //Set up request for URL
-            WebRequest request = WebRequest.Create(url);
+            WebRequest request;
+
+            if (method == "DELETE")
+                request = WebRequest.Create(url + dataString);
+            else
+                request = WebRequest.Create(url);
+
             NetworkCredential credentials = new NetworkCredential(username, password);
             request.Credentials = credentials;
 
             if (method != null)
+                request.Method = method;
+            if (method == "POST")
             {
                 byte[] data = Encoding.ASCII.GetBytes(dataString);
-                request.Method = method;
                 request.ContentType = "text/calendar";
                 request.ContentLength = data.Length;
 
                 using var stream = request.GetRequestStream();
                 stream.Write(data, 0, data.Length);
+                stream.Close();
             }
 
             //Get response from URL
