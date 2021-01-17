@@ -28,8 +28,8 @@ namespace Manager
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.Remove = new System.Windows.Forms.Button();
+            this.Add = new System.Windows.Forms.Button();
             this.CalendarView = new System.Windows.Forms.DataGridView();
             this.StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EndColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,8 +63,8 @@ namespace Manager
             this.tabPage1.Controls.Add(this.button7);
             this.tabPage1.Controls.Add(this.button6);
             this.tabPage1.Controls.Add(this.button5);
-            this.tabPage1.Controls.Add(this.button4);
-            this.tabPage1.Controls.Add(this.button3);
+            this.tabPage1.Controls.Add(this.Remove);
+            this.tabPage1.Controls.Add(this.Add);
             this.tabPage1.Controls.Add(this.CalendarView);
             this.tabPage1.Controls.Add(this.Year);
             this.tabPage1.Controls.Add(this.AddYear);
@@ -121,27 +121,27 @@ namespace Manager
             this.button5.Text = "Export PDF";
             this.button5.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // Remove
             // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(95, 378);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "Remove";
-            this.button4.UseVisualStyleBackColor = true;
+            this.Remove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Remove.Location = new System.Drawing.Point(95, 378);
+            this.Remove.Name = "Remove";
+            this.Remove.Size = new System.Drawing.Size(75, 23);
+            this.Remove.TabIndex = 5;
+            this.Remove.Text = "Remove";
+            this.Remove.UseVisualStyleBackColor = true;
+            this.Remove.Click += new System.EventHandler(this.Remove_Click);
             // 
-            // button3
+            // Add
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(10, 378);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Add";
-            this.button3.UseVisualStyleBackColor = true;
+            this.Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Add.Location = new System.Drawing.Point(10, 378);
+            this.Add.Name = "Add";
+            this.Add.Size = new System.Drawing.Size(75, 23);
+            this.Add.TabIndex = 4;
+            this.Add.Text = "Add";
+            this.Add.UseVisualStyleBackColor = true;
+            this.Add.Click += new System.EventHandler(this.Add_Click);
             // 
             // CalendarView
             // 
@@ -259,8 +259,8 @@ namespace Manager
         private System.Windows.Forms.Button SubtractYear;
         private System.Windows.Forms.TextBox Year;
         private System.Windows.Forms.DataGridView CalendarView;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button Remove;
+        private System.Windows.Forms.Button Add;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button8;
