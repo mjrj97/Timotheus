@@ -12,6 +12,7 @@ namespace Manager.Schedule
         public string Description { get; set; }
         public readonly string id;
 
+        //Constructors
         public Event(DateTime StartTime, DateTime EndTime, DateTime Created, string Name, string Description, string id) 
         {
             this.StartTime = StartTime;

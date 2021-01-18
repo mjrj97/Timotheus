@@ -8,13 +8,16 @@ namespace Manager
 {
     public partial class MainWindow : Form
     {
+        public static MainWindow window;
+        public BindingList<Event> events = new BindingList<Event>();
+        
         private int year = 2020;
         private readonly Calendar calendar;
-        private BindingList<Event> events = new BindingList<Event>();
-
+        
         //Constructor
         public MainWindow()
         {
+            window = this;
             InitializeComponent();
             UpdateYearText();
 
@@ -45,7 +48,7 @@ namespace Manager
             }
         }
 
-        //Button functionality
+        //Buttons
         private void AddYear_Click(object sender, EventArgs e)
         {
             year++;
@@ -62,7 +65,8 @@ namespace Manager
 
         private void Add_Click(object sender, EventArgs e)
         {
-            events.Add(new Event(DateTime.Now, DateTime.Now.AddMinutes(30), "", "", ""));
+            AddEvent addEvent = new AddEvent();
+            addEvent.ShowDialog();
         }
 
         private void Remove_Click(object sender, EventArgs e)

@@ -17,6 +17,7 @@ namespace Manager.Schedule
         private readonly string version;
         private readonly string prodid;
 
+        //Constructor
         public Calendar(string username, string password, string url)
         {
             this.username = username;
@@ -132,6 +133,7 @@ namespace Manager.Schedule
             HttpRequest("DELETE", id);
         }
 
+        //HTTP Request
         public string[] HttpRequest(string method, string dataString)
         {
             //Set up request for URL
@@ -171,6 +173,7 @@ namespace Manager.Schedule
             return HttpRequest(null, null);
         }
 
+        //Get value after colon
         private string GetValue(string line)
         {
             int colon = 0;
@@ -182,6 +185,7 @@ namespace Manager.Schedule
             return line.Substring(colon + 1);
         }
 
+        //Conversions
         public string DateToString(DateTime date)
         {
             return date.Year.ToString("D4") + date.Month.ToString("D2") + date.Day.ToString("D2") + "T" + date.Hour.ToString("D2") + date.Minute.ToString("D2") + date.Second.ToString("D2");
