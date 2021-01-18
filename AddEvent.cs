@@ -15,7 +15,7 @@ namespace Manager
         //Buttons
         private void Add_Click(object sender, EventArgs e)
         {
-            MainWindow.window.events.Add(new Event(DateTime.Now, DateTime.Now.AddMinutes(30), NameText.Text, "", ""));
+            MainWindow.window.AddEventToCalendar(new Event(DateTime.Now, DateTime.Now.AddMinutes(30), NameText.Text, "", ""));
             Close();
         }
 

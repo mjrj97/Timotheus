@@ -9,15 +9,16 @@ namespace Manager
     public partial class MainWindow : Form
     {
         public static MainWindow window;
-        public BindingList<Event> events = new BindingList<Event>();
+        public BindingList<Event> shownEvents = new BindingList<Event>();
         
-        private int year = 2020;
+        private int year;
         private readonly Calendar calendar;
         
         //Constructor
         public MainWindow()
         {
             window = this;
+            year = DateTime.Now.Year;
             InitializeComponent();
             UpdateYearText();
 
@@ -26,10 +27,16 @@ namespace Manager
             StreamReader steamReader = new StreamReader(fullName);
             string[] content = steamReader.ReadToEnd().Split("\n");
             steamReader.Close();
-
+            
             calendar = new Calendar(content[0].Trim(), content[1].Trim(), content[2].Trim());
             UpdateTable();
-            CalendarView.DataSource = new BindingSource(events, null);
+            CalendarView.DataSource = new BindingSource(shownEvents, null);
+        }
+
+        public void AddEventToCalendar(Event ev)
+        {
+            calendar.events.Add(ev);
+            UpdateTable();
         }
 
         //Update contents
@@ -40,11 +47,11 @@ namespace Manager
 
         private void UpdateTable()
         {
-            events.Clear();
+            shownEvents.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
             {
                 if (calendar.events[i].StartTime.Year == year)
-                    events.Add(calendar.events[i]);
+                    shownEvents.Add(calendar.events[i]);
             }
         }
 
@@ -71,7 +78,7 @@ namespace Manager
 
         private void Remove_Click(object sender, EventArgs e)
         {
-            events.RemoveAt(CalendarView.CurrentCell.OwningRow.Index);
+            shownEvents.RemoveAt(CalendarView.CurrentCell.OwningRow.Index);
         }
     }
 }
