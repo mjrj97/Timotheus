@@ -10,8 +10,9 @@ namespace Manager
     {
         private int year = 2020;
         private readonly Calendar calendar;
-        private BindingList<Event> events;
+        private BindingList<Event> events = new BindingList<Event>();
 
+        //Constructor
         public MainWindow()
         {
             InitializeComponent();
@@ -28,6 +29,7 @@ namespace Manager
             CalendarView.DataSource = new BindingSource(events, null);
         }
 
+        //Update contents
         private void UpdateYearText()
         {
             Year.Text = year.ToString();
@@ -35,23 +37,27 @@ namespace Manager
 
         private void UpdateTable()
         {
-            events = new BindingList<Event>();
+            events.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
             {
-                events.Add(calendar.events[i]);
+                if (calendar.events[i].StartTime.Year == year)
+                    events.Add(calendar.events[i]);
             }
         }
 
+        //Button functionality
         private void AddYear_Click(object sender, EventArgs e)
         {
             year++;
             UpdateYearText();
+            UpdateTable();
         }
 
         private void SubtractYear_Click(object sender, EventArgs e)
         {
             year--;
             UpdateYearText();
+            UpdateTable();
         }
 
         private void Add_Click(object sender, EventArgs e)
