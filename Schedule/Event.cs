@@ -23,5 +23,6 @@ namespace Manager.Schedule
             this.id = id;
         }
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string id) : this(StartTime, EndTime, DateTime.Now, Name, Description, id) { }
+        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description) : this(StartTime, EndTime, DateTime.Now, Name, Description, "") { }
     }
 }

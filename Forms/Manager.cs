@@ -74,6 +74,7 @@ namespace Manager
         private void Add_Click(object sender, EventArgs e)
         {
             AddEvent addEvent = new AddEvent();
+            addEvent.Owner = this;
             addEvent.ShowDialog();
         }
 
