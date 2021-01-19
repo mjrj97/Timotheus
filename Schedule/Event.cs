@@ -10,19 +10,19 @@ namespace Manager.Schedule
 
         public string Name { get; set; }
         public string Description { get; set; }
-        public readonly string id;
+        public string ID { get; set; }
 
         //Constructors
-        public Event(DateTime StartTime, DateTime EndTime, DateTime Created, string Name, string Description, string id) 
+        public Event(DateTime StartTime, DateTime EndTime, DateTime Created, string Name, string Description, string ID)
         {
             this.StartTime = StartTime;
             this.EndTime = EndTime;
             this.Name = Name;
             this.Description = Description;
             this.Created = Created;
-            this.id = id;
+            this.ID = ID;
         }
-        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string id) : this(StartTime, EndTime, DateTime.Now, Name, Description, id) { }
+        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string ID) : this(StartTime, EndTime, DateTime.Now, Name, Description, ID) { }
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description) : this(StartTime, EndTime, DateTime.Now, Name, Description, "") { }
     }
 }

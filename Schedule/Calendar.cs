@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -11,7 +11,7 @@ namespace Manager.Schedule
         private readonly string username;
         private readonly string password;
         private readonly string url;
-        public BindingList<Event> events = new BindingList<Event>();
+        public List<Event> events = new List<Event>();
 
         private readonly string timezone;
         private readonly string version;
@@ -83,11 +83,9 @@ namespace Manager.Schedule
             timezone = tempTimeZone;
             version = tempVersion;
             prodid = tempProdID;
-
-            DeleteEvent(AddEvent("Fantastisk", DateTime.Now, DateTime.Now.AddMinutes(30)));
         }
 
-        public string AddEvent(string name, DateTime startTime, DateTime endTime)
+        public void AddEvent(Event ev)
         {
             string id = "4332";
             string request = 
@@ -96,9 +94,9 @@ namespace Manager.Schedule
             "PRODID:" + prodid + "\n" + 
             timezone +
             "BEGIN:VEVENT\n" +
-            "SUMMARY:" + name + "\n" +
-            "DTSTART;TZID=Europe/Copenhagen:" + DateToString(startTime) + "\n" +
-            "DTEND;TZID=Europe/Copenhagen:" + DateToString(endTime) + "\n" +
+            "SUMMARY:" + ev.Name + "\n" +
+            "DTSTART;TZID=Europe/Copenhagen:" + DateToString(ev.StartTime) + "\n" +
+            "DTEND;TZID=Europe/Copenhagen:" + DateToString(ev.EndTime) + "\n" +
             "UID:" + id + "\n" +
             "DTSTAMP:" + DateToString(DateTime.Now) + "Z\n" +
             "END:VEVENT\n" +
@@ -121,16 +119,15 @@ namespace Manager.Schedule
                             if (end != 0 && start == 0 && lines[i][j] == '/')
                                 start = j + 1;
                         }
-                        return lines[i].Substring(start, end-start);
+                        ev.ID = lines[i].Substring(start, end-start);
                     }
                 }
             }
-            return null;
         }
 
-        public void DeleteEvent(string id)
+        public void DeleteEvent(string ID)
         {
-            HttpRequest("DELETE", id);
+            HttpRequest("DELETE", ID);
         }
 
         //HTTP Request
