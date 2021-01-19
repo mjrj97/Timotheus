@@ -81,6 +81,8 @@ namespace Manager
             this.Controls.Add(this.Add);
             this.Controls.Add(this.Cancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddEvent";
             this.Text = "Add";
             this.ResumeLayout(false);

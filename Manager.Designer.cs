@@ -22,12 +22,14 @@ namespace Manager
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.calendarPage = new System.Windows.Forms.TabPage();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.openButton = new System.Windows.Forms.Button();
+            this.updateWebsiteButton = new System.Windows.Forms.Button();
+            this.exportButton = new System.Windows.Forms.Button();
             this.Remove = new System.Windows.Forms.Button();
             this.Add = new System.Windows.Forms.Button();
             this.CalendarView = new System.Windows.Forms.DataGridView();
@@ -38,88 +40,93 @@ namespace Manager
             this.Year = new System.Windows.Forms.TextBox();
             this.AddYear = new System.Windows.Forms.Button();
             this.SubtractYear = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.helpPage = new System.Windows.Forms.TabPage();
+            this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabControl.SuspendLayout();
+            this.calendarPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).BeginInit();
+            this.TrayContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // tabControl
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(2, 3);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(802, 437);
-            this.tabControl1.TabIndex = 0;
+            this.tabControl.Controls.Add(this.calendarPage);
+            this.tabControl.Controls.Add(this.helpPage);
+            this.tabControl.Location = new System.Drawing.Point(2, 3);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(802, 437);
+            this.tabControl.TabIndex = 0;
             // 
-            // tabPage1
+            // calendarPage
             // 
-            this.tabPage1.Controls.Add(this.button8);
-            this.tabPage1.Controls.Add(this.button7);
-            this.tabPage1.Controls.Add(this.button6);
-            this.tabPage1.Controls.Add(this.button5);
-            this.tabPage1.Controls.Add(this.Remove);
-            this.tabPage1.Controls.Add(this.Add);
-            this.tabPage1.Controls.Add(this.CalendarView);
-            this.tabPage1.Controls.Add(this.Year);
-            this.tabPage1.Controls.Add(this.AddYear);
-            this.tabPage1.Controls.Add(this.SubtractYear);
-            this.tabPage1.Location = new System.Drawing.Point(4, 24);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(794, 409);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Calendar";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.calendarPage.Controls.Add(this.saveButton);
+            this.calendarPage.Controls.Add(this.openButton);
+            this.calendarPage.Controls.Add(this.updateWebsiteButton);
+            this.calendarPage.Controls.Add(this.exportButton);
+            this.calendarPage.Controls.Add(this.Remove);
+            this.calendarPage.Controls.Add(this.Add);
+            this.calendarPage.Controls.Add(this.CalendarView);
+            this.calendarPage.Controls.Add(this.Year);
+            this.calendarPage.Controls.Add(this.AddYear);
+            this.calendarPage.Controls.Add(this.SubtractYear);
+            this.calendarPage.Location = new System.Drawing.Point(4, 24);
+            this.calendarPage.Name = "calendarPage";
+            this.calendarPage.Padding = new System.Windows.Forms.Padding(3);
+            this.calendarPage.Size = new System.Drawing.Size(794, 409);
+            this.calendarPage.TabIndex = 0;
+            this.calendarPage.Text = "Calendar";
+            this.calendarPage.UseVisualStyleBackColor = true;
             // 
-            // button8
+            // saveButton
             // 
-            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button8.Enabled = false;
-            this.button8.Location = new System.Drawing.Point(674, 10);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(50, 23);
-            this.button8.TabIndex = 9;
-            this.button8.Text = "Save";
-            this.button8.UseVisualStyleBackColor = true;
+            this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveButton.Enabled = false;
+            this.saveButton.Location = new System.Drawing.Point(674, 10);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(50, 23);
+            this.saveButton.TabIndex = 9;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
             // 
-            // button7
+            // openButton
             // 
-            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button7.Enabled = false;
-            this.button7.Location = new System.Drawing.Point(734, 10);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(50, 23);
-            this.button7.TabIndex = 8;
-            this.button7.Text = "Open";
-            this.button7.UseVisualStyleBackColor = true;
+            this.openButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.openButton.Enabled = false;
+            this.openButton.Location = new System.Drawing.Point(734, 10);
+            this.openButton.Name = "openButton";
+            this.openButton.Size = new System.Drawing.Size(50, 23);
+            this.openButton.TabIndex = 8;
+            this.openButton.Text = "Open";
+            this.openButton.UseVisualStyleBackColor = true;
             // 
-            // button6
+            // updateWebsiteButton
             // 
-            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button6.Enabled = false;
-            this.button6.Location = new System.Drawing.Point(549, 378);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(125, 23);
-            this.button6.TabIndex = 7;
-            this.button6.Text = "Update website";
-            this.button6.UseVisualStyleBackColor = true;
+            this.updateWebsiteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.updateWebsiteButton.Enabled = false;
+            this.updateWebsiteButton.Location = new System.Drawing.Point(549, 378);
+            this.updateWebsiteButton.Name = "updateWebsiteButton";
+            this.updateWebsiteButton.Size = new System.Drawing.Size(125, 23);
+            this.updateWebsiteButton.TabIndex = 7;
+            this.updateWebsiteButton.Text = "Update website";
+            this.updateWebsiteButton.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // exportButton
             // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(684, 378);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(100, 23);
-            this.button5.TabIndex = 6;
-            this.button5.Text = "Export PDF";
-            this.button5.UseVisualStyleBackColor = true;
+            this.exportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.exportButton.Enabled = false;
+            this.exportButton.Location = new System.Drawing.Point(684, 378);
+            this.exportButton.Name = "exportButton";
+            this.exportButton.Size = new System.Drawing.Size(100, 23);
+            this.exportButton.TabIndex = 6;
+            this.exportButton.Text = "Export PDF";
+            this.exportButton.UseVisualStyleBackColor = true;
             // 
             // Remove
             // 
@@ -223,52 +230,88 @@ namespace Manager
             this.SubtractYear.UseVisualStyleBackColor = true;
             this.SubtractYear.Click += new System.EventHandler(this.SubtractYear_Click);
             // 
-            // tabPage2
+            // helpPage
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(794, 409);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Help";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.helpPage.Location = new System.Drawing.Point(4, 24);
+            this.helpPage.Name = "helpPage";
+            this.helpPage.Padding = new System.Windows.Forms.Padding(3);
+            this.helpPage.Size = new System.Drawing.Size(794, 409);
+            this.helpPage.TabIndex = 1;
+            this.helpPage.Text = "Help";
+            this.helpPage.UseVisualStyleBackColor = true;
+            // 
+            // TrayIcon
+            // 
+            this.TrayIcon.ContextMenuStrip = this.TrayContextMenu;
+            this.TrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("TrayIcon.Icon")));
+            this.TrayIcon.Text = "Manager";
+            this.TrayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Open);
+            // 
+            // TrayContextMenu
+            // 
+            this.TrayContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TrayOpen,
+            this.TrayClose});
+            this.TrayContextMenu.Name = "TrayContextMenu";
+            this.TrayContextMenu.Size = new System.Drawing.Size(104, 48);
+            // 
+            // TrayOpen
+            // 
+            this.TrayOpen.Name = "TrayOpen";
+            this.TrayOpen.Size = new System.Drawing.Size(103, 22);
+            this.TrayOpen.Text = "Open";
+            this.TrayOpen.Click += new System.EventHandler(this.Open);
+            // 
+            // TrayClose
+            // 
+            this.TrayClose.Name = "TrayClose";
+            this.TrayClose.Size = new System.Drawing.Size(103, 22);
+            this.TrayClose.Text = "Close";
+            this.TrayClose.Click += new System.EventHandler(this.Exit);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(804, 441);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabControl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(500, 250);
             this.Name = "MainWindow";
             this.Text = "Manager";
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.Resize += new System.EventHandler(this.Manager_Resize);
+            this.tabControl.ResumeLayout(false);
+            this.calendarPage.ResumeLayout(false);
+            this.calendarPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).EndInit();
+            this.TrayContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage calendarPage;
+        private System.Windows.Forms.TabPage helpPage;
         private System.Windows.Forms.Button AddYear;
         private System.Windows.Forms.Button SubtractYear;
         private System.Windows.Forms.TextBox Year;
         private System.Windows.Forms.DataGridView CalendarView;
         private System.Windows.Forms.Button Remove;
         private System.Windows.Forms.Button Add;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button updateWebsiteButton;
+        private System.Windows.Forms.Button exportButton;
+        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Button openButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn StartColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn EndColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DescriptionColumn;
+        private System.Windows.Forms.NotifyIcon TrayIcon;
+        private System.Windows.Forms.ContextMenuStrip TrayContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem TrayOpen;
+        private System.Windows.Forms.ToolStripMenuItem TrayClose;
     }
 }
 

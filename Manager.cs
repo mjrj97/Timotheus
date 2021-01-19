@@ -80,5 +80,27 @@ namespace Manager
         {
             shownEvents.RemoveAt(CalendarView.CurrentCell.OwningRow.Index);
         }
+
+        //Tray icon
+        private void Open(object sender, EventArgs e)
+        {
+            Show();
+            WindowState = FormWindowState.Normal;
+            TrayIcon.Visible = false;
+        }
+        
+        private void Exit(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void Manager_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                Hide();
+                TrayIcon.Visible = true;
+            }
+        }
     }
 }
