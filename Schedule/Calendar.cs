@@ -87,7 +87,8 @@ namespace Manager.Schedule
 
         public void AddEvent(Event ev)
         {
-            string id = "4332";
+            Random rnd = new Random();
+            string id = rnd.Next(0,1000000).ToString();
             string request = 
             "BEGIN:VCALENDAR\n" +
             "VERSION:" + version + "\n" +
@@ -95,6 +96,7 @@ namespace Manager.Schedule
             timezone +
             "BEGIN:VEVENT\n" +
             "SUMMARY:" + ev.Name + "\n" +
+            "DESCRIPTION:" + ev.Description + "\n" +
             "DTSTART;TZID=Europe/Copenhagen:" + DateToString(ev.StartTime) + "\n" +
             "DTEND;TZID=Europe/Copenhagen:" + DateToString(ev.EndTime) + "\n" +
             "UID:" + id + "\n" +
