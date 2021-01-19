@@ -1,6 +1,7 @@
 ﻿using Manager.Schedule;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -79,6 +80,27 @@ namespace Manager
         private void Remove_Click(object sender, EventArgs e)
         {
             shownEvents.RemoveAt(CalendarView.CurrentCell.OwningRow.Index);
+        }
+
+        //Help
+        private void SourceLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            SourceLink.LinkVisited = true;
+            Process p = new Process();
+            p.StartInfo.FileName = "cmd";
+            p.StartInfo.Arguments = "/c start https://www.github.com/mjrj97/Manager";
+            p.StartInfo.CreateNoWindow = true;
+            p.Start();
+        }
+
+        private void EmailLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            EmailLink.LinkVisited = true;
+            Process p = new Process();
+            p.StartInfo.FileName = "cmd";
+            p.StartInfo.Arguments = "/c start mailto:martin.jensen.1997@hotmail.com";
+            p.StartInfo.CreateNoWindow = true;
+            p.Start();
         }
 
         //Tray icon

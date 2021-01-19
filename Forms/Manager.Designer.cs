@@ -41,6 +41,14 @@ namespace Manager
             this.AddYear = new System.Windows.Forms.Button();
             this.SubtractYear = new System.Windows.Forms.Button();
             this.helpPage = new System.Windows.Forms.TabPage();
+            this.EmailLink = new System.Windows.Forms.LinkLabel();
+            this.EmailLabel = new System.Windows.Forms.Label();
+            this.AuthorLabel = new System.Windows.Forms.Label();
+            this.LicenseLabel = new System.Windows.Forms.Label();
+            this.SourceLink = new System.Windows.Forms.LinkLabel();
+            this.SourceLabel = new System.Windows.Forms.Label();
+            this.VersionLabel = new System.Windows.Forms.Label();
+            this.iconBox = new System.Windows.Forms.PictureBox();
             this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +56,8 @@ namespace Manager
             this.tabControl.SuspendLayout();
             this.calendarPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).BeginInit();
+            this.helpPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconBox)).BeginInit();
             this.TrayContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -232,6 +242,14 @@ namespace Manager
             // 
             // helpPage
             // 
+            this.helpPage.Controls.Add(this.EmailLink);
+            this.helpPage.Controls.Add(this.EmailLabel);
+            this.helpPage.Controls.Add(this.AuthorLabel);
+            this.helpPage.Controls.Add(this.LicenseLabel);
+            this.helpPage.Controls.Add(this.SourceLink);
+            this.helpPage.Controls.Add(this.SourceLabel);
+            this.helpPage.Controls.Add(this.VersionLabel);
+            this.helpPage.Controls.Add(this.iconBox);
             this.helpPage.Location = new System.Drawing.Point(4, 24);
             this.helpPage.Name = "helpPage";
             this.helpPage.Padding = new System.Windows.Forms.Padding(3);
@@ -239,6 +257,84 @@ namespace Manager
             this.helpPage.TabIndex = 1;
             this.helpPage.Text = "Help";
             this.helpPage.UseVisualStyleBackColor = true;
+            // 
+            // EmailLink
+            // 
+            this.EmailLink.AutoSize = true;
+            this.EmailLink.Location = new System.Drawing.Point(46, 160);
+            this.EmailLink.Name = "EmailLink";
+            this.EmailLink.Size = new System.Drawing.Size(185, 15);
+            this.EmailLink.TabIndex = 7;
+            this.EmailLink.TabStop = true;
+            this.EmailLink.Text = "martin.jensen.1997@hotmail.com";
+            this.EmailLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.EmailLink_LinkClicked);
+            // 
+            // EmailLabel
+            // 
+            this.EmailLabel.AutoSize = true;
+            this.EmailLabel.Location = new System.Drawing.Point(10, 160);
+            this.EmailLabel.Name = "EmailLabel";
+            this.EmailLabel.Size = new System.Drawing.Size(39, 15);
+            this.EmailLabel.TabIndex = 6;
+            this.EmailLabel.Text = "Email:";
+            // 
+            // AuthorLabel
+            // 
+            this.AuthorLabel.AutoSize = true;
+            this.AuthorLabel.Location = new System.Drawing.Point(10, 145);
+            this.AuthorLabel.Name = "AuthorLabel";
+            this.AuthorLabel.Size = new System.Drawing.Size(146, 15);
+            this.AuthorLabel.TabIndex = 5;
+            this.AuthorLabel.Text = "Author: Martin J. R. Jensen";
+            // 
+            // LicenseLabel
+            // 
+            this.LicenseLabel.AutoSize = true;
+            this.LicenseLabel.Location = new System.Drawing.Point(10, 191);
+            this.LicenseLabel.Name = "LicenseLabel";
+            this.LicenseLabel.Size = new System.Drawing.Size(112, 15);
+            this.LicenseLabel.TabIndex = 4;
+            this.LicenseLabel.Text = "License: Apache-2.0";
+            // 
+            // SourceLink
+            // 
+            this.SourceLink.AutoSize = true;
+            this.SourceLink.Location = new System.Drawing.Point(53, 206);
+            this.SourceLink.Name = "SourceLink";
+            this.SourceLink.Size = new System.Drawing.Size(199, 15);
+            this.SourceLink.TabIndex = 3;
+            this.SourceLink.TabStop = true;
+            this.SourceLink.Text = "https://github.com/mjrj97/Manager";
+            this.SourceLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SourceLink_LinkClicked);
+            // 
+            // SourceLabel
+            // 
+            this.SourceLabel.AutoSize = true;
+            this.SourceLabel.Location = new System.Drawing.Point(10, 206);
+            this.SourceLabel.Name = "SourceLabel";
+            this.SourceLabel.Size = new System.Drawing.Size(46, 15);
+            this.SourceLabel.TabIndex = 2;
+            this.SourceLabel.Text = "Source:";
+            // 
+            // VersionLabel
+            // 
+            this.VersionLabel.AutoSize = true;
+            this.VersionLabel.Location = new System.Drawing.Point(10, 117);
+            this.VersionLabel.Name = "VersionLabel";
+            this.VersionLabel.Size = new System.Drawing.Size(93, 15);
+            this.VersionLabel.TabIndex = 1;
+            this.VersionLabel.Text = "Manager v. 0.0.0";
+            // 
+            // iconBox
+            // 
+            this.iconBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.iconBox.Image = ((System.Drawing.Image)(resources.GetObject("iconBox.Image")));
+            this.iconBox.Location = new System.Drawing.Point(10, 10);
+            this.iconBox.Name = "iconBox";
+            this.iconBox.Size = new System.Drawing.Size(100, 100);
+            this.iconBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.iconBox.TabIndex = 0;
+            this.iconBox.TabStop = false;
             // 
             // TrayIcon
             // 
@@ -284,6 +380,9 @@ namespace Manager
             this.calendarPage.ResumeLayout(false);
             this.calendarPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).EndInit();
+            this.helpPage.ResumeLayout(false);
+            this.helpPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconBox)).EndInit();
             this.TrayContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -312,6 +411,14 @@ namespace Manager
         private System.Windows.Forms.ContextMenuStrip TrayContextMenu;
         private System.Windows.Forms.ToolStripMenuItem TrayOpen;
         private System.Windows.Forms.ToolStripMenuItem TrayClose;
+        private System.Windows.Forms.LinkLabel SourceLink;
+        private System.Windows.Forms.Label SourceLabel;
+        private System.Windows.Forms.Label VersionLabel;
+        private System.Windows.Forms.PictureBox iconBox;
+        private System.Windows.Forms.LinkLabel EmailLink;
+        private System.Windows.Forms.Label EmailLabel;
+        private System.Windows.Forms.Label AuthorLabel;
+        private System.Windows.Forms.Label LicenseLabel;
     }
 }
 
