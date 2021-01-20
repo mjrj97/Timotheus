@@ -1,6 +1,7 @@
 ﻿using Manager.Schedule;
 using Manager.Utility;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -11,6 +12,7 @@ namespace Manager
     public partial class MainWindow : Form
     {
         public static MainWindow window;
+        public List<Event> events = new List<Event>();
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
         
         private int year;
@@ -32,13 +34,14 @@ namespace Manager
             steamReader.Close();
             
             calendar = new Calendar(content[0].Trim(), content[1].Trim(), content[2].Trim());
+            calendar.GetEvents(events);
             UpdateTable();
             CalendarView.DataSource = new BindingSource(shownEvents, null);
         }
 
         public void AddEventToCalendar(Event ev)
         {
-            calendar.events.Add(ev);
+            events.Add(ev);
             UpdateTable();
         }
 
@@ -51,10 +54,10 @@ namespace Manager
         private void UpdateTable()
         {
             shownEvents.Clear();
-            for (int i = 0; i < calendar.events.Count; i++)
+            for (int i = 0; i < events.Count; i++)
             {
-                if (calendar.events[i].StartTime.Year == year)
-                    shownEvents.Add(calendar.events[i]);
+                if (events[i].StartTime.Year == year)
+                    shownEvents.Add(events[i]);
             }
             CalendarView.Sort(CalendarView.Columns[0], ListSortDirection.Ascending);
         }

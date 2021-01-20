@@ -11,7 +11,7 @@ namespace Manager.Schedule
         private readonly string username;
         private readonly string password;
         private readonly string url;
-        public List<Event> events = new List<Event>();
+        private readonly List<Event> events = new List<Event>();
 
         private readonly string timezone;
         private readonly string version;
@@ -85,10 +85,15 @@ namespace Manager.Schedule
             prodid = tempProdID;
         }
 
+        //Setters
         public void AddEvent(Event ev)
         {
             Random rnd = new Random();
-            string id = rnd.Next(0,1000000).ToString();
+            string id;
+            if (ev.ID == null)
+                id = rnd.Next(0, 1000000).ToString();
+            else
+                id = ev.ID;
             string request = 
             "BEGIN:VCALENDAR\n" +
             "VERSION:" + version + "\n" +
@@ -130,6 +135,26 @@ namespace Manager.Schedule
         public void DeleteEvent(string ID)
         {
             HttpRequest("DELETE", ID);
+        }
+
+        public void Sync(List<Event> events)
+        {
+            for (int i = 0; i < events.Count; i++)
+            {
+                if (events[i].ID == null)
+                {
+                    AddEvent(events[i]);
+                }
+            }
+        }
+
+        //Getters
+        public void GetEvents(List<Event> events)
+        {
+            for (int i = 0; i < this.events.Count; i++)
+            {
+                events.Add(this.events[i]);
+            }
         }
 
         //HTTP Request

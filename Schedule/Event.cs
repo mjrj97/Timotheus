@@ -4,21 +4,13 @@ namespace Manager.Schedule
 {
     public class Event
     {
-        private DateTime startTime;
-        private DateTime endTime;
-        private string name;
-        private string description;
-        private string id;
-
-        public DateTime StartTime { get { return startTime; } set { startTime = value; Edited = true; } }
-        public DateTime EndTime { get { return endTime; } set { endTime = value; Edited = true; } }
+        public DateTime StartTime;
+        public DateTime EndTime;
         public readonly DateTime Created;
 
-        public string Name { get { return name; } set { name = value; Edited = true; } }
-        public string Description { get { return description; } set { description = value; Edited = true; } }
-        public string ID { get { return id; } set { id = value; Edited = true; } }
-
-        private bool Edited { get; set; }
+        public string Name;
+        public string Description;
+        public string ID;
 
         //Constructors
         public Event(DateTime StartTime, DateTime EndTime, DateTime Created, string Name, string Description, string ID)
@@ -29,10 +21,13 @@ namespace Manager.Schedule
             this.Description = Description;
             this.Created = Created;
             this.ID = ID;
-            if (ID.Length > 2)
-                Edited = false;
         }
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string ID) : this(StartTime, EndTime, DateTime.Now, Name, Description, ID) { }
-        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description) : this(StartTime, EndTime, DateTime.Now, Name, Description, "") { }
+        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description) : this(StartTime, EndTime, DateTime.Now, Name, Description, null) { }
+    
+        public static Event Copy(Event ev)
+        {
+            return new Event(ev.StartTime, ev.EndTime, ev.Created, ev.Name, ev.Description, ev.ID);
+        }
     }
 }
