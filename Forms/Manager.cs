@@ -1,4 +1,5 @@
 ﻿using Manager.Schedule;
+using Manager.Utility;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,7 +11,7 @@ namespace Manager
     public partial class MainWindow : Form
     {
         public static MainWindow window;
-        public BindingList<Event> shownEvents = new BindingList<Event>();
+        public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
         
         private int year;
         private readonly Calendar calendar;
@@ -21,6 +22,7 @@ namespace Manager
             window = this;
             year = DateTime.Now.Year;
             InitializeComponent();
+            CalendarView.AutoGenerateColumns = false;
             UpdateYearText();
 
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -54,6 +56,7 @@ namespace Manager
                 if (calendar.events[i].StartTime.Year == year)
                     shownEvents.Add(calendar.events[i]);
             }
+            CalendarView.Sort(CalendarView.Columns[0], ListSortDirection.Ascending);
         }
 
         //Buttons

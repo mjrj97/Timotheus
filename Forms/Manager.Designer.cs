@@ -24,6 +24,11 @@ namespace Manager
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
+            this.CalendarView = new System.Windows.Forms.DataGridView();
+            this.StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EndColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.calendarPage = new System.Windows.Forms.TabPage();
             this.saveButton = new System.Windows.Forms.Button();
@@ -32,11 +37,6 @@ namespace Manager
             this.exportButton = new System.Windows.Forms.Button();
             this.Remove = new System.Windows.Forms.Button();
             this.Add = new System.Windows.Forms.Button();
-            this.CalendarView = new System.Windows.Forms.DataGridView();
-            this.StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EndColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Year = new System.Windows.Forms.TextBox();
             this.AddYear = new System.Windows.Forms.Button();
             this.SubtractYear = new System.Windows.Forms.Button();
@@ -53,13 +53,62 @@ namespace Manager
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
+            ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).BeginInit();
             this.tabControl.SuspendLayout();
             this.calendarPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).BeginInit();
             this.helpPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).BeginInit();
             this.TrayContextMenu.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // CalendarView
+            // 
+            this.CalendarView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CalendarView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.CalendarView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.StartColumn,
+            this.EndColumn,
+            this.NameColumn,
+            this.DescriptionColumn});
+            this.CalendarView.Location = new System.Drawing.Point(10, 43);
+            this.CalendarView.Name = "CalendarView";
+            this.CalendarView.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.CalendarView.RowHeadersVisible = false;
+            this.CalendarView.RowTemplate.Height = 25;
+            this.CalendarView.Size = new System.Drawing.Size(774, 324);
+            this.CalendarView.TabIndex = 3;
+            // 
+            // StartColumn
+            // 
+            this.StartColumn.DataPropertyName = "StartTime";
+            this.StartColumn.FillWeight = 39.11343F;
+            this.StartColumn.HeaderText = "Start";
+            this.StartColumn.Name = "StartColumn";
+            // 
+            // EndColumn
+            // 
+            this.EndColumn.DataPropertyName = "EndTime";
+            this.EndColumn.FillWeight = 44.62484F;
+            this.EndColumn.HeaderText = "End";
+            this.EndColumn.Name = "EndColumn";
+            // 
+            // NameColumn
+            // 
+            this.NameColumn.DataPropertyName = "Name";
+            this.NameColumn.FillWeight = 132.2595F;
+            this.NameColumn.HeaderText = "Name";
+            this.NameColumn.Name = "NameColumn";
+            this.NameColumn.Width = 253;
+            // 
+            // DescriptionColumn
+            // 
+            this.DescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.DescriptionColumn.DataPropertyName = "Description";
+            this.DescriptionColumn.FillWeight = 184.0022F;
+            this.DescriptionColumn.HeaderText = "Description";
+            this.DescriptionColumn.Name = "DescriptionColumn";
             // 
             // tabControl
             // 
@@ -159,55 +208,6 @@ namespace Manager
             this.Add.Text = "Add";
             this.Add.UseVisualStyleBackColor = true;
             this.Add.Click += new System.EventHandler(this.Add_Click);
-            // 
-            // CalendarView
-            // 
-            this.CalendarView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CalendarView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CalendarView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.StartColumn,
-            this.EndColumn,
-            this.NameColumn,
-            this.DescriptionColumn});
-            this.CalendarView.Location = new System.Drawing.Point(10, 43);
-            this.CalendarView.Name = "CalendarView";
-            this.CalendarView.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.CalendarView.RowHeadersVisible = false;
-            this.CalendarView.RowTemplate.Height = 25;
-            this.CalendarView.Size = new System.Drawing.Size(774, 324);
-            this.CalendarView.TabIndex = 3;
-            // 
-            // StartColumn
-            // 
-            this.StartColumn.DataPropertyName = "StartTime";
-            this.StartColumn.FillWeight = 39.11343F;
-            this.StartColumn.HeaderText = "Start";
-            this.StartColumn.Name = "StartColumn";
-            // 
-            // EndColumn
-            // 
-            this.EndColumn.DataPropertyName = "EndTime";
-            this.EndColumn.FillWeight = 44.62484F;
-            this.EndColumn.HeaderText = "End";
-            this.EndColumn.Name = "EndColumn";
-            // 
-            // NameColumn
-            // 
-            this.NameColumn.DataPropertyName = "Name";
-            this.NameColumn.FillWeight = 132.2595F;
-            this.NameColumn.HeaderText = "Name";
-            this.NameColumn.Name = "NameColumn";
-            this.NameColumn.Width = 253;
-            // 
-            // DescriptionColumn
-            // 
-            this.DescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.DescriptionColumn.DataPropertyName = "Description";
-            this.DescriptionColumn.FillWeight = 184.0022F;
-            this.DescriptionColumn.HeaderText = "Description";
-            this.DescriptionColumn.Name = "DescriptionColumn";
             // 
             // Year
             // 
@@ -376,10 +376,10 @@ namespace Manager
             this.Name = "MainWindow";
             this.Text = "Manager";
             this.Resize += new System.EventHandler(this.Manager_Resize);
+            ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.calendarPage.ResumeLayout(false);
             this.calendarPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).EndInit();
             this.helpPage.ResumeLayout(false);
             this.helpPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).EndInit();
