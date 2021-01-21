@@ -89,10 +89,16 @@ namespace Manager
             if (events.Count > 0)
             {
                 Event ev = shownEvents[CalendarView.CurrentCell.OwningRow.Index];
+                int index = 0;
+                for (int i = 0; i < events.Count; i++)
+                {
+                    if (ev.Equals(events[i]))
+                        index = i;
+                }
                 if (ev.ID == null)
-                    events.Remove(ev);
+                    events.RemoveAt(index);
                 else
-                    ev.Name = Event.DELETE_TAG;
+                    events[index].Name = Event.DELETE_TAG;
                 UpdateTable();
             }
         }
