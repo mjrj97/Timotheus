@@ -95,10 +95,7 @@ namespace Manager
                     if (ev.Equals(events[i]))
                         index = i;
                 }
-                if (ev.ID == null)
-                    events.RemoveAt(index);
-                else
-                    events[index].Name = Event.DELETE_TAG;
+                events[index].Name = Event.DELETE_TAG;
                 UpdateTable();
             }
         }

@@ -27,15 +27,11 @@ namespace Manager.Schedule
             LoadFromURL();
         }
 
+        private string temp = "";
+
         //Setters
         public void AddEvent(Event ev)
         {
-            Random rnd = new Random();
-            string id;
-            if (ev.ID == null)
-                id = rnd.Next(0, 1000000).ToString();
-            else
-                id = ev.ID;
             string request = 
             "BEGIN:VCALENDAR\n" +
             "VERSION:" + version + "\n" +
@@ -46,12 +42,14 @@ namespace Manager.Schedule
             "DESCRIPTION:" + ev.Description + "\n" +
             "DTSTART;TZID=Europe/Copenhagen:" + DateToString(ev.StartTime) + "\n" +
             "DTEND;TZID=Europe/Copenhagen:" + DateToString(ev.EndTime) + "\n" +
-            "UID:" + id + "\n" +
+            "UID:" + ev.ID + "\n" +
             "DTSTAMP:" + DateToString(DateTime.Now) + "Z\n" +
             "END:VEVENT\n" +
             "END:VCALENDAR";
 
-            string[] lines = HttpRequest("POST", request);
+            temp = ev.ID;
+
+            string[] lines = HttpRequest("PUT", request);
 
             if (lines != null)
             {
@@ -153,30 +151,22 @@ namespace Manager.Schedule
         {
             for (int i = 0; i < evs.Count; i++)
             {
-                System.Diagnostics.Debug.Write(evs[i].ID + ": ");
                 if (evs[i].ID == null)
-                {
-                    System.Diagnostics.Debug.Write("STATUS 1 \n");
                     AddEvent(evs[i]);
-                }
                 else
                 {
                     Event ev = FindEvent(evs[i].ID);
                     if (ev == null)
                     {
-                        System.Diagnostics.Debug.Write("STATUS 2 \n");
-                        AddEvent(evs[i]);
+                        if (evs[i].Name != Event.DELETE_TAG)
+                            AddEvent(evs[i]);
                     }
                     else
                     {
                         if (evs[i].Name.Equals(Event.DELETE_TAG))
-                        {
-                            System.Diagnostics.Debug.Write("STATUS 3 \n");
                             DeleteEvent(evs[i].ID);
-                        }
                         else if (!evs[i].Equals(ev))
                         {
-                            System.Diagnostics.Debug.Write("STATUS 4 \n");
                             DeleteEvent(evs[i].ID);
                             AddEvent(evs[i]);
                         }
@@ -215,10 +205,9 @@ namespace Manager.Schedule
             WebRequest request;
 
             if (method == "DELETE")
-            {
                 request = WebRequest.Create(url + dataString + ".ics");
-                System.Diagnostics.Debug.WriteLine(url + dataString + ".ics");
-            }
+            else if (method == "PUT")
+                request = WebRequest.Create(url + temp + ".ics");
             else
                 request = WebRequest.Create(url);
 
@@ -227,7 +216,7 @@ namespace Manager.Schedule
 
             if (method != null)
                 request.Method = method;
-            if (method == "POST")
+            if (method == "PUT")
             {
                 byte[] data = Encoding.ASCII.GetBytes(dataString);
                 request.ContentType = "text/calendar";

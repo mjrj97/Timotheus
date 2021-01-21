@@ -22,11 +22,24 @@ namespace Manager.Schedule
             this.Name = Name;
             this.Description = Description;
             this.Created = Created;
-            this.ID = ID;
+            if (ID == null)
+                this.ID = GenerateUUID();
+            else
+                this.ID = ID;
         }
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string ID) : this(StartTime, EndTime, DateTime.Now, Name, Description, ID) { }
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description) : this(StartTime, EndTime, DateTime.Now, Name, Description, null) { }
-    
+
+        public static string GenerateUUID()
+        {
+            Byte[] data = new Byte[16];
+            Random rnd = new Random();
+            rnd.NextBytes(data);
+            string tempUUID = BitConverter.ToString(data).Replace("-", "").ToLower();
+            string UUID = tempUUID.Substring(0,8) + "-" + tempUUID.Substring(8,4) + "-" + tempUUID.Substring(12, 4) + "-" + tempUUID.Substring(16, 4) + "-" + tempUUID.Substring(20, 12);
+            return UUID;
+        }
+
         public Event Copy()
         {
             return new Event(StartTime, EndTime, Created, Name, Description, ID);
