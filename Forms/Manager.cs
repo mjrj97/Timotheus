@@ -56,7 +56,7 @@ namespace Manager
             shownEvents.Clear();
             for (int i = 0; i < events.Count; i++)
             {
-                if (events[i].StartTime.Year == year)
+                if (events[i].StartTime.Year == year && !events[i].Name.Equals(Event.DELETE_TAG))
                     shownEvents.Add(events[i]);
             }
             CalendarView.Sort(CalendarView.Columns[0], ListSortDirection.Ascending);
@@ -86,7 +86,21 @@ namespace Manager
 
         private void Remove_Click(object sender, EventArgs e)
         {
-            shownEvents.RemoveAt(CalendarView.CurrentCell.OwningRow.Index);
+            if (events.Count > 0)
+            {
+                Event ev = shownEvents[CalendarView.CurrentCell.OwningRow.Index];
+                if (ev.ID == null)
+                    events.Remove(ev);
+                else
+                    ev.Name = Event.DELETE_TAG;
+                UpdateTable();
+            }
+        }
+
+        private void SyncCalendarButton_Click(object sender, EventArgs e)
+        {
+            calendar.Sync(events);
+            calendar.GetEvents(events);
         }
 
         //Help

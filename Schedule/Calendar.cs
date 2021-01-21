@@ -11,11 +11,11 @@ namespace Manager.Schedule
         private readonly string username;
         private readonly string password;
         private readonly string url;
-        private readonly List<Event> events = new List<Event>();
+        private List<Event> events = new List<Event>();
 
-        private readonly string timezone;
-        private readonly string version;
-        private readonly string prodid;
+        private string timezone;
+        private string version;
+        private string prodid;
 
         //Constructor
         public Calendar(string username, string password, string url)
@@ -24,65 +24,7 @@ namespace Manager.Schedule
             this.password = password;
             this.url = url;
 
-            string tempTimeZone = "";
-            string tempVersion = "";
-            string tempProdID = "";
-
-            DateTime tempStartTime = DateTime.Now;
-            DateTime tempEndTime = DateTime.Now;
-            string tempName = "";
-            string tempDescription = "";
-            string tempID = "";
-
-            string[] lines = HttpRequest();
-            int timeZoneStart = 0;
-            int timeZoneEnd = 0;
-
-            for (int i = 0; i < lines.Length; i++)
-            {
-                if (timeZoneStart == 0)
-                {
-                    //Read calendar version and ID
-                    if (lines[i].Contains("VERSION") && tempVersion.Length < 1)
-                        tempVersion = GetValue(lines[i]);
-                    if (lines[i].Contains("PRODID") && tempProdID.Length < 1)
-                        tempProdID = GetValue(lines[i]);
-
-                    //Set up time zone
-                    if (lines[i].Contains("BEGIN:VTIMEZONE"))
-                    {
-                        tempTimeZone += lines[i] + "\n";
-                        timeZoneStart = i;
-                    }
-                }
-                else if (timeZoneEnd == 0)
-                {
-                    if (timeZoneStart != 0 && timeZoneEnd == 0)
-                        tempTimeZone += lines[i] + "\n";
-                    if (lines[i].Contains("END:VTIMEZONE"))
-                        timeZoneEnd = i;
-                }
-                else
-                {
-                    //Read events
-                    if (lines[i].Contains("SUMMARY"))
-                        tempName = GetValue(lines[i]);
-                    if (lines[i].Contains("DESCRIPTION"))
-                        tempDescription = GetValue(lines[i]);
-                    if (lines[i].Contains("UID"))
-                        tempID = GetValue(lines[i]);
-                    if (lines[i].Contains("DTSTART"))
-                        tempStartTime = StringToDate(GetValue(lines[i]));
-                    if (lines[i].Contains("DTEND"))
-                        tempEndTime = StringToDate(GetValue(lines[i]));
-                    if (lines[i].Contains("END:VEVENT"))
-                        events.Add(new Event(tempStartTime, tempEndTime, tempName, tempDescription, tempID));
-                }
-            }
-
-            timezone = tempTimeZone;
-            version = tempVersion;
-            prodid = tempProdID;
+            LoadFromURL();
         }
 
         //Setters
@@ -126,24 +68,119 @@ namespace Manager.Schedule
                             if (end != 0 && start == 0 && lines[i][j] == '/')
                                 start = j + 1;
                         }
+                        if (lines[i].Contains(".ics"))
+                            end -= 4;
                         ev.ID = lines[i].Substring(start, end-start);
+                        System.Diagnostics.Debug.WriteLine(ev.ID + " : " + i);
                     }
                 }
             }
+
+            events.Add(ev.Copy());
         }
 
         public void DeleteEvent(string ID)
         {
+            events.Remove(FindEvent(ID));
             HttpRequest("DELETE", ID);
         }
 
-        public void Sync(List<Event> events)
+        public void LoadFromURL()
         {
-            for (int i = 0; i < events.Count; i++)
+            string tempTimeZone = "";
+            string tempVersion = "";
+            string tempProdID = "";
+
+            DateTime tempStartTime = DateTime.Now;
+            DateTime tempEndTime = DateTime.Now;
+            string tempName = "";
+            string tempDescription = "";
+            string tempID = "";
+
+            string[] lines = HttpRequest();
+            int timeZoneStart = 0;
+            int timeZoneEnd = 0;
+
+            events.Clear();
+            for (int i = 0; i < lines.Length; i++)
             {
-                if (events[i].ID == null)
+                if (timeZoneStart == 0)
                 {
-                    AddEvent(events[i]);
+                    //Read calendar version and ID
+                    if (lines[i].Contains("VERSION") && tempVersion.Length < 1)
+                        tempVersion = GetValue(lines[i]);
+                    if (lines[i].Contains("PRODID") && tempProdID.Length < 1)
+                        tempProdID = GetValue(lines[i]);
+
+                    //Set up time zone
+                    if (lines[i].Contains("BEGIN:VTIMEZONE"))
+                    {
+                        tempTimeZone += lines[i] + "\n";
+                        timeZoneStart = i;
+                    }
+                }
+                else if (timeZoneEnd == 0)
+                {
+                    if (timeZoneStart != 0 && timeZoneEnd == 0)
+                        tempTimeZone += lines[i] + "\n";
+                    if (lines[i].Contains("END:VTIMEZONE"))
+                        timeZoneEnd = i;
+                }
+                else
+                {
+                    //Read events
+                    if (lines[i].Contains("SUMMARY"))
+                        tempName = GetValue(lines[i]);
+                    if (lines[i].Contains("DESCRIPTION"))
+                        tempDescription = GetValue(lines[i]);
+                    if (lines[i].Contains("UID"))
+                        tempID = GetValue(lines[i]).Trim();
+                    if (lines[i].Contains("DTSTART"))
+                        tempStartTime = StringToDate(GetValue(lines[i]));
+                    if (lines[i].Contains("DTEND"))
+                        tempEndTime = StringToDate(GetValue(lines[i]));
+                    if (lines[i].Contains("END:VEVENT"))
+                        events.Add(new Event(tempStartTime, tempEndTime, tempName, tempDescription, tempID));
+                }
+            }
+
+            timezone = tempTimeZone;
+            version = tempVersion;
+            prodid = tempProdID;
+        }
+
+        public void Sync(List<Event> evs)
+        {
+            for (int i = 0; i < evs.Count; i++)
+            {
+                System.Diagnostics.Debug.Write(evs[i].ID + ": ");
+                if (evs[i].ID == null)
+                {
+                    System.Diagnostics.Debug.Write("STATUS 1 \n");
+                    AddEvent(evs[i]);
+                }
+                else
+                {
+                    Event ev = FindEvent(evs[i].ID);
+                    if (ev == null)
+                    {
+                        System.Diagnostics.Debug.Write("STATUS 2 \n");
+                        AddEvent(evs[i]);
+                    }
+                    else
+                    {
+                        if (evs[i].Name.Equals(Event.DELETE_TAG))
+                        {
+                            System.Diagnostics.Debug.Write("STATUS 3 \n");
+                            DeleteEvent(evs[i].ID);
+                        }
+                        else if (!evs[i].Equals(ev))
+                        {
+                            System.Diagnostics.Debug.Write("STATUS 4 \n");
+                            DeleteEvent(evs[i].ID);
+                            AddEvent(evs[i]);
+                        }
+                    }
                 }
             }
         }
@@ -151,10 +188,24 @@ namespace Manager.Schedule
         //Getters
         public void GetEvents(List<Event> events)
         {
+            events.Clear();
             for (int i = 0; i < this.events.Count; i++)
             {
-                events.Add(this.events[i]);
+                events.Add(this.events[i].Copy());
             }
+        }
+
+        public Event FindEvent(string ID)
+        {
+            Event ev = null;
+            for (int i = 0; i < events.Count; i++)
+            {
+                if (events[i].ID.Equals(ID))
+                {
+                    ev = events[i];
+                }
+            }
+            return ev;
         }
 
         //HTTP Request
@@ -164,7 +215,10 @@ namespace Manager.Schedule
             WebRequest request;
 
             if (method == "DELETE")
-                request = WebRequest.Create(url + dataString);
+            {
+                request = WebRequest.Create(url + dataString + ".ics");
+                System.Diagnostics.Debug.WriteLine(url + dataString + ".ics");
+            }
             else
                 request = WebRequest.Create(url);
 
@@ -189,6 +243,10 @@ namespace Manager.Schedule
             Stream dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
             string[] responseFromServer = reader.ReadToEnd().Split("\n");
+            for (int i = 0; i < responseFromServer.Length; i++)
+            {
+                System.Diagnostics.Debug.Write(responseFromServer[i]);
+            }
             response.Close();
             return responseFromServer;
         }

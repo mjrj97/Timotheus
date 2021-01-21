@@ -33,7 +33,7 @@ namespace Manager
             this.calendarPage = new System.Windows.Forms.TabPage();
             this.saveButton = new System.Windows.Forms.Button();
             this.openButton = new System.Windows.Forms.Button();
-            this.updateWebsiteButton = new System.Windows.Forms.Button();
+            this.SyncCalendarButton = new System.Windows.Forms.Button();
             this.exportButton = new System.Windows.Forms.Button();
             this.Remove = new System.Windows.Forms.Button();
             this.Add = new System.Windows.Forms.Button();
@@ -127,7 +127,7 @@ namespace Manager
             // 
             this.calendarPage.Controls.Add(this.saveButton);
             this.calendarPage.Controls.Add(this.openButton);
-            this.calendarPage.Controls.Add(this.updateWebsiteButton);
+            this.calendarPage.Controls.Add(this.SyncCalendarButton);
             this.calendarPage.Controls.Add(this.exportButton);
             this.calendarPage.Controls.Add(this.Remove);
             this.calendarPage.Controls.Add(this.Add);
@@ -165,16 +165,16 @@ namespace Manager
             this.openButton.Text = "Open";
             this.openButton.UseVisualStyleBackColor = true;
             // 
-            // updateWebsiteButton
+            // SyncCalendarButton
             // 
-            this.updateWebsiteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.updateWebsiteButton.Enabled = false;
-            this.updateWebsiteButton.Location = new System.Drawing.Point(549, 378);
-            this.updateWebsiteButton.Name = "updateWebsiteButton";
-            this.updateWebsiteButton.Size = new System.Drawing.Size(125, 23);
-            this.updateWebsiteButton.TabIndex = 7;
-            this.updateWebsiteButton.Text = "Update website";
-            this.updateWebsiteButton.UseVisualStyleBackColor = true;
+            this.SyncCalendarButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SyncCalendarButton.Location = new System.Drawing.Point(549, 378);
+            this.SyncCalendarButton.Name = "SyncCalendarButton";
+            this.SyncCalendarButton.Size = new System.Drawing.Size(125, 23);
+            this.SyncCalendarButton.TabIndex = 7;
+            this.SyncCalendarButton.Text = "Sync Calendar";
+            this.SyncCalendarButton.UseVisualStyleBackColor = true;
+            this.SyncCalendarButton.Click += new System.EventHandler(this.SyncCalendarButton_Click);
             // 
             // exportButton
             // 
@@ -396,10 +396,9 @@ namespace Manager
         private System.Windows.Forms.Button AddYear;
         private System.Windows.Forms.Button SubtractYear;
         private System.Windows.Forms.TextBox Year;
-        private System.Windows.Forms.DataGridView CalendarView;
         private System.Windows.Forms.Button Remove;
         private System.Windows.Forms.Button Add;
-        private System.Windows.Forms.Button updateWebsiteButton;
+        private System.Windows.Forms.Button SyncCalendarButton;
         private System.Windows.Forms.Button exportButton;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button openButton;
@@ -419,6 +418,7 @@ namespace Manager
         private System.Windows.Forms.Label EmailLabel;
         private System.Windows.Forms.Label AuthorLabel;
         private System.Windows.Forms.Label LicenseLabel;
+        private System.Windows.Forms.DataGridView CalendarView;
     }
 }
 

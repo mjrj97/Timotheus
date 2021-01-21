@@ -36,6 +36,8 @@ namespace Manager
             {
                 if (NameText.Text.Trim() == String.Empty)
                     throw new Exception("Name cannot be empty.");
+                if (NameText.Text.Trim().Equals(Event.DELETE_TAG))
+                    throw new Exception("Name cannot be " + Event.DELETE_TAG + ".");
 
                 hour = Int32.Parse(startTime.Substring(0, -3 + startTime.Length));
                 minute = Int32.Parse(startTime.Substring(-2 + startTime.Length, 2));
