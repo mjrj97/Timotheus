@@ -8,8 +8,7 @@ namespace Manager.Schedule
 {
     public class Calendar
     {
-        private readonly string username;
-        private readonly string password;
+        private readonly NetworkCredential credentials;
         private readonly string url;
         private List<Event> events = new List<Event>();
 
@@ -20,14 +19,11 @@ namespace Manager.Schedule
         //Constructor
         public Calendar(string username, string password, string url)
         {
-            this.username = username;
-            this.password = password;
+            this.credentials = new NetworkCredential(username, password);
             this.url = url;
 
             LoadFromURL();
         }
-
-        private string temp = "";
 
         //Setters
         public void AddEvent(Event ev)
@@ -42,45 +38,19 @@ namespace Manager.Schedule
             "DESCRIPTION:" + ev.Description + "\n" +
             "DTSTART;TZID=Europe/Copenhagen:" + DateToString(ev.StartTime) + "\n" +
             "DTEND;TZID=Europe/Copenhagen:" + DateToString(ev.EndTime) + "\n" +
-            "UID:" + ev.ID + "\n" +
+            "UID:" + ev.UID + "\n" +
             "DTSTAMP:" + DateToString(DateTime.Now) + "Z\n" +
             "END:VEVENT\n" +
             "END:VCALENDAR";
 
-            temp = ev.ID;
-
-            string[] lines = HttpRequest("PUT", request);
-
-            if (lines != null)
-            {
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    if (lines[i] != null && lines[i].Contains("</href>"))
-                    {
-                        int start = 0;
-                        int end = 0;
-                        for (int j = lines[i].Length - 1; j >= 0; j--)
-                        {
-                            if (end == 0 && lines[i][j] == '<')
-                                end = j;
-                            if (end != 0 && start == 0 && lines[i][j] == '/')
-                                start = j + 1;
-                        }
-                        if (lines[i].Contains(".ics"))
-                            end -= 4;
-                        ev.ID = lines[i].Substring(start, end-start);
-                        System.Diagnostics.Debug.WriteLine(ev.ID + " : " + i);
-                    }
-                }
-            }
-
+            HttpRequest(url + ev.UID + ".ics", credentials, "PUT", request);
             events.Add(ev.Copy());
         }
 
         public void DeleteEvent(string ID)
         {
             events.Remove(FindEvent(ID));
-            HttpRequest("DELETE", ID);
+            HttpRequest(url + ID + ".ics", credentials, "DELETE", ID);
         }
 
         public void LoadFromURL()
@@ -95,7 +65,7 @@ namespace Manager.Schedule
             string tempDescription = "";
             string tempID = "";
 
-            string[] lines = HttpRequest();
+            string[] lines = HttpRequest(url, credentials);
             int timeZoneStart = 0;
             int timeZoneEnd = 0;
 
@@ -151,11 +121,11 @@ namespace Manager.Schedule
         {
             for (int i = 0; i < evs.Count; i++)
             {
-                if (evs[i].ID == null)
+                if (evs[i].UID == null)
                     AddEvent(evs[i]);
                 else
                 {
-                    Event ev = FindEvent(evs[i].ID);
+                    Event ev = FindEvent(evs[i].UID);
                     if (ev == null)
                     {
                         if (evs[i].Name != Event.DELETE_TAG)
@@ -164,10 +134,10 @@ namespace Manager.Schedule
                     else
                     {
                         if (evs[i].Name.Equals(Event.DELETE_TAG))
-                            DeleteEvent(evs[i].ID);
+                            DeleteEvent(evs[i].UID);
                         else if (!evs[i].Equals(ev))
                         {
-                            DeleteEvent(evs[i].ID);
+                            DeleteEvent(evs[i].UID);
                             AddEvent(evs[i]);
                         }
                     }
@@ -190,7 +160,7 @@ namespace Manager.Schedule
             Event ev = null;
             for (int i = 0; i < events.Count; i++)
             {
-                if (events[i].ID.Equals(ID))
+                if (events[i].UID.Equals(ID))
                 {
                     ev = events[i];
                 }
@@ -199,19 +169,10 @@ namespace Manager.Schedule
         }
 
         //HTTP Request
-        public string[] HttpRequest(string method, string dataString)
+        public static string[] HttpRequest(string url, NetworkCredential credentials, string method, string dataString)
         {
             //Set up request for URL
-            WebRequest request;
-
-            if (method == "DELETE")
-                request = WebRequest.Create(url + dataString + ".ics");
-            else if (method == "PUT")
-                request = WebRequest.Create(url + temp + ".ics");
-            else
-                request = WebRequest.Create(url);
-
-            NetworkCredential credentials = new NetworkCredential(username, password);
+            WebRequest request = WebRequest.Create(url);
             request.Credentials = credentials;
 
             if (method != null)
@@ -232,16 +193,12 @@ namespace Manager.Schedule
             Stream dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
             string[] responseFromServer = reader.ReadToEnd().Split("\n");
-            for (int i = 0; i < responseFromServer.Length; i++)
-            {
-                System.Diagnostics.Debug.Write(responseFromServer[i]);
-            }
             response.Close();
             return responseFromServer;
         }
-        public string[] HttpRequest()
+        public static string[] HttpRequest(string url, NetworkCredential credentials)
         {
-            return HttpRequest(null, null);
+            return HttpRequest(url, credentials, null, null);
         }
 
         //Get value after colon
