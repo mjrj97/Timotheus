@@ -190,7 +190,8 @@ namespace Manager.Schedule
                 request.Method = method;
             if (method == "PUT")
             {
-                byte[] data = Encoding.ASCII.GetBytes(dataString);
+                byte[] data = Encoding.UTF8.GetBytes(dataString);
+                request.Headers.Add("Accept-charset", "UTF-8");
                 request.ContentType = "text/calendar";
                 request.ContentLength = data.Length;
 

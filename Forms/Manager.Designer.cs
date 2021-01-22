@@ -321,9 +321,9 @@ namespace Manager
             this.VersionLabel.AutoSize = true;
             this.VersionLabel.Location = new System.Drawing.Point(10, 117);
             this.VersionLabel.Name = "VersionLabel";
-            this.VersionLabel.Size = new System.Drawing.Size(93, 15);
+            this.VersionLabel.Size = new System.Drawing.Size(102, 15);
             this.VersionLabel.TabIndex = 1;
-            this.VersionLabel.Text = "Manager v. 0.0.0";
+            this.VersionLabel.Text = "Timotheus v. 0.1.0";
             // 
             // iconBox
             // 
@@ -374,7 +374,7 @@ namespace Manager
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(500, 250);
             this.Name = "MainWindow";
-            this.Text = "Manager";
+            this.Text = "Timotheus";
             this.Resize += new System.EventHandler(this.Manager_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).EndInit();
             this.tabControl.ResumeLayout(false);
