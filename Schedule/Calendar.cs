@@ -32,7 +32,7 @@ namespace Manager.Schedule
             "BEGIN:VCALENDAR\n" +
             "VERSION:" + version + "\n" +
             "PRODID:" + prodid + "\n" +
-            timezone +
+            timezone + "\n" +
             "BEGIN:VEVENT\n" +
             "SUMMARY:" + ev.Name + "\n" +
             "DESCRIPTION:" + ev.Description + "\n" +
@@ -51,6 +51,8 @@ namespace Manager.Schedule
             "DTSTAMP:" + DateTimeToString(DateTime.Now) + "Z\n" +
             "END:VEVENT\n" +
             "END:VCALENDAR";
+
+            System.Diagnostics.Debug.Write(request);
 
             HttpRequest(url + ev.UID + ".ics", credentials, "PUT", request);
             events.Add(ev.Copy());
@@ -131,7 +133,10 @@ namespace Manager.Schedule
                 }
             }
 
-            timezone = tempTimeZone;
+            if (tempTimeZone.Trim() == String.Empty)
+                timezone = GenerateTimeZone();
+            else
+                timezone = tempTimeZone;
             version = tempVersion;
             prodid = tempProdID;
         }
@@ -140,25 +145,20 @@ namespace Manager.Schedule
         {
             for (int i = 0; i < evs.Count; i++)
             {
-                if (evs[i].UID == null)
-                    AddEvent(evs[i]);
+                Event ev = FindEvent(evs[i].UID);
+                if (ev == null)
+                {
+                    if (evs[i].Name != Event.DELETE_TAG)
+                        AddEvent(evs[i]);
+                }
                 else
                 {
-                    Event ev = FindEvent(evs[i].UID);
-                    if (ev == null)
+                    if (evs[i].Name.Equals(Event.DELETE_TAG))
+                        DeleteEvent(evs[i].UID);
+                    else if (!evs[i].Equals(ev))
                     {
-                        if (evs[i].Name != Event.DELETE_TAG)
-                            AddEvent(evs[i]);
-                    }
-                    else
-                    {
-                        if (evs[i].Name.Equals(Event.DELETE_TAG))
-                            DeleteEvent(evs[i].UID);
-                        else if (!evs[i].Equals(ev))
-                        {
-                            DeleteEvent(evs[i].UID);
-                            AddEvent(evs[i]);
-                        }
+                        DeleteEvent(evs[i].UID);
+                        AddEvent(evs[i]);
                     }
                 }
             }
@@ -185,6 +185,85 @@ namespace Manager.Schedule
                 }
             }
             return ev;
+        }
+
+        public string GenerateTimeZone()
+        {
+            return "BEGIN:VTIMEZONE\n" +
+            "TZID:Europe/Copenhagen\n" +
+            "X-LIC-LOCATION:Europe/Copenhagen\n" +
+            "BEGIN:STANDARD\n" +
+            "DTSTART:18900101T000000\n" +
+            "RDATE:18900101T000000\n" +
+            "TZNAME:CMT\n" +
+            "TZOFFSETFROM:+005020\n" +
+            "TZOFFSETTO:+005020\n" +
+            "END:STANDARD\n" +
+            "BEGIN:STANDARD\n" +
+            "DTSTART:18940101T000000\n" +
+            "RDATE:18940101T000000\n" +
+            "TZNAME:CEST\n" +
+            "TZOFFSETFROM:+005020\n" +
+            "TZOFFSETTO:+0100\n" +
+            "END:STANDARD\n" +
+            "BEGIN:DAYLIGHT\n" +
+            "DTSTART:19160514T230000\n" +
+            "RDATE:19160514T230000\n" +
+            "RDATE:19400515T000000\n" +
+            "RDATE:19430329T020000\n" +
+            "RDATE:19440403T020000\n" +
+            "RDATE:19450402T020000\n" +
+            "RDATE:19460501T020000\n" +
+            "RDATE:19470504T020000\n" +
+            "RDATE:19480509T020000\n" +
+            "RDATE:19800406T020000\n" +
+            "TZNAME:CEST\n" +
+            "TZOFFSETFROM:+0100\n" +
+            "TZOFFSETTO:+0200\n" +
+            "END:DAYLIGHT\n" +
+            "BEGIN:STANDARD\n" +
+            "DTSTART:19160930T230000\n" +
+            "RDATE:19160930T230000\n" +
+            "RDATE:19421102T030000\n" +
+            "RDATE:19431004T030000\n" +
+            "RDATE:19441002T030000\n" +
+            "RDATE:19450815T030000\n" +
+            "RDATE:19460901T030000\n" +
+            "RDATE:19470810T030000\n" +
+            "RDATE:19480808T030000\n" +
+            "TZNAME:CET\n" +
+            "TZOFFSETFROM:+0200\n" +
+            "TZOFFSETTO:+0100\n" +
+            "END:STANDARD\n" +
+            "BEGIN:STANDARD\n" +
+            "DTSTART:19800101T000000\n" +
+            "RDATE:19800101T000000\n" +
+            "TZNAME:CEST\n" +
+            "TZOFFSETFROM:+0100\n" +
+            "TZOFFSETTO:+0100\n" +
+            "END:STANDARD\n" +
+            "BEGIN:STANDARD\n" +
+            "DTSTART:19800928T030000\n" +
+            "RRULE:FREQ=YEARLY;UNTIL=19950924T010000Z;BYDAY=-1SU;BYMONTH=9\n" +
+            "TZNAME:CET\n" +
+            "TZOFFSETFROM:+0200\n" +
+            "TZOFFSETTO:+0100\n" +
+            "END:STANDARD\n" +
+            "BEGIN:DAYLIGHT\n" +
+            "DTSTART:19810329T020000\n" +
+            "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\n" +
+            "TZNAME:CEST\n" +
+            "TZOFFSETFROM:+0100\n" +
+            "TZOFFSETTO:+0200\n" +
+            "END:DAYLIGHT\n" +
+            "BEGIN:STANDARD\n" +
+            "DTSTART:19961027T030000\n" +
+            "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\n" +
+            "TZNAME:CET\n" +
+            "TZOFFSETFROM:+0200\n" +
+            "TZOFFSETTO:+0100\n" +
+            "END:STANDARD\n" +
+            "END:VTIMEZONE";
         }
 
         //HTTP Request
