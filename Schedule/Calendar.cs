@@ -28,19 +28,27 @@ namespace Manager.Schedule
         //Setters
         public void AddEvent(Event ev)
         {
-            string request = 
+            string request =
             "BEGIN:VCALENDAR\n" +
             "VERSION:" + version + "\n" +
-            "PRODID:" + prodid + "\n" + 
+            "PRODID:" + prodid + "\n" +
             timezone +
             "BEGIN:VEVENT\n" +
             "SUMMARY:" + ev.Name + "\n" +
             "DESCRIPTION:" + ev.Description + "\n" +
-            "LOCATION:" + ev.Location + "\n" +
-            "DTSTART;TZID=Europe/Copenhagen:" + DateToString(ev.StartTime) + "\n" +
-            "DTEND;TZID=Europe/Copenhagen:" + DateToString(ev.EndTime) + "\n" +
-            "UID:" + ev.UID + "\n" +
-            "DTSTAMP:" + DateToString(DateTime.Now) + "Z\n" +
+            "LOCATION:" + ev.Location + "\n";
+            if (ev.StartTime.Hour == ev.EndTime.Hour && ev.StartTime.Minute == ev.EndTime.Minute && ev.StartTime.Second == ev.EndTime.Second && ev.StartTime.Hour == 0 && ev.StartTime.Minute == 0 && ev.StartTime.Second == 0)
+            {
+                request += "DTSTART;TZID=Europe/Copenhagen:" + DateToString(ev.StartTime) + "\n" +
+                "DTEND;TZID=Europe/Copenhagen:" + DateToString(ev.EndTime) + "\n";
+            }
+            else
+            {
+                request += "DTSTART;TZID=Europe/Copenhagen:" + DateTimeToString(ev.StartTime) + "\n" +
+                "DTEND;TZID=Europe/Copenhagen:" + DateTimeToString(ev.EndTime) + "\n";
+            }
+            request += "UID:" + ev.UID + "\n" +
+            "DTSTAMP:" + DateTimeToString(DateTime.Now) + "Z\n" +
             "END:VEVENT\n" +
             "END:VCALENDAR";
 
@@ -226,14 +234,22 @@ namespace Manager.Schedule
         }
 
         //Conversions
-        public string DateToString(DateTime date)
+        public string DateTimeToString(DateTime date)
         {
             return date.Year.ToString("D4") + date.Month.ToString("D2") + date.Day.ToString("D2") + "T" + date.Hour.ToString("D2") + date.Minute.ToString("D2") + date.Second.ToString("D2");
         }
 
+        public string DateToString(DateTime date)
+        {
+            return date.Year.ToString("D4") + date.Month.ToString("D2") + date.Day.ToString("D2");
+        }
+
         public DateTime StringToDate(string date)
         {
-            return new DateTime(int.Parse(date.Substring(0,4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), int.Parse(date.Substring(9, 2)), int.Parse(date.Substring(11, 2)), int.Parse(date.Substring(13, 2)));
+            if (date.Trim().Length == 8)
+                return new DateTime(int.Parse(date.Substring(0, 4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), 0, 0, 0);
+            else
+                return new DateTime(int.Parse(date.Substring(0,4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), int.Parse(date.Substring(9, 2)), int.Parse(date.Substring(11, 2)), int.Parse(date.Substring(13, 2)));
         }
     }
 }
