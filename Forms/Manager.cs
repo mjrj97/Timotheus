@@ -86,7 +86,7 @@ namespace Manager
 
         private void Remove_Click(object sender, EventArgs e)
         {
-            if (events.Count > 0)
+            if (shownEvents.Count > 0)
             {
                 Event ev = shownEvents[CalendarView.CurrentCell.OwningRow.Index];
                 int index = 0;
@@ -104,6 +104,19 @@ namespace Manager
         {
             calendar.Sync(events);
             calendar.GetEvents(events);
+        }
+
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            if (ModifierKeys == Keys.None)
+            {
+                if (keyData == Keys.Delete)
+                {
+                    Remove_Click(null, null);
+                    return true;
+                }
+            }
+            return base.ProcessDialogKey(keyData);
         }
 
         //Help

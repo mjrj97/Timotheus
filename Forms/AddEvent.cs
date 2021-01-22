@@ -61,5 +61,23 @@ namespace Manager
         {
             Close();
         }
+
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            if (ModifierKeys == Keys.None)
+            {
+                if (keyData == Keys.Escape)
+                {
+                    Close();
+                    return true;
+                }
+                else if (keyData == Keys.Enter && !DescriptionBox.Focused)
+                {
+                    Add_Click(null, null);
+                    return true;
+                }
+            }
+            return base.ProcessDialogKey(keyData);
+        }
     }
 }
