@@ -19,7 +19,7 @@ namespace Manager.Schedule
         //Constructor
         public Calendar(string username, string password, string url)
         {
-            this.credentials = new NetworkCredential(username, password);
+            credentials = new NetworkCredential(username, password);
             this.url = url;
 
             LoadFromURL();
@@ -36,6 +36,7 @@ namespace Manager.Schedule
             "BEGIN:VEVENT\n" +
             "SUMMARY:" + ev.Name + "\n" +
             "DESCRIPTION:" + ev.Description + "\n" +
+            "LOCATION:" + ev.Location + "\n" +
             "DTSTART;TZID=Europe/Copenhagen:" + DateToString(ev.StartTime) + "\n" +
             "DTEND;TZID=Europe/Copenhagen:" + DateToString(ev.EndTime) + "\n" +
             "UID:" + ev.UID + "\n" +
@@ -55,15 +56,16 @@ namespace Manager.Schedule
 
         public void LoadFromURL()
         {
-            string tempTimeZone = "";
-            string tempVersion = "";
-            string tempProdID = "";
+            string tempTimeZone = String.Empty;
+            string tempVersion = String.Empty;
+            string tempProdID = String.Empty;
 
             DateTime tempStartTime = DateTime.Now;
             DateTime tempEndTime = DateTime.Now;
-            string tempName = "";
-            string tempDescription = "";
-            string tempID = "";
+            string tempName = String.Empty;
+            string tempLocation = String.Empty;
+            string tempDescription = String.Empty;
+            string tempUID = String.Empty;
 
             string[] lines = HttpRequest(url, credentials);
             int timeZoneStart = 0;
@@ -101,14 +103,23 @@ namespace Manager.Schedule
                         tempName = GetValue(lines[i]);
                     if (lines[i].Contains("DESCRIPTION"))
                         tempDescription = GetValue(lines[i]);
+                    if (lines[i].Contains("LOCATION"))
+                        tempLocation = GetValue(lines[i]);
                     if (lines[i].Contains("UID"))
-                        tempID = GetValue(lines[i]).Trim();
+                        tempUID = GetValue(lines[i]).Trim();
                     if (lines[i].Contains("DTSTART"))
                         tempStartTime = StringToDate(GetValue(lines[i]));
                     if (lines[i].Contains("DTEND"))
                         tempEndTime = StringToDate(GetValue(lines[i]));
                     if (lines[i].Contains("END:VEVENT"))
-                        events.Add(new Event(tempStartTime, tempEndTime, tempName, tempDescription, tempID));
+                    {
+                        events.Add(new Event(tempStartTime, tempEndTime, tempName, tempDescription, tempLocation, tempUID));
+                        
+                        tempName = String.Empty;
+                        tempDescription = String.Empty;
+                        tempLocation = String.Empty;
+                        tempUID = String.Empty;
+                    }
                 }
             }
 

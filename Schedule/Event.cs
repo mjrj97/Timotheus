@@ -10,25 +10,28 @@ namespace Manager.Schedule
 
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Location { get; set; }
         public string UID;
 
         public static readonly string DELETE_TAG = "DELETE";
 
         //Constructors
-        public Event(DateTime StartTime, DateTime EndTime, DateTime Created, string Name, string Description, string UID)
+        public Event(DateTime StartTime, DateTime EndTime, DateTime Created, string Name, string Description, string Location, string UID)
         {
             this.StartTime = StartTime;
             this.EndTime = EndTime;
-            this.Name = Name;
-            this.Description = Description;
             this.Created = Created;
+            this.Name = Name;
+            this.Location = Location;
+            this.Description = Description;
             if (UID == null)
                 this.UID = GenerateUID();
             else
                 this.UID = UID;
         }
-        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string UID) : this(StartTime, EndTime, DateTime.Now, Name, Description, UID) { }
-        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description) : this(StartTime, EndTime, DateTime.Now, Name, Description, null) { }
+        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string Location, string UID) : this(StartTime, EndTime, DateTime.Now, Name, Description, Location, UID) { }
+        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string UID) : this(StartTime, EndTime, DateTime.Now, Name, Description, null, UID) { }
+        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description) : this(StartTime, EndTime, DateTime.Now, Name, Description, null, null) { }
 
         public static string GenerateUID()
         {
@@ -42,7 +45,7 @@ namespace Manager.Schedule
 
         public Event Copy()
         {
-            return new Event(StartTime, EndTime, Created, Name, Description, UID);
+            return new Event(StartTime, EndTime, Created, Name, Description, Location, UID);
         }
 
         public override bool Equals(object obj)
@@ -51,7 +54,7 @@ namespace Manager.Schedule
             if (obj != null && obj is Event @event)
             {
                 Event ev = @event;
-                equals = StartTime.Equals(ev.StartTime) && EndTime.Equals(ev.EndTime) && Created.Equals(ev.Created) && Name.Equals(ev.Name) && Description.Equals(ev.Description) && UID == ev.UID;
+                equals = StartTime.Equals(ev.StartTime) && EndTime.Equals(ev.EndTime) && Created.Equals(ev.Created) && Name.Equals(ev.Name) && Description.Equals(ev.Description) && Location.Equals(ev.Location) && UID == ev.UID;
             }
             return equals;
         }

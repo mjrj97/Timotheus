@@ -41,13 +41,15 @@ namespace Manager
             this.EndLabel = new System.Windows.Forms.Label();
             this.DescriptionBox = new System.Windows.Forms.RichTextBox();
             this.DescriptionLabel = new System.Windows.Forms.Label();
+            this.LocationBox = new System.Windows.Forms.TextBox();
+            this.LocationLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Cancel
             // 
-            this.Cancel.Location = new System.Drawing.Point(197, 205);
+            this.Cancel.Location = new System.Drawing.Point(207, 240);
             this.Cancel.Name = "Cancel";
-            this.Cancel.Size = new System.Drawing.Size(125, 25);
+            this.Cancel.Size = new System.Drawing.Size(115, 25);
             this.Cancel.TabIndex = 0;
             this.Cancel.Text = "Cancel";
             this.Cancel.UseVisualStyleBackColor = true;
@@ -55,9 +57,9 @@ namespace Manager
             // 
             // Add
             // 
-            this.Add.Location = new System.Drawing.Point(62, 205);
+            this.Add.Location = new System.Drawing.Point(84, 240);
             this.Add.Name = "Add";
-            this.Add.Size = new System.Drawing.Size(125, 25);
+            this.Add.Size = new System.Drawing.Size(115, 25);
             this.Add.TabIndex = 1;
             this.Add.Text = "Add";
             this.Add.UseVisualStyleBackColor = true;
@@ -65,9 +67,9 @@ namespace Manager
             // 
             // NameText
             // 
-            this.NameText.Location = new System.Drawing.Point(62, 15);
+            this.NameText.Location = new System.Drawing.Point(85, 15);
             this.NameText.Name = "NameText";
-            this.NameText.Size = new System.Drawing.Size(260, 23);
+            this.NameText.Size = new System.Drawing.Size(237, 23);
             this.NameText.TabIndex = 2;
             // 
             // NameLabel
@@ -95,16 +97,16 @@ namespace Manager
             // 
             // StartTimeBox
             // 
-            this.StartTimeBox.Location = new System.Drawing.Point(62, 50);
+            this.StartTimeBox.Location = new System.Drawing.Point(85, 50);
             this.StartTimeBox.Name = "StartTimeBox";
-            this.StartTimeBox.Size = new System.Drawing.Size(96, 23);
+            this.StartTimeBox.Size = new System.Drawing.Size(73, 23);
             this.StartTimeBox.TabIndex = 6;
             // 
             // EndTimeBox
             // 
-            this.EndTimeBox.Location = new System.Drawing.Point(62, 85);
+            this.EndTimeBox.Location = new System.Drawing.Point(85, 85);
             this.EndTimeBox.Name = "EndTimeBox";
-            this.EndTimeBox.Size = new System.Drawing.Size(96, 23);
+            this.EndTimeBox.Size = new System.Drawing.Size(73, 23);
             this.EndTimeBox.TabIndex = 7;
             // 
             // StartLabel
@@ -127,26 +129,44 @@ namespace Manager
             // 
             // DescriptionBox
             // 
-            this.DescriptionBox.Location = new System.Drawing.Point(62, 120);
+            this.DescriptionBox.Location = new System.Drawing.Point(85, 155);
             this.DescriptionBox.Name = "DescriptionBox";
-            this.DescriptionBox.Size = new System.Drawing.Size(260, 75);
+            this.DescriptionBox.Size = new System.Drawing.Size(237, 75);
             this.DescriptionBox.TabIndex = 10;
             this.DescriptionBox.Text = "";
             // 
             // DescriptionLabel
             // 
             this.DescriptionLabel.AutoSize = true;
-            this.DescriptionLabel.Location = new System.Drawing.Point(12, 123);
+            this.DescriptionLabel.Location = new System.Drawing.Point(12, 158);
             this.DescriptionLabel.Name = "DescriptionLabel";
-            this.DescriptionLabel.Size = new System.Drawing.Size(35, 15);
+            this.DescriptionLabel.Size = new System.Drawing.Size(67, 15);
             this.DescriptionLabel.TabIndex = 11;
-            this.DescriptionLabel.Text = "Desc.";
+            this.DescriptionLabel.Text = "Description";
+            // 
+            // LocationBox
+            // 
+            this.LocationBox.Location = new System.Drawing.Point(86, 120);
+            this.LocationBox.Name = "LocationBox";
+            this.LocationBox.Size = new System.Drawing.Size(236, 23);
+            this.LocationBox.TabIndex = 12;
+            // 
+            // LocationLabel
+            // 
+            this.LocationLabel.AutoSize = true;
+            this.LocationLabel.Location = new System.Drawing.Point(12, 123);
+            this.LocationLabel.Name = "LocationLabel";
+            this.LocationLabel.Size = new System.Drawing.Size(53, 15);
+            this.LocationLabel.TabIndex = 13;
+            this.LocationLabel.Text = "Location";
             // 
             // AddEvent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 241);
+            this.ClientSize = new System.Drawing.Size(334, 277);
+            this.Controls.Add(this.LocationLabel);
+            this.Controls.Add(this.LocationBox);
             this.Controls.Add(this.DescriptionLabel);
             this.Controls.Add(this.DescriptionBox);
             this.Controls.Add(this.EndLabel);
@@ -184,5 +204,7 @@ namespace Manager
         private System.Windows.Forms.Label EndLabel;
         private System.Windows.Forms.RichTextBox DescriptionBox;
         private System.Windows.Forms.Label DescriptionLabel;
+        private System.Windows.Forms.TextBox LocationBox;
+        private System.Windows.Forms.Label LocationLabel;
     }
 }

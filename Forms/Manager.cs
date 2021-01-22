@@ -24,7 +24,7 @@ namespace Manager
             window = this;
             year = DateTime.Now.Year;
             InitializeComponent();
-            CalendarView.AutoGenerateColumns = false;
+            //CalendarView.AutoGenerateColumns = false;
             UpdateYearText();
 
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);

@@ -47,7 +47,7 @@ namespace Manager
                 minute = Int32.Parse(endTime.Substring(-2 + endTime.Length, 2));
                 end = new DateTime(EndTimePicker.Value.Year, EndTimePicker.Value.Month, EndTimePicker.Value.Day, hour, minute, 0);
 
-                Event ev = new Event(start, end, NameText.Text, DescriptionBox.Text);
+                Event ev = new Event(start, end, NameText.Text, DescriptionBox.Text, LocationBox.Text, null);
                 MainWindow.window.AddEventToCalendar(ev);
                 Close();
             }
