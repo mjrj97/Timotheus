@@ -176,15 +176,14 @@ namespace Manager.Schedule
 
         public Event FindEvent(string ID)
         {
-            Event ev = null;
             for (int i = 0; i < events.Count; i++)
             {
                 if (events[i].UID.Equals(ID))
                 {
-                    ev = events[i];
+                    return events[i];
                 }
             }
-            return ev;
+            return null;
         }
 
         public string GenerateTimeZone()
@@ -304,10 +303,12 @@ namespace Manager.Schedule
         private string GetValue(string line)
         {
             int colon = 0;
-            for (int i = 0; i < line.Length; i++)
+            int i = 0;
+            while (i < line.Length && colon == 0)
             {
-                if (line[i] == ':' && colon == 0)
+                if (line[i] == ':')
                     colon = i;
+                i++;
             }
             return line.Substring(colon + 1);
         }

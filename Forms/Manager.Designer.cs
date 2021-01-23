@@ -31,15 +31,15 @@ namespace Manager
             this.DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.calendarPage = new System.Windows.Forms.TabPage();
-            this.saveButton = new System.Windows.Forms.Button();
-            this.openButton = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
+            this.OpenButton = new System.Windows.Forms.Button();
             this.SyncCalendarButton = new System.Windows.Forms.Button();
-            this.exportButton = new System.Windows.Forms.Button();
-            this.Remove = new System.Windows.Forms.Button();
-            this.Add = new System.Windows.Forms.Button();
+            this.ExportButton = new System.Windows.Forms.Button();
+            this.RemoveButton = new System.Windows.Forms.Button();
+            this.AddButton = new System.Windows.Forms.Button();
             this.Year = new System.Windows.Forms.TextBox();
-            this.AddYear = new System.Windows.Forms.Button();
-            this.SubtractYear = new System.Windows.Forms.Button();
+            this.AddYearButton = new System.Windows.Forms.Button();
+            this.SubtractYearButton = new System.Windows.Forms.Button();
             this.helpPage = new System.Windows.Forms.TabPage();
             this.EmailLink = new System.Windows.Forms.LinkLabel();
             this.EmailLabel = new System.Windows.Forms.Label();
@@ -125,16 +125,16 @@ namespace Manager
             // 
             // calendarPage
             // 
-            this.calendarPage.Controls.Add(this.saveButton);
-            this.calendarPage.Controls.Add(this.openButton);
+            this.calendarPage.Controls.Add(this.SaveButton);
+            this.calendarPage.Controls.Add(this.OpenButton);
             this.calendarPage.Controls.Add(this.SyncCalendarButton);
-            this.calendarPage.Controls.Add(this.exportButton);
-            this.calendarPage.Controls.Add(this.Remove);
-            this.calendarPage.Controls.Add(this.Add);
+            this.calendarPage.Controls.Add(this.ExportButton);
+            this.calendarPage.Controls.Add(this.RemoveButton);
+            this.calendarPage.Controls.Add(this.AddButton);
             this.calendarPage.Controls.Add(this.CalendarView);
             this.calendarPage.Controls.Add(this.Year);
-            this.calendarPage.Controls.Add(this.AddYear);
-            this.calendarPage.Controls.Add(this.SubtractYear);
+            this.calendarPage.Controls.Add(this.AddYearButton);
+            this.calendarPage.Controls.Add(this.SubtractYearButton);
             this.calendarPage.Location = new System.Drawing.Point(4, 24);
             this.calendarPage.Name = "calendarPage";
             this.calendarPage.Padding = new System.Windows.Forms.Padding(3);
@@ -143,27 +143,27 @@ namespace Manager
             this.calendarPage.Text = "Calendar";
             this.calendarPage.UseVisualStyleBackColor = true;
             // 
-            // saveButton
+            // SaveButton
             // 
-            this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveButton.Enabled = false;
-            this.saveButton.Location = new System.Drawing.Point(674, 10);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(50, 23);
-            this.saveButton.TabIndex = 9;
-            this.saveButton.Text = "Save";
-            this.saveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.SaveButton.Enabled = false;
+            this.SaveButton.Location = new System.Drawing.Point(674, 10);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(50, 23);
+            this.SaveButton.TabIndex = 9;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = true;
             // 
-            // openButton
+            // OpenButton
             // 
-            this.openButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.openButton.Enabled = false;
-            this.openButton.Location = new System.Drawing.Point(734, 10);
-            this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(50, 23);
-            this.openButton.TabIndex = 8;
-            this.openButton.Text = "Open";
-            this.openButton.UseVisualStyleBackColor = true;
+            this.OpenButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.OpenButton.Enabled = false;
+            this.OpenButton.Location = new System.Drawing.Point(734, 10);
+            this.OpenButton.Name = "OpenButton";
+            this.OpenButton.Size = new System.Drawing.Size(50, 23);
+            this.OpenButton.TabIndex = 8;
+            this.OpenButton.Text = "Open";
+            this.OpenButton.UseVisualStyleBackColor = true;
             // 
             // SyncCalendarButton
             // 
@@ -174,40 +174,40 @@ namespace Manager
             this.SyncCalendarButton.TabIndex = 7;
             this.SyncCalendarButton.Text = "Sync Calendar";
             this.SyncCalendarButton.UseVisualStyleBackColor = true;
-            this.SyncCalendarButton.Click += new System.EventHandler(this.SyncCalendarButton_Click);
+            this.SyncCalendarButton.Click += new System.EventHandler(this.SyncCalendar);
             // 
-            // exportButton
+            // ExportButton
             // 
-            this.exportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.exportButton.Enabled = false;
-            this.exportButton.Location = new System.Drawing.Point(684, 378);
-            this.exportButton.Name = "exportButton";
-            this.exportButton.Size = new System.Drawing.Size(100, 23);
-            this.exportButton.TabIndex = 6;
-            this.exportButton.Text = "Export PDF";
-            this.exportButton.UseVisualStyleBackColor = true;
+            this.ExportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ExportButton.Enabled = false;
+            this.ExportButton.Location = new System.Drawing.Point(684, 378);
+            this.ExportButton.Name = "ExportButton";
+            this.ExportButton.Size = new System.Drawing.Size(100, 23);
+            this.ExportButton.TabIndex = 6;
+            this.ExportButton.Text = "Export PDF";
+            this.ExportButton.UseVisualStyleBackColor = true;
             // 
-            // Remove
+            // RemoveButton
             // 
-            this.Remove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Remove.Location = new System.Drawing.Point(95, 378);
-            this.Remove.Name = "Remove";
-            this.Remove.Size = new System.Drawing.Size(75, 23);
-            this.Remove.TabIndex = 5;
-            this.Remove.Text = "Remove";
-            this.Remove.UseVisualStyleBackColor = true;
-            this.Remove.Click += new System.EventHandler(this.Remove_Click);
+            this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.RemoveButton.Location = new System.Drawing.Point(95, 378);
+            this.RemoveButton.Name = "RemoveButton";
+            this.RemoveButton.Size = new System.Drawing.Size(75, 23);
+            this.RemoveButton.TabIndex = 5;
+            this.RemoveButton.Text = "Remove";
+            this.RemoveButton.UseVisualStyleBackColor = true;
+            this.RemoveButton.Click += new System.EventHandler(this.Remove_Click);
             // 
-            // Add
+            // AddButton
             // 
-            this.Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Add.Location = new System.Drawing.Point(10, 378);
-            this.Add.Name = "Add";
-            this.Add.Size = new System.Drawing.Size(75, 23);
-            this.Add.TabIndex = 4;
-            this.Add.Text = "Add";
-            this.Add.UseVisualStyleBackColor = true;
-            this.Add.Click += new System.EventHandler(this.Add_Click);
+            this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AddButton.Location = new System.Drawing.Point(10, 378);
+            this.AddButton.Name = "AddButton";
+            this.AddButton.Size = new System.Drawing.Size(75, 23);
+            this.AddButton.TabIndex = 4;
+            this.AddButton.Text = "Add";
+            this.AddButton.UseVisualStyleBackColor = true;
+            this.AddButton.Click += new System.EventHandler(this.Add_Click);
             // 
             // Year
             // 
@@ -218,27 +218,27 @@ namespace Manager
             this.Year.Text = "2020";
             this.Year.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // AddYear
+            // AddYearButton
             // 
-            this.AddYear.Location = new System.Drawing.Point(143, 10);
-            this.AddYear.Name = "AddYear";
-            this.AddYear.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
-            this.AddYear.Size = new System.Drawing.Size(23, 23);
-            this.AddYear.TabIndex = 1;
-            this.AddYear.Text = "+";
-            this.AddYear.UseVisualStyleBackColor = true;
-            this.AddYear.Click += new System.EventHandler(this.AddYear_Click);
+            this.AddYearButton.Location = new System.Drawing.Point(143, 10);
+            this.AddYearButton.Name = "AddYearButton";
+            this.AddYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.AddYearButton.Size = new System.Drawing.Size(23, 23);
+            this.AddYearButton.TabIndex = 1;
+            this.AddYearButton.Text = "+";
+            this.AddYearButton.UseVisualStyleBackColor = true;
+            this.AddYearButton.Click += new System.EventHandler(this.UpdateYear);
             // 
-            // SubtractYear
+            // SubtractYearButton
             // 
-            this.SubtractYear.Location = new System.Drawing.Point(10, 10);
-            this.SubtractYear.Name = "SubtractYear";
-            this.SubtractYear.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
-            this.SubtractYear.Size = new System.Drawing.Size(23, 23);
-            this.SubtractYear.TabIndex = 0;
-            this.SubtractYear.Text = "-";
-            this.SubtractYear.UseVisualStyleBackColor = true;
-            this.SubtractYear.Click += new System.EventHandler(this.SubtractYear_Click);
+            this.SubtractYearButton.Location = new System.Drawing.Point(10, 10);
+            this.SubtractYearButton.Name = "SubtractYearButton";
+            this.SubtractYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.SubtractYearButton.Size = new System.Drawing.Size(23, 23);
+            this.SubtractYearButton.TabIndex = 0;
+            this.SubtractYearButton.Text = "-";
+            this.SubtractYearButton.UseVisualStyleBackColor = true;
+            this.SubtractYearButton.Click += new System.EventHandler(this.UpdateYear);
             // 
             // helpPage
             // 
@@ -419,6 +419,13 @@ namespace Manager
         private System.Windows.Forms.Label AuthorLabel;
         private System.Windows.Forms.Label LicenseLabel;
         private System.Windows.Forms.DataGridView CalendarView;
+        private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.Button OpenButton;
+        private System.Windows.Forms.Button ExportButton;
+        private System.Windows.Forms.Button RemoveButton;
+        private System.Windows.Forms.Button AddButton;
+        private System.Windows.Forms.Button AddYearButton;
+        private System.Windows.Forms.Button SubtractYearButton;
     }
 }
 

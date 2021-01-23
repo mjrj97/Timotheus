@@ -14,7 +14,7 @@ namespace Manager
         public static MainWindow window;
         public List<Event> events = new List<Event>();
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
-        
+
         private int year;
         private readonly Calendar calendar;
         
@@ -24,8 +24,8 @@ namespace Manager
             window = this;
             year = DateTime.Now.Year;
             InitializeComponent();
+            Year.Text = year.ToString();
             //CalendarView.AutoGenerateColumns = false;
-            UpdateYearText();
 
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string fullName = Path.Combine(desktopPath, "Data.txt");
@@ -46,9 +46,15 @@ namespace Manager
         }
 
         //Update contents
-        private void UpdateYearText()
+        private void UpdateYear(object sender, EventArgs e)
         {
+            Button button = (Button)sender;
+            if (button.Text == "+")
+                year++;
+            else if (button.Text == "-")
+                year--;
             Year.Text = year.ToString();
+            UpdateTable();
         }
 
         private void UpdateTable()
@@ -63,20 +69,6 @@ namespace Manager
         }
 
         //Buttons
-        private void AddYear_Click(object sender, EventArgs e)
-        {
-            year++;
-            UpdateYearText();
-            UpdateTable();
-        }
-
-        private void SubtractYear_Click(object sender, EventArgs e)
-        {
-            year--;
-            UpdateYearText();
-            UpdateTable();
-        }
-
         private void Add_Click(object sender, EventArgs e)
         {
             AddEvent addEvent = new AddEvent();
@@ -100,7 +92,7 @@ namespace Manager
             }
         }
 
-        private void SyncCalendarButton_Click(object sender, EventArgs e)
+        private void SyncCalendar(object sender, EventArgs e)
         {
             calendar.Sync(events);
             calendar.GetEvents(events);
@@ -110,7 +102,7 @@ namespace Manager
         {
             if (ModifierKeys == Keys.None)
             {
-                if (keyData == Keys.Delete)
+                if (keyData == Keys.Delete && tabControl.SelectedIndex == 0)
                 {
                     Remove_Click(null, null);
                     return true;
