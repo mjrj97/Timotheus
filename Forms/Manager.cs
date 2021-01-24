@@ -1,6 +1,7 @@
 ﻿using Manager.Schedule;
 using Manager.Utility;
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -89,6 +90,23 @@ namespace Manager
                 }
                 events[index].Name = Event.DELETE_TAG;
                 UpdateTable();
+            }
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            Stream stream;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "iCalendar files (*.ics)|*.ics";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if ((stream = saveFileDialog.OpenFile()) != null)
+                {
+                    byte[] data = Encoding.UTF8.GetBytes(calendar.GetCalendarICS(Path.GetFileNameWithoutExtension(saveFileDialog.FileName)));
+                    stream.Write(data);
+                    stream.Close();
+                }
             }
         }
 

@@ -23,12 +23,14 @@ namespace Manager
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.CalendarView = new System.Windows.Forms.DataGridView();
             this.StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EndColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LocationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.calendarPage = new System.Windows.Forms.TabPage();
             this.SaveButton = new System.Windows.Forms.Button();
@@ -71,7 +73,16 @@ namespace Manager
             this.StartColumn,
             this.EndColumn,
             this.NameColumn,
-            this.DescriptionColumn});
+            this.DescriptionColumn,
+            this.LocationColumn});
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.CalendarView.DefaultCellStyle = dataGridViewCellStyle1;
             this.CalendarView.Location = new System.Drawing.Point(10, 43);
             this.CalendarView.Name = "CalendarView";
             this.CalendarView.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -110,6 +121,12 @@ namespace Manager
             this.DescriptionColumn.HeaderText = "Description";
             this.DescriptionColumn.Name = "DescriptionColumn";
             // 
+            // LocationColumn
+            // 
+            this.LocationColumn.DataPropertyName = "Location";
+            this.LocationColumn.HeaderText = "Location";
+            this.LocationColumn.Name = "LocationColumn";
+            // 
             // tabControl
             // 
             this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -146,13 +163,13 @@ namespace Manager
             // SaveButton
             // 
             this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveButton.Enabled = false;
             this.SaveButton.Location = new System.Drawing.Point(674, 10);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(50, 23);
             this.SaveButton.TabIndex = 9;
             this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // OpenButton
             // 
@@ -402,10 +419,6 @@ namespace Manager
         private System.Windows.Forms.Button exportButton;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button openButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StartColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EndColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DescriptionColumn;
         private System.Windows.Forms.NotifyIcon TrayIcon;
         private System.Windows.Forms.ContextMenuStrip TrayContextMenu;
         private System.Windows.Forms.ToolStripMenuItem TrayOpen;
@@ -426,6 +439,11 @@ namespace Manager
         private System.Windows.Forms.Button AddButton;
         private System.Windows.Forms.Button AddYearButton;
         private System.Windows.Forms.Button SubtractYearButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StartColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EndColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DescriptionColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LocationColumn;
     }
 }
 

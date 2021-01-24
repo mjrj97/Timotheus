@@ -32,27 +32,9 @@ namespace Manager.Schedule
             "BEGIN:VCALENDAR\n" +
             "VERSION:" + version + "\n" +
             "PRODID:" + prodid + "\n" +
-            timezone + "\n" +
-            "BEGIN:VEVENT\n" +
-            "SUMMARY:" + ev.Name + "\n" +
-            "DESCRIPTION:" + ev.Description + "\n" +
-            "LOCATION:" + ev.Location + "\n";
-            if (ev.StartTime.Hour == ev.EndTime.Hour && ev.StartTime.Minute == ev.EndTime.Minute && ev.StartTime.Second == ev.EndTime.Second && ev.StartTime.Hour == 0 && ev.StartTime.Minute == 0 && ev.StartTime.Second == 0)
-            {
-                request += "DTSTART;TZID=Europe/Copenhagen:" + DateToString(ev.StartTime) + "\n" +
-                "DTEND;TZID=Europe/Copenhagen:" + DateToString(ev.EndTime) + "\n";
-            }
-            else
-            {
-                request += "DTSTART;TZID=Europe/Copenhagen:" + DateTimeToString(ev.StartTime) + "\n" +
-                "DTEND;TZID=Europe/Copenhagen:" + DateTimeToString(ev.EndTime) + "\n";
-            }
-            request += "UID:" + ev.UID + "\n" +
-            "DTSTAMP:" + DateTimeToString(DateTime.Now) + "Z\n" +
-            "END:VEVENT\n" +
+            timezone +
+            GetEventICS(ev) + "\n" +
             "END:VCALENDAR";
-
-            System.Diagnostics.Debug.Write(request);
 
             HttpRequest(url + ev.UID + ".ics", credentials, "PUT", request);
             events.Add(ev.Copy());
@@ -72,6 +54,7 @@ namespace Manager.Schedule
 
             DateTime tempStartTime = DateTime.Now;
             DateTime tempEndTime = DateTime.Now;
+            DateTime tempCreated = DateTime.Now;
             string tempName = String.Empty;
             string tempLocation = String.Empty;
             string tempDescription = String.Empty;
@@ -112,18 +95,20 @@ namespace Manager.Schedule
                     if (lines[i].Contains("SUMMARY"))
                         tempName = GetValue(lines[i]);
                     if (lines[i].Contains("DESCRIPTION"))
-                        tempDescription = GetValue(lines[i]);
+                        tempDescription = ConvertFromCALString(GetValue(lines[i]));
                     if (lines[i].Contains("LOCATION"))
-                        tempLocation = GetValue(lines[i]);
+                        tempLocation = ConvertFromCALString(GetValue(lines[i]));
                     if (lines[i].Contains("UID"))
                         tempUID = GetValue(lines[i]).Trim();
                     if (lines[i].Contains("DTSTART"))
                         tempStartTime = StringToDate(GetValue(lines[i]));
                     if (lines[i].Contains("DTEND"))
                         tempEndTime = StringToDate(GetValue(lines[i]));
+                    if (lines[i].Contains("DTSTAMP"))
+                        tempCreated = StringToDate(GetValue(lines[i]));
                     if (lines[i].Contains("END:VEVENT"))
                     {
-                        events.Add(new Event(tempStartTime, tempEndTime, tempName, tempDescription, tempLocation, tempUID));
+                        events.Add(new Event(tempStartTime, tempEndTime, tempCreated, tempName, tempDescription, tempLocation, tempUID));
                         
                         tempName = String.Empty;
                         tempDescription = String.Empty;
@@ -165,6 +150,44 @@ namespace Manager.Schedule
         }
 
         //Getters
+        public string GetCalendarICS(string name)
+        {
+            string ics = "BEGIN:VCALENDAR\nVERSION:" + version +
+            "\nMETHOD:PUBLISH\nPRODID:" + prodid +
+            "\nX-WR-CALNAME:" + name + "\n"
+            + timezone;
+            for (int i = 0; i < events.Count; i++)
+            {
+                ics += GetEventICS(events[i]) + "\n";
+            }
+            ics += "END:VCALENDAR";
+            return ics;
+        }
+
+        public static string GetEventICS(Event ev)
+        {
+            string evString = "BEGIN:VEVENT\n" +
+            "UID:" + ev.UID + "\n";
+            if (ev.StartTime.Hour == ev.EndTime.Hour && ev.StartTime.Minute == ev.EndTime.Minute && ev.StartTime.Second == ev.EndTime.Second && ev.StartTime.Hour == 0 && ev.StartTime.Minute == 0 && ev.StartTime.Second == 0)
+            {
+                evString += "DTSTART;TZID=Europe/Copenhagen:" + DateToString(ev.StartTime) + "\n" +
+                "DTEND;TZID=Europe/Copenhagen:" + DateToString(ev.EndTime) + "\n";
+            }
+            else
+            {
+                evString += "DTSTART;TZID=Europe/Copenhagen:" + DateTimeToString(ev.StartTime) + "\n" +
+                "DTEND;TZID=Europe/Copenhagen:" + DateTimeToString(ev.EndTime) + "\n";
+            }
+            if (ev.Description != String.Empty)
+                evString += "DESCRIPTION:" + ConvertToCALString(ev.Description) + "\n";
+            evString += "DTSTAMP:" + DateTimeToString(ev.Created) + "Z\n";
+            if (ev.Location != String.Empty)
+                evString += "LOCATION:" + ConvertToCALString(ev.Location) + "\n";
+            evString += "SUMMARY:" + ev.Name + "\nEND:VEVENT";
+
+            return evString;
+        }
+
         public void GetEvents(List<Event> events)
         {
             events.Clear();
@@ -262,7 +285,7 @@ namespace Manager.Schedule
             "TZOFFSETFROM:+0200\n" +
             "TZOFFSETTO:+0100\n" +
             "END:STANDARD\n" +
-            "END:VTIMEZONE";
+            "END:VTIMEZONE\n";
         }
 
         //HTTP Request
@@ -314,22 +337,32 @@ namespace Manager.Schedule
         }
 
         //Conversions
-        public string DateTimeToString(DateTime date)
+        public static string DateTimeToString(DateTime date)
         {
             return date.Year.ToString("D4") + date.Month.ToString("D2") + date.Day.ToString("D2") + "T" + date.Hour.ToString("D2") + date.Minute.ToString("D2") + date.Second.ToString("D2");
         }
 
-        public string DateToString(DateTime date)
+        public static string DateToString(DateTime date)
         {
             return date.Year.ToString("D4") + date.Month.ToString("D2") + date.Day.ToString("D2");
         }
 
-        public DateTime StringToDate(string date)
+        public static DateTime StringToDate(string date)
         {
             if (date.Trim().Length == 8)
                 return new DateTime(int.Parse(date.Substring(0, 4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), 0, 0, 0);
             else
                 return new DateTime(int.Parse(date.Substring(0,4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), int.Parse(date.Substring(9, 2)), int.Parse(date.Substring(11, 2)), int.Parse(date.Substring(13, 2)));
+        }
+
+        public static string ConvertFromCALString(string text)
+        {
+            return text.Replace("\\n", "\r\n").Replace("\\,", ",");
+        }
+
+        public static string ConvertToCALString(string text)
+        {
+            return text.Replace("\n", "\\n").Replace("\r","").Replace(",", "\\,");
         }
     }
 }
