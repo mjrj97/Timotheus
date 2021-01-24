@@ -12,8 +12,8 @@ The purpose of this project is to create software that can manage a small associ
 - [ ] Accounting
 - [ ] Small Group Management
 
-## Downloads
-None available.
+## Libraries
+SSH.NET 2020.0.1
 
 ## How to contribute
 You are welcome to contribute to the project!
@@ -34,8 +34,8 @@ Formålet med dette projekt er at udvikle software, der kan behandle en lille fo
 - [ ] Regnskabsførelse
 - [ ] Administration af smågrupper
 
-## Download
-Ingen tilgængelig.
+## Biblioteker
+SSH.NET 2020.0.1
 
 ## Hvordan man kan bidrage
 Man er velkommen til at bidrage til projektet!

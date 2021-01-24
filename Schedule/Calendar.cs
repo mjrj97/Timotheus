@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Windows.Forms;
 
-namespace Manager.Schedule
+namespace Timotheus.Schedule
 {
     public class Calendar
     {
@@ -32,7 +33,7 @@ namespace Manager.Schedule
             "BEGIN:VCALENDAR\n" +
             "VERSION:" + version + "\n" +
             "PRODID:" + prodid + "\n" +
-            timezone +
+            timezone + "\n" +
             GetEventICS(ev) + "\n" +
             "END:VCALENDAR";
 
@@ -84,10 +85,13 @@ namespace Manager.Schedule
                 }
                 else if (timeZoneEnd == 0)
                 {
-                    if (timeZoneStart != 0 && timeZoneEnd == 0)
-                        tempTimeZone += lines[i] + "\n";
                     if (lines[i].Contains("END:VTIMEZONE"))
+                    {
                         timeZoneEnd = i;
+                        tempTimeZone += "END:VTIMEZONE";
+                    }
+                    else if (timeZoneStart != 0 && timeZoneEnd == 0)
+                        tempTimeZone += lines[i] + "\n";
                 }
                 else
                 {
@@ -99,7 +103,7 @@ namespace Manager.Schedule
                     if (lines[i].Contains("LOCATION"))
                         tempLocation = ConvertFromCALString(GetValue(lines[i]));
                     if (lines[i].Contains("UID"))
-                        tempUID = GetValue(lines[i]).Trim();
+                        tempUID = GetValue(lines[i]);
                     if (lines[i].Contains("DTSTART"))
                         tempStartTime = StringToDate(GetValue(lines[i]));
                     if (lines[i].Contains("DTEND"))
@@ -118,7 +122,7 @@ namespace Manager.Schedule
                 }
             }
 
-            if (tempTimeZone.Trim() == String.Empty)
+            if (tempTimeZone == String.Empty)
                 timezone = GenerateTimeZone();
             else
                 timezone = tempTimeZone;
@@ -155,7 +159,7 @@ namespace Manager.Schedule
             string ics = "BEGIN:VCALENDAR\nVERSION:" + version +
             "\nMETHOD:PUBLISH\nPRODID:" + prodid +
             "\nX-WR-CALNAME:" + name + "\n"
-            + timezone;
+            + timezone + "\n";
             for (int i = 0; i < events.Count; i++)
             {
                 ics += GetEventICS(events[i]) + "\n";
@@ -285,37 +289,43 @@ namespace Manager.Schedule
             "TZOFFSETFROM:+0200\n" +
             "TZOFFSETTO:+0100\n" +
             "END:STANDARD\n" +
-            "END:VTIMEZONE\n";
+            "END:VTIMEZONE";
         }
 
         //HTTP Request
         public static string[] HttpRequest(string url, NetworkCredential credentials, string method, string dataString)
         {
-            //Set up request for URL
-            WebRequest request = WebRequest.Create(url);
-            request.Credentials = credentials;
-
-            if (method != null)
-                request.Method = method;
-            if (method == "PUT")
+            try
             {
-                byte[] data = Encoding.UTF8.GetBytes(dataString);
-                request.Headers.Add("Accept-charset", "UTF-8");
-                request.ContentType = "text/calendar";
-                request.ContentLength = data.Length;
+                WebRequest request = WebRequest.Create(url);
+                request.Credentials = credentials;
 
-                using var stream = request.GetRequestStream();
-                stream.Write(data, 0, data.Length);
-                stream.Close();
+                if (method != null)
+                    request.Method = method;
+                if (method == "PUT")
+                {
+                    byte[] data = Encoding.UTF8.GetBytes(dataString);
+                    request.Headers.Add("Accept-charset", "UTF-8");
+                    request.ContentType = "text/calendar";
+                    request.ContentLength = data.Length;
+
+                    using var stream = request.GetRequestStream();
+                    stream.Write(data, 0, data.Length);
+                    stream.Close();
+                }
+
+                WebResponse response = request.GetResponse();
+                Stream dataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataStream);
+                string[] responseFromServer = reader.ReadToEnd().Split("\n");
+                response.Close();
+                return responseFromServer;
             }
-
-            //Get response from URL
-            WebResponse response = request.GetResponse();
-            Stream dataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataStream);
-            string[] responseFromServer = reader.ReadToEnd().Split("\n");
-            response.Close();
-            return responseFromServer;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Sync error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new string[0];
+            }
         }
         public static string[] HttpRequest(string url, NetworkCredential credentials)
         {
@@ -325,15 +335,12 @@ namespace Manager.Schedule
         //Get value after colon
         private string GetValue(string line)
         {
-            int colon = 0;
             int i = 0;
-            while (i < line.Length && colon == 0)
+            while (i < line.Length && line[i] != ':')
             {
-                if (line[i] == ':')
-                    colon = i;
                 i++;
             }
-            return line.Substring(colon + 1);
+            return line.Substring(i + 1, line.Length - i - 2);
         }
 
         //Conversions
@@ -349,7 +356,7 @@ namespace Manager.Schedule
 
         public static DateTime StringToDate(string date)
         {
-            if (date.Trim().Length == 8)
+            if (date.Length == 8)
                 return new DateTime(int.Parse(date.Substring(0, 4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), 0, 0, 0);
             else
                 return new DateTime(int.Parse(date.Substring(0,4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), int.Parse(date.Substring(9, 2)), int.Parse(date.Substring(11, 2)), int.Parse(date.Substring(13, 2)));

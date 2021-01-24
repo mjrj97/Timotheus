@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Manager
+namespace Timotheus
 {
     static class Program
     {

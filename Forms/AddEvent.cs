@@ -1,8 +1,8 @@
-﻿using Manager.Schedule;
+﻿using Timotheus.Schedule;
 using System;
 using System.Windows.Forms;
 
-namespace Manager
+namespace Timotheus
 {
     public partial class AddEvent : Form
     {
@@ -23,8 +23,8 @@ namespace Manager
         //Buttons
         private void Add_Click(object sender, EventArgs e)
         {
-            int hour;
-            int minute;
+            int hour = 0;
+            int minute = 0;
             
             string startTime = StartTimeBox.Text.Trim();
             string endTime = EndTimeBox.Text.Trim();
@@ -39,12 +39,18 @@ namespace Manager
                 if (NameText.Text.Trim().Equals(Event.DELETE_TAG))
                     throw new Exception("Name cannot be " + Event.DELETE_TAG + ".");
 
-                hour = Int32.Parse(startTime.Substring(0, -3 + startTime.Length));
-                minute = Int32.Parse(startTime.Substring(-2 + startTime.Length, 2));
+                if (!AllDayBox.Checked)
+                {
+                    hour = Int32.Parse(startTime.Substring(0, -3 + startTime.Length));
+                    minute = Int32.Parse(startTime.Substring(-2 + startTime.Length, 2));
+                }
                 start = new DateTime(StartTimePicker.Value.Year, StartTimePicker.Value.Month, StartTimePicker.Value.Day, hour, minute, 0);
 
-                hour = Int32.Parse(endTime.Substring(0, -3 + endTime.Length));
-                minute = Int32.Parse(endTime.Substring(-2 + endTime.Length, 2));
+                if (!AllDayBox.Checked)
+                {
+                    hour = Int32.Parse(endTime.Substring(0, -3 + endTime.Length));
+                    minute = Int32.Parse(endTime.Substring(-2 + endTime.Length, 2));
+                }
                 end = new DateTime(EndTimePicker.Value.Year, EndTimePicker.Value.Month, EndTimePicker.Value.Day, hour, minute, 0);
 
                 Event ev = new Event(start, end, NameText.Text, DescriptionBox.Text, LocationBox.Text, null);
@@ -78,6 +84,12 @@ namespace Manager
                 }
             }
             return base.ProcessDialogKey(keyData);
+        }
+
+        private void AllDayBox_CheckedChanged(object sender, EventArgs e)
+        {
+            StartTimeBox.Enabled = !AllDayBox.Checked;
+            EndTimeBox.Enabled = !AllDayBox.Checked;
         }
     }
 }

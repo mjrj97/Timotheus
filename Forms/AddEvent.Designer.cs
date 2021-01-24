@@ -1,5 +1,4 @@
-﻿
-namespace Manager
+﻿namespace Timotheus
 {
     partial class AddEvent
     {
@@ -43,6 +42,7 @@ namespace Manager
             this.DescriptionLabel = new System.Windows.Forms.Label();
             this.Add = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
+            this.AllDayBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // NameText
@@ -109,7 +109,7 @@ namespace Manager
             // 
             // LocationBox
             // 
-            this.LocationBox.Location = new System.Drawing.Point(86, 120);
+            this.LocationBox.Location = new System.Drawing.Point(86, 150);
             this.LocationBox.Name = "LocationBox";
             this.LocationBox.Size = new System.Drawing.Size(236, 23);
             this.LocationBox.TabIndex = 5;
@@ -117,7 +117,7 @@ namespace Manager
             // LocationLabel
             // 
             this.LocationLabel.AutoSize = true;
-            this.LocationLabel.Location = new System.Drawing.Point(12, 123);
+            this.LocationLabel.Location = new System.Drawing.Point(12, 153);
             this.LocationLabel.Name = "LocationLabel";
             this.LocationLabel.Size = new System.Drawing.Size(53, 15);
             this.LocationLabel.TabIndex = 12;
@@ -125,7 +125,7 @@ namespace Manager
             // 
             // DescriptionBox
             // 
-            this.DescriptionBox.Location = new System.Drawing.Point(85, 155);
+            this.DescriptionBox.Location = new System.Drawing.Point(85, 185);
             this.DescriptionBox.Name = "DescriptionBox";
             this.DescriptionBox.Size = new System.Drawing.Size(237, 75);
             this.DescriptionBox.TabIndex = 6;
@@ -134,7 +134,7 @@ namespace Manager
             // DescriptionLabel
             // 
             this.DescriptionLabel.AutoSize = true;
-            this.DescriptionLabel.Location = new System.Drawing.Point(12, 158);
+            this.DescriptionLabel.Location = new System.Drawing.Point(12, 188);
             this.DescriptionLabel.Name = "DescriptionLabel";
             this.DescriptionLabel.Size = new System.Drawing.Size(67, 15);
             this.DescriptionLabel.TabIndex = 13;
@@ -142,7 +142,7 @@ namespace Manager
             // 
             // Add
             // 
-            this.Add.Location = new System.Drawing.Point(84, 240);
+            this.Add.Location = new System.Drawing.Point(85, 270);
             this.Add.Name = "Add";
             this.Add.Size = new System.Drawing.Size(115, 25);
             this.Add.TabIndex = 7;
@@ -152,7 +152,7 @@ namespace Manager
             // 
             // Cancel
             // 
-            this.Cancel.Location = new System.Drawing.Point(207, 240);
+            this.Cancel.Location = new System.Drawing.Point(207, 270);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(115, 25);
             this.Cancel.TabIndex = 8;
@@ -160,11 +160,24 @@ namespace Manager
             this.Cancel.UseVisualStyleBackColor = true;
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
+            // AllDayBox
+            // 
+            this.AllDayBox.AutoSize = true;
+            this.AllDayBox.Location = new System.Drawing.Point(85, 120);
+            this.AllDayBox.Name = "AllDayBox";
+            this.AllDayBox.Size = new System.Drawing.Size(94, 19);
+            this.AllDayBox.TabIndex = 14;
+            this.AllDayBox.Text = "All day event";
+            this.AllDayBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.AllDayBox.UseVisualStyleBackColor = true;
+            this.AllDayBox.CheckedChanged += new System.EventHandler(this.AllDayBox_CheckedChanged);
+            // 
             // AddEvent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 277);
+            this.ClientSize = new System.Drawing.Size(334, 307);
+            this.Controls.Add(this.AllDayBox);
             this.Controls.Add(this.DescriptionLabel);
             this.Controls.Add(this.DescriptionBox);
             this.Controls.Add(this.LocationLabel);
@@ -206,5 +219,6 @@ namespace Manager
         private System.Windows.Forms.Label LocationLabel;
         private System.Windows.Forms.RichTextBox DescriptionBox;
         private System.Windows.Forms.Label DescriptionLabel;
+        private System.Windows.Forms.CheckBox AllDayBox;
     }
 }

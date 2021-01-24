@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Manager.Utility
+namespace Timotheus.Utility
 {
     //Source: https://martinwilley.com/net/code/forms/sortablebindinglist.html
     public class SortableBindingList<T> : BindingList<T> where T : class

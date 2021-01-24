@@ -1,5 +1,5 @@
-﻿using Manager.Schedule;
-using Manager.Utility;
+﻿using Timotheus.Schedule;
+using Timotheus.Utility;
 using System;
 using System.Text;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Manager
+namespace Timotheus
 {
     public partial class MainWindow : Form
     {
@@ -108,6 +108,13 @@ namespace Manager
                     stream.Close();
                 }
             }
+        }
+
+        private void OpenButton_Click(object sender, EventArgs e)
+        {
+            OpenCalendar open = new OpenCalendar();
+            open.Owner = this;
+            open.ShowDialog();
         }
 
         private void SyncCalendar(object sender, EventArgs e)

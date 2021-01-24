@@ -1,5 +1,5 @@
 ﻿
-namespace Manager
+namespace Timotheus
 {
     partial class MainWindow
     {
@@ -174,13 +174,13 @@ namespace Manager
             // OpenButton
             // 
             this.OpenButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.OpenButton.Enabled = false;
             this.OpenButton.Location = new System.Drawing.Point(734, 10);
             this.OpenButton.Name = "OpenButton";
             this.OpenButton.Size = new System.Drawing.Size(50, 23);
             this.OpenButton.TabIndex = 8;
             this.OpenButton.Text = "Open";
             this.OpenButton.UseVisualStyleBackColor = true;
+            this.OpenButton.Click += new System.EventHandler(this.OpenButton_Click);
             // 
             // SyncCalendarButton
             // 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Manager.Schedule
+namespace Timotheus.Schedule
 {
     public class Event
     {
