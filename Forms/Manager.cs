@@ -116,6 +116,11 @@ namespace Timotheus
             open.ShowDialog();
         }
 
+        private void ExportButton_Click(object sender, EventArgs e)
+        {
+            ExportPDF(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Program for foråret 2021", events);
+        }
+
         private void SyncCalendar(object sender, EventArgs e)
         {
             calendar.Sync(events);
@@ -176,6 +181,11 @@ namespace Timotheus
                 Hide();
                 TrayIcon.Visible = true;
             }
+        }
+
+        public static void ExportPDF(string filePath, string title, List<Event> events)
+        {
+
         }
     }
 }
