@@ -1,2 +1,0 @@
-﻿1. Can only generate CET (Europe/Copenhagen) Timezone
-2. Does not support recurring events, instead it is shown as only the first one event.
