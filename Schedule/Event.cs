@@ -4,16 +4,18 @@ namespace Timotheus.Schedule
 {
     public class Event
     {
+        private string name;
+        private string location;
+
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public readonly DateTime Created;
 
-        public string Name { get; set; }
+        public string Name { get { return name;  } set { name = value.Replace("\r\n", ""); } }
         public string Description { get; set; }
-        public string Location { get; set; }
+        public string Location { get { return location; } set { location = value.Replace("\r\n", ""); } }
         public string UID;
-
-        public static readonly string DELETE_TAG = "DELETE";
+        public bool Deleted;
 
         //Constructors
         public Event(DateTime StartTime, DateTime EndTime, DateTime Created, string Name, string Description, string Location, string UID)
@@ -24,6 +26,7 @@ namespace Timotheus.Schedule
             this.Name = Name;
             this.Location = Location;
             this.Description = Description;
+            this.Deleted = false;
             if (UID == null)
                 this.UID = GenerateUID();
             else

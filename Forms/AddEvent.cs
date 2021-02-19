@@ -36,8 +36,6 @@ namespace Timotheus
             {
                 if (NameText.Text.Trim() == String.Empty)
                     throw new Exception("Name cannot be empty.");
-                if (NameText.Text.Trim().Equals(Event.DELETE_TAG))
-                    throw new Exception("Name cannot be " + Event.DELETE_TAG + ".");
 
                 if (!AllDayBox.Checked)
                 {

@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Timotheus.Schedule
@@ -11,7 +14,8 @@ namespace Timotheus.Schedule
     {
         private readonly NetworkCredential credentials;
         private readonly string url;
-        private List<Event> events = new List<Event>();
+        private readonly List<Event> events = new List<Event>();
+        private readonly HttpClient client = new HttpClient();
 
         private string timezone;
         private string version;
@@ -22,8 +26,13 @@ namespace Timotheus.Schedule
         {
             credentials = new NetworkCredential(username, password);
             this.url = url;
-
+            client.BaseAddress = new Uri(url);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(username + ":" + password)));
+            client.DefaultRequestHeaders.Add("Accept-charset", "UTF-8");
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             LoadFromURL();
+
+            Request();
         }
 
         //Setters
@@ -37,14 +46,14 @@ namespace Timotheus.Schedule
             GetEventICS(ev) + "\n" +
             "END:VCALENDAR";
 
-            HttpRequest(url + ev.UID + ".ics", credentials, "PUT", request);
+            HttpRequest(url + ev.UID + ".ics", credentials, "PUT", Encoding.UTF8.GetBytes(request));
             events.Add(ev.Copy());
         }
 
         public void DeleteEvent(string ID)
         {
             events.Remove(FindEvent(ID));
-            HttpRequest(url + ID + ".ics", credentials, "DELETE", ID);
+            HttpRequest(url + ID + ".ics", credentials, "DELETE");
         }
 
         public void LoadFromURL()
@@ -137,12 +146,12 @@ namespace Timotheus.Schedule
                 Event ev = FindEvent(evs[i].UID);
                 if (ev == null)
                 {
-                    if (evs[i].Name != Event.DELETE_TAG)
+                    if (!evs[i].Deleted)
                         AddEvent(evs[i]);
                 }
                 else
                 {
-                    if (evs[i].Name.Equals(Event.DELETE_TAG))
+                    if (evs[i].Deleted)
                         DeleteEvent(evs[i].UID);
                     else if (!evs[i].Equals(ev))
                     {
@@ -293,7 +302,7 @@ namespace Timotheus.Schedule
         }
 
         //HTTP Request
-        public static string[] HttpRequest(string url, NetworkCredential credentials, string method, string dataString)
+        public static string[] HttpRequest(string url, NetworkCredential credentials, string method, byte[] data)
         {
             try
             {
@@ -304,7 +313,6 @@ namespace Timotheus.Schedule
                     request.Method = method;
                 if (method == "PUT")
                 {
-                    byte[] data = Encoding.UTF8.GetBytes(dataString);
                     request.Headers.Add("Accept-charset", "UTF-8");
                     request.ContentType = "text/calendar";
                     request.ContentLength = data.Length;
@@ -321,15 +329,33 @@ namespace Timotheus.Schedule
                 response.Close();
                 return responseFromServer;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                MessageBox.Show(ex.Message, "Sync error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "Sync error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return new string[0];
             }
+        }
+        public static string[] HttpRequest(string url, NetworkCredential credentials, string method)
+        {
+            return HttpRequest(url, credentials, method, null);
         }
         public static string[] HttpRequest(string url, NetworkCredential credentials)
         {
             return HttpRequest(url, credentials, null, null);
+        }
+
+        public string[] Request()
+        {
+            try
+            {
+                Task<HttpResponseMessage> response = client.GetAsync(client.BaseAddress);
+                return response.Result.Content.ReadAsStringAsync().Result.Split("\n");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Sync error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new string[0];
+            }
         }
 
         //Get value after colon

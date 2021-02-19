@@ -26,7 +26,6 @@ namespace Timotheus
             year = DateTime.Now.Year;
             InitializeComponent();
             Year.Text = year.ToString();
-            //CalendarView.AutoGenerateColumns = false;
 
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string fullName = Path.Combine(desktopPath, "Data.txt");
@@ -63,7 +62,7 @@ namespace Timotheus
             shownEvents.Clear();
             for (int i = 0; i < events.Count; i++)
             {
-                if (events[i].StartTime.Year == year && !events[i].Name.Equals(Event.DELETE_TAG))
+                if (events[i].StartTime.Year == year && !events[i].Deleted)
                     shownEvents.Add(events[i]);
             }
             CalendarView.Sort(CalendarView.Columns[0], ListSortDirection.Ascending);
@@ -88,7 +87,7 @@ namespace Timotheus
                     if (ev.Equals(events[i]))
                         index = i;
                 }
-                events[index].Name = Event.DELETE_TAG;
+                events[index].Deleted = true;
                 UpdateTable();
             }
         }
