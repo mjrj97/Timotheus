@@ -14,7 +14,7 @@ namespace Timotheus.Schedule
     {
         private readonly NetworkCredential credentials;
         private readonly string url;
-        private readonly List<Event> events = new List<Event>();
+        public readonly List<Event> events = new List<Event>();
         private readonly HttpClient client = new HttpClient();
 
         private string timezone;
@@ -30,7 +30,7 @@ namespace Timotheus.Schedule
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(username + ":" + password)));
             client.DefaultRequestHeaders.Add("Accept-charset", "UTF-8");
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            LoadFromURL();
+            events = LoadFromURL();
 
             Request();
         }
@@ -47,16 +47,14 @@ namespace Timotheus.Schedule
             "END:VCALENDAR";
 
             HttpRequest(url + ev.UID + ".ics", credentials, "PUT", Encoding.UTF8.GetBytes(request));
-            events.Add(ev.Copy());
         }
 
         public void DeleteEvent(string ID)
         {
-            events.Remove(FindEvent(ID));
             HttpRequest(url + ID + ".ics", credentials, "DELETE");
         }
 
-        public void LoadFromURL()
+        public List<Event> LoadFromURL()
         {
             string tempTimeZone = String.Empty;
             string tempVersion = String.Empty;
@@ -74,7 +72,8 @@ namespace Timotheus.Schedule
             int timeZoneStart = 0;
             int timeZoneEnd = 0;
 
-            events.Clear();
+            List<Event> events = new List<Event>();
+
             for (int i = 0; i < lines.Length; i++)
             {
                 if (timeZoneStart == 0)
@@ -137,33 +136,36 @@ namespace Timotheus.Schedule
                 timezone = tempTimeZone;
             version = tempVersion;
             prodid = tempProdID;
+
+            return events;
         }
 
-        public void Sync(List<Event> evs)
+        public void Sync()
         {
-            for (int i = 0; i < evs.Count; i++)
+            List<Event> evs = LoadFromURL();
+            for (int i = 0; i < events.Count; i++)
             {
-                Event ev = FindEvent(evs[i].UID);
+                Event ev = FindEvent(evs, events[i].UID);
                 if (ev == null)
                 {
-                    if (!evs[i].Deleted)
-                        AddEvent(evs[i]);
+                    if (!events[i].Deleted)
+                        AddEvent(events[i]);
                 }
                 else
                 {
-                    if (evs[i].Deleted)
-                        DeleteEvent(evs[i].UID);
-                    else if (!evs[i].Equals(ev))
+                    if (events[i].Deleted)
+                        DeleteEvent(events[i].UID);
+                    else if (!events[i].Equals(ev))
                     {
-                        DeleteEvent(evs[i].UID);
-                        AddEvent(evs[i]);
+                        DeleteEvent(events[i].UID);
+                        AddEvent(events[i]);
                     }
                 }
             }
         }
 
         //Getters
-        public string GetCalendarICS(string name, List<Event> events)
+        public string GetCalendarICS(string name)
         {
             string ics = "BEGIN:VCALENDAR\nVERSION:" + version +
             "\nMETHOD:PUBLISH\nPRODID:" + prodid +
@@ -202,20 +204,11 @@ namespace Timotheus.Schedule
             return evString;
         }
 
-        public void GetEvents(List<Event> events)
-        {
-            events.Clear();
-            for (int i = 0; i < this.events.Count; i++)
-            {
-                events.Add(this.events[i].Copy());
-            }
-        }
-
-        public Event FindEvent(string ID)
+        public static Event FindEvent(List<Event> events, string UID)
         {
             for (int i = 0; i < events.Count; i++)
             {
-                if (events[i].UID.Equals(ID))
+                if (events[i].UID.Equals(UID))
                 {
                     return events[i];
                 }

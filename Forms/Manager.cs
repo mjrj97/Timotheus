@@ -13,7 +13,6 @@ namespace Timotheus
     public partial class MainWindow : Form
     {
         public static MainWindow window;
-        public List<Event> events = new List<Event>();
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
 
         private int year;
@@ -34,14 +33,13 @@ namespace Timotheus
             steamReader.Close();
             
             calendar = new Calendar(content[0].Trim(), content[1].Trim(), content[2].Trim());
-            calendar.GetEvents(events);
             UpdateTable();
             CalendarView.DataSource = new BindingSource(shownEvents, null);
         }
 
         public void AddEventToCalendar(Event ev)
         {
-            events.Add(ev);
+            calendar.events.Add(ev);
             UpdateTable();
         }
 
@@ -60,10 +58,10 @@ namespace Timotheus
         private void UpdateTable()
         {
             shownEvents.Clear();
-            for (int i = 0; i < events.Count; i++)
+            for (int i = 0; i < calendar.events.Count; i++)
             {
-                if (events[i].StartTime.Year == year && !events[i].Deleted)
-                    shownEvents.Add(events[i]);
+                if (calendar.events[i].StartTime.Year == year && !calendar.events[i].Deleted)
+                    shownEvents.Add(calendar.events[i]);
             }
             CalendarView.Sort(CalendarView.Columns[0], ListSortDirection.Ascending);
         }
@@ -82,12 +80,12 @@ namespace Timotheus
             {
                 Event ev = shownEvents[CalendarView.CurrentCell.OwningRow.Index];
                 int index = 0;
-                for (int i = 0; i < events.Count; i++)
+                for (int i = 0; i < calendar.events.Count; i++)
                 {
-                    if (ev.Equals(events[i]))
+                    if (ev.Equals(calendar.events[i]))
                         index = i;
                 }
-                events[index].Deleted = true;
+                calendar.events[index].Deleted = true;
                 UpdateTable();
             }
         }
@@ -102,7 +100,7 @@ namespace Timotheus
             {
                 if ((stream = saveFileDialog.OpenFile()) != null)
                 {
-                    byte[] data = Encoding.UTF8.GetBytes(calendar.GetCalendarICS(Path.GetFileNameWithoutExtension(saveFileDialog.FileName), events));
+                    byte[] data = Encoding.UTF8.GetBytes(calendar.GetCalendarICS(Path.GetFileNameWithoutExtension(saveFileDialog.FileName)));
                     stream.Write(data);
                     stream.Close();
                 }
@@ -118,13 +116,12 @@ namespace Timotheus
 
         private void ExportButton_Click(object sender, EventArgs e)
         {
-            ExportPDF(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Program for foråret 2021", events);
+            ExportPDF(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Program for foråret 2021", calendar.events);
         }
 
         private void SyncCalendar(object sender, EventArgs e)
         {
-            calendar.Sync(events);
-            calendar.GetEvents(events);
+            calendar.Sync();
         }
 
         protected override bool ProcessDialogKey(Keys keyData)
