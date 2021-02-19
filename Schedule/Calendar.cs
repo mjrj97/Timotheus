@@ -163,7 +163,7 @@ namespace Timotheus.Schedule
         }
 
         //Getters
-        public string GetCalendarICS(string name)
+        public string GetCalendarICS(string name, List<Event> events)
         {
             string ics = "BEGIN:VCALENDAR\nVERSION:" + version +
             "\nMETHOD:PUBLISH\nPRODID:" + prodid +
@@ -171,7 +171,8 @@ namespace Timotheus.Schedule
             + timezone + "\n";
             for (int i = 0; i < events.Count; i++)
             {
-                ics += GetEventICS(events[i]) + "\n";
+                if (!events[i].Deleted)
+                    ics += GetEventICS(events[i]) + "\n";
             }
             ics += "END:VCALENDAR";
             return ics;

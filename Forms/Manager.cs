@@ -102,7 +102,7 @@ namespace Timotheus
             {
                 if ((stream = saveFileDialog.OpenFile()) != null)
                 {
-                    byte[] data = Encoding.UTF8.GetBytes(calendar.GetCalendarICS(Path.GetFileNameWithoutExtension(saveFileDialog.FileName)));
+                    byte[] data = Encoding.UTF8.GetBytes(calendar.GetCalendarICS(Path.GetFileNameWithoutExtension(saveFileDialog.FileName), events));
                     stream.Write(data);
                     stream.Close();
                 }
