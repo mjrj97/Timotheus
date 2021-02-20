@@ -162,6 +162,17 @@ namespace Timotheus.Schedule
                     }
                 }
             }
+            for (int i = 0; i < evs.Count; i++)
+            {
+                Event ev = FindEvent(events, evs[i].UID);
+                if (ev == null)
+                    events.Add(evs[i]);
+            }
+        }
+
+        public void ExportPDF(string filePath, string title)
+        {
+            
         }
 
         //Getters

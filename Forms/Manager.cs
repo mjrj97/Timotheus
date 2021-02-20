@@ -116,12 +116,13 @@ namespace Timotheus
 
         private void ExportButton_Click(object sender, EventArgs e)
         {
-            ExportPDF(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Program for foråret 2021", calendar.events);
+            calendar.ExportPDF(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Program for foråret 2021");
         }
 
         private void SyncCalendar(object sender, EventArgs e)
         {
             calendar.Sync();
+            UpdateTable();
         }
 
         protected override bool ProcessDialogKey(Keys keyData)
@@ -178,11 +179,6 @@ namespace Timotheus
                 Hide();
                 TrayIcon.Visible = true;
             }
-        }
-
-        public static void ExportPDF(string filePath, string title, List<Event> events)
-        {
-
         }
     }
 }
