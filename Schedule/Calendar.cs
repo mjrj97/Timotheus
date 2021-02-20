@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using System.Diagnostics;
+
 namespace Timotheus.Schedule
 {
     public class Calendar
@@ -162,6 +166,35 @@ namespace Timotheus.Schedule
                     }
                 }
             }
+        }
+
+        public void ExportPDF(string filePath, string title)
+        {
+            //Defines encoding 1252
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            // Create a new PDF document
+            PdfDocument document = new PdfDocument();
+            document.Info.Title = "Created with PDFsharp";
+
+            // Create an empty page
+            PdfPage page = document.AddPage();
+
+            // Get an XGraphics object for drawing
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+
+            // Create a font
+            XFont font = new XFont("Verdana", 20, XFontStyle.BoldItalic);
+
+            // Draw the text
+            gfx.DrawString("Hello, World!", font, XBrushes.Black,
+              new XRect(0, 0, page.Width, page.Height),
+              XStringFormats.Center);
+
+            // Save the document...
+            const string filename = "HelloWorld.pdf";
+            //Save docement to filePath
+            document.Save(filePath + "\\" + filename);
         }
 
         //Getters
