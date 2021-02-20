@@ -5,15 +5,13 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Timotheus.Schedule
 {
     public class Calendar
     {
-        private readonly NetworkCredential credentials;
-        private readonly string url;
+        private NetworkCredential credentials;
+        private string url;
         public readonly List<Event> events = new List<Event>();
         private readonly HttpClient client = new HttpClient();
 
@@ -21,18 +19,21 @@ namespace Timotheus.Schedule
         private string version;
         private string prodid;
 
-        //Constructor
+        //Constructors
         public Calendar(string username, string password, string url)
         {
-            credentials = new NetworkCredential(username, password);
-            this.url = url;
-            client.BaseAddress = new Uri(url);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(username + ":" + password)));
-            client.DefaultRequestHeaders.Add("Accept-charset", "UTF-8");
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            events = LoadFromURL();
-
-            Request();
+            SetupSync(username, password, url);
+            events = LoadFromLines(HttpRequest(url, credentials));
+        }
+        public Calendar(string path)
+        {
+            events = LoadFromLines(File.ReadAllLines(path));
+        }
+        public Calendar()
+        {
+            timezone = GenerateTimeZone();
+            version = "2.0";
+            prodid = "Calendar";
         }
 
         //Setters
@@ -54,7 +55,7 @@ namespace Timotheus.Schedule
             HttpRequest(url + ID + ".ics", credentials, "DELETE");
         }
 
-        public List<Event> LoadFromURL()
+        public List<Event> LoadFromLines(string[] lines)
         {
             string tempTimeZone = String.Empty;
             string tempVersion = String.Empty;
@@ -68,7 +69,6 @@ namespace Timotheus.Schedule
             string tempDescription = String.Empty;
             string tempUID = String.Empty;
 
-            string[] lines = HttpRequest(url, credentials);
             int timeZoneStart = 0;
             int timeZoneEnd = 0;
 
@@ -140,9 +140,18 @@ namespace Timotheus.Schedule
             return events;
         }
 
+        public void SetupSync(string username, string password, string url)
+        {
+            this.url = url;
+            credentials = new NetworkCredential(username, password);
+            client.BaseAddress = new Uri(url);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(username + ":" + password)));
+            client.DefaultRequestHeaders.Add("Accept-charset", "UTF-8");
+        }
+
         public void Sync()
         {
-            List<Event> evs = LoadFromURL();
+            List<Event> evs = LoadFromLines(HttpRequest(url, credentials));
             for (int i = 0; i < events.Count; i++)
             {
                 Event ev = FindEvent(evs, events[i].UID);
@@ -309,36 +318,28 @@ namespace Timotheus.Schedule
         //HTTP Request
         public static string[] HttpRequest(string url, NetworkCredential credentials, string method, byte[] data)
         {
-            try
+            WebRequest request = WebRequest.Create(url);
+            request.Credentials = credentials;
+
+            if (method != null)
+                request.Method = method;
+            if (method == "PUT")
             {
-                WebRequest request = WebRequest.Create(url);
-                request.Credentials = credentials;
+                request.Headers.Add("Accept-charset", "UTF-8");
+                request.ContentType = "text/calendar";
+                request.ContentLength = data.Length;
 
-                if (method != null)
-                    request.Method = method;
-                if (method == "PUT")
-                {
-                    request.Headers.Add("Accept-charset", "UTF-8");
-                    request.ContentType = "text/calendar";
-                    request.ContentLength = data.Length;
-
-                    using var stream = request.GetRequestStream();
-                    stream.Write(data, 0, data.Length);
-                    stream.Close();
-                }
-
-                WebResponse response = request.GetResponse();
-                Stream dataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataStream);
-                string[] responseFromServer = reader.ReadToEnd().Split("\n");
-                response.Close();
-                return responseFromServer;
+                using var stream = request.GetRequestStream();
+                stream.Write(data, 0, data.Length);
+                stream.Close();
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Sync error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return new string[0];
-            }
+
+            WebResponse response = request.GetResponse();
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataStream);
+            string[] responseFromServer = reader.ReadToEnd().Split("\n");
+            response.Close();
+            return responseFromServer;
         }
         public static string[] HttpRequest(string url, NetworkCredential credentials, string method)
         {
@@ -349,20 +350,6 @@ namespace Timotheus.Schedule
             return HttpRequest(url, credentials, null, null);
         }
 
-        public string[] Request()
-        {
-            try
-            {
-                Task<HttpResponseMessage> response = client.GetAsync(client.BaseAddress);
-                return response.Result.Content.ReadAsStringAsync().Result.Split("\n");
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Sync error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return new string[0];
-            }
-        }
-
         //Get value after colon
         private string GetValue(string line)
         {
@@ -371,7 +358,7 @@ namespace Timotheus.Schedule
             {
                 i++;
             }
-            return line.Substring(i + 1, line.Length - i - 2);
+            return line.Substring(i + 1, line.Length - i - 1);
         }
 
         //Conversions

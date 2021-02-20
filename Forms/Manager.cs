@@ -2,11 +2,11 @@
 using Timotheus.Utility;
 using System;
 using System.Text;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using System.Net;
 
 namespace Timotheus
 {
@@ -16,7 +16,7 @@ namespace Timotheus
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
 
         private int year;
-        private readonly Calendar calendar;
+        private Calendar calendar = new Calendar();
         
         //Constructor
         public MainWindow()
@@ -24,16 +24,8 @@ namespace Timotheus
             window = this;
             year = DateTime.Now.Year;
             InitializeComponent();
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             Year.Text = year.ToString();
-
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string fullName = Path.Combine(desktopPath, "Data.txt");
-            StreamReader steamReader = new StreamReader(fullName);
-            string[] content = steamReader.ReadToEnd().Split("\n");
-            steamReader.Close();
-            
-            calendar = new Calendar(content[0].Trim(), content[1].Trim(), content[2].Trim());
-            UpdateTable();
             CalendarView.DataSource = new BindingSource(shownEvents, null);
         }
 
@@ -64,6 +56,18 @@ namespace Timotheus
                     shownEvents.Add(calendar.events[i]);
             }
             CalendarView.Sort(CalendarView.Columns[0], ListSortDirection.Ascending);
+        }
+
+        public void LoadCalendarFromFile(string path)
+        {
+            calendar = new Calendar(path);
+            UpdateTable();
+        }
+
+        public void LoadCalendarFromLink(string username, string password, string url)
+        {
+            calendar = new Calendar(username, password, url);
+            UpdateTable();
         }
 
         //Buttons
@@ -121,8 +125,15 @@ namespace Timotheus
 
         private void SyncCalendar(object sender, EventArgs e)
         {
-            calendar.Sync();
-            UpdateTable();
+            try
+            {
+                calendar.Sync();
+                UpdateTable();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Sync error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         protected override bool ProcessDialogKey(Keys keyData)
