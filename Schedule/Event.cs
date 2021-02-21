@@ -5,16 +5,18 @@ namespace Timotheus.Schedule
     public class Event
     {
         private string name;
+        private string description;
         private string location;
 
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public readonly DateTime Created;
+        public DateTime Changed;
+        public DateTime Created;
 
-        public string Name { get { return name;  } set { name = value.Replace("\r\n", ""); } }
-        public string Description { get; set; }
-        public string Location { get { return location; } set { location = value.Replace("\r\n", ""); } }
-        public string UID;
+        public string Name { get { return name;  } set { name = value.Replace("\r\n", ""); Changed = DateTime.Now; } }
+        public string Description { get { return description; } set { description = value; Changed = DateTime.Now; } }
+        public string Location { get { return location; } set { location = value.Replace("\r\n", ""); Changed = DateTime.Now; } }
+        public readonly string UID;
         public bool Deleted;
 
         //Constructors
@@ -26,7 +28,8 @@ namespace Timotheus.Schedule
             this.Name = Name;
             this.Location = Location;
             this.Description = Description;
-            this.Deleted = false;
+            Changed = Created;
+            Deleted = false;
             if (UID == null)
                 this.UID = GenerateUID();
             else
@@ -38,12 +41,25 @@ namespace Timotheus.Schedule
 
         public static string GenerateUID()
         {
-            Byte[] data = new Byte[16];
+            byte[] data = new byte[16];
             Random rnd = new Random();
             rnd.NextBytes(data);
             string tempUID = BitConverter.ToString(data).Replace("-", "");
             string UID = tempUID.Substring(0,8) + "-" + tempUID.Substring(8,4) + "-" + tempUID.Substring(12, 4) + "-" + tempUID.Substring(16, 4) + "-" + tempUID.Substring(20, 12);
             return UID;
+        }
+
+        public void Update(Event ev)
+        {
+            if (UID == ev.UID)
+            {
+                Name = ev.Name;
+                Description = ev.Description;
+                Location = ev.Location;
+                StartTime = ev.StartTime;
+                EndTime = ev.EndTime;
+                Created = ev.Created;
+            }
         }
 
         public Event Copy()

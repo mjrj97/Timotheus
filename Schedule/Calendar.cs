@@ -151,31 +151,43 @@ namespace Timotheus.Schedule
 
         public void Sync()
         {
-            List<Event> evs = LoadFromLines(HttpRequest(url, credentials));
+            List<Event> remoteEvents = LoadFromLines(HttpRequest(url, credentials));
+            bool[] foundLocal = new bool[events.Count];
+            bool[] foundRemote = new bool[remoteEvents.Count];
+
             for (int i = 0; i < events.Count; i++)
             {
-                Event ev = FindEvent(evs, events[i].UID);
-                if (ev == null)
+                for (int j = 0; j < remoteEvents.Count; j++)
                 {
-                    if (!events[i].Deleted)
-                        AddEvent(events[i]);
-                }
-                else
-                {
-                    if (events[i].Deleted)
-                        DeleteEvent(events[i].UID);
-                    else if (!events[i].Equals(ev))
+                    if (events[i].UID == remoteEvents[j].UID)
                     {
-                        DeleteEvent(events[i].UID);
-                        AddEvent(events[i]);
+                        foundLocal[i] = true;
+                        foundRemote[j] = true;
+
+                        if (events[i].Deleted)
+                            DeleteEvent(events[i].UID);
+                        else if (!events[i].Equals(remoteEvents[j]))
+                        {
+                            if (events[i].Changed >= remoteEvents[j].Changed)
+                            {
+                                DeleteEvent(events[i].UID);
+                                AddEvent(events[i]);
+                            }
+                            else
+                                events[i].Update(remoteEvents[j]);
+                        }
                     }
                 }
             }
-            for (int i = 0; i < evs.Count; i++)
+            for (int i = 0; i < events.Count; i++)
             {
-                Event ev = FindEvent(events, evs[i].UID);
-                if (ev == null)
-                    events.Add(evs[i]);
+                if (!foundLocal[i])
+                    AddEvent(events[i]);
+            }
+            for (int i = 0; i < remoteEvents.Count; i++)
+            {
+                if (!foundRemote[i])
+                    events.Add(remoteEvents[i]);
             }
         }
 
@@ -358,7 +370,7 @@ namespace Timotheus.Schedule
             {
                 i++;
             }
-            return line.Substring(i + 1, line.Length - i - 1);
+            return line.Substring(i + 1, line.Length - i - 1).Trim();
         }
 
         //Conversions
