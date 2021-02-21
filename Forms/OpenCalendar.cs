@@ -43,7 +43,7 @@ namespace Timotheus
 
         private void OpenButton_Click(object sender, EventArgs e)
         {
-            /*try
+            try
             {
                 if (CalDAVButton.Checked)
                     MainWindow.window.LoadCalendarFromLink(UsernameText.Text, PasswordText.Text, CalDAVText.Text);
@@ -55,12 +55,7 @@ namespace Timotheus
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
-
-            if (CalDAVButton.Checked)
-                MainWindow.window.LoadCalendarFromLink(UsernameText.Text, PasswordText.Text, CalDAVText.Text);
-            else
-                MainWindow.window.LoadCalendarFromFile(ICSText.Text);
+            }
 
             Close();
         }

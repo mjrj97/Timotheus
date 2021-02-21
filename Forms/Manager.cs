@@ -27,6 +27,21 @@ namespace Timotheus
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             Year.Text = year.ToString();
             CalendarView.DataSource = new BindingSource(shownEvents, null);
+
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string fullName = Path.Combine(desktopPath, "Data.txt");
+            if (File.Exists(fullName))
+            {
+                StreamReader steamReader = new StreamReader(fullName);
+                string[] content = steamReader.ReadToEnd().Split("\n");
+                steamReader.Close();
+
+                if (content.Length > 2)
+                {
+                    SFTP sftp = new SFTP(content[3].Trim(), content[4].Trim(), content[5].Trim());
+                    sftp.GetListOfFiles(content[6].Trim());
+                }
+            }
         }
 
         public void AddEventToCalendar(Event ev)
