@@ -54,6 +54,7 @@
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.sftpPage = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).BeginInit();
             this.tabControl.SuspendLayout();
             this.calendarPage.SuspendLayout();
@@ -132,6 +133,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.calendarPage);
+            this.tabControl.Controls.Add(this.sftpPage);
             this.tabControl.Controls.Add(this.helpPage);
             this.tabControl.Location = new System.Drawing.Point(2, 3);
             this.tabControl.Name = "tabControl";
@@ -196,7 +198,6 @@
             // 
             this.ExportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ExportButton.Enabled = false;
-
             this.ExportButton.Location = new System.Drawing.Point(684, 378);
             this.ExportButton.Name = "ExportButton";
             this.ExportButton.Size = new System.Drawing.Size(100, 23);
@@ -382,6 +383,15 @@
             this.TrayClose.Text = "Close";
             this.TrayClose.Click += new System.EventHandler(this.Exit);
             // 
+            // sftpPage
+            // 
+            this.sftpPage.Location = new System.Drawing.Point(4, 24);
+            this.sftpPage.Name = "sftpPage";
+            this.sftpPage.Size = new System.Drawing.Size(794, 409);
+            this.sftpPage.TabIndex = 2;
+            this.sftpPage.Text = "SFTP";
+            this.sftpPage.UseVisualStyleBackColor = true;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -437,6 +447,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn LocationColumn;
+        private System.Windows.Forms.TabPage sftpPage;
     }
 }
 

@@ -17,7 +17,6 @@ namespace Timotheus.Forms
 
         private int year;
         public Calendar calendar = new Calendar();
-
         
         //Constructor
         public MainWindow()
