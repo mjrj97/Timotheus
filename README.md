@@ -13,7 +13,10 @@ The purpose of this project is to create software that can manage a small associ
 - [ ] Small Group Management
 
 ## Libraries
-SSH.NET 2020.0.1
+PdfSharp 1.50.5147</br>
+PDFsharp-MigraDoc 1.50.5147</br>
+SSH.NET 2020.0.1</br>
+System.Text.Encoding.CodePages 5.0.0
 
 ## How to contribute
 You are welcome to contribute to the project!
@@ -35,7 +38,9 @@ Formålet med dette projekt er at udvikle software, der kan behandle en lille fo
 - [ ] Administration af smågrupper
 
 ## Biblioteker
-SSH.NET 2020.0.1
+PdfSharp 1.50.5147</br>
+SSH.NET 2020.0.1</br>
+System.Text.Encoding.CodePages 5.0.0
 
 ## Hvordan man kan bidrage
 Man er velkommen til at bidrage til projektet!

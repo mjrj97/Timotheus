@@ -17,7 +17,7 @@ namespace Timotheus.Forms
 
         private int year;
         public Calendar calendar = new Calendar();
-        
+
         //Constructor
         public MainWindow()
         {
@@ -27,6 +27,12 @@ namespace Timotheus.Forms
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             Year.Text = year.ToString();
             CalendarView.DataSource = new BindingSource(shownEvents, null);
+        }
+
+        public void AddEventToCalendar(Event ev)
+        {
+            calendar.events.Add(ev);
+            UpdateTable();
         }
 
         //Update contents
@@ -55,10 +61,12 @@ namespace Timotheus.Forms
         //Buttons
         private void Add_Click(object sender, EventArgs e)
         {
+
             AddEvent addEvent = new AddEvent
             {
                 Owner = this
             };
+
             addEvent.ShowDialog();
         }
 
@@ -81,6 +89,7 @@ namespace Timotheus.Forms
         private void SaveButton_Click(object sender, EventArgs e)
         {
             Stream stream;
+
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
                 Filter = "iCalendar files (*.ics)|*.ics"
@@ -99,11 +108,24 @@ namespace Timotheus.Forms
 
         private void OpenButton_Click(object sender, EventArgs e)
         {
-            OpenCalendar open = new OpenCalendar
+              OpenCalendar open = new OpenCalendar
             {
                 Owner = this
             };
             open.ShowDialog();
+        }
+
+        private void ExportButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "PDF document (*.pdf)|*.pdf";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                FileInfo file = new FileInfo(saveFileDialog.FileName);
+
+                calendar.ExportPDF(file.DirectoryName, file.Name);
+            }
         }
 
         private void SyncCalendar(object sender, EventArgs e)
