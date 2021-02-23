@@ -8,7 +8,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Net;
 
-namespace Timotheus
+namespace Timotheus.Forms
 {
     public partial class MainWindow : Form
     {
@@ -16,7 +16,7 @@ namespace Timotheus
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
 
         private int year;
-        private Calendar calendar = new Calendar();
+        public Calendar calendar = new Calendar();
         
         //Constructor
         public MainWindow()
@@ -27,12 +27,6 @@ namespace Timotheus
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             Year.Text = year.ToString();
             CalendarView.DataSource = new BindingSource(shownEvents, null);
-        }
-
-        public void AddEventToCalendar(Event ev)
-        {
-            calendar.events.Add(ev);
-            UpdateTable();
         }
 
         //Update contents
@@ -47,7 +41,7 @@ namespace Timotheus
             UpdateTable();
         }
 
-        private void UpdateTable()
+        public void UpdateTable()
         {
             shownEvents.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
@@ -73,8 +67,10 @@ namespace Timotheus
         //Buttons
         private void Add_Click(object sender, EventArgs e)
         {
-            AddEvent addEvent = new AddEvent();
-            addEvent.Owner = this;
+            AddEvent addEvent = new AddEvent
+            {
+                Owner = this
+            };
             addEvent.ShowDialog();
         }
 
@@ -97,9 +93,11 @@ namespace Timotheus
         private void SaveButton_Click(object sender, EventArgs e)
         {
             Stream stream;
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "iCalendar files (*.ics)|*.ics"
+            };
 
-            saveFileDialog.Filter = "iCalendar files (*.ics)|*.ics";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 if ((stream = saveFileDialog.OpenFile()) != null)
@@ -113,27 +111,20 @@ namespace Timotheus
 
         private void OpenButton_Click(object sender, EventArgs e)
         {
-            OpenCalendar open = new OpenCalendar();
-            open.Owner = this;
+            OpenCalendar open = new OpenCalendar
+            {
+                Owner = this
+            };
             open.ShowDialog();
-        }
-
-        private void ExportButton_Click(object sender, EventArgs e)
-        {
-            calendar.ExportPDF(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Program for foråret 2021");
         }
 
         private void SyncCalendar(object sender, EventArgs e)
         {
-            try
+            SyncCalendar sync = new SyncCalendar
             {
-                calendar.Sync();
-                UpdateTable();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Sync error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                Owner = this
+            };
+            sync.ShowDialog();
         }
 
         protected override bool ProcessDialogKey(Keys keyData)

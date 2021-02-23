@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 
-namespace Timotheus
+namespace Timotheus.Forms
 {
     public partial class OpenCalendar : Form
     {
@@ -27,17 +27,17 @@ namespace Timotheus
 
         private void BrowseButton_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            using OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                openFileDialog.Filter = "ics files (*.ics)|*.ics|All files (*.*)|*.*";
-                openFileDialog.FilterIndex = 1;
-                openFileDialog.RestoreDirectory = true;
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Filter = "ics files (*.ics)|*.ics|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = true
+            };
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    ICSText.Text = openFileDialog.FileName;
-                }
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                ICSText.Text = openFileDialog.FileName;
             }
         }
 

@@ -191,11 +191,6 @@ namespace Timotheus.Schedule
             }
         }
 
-        public void ExportPDF(string filePath, string title)
-        {
-            
-        }
-
         //Getters
         public string GetCalendarICS(string name)
         {
