@@ -14,6 +14,7 @@ The purpose of this project is to create software that can manage a small associ
 
 ## Libraries
 PdfSharp 1.50.5147</br>
+PDFsharp-MigraDoc 1.50.5147</br>
 SSH.NET 2020.0.1</br>
 System.Text.Encoding.CodePages 5.0.0
 
