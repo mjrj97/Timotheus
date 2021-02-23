@@ -1,5 +1,4 @@
-﻿
-namespace Timotheus
+﻿namespace Timotheus.Forms
 {
     partial class MainWindow
     {

@@ -8,7 +8,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Net;
 
-namespace Timotheus
+namespace Timotheus.Forms
 {
     public partial class MainWindow : Form
     {
