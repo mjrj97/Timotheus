@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Timotheus.Schedule;
 
 namespace Timotheus.Forms
 {
@@ -27,17 +28,17 @@ namespace Timotheus.Forms
 
         private void BrowseButton_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            using OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                openFileDialog.Filter = "ics files (*.ics)|*.ics|All files (*.*)|*.*";
-                openFileDialog.FilterIndex = 1;
-                openFileDialog.RestoreDirectory = true;
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Filter = "ics files (*.ics)|*.ics|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = true
+            };
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    ICSText.Text = openFileDialog.FileName;
-                }
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                ICSText.Text = openFileDialog.FileName;
             }
         }
 
@@ -46,10 +47,11 @@ namespace Timotheus.Forms
             try
             {
                 if (CalDAVButton.Checked)
-                    MainWindow.window.LoadCalendarFromLink(UsernameText.Text, PasswordText.Text, CalDAVText.Text);
+                    MainWindow.window.calendar = new Calendar(UsernameText.Text, PasswordText.Text, CalDAVText.Text);
                 else
-                    MainWindow.window.LoadCalendarFromFile(ICSText.Text);
+                    MainWindow.window.calendar = new Calendar(ICSText.Text);
 
+                MainWindow.window.UpdateTable();
                 Close();
             }
             catch (Exception ex)

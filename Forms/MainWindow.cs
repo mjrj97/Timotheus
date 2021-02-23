@@ -16,7 +16,8 @@ namespace Timotheus.Forms
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
 
         private int year;
-        private Calendar calendar = new Calendar();
+        public Calendar calendar = new Calendar();
+
         
         //Constructor
         public MainWindow()
@@ -27,27 +28,6 @@ namespace Timotheus.Forms
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             Year.Text = year.ToString();
             CalendarView.DataSource = new BindingSource(shownEvents, null);
-
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string fullName = Path.Combine(desktopPath, "Data.txt");
-            if (File.Exists(fullName))
-            {
-                StreamReader steamReader = new StreamReader(fullName);
-                string[] content = steamReader.ReadToEnd().Split("\n");
-                steamReader.Close();
-
-                if (content.Length > 2)
-                {
-                    SFTP sftp = new SFTP(content[3].Trim(), content[4].Trim(), content[5].Trim());
-                    sftp.GetListOfFiles(content[6].Trim());
-                }
-            }
-        }
-
-        public void AddEventToCalendar(Event ev)
-        {
-            calendar.events.Add(ev);
-            UpdateTable();
         }
 
         //Update contents
@@ -62,7 +42,7 @@ namespace Timotheus.Forms
             UpdateTable();
         }
 
-        private void UpdateTable()
+        public void UpdateTable()
         {
             shownEvents.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
@@ -73,23 +53,13 @@ namespace Timotheus.Forms
             CalendarView.Sort(CalendarView.Columns[0], ListSortDirection.Ascending);
         }
 
-        public void LoadCalendarFromFile(string path)
-        {
-            calendar = new Calendar(path);
-            UpdateTable();
-        }
-
-        public void LoadCalendarFromLink(string username, string password, string url)
-        {
-            calendar = new Calendar(username, password, url);
-            UpdateTable();
-        }
-
         //Buttons
         private void Add_Click(object sender, EventArgs e)
         {
-            AddEvent addEvent = new AddEvent();
-            addEvent.Owner = this;
+            AddEvent addEvent = new AddEvent
+            {
+                Owner = this
+            };
             addEvent.ShowDialog();
         }
 
@@ -112,9 +82,11 @@ namespace Timotheus.Forms
         private void SaveButton_Click(object sender, EventArgs e)
         {
             Stream stream;
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "iCalendar files (*.ics)|*.ics"
+            };
 
-            saveFileDialog.Filter = "iCalendar files (*.ics)|*.ics";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 if ((stream = saveFileDialog.OpenFile()) != null)
@@ -128,27 +100,20 @@ namespace Timotheus.Forms
 
         private void OpenButton_Click(object sender, EventArgs e)
         {
-            OpenCalendar open = new OpenCalendar();
-            open.Owner = this;
+            OpenCalendar open = new OpenCalendar
+            {
+                Owner = this
+            };
             open.ShowDialog();
-        }
-
-        private void ExportButton_Click(object sender, EventArgs e)
-        {
-            calendar.ExportPDF(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Program for foråret 2021");
         }
 
         private void SyncCalendar(object sender, EventArgs e)
         {
-            try
+            SyncCalendar sync = new SyncCalendar
             {
-                calendar.Sync();
-                UpdateTable();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Sync error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                Owner = this
+            };
+            sync.ShowDialog();
         }
 
         protected override bool ProcessDialogKey(Keys keyData)

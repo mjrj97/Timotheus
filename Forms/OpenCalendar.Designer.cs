@@ -1,4 +1,4 @@
-﻿namespace Timotheus.Forms
+namespace Timotheus.Forms
 {
     partial class OpenCalendar
     {
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OpenCalendar));
             this.CloseButton = new System.Windows.Forms.Button();
             this.ICSButton = new System.Windows.Forms.RadioButton();
             this.CalDAVButton = new System.Windows.Forms.RadioButton();
@@ -162,6 +163,7 @@
             this.Controls.Add(this.ICSButton);
             this.Controls.Add(this.CloseButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "OpenCalendar";
@@ -185,6 +187,5 @@
         private System.Windows.Forms.Label UsernameLabel;
         private System.Windows.Forms.TextBox PasswordText;
         private System.Windows.Forms.Label PasswordLabel;
-        private System.Windows.Forms.TextBox U;
     }
 }
