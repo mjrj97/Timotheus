@@ -1,4 +1,3 @@
-﻿
 namespace Timotheus.Forms
 {
     partial class OpenCalendar

@@ -196,6 +196,7 @@
             // 
             this.ExportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ExportButton.Enabled = false;
+
             this.ExportButton.Location = new System.Drawing.Point(684, 378);
             this.ExportButton.Name = "ExportButton";
             this.ExportButton.Size = new System.Drawing.Size(100, 23);
