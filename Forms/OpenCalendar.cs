@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Timotheus
+namespace Timotheus.Forms
 {
     public partial class OpenCalendar : Form
     {

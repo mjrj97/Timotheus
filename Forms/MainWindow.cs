@@ -2,13 +2,12 @@
 using Timotheus.Utility;
 using System;
 using System.Text;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Timotheus
+namespace Timotheus.Forms
 {
     public partial class MainWindow : Form
     {
