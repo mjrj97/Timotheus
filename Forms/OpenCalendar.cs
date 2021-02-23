@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Timotheus.Schedule;
 
 namespace Timotheus.Forms
 {
@@ -46,10 +47,11 @@ namespace Timotheus.Forms
             try
             {
                 if (CalDAVButton.Checked)
-                    MainWindow.window.LoadCalendarFromLink(UsernameText.Text, PasswordText.Text, CalDAVText.Text);
+                    MainWindow.window.calendar = new Calendar(UsernameText.Text, PasswordText.Text, CalDAVText.Text);
                 else
-                    MainWindow.window.LoadCalendarFromFile(ICSText.Text);
+                    MainWindow.window.calendar = new Calendar(ICSText.Text);
 
+                MainWindow.window.UpdateTable();
                 Close();
             }
             catch (Exception ex)

@@ -52,18 +52,6 @@ namespace Timotheus.Forms
             CalendarView.Sort(CalendarView.Columns[0], ListSortDirection.Ascending);
         }
 
-        public void LoadCalendarFromFile(string path)
-        {
-            calendar = new Calendar(path);
-            UpdateTable();
-        }
-
-        public void LoadCalendarFromLink(string username, string password, string url)
-        {
-            calendar = new Calendar(username, password, url);
-            UpdateTable();
-        }
-
         //Buttons
         private void Add_Click(object sender, EventArgs e)
         {

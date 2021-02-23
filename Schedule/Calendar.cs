@@ -31,6 +31,7 @@ namespace Timotheus.Schedule
         }
         public Calendar()
         {
+            url = string.Empty;
             timezone = GenerateTimeZone();
             version = "2.0";
             prodid = "Calendar";
@@ -320,6 +321,11 @@ namespace Timotheus.Schedule
             "TZOFFSETTO:+0100\n" +
             "END:STANDARD\n" +
             "END:VTIMEZONE";
+        }
+
+        public bool IsSetup()
+        {
+            return url != string.Empty;
         }
 
         //HTTP Request
