@@ -76,6 +76,9 @@ namespace Timotheus.Schedule
 
             List<Event> events = new List<Event>();
 
+
+
+
             for (int i = 0; i < lines.Length; i++)
             {
                 if (timeZoneStart == 0)
@@ -123,7 +126,7 @@ namespace Timotheus.Schedule
                     if (lines[i].Contains("END:VEVENT"))
                     {
                         events.Add(new Event(tempStartTime, tempEndTime, tempCreated, tempName, tempDescription, tempLocation, tempUID));
-                        
+
                         tempName = String.Empty;
                         tempDescription = String.Empty;
                         tempLocation = String.Empty;
@@ -171,37 +174,47 @@ namespace Timotheus.Schedule
             //Defines encoding 1252
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-                // Create an invoice form with the sample invoice data.
-                var PDF = new PDFcreater(title,events);
+            // Create an invoice form with the sample invoice data.
+            var PDF = new PDFcreater(title, events);
 
-                // Create the document using MigraDoc.
-                var document = PDF.CreateDocument();
-                document.UseCmykColor = false;
+            // Create the document using MigraDoc.
+            var document = PDF.CreateDocument();
+            document.UseCmykColor = false;
 
 
 
-                // Create a renderer for PDF that uses Unicode font encoding.
-                var pdfRenderer = new PdfDocumentRenderer(true);
+            // Create a renderer for PDF that uses Unicode font encoding.
+            var pdfRenderer = new PdfDocumentRenderer(true);
 
-                // Set the MigraDoc document.
-                pdfRenderer.Document = document;
+            // Set the MigraDoc document.
+            pdfRenderer.Document = document;
 
-                // Create the PDF document.
-                pdfRenderer.RenderDocument();
+            // Create the PDF document.
+            pdfRenderer.RenderDocument();
 
-                // Save the PDF document...
-                var filename = $"{filePath}\\{title}.pdf";
+            // Save the PDF document...
+            var filename = $"{filePath}\\{title}";
 
+            try
+            {
                 pdfRenderer.Save(filename);
-                // ...and start a viewer.
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Saving error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
-         
+      
+
+            // ...and start a viewer.
+
+
 
 
         }
 
 
-       
+
 
         //Getters
         public string GetCalendarICS(string name)
@@ -418,7 +431,7 @@ namespace Timotheus.Schedule
             if (date.Length == 8)
                 return new DateTime(int.Parse(date.Substring(0, 4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), 0, 0, 0);
             else
-                return new DateTime(int.Parse(date.Substring(0,4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), int.Parse(date.Substring(9, 2)), int.Parse(date.Substring(11, 2)), int.Parse(date.Substring(13, 2)));
+                return new DateTime(int.Parse(date.Substring(0, 4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), int.Parse(date.Substring(9, 2)), int.Parse(date.Substring(11, 2)), int.Parse(date.Substring(13, 2)));
         }
 
         public static string ConvertFromCALString(string text)
@@ -428,7 +441,7 @@ namespace Timotheus.Schedule
 
         public static string ConvertToCALString(string text)
         {
-            return text.Replace("\n", "\\n").Replace("\r","").Replace(",", "\\,");
+            return text.Replace("\n", "\\n").Replace("\r", "").Replace(",", "\\,");
         }
     }
 }

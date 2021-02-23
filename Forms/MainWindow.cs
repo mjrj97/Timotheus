@@ -115,7 +115,16 @@ namespace Timotheus.Forms
 
         private void ExportButton_Click(object sender, EventArgs e)
         {
-            calendar.ExportPDF(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Program for foråret 2021");
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "PDF document (*.pdf)|*.pdf";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                FileInfo file = new FileInfo(saveFileDialog.FileName);
+
+                calendar.ExportPDF(file.DirectoryName, file.Name);
+            }
+           
         }
 
         private void SyncCalendar(object sender, EventArgs e)
