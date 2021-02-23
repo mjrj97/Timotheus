@@ -6,9 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-
 using System.Net;
-
 
 namespace Timotheus.Forms
 {
@@ -18,7 +16,6 @@ namespace Timotheus.Forms
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
 
         private int year;
-
         public Calendar calendar = new Calendar();
 
         //Constructor
@@ -50,7 +47,6 @@ namespace Timotheus.Forms
             UpdateTable();
         }
 
-
         //Update contents
         private void UpdateYear(object sender, EventArgs e)
         {
@@ -62,7 +58,6 @@ namespace Timotheus.Forms
             Year.Text = year.ToString();
             UpdateTable();
         }
-
 
         public void UpdateTable()
         {
@@ -125,7 +120,6 @@ namespace Timotheus.Forms
 
         private void OpenButton_Click(object sender, EventArgs e)
         {
-
               OpenCalendar open = new OpenCalendar
             {
                 Owner = this
@@ -144,13 +138,10 @@ namespace Timotheus.Forms
 
                 calendar.ExportPDF(file.DirectoryName, file.Name);
             }
-           
-
         }
 
         private void SyncCalendar(object sender, EventArgs e)
         {
-
             SyncCalendar sync = new SyncCalendar
             {
                 Owner = this
