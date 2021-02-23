@@ -67,6 +67,24 @@ namespace Timotheus.Forms
             Close();
         }
 
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            if (ModifierKeys == Keys.None)
+            {
+                if (keyData == Keys.Enter)
+                {
+                    OpenButton_Click(null, null);
+                    return true;
+                }
+                else if (keyData == Keys.Escape)
+                {
+                    CloseButton_Click(null, null);
+                    return true;
+                }
+            }
+            return base.ProcessDialogKey(keyData);
+        }
+
         private void CalDAVButton_CheckedChanged(object sender, EventArgs e)
         {
             if (CalDAVButton.Checked)

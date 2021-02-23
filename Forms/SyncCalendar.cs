@@ -65,6 +65,24 @@ namespace Timotheus.Forms
             Close();
         }
 
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            if (ModifierKeys == Keys.None)
+            {
+                if (keyData == Keys.Enter)
+                {
+                    Sync(null, null);
+                    return true;
+                }
+                else if (keyData == Keys.Escape)
+                {
+                    Close(null, null);
+                    return true;
+                }
+            }
+            return base.ProcessDialogKey(keyData);
+        }
+
         private void NewCalendarButton_CheckedChanged(object sender, EventArgs e)
         {
             if (NewCalendarButton.Checked)
