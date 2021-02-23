@@ -195,13 +195,18 @@
             // ExportButton
             // 
             this.ExportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+
+            this.ExportButton.Enabled = false;
+
             this.ExportButton.Location = new System.Drawing.Point(684, 378);
             this.ExportButton.Name = "ExportButton";
             this.ExportButton.Size = new System.Drawing.Size(100, 23);
             this.ExportButton.TabIndex = 6;
             this.ExportButton.Text = "Export PDF";
             this.ExportButton.UseVisualStyleBackColor = true;
+
             this.ExportButton.Click += new System.EventHandler(this.ExportButton_Click);
+
             // 
             // RemoveButton
             // 
@@ -409,6 +414,7 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage calendarPage;
         private System.Windows.Forms.TabPage helpPage;
+
         private System.Windows.Forms.Button AddYear;
         private System.Windows.Forms.Button SubtractYear;
         private System.Windows.Forms.TextBox Year;
@@ -418,6 +424,9 @@
         private System.Windows.Forms.Button exportButton;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button openButton;
+
+        
+
         private System.Windows.Forms.NotifyIcon TrayIcon;
         private System.Windows.Forms.ContextMenuStrip TrayContextMenu;
         private System.Windows.Forms.ToolStripMenuItem TrayOpen;

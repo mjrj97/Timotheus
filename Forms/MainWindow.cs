@@ -7,6 +7,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
+using System.Net;
+
+
 namespace Timotheus.Forms
 {
     public partial class MainWindow : Form
@@ -15,14 +18,16 @@ namespace Timotheus.Forms
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
 
         private int year;
-        private readonly Calendar calendar;
-        
+
+        public Calendar calendar = new Calendar();
+
         //Constructor
         public MainWindow()
         {
             window = this;
             year = DateTime.Now.Year;
             InitializeComponent();
+
             Year.Text = year.ToString();
 
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -30,6 +35,9 @@ namespace Timotheus.Forms
             StreamReader steamReader = new StreamReader(fullName);
             string[] content = steamReader.ReadToEnd().Split("\n");
             steamReader.Close();
+            
+             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            
             
             calendar = new Calendar(content[0].Trim(), content[1].Trim(), content[2].Trim());
             UpdateTable();
@@ -41,6 +49,7 @@ namespace Timotheus.Forms
             calendar.events.Add(ev);
             UpdateTable();
         }
+
 
         //Update contents
         private void UpdateYear(object sender, EventArgs e)
@@ -54,7 +63,8 @@ namespace Timotheus.Forms
             UpdateTable();
         }
 
-        private void UpdateTable()
+
+        public void UpdateTable()
         {
             shownEvents.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
@@ -68,8 +78,12 @@ namespace Timotheus.Forms
         //Buttons
         private void Add_Click(object sender, EventArgs e)
         {
-            AddEvent addEvent = new AddEvent();
-            addEvent.Owner = this;
+
+            AddEvent addEvent = new AddEvent
+            {
+                Owner = this
+            };
+
             addEvent.ShowDialog();
         }
 
@@ -92,9 +106,12 @@ namespace Timotheus.Forms
         private void SaveButton_Click(object sender, EventArgs e)
         {
             Stream stream;
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-            saveFileDialog.Filter = "iCalendar files (*.ics)|*.ics";
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "iCalendar files (*.ics)|*.ics"
+            };
+
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 if ((stream = saveFileDialog.OpenFile()) != null)
@@ -108,8 +125,11 @@ namespace Timotheus.Forms
 
         private void OpenButton_Click(object sender, EventArgs e)
         {
-            OpenCalendar open = new OpenCalendar();
-            open.Owner = this;
+
+              OpenCalendar open = new OpenCalendar
+            {
+                Owner = this
+            };
             open.ShowDialog();
         }
 
@@ -125,11 +145,18 @@ namespace Timotheus.Forms
                 calendar.ExportPDF(file.DirectoryName, file.Name);
             }
            
+
         }
 
         private void SyncCalendar(object sender, EventArgs e)
         {
-            calendar.Sync();
+
+            SyncCalendar sync = new SyncCalendar
+            {
+                Owner = this
+            };
+            sync.ShowDialog();
+
         }
 
         protected override bool ProcessDialogKey(Keys keyData)
