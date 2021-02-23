@@ -3,14 +3,10 @@ using System.Globalization;
 using System.Collections.Generic;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
-using MigraDoc.DocumentObjectModel.Shapes;
-using System.Diagnostics;
 using Timotheus.Schedule;
-
 
 namespace Timotheus.Utility.PDFcreater
 {
-
     /// <summary>
     /// Creates the invoice form.
     /// </summary>
@@ -37,7 +33,6 @@ namespace Timotheus.Utility.PDFcreater
         List<Event> _Events;
 
         readonly static Color White = new Color(255, 255, 255);
-      
 
         /// <summary>
         /// Initializes a new instance of the class PDFcreater and opens the specified XML document.

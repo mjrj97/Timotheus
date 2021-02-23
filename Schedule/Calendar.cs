@@ -5,11 +5,9 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Timotheus.Utility.PDFcreater;
-
-
+using MigraDoc.Rendering;
 
 namespace Timotheus.Schedule
 {
@@ -79,9 +77,6 @@ namespace Timotheus.Schedule
             int timeZoneEnd = 0;
 
             List<Event> events = new List<Event>();
-
-
-
 
             for (int i = 0; i < lines.Length; i++)
             {
@@ -212,8 +207,6 @@ namespace Timotheus.Schedule
             var document = PDF.CreateDocument();
             document.UseCmykColor = false;
 
-
-
             // Create a renderer for PDF that uses Unicode font encoding.
             var pdfRenderer = new PdfDocumentRenderer(true);
 
@@ -235,17 +228,8 @@ namespace Timotheus.Schedule
                 MessageBox.Show(e.Message, "Saving error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-      
-
             // ...and start a viewer.
-
-
-
-
         }
-
-
-
 
         //Getters
         public string GetCalendarICS(string name)
