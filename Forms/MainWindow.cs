@@ -24,20 +24,8 @@ namespace Timotheus.Forms
             window = this;
             year = DateTime.Now.Year;
             InitializeComponent();
-
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             Year.Text = year.ToString();
-
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string fullName = Path.Combine(desktopPath, "Data.txt");
-            StreamReader steamReader = new StreamReader(fullName);
-            string[] content = steamReader.ReadToEnd().Split("\n");
-            steamReader.Close();
-            
-             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            
-            
-            calendar = new Calendar(content[0].Trim(), content[1].Trim(), content[2].Trim());
-            UpdateTable();
             CalendarView.DataSource = new BindingSource(shownEvents, null);
         }
 
@@ -147,7 +135,6 @@ namespace Timotheus.Forms
                 Owner = this
             };
             sync.ShowDialog();
-
         }
 
         protected override bool ProcessDialogKey(Keys keyData)
