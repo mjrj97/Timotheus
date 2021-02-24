@@ -41,6 +41,13 @@
             this.Year = new System.Windows.Forms.TextBox();
             this.AddYearButton = new System.Windows.Forms.Button();
             this.SubtractYearButton = new System.Windows.Forms.Button();
+            this.memberPage = new System.Windows.Forms.TabPage();
+            this.AddMemberYearButton = new System.Windows.Forms.Button();
+            this.YearMemberBox = new System.Windows.Forms.TextBox();
+            this.SubtractMemberYearButton = new System.Windows.Forms.Button();
+            this.RemovePersonButton = new System.Windows.Forms.Button();
+            this.AddPersonButton = new System.Windows.Forms.Button();
+            this.MemberTableView = new System.Windows.Forms.DataGridView();
             this.helpPage = new System.Windows.Forms.TabPage();
             this.EmailLink = new System.Windows.Forms.LinkLabel();
             this.EmailLabel = new System.Windows.Forms.Label();
@@ -57,6 +64,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).BeginInit();
             this.tabControl.SuspendLayout();
             this.calendarPage.SuspendLayout();
+            this.memberPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MemberTableView)).BeginInit();
             this.helpPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).BeginInit();
             this.TrayContextMenu.SuspendLayout();
@@ -132,6 +141,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.calendarPage);
+            this.tabControl.Controls.Add(this.memberPage);
             this.tabControl.Controls.Add(this.helpPage);
             this.tabControl.Location = new System.Drawing.Point(2, 3);
             this.tabControl.Name = "tabControl";
@@ -255,6 +265,79 @@
             this.SubtractYearButton.Text = "-";
             this.SubtractYearButton.UseVisualStyleBackColor = true;
             this.SubtractYearButton.Click += new System.EventHandler(this.UpdateYear);
+            // 
+            // memberPage
+            // 
+            this.memberPage.Controls.Add(this.AddMemberYearButton);
+            this.memberPage.Controls.Add(this.YearMemberBox);
+            this.memberPage.Controls.Add(this.SubtractMemberYearButton);
+            this.memberPage.Controls.Add(this.RemovePersonButton);
+            this.memberPage.Controls.Add(this.AddPersonButton);
+            this.memberPage.Controls.Add(this.MemberTableView);
+            this.memberPage.Location = new System.Drawing.Point(4, 24);
+            this.memberPage.Name = "memberPage";
+            this.memberPage.Size = new System.Drawing.Size(794, 409);
+            this.memberPage.TabIndex = 2;
+            this.memberPage.Text = "Members";
+            this.memberPage.UseVisualStyleBackColor = true;
+            // 
+            // AddMemberYearButton
+            // 
+            this.AddMemberYearButton.Location = new System.Drawing.Point(143, 10);
+            this.AddMemberYearButton.Name = "AddMemberYearButton";
+            this.AddMemberYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.AddMemberYearButton.Size = new System.Drawing.Size(23, 23);
+            this.AddMemberYearButton.TabIndex = 9;
+            this.AddMemberYearButton.Text = "+";
+            this.AddMemberYearButton.UseVisualStyleBackColor = true;
+            // 
+            // YearMemberBox
+            // 
+            this.YearMemberBox.Location = new System.Drawing.Point(38, 10);
+            this.YearMemberBox.Name = "YearMemberBox";
+            this.YearMemberBox.Size = new System.Drawing.Size(100, 23);
+            this.YearMemberBox.TabIndex = 8;
+            this.YearMemberBox.Text = "2020";
+            this.YearMemberBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // SubtractMemberYearButton
+            // 
+            this.SubtractMemberYearButton.Location = new System.Drawing.Point(10, 10);
+            this.SubtractMemberYearButton.Name = "SubtractMemberYearButton";
+            this.SubtractMemberYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.SubtractMemberYearButton.Size = new System.Drawing.Size(23, 23);
+            this.SubtractMemberYearButton.TabIndex = 7;
+            this.SubtractMemberYearButton.Text = "-";
+            this.SubtractMemberYearButton.UseVisualStyleBackColor = true;
+            // 
+            // RemovePersonButton
+            // 
+            this.RemovePersonButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.RemovePersonButton.Location = new System.Drawing.Point(91, 379);
+            this.RemovePersonButton.Name = "RemovePersonButton";
+            this.RemovePersonButton.Size = new System.Drawing.Size(75, 23);
+            this.RemovePersonButton.TabIndex = 6;
+            this.RemovePersonButton.Text = "Remove";
+            this.RemovePersonButton.UseVisualStyleBackColor = true;
+            // 
+            // AddPersonButton
+            // 
+            this.AddPersonButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AddPersonButton.Location = new System.Drawing.Point(10, 378);
+            this.AddPersonButton.Name = "AddPersonButton";
+            this.AddPersonButton.Size = new System.Drawing.Size(75, 23);
+            this.AddPersonButton.TabIndex = 5;
+            this.AddPersonButton.Text = "Add";
+            this.AddPersonButton.UseVisualStyleBackColor = true;
+            // 
+            // MemberTableView
+            // 
+            this.MemberTableView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.MemberTableView.Location = new System.Drawing.Point(10, 43);
+            this.MemberTableView.Name = "MemberTableView";
+            this.MemberTableView.RowTemplate.Height = 25;
+            this.MemberTableView.Size = new System.Drawing.Size(774, 324);
+            this.MemberTableView.TabIndex = 0;
             // 
             // helpPage
             // 
@@ -396,6 +479,9 @@
             this.tabControl.ResumeLayout(false);
             this.calendarPage.ResumeLayout(false);
             this.calendarPage.PerformLayout();
+            this.memberPage.ResumeLayout(false);
+            this.memberPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MemberTableView)).EndInit();
             this.helpPage.ResumeLayout(false);
             this.helpPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).EndInit();
@@ -436,6 +522,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn LocationColumn;
+        private System.Windows.Forms.TabPage memberPage;
+        private System.Windows.Forms.DataGridView MemberTableView;
+        private System.Windows.Forms.Button AddPersonButton;
+        private System.Windows.Forms.Button RemovePersonButton;
+        private System.Windows.Forms.Button SubtractMemberYearButton;
+        private System.Windows.Forms.Button AddMemberYearButton;
+        private System.Windows.Forms.TextBox YearMemberBox;
     }
 }
 
