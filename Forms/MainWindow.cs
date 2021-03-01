@@ -151,12 +151,10 @@ namespace Timotheus.Forms
         //Opens dialog so the user can chose the local directory SFTP should use.
         private void BrowseLocalDirectory(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog openFolderDialog = new FolderBrowserDialog())
+            using FolderBrowserDialog openFolderDialog = new FolderBrowserDialog();
+            if (openFolderDialog.ShowDialog() == DialogResult.OK)
             {
-                if (openFolderDialog.ShowDialog() == DialogResult.OK)
-                {
-                    LocalDirectoryBox.Text = openFolderDialog.SelectedPath;
-                }
+                LocalDirectoryBox.Text = openFolderDialog.SelectedPath;
             }
         }
 

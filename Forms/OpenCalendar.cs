@@ -7,6 +7,7 @@ namespace Timotheus.Forms
 {
     public partial class OpenCalendar : Form
     {
+        //Constructor
         public OpenCalendar()
         {
             InitializeComponent();
@@ -29,7 +30,8 @@ namespace Timotheus.Forms
             }
         }
 
-        private void BrowseButton_Click(object sender, EventArgs e)
+        //Opens dialog where the user can find a .ics file
+        private void BrowseLocalDirectories(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -45,7 +47,8 @@ namespace Timotheus.Forms
             }
         }
 
-        private void OpenButton_Click(object sender, EventArgs e)
+        //Loads the calendar from a .ics file or CalDAV link
+        private void LoadCalendar(object sender, EventArgs e)
         {
             try
             {
@@ -65,11 +68,13 @@ namespace Timotheus.Forms
             Close();
         }
 
-        private void CloseButton_Click(object sender, EventArgs e)
+        //Close the dialog without loading a calendar
+        private void CloseDialog(object sender, EventArgs e)
         {
             Close();
         }
 
+        //Enables or disables relevant UI when the radio buttons are checked
         private void CalDAVButton_CheckedChanged(object sender, EventArgs e)
         {
             if (CalDAVButton.Checked)

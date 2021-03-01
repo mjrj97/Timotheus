@@ -6,6 +6,7 @@ namespace Timotheus.Forms
 {
     public partial class SyncCalendar : Form
     {
+        //Constructor
         public SyncCalendar()
         {
             InitializeComponent();
@@ -44,6 +45,7 @@ namespace Timotheus.Forms
             }
         }
 
+        //Syncs the calendar using selected settings
         private void Sync(object sender, EventArgs e)
         {
             if (NewCalendarButton.Checked)
@@ -63,11 +65,13 @@ namespace Timotheus.Forms
             }
         }
 
+        //Closes the dialog without syncing
         private void Close(object sender, EventArgs e)
         {
             Close();
         }
 
+        //Enables or disables relevant UI when the radio buttons are checked
         private void NewCalendarButton_CheckedChanged(object sender, EventArgs e)
         {
             if (NewCalendarButton.Checked)

@@ -39,6 +39,7 @@ namespace Timotheus.Schedule
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string UID) : this(StartTime, EndTime, DateTime.Now, Name, Description, null, UID) { }
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description) : this(StartTime, EndTime, DateTime.Now, Name, Description, null, null) { }
 
+        //Generates an unique ID for the event to be used on the remote calendar.
         public static string GenerateUID()
         {
             byte[] data = new byte[16];
@@ -49,6 +50,7 @@ namespace Timotheus.Schedule
             return UID;
         }
 
+        //Updates the variables of this event with the variables of a separate event ev.
         public void Update(Event ev)
         {
             if (UID == ev.UID)
@@ -62,11 +64,7 @@ namespace Timotheus.Schedule
             }
         }
 
-        public Event Copy()
-        {
-            return new Event(StartTime, EndTime, Created, Name, Description, Location, UID);
-        }
-
+        //Checks if another object has the same values as this.
         public override bool Equals(object obj)
         {
             bool equals = false;
@@ -78,6 +76,7 @@ namespace Timotheus.Schedule
             return equals;
         }
 
+        //Returns the hash code of this.
         public override int GetHashCode()
         {
             return base.GetHashCode();

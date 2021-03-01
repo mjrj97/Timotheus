@@ -37,7 +37,7 @@ namespace Timotheus.Schedule
             prodid = "Calendar";
         }
 
-        //Setters
+        //Add an event on the remote calendar
         public void AddEvent(Event ev)
         {
             string request =
@@ -51,11 +51,13 @@ namespace Timotheus.Schedule
             HttpRequest(url + ev.UID + ".ics", credentials, "PUT", Encoding.UTF8.GetBytes(request));
         }
 
+        //Removes an event on the remote calendar
         public void DeleteEvent(string ID)
         {
             HttpRequest(url + ID + ".ics", credentials, "DELETE");
         }
 
+        //Loads events from a calendar ics string
         public List<Event> LoadFromLines(string[] lines)
         {
             string tempTimeZone = String.Empty;
@@ -141,6 +143,7 @@ namespace Timotheus.Schedule
             return events;
         }
 
+        //Sets up the calendar for syncing with a remote calendar
         public void SetupSync(string username, string password, string url)
         {
             this.url = url;
@@ -150,6 +153,7 @@ namespace Timotheus.Schedule
             client.DefaultRequestHeaders.Add("Accept-charset", "UTF-8");
         }
 
+        //Syncs the calendar with a remote calendar server
         public void Sync()
         {
             List<Event> remoteEvents = LoadFromLines(HttpRequest(url, credentials));
@@ -192,7 +196,7 @@ namespace Timotheus.Schedule
             }
         }
 
-        //Getters
+        //Returns a calendars iCal equivalent string
         public string GetCalendarICS(string name)
         {
             string ics = "BEGIN:VCALENDAR\nVERSION:" + version +
@@ -208,6 +212,7 @@ namespace Timotheus.Schedule
             return ics;
         }
 
+        //Returns a events iCal equivalent string
         public static string GetEventICS(Event ev)
         {
             string evString = "BEGIN:VEVENT\n" +
@@ -232,18 +237,7 @@ namespace Timotheus.Schedule
             return evString;
         }
 
-        public static Event FindEvent(List<Event> events, string UID)
-        {
-            for (int i = 0; i < events.Count; i++)
-            {
-                if (events[i].UID.Equals(UID))
-                {
-                    return events[i];
-                }
-            }
-            return null;
-        }
-
+        //Returns a iCal timezone
         public string GenerateTimeZone()
         {
             return "BEGIN:VTIMEZONE\n" +
@@ -323,12 +317,13 @@ namespace Timotheus.Schedule
             "END:VTIMEZONE";
         }
 
+        //Checks if the calendar has a URL
         public bool IsSetup()
         {
             return url != string.Empty;
         }
 
-        //HTTP Request
+        //Sends a HTTP request to a URL
         public static string[] HttpRequest(string url, NetworkCredential credentials, string method, byte[] data)
         {
             WebRequest request = WebRequest.Create(url);
@@ -363,7 +358,7 @@ namespace Timotheus.Schedule
             return HttpRequest(url, credentials, null, null);
         }
 
-        //Get value after colon
+        //Returns text after the last colon in a string
         private string GetValue(string line)
         {
             int i = 0;
@@ -374,17 +369,19 @@ namespace Timotheus.Schedule
             return line.Substring(i + 1, line.Length - i - 1).Trim();
         }
 
-        //Conversions
+        //Converts a DateTime object to a iCal date and time
         public static string DateTimeToString(DateTime date)
         {
             return date.Year.ToString("D4") + date.Month.ToString("D2") + date.Day.ToString("D2") + "T" + date.Hour.ToString("D2") + date.Minute.ToString("D2") + date.Second.ToString("D2");
         }
 
+        //Converts a DateTime object to a iCal date
         public static string DateToString(DateTime date)
         {
             return date.Year.ToString("D4") + date.Month.ToString("D2") + date.Day.ToString("D2");
         }
 
+        //Converts a iCal date and time to a DateTime object
         public static DateTime StringToDate(string date)
         {
             if (date.Length == 8)
@@ -393,11 +390,13 @@ namespace Timotheus.Schedule
                 return new DateTime(int.Parse(date.Substring(0,4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), int.Parse(date.Substring(9, 2)), int.Parse(date.Substring(11, 2)), int.Parse(date.Substring(13, 2)));
         }
 
+        //Converts a line from iCal to C# compatible string
         public static string ConvertFromCALString(string text)
         {
             return text.Replace("\\n", "\r\n").Replace("\\,", ",");
         }
 
+        //Converts a string to a iCal compatible string
         public static string ConvertToCALString(string text)
         {
             return text.Replace("\n", "\\n").Replace("\r","").Replace(",", "\\,");

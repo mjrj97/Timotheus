@@ -149,7 +149,7 @@
             this.Add.TabIndex = 7;
             this.Add.Text = "Add";
             this.Add.UseVisualStyleBackColor = true;
-            this.Add.Click += new System.EventHandler(this.Add_Click);
+            this.Add.Click += new System.EventHandler(this.AddButton);
             // 
             // Cancel
             // 
@@ -159,7 +159,7 @@
             this.Cancel.TabIndex = 8;
             this.Cancel.Text = "Cancel";
             this.Cancel.UseVisualStyleBackColor = true;
-            this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
+            this.Cancel.Click += new System.EventHandler(this.CloseButton);
             // 
             // AllDayBox
             // 

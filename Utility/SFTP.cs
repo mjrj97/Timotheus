@@ -11,11 +11,13 @@ namespace Timotheus.Utility
     {
         private readonly SftpClient sftp;
 
+        //Constructor
         public SFTP(string host, string username, string password)
         {
             sftp = new SftpClient(host, username, password);
         }
 
+        //Returns a list of all files in remote directory
         public List<SftpFile> GetListOfFiles(string remoteDirectory)
         {
             List<SftpFile> files = new List<SftpFile>();
@@ -39,6 +41,7 @@ namespace Timotheus.Utility
             return files;
         }
 
+        //Downloads a file from remote directory to a local directory
         public void DownloadFile(string remotePath, string localPath)
         {
             try
@@ -58,6 +61,7 @@ namespace Timotheus.Utility
             }
         }
 
+        //Uploads a file from the local directory to the remote directory
         public void UploadFile(string remotePath, string localPath)
         {
             try
@@ -77,6 +81,7 @@ namespace Timotheus.Utility
             }
         }
 
+        //Deletes file on remote directory
         public void DeleteFile(string remotePath)
         {
             try

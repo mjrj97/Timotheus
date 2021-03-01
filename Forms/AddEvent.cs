@@ -20,8 +20,8 @@ namespace Timotheus.Forms
             EndTimePicker.Value = end;
         }
 
-        //Buttons
-        private void Add_Click(object sender, EventArgs e)
+        //Adds event to the current calendar in MainWindow
+        private void AddButton(object sender, EventArgs e)
         {
             int hour = 0;
             int minute = 0;
@@ -39,15 +39,15 @@ namespace Timotheus.Forms
 
                 if (!AllDayBox.Checked)
                 {
-                    hour = Int32.Parse(startTime.Substring(0, -3 + startTime.Length));
-                    minute = Int32.Parse(startTime.Substring(-2 + startTime.Length, 2));
+                    hour = int.Parse(startTime.Substring(0, -3 + startTime.Length));
+                    minute = int.Parse(startTime.Substring(-2 + startTime.Length, 2));
                 }
                 start = new DateTime(StartTimePicker.Value.Year, StartTimePicker.Value.Month, StartTimePicker.Value.Day, hour, minute, 0);
 
                 if (!AllDayBox.Checked)
                 {
-                    hour = Int32.Parse(endTime.Substring(0, -3 + endTime.Length));
-                    minute = Int32.Parse(endTime.Substring(-2 + endTime.Length, 2));
+                    hour = int.Parse(endTime.Substring(0, -3 + endTime.Length));
+                    minute = int.Parse(endTime.Substring(-2 + endTime.Length, 2));
                 }
                 end = new DateTime(EndTimePicker.Value.Year, EndTimePicker.Value.Month, EndTimePicker.Value.Day, hour, minute, 0);
 
@@ -62,29 +62,32 @@ namespace Timotheus.Forms
             }
         }
 
-        private void Cancel_Click(object sender, EventArgs e)
+        //Closes the dialog without adding the event
+        private void CloseButton(object sender, EventArgs e)
         {
             Close();
         }
 
+        //Processes the hotkeys
         protected override bool ProcessDialogKey(Keys keyData)
         {
             if (ModifierKeys == Keys.None)
             {
                 if (keyData == Keys.Escape)
                 {
-                    Close();
+                    CloseButton(null, null);
                     return true;
                 }
                 else if (keyData == Keys.Enter && !DescriptionBox.Focused)
                 {
-                    Add_Click(null, null);
+                    AddButton(null, null);
                     return true;
                 }
             }
             return base.ProcessDialogKey(keyData);
         }
 
+        //Enables and disables the start/end time boxes if the events last all day.
         private void AllDayBox_CheckedChanged(object sender, EventArgs e)
         {
             StartTimeBox.Enabled = !AllDayBox.Checked;
