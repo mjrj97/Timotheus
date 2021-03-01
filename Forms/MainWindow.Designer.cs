@@ -41,6 +41,18 @@
             this.Year = new System.Windows.Forms.TextBox();
             this.AddYearButton = new System.Windows.Forms.Button();
             this.SubtractYearButton = new System.Windows.Forms.Button();
+            this.sftpPage = new System.Windows.Forms.TabPage();
+            this.BrowseButton = new System.Windows.Forms.Button();
+            this.RemoteDirectoryBox = new System.Windows.Forms.TextBox();
+            this.RemoteDirectoryLabel = new System.Windows.Forms.Label();
+            this.LocalDirectoryLabel = new System.Windows.Forms.Label();
+            this.LocalDirectoryBox = new System.Windows.Forms.TextBox();
+            this.PasswordLabel = new System.Windows.Forms.Label();
+            this.PasswordBox = new System.Windows.Forms.TextBox();
+            this.UsernameLabel = new System.Windows.Forms.Label();
+            this.UsernameBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.HostBox = new System.Windows.Forms.TextBox();
             this.helpPage = new System.Windows.Forms.TabPage();
             this.EmailLink = new System.Windows.Forms.LinkLabel();
             this.EmailLabel = new System.Windows.Forms.Label();
@@ -54,10 +66,10 @@
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
-            this.sftpPage = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).BeginInit();
             this.tabControl.SuspendLayout();
             this.calendarPage.SuspendLayout();
+            this.sftpPage.SuspendLayout();
             this.helpPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).BeginInit();
             this.TrayContextMenu.SuspendLayout();
@@ -258,6 +270,117 @@
             this.SubtractYearButton.UseVisualStyleBackColor = true;
             this.SubtractYearButton.Click += new System.EventHandler(this.UpdateYear);
             // 
+            // sftpPage
+            // 
+            this.sftpPage.Controls.Add(this.BrowseButton);
+            this.sftpPage.Controls.Add(this.RemoteDirectoryBox);
+            this.sftpPage.Controls.Add(this.RemoteDirectoryLabel);
+            this.sftpPage.Controls.Add(this.LocalDirectoryLabel);
+            this.sftpPage.Controls.Add(this.LocalDirectoryBox);
+            this.sftpPage.Controls.Add(this.PasswordLabel);
+            this.sftpPage.Controls.Add(this.PasswordBox);
+            this.sftpPage.Controls.Add(this.UsernameLabel);
+            this.sftpPage.Controls.Add(this.UsernameBox);
+            this.sftpPage.Controls.Add(this.label1);
+            this.sftpPage.Controls.Add(this.HostBox);
+            this.sftpPage.Location = new System.Drawing.Point(4, 24);
+            this.sftpPage.Name = "sftpPage";
+            this.sftpPage.Size = new System.Drawing.Size(794, 409);
+            this.sftpPage.TabIndex = 2;
+            this.sftpPage.Text = "SFTP";
+            this.sftpPage.UseVisualStyleBackColor = true;
+            // 
+            // BrowseButton
+            // 
+            this.BrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BrowseButton.Location = new System.Drawing.Point(711, 10);
+            this.BrowseButton.Name = "BrowseButton";
+            this.BrowseButton.Size = new System.Drawing.Size(75, 23);
+            this.BrowseButton.TabIndex = 10;
+            this.BrowseButton.Text = "Browse";
+            this.BrowseButton.UseVisualStyleBackColor = true;
+            this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
+            // 
+            // RemoteDirectoryBox
+            // 
+            this.RemoteDirectoryBox.Location = new System.Drawing.Point(384, 40);
+            this.RemoteDirectoryBox.Name = "RemoteDirectoryBox";
+            this.RemoteDirectoryBox.Size = new System.Drawing.Size(402, 23);
+            this.RemoteDirectoryBox.TabIndex = 9;
+            // 
+            // RemoteDirectoryLabel
+            // 
+            this.RemoteDirectoryLabel.AutoSize = true;
+            this.RemoteDirectoryLabel.Location = new System.Drawing.Point(267, 43);
+            this.RemoteDirectoryLabel.Name = "RemoteDirectoryLabel";
+            this.RemoteDirectoryLabel.Size = new System.Drawing.Size(98, 15);
+            this.RemoteDirectoryLabel.TabIndex = 8;
+            this.RemoteDirectoryLabel.Text = "Remote directory";
+            // 
+            // LocalDirectoryLabel
+            // 
+            this.LocalDirectoryLabel.AutoSize = true;
+            this.LocalDirectoryLabel.Location = new System.Drawing.Point(267, 13);
+            this.LocalDirectoryLabel.Name = "LocalDirectoryLabel";
+            this.LocalDirectoryLabel.Size = new System.Drawing.Size(85, 15);
+            this.LocalDirectoryLabel.TabIndex = 7;
+            this.LocalDirectoryLabel.Text = "Local directory";
+            // 
+            // LocalDirectoryBox
+            // 
+            this.LocalDirectoryBox.Location = new System.Drawing.Point(384, 10);
+            this.LocalDirectoryBox.Name = "LocalDirectoryBox";
+            this.LocalDirectoryBox.Size = new System.Drawing.Size(321, 23);
+            this.LocalDirectoryBox.TabIndex = 6;
+            // 
+            // PasswordLabel
+            // 
+            this.PasswordLabel.AutoSize = true;
+            this.PasswordLabel.Location = new System.Drawing.Point(10, 73);
+            this.PasswordLabel.Name = "PasswordLabel";
+            this.PasswordLabel.Size = new System.Drawing.Size(57, 15);
+            this.PasswordLabel.TabIndex = 5;
+            this.PasswordLabel.Text = "Password";
+            // 
+            // PasswordBox
+            // 
+            this.PasswordBox.Location = new System.Drawing.Point(80, 70);
+            this.PasswordBox.Name = "PasswordBox";
+            this.PasswordBox.Size = new System.Drawing.Size(150, 23);
+            this.PasswordBox.TabIndex = 4;
+            // 
+            // UsernameLabel
+            // 
+            this.UsernameLabel.AutoSize = true;
+            this.UsernameLabel.Location = new System.Drawing.Point(10, 43);
+            this.UsernameLabel.Name = "UsernameLabel";
+            this.UsernameLabel.Size = new System.Drawing.Size(60, 15);
+            this.UsernameLabel.TabIndex = 3;
+            this.UsernameLabel.Text = "Username";
+            // 
+            // UsernameBox
+            // 
+            this.UsernameBox.Location = new System.Drawing.Point(80, 40);
+            this.UsernameBox.Name = "UsernameBox";
+            this.UsernameBox.Size = new System.Drawing.Size(150, 23);
+            this.UsernameBox.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(32, 15);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Host";
+            // 
+            // HostBox
+            // 
+            this.HostBox.Location = new System.Drawing.Point(80, 10);
+            this.HostBox.Name = "HostBox";
+            this.HostBox.Size = new System.Drawing.Size(150, 23);
+            this.HostBox.TabIndex = 0;
+            // 
             // helpPage
             // 
             this.helpPage.Controls.Add(this.EmailLink);
@@ -383,15 +506,6 @@
             this.TrayClose.Text = "Close";
             this.TrayClose.Click += new System.EventHandler(this.Exit);
             // 
-            // sftpPage
-            // 
-            this.sftpPage.Location = new System.Drawing.Point(4, 24);
-            this.sftpPage.Name = "sftpPage";
-            this.sftpPage.Size = new System.Drawing.Size(794, 409);
-            this.sftpPage.TabIndex = 2;
-            this.sftpPage.Text = "SFTP";
-            this.sftpPage.UseVisualStyleBackColor = true;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -407,6 +521,8 @@
             this.tabControl.ResumeLayout(false);
             this.calendarPage.ResumeLayout(false);
             this.calendarPage.PerformLayout();
+            this.sftpPage.ResumeLayout(false);
+            this.sftpPage.PerformLayout();
             this.helpPage.ResumeLayout(false);
             this.helpPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).EndInit();
@@ -448,6 +564,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn LocationColumn;
         private System.Windows.Forms.TabPage sftpPage;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox HostBox;
+        private System.Windows.Forms.TextBox UsernameBox;
+        private System.Windows.Forms.Label PasswordLabel;
+        private System.Windows.Forms.TextBox PasswordBox;
+        private System.Windows.Forms.Label UsernameLabel;
+        private System.Windows.Forms.TextBox RemoteDirectoryBox;
+        private System.Windows.Forms.Label RemoteDirectoryLabel;
+        private System.Windows.Forms.Label LocalDirectoryLabel;
+        private System.Windows.Forms.TextBox LocalDirectoryBox;
+        private System.Windows.Forms.Button BrowseButton;
     }
 }
 

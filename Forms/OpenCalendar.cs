@@ -20,9 +20,12 @@ namespace Timotheus.Forms
                 string[] content = steamReader.ReadToEnd().Split("\n");
                 steamReader.Close();
 
-                UsernameText.Text = content[0].Trim();
-                PasswordText.Text = content[1].Trim();
-                CalDAVText.Text = content[2].Trim();
+                if (content.Length > 0)
+                    UsernameText.Text = content[0].Trim();
+                if (content.Length > 1)
+                    PasswordText.Text = content[1].Trim();
+                if (content.Length > 2)
+                    CalDAVText.Text = content[2].Trim();
             }
         }
 

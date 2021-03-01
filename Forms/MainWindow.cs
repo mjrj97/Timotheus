@@ -17,6 +17,7 @@ namespace Timotheus.Forms
 
         private int year;
         public Calendar calendar = new Calendar();
+        public SFTP sftp;
         
         //Constructor
         public MainWindow()
@@ -27,6 +28,27 @@ namespace Timotheus.Forms
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             Year.Text = year.ToString();
             CalendarView.DataSource = new BindingSource(shownEvents, null);
+            PasswordBox.PasswordChar = '*';
+
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string fullName = Path.Combine(desktopPath, "Data.txt");
+            if (File.Exists(fullName))
+            {
+                StreamReader steamReader = new StreamReader(fullName);
+                string[] content = steamReader.ReadToEnd().Split("\n");
+                steamReader.Close();
+
+                if (content.Length > 4)
+                    UsernameBox.Text = content[4].Trim();
+                if (content.Length > 5)
+                    PasswordBox.Text = content[5].Trim();
+                if (content.Length > 3)
+                    HostBox.Text = content[3].Trim();
+                if (content.Length > 6)
+                    RemoteDirectoryBox.Text = content[6].Trim();
+                if (content.Length > 7)
+                    LocalDirectoryBox.Text = content[7].Trim();
+            }
         }
 
         //Update contents
@@ -113,6 +135,17 @@ namespace Timotheus.Forms
                 Owner = this
             };
             sync.ShowDialog();
+        }
+
+        private void BrowseButton_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog openFolderDialog = new FolderBrowserDialog())
+            {
+                if (openFolderDialog.ShowDialog() == DialogResult.OK)
+                {
+                    LocalDirectoryBox.Text = openFolderDialog.SelectedPath;
+                }
+            }
         }
 
         protected override bool ProcessDialogKey(Keys keyData)
