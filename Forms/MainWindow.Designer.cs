@@ -182,7 +182,7 @@
             this.SaveButton.TabIndex = 9;
             this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            this.SaveButton.Click += new System.EventHandler(this.SaveCalendar);
             // 
             // OpenButton
             // 
@@ -193,7 +193,7 @@
             this.OpenButton.TabIndex = 8;
             this.OpenButton.Text = "Open";
             this.OpenButton.UseVisualStyleBackColor = true;
-            this.OpenButton.Click += new System.EventHandler(this.OpenButton_Click);
+            this.OpenButton.Click += new System.EventHandler(this.OpenCalendar);
             // 
             // SyncCalendarButton
             // 
@@ -226,7 +226,7 @@
             this.RemoveButton.TabIndex = 5;
             this.RemoveButton.Text = "Remove";
             this.RemoveButton.UseVisualStyleBackColor = true;
-            this.RemoveButton.Click += new System.EventHandler(this.Remove_Click);
+            this.RemoveButton.Click += new System.EventHandler(this.RemoveEvent);
             // 
             // AddButton
             // 
@@ -237,7 +237,7 @@
             this.AddButton.TabIndex = 4;
             this.AddButton.Text = "Add";
             this.AddButton.UseVisualStyleBackColor = true;
-            this.AddButton.Click += new System.EventHandler(this.Add_Click);
+            this.AddButton.Click += new System.EventHandler(this.AddEvent);
             // 
             // Year
             // 
@@ -299,7 +299,7 @@
             this.BrowseButton.TabIndex = 10;
             this.BrowseButton.Text = "Browse";
             this.BrowseButton.UseVisualStyleBackColor = true;
-            this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
+            this.BrowseButton.Click += new System.EventHandler(this.BrowseLocalDirectory);
             // 
             // RemoteDirectoryBox
             // 

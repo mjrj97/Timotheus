@@ -51,7 +51,9 @@ namespace Timotheus.Forms
             }
         }
 
-        //Update contents
+        #region Calendar
+
+        //Changes the selected year and updates calls UpdateTable
         private void UpdateYear(object sender, EventArgs e)
         {
             Button button = (Button)sender;
@@ -63,6 +65,7 @@ namespace Timotheus.Forms
             UpdateTable();
         }
 
+        //Updates the contents of the event table
         public void UpdateTable()
         {
             shownEvents.Clear();
@@ -74,8 +77,8 @@ namespace Timotheus.Forms
             CalendarView.Sort(CalendarView.Columns[0], ListSortDirection.Ascending);
         }
 
-        //Buttons
-        private void Add_Click(object sender, EventArgs e)
+        //Opens dialog where the user can define the attributes of the new event
+        private void AddEvent(object sender, EventArgs e)
         {
             AddEvent addEvent = new AddEvent
             {
@@ -84,7 +87,8 @@ namespace Timotheus.Forms
             addEvent.ShowDialog();
         }
 
-        private void Remove_Click(object sender, EventArgs e)
+        //Removes the selected event
+        private void RemoveEvent(object sender, EventArgs e)
         {
             if (shownEvents.Count > 0)
             {
@@ -100,7 +104,8 @@ namespace Timotheus.Forms
             }
         }
 
-        private void SaveButton_Click(object sender, EventArgs e)
+        //Opens dialog and saves the current calendar as .ics
+        private void SaveCalendar(object sender, EventArgs e)
         {
             Stream stream;
             SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -119,7 +124,8 @@ namespace Timotheus.Forms
             }
         }
 
-        private void OpenButton_Click(object sender, EventArgs e)
+        //Opens dialog where the user can open the calendar from a .ics file or CalDAV link
+        private void OpenCalendar(object sender, EventArgs e)
         {
             OpenCalendar open = new OpenCalendar
             {
@@ -128,6 +134,7 @@ namespace Timotheus.Forms
             open.ShowDialog();
         }
 
+        //Opens dialog where the user can sync the current calendar with a remote calendar
         private void SyncCalendar(object sender, EventArgs e)
         {
             SyncCalendar sync = new SyncCalendar
@@ -137,7 +144,12 @@ namespace Timotheus.Forms
             sync.ShowDialog();
         }
 
-        private void BrowseButton_Click(object sender, EventArgs e)
+        #endregion
+
+        #region SFTP
+
+        //Opens dialog so the user can chose the local directory SFTP should use.
+        private void BrowseLocalDirectory(object sender, EventArgs e)
         {
             using (FolderBrowserDialog openFolderDialog = new FolderBrowserDialog())
             {
@@ -148,20 +160,11 @@ namespace Timotheus.Forms
             }
         }
 
-        protected override bool ProcessDialogKey(Keys keyData)
-        {
-            if (ModifierKeys == Keys.None)
-            {
-                if (keyData == Keys.Delete && tabControl.SelectedIndex == 0)
-                {
-                    Remove_Click(null, null);
-                    return true;
-                }
-            }
-            return base.ProcessDialogKey(keyData);
-        }
+        #endregion
 
-        //Help
+        #region Help
+        
+        //Opens link to the GitHub page
         private void SourceLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             SourceLink.LinkVisited = true;
@@ -172,6 +175,7 @@ namespace Timotheus.Forms
             p.Start();
         }
 
+        //Send email to Martin
         private void EmailLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             EmailLink.LinkVisited = true;
@@ -182,7 +186,11 @@ namespace Timotheus.Forms
             p.Start();
         }
 
-        //Tray icon
+        #endregion
+
+        #region Tray icon
+
+        //Reopen Timotheus window
         private void Open(object sender, EventArgs e)
         {
             Show();
@@ -190,11 +198,13 @@ namespace Timotheus.Forms
             TrayIcon.Visible = false;
         }
         
+        //Close application
         private void Exit(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
+        //If the user minimizes the application, minimize it to the tray.
         private void Manager_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
@@ -202,6 +212,23 @@ namespace Timotheus.Forms
                 Hide();
                 TrayIcon.Visible = true;
             }
+        }
+
+        #endregion
+
+        //Processes hotkeys
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            if (ModifierKeys == Keys.None)
+            {
+                //If in Calendar tab and presses 'delete', it removes the selected event
+                if (keyData == Keys.Delete && tabControl.SelectedIndex == 0)
+                {
+                    RemoveEvent(null, null);
+                    return true;
+                }
+            }
+            return base.ProcessDialogKey(keyData);
         }
     }
 }
