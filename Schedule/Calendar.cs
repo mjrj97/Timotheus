@@ -6,8 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Windows.Forms;
-using Timotheus.Utility.PDFcreater;
-using MigraDoc.Rendering;
+using Timotheus.Utility;
 
 namespace Timotheus.Schedule
 {
@@ -206,23 +205,24 @@ namespace Timotheus.Schedule
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             // Create an invoice form with the sample invoice data.
-            var PDF = new PDFcreater(title, events);
+            PDFCreater pdf = new PDFCreater(title, events);
 
             // Create the document using MigraDoc.
-            var document = PDF.CreateDocument();
+            MigraDoc.DocumentObjectModel.Document document = pdf.CreateDocument();
             document.UseCmykColor = false;
 
             // Create a renderer for PDF that uses Unicode font encoding.
-            var pdfRenderer = new PdfDocumentRenderer(true);
-
-            // Set the MigraDoc document.
-            pdfRenderer.Document = document;
+            var pdfRenderer = new MigraDoc.Rendering.PdfDocumentRenderer(true)
+            {
+                // Set the MigraDoc document.
+                Document = document
+            };
 
             // Create the PDF document.
             pdfRenderer.RenderDocument();
 
             // Save the PDF document...
-            var filename = $"{filePath}\\{title}";
+            string filename = $"{filePath}\\{title}";
 
             try
             {
@@ -232,8 +232,6 @@ namespace Timotheus.Schedule
             {
                 MessageBox.Show(e.Message, "Saving error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            // ...and start a viewer.
         }
 
         //Returns a calendars iCal equivalent string

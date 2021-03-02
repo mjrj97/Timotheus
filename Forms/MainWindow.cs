@@ -144,9 +144,10 @@ namespace Timotheus.Forms
 		//Opens a dialog where the user can save the current calendar as .pdf
         private void ExportButton_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-
-            saveFileDialog.Filter = "PDF document (*.pdf)|*.pdf";
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "PDF document (*.pdf)|*.pdf"
+            };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 FileInfo file = new FileInfo(saveFileDialog.FileName);
