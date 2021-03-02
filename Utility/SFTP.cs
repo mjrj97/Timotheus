@@ -21,7 +21,7 @@ namespace Timotheus.Utility
         public List<SftpFile> GetListOfFiles(string remoteDirectory)
         {
             List<SftpFile> files = new List<SftpFile>();
-            
+
             try
             {
                 sftp.Connect();

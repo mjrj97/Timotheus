@@ -3,10 +3,12 @@ using Timotheus.Utility;
 using System;
 using System.Text;
 using System.ComponentModel;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Net;
+using Renci.SshNet.Sftp;
 
 namespace Timotheus.Forms
 {
@@ -14,6 +16,7 @@ namespace Timotheus.Forms
     {
         public static MainWindow window;
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
+        public SortableBindingList<SftpFile> shownFiles = new SortableBindingList<SftpFile>();
 
         private int year;
         public Calendar calendar = new Calendar();
@@ -28,6 +31,8 @@ namespace Timotheus.Forms
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             Year.Text = year.ToString();
             CalendarView.DataSource = new BindingSource(shownEvents, null);
+            FileView.AutoGenerateColumns = false;
+            FileView.DataSource = new BindingSource(shownFiles, null);
             PasswordBox.PasswordChar = '*';
 
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -158,10 +163,21 @@ namespace Timotheus.Forms
             }
         }
 
+        private void ShowDirectory(object sender, EventArgs e)
+        {
+            sftp = new SFTP(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
+            shownFiles.Clear();
+            List<SftpFile> files = sftp.GetListOfFiles(RemoteDirectoryBox.Text);
+            for (int i = 0; i < files.Count; i++)
+            {
+                shownFiles.Add(files[i]);
+            }
+        }
+
         #endregion
 
         #region Help
-        
+
         //Opens link to the GitHub page
         private void SourceLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
