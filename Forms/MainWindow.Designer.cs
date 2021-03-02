@@ -22,7 +22,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.CalendarView = new System.Windows.Forms.DataGridView();
             this.StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,8 +57,17 @@
             this.PasswordBox = new System.Windows.Forms.TextBox();
             this.UsernameLabel = new System.Windows.Forms.Label();
             this.UsernameBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.HostLabel = new System.Windows.Forms.Label();
             this.HostBox = new System.Windows.Forms.TextBox();
+            this.settingsPage = new System.Windows.Forms.TabPage();
+            this.infoBox = new System.Windows.Forms.GroupBox();
+            this.LogoLabel = new System.Windows.Forms.Label();
+            this.BrowseLogoButton = new System.Windows.Forms.Button();
+            this.AddressLabel = new System.Windows.Forms.Label();
+            this.AddressBox = new System.Windows.Forms.TextBox();
+            this.NameLabel = new System.Windows.Forms.Label();
+            this.NameBox = new System.Windows.Forms.TextBox();
+            this.LogoPictureBox = new System.Windows.Forms.PictureBox();
             this.helpPage = new System.Windows.Forms.TabPage();
             this.EmailLink = new System.Windows.Forms.LinkLabel();
             this.EmailLabel = new System.Windows.Forms.Label();
@@ -72,11 +81,15 @@
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.LogoBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).BeginInit();
             this.tabControl.SuspendLayout();
             this.calendarPage.SuspendLayout();
             this.sftpPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FileView)).BeginInit();
+            this.settingsPage.SuspendLayout();
+            this.infoBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).BeginInit();
             this.helpPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).BeginInit();
             this.TrayContextMenu.SuspendLayout();
@@ -94,14 +107,14 @@
             this.NameColumn,
             this.DescriptionColumn,
             this.LocationColumn});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.CalendarView.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.CalendarView.DefaultCellStyle = dataGridViewCellStyle2;
             this.CalendarView.Location = new System.Drawing.Point(10, 43);
             this.CalendarView.Name = "CalendarView";
             this.CalendarView.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -153,6 +166,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.calendarPage);
             this.tabControl.Controls.Add(this.sftpPage);
+            this.tabControl.Controls.Add(this.settingsPage);
             this.tabControl.Controls.Add(this.helpPage);
             this.tabControl.Location = new System.Drawing.Point(2, 3);
             this.tabControl.Name = "tabControl";
@@ -292,7 +306,7 @@
             this.sftpPage.Controls.Add(this.PasswordBox);
             this.sftpPage.Controls.Add(this.UsernameLabel);
             this.sftpPage.Controls.Add(this.UsernameBox);
-            this.sftpPage.Controls.Add(this.label1);
+            this.sftpPage.Controls.Add(this.HostLabel);
             this.sftpPage.Controls.Add(this.HostBox);
             this.sftpPage.Location = new System.Drawing.Point(4, 24);
             this.sftpPage.Name = "sftpPage";
@@ -440,14 +454,14 @@
             this.UsernameBox.Size = new System.Drawing.Size(150, 23);
             this.UsernameBox.TabIndex = 2;
             // 
-            // label1
+            // HostLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Host";
+            this.HostLabel.AutoSize = true;
+            this.HostLabel.Location = new System.Drawing.Point(10, 13);
+            this.HostLabel.Name = "HostLabel";
+            this.HostLabel.Size = new System.Drawing.Size(32, 15);
+            this.HostLabel.TabIndex = 1;
+            this.HostLabel.Text = "Host";
             // 
             // HostBox
             // 
@@ -455,6 +469,95 @@
             this.HostBox.Name = "HostBox";
             this.HostBox.Size = new System.Drawing.Size(150, 23);
             this.HostBox.TabIndex = 0;
+            // 
+            // settingsPage
+            // 
+            this.settingsPage.Controls.Add(this.infoBox);
+            this.settingsPage.Location = new System.Drawing.Point(4, 24);
+            this.settingsPage.Name = "settingsPage";
+            this.settingsPage.Padding = new System.Windows.Forms.Padding(3);
+            this.settingsPage.Size = new System.Drawing.Size(794, 409);
+            this.settingsPage.TabIndex = 3;
+            this.settingsPage.Text = "Settings";
+            this.settingsPage.UseVisualStyleBackColor = true;
+            // 
+            // infoBox
+            // 
+            this.infoBox.Controls.Add(this.LogoBox);
+            this.infoBox.Controls.Add(this.LogoLabel);
+            this.infoBox.Controls.Add(this.BrowseLogoButton);
+            this.infoBox.Controls.Add(this.AddressLabel);
+            this.infoBox.Controls.Add(this.AddressBox);
+            this.infoBox.Controls.Add(this.NameLabel);
+            this.infoBox.Controls.Add(this.NameBox);
+            this.infoBox.Controls.Add(this.LogoPictureBox);
+            this.infoBox.Location = new System.Drawing.Point(10, 10);
+            this.infoBox.Name = "infoBox";
+            this.infoBox.Size = new System.Drawing.Size(548, 160);
+            this.infoBox.TabIndex = 1;
+            this.infoBox.TabStop = false;
+            this.infoBox.Text = "Association information";
+            // 
+            // LogoLabel
+            // 
+            this.LogoLabel.AutoSize = true;
+            this.LogoLabel.Location = new System.Drawing.Point(160, 83);
+            this.LogoLabel.Name = "LogoLabel";
+            this.LogoLabel.Size = new System.Drawing.Size(34, 15);
+            this.LogoLabel.TabIndex = 6;
+            this.LogoLabel.Text = "Logo";
+            // 
+            // BrowseLogoButton
+            // 
+            this.BrowseLogoButton.Location = new System.Drawing.Point(461, 79);
+            this.BrowseLogoButton.Name = "BrowseLogoButton";
+            this.BrowseLogoButton.Size = new System.Drawing.Size(75, 23);
+            this.BrowseLogoButton.TabIndex = 5;
+            this.BrowseLogoButton.Text = "Browse";
+            this.BrowseLogoButton.UseVisualStyleBackColor = true;
+            this.BrowseLogoButton.Click += new System.EventHandler(this.BrowseLogo);
+            // 
+            // AddressLabel
+            // 
+            this.AddressLabel.AutoSize = true;
+            this.AddressLabel.Location = new System.Drawing.Point(160, 53);
+            this.AddressLabel.Name = "AddressLabel";
+            this.AddressLabel.Size = new System.Drawing.Size(49, 15);
+            this.AddressLabel.TabIndex = 4;
+            this.AddressLabel.Text = "Address";
+            // 
+            // AddressBox
+            // 
+            this.AddressBox.Location = new System.Drawing.Point(229, 50);
+            this.AddressBox.Name = "AddressBox";
+            this.AddressBox.Size = new System.Drawing.Size(307, 23);
+            this.AddressBox.TabIndex = 3;
+            // 
+            // NameLabel
+            // 
+            this.NameLabel.AutoSize = true;
+            this.NameLabel.Location = new System.Drawing.Point(160, 23);
+            this.NameLabel.Name = "NameLabel";
+            this.NameLabel.Size = new System.Drawing.Size(39, 15);
+            this.NameLabel.TabIndex = 2;
+            this.NameLabel.Text = "Name";
+            // 
+            // NameBox
+            // 
+            this.NameBox.Location = new System.Drawing.Point(229, 20);
+            this.NameBox.Name = "NameBox";
+            this.NameBox.Size = new System.Drawing.Size(307, 23);
+            this.NameBox.TabIndex = 1;
+            // 
+            // LogoPictureBox
+            // 
+            this.LogoPictureBox.BackColor = System.Drawing.Color.LightGray;
+            this.LogoPictureBox.Location = new System.Drawing.Point(10, 20);
+            this.LogoPictureBox.Name = "LogoPictureBox";
+            this.LogoPictureBox.Size = new System.Drawing.Size(128, 128);
+            this.LogoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.LogoPictureBox.TabIndex = 0;
+            this.LogoPictureBox.TabStop = false;
             // 
             // helpPage
             // 
@@ -581,6 +684,13 @@
             this.TrayClose.Text = "Close";
             this.TrayClose.Click += new System.EventHandler(this.Exit);
             // 
+            // LogoBox
+            // 
+            this.LogoBox.Location = new System.Drawing.Point(229, 79);
+            this.LogoBox.Name = "LogoBox";
+            this.LogoBox.Size = new System.Drawing.Size(226, 23);
+            this.LogoBox.TabIndex = 8;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -599,6 +709,10 @@
             this.sftpPage.ResumeLayout(false);
             this.sftpPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FileView)).EndInit();
+            this.settingsPage.ResumeLayout(false);
+            this.infoBox.ResumeLayout(false);
+            this.infoBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).EndInit();
             this.helpPage.ResumeLayout(false);
             this.helpPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).EndInit();
@@ -612,6 +726,8 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage calendarPage;
         private System.Windows.Forms.TabPage helpPage;
+        private System.Windows.Forms.TabPage sftpPage;
+        private System.Windows.Forms.TabPage settingsPage;
         private System.Windows.Forms.TextBox Year;
         private System.Windows.Forms.Button SyncCalendarButton;
         private System.Windows.Forms.NotifyIcon TrayIcon;
@@ -639,8 +755,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn LocationColumn;
-        private System.Windows.Forms.TabPage sftpPage;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox HostBox;
         private System.Windows.Forms.TextBox UsernameBox;
         private System.Windows.Forms.Label PasswordLabel;
@@ -657,6 +771,16 @@
         private System.Windows.Forms.Button ShowDirectoryButton;
         private System.Windows.Forms.Button DownloadAllButton;
         private System.Windows.Forms.Button SynchronizeButton;
+        private System.Windows.Forms.GroupBox infoBox;
+        private System.Windows.Forms.Label AddressLabel;
+        private System.Windows.Forms.TextBox AddressBox;
+        private System.Windows.Forms.Label NameLabel;
+        private System.Windows.Forms.Label LogoLabel;
+        private System.Windows.Forms.TextBox NameBox;
+        private System.Windows.Forms.Label HostLabel;
+        private System.Windows.Forms.Button BrowseLogoButton;
+        private System.Windows.Forms.PictureBox LogoPictureBox;
+        private System.Windows.Forms.TextBox LogoBox;
     }
 }
 

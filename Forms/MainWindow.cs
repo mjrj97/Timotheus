@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Net;
 using Renci.SshNet.Sftp;
 using Renci.SshNet;
+using System.Drawing;
 
 namespace Timotheus.Forms
 {
@@ -52,6 +53,15 @@ namespace Timotheus.Forms
                     RemoteDirectoryBox.Text = content[6].Trim();
                 if (content.Length > 7)
                     LocalDirectoryBox.Text = content[7].Trim();
+                if (content.Length > 8)
+                    NameBox.Text = content[8].Trim();
+                if (content.Length > 9)
+                    AddressBox.Text = content[9].Trim();
+                if (content.Length > 10)
+                {
+                    LogoBox.Text = content[10].Trim();
+                    LogoPictureBox.Image = Image.FromFile(content[10].Trim());
+                }
             }
         }
 
@@ -230,6 +240,27 @@ namespace Timotheus.Forms
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
+        #region Settings
+
+        private void BrowseLogo(object sender, EventArgs e)
+        {
+            // open file dialog   
+            OpenFileDialog open = new OpenFileDialog
+            {
+                // image filters  
+                Filter = "Image Files(*.png; *.jpg; *.jpeg; *.gif; *.bmp)|*.png; *.jpg; *.jpeg; *.gif; *.bmp"
+            };
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                // display image in picture box  
+                LogoPictureBox.Image = Image.FromFile(open.FileName);
+                // image file path  
+                LogoBox.Text = open.FileName;
             }
         }
 
