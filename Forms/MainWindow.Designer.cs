@@ -42,6 +42,7 @@
             this.AddYearButton = new System.Windows.Forms.Button();
             this.SubtractYearButton = new System.Windows.Forms.Button();
             this.sftpPage = new System.Windows.Forms.TabPage();
+            this.SynchronizeButton = new System.Windows.Forms.Button();
             this.DownloadAllButton = new System.Windows.Forms.Button();
             this.ShowDirectoryButton = new System.Windows.Forms.Button();
             this.FileView = new System.Windows.Forms.DataGridView();
@@ -278,6 +279,7 @@
             // 
             // sftpPage
             // 
+            this.sftpPage.Controls.Add(this.SynchronizeButton);
             this.sftpPage.Controls.Add(this.DownloadAllButton);
             this.sftpPage.Controls.Add(this.ShowDirectoryButton);
             this.sftpPage.Controls.Add(this.FileView);
@@ -298,6 +300,16 @@
             this.sftpPage.TabIndex = 2;
             this.sftpPage.Text = "SFTP";
             this.sftpPage.UseVisualStyleBackColor = true;
+            // 
+            // SynchronizeButton
+            // 
+            this.SynchronizeButton.Location = new System.Drawing.Point(10, 198);
+            this.SynchronizeButton.Name = "SynchronizeButton";
+            this.SynchronizeButton.Size = new System.Drawing.Size(220, 38);
+            this.SynchronizeButton.TabIndex = 14;
+            this.SynchronizeButton.Text = "Synchronize";
+            this.SynchronizeButton.UseVisualStyleBackColor = true;
+            this.SynchronizeButton.Click += new System.EventHandler(this.SyncDirectories);
             // 
             // DownloadAllButton
             // 
@@ -644,6 +656,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FileSizeColumn;
         private System.Windows.Forms.Button ShowDirectoryButton;
         private System.Windows.Forms.Button DownloadAllButton;
+        private System.Windows.Forms.Button SynchronizeButton;
     }
 }
 

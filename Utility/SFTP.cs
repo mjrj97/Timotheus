@@ -1,7 +1,6 @@
 ﻿using Renci.SshNet;
 using Renci.SshNet.Sftp;
 using System.IO;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace Timotheus.Utility
@@ -9,9 +8,9 @@ namespace Timotheus.Utility
     public class SFTP
     {
         //Returns a list of files in the remote directory
-        public static List<SftpFile> GetListOfFiles(SftpClient client, string remoteDirectory)
+        public static IEnumerable<SftpFile> GetListOfFiles(SftpClient client, string remoteDirectory)
         {
-            List<SftpFile> files = client.ListDirectory(remoteDirectory).ToList();
+            IEnumerable<SftpFile> files = client.ListDirectory(remoteDirectory);
             return files;
         }
 
@@ -36,7 +35,7 @@ namespace Timotheus.Utility
             client.DeleteFile(remoteFile.FullName);
         }
 
-        //Downloads the entire directory and every file under each subdirectory
+        //Downloads the entire remote directory and every file under each subfolder to the local directory
         public static void DownloadDirectory(SftpClient client, string remotePath, string localPath)
         {
             IEnumerable<SftpFile> files = client.ListDirectory(remotePath);
@@ -57,6 +56,12 @@ namespace Timotheus.Utility
                     DownloadDirectory(client, file.FullName, dir.FullName);
                 }
             }
+        }
+
+        //Synchronizes the remote and local directories
+        public static void Synchronize(SftpClient client, string remotePath, string localPath)
+        {
+            client.SynchronizeDirectories(localPath, remotePath, "");
         }
     }
 }

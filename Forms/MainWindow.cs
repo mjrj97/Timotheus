@@ -169,12 +169,12 @@ namespace Timotheus.Forms
             {
                 using SftpClient sftp = new SftpClient(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
                 sftp.Connect();
-                List<SftpFile> files = SFTP.GetListOfFiles(sftp, RemoteDirectoryBox.Text);
+                IEnumerable<SftpFile> files = SFTP.GetListOfFiles(sftp, RemoteDirectoryBox.Text);
                 sftp.Disconnect();
                 shownFiles.Clear();
-                for (int i = 0; i < files.Count; i++)
+                foreach (SftpFile file in files)
                 {
-                    shownFiles.Add(files[i]);
+                    shownFiles.Add(file);
                 }
             }
             catch (Exception ex)
@@ -191,6 +191,22 @@ namespace Timotheus.Forms
                 using SftpClient sftp = new SftpClient(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
                 sftp.Connect();
                 SFTP.DownloadDirectory(sftp, RemoteDirectoryBox.Text, LocalDirectoryBox.Text);
+                sftp.Disconnect();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        //Synchronizes the local and remote directory
+        private void SyncDirectories(object sender, EventArgs e)
+        {
+            try
+            {
+                using SftpClient sftp = new SftpClient(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
+                sftp.Connect();
+                SFTP.Synchronize(sftp, RemoteDirectoryBox.Text, LocalDirectoryBox.Text);
                 sftp.Disconnect();
             }
             catch (Exception ex)
