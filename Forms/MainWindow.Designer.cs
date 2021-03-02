@@ -222,7 +222,7 @@
             this.ExportButton.TabIndex = 6;
             this.ExportButton.Text = "Export PDF";
             this.ExportButton.UseVisualStyleBackColor = true;
-            this.ExportButton.Click += new System.EventHandler(this.ExportButton_Click);
+            this.ExportButton.Click += new System.EventHandler(this.ExportPDF);
             // 
             // RemoveButton
             // 
