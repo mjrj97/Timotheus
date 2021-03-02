@@ -6,22 +6,25 @@ namespace Timotheus.Forms
 {
     public partial class SyncCalendar : Form
     {
+        //Constructor
         public SyncCalendar()
         {
             InitializeComponent();
             PasswordBox.PasswordChar = '*';
 
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string fullName = Path.Combine(desktopPath, "Data.txt");
+            string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
             {
                 StreamReader steamReader = new StreamReader(fullName);
                 string[] content = steamReader.ReadToEnd().Split("\n");
                 steamReader.Close();
 
-                UsernameBox.Text = content[0].Trim();
-                PasswordBox.Text = content[1].Trim();
-                CalDAVBox.Text = content[2].Trim();
+                if (content.Length > 0)
+                    UsernameBox.Text = content[0].Trim();
+                if (content.Length > 1)
+                    PasswordBox.Text = content[1].Trim();
+                if (content.Length > 2)
+                    CalDAVBox.Text = content[2].Trim();
             }
 
             if (MainWindow.window.calendar.IsSetup())
@@ -41,6 +44,7 @@ namespace Timotheus.Forms
             }
         }
 
+        //Syncs the calendar using selected settings
         private void Sync(object sender, EventArgs e)
         {
             if (NewCalendarButton.Checked)
@@ -60,11 +64,13 @@ namespace Timotheus.Forms
             }
         }
 
+        //Closes the dialog without syncing
         private void Close(object sender, EventArgs e)
         {
             Close();
         }
 
+		//Processes the hotkeys
         protected override bool ProcessDialogKey(Keys keyData)
         {
             if (ModifierKeys == Keys.None)
@@ -83,6 +89,7 @@ namespace Timotheus.Forms
             return base.ProcessDialogKey(keyData);
         }
 
+        //Enables or disables relevant UI when the radio buttons are checked
         private void NewCalendarButton_CheckedChanged(object sender, EventArgs e)
         {
             if (NewCalendarButton.Checked)

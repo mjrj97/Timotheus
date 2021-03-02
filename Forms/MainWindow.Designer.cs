@@ -41,6 +41,24 @@
             this.Year = new System.Windows.Forms.TextBox();
             this.AddYearButton = new System.Windows.Forms.Button();
             this.SubtractYearButton = new System.Windows.Forms.Button();
+            this.sftpPage = new System.Windows.Forms.TabPage();
+            this.SynchronizeButton = new System.Windows.Forms.Button();
+            this.DownloadAllButton = new System.Windows.Forms.Button();
+            this.ShowDirectoryButton = new System.Windows.Forms.Button();
+            this.FileView = new System.Windows.Forms.DataGridView();
+            this.FileNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FileSizeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BrowseButton = new System.Windows.Forms.Button();
+            this.RemoteDirectoryBox = new System.Windows.Forms.TextBox();
+            this.RemoteDirectoryLabel = new System.Windows.Forms.Label();
+            this.LocalDirectoryLabel = new System.Windows.Forms.Label();
+            this.LocalDirectoryBox = new System.Windows.Forms.TextBox();
+            this.PasswordLabel = new System.Windows.Forms.Label();
+            this.PasswordBox = new System.Windows.Forms.TextBox();
+            this.UsernameLabel = new System.Windows.Forms.Label();
+            this.UsernameBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.HostBox = new System.Windows.Forms.TextBox();
             this.helpPage = new System.Windows.Forms.TabPage();
             this.EmailLink = new System.Windows.Forms.LinkLabel();
             this.EmailLabel = new System.Windows.Forms.Label();
@@ -57,6 +75,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).BeginInit();
             this.tabControl.SuspendLayout();
             this.calendarPage.SuspendLayout();
+            this.sftpPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FileView)).BeginInit();
             this.helpPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).BeginInit();
             this.TrayContextMenu.SuspendLayout();
@@ -132,6 +152,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.calendarPage);
+            this.tabControl.Controls.Add(this.sftpPage);
             this.tabControl.Controls.Add(this.helpPage);
             this.tabControl.Location = new System.Drawing.Point(2, 3);
             this.tabControl.Name = "tabControl";
@@ -168,7 +189,7 @@
             this.SaveButton.TabIndex = 9;
             this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            this.SaveButton.Click += new System.EventHandler(this.SaveCalendar);
             // 
             // OpenButton
             // 
@@ -179,7 +200,7 @@
             this.OpenButton.TabIndex = 8;
             this.OpenButton.Text = "Open";
             this.OpenButton.UseVisualStyleBackColor = true;
-            this.OpenButton.Click += new System.EventHandler(this.OpenButton_Click);
+            this.OpenButton.Click += new System.EventHandler(this.OpenCalendar);
             // 
             // SyncCalendarButton
             // 
@@ -212,7 +233,7 @@
             this.RemoveButton.TabIndex = 5;
             this.RemoveButton.Text = "Remove";
             this.RemoveButton.UseVisualStyleBackColor = true;
-            this.RemoveButton.Click += new System.EventHandler(this.Remove_Click);
+            this.RemoveButton.Click += new System.EventHandler(this.RemoveEvent);
             // 
             // AddButton
             // 
@@ -223,7 +244,7 @@
             this.AddButton.TabIndex = 4;
             this.AddButton.Text = "Add";
             this.AddButton.UseVisualStyleBackColor = true;
-            this.AddButton.Click += new System.EventHandler(this.Add_Click);
+            this.AddButton.Click += new System.EventHandler(this.AddEvent);
             // 
             // Year
             // 
@@ -255,6 +276,185 @@
             this.SubtractYearButton.Text = "-";
             this.SubtractYearButton.UseVisualStyleBackColor = true;
             this.SubtractYearButton.Click += new System.EventHandler(this.UpdateYear);
+            // 
+            // sftpPage
+            // 
+            this.sftpPage.Controls.Add(this.SynchronizeButton);
+            this.sftpPage.Controls.Add(this.DownloadAllButton);
+            this.sftpPage.Controls.Add(this.ShowDirectoryButton);
+            this.sftpPage.Controls.Add(this.FileView);
+            this.sftpPage.Controls.Add(this.BrowseButton);
+            this.sftpPage.Controls.Add(this.RemoteDirectoryBox);
+            this.sftpPage.Controls.Add(this.RemoteDirectoryLabel);
+            this.sftpPage.Controls.Add(this.LocalDirectoryLabel);
+            this.sftpPage.Controls.Add(this.LocalDirectoryBox);
+            this.sftpPage.Controls.Add(this.PasswordLabel);
+            this.sftpPage.Controls.Add(this.PasswordBox);
+            this.sftpPage.Controls.Add(this.UsernameLabel);
+            this.sftpPage.Controls.Add(this.UsernameBox);
+            this.sftpPage.Controls.Add(this.label1);
+            this.sftpPage.Controls.Add(this.HostBox);
+            this.sftpPage.Location = new System.Drawing.Point(4, 24);
+            this.sftpPage.Name = "sftpPage";
+            this.sftpPage.Size = new System.Drawing.Size(794, 409);
+            this.sftpPage.TabIndex = 2;
+            this.sftpPage.Text = "SFTP";
+            this.sftpPage.UseVisualStyleBackColor = true;
+            // 
+            // SynchronizeButton
+            // 
+            this.SynchronizeButton.Location = new System.Drawing.Point(10, 198);
+            this.SynchronizeButton.Name = "SynchronizeButton";
+            this.SynchronizeButton.Size = new System.Drawing.Size(220, 38);
+            this.SynchronizeButton.TabIndex = 14;
+            this.SynchronizeButton.Text = "Synchronize";
+            this.SynchronizeButton.UseVisualStyleBackColor = true;
+            this.SynchronizeButton.Click += new System.EventHandler(this.SyncDirectories);
+            // 
+            // DownloadAllButton
+            // 
+            this.DownloadAllButton.Location = new System.Drawing.Point(10, 154);
+            this.DownloadAllButton.Name = "DownloadAllButton";
+            this.DownloadAllButton.Size = new System.Drawing.Size(220, 38);
+            this.DownloadAllButton.TabIndex = 13;
+            this.DownloadAllButton.Text = "Download all files";
+            this.DownloadAllButton.UseVisualStyleBackColor = true;
+            this.DownloadAllButton.Click += new System.EventHandler(this.DownloadAll);
+            // 
+            // ShowDirectoryButton
+            // 
+            this.ShowDirectoryButton.Location = new System.Drawing.Point(10, 110);
+            this.ShowDirectoryButton.Name = "ShowDirectoryButton";
+            this.ShowDirectoryButton.Size = new System.Drawing.Size(220, 38);
+            this.ShowDirectoryButton.TabIndex = 12;
+            this.ShowDirectoryButton.Text = "Show directory";
+            this.ShowDirectoryButton.UseVisualStyleBackColor = true;
+            this.ShowDirectoryButton.Click += new System.EventHandler(this.ShowDirectory);
+            // 
+            // FileView
+            // 
+            this.FileView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FileView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.FileView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FileNameColumn,
+            this.FileSizeColumn});
+            this.FileView.Location = new System.Drawing.Point(250, 70);
+            this.FileView.Name = "FileView";
+            this.FileView.RowHeadersVisible = false;
+            this.FileView.RowTemplate.Height = 25;
+            this.FileView.Size = new System.Drawing.Size(536, 332);
+            this.FileView.TabIndex = 11;
+            // 
+            // FileNameColumn
+            // 
+            this.FileNameColumn.DataPropertyName = "Name";
+            this.FileNameColumn.HeaderText = "File name";
+            this.FileNameColumn.Name = "FileNameColumn";
+            this.FileNameColumn.Width = 400;
+            // 
+            // FileSizeColumn
+            // 
+            this.FileSizeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.FileSizeColumn.DataPropertyName = "Length";
+            this.FileSizeColumn.HeaderText = "File size";
+            this.FileSizeColumn.Name = "FileSizeColumn";
+            // 
+            // BrowseButton
+            // 
+            this.BrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BrowseButton.Location = new System.Drawing.Point(711, 10);
+            this.BrowseButton.Name = "BrowseButton";
+            this.BrowseButton.Size = new System.Drawing.Size(75, 23);
+            this.BrowseButton.TabIndex = 10;
+            this.BrowseButton.Text = "Browse";
+            this.BrowseButton.UseVisualStyleBackColor = true;
+            this.BrowseButton.Click += new System.EventHandler(this.BrowseLocalDirectory);
+            // 
+            // RemoteDirectoryBox
+            // 
+            this.RemoteDirectoryBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RemoteDirectoryBox.Location = new System.Drawing.Point(363, 40);
+            this.RemoteDirectoryBox.Name = "RemoteDirectoryBox";
+            this.RemoteDirectoryBox.Size = new System.Drawing.Size(423, 23);
+            this.RemoteDirectoryBox.TabIndex = 9;
+            // 
+            // RemoteDirectoryLabel
+            // 
+            this.RemoteDirectoryLabel.AutoSize = true;
+            this.RemoteDirectoryLabel.Location = new System.Drawing.Point(250, 43);
+            this.RemoteDirectoryLabel.Name = "RemoteDirectoryLabel";
+            this.RemoteDirectoryLabel.Size = new System.Drawing.Size(98, 15);
+            this.RemoteDirectoryLabel.TabIndex = 8;
+            this.RemoteDirectoryLabel.Text = "Remote directory";
+            // 
+            // LocalDirectoryLabel
+            // 
+            this.LocalDirectoryLabel.AutoSize = true;
+            this.LocalDirectoryLabel.Location = new System.Drawing.Point(250, 13);
+            this.LocalDirectoryLabel.Name = "LocalDirectoryLabel";
+            this.LocalDirectoryLabel.Size = new System.Drawing.Size(85, 15);
+            this.LocalDirectoryLabel.TabIndex = 7;
+            this.LocalDirectoryLabel.Text = "Local directory";
+            // 
+            // LocalDirectoryBox
+            // 
+            this.LocalDirectoryBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LocalDirectoryBox.Location = new System.Drawing.Point(363, 10);
+            this.LocalDirectoryBox.Name = "LocalDirectoryBox";
+            this.LocalDirectoryBox.Size = new System.Drawing.Size(342, 23);
+            this.LocalDirectoryBox.TabIndex = 6;
+            // 
+            // PasswordLabel
+            // 
+            this.PasswordLabel.AutoSize = true;
+            this.PasswordLabel.Location = new System.Drawing.Point(10, 73);
+            this.PasswordLabel.Name = "PasswordLabel";
+            this.PasswordLabel.Size = new System.Drawing.Size(57, 15);
+            this.PasswordLabel.TabIndex = 5;
+            this.PasswordLabel.Text = "Password";
+            // 
+            // PasswordBox
+            // 
+            this.PasswordBox.Location = new System.Drawing.Point(80, 70);
+            this.PasswordBox.Name = "PasswordBox";
+            this.PasswordBox.Size = new System.Drawing.Size(150, 23);
+            this.PasswordBox.TabIndex = 4;
+            // 
+            // UsernameLabel
+            // 
+            this.UsernameLabel.AutoSize = true;
+            this.UsernameLabel.Location = new System.Drawing.Point(10, 43);
+            this.UsernameLabel.Name = "UsernameLabel";
+            this.UsernameLabel.Size = new System.Drawing.Size(60, 15);
+            this.UsernameLabel.TabIndex = 3;
+            this.UsernameLabel.Text = "Username";
+            // 
+            // UsernameBox
+            // 
+            this.UsernameBox.Location = new System.Drawing.Point(80, 40);
+            this.UsernameBox.Name = "UsernameBox";
+            this.UsernameBox.Size = new System.Drawing.Size(150, 23);
+            this.UsernameBox.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(32, 15);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Host";
+            // 
+            // HostBox
+            // 
+            this.HostBox.Location = new System.Drawing.Point(80, 10);
+            this.HostBox.Name = "HostBox";
+            this.HostBox.Size = new System.Drawing.Size(150, 23);
+            this.HostBox.TabIndex = 0;
             // 
             // helpPage
             // 
@@ -396,6 +596,9 @@
             this.tabControl.ResumeLayout(false);
             this.calendarPage.ResumeLayout(false);
             this.calendarPage.PerformLayout();
+            this.sftpPage.ResumeLayout(false);
+            this.sftpPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FileView)).EndInit();
             this.helpPage.ResumeLayout(false);
             this.helpPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).EndInit();
@@ -436,6 +639,24 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn LocationColumn;
+        private System.Windows.Forms.TabPage sftpPage;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox HostBox;
+        private System.Windows.Forms.TextBox UsernameBox;
+        private System.Windows.Forms.Label PasswordLabel;
+        private System.Windows.Forms.TextBox PasswordBox;
+        private System.Windows.Forms.Label UsernameLabel;
+        private System.Windows.Forms.TextBox RemoteDirectoryBox;
+        private System.Windows.Forms.Label RemoteDirectoryLabel;
+        private System.Windows.Forms.Label LocalDirectoryLabel;
+        private System.Windows.Forms.TextBox LocalDirectoryBox;
+        private System.Windows.Forms.Button BrowseButton;
+        private System.Windows.Forms.DataGridView FileView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileSizeColumn;
+        private System.Windows.Forms.Button ShowDirectoryButton;
+        private System.Windows.Forms.Button DownloadAllButton;
+        private System.Windows.Forms.Button SynchronizeButton;
     }
 }
 

@@ -52,7 +52,7 @@ namespace Timotheus.Forms
             this.CloseButton.TabIndex = 0;
             this.CloseButton.Text = "Close";
             this.CloseButton.UseVisualStyleBackColor = true;
-            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
+            this.CloseButton.Click += new System.EventHandler(this.CloseDialog);
             // 
             // ICSButton
             // 
@@ -92,7 +92,7 @@ namespace Timotheus.Forms
             this.BrowseButton.TabIndex = 4;
             this.BrowseButton.Text = "Browse";
             this.BrowseButton.UseVisualStyleBackColor = true;
-            this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
+            this.BrowseButton.Click += new System.EventHandler(this.BrowseLocalDirectories);
             // 
             // CalDAVText
             // 
@@ -110,7 +110,7 @@ namespace Timotheus.Forms
             this.OpenButton.TabIndex = 6;
             this.OpenButton.Text = "Open";
             this.OpenButton.UseVisualStyleBackColor = true;
-            this.OpenButton.Click += new System.EventHandler(this.OpenButton_Click);
+            this.OpenButton.Click += new System.EventHandler(this.LoadCalendar);
             // 
             // UsernameText
             // 

@@ -80,8 +80,7 @@ namespace Timotheus.Utility
             _sortProperty = prop;
             _sortDirection = direction;
 
-            List<T> list = Items as List<T>;
-            if (list == null) return;
+            if (!(Items is List<T> list)) return;
 
             list.Sort(Compare);
 
@@ -89,7 +88,6 @@ namespace Timotheus.Utility
             //fire an event that the list has been changed.
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
-
 
         private int Compare(T lhs, T rhs)
         {
@@ -112,9 +110,9 @@ namespace Timotheus.Utility
             {
                 return 1; //first has value, second doesn't
             }
-            if (lhsValue is IComparable)
+            if (lhsValue is IComparable comparable)
             {
-                return ((IComparable)lhsValue).CompareTo(rhsValue);
+                return comparable.CompareTo(rhsValue);
             }
             if (lhsValue.Equals(rhsValue))
             {

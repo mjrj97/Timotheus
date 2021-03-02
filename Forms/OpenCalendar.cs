@@ -7,26 +7,30 @@ namespace Timotheus.Forms
 {
     public partial class OpenCalendar : Form
     {
+        //Constructor
         public OpenCalendar()
         {
             InitializeComponent();
             PasswordText.PasswordChar = '*';
 
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string fullName = Path.Combine(desktopPath, "Data.txt");
+            string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
             {
                 StreamReader steamReader = new StreamReader(fullName);
                 string[] content = steamReader.ReadToEnd().Split("\n");
                 steamReader.Close();
 
-                UsernameText.Text = content[0].Trim();
-                PasswordText.Text = content[1].Trim();
-                CalDAVText.Text = content[2].Trim();
+                if (content.Length > 0)
+                    UsernameText.Text = content[0].Trim();
+                if (content.Length > 1)
+                    PasswordText.Text = content[1].Trim();
+                if (content.Length > 2)
+                    CalDAVText.Text = content[2].Trim();
             }
         }
 
-        private void BrowseButton_Click(object sender, EventArgs e)
+        //Opens dialog where the user can find a .ics file
+        private void BrowseLocalDirectories(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -42,7 +46,8 @@ namespace Timotheus.Forms
             }
         }
 
-        private void OpenButton_Click(object sender, EventArgs e)
+        //Loads the calendar from a .ics file or CalDAV link
+        private void LoadCalendar(object sender, EventArgs e)
         {
             try
             {
@@ -62,29 +67,32 @@ namespace Timotheus.Forms
             Close();
         }
 
-        private void CloseButton_Click(object sender, EventArgs e)
+        //Close the dialog without loading a calendar
+        private void CloseDialog(object sender, EventArgs e)
         {
             Close();
         }
 
+		//Processes the hotkeys
         protected override bool ProcessDialogKey(Keys keyData)
         {
             if (ModifierKeys == Keys.None)
             {
                 if (keyData == Keys.Enter)
                 {
-                    OpenButton_Click(null, null);
+                    LoadCalendar(null, null);
                     return true;
                 }
                 else if (keyData == Keys.Escape)
                 {
-                    CloseButton_Click(null, null);
+                    CloseDialog(null, null);
                     return true;
                 }
             }
             return base.ProcessDialogKey(keyData);
         }
 
+        //Enables or disables relevant UI when the radio buttons are checked
         private void CalDAVButton_CheckedChanged(object sender, EventArgs e)
         {
             if (CalDAVButton.Checked)
