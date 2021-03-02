@@ -13,8 +13,7 @@ namespace Timotheus.Forms
             InitializeComponent();
             PasswordText.PasswordChar = '*';
 
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string fullName = Path.Combine(desktopPath, "Data.txt");
+            string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
             {
                 StreamReader steamReader = new StreamReader(fullName);
