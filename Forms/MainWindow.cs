@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Net;
 using Renci.SshNet.Sftp;
+using Renci.SshNet;
 
 namespace Timotheus.Forms
 {
@@ -20,7 +21,6 @@ namespace Timotheus.Forms
 
         private int year;
         public Calendar calendar = new Calendar();
-        public SFTP sftp;
         
         //Constructor
         public MainWindow()
@@ -163,14 +163,40 @@ namespace Timotheus.Forms
             }
         }
 
+        //Gets the list of files from the remote directory and displays them in FileView
         private void ShowDirectory(object sender, EventArgs e)
         {
-            sftp = new SFTP(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
-            shownFiles.Clear();
-            List<SftpFile> files = sftp.GetListOfFiles(RemoteDirectoryBox.Text);
-            for (int i = 0; i < files.Count; i++)
+            try
             {
-                shownFiles.Add(files[i]);
+                using SftpClient sftp = new SftpClient(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
+                sftp.Connect();
+                List<SftpFile> files = SFTP.GetListOfFiles(sftp, RemoteDirectoryBox.Text);
+                sftp.Disconnect();
+                shownFiles.Clear();
+                for (int i = 0; i < files.Count; i++)
+                {
+                    shownFiles.Add(files[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        //Downloads all files in remote directory and subfolders to local directory
+        private void DownloadAll(object sender, EventArgs e)
+        {
+            try
+            {
+                using SftpClient sftp = new SftpClient(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
+                sftp.Connect();
+                SFTP.DownloadDirectory(sftp, RemoteDirectoryBox.Text, LocalDirectoryBox.Text);
+                sftp.Disconnect();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

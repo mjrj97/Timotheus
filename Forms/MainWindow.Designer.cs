@@ -42,6 +42,7 @@
             this.AddYearButton = new System.Windows.Forms.Button();
             this.SubtractYearButton = new System.Windows.Forms.Button();
             this.sftpPage = new System.Windows.Forms.TabPage();
+            this.DownloadAllButton = new System.Windows.Forms.Button();
             this.ShowDirectoryButton = new System.Windows.Forms.Button();
             this.FileView = new System.Windows.Forms.DataGridView();
             this.FileNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -277,6 +278,7 @@
             // 
             // sftpPage
             // 
+            this.sftpPage.Controls.Add(this.DownloadAllButton);
             this.sftpPage.Controls.Add(this.ShowDirectoryButton);
             this.sftpPage.Controls.Add(this.FileView);
             this.sftpPage.Controls.Add(this.BrowseButton);
@@ -296,6 +298,16 @@
             this.sftpPage.TabIndex = 2;
             this.sftpPage.Text = "SFTP";
             this.sftpPage.UseVisualStyleBackColor = true;
+            // 
+            // DownloadAllButton
+            // 
+            this.DownloadAllButton.Location = new System.Drawing.Point(10, 154);
+            this.DownloadAllButton.Name = "DownloadAllButton";
+            this.DownloadAllButton.Size = new System.Drawing.Size(220, 38);
+            this.DownloadAllButton.TabIndex = 13;
+            this.DownloadAllButton.Text = "Download all files";
+            this.DownloadAllButton.UseVisualStyleBackColor = true;
+            this.DownloadAllButton.Click += new System.EventHandler(this.DownloadAll);
             // 
             // ShowDirectoryButton
             // 
@@ -631,6 +643,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FileNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn FileSizeColumn;
         private System.Windows.Forms.Button ShowDirectoryButton;
+        private System.Windows.Forms.Button DownloadAllButton;
     }
 }
 

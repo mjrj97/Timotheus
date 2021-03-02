@@ -1,6 +1,5 @@
 ﻿using Renci.SshNet;
 using Renci.SshNet.Sftp;
-using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -9,92 +8,54 @@ namespace Timotheus.Utility
 {
     public class SFTP
     {
-        private readonly SftpClient sftp;
-
-        //Constructor
-        public SFTP(string host, string username, string password)
+        //Returns a list of files in the remote directory
+        public static List<SftpFile> GetListOfFiles(SftpClient client, string remoteDirectory)
         {
-            sftp = new SftpClient(host, username, password);
-        }
-
-        //Returns a list of all files in remote directory
-        public List<SftpFile> GetListOfFiles(string remoteDirectory)
-        {
-            List<SftpFile> files = new List<SftpFile>();
-
-            try
-            {
-                sftp.Connect();
-                files = sftp.ListDirectory(remoteDirectory).ToList();
-                sftp.Disconnect();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-            }
-
-            for (int i = 0; i < files.Count; i++)
-            {
-                System.Diagnostics.Debug.WriteLine(files[i].FullName);
-            }
-
+            List<SftpFile> files = client.ListDirectory(remoteDirectory).ToList();
             return files;
         }
 
         //Downloads a file from remote directory to a local directory
-        public void DownloadFile(string remotePath, string localPath)
+        public static void DownloadFile(SftpClient client, SftpFile remoteFile, string localPath)
         {
-            try
-            {
-                sftp.Connect();
-
-                using (Stream fileStream = File.OpenWrite(localPath))
-                {
-                    sftp.DownloadFile(remotePath, fileStream);
-                }
-
-                sftp.Disconnect();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-            }
+            string path = Path.Combine(localPath, remoteFile.Name);
+            using Stream fileStream = File.OpenWrite(path);
+            client.DownloadFile(remoteFile.FullName, fileStream);
         }
 
         //Uploads a file from the local directory to the remote directory
-        public void UploadFile(string remotePath, string localPath)
+        public static void UploadFile(SftpClient client, string remotePath, string localPath)
         {
-            try
-            {
-                sftp.Connect();
-
-                using (Stream fileStream = File.OpenWrite(localPath))
-                {
-                    sftp.UploadFile(fileStream, remotePath);
-                }
-
-                sftp.Disconnect();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-            }
+            using Stream fileStream = File.OpenWrite(localPath);
+            client.UploadFile(fileStream, remotePath);
         }
 
         //Deletes file on remote directory
-        public void DeleteFile(string remotePath)
+        public static void DeleteFile(SftpClient client, SftpFile remoteFile)
         {
-            try
-            {
-                sftp.Connect();
+            client.DeleteFile(remoteFile.FullName);
+        }
 
-                sftp.DeleteFile(remotePath);
+        //Downloads the entire directory and every file under each subdirectory
+        public static void DownloadDirectory(SftpClient client, string remotePath, string localPath)
+        {
+            IEnumerable<SftpFile> files = client.ListDirectory(remotePath);
 
-                sftp.Disconnect();
-            }
-            catch (Exception ex)
+            foreach (SftpFile file in files)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                if (!file.IsDirectory && !file.IsSymbolicLink)
+                {
+                    DownloadFile(client, file, localPath);
+                }
+                else if (file.IsSymbolicLink)
+                {
+                    System.Diagnostics.Debug.WriteLine("Symbolic link ignore: " + file.FullName);
+                }
+                else if (file.Name != "." && file.Name != "..")
+                {
+                    DirectoryInfo dir = Directory.CreateDirectory(Path.Combine(localPath, file.Name));
+                    DownloadDirectory(client, file.FullName, dir.FullName);
+                }
             }
         }
     }
