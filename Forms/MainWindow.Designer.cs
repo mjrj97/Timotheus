@@ -22,7 +22,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.CalendarView = new System.Windows.Forms.DataGridView();
             this.StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,8 +59,17 @@
             this.UsernameBox = new System.Windows.Forms.TextBox();
             this.HostLabel = new System.Windows.Forms.Label();
             this.HostBox = new System.Windows.Forms.TextBox();
+            this.consentFormPage = new System.Windows.Forms.TabPage();
+            this.RemoveConsentFormButton = new System.Windows.Forms.Button();
+            this.AddConsentFormButton = new System.Windows.Forms.Button();
+            this.ConsentFormView = new System.Windows.Forms.DataGridView();
+            this.ConsentForm_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ConsentForm_DateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ConsentForm_VersionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ConsentForm_CommentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.settingsPage = new System.Windows.Forms.TabPage();
             this.infoBox = new System.Windows.Forms.GroupBox();
+            this.LogoBox = new System.Windows.Forms.TextBox();
             this.LogoLabel = new System.Windows.Forms.Label();
             this.BrowseLogoButton = new System.Windows.Forms.Button();
             this.AddressLabel = new System.Windows.Forms.Label();
@@ -81,12 +90,13 @@
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
-            this.LogoBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).BeginInit();
             this.tabControl.SuspendLayout();
             this.calendarPage.SuspendLayout();
             this.sftpPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FileView)).BeginInit();
+            this.consentFormPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ConsentFormView)).BeginInit();
             this.settingsPage.SuspendLayout();
             this.infoBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).BeginInit();
@@ -107,14 +117,14 @@
             this.NameColumn,
             this.DescriptionColumn,
             this.LocationColumn});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.CalendarView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.CalendarView.DefaultCellStyle = dataGridViewCellStyle1;
             this.CalendarView.Location = new System.Drawing.Point(10, 43);
             this.CalendarView.Name = "CalendarView";
             this.CalendarView.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -166,6 +176,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.calendarPage);
             this.tabControl.Controls.Add(this.sftpPage);
+            this.tabControl.Controls.Add(this.consentFormPage);
             this.tabControl.Controls.Add(this.settingsPage);
             this.tabControl.Controls.Add(this.helpPage);
             this.tabControl.Location = new System.Drawing.Point(2, 3);
@@ -470,6 +481,85 @@
             this.HostBox.Size = new System.Drawing.Size(150, 23);
             this.HostBox.TabIndex = 0;
             // 
+            // consentFormPage
+            // 
+            this.consentFormPage.Controls.Add(this.RemoveConsentFormButton);
+            this.consentFormPage.Controls.Add(this.AddConsentFormButton);
+            this.consentFormPage.Controls.Add(this.ConsentFormView);
+            this.consentFormPage.Location = new System.Drawing.Point(4, 24);
+            this.consentFormPage.Name = "consentFormPage";
+            this.consentFormPage.Padding = new System.Windows.Forms.Padding(3);
+            this.consentFormPage.Size = new System.Drawing.Size(794, 409);
+            this.consentFormPage.TabIndex = 4;
+            this.consentFormPage.Text = "Consent forms";
+            this.consentFormPage.UseVisualStyleBackColor = true;
+            // 
+            // RemoveConsentFormButton
+            // 
+            this.RemoveConsentFormButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.RemoveConsentFormButton.Location = new System.Drawing.Point(95, 378);
+            this.RemoveConsentFormButton.Name = "RemoveConsentFormButton";
+            this.RemoveConsentFormButton.Size = new System.Drawing.Size(75, 23);
+            this.RemoveConsentFormButton.TabIndex = 6;
+            this.RemoveConsentFormButton.Text = "Remove";
+            this.RemoveConsentFormButton.UseVisualStyleBackColor = false;
+            this.RemoveConsentFormButton.Click += new System.EventHandler(this.RemoveConsentForm);
+            // 
+            // AddConsentFormButton
+            // 
+            this.AddConsentFormButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AddConsentFormButton.Location = new System.Drawing.Point(10, 378);
+            this.AddConsentFormButton.Name = "AddConsentFormButton";
+            this.AddConsentFormButton.Size = new System.Drawing.Size(75, 23);
+            this.AddConsentFormButton.TabIndex = 5;
+            this.AddConsentFormButton.Text = "Add";
+            this.AddConsentFormButton.UseVisualStyleBackColor = true;
+            this.AddConsentFormButton.Click += new System.EventHandler(this.AddConsentForm);
+            // 
+            // ConsentFormView
+            // 
+            this.ConsentFormView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ConsentFormView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ConsentFormView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ConsentForm_NameColumn,
+            this.ConsentForm_DateColumn,
+            this.ConsentForm_VersionColumn,
+            this.ConsentForm_CommentColumn});
+            this.ConsentFormView.Location = new System.Drawing.Point(10, 10);
+            this.ConsentFormView.Name = "ConsentFormView";
+            this.ConsentFormView.RowHeadersVisible = false;
+            this.ConsentFormView.RowTemplate.Height = 25;
+            this.ConsentFormView.Size = new System.Drawing.Size(776, 357);
+            this.ConsentFormView.TabIndex = 0;
+            // 
+            // ConsentForm_NameColumn
+            // 
+            this.ConsentForm_NameColumn.DataPropertyName = "Name";
+            this.ConsentForm_NameColumn.HeaderText = "Name";
+            this.ConsentForm_NameColumn.Name = "ConsentForm_NameColumn";
+            this.ConsentForm_NameColumn.Width = 300;
+            // 
+            // ConsentForm_DateColumn
+            // 
+            this.ConsentForm_DateColumn.DataPropertyName = "Signed";
+            this.ConsentForm_DateColumn.HeaderText = "Date";
+            this.ConsentForm_DateColumn.Name = "ConsentForm_DateColumn";
+            // 
+            // ConsentForm_VersionColumn
+            // 
+            this.ConsentForm_VersionColumn.DataPropertyName = "Version";
+            this.ConsentForm_VersionColumn.HeaderText = "Version";
+            this.ConsentForm_VersionColumn.Name = "ConsentForm_VersionColumn";
+            // 
+            // ConsentForm_CommentColumn
+            // 
+            this.ConsentForm_CommentColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ConsentForm_CommentColumn.DataPropertyName = "Comment";
+            this.ConsentForm_CommentColumn.HeaderText = "Comment";
+            this.ConsentForm_CommentColumn.Name = "ConsentForm_CommentColumn";
+            // 
             // settingsPage
             // 
             this.settingsPage.Controls.Add(this.infoBox);
@@ -497,6 +587,13 @@
             this.infoBox.TabIndex = 1;
             this.infoBox.TabStop = false;
             this.infoBox.Text = "Association information";
+            // 
+            // LogoBox
+            // 
+            this.LogoBox.Location = new System.Drawing.Point(229, 79);
+            this.LogoBox.Name = "LogoBox";
+            this.LogoBox.Size = new System.Drawing.Size(226, 23);
+            this.LogoBox.TabIndex = 8;
             // 
             // LogoLabel
             // 
@@ -684,13 +781,6 @@
             this.TrayClose.Text = "Close";
             this.TrayClose.Click += new System.EventHandler(this.Exit);
             // 
-            // LogoBox
-            // 
-            this.LogoBox.Location = new System.Drawing.Point(229, 79);
-            this.LogoBox.Name = "LogoBox";
-            this.LogoBox.Size = new System.Drawing.Size(226, 23);
-            this.LogoBox.TabIndex = 8;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -709,6 +799,8 @@
             this.sftpPage.ResumeLayout(false);
             this.sftpPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FileView)).EndInit();
+            this.consentFormPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ConsentFormView)).EndInit();
             this.settingsPage.ResumeLayout(false);
             this.infoBox.ResumeLayout(false);
             this.infoBox.PerformLayout();
@@ -781,6 +873,14 @@
         private System.Windows.Forms.Button BrowseLogoButton;
         private System.Windows.Forms.PictureBox LogoPictureBox;
         private System.Windows.Forms.TextBox LogoBox;
+        private System.Windows.Forms.TabPage consentFormPage;
+        private System.Windows.Forms.DataGridView ConsentFormView;
+        private System.Windows.Forms.Button AddConsentFormButton;
+        private System.Windows.Forms.Button RemoveConsentFormButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForm_NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForm_DateColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForm_VersionColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForm_CommentColumn;
     }
 }
 

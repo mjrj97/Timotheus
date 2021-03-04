@@ -8,9 +8,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Net;
+using System.Drawing;
 using Renci.SshNet.Sftp;
 using Renci.SshNet;
-using System.Drawing;
 
 namespace Timotheus.Forms
 {
@@ -19,6 +19,7 @@ namespace Timotheus.Forms
         public static MainWindow window;
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
         public SortableBindingList<SftpFile> shownFiles = new SortableBindingList<SftpFile>();
+        public SortableBindingList<ConsentForm> consentForms = new SortableBindingList<ConsentForm>();
 
         private int year;
         public Calendar calendar = new Calendar();
@@ -28,13 +29,10 @@ namespace Timotheus.Forms
         {
             window = this;
             year = DateTime.Now.Year;
-            InitializeComponent();
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            InitializeComponent();
+            SetupUI();
             Year.Text = year.ToString();
-            CalendarView.DataSource = new BindingSource(shownEvents, null);
-            FileView.AutoGenerateColumns = false;
-            FileView.DataSource = new BindingSource(shownFiles, null);
-            PasswordBox.PasswordChar = '*';
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -63,6 +61,18 @@ namespace Timotheus.Forms
                     LogoPictureBox.Image = Image.FromFile(content[10].Trim());
                 }
             }
+        }
+
+        //Assigns the different lists to their appropriate DataGridViews and disables AutoGenerateColumns.
+        private void SetupUI()
+        {
+            CalendarView.AutoGenerateColumns = false;
+            FileView.AutoGenerateColumns = false;
+            ConsentFormView.AutoGenerateColumns = false;
+            CalendarView.DataSource = new BindingSource(shownEvents, null);
+            FileView.DataSource = new BindingSource(shownFiles, null);
+            ConsentFormView.DataSource = new BindingSource(consentForms, null);
+            PasswordBox.PasswordChar = '*';
         }
 
         #region Calendar
@@ -202,7 +212,8 @@ namespace Timotheus.Forms
                 shownFiles.Clear();
                 foreach (SftpFile file in files)
                 {
-                    shownFiles.Add(file);
+                    if (file.Name != "." && file.Name != "..")
+                        shownFiles.Add(file);
                 }
             }
             catch (Exception ex)
@@ -240,6 +251,24 @@ namespace Timotheus.Forms
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
+        #region Consent forms
+
+        private void AddConsentForm(object sender, EventArgs e)
+        {
+            consentForms.Add(new ConsentForm("Test person", DateTime.Now, DateTime.Now));
+        }
+
+        private void RemoveConsentForm(object sender, EventArgs e)
+        {
+            if (consentForms.Count > 0)
+            {
+                ConsentForm form = consentForms[ConsentFormView.CurrentCell.OwningRow.Index];
+                consentForms.Remove(form);
             }
         }
 
@@ -325,11 +354,20 @@ namespace Timotheus.Forms
         {
             if (ModifierKeys == Keys.None)
             {
-                //If in Calendar tab and presses 'delete', it removes the selected event
-                if (keyData == Keys.Delete && tabControl.SelectedIndex == 0)
+                if (keyData == Keys.Delete)
                 {
-                    RemoveEvent(null, null);
-                    return true;
+                    //If in Calendar tab, it removes the selected event
+                    if (tabControl.SelectedIndex == 0)
+                    {
+                        RemoveEvent(null, null);
+                        return true;
+                    }
+                    //If in Consent Forms tab, it removes the selected consent form
+                    else if (tabControl.SelectedIndex == 2)
+                    {
+                        RemoveConsentForm(null, null);
+                        return true;
+                    }
                 }
             }
             return base.ProcessDialogKey(keyData);
