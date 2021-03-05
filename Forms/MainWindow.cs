@@ -21,7 +21,7 @@ namespace Timotheus.Forms
         public SortableBindingList<SftpFile> shownFiles = new SortableBindingList<SftpFile>();
         public SortableBindingList<ConsentForm> consentForms = new SortableBindingList<ConsentForm>();
 
-        private int year;
+        public int year;
         public Calendar calendar = new Calendar();
 
         //Constructor
@@ -58,7 +58,8 @@ namespace Timotheus.Forms
                 if (content.Length > 10)
                 {
                     LogoBox.Text = content[10].Trim();
-                    LogoPictureBox.Image = Image.FromFile(content[10].Trim());
+                    if (File.Exists(content[10].Trim()))
+                        LogoPictureBox.Image = Image.FromFile(content[10].Trim());
                 }
             }
         }

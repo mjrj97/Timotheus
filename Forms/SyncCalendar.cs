@@ -11,6 +11,7 @@ namespace Timotheus.Forms
         {
             InitializeComponent();
             PasswordBox.PasswordChar = '*';
+            PeriodCalendarButton.Text = "Sync the period: " + MainWindow.window.year;
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -54,7 +55,18 @@ namespace Timotheus.Forms
 
             try
             {
-                MainWindow.window.calendar.Sync();
+                if (EntireCalendarButton.Checked)
+                    MainWindow.window.calendar.Sync();
+                else if (PeriodCalendarButton.Checked)
+                    MainWindow.window.calendar.Sync(new DateTime(MainWindow.window.year, 1, 1), new DateTime(MainWindow.window.year+1, 1, 1));
+                else if (CustomCalendarButton.Checked)
+                {
+                    DateTime a = aTimePicker.Value;
+                    DateTime b = bTimePicker.Value.AddDays(1);
+
+                    MainWindow.window.calendar.Sync(new DateTime(a.Year, a.Month, a.Day), new DateTime(b.Year, b.Month, b.Day));
+                }
+
                 MainWindow.window.UpdateTable();
                 Close();
             }
@@ -110,6 +122,12 @@ namespace Timotheus.Forms
                 PasswordLabel.Enabled = false;
                 PasswordBox.Enabled = false;
             }
+        }
+
+        private void CustomCalendarButton_CheckedChanged(object sender, EventArgs e)
+        {
+            aTimePicker.Enabled = CustomCalendarButton.Checked;
+            bTimePicker.Enabled = CustomCalendarButton.Checked;
         }
     }
 }

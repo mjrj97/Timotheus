@@ -205,9 +205,9 @@ namespace Timotheus.Schedule
         }
 
         /// <summary>
-        /// Syncs the calendar with the remote calendar server.
+        /// Syncs the events in the time interval from a to b with the remote calendar. (As long as either the start time or end time is in the interval)
         /// </summary>
-        public void Sync()
+        public void Sync(DateTime a, DateTime b)
         {
             List<Event> remoteEvents = LoadFromLines(HttpRequest(url, credentials));
             bool[] foundLocal = new bool[events.Count];
@@ -222,31 +222,47 @@ namespace Timotheus.Schedule
                         foundLocal[i] = true;
                         foundRemote[j] = true;
 
-                        if (events[i].Deleted)
-                            DeleteEvent(events[i]);
-                        else if (!events[i].Equals(remoteEvents[j]))
+                        if ((events[i].StartTime > a && events[i].StartTime < b) || (events[i].EndTime > a && events[i].EndTime < b))
                         {
-                            if (events[i].Changed >= remoteEvents[j].Changed)
-                            {
+                            if (events[i].Deleted)
                                 DeleteEvent(events[i]);
-                                AddEvent(events[i]);
+                            else if (!events[i].Equals(remoteEvents[j]))
+                            {
+                                if (events[i].Changed >= remoteEvents[j].Changed)
+                                {
+                                    DeleteEvent(events[i]);
+                                    AddEvent(events[i]);
+                                }
+                                else
+                                    events[i].Update(remoteEvents[j]);
                             }
-                            else
-                                events[i].Update(remoteEvents[j]);
                         }
                     }
                 }
             }
             for (int i = 0; i < events.Count; i++)
             {
-                if (!foundLocal[i])
-                    AddEvent(events[i]);
+                if ((events[i].StartTime > a && events[i].StartTime < b) || (events[i].EndTime > a && events[i].EndTime < b))
+                {
+                    if (!foundLocal[i])
+                        AddEvent(events[i]);
+                }
             }
             for (int i = 0; i < remoteEvents.Count; i++)
             {
-                if (!foundRemote[i])
-                    events.Add(remoteEvents[i]);
+                if ((remoteEvents[i].StartTime > a && remoteEvents[i].StartTime < b) || (remoteEvents[i].EndTime > a && remoteEvents[i].EndTime < b))
+                {
+                    if (!foundRemote[i])
+                        events.Add(remoteEvents[i]);
+                }
             }
+        }
+        /// <summary>
+        /// Syncs the entire local calendar with the entire remote calendar server.
+        /// </summary>
+        public void Sync ()
+        {
+            Sync(DateTime.MinValue, DateTime.MaxValue);
         }
 
         /// <summary>
