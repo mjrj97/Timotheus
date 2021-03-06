@@ -64,6 +64,11 @@ namespace Timotheus.Schedule
             }
         }
 
+        public bool IsInPeriod(DateTime a, DateTime b)
+        {
+            return (StartTime > a && StartTime < b) || (EndTime > a && EndTime < b);
+        }
+
         //Checks if another object has the same values as this.
         public override bool Equals(object obj)
         {

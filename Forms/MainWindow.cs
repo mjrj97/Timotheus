@@ -24,6 +24,9 @@ namespace Timotheus.Forms
         public int year;
         public Calendar calendar = new Calendar();
 
+        public DateTime a;
+        public DateTime b;
+
         //Constructor
         public MainWindow()
         {
@@ -32,7 +35,7 @@ namespace Timotheus.Forms
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             InitializeComponent();
             SetupUI();
-            Year.Text = year.ToString();
+            UpdatePeriod(null, null);
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -78,28 +81,57 @@ namespace Timotheus.Forms
 
         #region Calendar
 
-        //Changes the selected year and updates calls UpdateTable
-        private void UpdateYear(object sender, EventArgs e)
-        {
-            Button button = (Button)sender;
-            if (button.Text == "+")
-                year++;
-            else if (button.Text == "-")
-                year--;
-            Year.Text = year.ToString();
-            UpdateTable();
-        }
-
         //Updates the contents of the event table
         public void UpdateTable()
         {
             shownEvents.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
             {
-                if (calendar.events[i].StartTime.Year == year && !calendar.events[i].Deleted)
+                if (calendar.events[i].IsInPeriod(a,b) && !calendar.events[i].Deleted)
                     shownEvents.Add(calendar.events[i]);
             }
             CalendarView.Sort(CalendarView.Columns[0], ListSortDirection.Ascending);
+        }
+
+        //Changes the selected year and updates calls UpdateTable
+        private void UpdatePeriod(object sender, EventArgs e)
+        {
+            if (sender != null)
+            {
+                Button button = (Button)sender;
+                if (button.Text == "+")
+                    year++;
+                else if (button.Text == "-")
+                    year--;
+            }
+
+            a = new DateTime(year, 1, 1);
+            b = new DateTime(year+1, 1, 1);
+            
+            PeriodBox.Text = year.ToString();
+            UpdateTable();
+        }
+
+        //Updates the year text according to the selected period
+        private void PeriodChanged(object sender, EventArgs e)
+        {
+            if (AllButton.Checked)
+            {
+                PeriodBox.Text = "All";
+                AddYearButton.Enabled = false;
+                SubtractYearButton.Enabled = false;
+            }
+            else
+            {
+                if (YearButton.Checked)
+                    PeriodBox.Text = "2021";
+                else if (HalfYearButton.Checked)
+                    PeriodBox.Text = "2021 Spring";
+                else if (MonthButton.Checked)
+                    PeriodBox.Text = "2021 April";
+                AddYearButton.Enabled = true;
+                SubtractYearButton.Enabled = true;
+            }
         }
 
         //Opens dialog where the user can define the attributes of the new event

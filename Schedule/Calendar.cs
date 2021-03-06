@@ -222,7 +222,7 @@ namespace Timotheus.Schedule
                         foundLocal[i] = true;
                         foundRemote[j] = true;
 
-                        if ((events[i].StartTime > a && events[i].StartTime < b) || (events[i].EndTime > a && events[i].EndTime < b))
+                        if (events[i].IsInPeriod(a,b))
                         {
                             if (events[i].Deleted)
                                 DeleteEvent(events[i]);
@@ -242,7 +242,7 @@ namespace Timotheus.Schedule
             }
             for (int i = 0; i < events.Count; i++)
             {
-                if ((events[i].StartTime > a && events[i].StartTime < b) || (events[i].EndTime > a && events[i].EndTime < b))
+                if (events[i].IsInPeriod(a, b))
                 {
                     if (!foundLocal[i])
                         AddEvent(events[i]);
@@ -250,7 +250,7 @@ namespace Timotheus.Schedule
             }
             for (int i = 0; i < remoteEvents.Count; i++)
             {
-                if ((remoteEvents[i].StartTime > a && remoteEvents[i].StartTime < b) || (remoteEvents[i].EndTime > a && remoteEvents[i].EndTime < b))
+                if (remoteEvents[i].IsInPeriod(a, b))
                 {
                     if (!foundRemote[i])
                         events.Add(remoteEvents[i]);
