@@ -64,6 +64,8 @@ namespace Timotheus.Forms
                         LogoPictureBox.Image = Image.FromFile(content[10].Trim());
                 }
             }
+
+            LocalizationLoader local = new LocalizationLoader(System.Globalization.CultureInfo.CurrentCulture.Name);
         }
 
         //Assigns the different lists to their appropriate DataGridViews and disables AutoGenerateColumns.
