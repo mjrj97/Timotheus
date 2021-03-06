@@ -11,7 +11,7 @@ namespace Timotheus.Forms
         {
             InitializeComponent();
             PasswordBox.PasswordChar = '*';
-            PeriodCalendarButton.Text = "Sync the period: " + MainWindow.window.year;
+            PeriodCalendarButton.Text = "Sync the period: " + MainWindow.window.PeriodBox.Text;
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -58,7 +58,7 @@ namespace Timotheus.Forms
                 if (EntireCalendarButton.Checked)
                     MainWindow.window.calendar.Sync();
                 else if (PeriodCalendarButton.Checked)
-                    MainWindow.window.calendar.Sync(new DateTime(MainWindow.window.year, 1, 1), new DateTime(MainWindow.window.year+1, 1, 1));
+                    MainWindow.window.calendar.Sync(MainWindow.window.a, MainWindow.window.b);
                 else if (CustomCalendarButton.Checked)
                 {
                     DateTime a = aTimePicker.Value;

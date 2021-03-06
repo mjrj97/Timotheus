@@ -934,7 +934,7 @@
         private System.Windows.Forms.TabPage helpPage;
         private System.Windows.Forms.TabPage sftpPage;
         private System.Windows.Forms.TabPage settingsPage;
-        private System.Windows.Forms.TextBox PeriodBox;
+        public System.Windows.Forms.TextBox PeriodBox;
         private System.Windows.Forms.Button SyncCalendarButton;
         private System.Windows.Forms.NotifyIcon TrayIcon;
         private System.Windows.Forms.ContextMenuStrip TrayContextMenu;

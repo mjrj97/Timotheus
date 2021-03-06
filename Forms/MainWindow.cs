@@ -21,21 +21,20 @@ namespace Timotheus.Forms
         public SortableBindingList<SftpFile> shownFiles = new SortableBindingList<SftpFile>();
         public SortableBindingList<ConsentForm> consentForms = new SortableBindingList<ConsentForm>();
 
-        public int year;
         public Calendar calendar = new Calendar();
 
-        public DateTime a;
-        public DateTime b;
+        public DateTime a = new DateTime(DateTime.Now.Year, 1, 1);
+        public DateTime b = new DateTime(DateTime.Now.Year + 1, 1, 1);
+        private Period period = Period.Year;
 
         //Constructor
         public MainWindow()
         {
             window = this;
-            year = DateTime.Now.Year;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             InitializeComponent();
             SetupUI();
-            UpdatePeriod(null, null);
+            PeriodBox.Text = a.Year.ToString();
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -100,37 +99,143 @@ namespace Timotheus.Forms
             {
                 Button button = (Button)sender;
                 if (button.Text == "+")
-                    year++;
+                {
+                    if (period == Period.Year)
+                    {
+                        a = a.AddYears(1);
+                        b = b.AddYears(1);
+                        PeriodBox.Text = a.Year.ToString();
+                    }
+                    else if (period == Period.Halfyear)
+                    {
+                        a = a.AddMonths(6);
+                        b = b.AddMonths(6);
+
+                        if (a.Month > 6)
+                            PeriodBox.Text = a.Year + " Fall";
+                        else
+                            PeriodBox.Text = a.Year + " Spring";
+                    }
+                    else if (period == Period.Month)
+                    {
+                        a = a.AddMonths(1);
+                        b = b.AddMonths(1);
+                        PeriodBox.Text = a.Year + " " + a.Month;
+                    }
+                }
                 else if (button.Text == "-")
-                    year--;
+                {
+                    if (period == Period.Year)
+                    {
+                        a = a.AddYears(-1);
+                        b = b.AddYears(-1);
+                        PeriodBox.Text = a.Year.ToString();
+                    }
+                    else if (period == Period.Halfyear)
+                    {
+                        a = a.AddMonths(-6);
+                        b = b.AddMonths(-6);
+
+                        if (a.Month > 6)
+                            PeriodBox.Text = a.Year + " Fall";
+                        else
+                            PeriodBox.Text = a.Year + " Spring";
+                    }
+                    else if (period == Period.Month)
+                    {
+                        a = a.AddMonths(-1);
+                        b = b.AddMonths(-1);
+                        PeriodBox.Text = a.Year + " " + a.Month;
+                    }
+                }
             }
 
-            a = new DateTime(year, 1, 1);
-            b = new DateTime(year+1, 1, 1);
-            
-            PeriodBox.Text = year.ToString();
             UpdateTable();
         }
 
         //Updates the year text according to the selected period
         private void PeriodChanged(object sender, EventArgs e)
         {
-            if (AllButton.Checked)
+            RadioButton button = (RadioButton)sender;
+            if (button.Checked)
             {
-                PeriodBox.Text = "All";
-                AddYearButton.Enabled = false;
-                SubtractYearButton.Enabled = false;
-            }
-            else
-            {
-                if (YearButton.Checked)
-                    PeriodBox.Text = "2021";
-                else if (HalfYearButton.Checked)
-                    PeriodBox.Text = "2021 Spring";
-                else if (MonthButton.Checked)
-                    PeriodBox.Text = "2021 April";
-                AddYearButton.Enabled = true;
-                SubtractYearButton.Enabled = true;
+                if (AllButton.Checked)
+                {
+                    PeriodBox.Text = "All";
+                    AddYearButton.Enabled = false;
+                    SubtractYearButton.Enabled = false;
+
+                    a = DateTime.MinValue;
+                    b = DateTime.MaxValue;
+                    period = Period.All;
+                }
+                else
+                {
+                    if (YearButton.Checked)
+                    {
+                        if (period == Period.All)
+                        {
+                            a = new DateTime(DateTime.Now.Year, 1, 1);
+                            b = new DateTime(DateTime.Now.Year + 1, 1, 1);
+                        }
+                        else
+                        {
+                            a = new DateTime(a.Year, 1, 1);
+                            b = new DateTime(a.Year + 1, 1, 1);
+                        }
+
+                        PeriodBox.Text = a.Year.ToString();
+                        period = Period.Year;
+                    }
+                    else if (HalfYearButton.Checked)
+                    {
+                        if (period == Period.All)
+                        {
+                            if (DateTime.Now.Month > 6)
+                            {
+                                a = new DateTime(DateTime.Now.Year, 7, 1);
+                                b = new DateTime(DateTime.Now.Year+1, 1, 1);
+                            }
+                            else
+                            {
+                                a = new DateTime(DateTime.Now.Year, 1, 1);
+                                b = new DateTime(DateTime.Now.Year, 7, 1);
+                            }
+                        }
+                        else
+                        {
+                            if (a.Month > 6)
+                            {
+                                a = new DateTime(a.Year, 7, 1);
+                                b = new DateTime(a.Year + 1, 1, 1);
+                            }
+                            else
+                            {
+                                a = new DateTime(a.Year, 1, 1);
+                                b = new DateTime(a.Year, 7, 1);
+                            }
+                        }
+
+                        if (a.Month > 6)
+                            PeriodBox.Text = a.Year + " Fall";
+                        else
+                            PeriodBox.Text = a.Year + " Spring";
+                        period = Period.Halfyear;
+                    }
+                    else if (MonthButton.Checked)
+                    {
+                        a = new DateTime(a.Year, a.Month, 1);
+                        b = a.AddMonths(1);
+
+                        PeriodBox.Text = a.Year + " " + a.Month;
+                        period = Period.Month;
+                    }
+
+                    AddYearButton.Enabled = true;
+                    SubtractYearButton.Enabled = true;
+                }
+
+                UpdateTable();
             }
         }
 
@@ -405,5 +510,13 @@ namespace Timotheus.Forms
             }
             return base.ProcessDialogKey(keyData);
         }
+    }
+
+    enum Period
+    {
+        All,
+        Year,
+        Halfyear,
+        Month
     }
 }
