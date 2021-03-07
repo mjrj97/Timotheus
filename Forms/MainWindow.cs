@@ -22,7 +22,7 @@ namespace Timotheus.Forms
         public SortableBindingList<ConsentForm> consentForms = new SortableBindingList<ConsentForm>();
 
         public Calendar calendar = new Calendar();
-
+        
         public DateTime a = new DateTime(DateTime.Now.Year, 1, 1);
         public DateTime b = new DateTime(DateTime.Now.Year + 1, 1, 1);
         private Period period = Period.Year;
@@ -34,7 +34,7 @@ namespace Timotheus.Forms
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             InitializeComponent();
             SetupUI();
-            PeriodBox.Text = a.Year.ToString();
+            Calendar_PeriodBox.Text = a.Year.ToString();
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -64,20 +64,39 @@ namespace Timotheus.Forms
                         LogoPictureBox.Image = Image.FromFile(content[10].Trim());
                 }
             }
-
-            LocalizationLoader local = new LocalizationLoader(System.Globalization.CultureInfo.CurrentCulture.Name);
         }
 
         //Assigns the different lists to their appropriate DataGridViews and disables AutoGenerateColumns.
         private void SetupUI()
         {
-            CalendarView.AutoGenerateColumns = false;
+            Calendar_View.AutoGenerateColumns = false;
             FileView.AutoGenerateColumns = false;
             ConsentFormView.AutoGenerateColumns = false;
-            CalendarView.DataSource = new BindingSource(shownEvents, null);
+            Calendar_View.DataSource = new BindingSource(shownEvents, null);
             FileView.DataSource = new BindingSource(shownFiles, null);
             ConsentFormView.DataSource = new BindingSource(consentForms, null);
             PasswordBox.PasswordChar = '*';
+
+            LocalizationLoader locale = new LocalizationLoader(System.Globalization.CultureInfo.CurrentCulture.Name);
+
+            #region Calendar
+            Calendar_StartColumn.HeaderText = locale.GetLocalization(Calendar_StartColumn.Name);
+            Calendar_EndColumn.HeaderText = locale.GetLocalization(Calendar_EndColumn.Name);
+            Calendar_NameColumn.HeaderText = locale.GetLocalization(Calendar_NameColumn.Name);
+            Calendar_DescriptionColumn.HeaderText = locale.GetLocalization(Calendar_DescriptionColumn.Name);
+            Calendar_LocationColumn.HeaderText = locale.GetLocalization(Calendar_LocationColumn.Name);
+            Calendar_Page.Text = locale.GetLocalization(Calendar_Page.Name);
+            Calendar_MonthButton.Text = locale.GetLocalization(Calendar_MonthButton.Name);
+            Calendar_HalfYearButton.Text = locale.GetLocalization(Calendar_HalfYearButton.Name);
+            Calendar_YearButton.Text = locale.GetLocalization(Calendar_YearButton.Name);
+            Calendar_AllButton.Text = locale.GetLocalization(Calendar_AllButton.Name);
+            Calendar_SaveButton.Text = locale.GetLocalization(Calendar_SaveButton.Name);
+            Calendar_OpenButton.Text = locale.GetLocalization(Calendar_OpenButton.Name);
+            Calendar_SyncButton.Text = locale.GetLocalization(Calendar_SyncButton.Name);
+            Calendar_ExportButton.Text = locale.GetLocalization(Calendar_ExportButton.Name);
+            Calendar_RemoveButton.Text = locale.GetLocalization(Calendar_RemoveButton.Name);
+            Calendar_AddButton.Text = locale.GetLocalization(Calendar_AddButton.Name);
+            #endregion
         }
 
         #region Calendar
@@ -91,7 +110,7 @@ namespace Timotheus.Forms
                 if (calendar.events[i].IsInPeriod(a,b) && !calendar.events[i].Deleted)
                     shownEvents.Add(calendar.events[i]);
             }
-            CalendarView.Sort(CalendarView.Columns[0], ListSortDirection.Ascending);
+            Calendar_View.Sort(Calendar_View.Columns[0], ListSortDirection.Ascending);
         }
 
         //Changes the selected year and updates calls UpdateTable
@@ -106,7 +125,7 @@ namespace Timotheus.Forms
                     {
                         a = a.AddYears(1);
                         b = b.AddYears(1);
-                        PeriodBox.Text = a.Year.ToString();
+                        Calendar_PeriodBox.Text = a.Year.ToString();
                     }
                     else if (period == Period.Halfyear)
                     {
@@ -114,15 +133,15 @@ namespace Timotheus.Forms
                         b = b.AddMonths(6);
 
                         if (a.Month > 6)
-                            PeriodBox.Text = a.Year + " Fall";
+                            Calendar_PeriodBox.Text = a.Year + " Fall";
                         else
-                            PeriodBox.Text = a.Year + " Spring";
+                            Calendar_PeriodBox.Text = a.Year + " Spring";
                     }
                     else if (period == Period.Month)
                     {
                         a = a.AddMonths(1);
                         b = b.AddMonths(1);
-                        PeriodBox.Text = a.Year + " " + a.Month;
+                        Calendar_PeriodBox.Text = a.Year + " " + a.Month;
                     }
                 }
                 else if (button.Text == "-")
@@ -131,7 +150,7 @@ namespace Timotheus.Forms
                     {
                         a = a.AddYears(-1);
                         b = b.AddYears(-1);
-                        PeriodBox.Text = a.Year.ToString();
+                        Calendar_PeriodBox.Text = a.Year.ToString();
                     }
                     else if (period == Period.Halfyear)
                     {
@@ -139,15 +158,15 @@ namespace Timotheus.Forms
                         b = b.AddMonths(-6);
 
                         if (a.Month > 6)
-                            PeriodBox.Text = a.Year + " Fall";
+                            Calendar_PeriodBox.Text = a.Year + " Fall";
                         else
-                            PeriodBox.Text = a.Year + " Spring";
+                            Calendar_PeriodBox.Text = a.Year + " Spring";
                     }
                     else if (period == Period.Month)
                     {
                         a = a.AddMonths(-1);
                         b = b.AddMonths(-1);
-                        PeriodBox.Text = a.Year + " " + a.Month;
+                        Calendar_PeriodBox.Text = a.Year + " " + a.Month;
                     }
                 }
             }
@@ -161,11 +180,11 @@ namespace Timotheus.Forms
             RadioButton button = (RadioButton)sender;
             if (button.Checked)
             {
-                if (AllButton.Checked)
+                if (Calendar_AllButton.Checked)
                 {
-                    PeriodBox.Text = "All";
-                    AddYearButton.Enabled = false;
-                    SubtractYearButton.Enabled = false;
+                    Calendar_PeriodBox.Text = "All";
+                    Calendar_AddYearButton.Enabled = false;
+                    Calendar_SubtractYearButton.Enabled = false;
 
                     a = DateTime.MinValue;
                     b = DateTime.MaxValue;
@@ -173,7 +192,7 @@ namespace Timotheus.Forms
                 }
                 else
                 {
-                    if (YearButton.Checked)
+                    if (Calendar_YearButton.Checked)
                     {
                         if (period == Period.All)
                         {
@@ -186,10 +205,10 @@ namespace Timotheus.Forms
                             b = new DateTime(a.Year + 1, 1, 1);
                         }
 
-                        PeriodBox.Text = a.Year.ToString();
+                        Calendar_PeriodBox.Text = a.Year.ToString();
                         period = Period.Year;
                     }
-                    else if (HalfYearButton.Checked)
+                    else if (Calendar_HalfYearButton.Checked)
                     {
                         if (period == Period.All)
                         {
@@ -219,22 +238,22 @@ namespace Timotheus.Forms
                         }
 
                         if (a.Month > 6)
-                            PeriodBox.Text = a.Year + " Fall";
+                            Calendar_PeriodBox.Text = a.Year + " Fall";
                         else
-                            PeriodBox.Text = a.Year + " Spring";
+                            Calendar_PeriodBox.Text = a.Year + " Spring";
                         period = Period.Halfyear;
                     }
-                    else if (MonthButton.Checked)
+                    else if (Calendar_MonthButton.Checked)
                     {
                         a = new DateTime(a.Year, a.Month, 1);
                         b = a.AddMonths(1);
 
-                        PeriodBox.Text = a.Year + " " + a.Month;
+                        Calendar_PeriodBox.Text = a.Year + " " + a.Month;
                         period = Period.Month;
                     }
 
-                    AddYearButton.Enabled = true;
-                    SubtractYearButton.Enabled = true;
+                    Calendar_AddYearButton.Enabled = true;
+                    Calendar_SubtractYearButton.Enabled = true;
                 }
 
                 UpdateTable();
@@ -258,7 +277,7 @@ namespace Timotheus.Forms
         {
             if (shownEvents.Count > 0)
             {
-                Event ev = shownEvents[CalendarView.CurrentCell.OwningRow.Index];
+                Event ev = shownEvents[Calendar_View.CurrentCell.OwningRow.Index];
                 int index = 0;
                 for (int i = 0; i < calendar.events.Count; i++)
                 {

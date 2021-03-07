@@ -22,29 +22,24 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.CalendarView = new System.Windows.Forms.DataGridView();
-            this.StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EndColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LocationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Calendar_View = new System.Windows.Forms.DataGridView();
             this.tabControl = new System.Windows.Forms.TabControl();
-            this.calendarPage = new System.Windows.Forms.TabPage();
-            this.MonthButton = new System.Windows.Forms.RadioButton();
-            this.HalfYearButton = new System.Windows.Forms.RadioButton();
-            this.YearButton = new System.Windows.Forms.RadioButton();
-            this.AllButton = new System.Windows.Forms.RadioButton();
-            this.SaveButton = new System.Windows.Forms.Button();
-            this.OpenButton = new System.Windows.Forms.Button();
-            this.SyncCalendarButton = new System.Windows.Forms.Button();
-            this.ExportButton = new System.Windows.Forms.Button();
-            this.RemoveButton = new System.Windows.Forms.Button();
-            this.AddButton = new System.Windows.Forms.Button();
-            this.PeriodBox = new System.Windows.Forms.TextBox();
-            this.AddYearButton = new System.Windows.Forms.Button();
-            this.SubtractYearButton = new System.Windows.Forms.Button();
+            this.Calendar_Page = new System.Windows.Forms.TabPage();
+            this.Calendar_MonthButton = new System.Windows.Forms.RadioButton();
+            this.Calendar_HalfYearButton = new System.Windows.Forms.RadioButton();
+            this.Calendar_YearButton = new System.Windows.Forms.RadioButton();
+            this.Calendar_AllButton = new System.Windows.Forms.RadioButton();
+            this.Calendar_SaveButton = new System.Windows.Forms.Button();
+            this.Calendar_OpenButton = new System.Windows.Forms.Button();
+            this.Calendar_SyncButton = new System.Windows.Forms.Button();
+            this.Calendar_ExportButton = new System.Windows.Forms.Button();
+            this.Calendar_RemoveButton = new System.Windows.Forms.Button();
+            this.Calendar_AddButton = new System.Windows.Forms.Button();
+            this.Calendar_PeriodBox = new System.Windows.Forms.TextBox();
+            this.Calendar_AddYearButton = new System.Windows.Forms.Button();
+            this.Calendar_SubtractYearButton = new System.Windows.Forms.Button();
             this.sftpPage = new System.Windows.Forms.TabPage();
             this.SynchronizeButton = new System.Windows.Forms.Button();
             this.DownloadAllButton = new System.Windows.Forms.Button();
@@ -94,9 +89,14 @@
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).BeginInit();
+            this.Calendar_StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Calendar_EndColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Calendar_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Calendar_DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Calendar_LocationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.Calendar_View)).BeginInit();
             this.tabControl.SuspendLayout();
-            this.calendarPage.SuspendLayout();
+            this.Calendar_Page.SuspendLayout();
             this.sftpPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FileView)).BeginInit();
             this.consentFormPage.SuspendLayout();
@@ -109,86 +109,42 @@
             this.TrayContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
-            // CalendarView
+            // Calendar_View
             // 
-            this.CalendarView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.Calendar_View.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CalendarView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CalendarView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.StartColumn,
-            this.EndColumn,
-            this.NameColumn,
-            this.DescriptionColumn,
-            this.LocationColumn});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.CalendarView.DefaultCellStyle = dataGridViewCellStyle1;
-            this.CalendarView.Location = new System.Drawing.Point(11, 52);
-            this.CalendarView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.CalendarView.Name = "CalendarView";
-            this.CalendarView.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.CalendarView.RowHeadersVisible = false;
-            this.CalendarView.RowHeadersWidth = 51;
-            this.CalendarView.RowTemplate.Height = 25;
-            this.CalendarView.Size = new System.Drawing.Size(885, 441);
-            this.CalendarView.TabIndex = 3;
-            // 
-            // StartColumn
-            // 
-            this.StartColumn.DataPropertyName = "StartTime";
-            this.StartColumn.FillWeight = 39.11343F;
-            this.StartColumn.HeaderText = "Start";
-            this.StartColumn.MinimumWidth = 6;
-            this.StartColumn.Name = "StartColumn";
-            this.StartColumn.Width = 125;
-            // 
-            // EndColumn
-            // 
-            this.EndColumn.DataPropertyName = "EndTime";
-            this.EndColumn.FillWeight = 44.62484F;
-            this.EndColumn.HeaderText = "End";
-            this.EndColumn.MinimumWidth = 6;
-            this.EndColumn.Name = "EndColumn";
-            this.EndColumn.Width = 125;
-            // 
-            // NameColumn
-            // 
-            this.NameColumn.DataPropertyName = "Name";
-            this.NameColumn.FillWeight = 132.2595F;
-            this.NameColumn.HeaderText = "Name";
-            this.NameColumn.MinimumWidth = 6;
-            this.NameColumn.Name = "NameColumn";
-            this.NameColumn.Width = 253;
-            // 
-            // DescriptionColumn
-            // 
-            this.DescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.DescriptionColumn.DataPropertyName = "Description";
-            this.DescriptionColumn.FillWeight = 184.0022F;
-            this.DescriptionColumn.HeaderText = "Description";
-            this.DescriptionColumn.MinimumWidth = 6;
-            this.DescriptionColumn.Name = "DescriptionColumn";
-            // 
-            // LocationColumn
-            // 
-            this.LocationColumn.DataPropertyName = "Location";
-            this.LocationColumn.HeaderText = "Location";
-            this.LocationColumn.MinimumWidth = 6;
-            this.LocationColumn.Name = "LocationColumn";
-            this.LocationColumn.Width = 125;
+            this.Calendar_View.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Calendar_View.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Calendar_StartColumn,
+            this.Calendar_EndColumn,
+            this.Calendar_NameColumn,
+            this.Calendar_DescriptionColumn,
+            this.Calendar_LocationColumn});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Calendar_View.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Calendar_View.Location = new System.Drawing.Point(11, 52);
+            this.Calendar_View.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Calendar_View.Name = "Calendar_View";
+            this.Calendar_View.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.Calendar_View.RowHeadersVisible = false;
+            this.Calendar_View.RowHeadersWidth = 51;
+            this.Calendar_View.RowTemplate.Height = 25;
+            this.Calendar_View.Size = new System.Drawing.Size(885, 441);
+            this.Calendar_View.TabIndex = 3;
             // 
             // tabControl
             // 
             this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl.Controls.Add(this.calendarPage);
+            this.tabControl.Controls.Add(this.Calendar_Page);
             this.tabControl.Controls.Add(this.sftpPage);
             this.tabControl.Controls.Add(this.consentFormPage);
             this.tabControl.Controls.Add(this.settingsPage);
@@ -200,184 +156,184 @@
             this.tabControl.Size = new System.Drawing.Size(917, 583);
             this.tabControl.TabIndex = 0;
             // 
-            // calendarPage
+            // Calendar_Page
             // 
-            this.calendarPage.Controls.Add(this.MonthButton);
-            this.calendarPage.Controls.Add(this.HalfYearButton);
-            this.calendarPage.Controls.Add(this.YearButton);
-            this.calendarPage.Controls.Add(this.AllButton);
-            this.calendarPage.Controls.Add(this.SaveButton);
-            this.calendarPage.Controls.Add(this.OpenButton);
-            this.calendarPage.Controls.Add(this.SyncCalendarButton);
-            this.calendarPage.Controls.Add(this.ExportButton);
-            this.calendarPage.Controls.Add(this.RemoveButton);
-            this.calendarPage.Controls.Add(this.AddButton);
-            this.calendarPage.Controls.Add(this.CalendarView);
-            this.calendarPage.Controls.Add(this.PeriodBox);
-            this.calendarPage.Controls.Add(this.AddYearButton);
-            this.calendarPage.Controls.Add(this.SubtractYearButton);
-            this.calendarPage.Location = new System.Drawing.Point(4, 29);
-            this.calendarPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.calendarPage.Name = "calendarPage";
-            this.calendarPage.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.calendarPage.Size = new System.Drawing.Size(909, 550);
-            this.calendarPage.TabIndex = 0;
-            this.calendarPage.Text = "Calendar";
-            this.calendarPage.UseVisualStyleBackColor = true;
+            this.Calendar_Page.Controls.Add(this.Calendar_MonthButton);
+            this.Calendar_Page.Controls.Add(this.Calendar_HalfYearButton);
+            this.Calendar_Page.Controls.Add(this.Calendar_YearButton);
+            this.Calendar_Page.Controls.Add(this.Calendar_AllButton);
+            this.Calendar_Page.Controls.Add(this.Calendar_SaveButton);
+            this.Calendar_Page.Controls.Add(this.Calendar_OpenButton);
+            this.Calendar_Page.Controls.Add(this.Calendar_SyncButton);
+            this.Calendar_Page.Controls.Add(this.Calendar_ExportButton);
+            this.Calendar_Page.Controls.Add(this.Calendar_RemoveButton);
+            this.Calendar_Page.Controls.Add(this.Calendar_AddButton);
+            this.Calendar_Page.Controls.Add(this.Calendar_View);
+            this.Calendar_Page.Controls.Add(this.Calendar_PeriodBox);
+            this.Calendar_Page.Controls.Add(this.Calendar_AddYearButton);
+            this.Calendar_Page.Controls.Add(this.Calendar_SubtractYearButton);
+            this.Calendar_Page.Location = new System.Drawing.Point(4, 29);
+            this.Calendar_Page.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Calendar_Page.Name = "Calendar_Page";
+            this.Calendar_Page.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Calendar_Page.Size = new System.Drawing.Size(909, 550);
+            this.Calendar_Page.TabIndex = 0;
+            this.Calendar_Page.Text = "Calendar";
+            this.Calendar_Page.UseVisualStyleBackColor = true;
             // 
-            // MonthButton
+            // Calendar_MonthButton
             // 
-            this.MonthButton.AutoSize = true;
-            this.MonthButton.Location = new System.Drawing.Point(465, 15);
-            this.MonthButton.Name = "MonthButton";
-            this.MonthButton.Size = new System.Drawing.Size(73, 24);
-            this.MonthButton.TabIndex = 13;
-            this.MonthButton.TabStop = true;
-            this.MonthButton.Text = "Month";
-            this.MonthButton.UseVisualStyleBackColor = true;
-            this.MonthButton.CheckedChanged += new System.EventHandler(this.PeriodChanged);
+            this.Calendar_MonthButton.AutoSize = true;
+            this.Calendar_MonthButton.Location = new System.Drawing.Point(465, 15);
+            this.Calendar_MonthButton.Name = "Calendar_MonthButton";
+            this.Calendar_MonthButton.Size = new System.Drawing.Size(73, 24);
+            this.Calendar_MonthButton.TabIndex = 13;
+            this.Calendar_MonthButton.TabStop = true;
+            this.Calendar_MonthButton.Text = "Month";
+            this.Calendar_MonthButton.UseVisualStyleBackColor = true;
+            this.Calendar_MonthButton.CheckedChanged += new System.EventHandler(this.PeriodChanged);
             // 
-            // HalfYearButton
+            // Calendar_HalfYearButton
             // 
-            this.HalfYearButton.AutoSize = true;
-            this.HalfYearButton.Location = new System.Drawing.Point(360, 15);
-            this.HalfYearButton.Name = "HalfYearButton";
-            this.HalfYearButton.Size = new System.Drawing.Size(92, 24);
-            this.HalfYearButton.TabIndex = 12;
-            this.HalfYearButton.TabStop = true;
-            this.HalfYearButton.Text = "Half-year";
-            this.HalfYearButton.UseVisualStyleBackColor = true;
-            this.HalfYearButton.CheckedChanged += new System.EventHandler(this.PeriodChanged);
+            this.Calendar_HalfYearButton.AutoSize = true;
+            this.Calendar_HalfYearButton.Location = new System.Drawing.Point(360, 15);
+            this.Calendar_HalfYearButton.Name = "Calendar_HalfYearButton";
+            this.Calendar_HalfYearButton.Size = new System.Drawing.Size(92, 24);
+            this.Calendar_HalfYearButton.TabIndex = 12;
+            this.Calendar_HalfYearButton.TabStop = true;
+            this.Calendar_HalfYearButton.Text = "Half-year";
+            this.Calendar_HalfYearButton.UseVisualStyleBackColor = true;
+            this.Calendar_HalfYearButton.CheckedChanged += new System.EventHandler(this.PeriodChanged);
             // 
-            // YearButton
+            // Calendar_YearButton
             // 
-            this.YearButton.AutoSize = true;
-            this.YearButton.Checked = true;
-            this.YearButton.Location = new System.Drawing.Point(285, 15);
-            this.YearButton.Name = "YearButton";
-            this.YearButton.Size = new System.Drawing.Size(58, 24);
-            this.YearButton.TabIndex = 11;
-            this.YearButton.TabStop = true;
-            this.YearButton.Text = "Year";
-            this.YearButton.UseVisualStyleBackColor = true;
-            this.YearButton.CheckedChanged += new System.EventHandler(this.PeriodChanged);
+            this.Calendar_YearButton.AutoSize = true;
+            this.Calendar_YearButton.Checked = true;
+            this.Calendar_YearButton.Location = new System.Drawing.Point(285, 15);
+            this.Calendar_YearButton.Name = "Calendar_YearButton";
+            this.Calendar_YearButton.Size = new System.Drawing.Size(58, 24);
+            this.Calendar_YearButton.TabIndex = 11;
+            this.Calendar_YearButton.TabStop = true;
+            this.Calendar_YearButton.Text = "Year";
+            this.Calendar_YearButton.UseVisualStyleBackColor = true;
+            this.Calendar_YearButton.CheckedChanged += new System.EventHandler(this.PeriodChanged);
             // 
-            // AllButton
+            // Calendar_AllButton
             // 
-            this.AllButton.AutoSize = true;
-            this.AllButton.Location = new System.Drawing.Point(220, 15);
-            this.AllButton.Name = "AllButton";
-            this.AllButton.Size = new System.Drawing.Size(48, 24);
-            this.AllButton.TabIndex = 10;
-            this.AllButton.Text = "All";
-            this.AllButton.UseVisualStyleBackColor = true;
-            this.AllButton.CheckedChanged += new System.EventHandler(this.PeriodChanged);
+            this.Calendar_AllButton.AutoSize = true;
+            this.Calendar_AllButton.Location = new System.Drawing.Point(220, 15);
+            this.Calendar_AllButton.Name = "Calendar_AllButton";
+            this.Calendar_AllButton.Size = new System.Drawing.Size(48, 24);
+            this.Calendar_AllButton.TabIndex = 10;
+            this.Calendar_AllButton.Text = "All";
+            this.Calendar_AllButton.UseVisualStyleBackColor = true;
+            this.Calendar_AllButton.CheckedChanged += new System.EventHandler(this.PeriodChanged);
             // 
-            // SaveButton
+            // Calendar_SaveButton
             // 
-            this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveButton.Location = new System.Drawing.Point(770, 13);
-            this.SaveButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(57, 27);
-            this.SaveButton.TabIndex = 9;
-            this.SaveButton.Text = "Save";
-            this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.Click += new System.EventHandler(this.SaveCalendar);
+            this.Calendar_SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.Calendar_SaveButton.Location = new System.Drawing.Point(770, 13);
+            this.Calendar_SaveButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Calendar_SaveButton.Name = "Calendar_SaveButton";
+            this.Calendar_SaveButton.Size = new System.Drawing.Size(57, 27);
+            this.Calendar_SaveButton.TabIndex = 9;
+            this.Calendar_SaveButton.Text = "Save";
+            this.Calendar_SaveButton.UseVisualStyleBackColor = true;
+            this.Calendar_SaveButton.Click += new System.EventHandler(this.SaveCalendar);
             // 
-            // OpenButton
+            // Calendar_OpenButton
             // 
-            this.OpenButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.OpenButton.Location = new System.Drawing.Point(839, 13);
-            this.OpenButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.OpenButton.Name = "OpenButton";
-            this.OpenButton.Size = new System.Drawing.Size(57, 27);
-            this.OpenButton.TabIndex = 8;
-            this.OpenButton.Text = "Open";
-            this.OpenButton.UseVisualStyleBackColor = true;
-            this.OpenButton.Click += new System.EventHandler(this.OpenCalendar);
+            this.Calendar_OpenButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.Calendar_OpenButton.Location = new System.Drawing.Point(839, 13);
+            this.Calendar_OpenButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Calendar_OpenButton.Name = "Calendar_OpenButton";
+            this.Calendar_OpenButton.Size = new System.Drawing.Size(57, 27);
+            this.Calendar_OpenButton.TabIndex = 8;
+            this.Calendar_OpenButton.Text = "Open";
+            this.Calendar_OpenButton.UseVisualStyleBackColor = true;
+            this.Calendar_OpenButton.Click += new System.EventHandler(this.OpenCalendar);
             // 
-            // SyncCalendarButton
+            // Calendar_SyncButton
             // 
-            this.SyncCalendarButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SyncCalendarButton.Location = new System.Drawing.Point(627, 504);
-            this.SyncCalendarButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.SyncCalendarButton.Name = "SyncCalendarButton";
-            this.SyncCalendarButton.Size = new System.Drawing.Size(143, 31);
-            this.SyncCalendarButton.TabIndex = 7;
-            this.SyncCalendarButton.Text = "Sync Calendar";
-            this.SyncCalendarButton.UseVisualStyleBackColor = true;
-            this.SyncCalendarButton.Click += new System.EventHandler(this.SyncCalendar);
+            this.Calendar_SyncButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Calendar_SyncButton.Location = new System.Drawing.Point(627, 504);
+            this.Calendar_SyncButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Calendar_SyncButton.Name = "Calendar_SyncButton";
+            this.Calendar_SyncButton.Size = new System.Drawing.Size(143, 31);
+            this.Calendar_SyncButton.TabIndex = 7;
+            this.Calendar_SyncButton.Text = "Sync Calendar";
+            this.Calendar_SyncButton.UseVisualStyleBackColor = true;
+            this.Calendar_SyncButton.Click += new System.EventHandler(this.SyncCalendar);
             // 
-            // ExportButton
+            // Calendar_ExportButton
             // 
-            this.ExportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ExportButton.Location = new System.Drawing.Point(782, 504);
-            this.ExportButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ExportButton.Name = "ExportButton";
-            this.ExportButton.Size = new System.Drawing.Size(114, 31);
-            this.ExportButton.TabIndex = 6;
-            this.ExportButton.Text = "Export PDF";
-            this.ExportButton.UseVisualStyleBackColor = true;
-            this.ExportButton.Click += new System.EventHandler(this.ExportPDF);
+            this.Calendar_ExportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Calendar_ExportButton.Location = new System.Drawing.Point(782, 504);
+            this.Calendar_ExportButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Calendar_ExportButton.Name = "Calendar_ExportButton";
+            this.Calendar_ExportButton.Size = new System.Drawing.Size(114, 31);
+            this.Calendar_ExportButton.TabIndex = 6;
+            this.Calendar_ExportButton.Text = "Export PDF";
+            this.Calendar_ExportButton.UseVisualStyleBackColor = true;
+            this.Calendar_ExportButton.Click += new System.EventHandler(this.ExportPDF);
             // 
-            // RemoveButton
+            // Calendar_RemoveButton
             // 
-            this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.RemoveButton.Location = new System.Drawing.Point(109, 504);
-            this.RemoveButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.RemoveButton.Name = "RemoveButton";
-            this.RemoveButton.Size = new System.Drawing.Size(86, 31);
-            this.RemoveButton.TabIndex = 5;
-            this.RemoveButton.Text = "Remove";
-            this.RemoveButton.UseVisualStyleBackColor = true;
-            this.RemoveButton.Click += new System.EventHandler(this.RemoveEvent);
+            this.Calendar_RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Calendar_RemoveButton.Location = new System.Drawing.Point(109, 504);
+            this.Calendar_RemoveButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Calendar_RemoveButton.Name = "Calendar_RemoveButton";
+            this.Calendar_RemoveButton.Size = new System.Drawing.Size(86, 31);
+            this.Calendar_RemoveButton.TabIndex = 5;
+            this.Calendar_RemoveButton.Text = "Remove";
+            this.Calendar_RemoveButton.UseVisualStyleBackColor = true;
+            this.Calendar_RemoveButton.Click += new System.EventHandler(this.RemoveEvent);
             // 
-            // AddButton
+            // Calendar_AddButton
             // 
-            this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddButton.Location = new System.Drawing.Point(11, 504);
-            this.AddButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.AddButton.Name = "AddButton";
-            this.AddButton.Size = new System.Drawing.Size(86, 31);
-            this.AddButton.TabIndex = 4;
-            this.AddButton.Text = "Add";
-            this.AddButton.UseVisualStyleBackColor = true;
-            this.AddButton.Click += new System.EventHandler(this.AddEvent);
+            this.Calendar_AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Calendar_AddButton.Location = new System.Drawing.Point(11, 504);
+            this.Calendar_AddButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Calendar_AddButton.Name = "Calendar_AddButton";
+            this.Calendar_AddButton.Size = new System.Drawing.Size(86, 31);
+            this.Calendar_AddButton.TabIndex = 4;
+            this.Calendar_AddButton.Text = "Add";
+            this.Calendar_AddButton.UseVisualStyleBackColor = true;
+            this.Calendar_AddButton.Click += new System.EventHandler(this.AddEvent);
             // 
-            // PeriodBox
+            // Calendar_PeriodBox
             // 
-            this.PeriodBox.Location = new System.Drawing.Point(43, 13);
-            this.PeriodBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.PeriodBox.Name = "PeriodBox";
-            this.PeriodBox.Size = new System.Drawing.Size(114, 27);
-            this.PeriodBox.TabIndex = 2;
-            this.PeriodBox.Text = "2020";
-            this.PeriodBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Calendar_PeriodBox.Location = new System.Drawing.Point(43, 13);
+            this.Calendar_PeriodBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Calendar_PeriodBox.Name = "Calendar_PeriodBox";
+            this.Calendar_PeriodBox.Size = new System.Drawing.Size(114, 27);
+            this.Calendar_PeriodBox.TabIndex = 2;
+            this.Calendar_PeriodBox.Text = "2020";
+            this.Calendar_PeriodBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // AddYearButton
+            // Calendar_AddYearButton
             // 
-            this.AddYearButton.Location = new System.Drawing.Point(163, 13);
-            this.AddYearButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.AddYearButton.Name = "AddYearButton";
-            this.AddYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
-            this.AddYearButton.Size = new System.Drawing.Size(26, 27);
-            this.AddYearButton.TabIndex = 1;
-            this.AddYearButton.Text = "+";
-            this.AddYearButton.UseVisualStyleBackColor = true;
-            this.AddYearButton.Click += new System.EventHandler(this.UpdatePeriod);
+            this.Calendar_AddYearButton.Location = new System.Drawing.Point(163, 13);
+            this.Calendar_AddYearButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Calendar_AddYearButton.Name = "Calendar_AddYearButton";
+            this.Calendar_AddYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.Calendar_AddYearButton.Size = new System.Drawing.Size(26, 27);
+            this.Calendar_AddYearButton.TabIndex = 1;
+            this.Calendar_AddYearButton.Text = "+";
+            this.Calendar_AddYearButton.UseVisualStyleBackColor = true;
+            this.Calendar_AddYearButton.Click += new System.EventHandler(this.UpdatePeriod);
             // 
-            // SubtractYearButton
+            // Calendar_SubtractYearButton
             // 
-            this.SubtractYearButton.Location = new System.Drawing.Point(11, 13);
-            this.SubtractYearButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.SubtractYearButton.Name = "SubtractYearButton";
-            this.SubtractYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
-            this.SubtractYearButton.Size = new System.Drawing.Size(26, 27);
-            this.SubtractYearButton.TabIndex = 0;
-            this.SubtractYearButton.Text = "-";
-            this.SubtractYearButton.UseVisualStyleBackColor = true;
-            this.SubtractYearButton.Click += new System.EventHandler(this.UpdatePeriod);
+            this.Calendar_SubtractYearButton.Location = new System.Drawing.Point(11, 13);
+            this.Calendar_SubtractYearButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Calendar_SubtractYearButton.Name = "Calendar_SubtractYearButton";
+            this.Calendar_SubtractYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.Calendar_SubtractYearButton.Size = new System.Drawing.Size(26, 27);
+            this.Calendar_SubtractYearButton.TabIndex = 0;
+            this.Calendar_SubtractYearButton.Text = "-";
+            this.Calendar_SubtractYearButton.UseVisualStyleBackColor = true;
+            this.Calendar_SubtractYearButton.Click += new System.EventHandler(this.UpdatePeriod);
             // 
             // sftpPage
             // 
@@ -894,6 +850,50 @@
             this.TrayClose.Text = "Close";
             this.TrayClose.Click += new System.EventHandler(this.Exit);
             // 
+            // Calendar_StartColumn
+            // 
+            this.Calendar_StartColumn.DataPropertyName = "StartTime";
+            this.Calendar_StartColumn.FillWeight = 39.11343F;
+            this.Calendar_StartColumn.HeaderText = "Start";
+            this.Calendar_StartColumn.MinimumWidth = 6;
+            this.Calendar_StartColumn.Name = "Calendar_StartColumn";
+            this.Calendar_StartColumn.Width = 125;
+            // 
+            // Calendar_EndColumn
+            // 
+            this.Calendar_EndColumn.DataPropertyName = "EndTime";
+            this.Calendar_EndColumn.FillWeight = 44.62484F;
+            this.Calendar_EndColumn.HeaderText = "End";
+            this.Calendar_EndColumn.MinimumWidth = 6;
+            this.Calendar_EndColumn.Name = "Calendar_EndColumn";
+            this.Calendar_EndColumn.Width = 125;
+            // 
+            // Calendar_NameColumn
+            // 
+            this.Calendar_NameColumn.DataPropertyName = "Name";
+            this.Calendar_NameColumn.FillWeight = 132.2595F;
+            this.Calendar_NameColumn.HeaderText = "Name";
+            this.Calendar_NameColumn.MinimumWidth = 6;
+            this.Calendar_NameColumn.Name = "Calendar_NameColumn";
+            this.Calendar_NameColumn.Width = 253;
+            // 
+            // Calendar_DescriptionColumn
+            // 
+            this.Calendar_DescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Calendar_DescriptionColumn.DataPropertyName = "Description";
+            this.Calendar_DescriptionColumn.FillWeight = 184.0022F;
+            this.Calendar_DescriptionColumn.HeaderText = "Description";
+            this.Calendar_DescriptionColumn.MinimumWidth = 6;
+            this.Calendar_DescriptionColumn.Name = "Calendar_DescriptionColumn";
+            // 
+            // Calendar_LocationColumn
+            // 
+            this.Calendar_LocationColumn.DataPropertyName = "Location";
+            this.Calendar_LocationColumn.HeaderText = "Location";
+            this.Calendar_LocationColumn.MinimumWidth = 6;
+            this.Calendar_LocationColumn.Name = "Calendar_LocationColumn";
+            this.Calendar_LocationColumn.Width = 125;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -906,10 +906,10 @@
             this.Name = "MainWindow";
             this.Text = "Timotheus";
             this.Resize += new System.EventHandler(this.Manager_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.CalendarView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Calendar_View)).EndInit();
             this.tabControl.ResumeLayout(false);
-            this.calendarPage.ResumeLayout(false);
-            this.calendarPage.PerformLayout();
+            this.Calendar_Page.ResumeLayout(false);
+            this.Calendar_Page.PerformLayout();
             this.sftpPage.ResumeLayout(false);
             this.sftpPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FileView)).EndInit();
@@ -930,12 +930,9 @@
         #endregion
 
         private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.TabPage calendarPage;
         private System.Windows.Forms.TabPage helpPage;
         private System.Windows.Forms.TabPage sftpPage;
         private System.Windows.Forms.TabPage settingsPage;
-        public System.Windows.Forms.TextBox PeriodBox;
-        private System.Windows.Forms.Button SyncCalendarButton;
         private System.Windows.Forms.NotifyIcon TrayIcon;
         private System.Windows.Forms.ContextMenuStrip TrayContextMenu;
         private System.Windows.Forms.ToolStripMenuItem TrayOpen;
@@ -948,19 +945,26 @@
         private System.Windows.Forms.Label EmailLabel;
         private System.Windows.Forms.Label AuthorLabel;
         private System.Windows.Forms.Label LicenseLabel;
-        private System.Windows.Forms.DataGridView CalendarView;
-        private System.Windows.Forms.Button SaveButton;
-        private System.Windows.Forms.Button OpenButton;
-        private System.Windows.Forms.Button ExportButton;
-        private System.Windows.Forms.Button RemoveButton;
-        private System.Windows.Forms.Button AddButton;
-        private System.Windows.Forms.Button AddYearButton;
-        private System.Windows.Forms.Button SubtractYearButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StartColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EndColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DescriptionColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LocationColumn;
+        private System.Windows.Forms.TabPage Calendar_Page;
+        private System.Windows.Forms.DataGridView Calendar_View;
+        private System.Windows.Forms.Button Calendar_SaveButton;
+        private System.Windows.Forms.Button Calendar_OpenButton;
+        private System.Windows.Forms.Button Calendar_ExportButton;
+        private System.Windows.Forms.Button Calendar_RemoveButton;
+        private System.Windows.Forms.Button Calendar_AddButton;
+        private System.Windows.Forms.Button Calendar_AddYearButton;
+        private System.Windows.Forms.Button Calendar_SubtractYearButton;
+        public System.Windows.Forms.TextBox Calendar_PeriodBox;
+        private System.Windows.Forms.Button Calendar_SyncButton;
+        private System.Windows.Forms.RadioButton Calendar_MonthButton;
+        private System.Windows.Forms.RadioButton Calendar_HalfYearButton;
+        private System.Windows.Forms.RadioButton Calendar_YearButton;
+        private System.Windows.Forms.RadioButton Calendar_AllButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_StartColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_EndColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_DescriptionColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_LocationColumn;
         private System.Windows.Forms.TextBox HostBox;
         private System.Windows.Forms.TextBox UsernameBox;
         private System.Windows.Forms.Label PasswordLabel;
@@ -995,10 +999,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForm_DateColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForm_VersionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForm_CommentColumn;
-        private System.Windows.Forms.RadioButton MonthButton;
-        private System.Windows.Forms.RadioButton HalfYearButton;
-        private System.Windows.Forms.RadioButton YearButton;
-        private System.Windows.Forms.RadioButton AllButton;
     }
 }
 

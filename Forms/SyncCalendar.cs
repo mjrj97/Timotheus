@@ -11,7 +11,7 @@ namespace Timotheus.Forms
         {
             InitializeComponent();
             PasswordBox.PasswordChar = '*';
-            PeriodCalendarButton.Text = "Sync the period: " + MainWindow.window.PeriodBox.Text;
+            PeriodCalendarButton.Text = "Sync the period: " + MainWindow.window.Calendar_PeriodBox.Text;
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))

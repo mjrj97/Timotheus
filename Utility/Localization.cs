@@ -51,9 +51,10 @@ namespace Timotheus.Utility
 
             while (!found && i < locale.Count)
             {
-                if (locale[i].name == name)
+                if (!locale[i].found && locale[i].name == name)
                 {
                     value = locale[i].value;
+                    locale[i].found = true;
                     found = true;
                 }
                 i++;
@@ -67,6 +68,7 @@ namespace Timotheus.Utility
     {
         public readonly string name;
         public readonly string value;
+        public bool found = false;
 
         public Localization(string name, string value)
         {
