@@ -63,14 +63,14 @@
             this.SFTP_UsernameBox = new System.Windows.Forms.TextBox();
             this.SFTP_HostLabel = new System.Windows.Forms.Label();
             this.SFTP_HostBox = new System.Windows.Forms.TextBox();
-            this.consentFormPage = new System.Windows.Forms.TabPage();
-            this.RemoveConsentFormButton = new System.Windows.Forms.Button();
-            this.AddConsentFormButton = new System.Windows.Forms.Button();
-            this.ConsentFormView = new System.Windows.Forms.DataGridView();
-            this.ConsentForm_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ConsentForm_DateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ConsentForm_VersionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ConsentForm_CommentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ConsentForms_Page = new System.Windows.Forms.TabPage();
+            this.ConsentForms_RemoveButton = new System.Windows.Forms.Button();
+            this.ConsentForms_AddButton = new System.Windows.Forms.Button();
+            this.ConsentForms_View = new System.Windows.Forms.DataGridView();
+            this.ConsentForms_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ConsentForms_DateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ConsentForms_VersionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ConsentForms_CommentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.settingsPage = new System.Windows.Forms.TabPage();
             this.infoBox = new System.Windows.Forms.GroupBox();
             this.LogoBox = new System.Windows.Forms.TextBox();
@@ -99,8 +99,8 @@
             this.Calendar_Page.SuspendLayout();
             this.SFTP_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).BeginInit();
-            this.consentFormPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ConsentFormView)).BeginInit();
+            this.ConsentForms_Page.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).BeginInit();
             this.settingsPage.SuspendLayout();
             this.infoBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).BeginInit();
@@ -190,7 +190,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.Calendar_Page);
             this.tabControl.Controls.Add(this.SFTP_Page);
-            this.tabControl.Controls.Add(this.consentFormPage);
+            this.tabControl.Controls.Add(this.ConsentForms_Page);
             this.tabControl.Controls.Add(this.settingsPage);
             this.tabControl.Controls.Add(this.helpPage);
             this.tabControl.Location = new System.Drawing.Point(2, 4);
@@ -572,95 +572,95 @@
             this.SFTP_HostBox.Size = new System.Drawing.Size(171, 27);
             this.SFTP_HostBox.TabIndex = 0;
             // 
-            // consentFormPage
+            // ConsentForms_Page
             // 
-            this.consentFormPage.Controls.Add(this.RemoveConsentFormButton);
-            this.consentFormPage.Controls.Add(this.AddConsentFormButton);
-            this.consentFormPage.Controls.Add(this.ConsentFormView);
-            this.consentFormPage.Location = new System.Drawing.Point(4, 29);
-            this.consentFormPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.consentFormPage.Name = "consentFormPage";
-            this.consentFormPage.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.consentFormPage.Size = new System.Drawing.Size(909, 550);
-            this.consentFormPage.TabIndex = 4;
-            this.consentFormPage.Text = "Consent forms";
-            this.consentFormPage.UseVisualStyleBackColor = true;
+            this.ConsentForms_Page.Controls.Add(this.ConsentForms_RemoveButton);
+            this.ConsentForms_Page.Controls.Add(this.ConsentForms_AddButton);
+            this.ConsentForms_Page.Controls.Add(this.ConsentForms_View);
+            this.ConsentForms_Page.Location = new System.Drawing.Point(4, 29);
+            this.ConsentForms_Page.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ConsentForms_Page.Name = "ConsentForms_Page";
+            this.ConsentForms_Page.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ConsentForms_Page.Size = new System.Drawing.Size(909, 550);
+            this.ConsentForms_Page.TabIndex = 4;
+            this.ConsentForms_Page.Text = "Consent forms";
+            this.ConsentForms_Page.UseVisualStyleBackColor = true;
             // 
-            // RemoveConsentFormButton
+            // ConsentForms_RemoveButton
             // 
-            this.RemoveConsentFormButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.RemoveConsentFormButton.Location = new System.Drawing.Point(109, 504);
-            this.RemoveConsentFormButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.RemoveConsentFormButton.Name = "RemoveConsentFormButton";
-            this.RemoveConsentFormButton.Size = new System.Drawing.Size(86, 31);
-            this.RemoveConsentFormButton.TabIndex = 6;
-            this.RemoveConsentFormButton.Text = "Remove";
-            this.RemoveConsentFormButton.UseVisualStyleBackColor = false;
-            this.RemoveConsentFormButton.Click += new System.EventHandler(this.RemoveConsentForm);
+            this.ConsentForms_RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ConsentForms_RemoveButton.Location = new System.Drawing.Point(109, 504);
+            this.ConsentForms_RemoveButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ConsentForms_RemoveButton.Name = "ConsentForms_RemoveButton";
+            this.ConsentForms_RemoveButton.Size = new System.Drawing.Size(86, 31);
+            this.ConsentForms_RemoveButton.TabIndex = 6;
+            this.ConsentForms_RemoveButton.Text = "Remove";
+            this.ConsentForms_RemoveButton.UseVisualStyleBackColor = false;
+            this.ConsentForms_RemoveButton.Click += new System.EventHandler(this.RemoveConsentForm);
             // 
-            // AddConsentFormButton
+            // ConsentForms_AddButton
             // 
-            this.AddConsentFormButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddConsentFormButton.Location = new System.Drawing.Point(11, 504);
-            this.AddConsentFormButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.AddConsentFormButton.Name = "AddConsentFormButton";
-            this.AddConsentFormButton.Size = new System.Drawing.Size(86, 31);
-            this.AddConsentFormButton.TabIndex = 5;
-            this.AddConsentFormButton.Text = "Add";
-            this.AddConsentFormButton.UseVisualStyleBackColor = true;
-            this.AddConsentFormButton.Click += new System.EventHandler(this.AddConsentForm);
+            this.ConsentForms_AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ConsentForms_AddButton.Location = new System.Drawing.Point(11, 504);
+            this.ConsentForms_AddButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ConsentForms_AddButton.Name = "ConsentForms_AddButton";
+            this.ConsentForms_AddButton.Size = new System.Drawing.Size(86, 31);
+            this.ConsentForms_AddButton.TabIndex = 5;
+            this.ConsentForms_AddButton.Text = "Add";
+            this.ConsentForms_AddButton.UseVisualStyleBackColor = true;
+            this.ConsentForms_AddButton.Click += new System.EventHandler(this.AddConsentForm);
             // 
-            // ConsentFormView
+            // ConsentForms_View
             // 
-            this.ConsentFormView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ConsentForms_View.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ConsentFormView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ConsentFormView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ConsentForm_NameColumn,
-            this.ConsentForm_DateColumn,
-            this.ConsentForm_VersionColumn,
-            this.ConsentForm_CommentColumn});
-            this.ConsentFormView.Location = new System.Drawing.Point(11, 13);
-            this.ConsentFormView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ConsentFormView.Name = "ConsentFormView";
-            this.ConsentFormView.RowHeadersVisible = false;
-            this.ConsentFormView.RowHeadersWidth = 51;
-            this.ConsentFormView.RowTemplate.Height = 25;
-            this.ConsentFormView.Size = new System.Drawing.Size(887, 476);
-            this.ConsentFormView.TabIndex = 0;
+            this.ConsentForms_View.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ConsentForms_View.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ConsentForms_NameColumn,
+            this.ConsentForms_DateColumn,
+            this.ConsentForms_VersionColumn,
+            this.ConsentForms_CommentColumn});
+            this.ConsentForms_View.Location = new System.Drawing.Point(11, 13);
+            this.ConsentForms_View.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ConsentForms_View.Name = "ConsentForms_View";
+            this.ConsentForms_View.RowHeadersVisible = false;
+            this.ConsentForms_View.RowHeadersWidth = 51;
+            this.ConsentForms_View.RowTemplate.Height = 25;
+            this.ConsentForms_View.Size = new System.Drawing.Size(887, 476);
+            this.ConsentForms_View.TabIndex = 0;
             // 
-            // ConsentForm_NameColumn
+            // ConsentForms_NameColumn
             // 
-            this.ConsentForm_NameColumn.DataPropertyName = "Name";
-            this.ConsentForm_NameColumn.HeaderText = "Name";
-            this.ConsentForm_NameColumn.MinimumWidth = 6;
-            this.ConsentForm_NameColumn.Name = "ConsentForm_NameColumn";
-            this.ConsentForm_NameColumn.Width = 300;
+            this.ConsentForms_NameColumn.DataPropertyName = "Name";
+            this.ConsentForms_NameColumn.HeaderText = "Name";
+            this.ConsentForms_NameColumn.MinimumWidth = 6;
+            this.ConsentForms_NameColumn.Name = "ConsentForms_NameColumn";
+            this.ConsentForms_NameColumn.Width = 300;
             // 
-            // ConsentForm_DateColumn
+            // ConsentForms_DateColumn
             // 
-            this.ConsentForm_DateColumn.DataPropertyName = "Signed";
-            this.ConsentForm_DateColumn.HeaderText = "Date";
-            this.ConsentForm_DateColumn.MinimumWidth = 6;
-            this.ConsentForm_DateColumn.Name = "ConsentForm_DateColumn";
-            this.ConsentForm_DateColumn.Width = 125;
+            this.ConsentForms_DateColumn.DataPropertyName = "Signed";
+            this.ConsentForms_DateColumn.HeaderText = "Date";
+            this.ConsentForms_DateColumn.MinimumWidth = 6;
+            this.ConsentForms_DateColumn.Name = "ConsentForms_DateColumn";
+            this.ConsentForms_DateColumn.Width = 125;
             // 
-            // ConsentForm_VersionColumn
+            // ConsentForms_VersionColumn
             // 
-            this.ConsentForm_VersionColumn.DataPropertyName = "Version";
-            this.ConsentForm_VersionColumn.HeaderText = "Version";
-            this.ConsentForm_VersionColumn.MinimumWidth = 6;
-            this.ConsentForm_VersionColumn.Name = "ConsentForm_VersionColumn";
-            this.ConsentForm_VersionColumn.Width = 125;
+            this.ConsentForms_VersionColumn.DataPropertyName = "Version";
+            this.ConsentForms_VersionColumn.HeaderText = "Version";
+            this.ConsentForms_VersionColumn.MinimumWidth = 6;
+            this.ConsentForms_VersionColumn.Name = "ConsentForms_VersionColumn";
+            this.ConsentForms_VersionColumn.Width = 125;
             // 
-            // ConsentForm_CommentColumn
+            // ConsentForms_CommentColumn
             // 
-            this.ConsentForm_CommentColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ConsentForm_CommentColumn.DataPropertyName = "Comment";
-            this.ConsentForm_CommentColumn.HeaderText = "Comment";
-            this.ConsentForm_CommentColumn.MinimumWidth = 6;
-            this.ConsentForm_CommentColumn.Name = "ConsentForm_CommentColumn";
+            this.ConsentForms_CommentColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ConsentForms_CommentColumn.DataPropertyName = "Comment";
+            this.ConsentForms_CommentColumn.HeaderText = "Comment";
+            this.ConsentForms_CommentColumn.MinimumWidth = 6;
+            this.ConsentForms_CommentColumn.Name = "ConsentForms_CommentColumn";
             // 
             // settingsPage
             // 
@@ -913,8 +913,8 @@
             this.SFTP_Page.ResumeLayout(false);
             this.SFTP_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).EndInit();
-            this.consentFormPage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ConsentFormView)).EndInit();
+            this.ConsentForms_Page.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).EndInit();
             this.settingsPage.ResumeLayout(false);
             this.infoBox.ResumeLayout(false);
             this.infoBox.PerformLayout();
@@ -982,6 +982,14 @@
         private System.Windows.Forms.DataGridView SFTP_View;
         private System.Windows.Forms.DataGridViewTextBoxColumn SFTP_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn SFTP_SizeColumn;
+        private System.Windows.Forms.TabPage ConsentForms_Page;
+        private System.Windows.Forms.Button ConsentForms_AddButton;
+        private System.Windows.Forms.Button ConsentForms_RemoveButton;
+        private System.Windows.Forms.DataGridView ConsentForms_View;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForms_NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForms_DateColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForms_VersionColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForms_CommentColumn;
         private System.Windows.Forms.GroupBox infoBox;
         private System.Windows.Forms.Label AddressLabel;
         private System.Windows.Forms.TextBox AddressBox;
@@ -991,14 +999,6 @@
         private System.Windows.Forms.Button BrowseLogoButton;
         private System.Windows.Forms.PictureBox LogoPictureBox;
         private System.Windows.Forms.TextBox LogoBox;
-        private System.Windows.Forms.TabPage consentFormPage;
-        private System.Windows.Forms.DataGridView ConsentFormView;
-        private System.Windows.Forms.Button AddConsentFormButton;
-        private System.Windows.Forms.Button RemoveConsentFormButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForm_NameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForm_DateColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForm_VersionColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForm_CommentColumn;
     }
 }
 

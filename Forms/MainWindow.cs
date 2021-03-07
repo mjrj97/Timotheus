@@ -71,10 +71,10 @@ namespace Timotheus.Forms
         {
             Calendar_View.AutoGenerateColumns = false;
             SFTP_View.AutoGenerateColumns = false;
-            ConsentFormView.AutoGenerateColumns = false;
+            ConsentForms_View.AutoGenerateColumns = false;
             Calendar_View.DataSource = new BindingSource(shownEvents, null);
             SFTP_View.DataSource = new BindingSource(shownFiles, null);
-            ConsentFormView.DataSource = new BindingSource(consentForms, null);
+            ConsentForms_View.DataSource = new BindingSource(consentForms, null);
             SFTP_PasswordBox.PasswordChar = '*';
 
             LocalizationLoader locale = new LocalizationLoader(System.Globalization.CultureInfo.CurrentCulture.Name);
@@ -111,6 +111,16 @@ namespace Timotheus.Forms
             SFTP_SyncButton.Text = locale.GetLocalization(SFTP_SyncButton.Name);
             SFTP_NameColumn.HeaderText = locale.GetLocalization(SFTP_NameColumn.Name);
             SFTP_SizeColumn.HeaderText = locale.GetLocalization(SFTP_SizeColumn.Name);
+            #endregion
+
+            #region Consent Forms
+            ConsentForms_Page.Text = locale.GetLocalization(ConsentForms_Page.Name);
+            ConsentForms_AddButton.Text = locale.GetLocalization(ConsentForms_AddButton.Name);
+            ConsentForms_RemoveButton.Text = locale.GetLocalization(ConsentForms_RemoveButton.Name);
+            ConsentForms_NameColumn.HeaderText = locale.GetLocalization(ConsentForms_NameColumn.Name);
+            ConsentForms_DateColumn.HeaderText = locale.GetLocalization(ConsentForms_DateColumn.Name);
+            ConsentForms_VersionColumn.HeaderText = locale.GetLocalization(ConsentForms_VersionColumn.Name);
+            ConsentForms_CommentColumn.HeaderText = locale.GetLocalization(ConsentForms_CommentColumn.Name);
             #endregion
         }
 
@@ -441,7 +451,7 @@ namespace Timotheus.Forms
         {
             if (consentForms.Count > 0)
             {
-                ConsentForm form = consentForms[ConsentFormView.CurrentCell.OwningRow.Index];
+                ConsentForm form = consentForms[ConsentForms_View.CurrentCell.OwningRow.Index];
                 consentForms.Remove(form);
             }
         }
