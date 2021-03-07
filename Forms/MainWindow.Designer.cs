@@ -71,16 +71,16 @@
             this.ConsentForms_DateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ConsentForms_VersionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ConsentForms_CommentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.settingsPage = new System.Windows.Forms.TabPage();
+            this.Settings_Page = new System.Windows.Forms.TabPage();
             this.infoBox = new System.Windows.Forms.GroupBox();
-            this.LogoBox = new System.Windows.Forms.TextBox();
-            this.LogoLabel = new System.Windows.Forms.Label();
-            this.BrowseLogoButton = new System.Windows.Forms.Button();
-            this.AddressLabel = new System.Windows.Forms.Label();
-            this.AddressBox = new System.Windows.Forms.TextBox();
-            this.NameLabel = new System.Windows.Forms.Label();
-            this.NameBox = new System.Windows.Forms.TextBox();
-            this.LogoPictureBox = new System.Windows.Forms.PictureBox();
+            this.Settings_LogoBox = new System.Windows.Forms.TextBox();
+            this.Settings_LogoLabel = new System.Windows.Forms.Label();
+            this.Settings_BrowseButton = new System.Windows.Forms.Button();
+            this.Settings_AddressLabel = new System.Windows.Forms.Label();
+            this.Settings_AddressBox = new System.Windows.Forms.TextBox();
+            this.Settings_NameLabel = new System.Windows.Forms.Label();
+            this.Settings_NameBox = new System.Windows.Forms.TextBox();
+            this.Settings_PictureBox = new System.Windows.Forms.PictureBox();
             this.helpPage = new System.Windows.Forms.TabPage();
             this.EmailLink = new System.Windows.Forms.LinkLabel();
             this.EmailLabel = new System.Windows.Forms.Label();
@@ -101,9 +101,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).BeginInit();
             this.ConsentForms_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).BeginInit();
-            this.settingsPage.SuspendLayout();
+            this.Settings_Page.SuspendLayout();
             this.infoBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Settings_PictureBox)).BeginInit();
             this.helpPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).BeginInit();
             this.TrayContextMenu.SuspendLayout();
@@ -191,7 +191,7 @@
             this.tabControl.Controls.Add(this.Calendar_Page);
             this.tabControl.Controls.Add(this.SFTP_Page);
             this.tabControl.Controls.Add(this.ConsentForms_Page);
-            this.tabControl.Controls.Add(this.settingsPage);
+            this.tabControl.Controls.Add(this.Settings_Page);
             this.tabControl.Controls.Add(this.helpPage);
             this.tabControl.Location = new System.Drawing.Point(2, 4);
             this.tabControl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -662,28 +662,28 @@
             this.ConsentForms_CommentColumn.MinimumWidth = 6;
             this.ConsentForms_CommentColumn.Name = "ConsentForms_CommentColumn";
             // 
-            // settingsPage
+            // Settings_Page
             // 
-            this.settingsPage.Controls.Add(this.infoBox);
-            this.settingsPage.Location = new System.Drawing.Point(4, 29);
-            this.settingsPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.settingsPage.Name = "settingsPage";
-            this.settingsPage.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.settingsPage.Size = new System.Drawing.Size(909, 550);
-            this.settingsPage.TabIndex = 3;
-            this.settingsPage.Text = "Settings";
-            this.settingsPage.UseVisualStyleBackColor = true;
+            this.Settings_Page.Controls.Add(this.infoBox);
+            this.Settings_Page.Location = new System.Drawing.Point(4, 29);
+            this.Settings_Page.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Settings_Page.Name = "Settings_Page";
+            this.Settings_Page.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Settings_Page.Size = new System.Drawing.Size(909, 550);
+            this.Settings_Page.TabIndex = 3;
+            this.Settings_Page.Text = "Settings";
+            this.Settings_Page.UseVisualStyleBackColor = true;
             // 
             // infoBox
             // 
-            this.infoBox.Controls.Add(this.LogoBox);
-            this.infoBox.Controls.Add(this.LogoLabel);
-            this.infoBox.Controls.Add(this.BrowseLogoButton);
-            this.infoBox.Controls.Add(this.AddressLabel);
-            this.infoBox.Controls.Add(this.AddressBox);
-            this.infoBox.Controls.Add(this.NameLabel);
-            this.infoBox.Controls.Add(this.NameBox);
-            this.infoBox.Controls.Add(this.LogoPictureBox);
+            this.infoBox.Controls.Add(this.Settings_LogoBox);
+            this.infoBox.Controls.Add(this.Settings_LogoLabel);
+            this.infoBox.Controls.Add(this.Settings_BrowseButton);
+            this.infoBox.Controls.Add(this.Settings_AddressLabel);
+            this.infoBox.Controls.Add(this.Settings_AddressBox);
+            this.infoBox.Controls.Add(this.Settings_NameLabel);
+            this.infoBox.Controls.Add(this.Settings_NameBox);
+            this.infoBox.Controls.Add(this.Settings_PictureBox);
             this.infoBox.Location = new System.Drawing.Point(11, 13);
             this.infoBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.infoBox.Name = "infoBox";
@@ -693,78 +693,78 @@
             this.infoBox.TabStop = false;
             this.infoBox.Text = "Association information";
             // 
-            // LogoBox
+            // Settings_LogoBox
             // 
-            this.LogoBox.Location = new System.Drawing.Point(262, 105);
-            this.LogoBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.LogoBox.Name = "LogoBox";
-            this.LogoBox.Size = new System.Drawing.Size(258, 27);
-            this.LogoBox.TabIndex = 8;
+            this.Settings_LogoBox.Location = new System.Drawing.Point(262, 105);
+            this.Settings_LogoBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Settings_LogoBox.Name = "Settings_LogoBox";
+            this.Settings_LogoBox.Size = new System.Drawing.Size(258, 27);
+            this.Settings_LogoBox.TabIndex = 8;
             // 
-            // LogoLabel
+            // Settings_LogoLabel
             // 
-            this.LogoLabel.AutoSize = true;
-            this.LogoLabel.Location = new System.Drawing.Point(183, 111);
-            this.LogoLabel.Name = "LogoLabel";
-            this.LogoLabel.Size = new System.Drawing.Size(43, 20);
-            this.LogoLabel.TabIndex = 6;
-            this.LogoLabel.Text = "Logo";
+            this.Settings_LogoLabel.AutoSize = true;
+            this.Settings_LogoLabel.Location = new System.Drawing.Point(183, 108);
+            this.Settings_LogoLabel.Name = "Settings_LogoLabel";
+            this.Settings_LogoLabel.Size = new System.Drawing.Size(43, 20);
+            this.Settings_LogoLabel.TabIndex = 6;
+            this.Settings_LogoLabel.Text = "Logo";
             // 
-            // BrowseLogoButton
+            // Settings_BrowseButton
             // 
-            this.BrowseLogoButton.Location = new System.Drawing.Point(527, 105);
-            this.BrowseLogoButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.BrowseLogoButton.Name = "BrowseLogoButton";
-            this.BrowseLogoButton.Size = new System.Drawing.Size(86, 27);
-            this.BrowseLogoButton.TabIndex = 5;
-            this.BrowseLogoButton.Text = "Browse";
-            this.BrowseLogoButton.UseVisualStyleBackColor = true;
-            this.BrowseLogoButton.Click += new System.EventHandler(this.BrowseLogo);
+            this.Settings_BrowseButton.Location = new System.Drawing.Point(526, 105);
+            this.Settings_BrowseButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Settings_BrowseButton.Name = "Settings_BrowseButton";
+            this.Settings_BrowseButton.Size = new System.Drawing.Size(86, 27);
+            this.Settings_BrowseButton.TabIndex = 5;
+            this.Settings_BrowseButton.Text = "Browse";
+            this.Settings_BrowseButton.UseVisualStyleBackColor = true;
+            this.Settings_BrowseButton.Click += new System.EventHandler(this.BrowseLogo);
             // 
-            // AddressLabel
+            // Settings_AddressLabel
             // 
-            this.AddressLabel.AutoSize = true;
-            this.AddressLabel.Location = new System.Drawing.Point(183, 71);
-            this.AddressLabel.Name = "AddressLabel";
-            this.AddressLabel.Size = new System.Drawing.Size(62, 20);
-            this.AddressLabel.TabIndex = 4;
-            this.AddressLabel.Text = "Address";
+            this.Settings_AddressLabel.AutoSize = true;
+            this.Settings_AddressLabel.Location = new System.Drawing.Point(183, 70);
+            this.Settings_AddressLabel.Name = "Settings_AddressLabel";
+            this.Settings_AddressLabel.Size = new System.Drawing.Size(62, 20);
+            this.Settings_AddressLabel.TabIndex = 4;
+            this.Settings_AddressLabel.Text = "Address";
             // 
-            // AddressBox
+            // Settings_AddressBox
             // 
-            this.AddressBox.Location = new System.Drawing.Point(262, 67);
-            this.AddressBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.AddressBox.Name = "AddressBox";
-            this.AddressBox.Size = new System.Drawing.Size(350, 27);
-            this.AddressBox.TabIndex = 3;
+            this.Settings_AddressBox.Location = new System.Drawing.Point(262, 67);
+            this.Settings_AddressBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Settings_AddressBox.Name = "Settings_AddressBox";
+            this.Settings_AddressBox.Size = new System.Drawing.Size(350, 27);
+            this.Settings_AddressBox.TabIndex = 3;
             // 
-            // NameLabel
+            // Settings_NameLabel
             // 
-            this.NameLabel.AutoSize = true;
-            this.NameLabel.Location = new System.Drawing.Point(183, 31);
-            this.NameLabel.Name = "NameLabel";
-            this.NameLabel.Size = new System.Drawing.Size(49, 20);
-            this.NameLabel.TabIndex = 2;
-            this.NameLabel.Text = "Name";
+            this.Settings_NameLabel.AutoSize = true;
+            this.Settings_NameLabel.Location = new System.Drawing.Point(183, 30);
+            this.Settings_NameLabel.Name = "Settings_NameLabel";
+            this.Settings_NameLabel.Size = new System.Drawing.Size(49, 20);
+            this.Settings_NameLabel.TabIndex = 2;
+            this.Settings_NameLabel.Text = "Name";
             // 
-            // NameBox
+            // Settings_NameBox
             // 
-            this.NameBox.Location = new System.Drawing.Point(262, 27);
-            this.NameBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.NameBox.Name = "NameBox";
-            this.NameBox.Size = new System.Drawing.Size(350, 27);
-            this.NameBox.TabIndex = 1;
+            this.Settings_NameBox.Location = new System.Drawing.Point(262, 27);
+            this.Settings_NameBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Settings_NameBox.Name = "Settings_NameBox";
+            this.Settings_NameBox.Size = new System.Drawing.Size(350, 27);
+            this.Settings_NameBox.TabIndex = 1;
             // 
-            // LogoPictureBox
+            // Settings_PictureBox
             // 
-            this.LogoPictureBox.BackColor = System.Drawing.Color.LightGray;
-            this.LogoPictureBox.Location = new System.Drawing.Point(11, 27);
-            this.LogoPictureBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.LogoPictureBox.Name = "LogoPictureBox";
-            this.LogoPictureBox.Size = new System.Drawing.Size(146, 171);
-            this.LogoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.LogoPictureBox.TabIndex = 0;
-            this.LogoPictureBox.TabStop = false;
+            this.Settings_PictureBox.BackColor = System.Drawing.Color.LightGray;
+            this.Settings_PictureBox.Location = new System.Drawing.Point(11, 27);
+            this.Settings_PictureBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Settings_PictureBox.Name = "Settings_PictureBox";
+            this.Settings_PictureBox.Size = new System.Drawing.Size(146, 171);
+            this.Settings_PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Settings_PictureBox.TabIndex = 0;
+            this.Settings_PictureBox.TabStop = false;
             // 
             // helpPage
             // 
@@ -915,10 +915,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).EndInit();
             this.ConsentForms_Page.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).EndInit();
-            this.settingsPage.ResumeLayout(false);
+            this.Settings_Page.ResumeLayout(false);
             this.infoBox.ResumeLayout(false);
             this.infoBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Settings_PictureBox)).EndInit();
             this.helpPage.ResumeLayout(false);
             this.helpPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).EndInit();
@@ -931,11 +931,11 @@
 
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage helpPage;
-        private System.Windows.Forms.TabPage settingsPage;
         private System.Windows.Forms.NotifyIcon TrayIcon;
         private System.Windows.Forms.ContextMenuStrip TrayContextMenu;
         private System.Windows.Forms.ToolStripMenuItem TrayOpen;
         private System.Windows.Forms.ToolStripMenuItem TrayClose;
+        private System.Windows.Forms.GroupBox infoBox;
         private System.Windows.Forms.LinkLabel SourceLink;
         private System.Windows.Forms.Label SourceLabel;
         private System.Windows.Forms.Label VersionLabel;
@@ -990,15 +990,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForms_DateColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForms_VersionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ConsentForms_CommentColumn;
-        private System.Windows.Forms.GroupBox infoBox;
-        private System.Windows.Forms.Label AddressLabel;
-        private System.Windows.Forms.TextBox AddressBox;
-        private System.Windows.Forms.Label NameLabel;
-        private System.Windows.Forms.Label LogoLabel;
-        private System.Windows.Forms.TextBox NameBox;
-        private System.Windows.Forms.Button BrowseLogoButton;
-        private System.Windows.Forms.PictureBox LogoPictureBox;
-        private System.Windows.Forms.TextBox LogoBox;
+        private System.Windows.Forms.TabPage Settings_Page;
+        private System.Windows.Forms.Label Settings_NameLabel;
+        private System.Windows.Forms.TextBox Settings_NameBox;
+        private System.Windows.Forms.Label Settings_AddressLabel;
+        private System.Windows.Forms.TextBox Settings_AddressBox;
+        private System.Windows.Forms.Label Settings_LogoLabel;
+        private System.Windows.Forms.TextBox Settings_LogoBox;
+        private System.Windows.Forms.Button Settings_BrowseButton;
+        private System.Windows.Forms.PictureBox Settings_PictureBox;
     }
 }
 

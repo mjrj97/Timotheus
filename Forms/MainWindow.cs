@@ -54,19 +54,19 @@ namespace Timotheus.Forms
                 if (content.Length > 7)
                     SFTP_LocalDirectoryBox.Text = content[7].Trim();
                 if (content.Length > 8)
-                    NameBox.Text = content[8].Trim();
+                    Settings_NameBox.Text = content[8].Trim();
                 if (content.Length > 9)
-                    AddressBox.Text = content[9].Trim();
+                    Settings_AddressBox.Text = content[9].Trim();
                 if (content.Length > 10)
                 {
-                    LogoBox.Text = content[10].Trim();
+                    Settings_LogoBox.Text = content[10].Trim();
                     if (File.Exists(content[10].Trim()))
-                        LogoPictureBox.Image = Image.FromFile(content[10].Trim());
+                        Settings_PictureBox.Image = Image.FromFile(content[10].Trim());
                 }
             }
         }
 
-        //Assigns the different lists to their appropriate DataGridViews and disables AutoGenerateColumns.
+        //Assigns the different lists to their appropriate DataGridViews, disables AutoGenerateColumns, and loads localization.
         private void SetupUI()
         {
             Calendar_View.AutoGenerateColumns = false;
@@ -121,6 +121,14 @@ namespace Timotheus.Forms
             ConsentForms_DateColumn.HeaderText = locale.GetLocalization(ConsentForms_DateColumn.Name);
             ConsentForms_VersionColumn.HeaderText = locale.GetLocalization(ConsentForms_VersionColumn.Name);
             ConsentForms_CommentColumn.HeaderText = locale.GetLocalization(ConsentForms_CommentColumn.Name);
+            #endregion
+
+            #region Settings
+            Settings_Page.Text = locale.GetLocalization(Settings_Page.Name);
+            Settings_NameLabel.Text = locale.GetLocalization(Settings_NameLabel.Name);
+            Settings_AddressLabel.Text = locale.GetLocalization(Settings_AddressLabel.Name);
+            Settings_LogoLabel.Text = locale.GetLocalization(Settings_LogoLabel.Name);
+            Settings_BrowseButton.Text = locale.GetLocalization(Settings_BrowseButton.Name);
             #endregion
         }
 
@@ -471,9 +479,9 @@ namespace Timotheus.Forms
             if (open.ShowDialog() == DialogResult.OK)
             {
                 // display image in picture box  
-                LogoPictureBox.Image = Image.FromFile(open.FileName);
+                Settings_PictureBox.Image = Image.FromFile(open.FileName);
                 // image file path  
-                LogoBox.Text = open.FileName;
+                Settings_LogoBox.Text = open.FileName;
             }
         }
 
