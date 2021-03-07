@@ -130,6 +130,15 @@ namespace Timotheus.Forms
             Settings_LogoLabel.Text = locale.GetLocalization(Settings_LogoLabel.Name);
             Settings_BrowseButton.Text = locale.GetLocalization(Settings_BrowseButton.Name);
             #endregion
+
+            #region Help
+            Help_Page.Text = locale.GetLocalization(Help_Page.Name);
+            Help_AuthorLabel.Text = locale.GetLocalization(Help_AuthorLabel.Name) + ": Martin J. R. Jensen";
+            Help_VersionLabel.Text = locale.GetLocalization(Help_VersionLabel.Name) + " v. 0.1.0";
+            Help_LicenseLabel.Text = locale.GetLocalization(Help_LicenseLabel.Name) + ": Apache-2.0";
+            Help_EmailLabel.Text = locale.GetLocalization(Help_EmailLabel.Name);
+            Help_SourceLabel.Text = locale.GetLocalization(Help_SourceLabel.Name);
+            #endregion
         }
 
         #region Calendar
@@ -492,7 +501,7 @@ namespace Timotheus.Forms
         //Opens link to the GitHub page
         private void SourceLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            SourceLink.LinkVisited = true;
+            Help_SourceLink.LinkVisited = true;
             Process p = new Process();
             p.StartInfo.FileName = "cmd";
             p.StartInfo.Arguments = "/c start https://www.github.com/mjrj97/Manager";
@@ -503,7 +512,7 @@ namespace Timotheus.Forms
         //Send email to Martin
         private void EmailLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            EmailLink.LinkVisited = true;
+            Help_EmailLink.LinkVisited = true;
             Process p = new Process();
             p.StartInfo.FileName = "cmd";
             p.StartInfo.Arguments = "/c start mailto:martin.jensen.1997@hotmail.com";

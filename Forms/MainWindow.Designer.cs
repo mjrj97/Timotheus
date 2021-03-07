@@ -81,15 +81,15 @@
             this.Settings_NameLabel = new System.Windows.Forms.Label();
             this.Settings_NameBox = new System.Windows.Forms.TextBox();
             this.Settings_PictureBox = new System.Windows.Forms.PictureBox();
-            this.helpPage = new System.Windows.Forms.TabPage();
-            this.EmailLink = new System.Windows.Forms.LinkLabel();
-            this.EmailLabel = new System.Windows.Forms.Label();
-            this.AuthorLabel = new System.Windows.Forms.Label();
-            this.LicenseLabel = new System.Windows.Forms.Label();
-            this.SourceLink = new System.Windows.Forms.LinkLabel();
-            this.SourceLabel = new System.Windows.Forms.Label();
-            this.VersionLabel = new System.Windows.Forms.Label();
-            this.iconBox = new System.Windows.Forms.PictureBox();
+            this.Help_Page = new System.Windows.Forms.TabPage();
+            this.Help_EmailLink = new System.Windows.Forms.LinkLabel();
+            this.Help_EmailLabel = new System.Windows.Forms.Label();
+            this.Help_AuthorLabel = new System.Windows.Forms.Label();
+            this.Help_LicenseLabel = new System.Windows.Forms.Label();
+            this.Help_SourceLink = new System.Windows.Forms.LinkLabel();
+            this.Help_SourceLabel = new System.Windows.Forms.Label();
+            this.Help_VersionLabel = new System.Windows.Forms.Label();
+            this.Help_IconBox = new System.Windows.Forms.PictureBox();
             this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,8 +104,8 @@
             this.Settings_Page.SuspendLayout();
             this.infoBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Settings_PictureBox)).BeginInit();
-            this.helpPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.iconBox)).BeginInit();
+            this.Help_Page.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Help_IconBox)).BeginInit();
             this.TrayContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -192,7 +192,7 @@
             this.tabControl.Controls.Add(this.SFTP_Page);
             this.tabControl.Controls.Add(this.ConsentForms_Page);
             this.tabControl.Controls.Add(this.Settings_Page);
-            this.tabControl.Controls.Add(this.helpPage);
+            this.tabControl.Controls.Add(this.Help_Page);
             this.tabControl.Location = new System.Drawing.Point(2, 4);
             this.tabControl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl.Name = "tabControl";
@@ -766,103 +766,103 @@
             this.Settings_PictureBox.TabIndex = 0;
             this.Settings_PictureBox.TabStop = false;
             // 
-            // helpPage
+            // Help_Page
             // 
-            this.helpPage.Controls.Add(this.EmailLink);
-            this.helpPage.Controls.Add(this.EmailLabel);
-            this.helpPage.Controls.Add(this.AuthorLabel);
-            this.helpPage.Controls.Add(this.LicenseLabel);
-            this.helpPage.Controls.Add(this.SourceLink);
-            this.helpPage.Controls.Add(this.SourceLabel);
-            this.helpPage.Controls.Add(this.VersionLabel);
-            this.helpPage.Controls.Add(this.iconBox);
-            this.helpPage.Location = new System.Drawing.Point(4, 29);
-            this.helpPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.helpPage.Name = "helpPage";
-            this.helpPage.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.helpPage.Size = new System.Drawing.Size(909, 550);
-            this.helpPage.TabIndex = 1;
-            this.helpPage.Text = "Help";
-            this.helpPage.UseVisualStyleBackColor = true;
+            this.Help_Page.Controls.Add(this.Help_EmailLink);
+            this.Help_Page.Controls.Add(this.Help_EmailLabel);
+            this.Help_Page.Controls.Add(this.Help_AuthorLabel);
+            this.Help_Page.Controls.Add(this.Help_LicenseLabel);
+            this.Help_Page.Controls.Add(this.Help_SourceLink);
+            this.Help_Page.Controls.Add(this.Help_SourceLabel);
+            this.Help_Page.Controls.Add(this.Help_VersionLabel);
+            this.Help_Page.Controls.Add(this.Help_IconBox);
+            this.Help_Page.Location = new System.Drawing.Point(4, 29);
+            this.Help_Page.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Help_Page.Name = "Help_Page";
+            this.Help_Page.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Help_Page.Size = new System.Drawing.Size(909, 550);
+            this.Help_Page.TabIndex = 1;
+            this.Help_Page.Text = "Help";
+            this.Help_Page.UseVisualStyleBackColor = true;
             // 
-            // EmailLink
+            // Help_EmailLink
             // 
-            this.EmailLink.AutoSize = true;
-            this.EmailLink.Location = new System.Drawing.Point(53, 213);
-            this.EmailLink.Name = "EmailLink";
-            this.EmailLink.Size = new System.Drawing.Size(229, 20);
-            this.EmailLink.TabIndex = 7;
-            this.EmailLink.TabStop = true;
-            this.EmailLink.Text = "martin.jensen.1997@hotmail.com";
-            this.EmailLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.EmailLink_LinkClicked);
+            this.Help_EmailLink.AutoSize = true;
+            this.Help_EmailLink.Location = new System.Drawing.Point(55, 213);
+            this.Help_EmailLink.Name = "Help_EmailLink";
+            this.Help_EmailLink.Size = new System.Drawing.Size(229, 20);
+            this.Help_EmailLink.TabIndex = 7;
+            this.Help_EmailLink.TabStop = true;
+            this.Help_EmailLink.Text = "martin.jensen.1997@hotmail.com";
+            this.Help_EmailLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.EmailLink_LinkClicked);
             // 
-            // EmailLabel
+            // Help_EmailLabel
             // 
-            this.EmailLabel.AutoSize = true;
-            this.EmailLabel.Location = new System.Drawing.Point(11, 213);
-            this.EmailLabel.Name = "EmailLabel";
-            this.EmailLabel.Size = new System.Drawing.Size(49, 20);
-            this.EmailLabel.TabIndex = 6;
-            this.EmailLabel.Text = "Email:";
+            this.Help_EmailLabel.AutoSize = true;
+            this.Help_EmailLabel.Location = new System.Drawing.Point(11, 213);
+            this.Help_EmailLabel.Name = "Help_EmailLabel";
+            this.Help_EmailLabel.Size = new System.Drawing.Size(49, 20);
+            this.Help_EmailLabel.TabIndex = 6;
+            this.Help_EmailLabel.Text = "Email:";
             // 
-            // AuthorLabel
+            // Help_AuthorLabel
             // 
-            this.AuthorLabel.AutoSize = true;
-            this.AuthorLabel.Location = new System.Drawing.Point(11, 193);
-            this.AuthorLabel.Name = "AuthorLabel";
-            this.AuthorLabel.Size = new System.Drawing.Size(179, 20);
-            this.AuthorLabel.TabIndex = 5;
-            this.AuthorLabel.Text = "Author: Martin J. R. Jensen";
+            this.Help_AuthorLabel.AutoSize = true;
+            this.Help_AuthorLabel.Location = new System.Drawing.Point(11, 193);
+            this.Help_AuthorLabel.Name = "Help_AuthorLabel";
+            this.Help_AuthorLabel.Size = new System.Drawing.Size(179, 20);
+            this.Help_AuthorLabel.TabIndex = 5;
+            this.Help_AuthorLabel.Text = "Author: Martin J. R. Jensen";
             // 
-            // LicenseLabel
+            // Help_LicenseLabel
             // 
-            this.LicenseLabel.AutoSize = true;
-            this.LicenseLabel.Location = new System.Drawing.Point(11, 255);
-            this.LicenseLabel.Name = "LicenseLabel";
-            this.LicenseLabel.Size = new System.Drawing.Size(139, 20);
-            this.LicenseLabel.TabIndex = 4;
-            this.LicenseLabel.Text = "License: Apache-2.0";
+            this.Help_LicenseLabel.AutoSize = true;
+            this.Help_LicenseLabel.Location = new System.Drawing.Point(11, 255);
+            this.Help_LicenseLabel.Name = "Help_LicenseLabel";
+            this.Help_LicenseLabel.Size = new System.Drawing.Size(139, 20);
+            this.Help_LicenseLabel.TabIndex = 4;
+            this.Help_LicenseLabel.Text = "License: Apache-2.0";
             // 
-            // SourceLink
+            // Help_SourceLink
             // 
-            this.SourceLink.AutoSize = true;
-            this.SourceLink.Location = new System.Drawing.Point(61, 275);
-            this.SourceLink.Name = "SourceLink";
-            this.SourceLink.Size = new System.Drawing.Size(245, 20);
-            this.SourceLink.TabIndex = 3;
-            this.SourceLink.TabStop = true;
-            this.SourceLink.Text = "https://github.com/mjrj97/Manager";
-            this.SourceLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SourceLink_LinkClicked);
+            this.Help_SourceLink.AutoSize = true;
+            this.Help_SourceLink.Location = new System.Drawing.Point(63, 275);
+            this.Help_SourceLink.Name = "Help_SourceLink";
+            this.Help_SourceLink.Size = new System.Drawing.Size(245, 20);
+            this.Help_SourceLink.TabIndex = 3;
+            this.Help_SourceLink.TabStop = true;
+            this.Help_SourceLink.Text = "https://github.com/mjrj97/Manager";
+            this.Help_SourceLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SourceLink_LinkClicked);
             // 
-            // SourceLabel
+            // Help_SourceLabel
             // 
-            this.SourceLabel.AutoSize = true;
-            this.SourceLabel.Location = new System.Drawing.Point(11, 275);
-            this.SourceLabel.Name = "SourceLabel";
-            this.SourceLabel.Size = new System.Drawing.Size(57, 20);
-            this.SourceLabel.TabIndex = 2;
-            this.SourceLabel.Text = "Source:";
+            this.Help_SourceLabel.AutoSize = true;
+            this.Help_SourceLabel.Location = new System.Drawing.Point(11, 275);
+            this.Help_SourceLabel.Name = "Help_SourceLabel";
+            this.Help_SourceLabel.Size = new System.Drawing.Size(57, 20);
+            this.Help_SourceLabel.TabIndex = 2;
+            this.Help_SourceLabel.Text = "Source:";
             // 
-            // VersionLabel
+            // Help_VersionLabel
             // 
-            this.VersionLabel.AutoSize = true;
-            this.VersionLabel.Location = new System.Drawing.Point(11, 156);
-            this.VersionLabel.Name = "VersionLabel";
-            this.VersionLabel.Size = new System.Drawing.Size(126, 20);
-            this.VersionLabel.TabIndex = 1;
-            this.VersionLabel.Text = "Timotheus v. 0.1.0";
+            this.Help_VersionLabel.AutoSize = true;
+            this.Help_VersionLabel.Location = new System.Drawing.Point(11, 156);
+            this.Help_VersionLabel.Name = "Help_VersionLabel";
+            this.Help_VersionLabel.Size = new System.Drawing.Size(126, 20);
+            this.Help_VersionLabel.TabIndex = 1;
+            this.Help_VersionLabel.Text = "Timotheus v. 0.1.0";
             // 
-            // iconBox
+            // Help_IconBox
             // 
-            this.iconBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.iconBox.Image = ((System.Drawing.Image)(resources.GetObject("iconBox.Image")));
-            this.iconBox.Location = new System.Drawing.Point(11, 13);
-            this.iconBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.iconBox.Name = "iconBox";
-            this.iconBox.Size = new System.Drawing.Size(114, 133);
-            this.iconBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.iconBox.TabIndex = 0;
-            this.iconBox.TabStop = false;
+            this.Help_IconBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.Help_IconBox.Image = ((System.Drawing.Image)(resources.GetObject("Help_IconBox.Image")));
+            this.Help_IconBox.Location = new System.Drawing.Point(11, 13);
+            this.Help_IconBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Help_IconBox.Name = "Help_IconBox";
+            this.Help_IconBox.Size = new System.Drawing.Size(133, 133);
+            this.Help_IconBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Help_IconBox.TabIndex = 0;
+            this.Help_IconBox.TabStop = false;
             // 
             // TrayIcon
             // 
@@ -919,9 +919,9 @@
             this.infoBox.ResumeLayout(false);
             this.infoBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Settings_PictureBox)).EndInit();
-            this.helpPage.ResumeLayout(false);
-            this.helpPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.iconBox)).EndInit();
+            this.Help_Page.ResumeLayout(false);
+            this.Help_Page.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Help_IconBox)).EndInit();
             this.TrayContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -930,20 +930,11 @@
         #endregion
 
         private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.TabPage helpPage;
         private System.Windows.Forms.NotifyIcon TrayIcon;
         private System.Windows.Forms.ContextMenuStrip TrayContextMenu;
         private System.Windows.Forms.ToolStripMenuItem TrayOpen;
         private System.Windows.Forms.ToolStripMenuItem TrayClose;
         private System.Windows.Forms.GroupBox infoBox;
-        private System.Windows.Forms.LinkLabel SourceLink;
-        private System.Windows.Forms.Label SourceLabel;
-        private System.Windows.Forms.Label VersionLabel;
-        private System.Windows.Forms.PictureBox iconBox;
-        private System.Windows.Forms.LinkLabel EmailLink;
-        private System.Windows.Forms.Label EmailLabel;
-        private System.Windows.Forms.Label AuthorLabel;
-        private System.Windows.Forms.Label LicenseLabel;
         private System.Windows.Forms.TabPage Calendar_Page;
         private System.Windows.Forms.Button Calendar_SaveButton;
         private System.Windows.Forms.Button Calendar_OpenButton;
@@ -999,6 +990,15 @@
         private System.Windows.Forms.TextBox Settings_LogoBox;
         private System.Windows.Forms.Button Settings_BrowseButton;
         private System.Windows.Forms.PictureBox Settings_PictureBox;
+        private System.Windows.Forms.TabPage Help_Page;
+        private System.Windows.Forms.Label Help_AuthorLabel;
+        private System.Windows.Forms.Label Help_VersionLabel;
+        private System.Windows.Forms.Label Help_LicenseLabel;
+        private System.Windows.Forms.Label Help_EmailLabel;
+        private System.Windows.Forms.LinkLabel Help_EmailLink;
+        private System.Windows.Forms.Label Help_SourceLabel;
+        private System.Windows.Forms.LinkLabel Help_SourceLink;
+        private System.Windows.Forms.PictureBox Help_IconBox;
     }
 }
 
