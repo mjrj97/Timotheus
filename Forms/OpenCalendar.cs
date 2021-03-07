@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using Timotheus.Schedule;
+using Timotheus.Utility;
 
 namespace Timotheus.Forms
 {
@@ -11,7 +12,7 @@ namespace Timotheus.Forms
         public OpenCalendar()
         {
             InitializeComponent();
-            PasswordText.PasswordChar = '*';
+            Open_PasswordBox.PasswordChar = '*';
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -21,12 +22,23 @@ namespace Timotheus.Forms
                 steamReader.Close();
 
                 if (content.Length > 0)
-                    UsernameText.Text = content[0].Trim();
+                    Open_UsernameBox.Text = content[0].Trim();
                 if (content.Length > 1)
-                    PasswordText.Text = content[1].Trim();
+                    Open_PasswordBox.Text = content[1].Trim();
                 if (content.Length > 2)
-                    CalDAVText.Text = content[2].Trim();
+                    Open_CalDAVBox.Text = content[2].Trim();
             }
+
+            LocalizationLoader locale = new LocalizationLoader(System.Globalization.CultureInfo.CurrentCulture.Name);
+
+            this.Text = locale.GetLocalization(this.Name);
+            Open_OpenButton.Text = locale.GetLocalization(Open_OpenButton.Name);
+            Open_CancelButton.Text = locale.GetLocalization(Open_CancelButton.Name);
+            Open_ICSButton.Text = locale.GetLocalization(Open_ICSButton.Name);
+            Open_CalDAVButton.Text = locale.GetLocalization(Open_CalDAVButton.Name);
+            Open_BrowseButton.Text = locale.GetLocalization(Open_BrowseButton.Name);
+            Open_UsernameLabel.Text = locale.GetLocalization(Open_UsernameLabel.Name);
+            Open_PasswordLabel.Text = locale.GetLocalization(Open_PasswordLabel.Name);
         }
 
         //Opens dialog where the user can find a .ics file
@@ -42,7 +54,7 @@ namespace Timotheus.Forms
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                ICSText.Text = openFileDialog.FileName;
+                Open_ICSBox.Text = openFileDialog.FileName;
             }
         }
 
@@ -51,10 +63,10 @@ namespace Timotheus.Forms
         {
             try
             {
-                if (CalDAVButton.Checked)
-                    MainWindow.window.calendar = new Calendar(UsernameText.Text, PasswordText.Text, CalDAVText.Text);
+                if (Open_CalDAVButton.Checked)
+                    MainWindow.window.calendar = new Calendar(Open_UsernameBox.Text, Open_PasswordBox.Text, Open_CalDAVBox.Text);
                 else
-                    MainWindow.window.calendar = new Calendar(ICSText.Text);
+                    MainWindow.window.calendar = new Calendar(Open_ICSBox.Text);
 
                 MainWindow.window.UpdateTable();
                 Close();
@@ -95,27 +107,27 @@ namespace Timotheus.Forms
         //Enables or disables relevant UI when the radio buttons are checked
         private void CalDAVButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (CalDAVButton.Checked)
+            if (Open_CalDAVButton.Checked)
             {
-                CalDAVText.Enabled = true;
-                UsernameLabel.Enabled = true;
-                UsernameText.Enabled = true;
-                PasswordLabel.Enabled = true;
-                PasswordText.Enabled = true;
+                Open_CalDAVBox.Enabled = true;
+                Open_UsernameLabel.Enabled = true;
+                Open_UsernameBox.Enabled = true;
+                Open_PasswordLabel.Enabled = true;
+                Open_PasswordBox.Enabled = true;
 
-                BrowseButton.Enabled = false;
-                ICSText.Enabled = false;
+                Open_BrowseButton.Enabled = false;
+                Open_ICSBox.Enabled = false;
             }
             else
             {
-                CalDAVText.Enabled = false;
-                UsernameLabel.Enabled = false;
-                UsernameText.Enabled = false;
-                PasswordLabel.Enabled = false;
-                PasswordText.Enabled = false;
+                Open_CalDAVBox.Enabled = false;
+                Open_UsernameLabel.Enabled = false;
+                Open_UsernameBox.Enabled = false;
+                Open_PasswordLabel.Enabled = false;
+                Open_PasswordBox.Enabled = false;
 
-                BrowseButton.Enabled = true;
-                ICSText.Enabled = true;
+                Open_BrowseButton.Enabled = true;
+                Open_ICSBox.Enabled = true;
             }
         }
     }

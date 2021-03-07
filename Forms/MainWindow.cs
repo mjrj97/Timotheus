@@ -22,7 +22,7 @@ namespace Timotheus.Forms
         public SortableBindingList<ConsentForm> consentForms = new SortableBindingList<ConsentForm>();
 
         public Calendar calendar = new Calendar();
-
+        
         public DateTime a = new DateTime(DateTime.Now.Year, 1, 1);
         public DateTime b = new DateTime(DateTime.Now.Year + 1, 1, 1);
         private Period period = Period.Year;
@@ -34,7 +34,7 @@ namespace Timotheus.Forms
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             InitializeComponent();
             SetupUI();
-            PeriodBox.Text = a.Year.ToString();
+            Calendar_PeriodBox.Text = a.Year.ToString();
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -44,38 +44,101 @@ namespace Timotheus.Forms
                 steamReader.Close();
 
                 if (content.Length > 4)
-                    UsernameBox.Text = content[4].Trim();
+                    SFTP_UsernameBox.Text = content[4].Trim();
                 if (content.Length > 5)
-                    PasswordBox.Text = content[5].Trim();
+                    SFTP_PasswordBox.Text = content[5].Trim();
                 if (content.Length > 3)
-                    HostBox.Text = content[3].Trim();
+                    SFTP_HostBox.Text = content[3].Trim();
                 if (content.Length > 6)
-                    RemoteDirectoryBox.Text = content[6].Trim();
+                    SFTP_RemoteDirectoryBox.Text = content[6].Trim();
                 if (content.Length > 7)
-                    LocalDirectoryBox.Text = content[7].Trim();
+                    SFTP_LocalDirectoryBox.Text = content[7].Trim();
                 if (content.Length > 8)
-                    NameBox.Text = content[8].Trim();
+                    Settings_NameBox.Text = content[8].Trim();
                 if (content.Length > 9)
-                    AddressBox.Text = content[9].Trim();
+                    Settings_AddressBox.Text = content[9].Trim();
                 if (content.Length > 10)
                 {
-                    LogoBox.Text = content[10].Trim();
+                    Settings_LogoBox.Text = content[10].Trim();
                     if (File.Exists(content[10].Trim()))
-                        LogoPictureBox.Image = Image.FromFile(content[10].Trim());
+                        Settings_PictureBox.Image = Image.FromFile(content[10].Trim());
                 }
             }
         }
 
-        //Assigns the different lists to their appropriate DataGridViews and disables AutoGenerateColumns.
+        //Assigns the different lists to their appropriate DataGridViews, disables AutoGenerateColumns, and loads localization.
         private void SetupUI()
         {
-            CalendarView.AutoGenerateColumns = false;
-            FileView.AutoGenerateColumns = false;
-            ConsentFormView.AutoGenerateColumns = false;
-            CalendarView.DataSource = new BindingSource(shownEvents, null);
-            FileView.DataSource = new BindingSource(shownFiles, null);
-            ConsentFormView.DataSource = new BindingSource(consentForms, null);
-            PasswordBox.PasswordChar = '*';
+            Calendar_View.AutoGenerateColumns = false;
+            SFTP_View.AutoGenerateColumns = false;
+            ConsentForms_View.AutoGenerateColumns = false;
+            Calendar_View.DataSource = new BindingSource(shownEvents, null);
+            SFTP_View.DataSource = new BindingSource(shownFiles, null);
+            ConsentForms_View.DataSource = new BindingSource(consentForms, null);
+            SFTP_PasswordBox.PasswordChar = '*';
+
+            LocalizationLoader locale = new LocalizationLoader(System.Globalization.CultureInfo.CurrentCulture.Name);
+
+            #region Calendar
+            Calendar_StartColumn.HeaderText = locale.GetLocalization(Calendar_StartColumn.Name);
+            Calendar_EndColumn.HeaderText = locale.GetLocalization(Calendar_EndColumn.Name);
+            Calendar_NameColumn.HeaderText = locale.GetLocalization(Calendar_NameColumn.Name);
+            Calendar_DescriptionColumn.HeaderText = locale.GetLocalization(Calendar_DescriptionColumn.Name);
+            Calendar_LocationColumn.HeaderText = locale.GetLocalization(Calendar_LocationColumn.Name);
+            Calendar_Page.Text = locale.GetLocalization(Calendar_Page.Name);
+            Calendar_MonthButton.Text = locale.GetLocalization(Calendar_MonthButton.Name);
+            Calendar_HalfYearButton.Text = locale.GetLocalization(Calendar_HalfYearButton.Name);
+            Calendar_YearButton.Text = locale.GetLocalization(Calendar_YearButton.Name);
+            Calendar_AllButton.Text = locale.GetLocalization(Calendar_AllButton.Name);
+            Calendar_SaveButton.Text = locale.GetLocalization(Calendar_SaveButton.Name);
+            Calendar_OpenButton.Text = locale.GetLocalization(Calendar_OpenButton.Name);
+            Calendar_SyncButton.Text = locale.GetLocalization(Calendar_SyncButton.Name);
+            Calendar_ExportButton.Text = locale.GetLocalization(Calendar_ExportButton.Name);
+            Calendar_RemoveButton.Text = locale.GetLocalization(Calendar_RemoveButton.Name);
+            Calendar_AddButton.Text = locale.GetLocalization(Calendar_AddButton.Name);
+            #endregion
+
+            #region SFTP
+            SFTP_Page.Text = locale.GetLocalization(SFTP_Page.Name);
+            SFTP_HostLabel.Text = locale.GetLocalization(SFTP_HostLabel.Name);
+            SFTP_UsernameLabel.Text = locale.GetLocalization(SFTP_UsernameLabel.Name);
+            SFTP_PasswordLabel.Text = locale.GetLocalization(SFTP_PasswordLabel.Name);
+            SFTP_RemoteDirectoryLabel.Text = locale.GetLocalization(SFTP_RemoteDirectoryLabel.Name);
+            SFTP_LocalDirectoryLabel.Text = locale.GetLocalization(SFTP_LocalDirectoryLabel.Name);
+            SFTP_BrowseButton.Text = locale.GetLocalization(SFTP_BrowseButton.Name);
+            SFTP_ShowDirectoryButton.Text = locale.GetLocalization(SFTP_ShowDirectoryButton.Name);
+            SFTP_DownloadButton.Text = locale.GetLocalization(SFTP_DownloadButton.Name);
+            SFTP_SyncButton.Text = locale.GetLocalization(SFTP_SyncButton.Name);
+            SFTP_NameColumn.HeaderText = locale.GetLocalization(SFTP_NameColumn.Name);
+            SFTP_SizeColumn.HeaderText = locale.GetLocalization(SFTP_SizeColumn.Name);
+            #endregion
+
+            #region Consent Forms
+            ConsentForms_Page.Text = locale.GetLocalization(ConsentForms_Page.Name);
+            ConsentForms_AddButton.Text = locale.GetLocalization(ConsentForms_AddButton.Name);
+            ConsentForms_RemoveButton.Text = locale.GetLocalization(ConsentForms_RemoveButton.Name);
+            ConsentForms_NameColumn.HeaderText = locale.GetLocalization(ConsentForms_NameColumn.Name);
+            ConsentForms_DateColumn.HeaderText = locale.GetLocalization(ConsentForms_DateColumn.Name);
+            ConsentForms_VersionColumn.HeaderText = locale.GetLocalization(ConsentForms_VersionColumn.Name);
+            ConsentForms_CommentColumn.HeaderText = locale.GetLocalization(ConsentForms_CommentColumn.Name);
+            #endregion
+
+            #region Settings
+            Settings_Page.Text = locale.GetLocalization(Settings_Page.Name);
+            Settings_NameLabel.Text = locale.GetLocalization(Settings_NameLabel.Name);
+            Settings_AddressLabel.Text = locale.GetLocalization(Settings_AddressLabel.Name);
+            Settings_LogoLabel.Text = locale.GetLocalization(Settings_LogoLabel.Name);
+            Settings_BrowseButton.Text = locale.GetLocalization(Settings_BrowseButton.Name);
+            #endregion
+
+            #region Help
+            Help_Page.Text = locale.GetLocalization(Help_Page.Name);
+            Help_AuthorLabel.Text = locale.GetLocalization(Help_AuthorLabel.Name) + ": Martin J. R. Jensen";
+            Help_VersionLabel.Text = locale.GetLocalization(Help_VersionLabel.Name) + " v. 0.1.0";
+            Help_LicenseLabel.Text = locale.GetLocalization(Help_LicenseLabel.Name) + ": Apache-2.0";
+            Help_EmailLabel.Text = locale.GetLocalization(Help_EmailLabel.Name);
+            Help_SourceLabel.Text = locale.GetLocalization(Help_SourceLabel.Name);
+            #endregion
         }
 
         #region Calendar
@@ -89,7 +152,7 @@ namespace Timotheus.Forms
                 if (calendar.events[i].IsInPeriod(a,b) && !calendar.events[i].Deleted)
                     shownEvents.Add(calendar.events[i]);
             }
-            CalendarView.Sort(CalendarView.Columns[0], ListSortDirection.Ascending);
+            Calendar_View.Sort(Calendar_View.Columns[0], ListSortDirection.Ascending);
         }
 
         //Changes the selected year and updates calls UpdateTable
@@ -104,7 +167,7 @@ namespace Timotheus.Forms
                     {
                         a = a.AddYears(1);
                         b = b.AddYears(1);
-                        PeriodBox.Text = a.Year.ToString();
+                        Calendar_PeriodBox.Text = a.Year.ToString();
                     }
                     else if (period == Period.Halfyear)
                     {
@@ -112,15 +175,15 @@ namespace Timotheus.Forms
                         b = b.AddMonths(6);
 
                         if (a.Month > 6)
-                            PeriodBox.Text = a.Year + " Fall";
+                            Calendar_PeriodBox.Text = a.Year + " Fall";
                         else
-                            PeriodBox.Text = a.Year + " Spring";
+                            Calendar_PeriodBox.Text = a.Year + " Spring";
                     }
                     else if (period == Period.Month)
                     {
                         a = a.AddMonths(1);
                         b = b.AddMonths(1);
-                        PeriodBox.Text = a.Year + " " + a.Month;
+                        Calendar_PeriodBox.Text = a.Year + " " + a.Month;
                     }
                 }
                 else if (button.Text == "-")
@@ -129,7 +192,7 @@ namespace Timotheus.Forms
                     {
                         a = a.AddYears(-1);
                         b = b.AddYears(-1);
-                        PeriodBox.Text = a.Year.ToString();
+                        Calendar_PeriodBox.Text = a.Year.ToString();
                     }
                     else if (period == Period.Halfyear)
                     {
@@ -137,15 +200,15 @@ namespace Timotheus.Forms
                         b = b.AddMonths(-6);
 
                         if (a.Month > 6)
-                            PeriodBox.Text = a.Year + " Fall";
+                            Calendar_PeriodBox.Text = a.Year + " Fall";
                         else
-                            PeriodBox.Text = a.Year + " Spring";
+                            Calendar_PeriodBox.Text = a.Year + " Spring";
                     }
                     else if (period == Period.Month)
                     {
                         a = a.AddMonths(-1);
                         b = b.AddMonths(-1);
-                        PeriodBox.Text = a.Year + " " + a.Month;
+                        Calendar_PeriodBox.Text = a.Year + " " + a.Month;
                     }
                 }
             }
@@ -159,11 +222,11 @@ namespace Timotheus.Forms
             RadioButton button = (RadioButton)sender;
             if (button.Checked)
             {
-                if (AllButton.Checked)
+                if (Calendar_AllButton.Checked)
                 {
-                    PeriodBox.Text = "All";
-                    AddYearButton.Enabled = false;
-                    SubtractYearButton.Enabled = false;
+                    Calendar_PeriodBox.Text = "All";
+                    Calendar_AddYearButton.Enabled = false;
+                    Calendar_SubtractYearButton.Enabled = false;
 
                     a = DateTime.MinValue;
                     b = DateTime.MaxValue;
@@ -171,7 +234,7 @@ namespace Timotheus.Forms
                 }
                 else
                 {
-                    if (YearButton.Checked)
+                    if (Calendar_YearButton.Checked)
                     {
                         if (period == Period.All)
                         {
@@ -184,10 +247,10 @@ namespace Timotheus.Forms
                             b = new DateTime(a.Year + 1, 1, 1);
                         }
 
-                        PeriodBox.Text = a.Year.ToString();
+                        Calendar_PeriodBox.Text = a.Year.ToString();
                         period = Period.Year;
                     }
-                    else if (HalfYearButton.Checked)
+                    else if (Calendar_HalfYearButton.Checked)
                     {
                         if (period == Period.All)
                         {
@@ -217,22 +280,22 @@ namespace Timotheus.Forms
                         }
 
                         if (a.Month > 6)
-                            PeriodBox.Text = a.Year + " Fall";
+                            Calendar_PeriodBox.Text = a.Year + " Fall";
                         else
-                            PeriodBox.Text = a.Year + " Spring";
+                            Calendar_PeriodBox.Text = a.Year + " Spring";
                         period = Period.Halfyear;
                     }
-                    else if (MonthButton.Checked)
+                    else if (Calendar_MonthButton.Checked)
                     {
                         a = new DateTime(a.Year, a.Month, 1);
                         b = a.AddMonths(1);
 
-                        PeriodBox.Text = a.Year + " " + a.Month;
+                        Calendar_PeriodBox.Text = a.Year + " " + a.Month;
                         period = Period.Month;
                     }
 
-                    AddYearButton.Enabled = true;
-                    SubtractYearButton.Enabled = true;
+                    Calendar_AddYearButton.Enabled = true;
+                    Calendar_SubtractYearButton.Enabled = true;
                 }
 
                 UpdateTable();
@@ -256,7 +319,7 @@ namespace Timotheus.Forms
         {
             if (shownEvents.Count > 0)
             {
-                Event ev = shownEvents[CalendarView.CurrentCell.OwningRow.Index];
+                Event ev = shownEvents[Calendar_View.CurrentCell.OwningRow.Index];
                 int index = 0;
                 for (int i = 0; i < calendar.events.Count; i++)
                 {
@@ -334,7 +397,7 @@ namespace Timotheus.Forms
             using FolderBrowserDialog openFolderDialog = new FolderBrowserDialog();
             if (openFolderDialog.ShowDialog() == DialogResult.OK)
             {
-                LocalDirectoryBox.Text = openFolderDialog.SelectedPath;
+                SFTP_LocalDirectoryBox.Text = openFolderDialog.SelectedPath;
             }
         }
 
@@ -343,9 +406,9 @@ namespace Timotheus.Forms
         {
             try
             {
-                using SftpClient sftp = new SftpClient(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
+                using SftpClient sftp = new SftpClient(SFTP_HostBox.Text, SFTP_UsernameBox.Text, SFTP_PasswordBox.Text);
                 sftp.Connect();
-                IEnumerable<SftpFile> files = SFTP.GetListOfFiles(sftp, RemoteDirectoryBox.Text);
+                IEnumerable<SftpFile> files = SFTP.GetListOfFiles(sftp, SFTP_RemoteDirectoryBox.Text);
                 sftp.Disconnect();
                 shownFiles.Clear();
                 foreach (SftpFile file in files)
@@ -365,9 +428,9 @@ namespace Timotheus.Forms
         {
             try
             {
-                using SftpClient sftp = new SftpClient(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
+                using SftpClient sftp = new SftpClient(SFTP_HostBox.Text, SFTP_UsernameBox.Text, SFTP_PasswordBox.Text);
                 sftp.Connect();
-                SFTP.DownloadDirectory(sftp, RemoteDirectoryBox.Text, LocalDirectoryBox.Text);
+                SFTP.DownloadDirectory(sftp, SFTP_RemoteDirectoryBox.Text, SFTP_LocalDirectoryBox.Text);
                 sftp.Disconnect();
             }
             catch (Exception ex)
@@ -381,9 +444,9 @@ namespace Timotheus.Forms
         {
             try
             {
-                using SftpClient sftp = new SftpClient(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
+                using SftpClient sftp = new SftpClient(SFTP_HostBox.Text, SFTP_UsernameBox.Text, SFTP_PasswordBox.Text);
                 sftp.Connect();
-                SFTP.Synchronize(sftp, RemoteDirectoryBox.Text, LocalDirectoryBox.Text);
+                SFTP.Synchronize(sftp, SFTP_RemoteDirectoryBox.Text, SFTP_LocalDirectoryBox.Text);
                 sftp.Disconnect();
             }
             catch (Exception ex)
@@ -405,7 +468,7 @@ namespace Timotheus.Forms
         {
             if (consentForms.Count > 0)
             {
-                ConsentForm form = consentForms[ConsentFormView.CurrentCell.OwningRow.Index];
+                ConsentForm form = consentForms[ConsentForms_View.CurrentCell.OwningRow.Index];
                 consentForms.Remove(form);
             }
         }
@@ -425,9 +488,9 @@ namespace Timotheus.Forms
             if (open.ShowDialog() == DialogResult.OK)
             {
                 // display image in picture box  
-                LogoPictureBox.Image = Image.FromFile(open.FileName);
+                Settings_PictureBox.Image = Image.FromFile(open.FileName);
                 // image file path  
-                LogoBox.Text = open.FileName;
+                Settings_LogoBox.Text = open.FileName;
             }
         }
 
@@ -438,7 +501,7 @@ namespace Timotheus.Forms
         //Opens link to the GitHub page
         private void SourceLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            SourceLink.LinkVisited = true;
+            Help_SourceLink.LinkVisited = true;
             Process p = new Process();
             p.StartInfo.FileName = "cmd";
             p.StartInfo.Arguments = "/c start https://www.github.com/mjrj97/Manager";
@@ -449,7 +512,7 @@ namespace Timotheus.Forms
         //Send email to Martin
         private void EmailLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            EmailLink.LinkVisited = true;
+            Help_EmailLink.LinkVisited = true;
             Process p = new Process();
             p.StartInfo.FileName = "cmd";
             p.StartInfo.Arguments = "/c start mailto:martin.jensen.1997@hotmail.com";

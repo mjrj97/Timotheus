@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Timotheus.Utility;
 
 namespace Timotheus.Forms
 {
@@ -10,8 +11,7 @@ namespace Timotheus.Forms
         public SyncCalendar()
         {
             InitializeComponent();
-            PasswordBox.PasswordChar = '*';
-            PeriodCalendarButton.Text = "Sync the period: " + MainWindow.window.PeriodBox.Text;
+            Sync_PasswordBox.PasswordChar = '*';
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -21,48 +21,62 @@ namespace Timotheus.Forms
                 steamReader.Close();
 
                 if (content.Length > 0)
-                    UsernameBox.Text = content[0].Trim();
+                    Sync_UsernameBox.Text = content[0].Trim();
                 if (content.Length > 1)
-                    PasswordBox.Text = content[1].Trim();
+                    Sync_PasswordBox.Text = content[1].Trim();
                 if (content.Length > 2)
-                    CalDAVBox.Text = content[2].Trim();
+                    Sync_CalDAVBox.Text = content[2].Trim();
             }
 
             if (MainWindow.window.calendar.IsSetup())
             {
-                UseExistingButton.Enabled = true;
-                UseExistingButton.Checked = true;
+                Sync_UseExistingButton.Enabled = true;
+                Sync_UseExistingButton.Checked = true;
             }
             else
             {
-                NewCalendarButton.Checked = true;
-                CalDAVLabel.Enabled = true;
-                CalDAVBox.Enabled = true;
-                UsernameLabel.Enabled = true;
-                UsernameBox.Enabled = true;
-                PasswordLabel.Enabled = true;
-                PasswordBox.Enabled = true;
+                Sync_NewCalendarButton.Checked = true;
+                Sync_CalDAVLabel.Enabled = true;
+                Sync_CalDAVBox.Enabled = true;
+                Sync_UsernameLabel.Enabled = true;
+                Sync_UsernameBox.Enabled = true;
+                Sync_PasswordLabel.Enabled = true;
+                Sync_PasswordBox.Enabled = true;
             }
+
+            LocalizationLoader locale = new LocalizationLoader(System.Globalization.CultureInfo.CurrentCulture.Name);
+
+            this.Text = locale.GetLocalization(this.Name);
+            Sync_SyncButton.Text = locale.GetLocalization(Sync_SyncButton.Name);
+            Sync_CancelButton.Text = locale.GetLocalization(Sync_CancelButton.Name);
+            Sync_UseExistingButton.Text = locale.GetLocalization(Sync_UseExistingButton.Name);
+            Sync_NewCalendarButton.Text = locale.GetLocalization(Sync_NewCalendarButton.Name);
+            Sync_PasswordLabel.Text = locale.GetLocalization(Sync_PasswordLabel.Name);
+            Sync_UsernameLabel.Text = locale.GetLocalization(Sync_UsernameLabel.Name);
+            Sync_CalDAVLabel.Text = locale.GetLocalization(Sync_CalDAVLabel.Name);
+            Sync_PeriodCalendarButton.Text = locale.GetLocalization(Sync_PeriodCalendarButton.Name) + ": " + MainWindow.window.Calendar_PeriodBox.Text;
+            Sync_EntireCalendarButton.Text = locale.GetLocalization(Sync_EntireCalendarButton.Name);
+            Sync_CustomCalendarButton.Text = locale.GetLocalization(Sync_CustomCalendarButton.Name);
         }
 
         //Syncs the calendar using selected settings
         private void Sync(object sender, EventArgs e)
         {
-            if (NewCalendarButton.Checked)
+            if (Sync_NewCalendarButton.Checked)
             {
-                MainWindow.window.calendar.SetupSync(UsernameBox.Text, PasswordBox.Text, CalDAVBox.Text);
+                MainWindow.window.calendar.SetupSync(Sync_UsernameBox.Text, Sync_PasswordBox.Text, Sync_CalDAVBox.Text);
             }
 
             try
             {
-                if (EntireCalendarButton.Checked)
+                if (Sync_EntireCalendarButton.Checked)
                     MainWindow.window.calendar.Sync();
-                else if (PeriodCalendarButton.Checked)
+                else if (Sync_PeriodCalendarButton.Checked)
                     MainWindow.window.calendar.Sync(MainWindow.window.a, MainWindow.window.b);
-                else if (CustomCalendarButton.Checked)
+                else if (Sync_CustomCalendarButton.Checked)
                 {
-                    DateTime a = aTimePicker.Value;
-                    DateTime b = bTimePicker.Value.AddDays(1);
+                    DateTime a = Sync_aTimePicker.Value;
+                    DateTime b = Sync_bTimePicker.Value.AddDays(1);
 
                     MainWindow.window.calendar.Sync(new DateTime(a.Year, a.Month, a.Day), new DateTime(b.Year, b.Month, b.Day));
                 }
@@ -104,30 +118,30 @@ namespace Timotheus.Forms
         //Enables or disables relevant UI when the radio buttons are checked
         private void NewCalendarButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (NewCalendarButton.Checked)
+            if (Sync_NewCalendarButton.Checked)
             {
-                CalDAVLabel.Enabled = true;
-                CalDAVBox.Enabled = true;
-                UsernameLabel.Enabled = true;
-                UsernameBox.Enabled = true;
-                PasswordLabel.Enabled = true;
-                PasswordBox.Enabled = true;
+                Sync_CalDAVLabel.Enabled = true;
+                Sync_CalDAVBox.Enabled = true;
+                Sync_UsernameLabel.Enabled = true;
+                Sync_UsernameBox.Enabled = true;
+                Sync_PasswordLabel.Enabled = true;
+                Sync_PasswordBox.Enabled = true;
             }
             else
             {
-                CalDAVLabel.Enabled = false;
-                CalDAVBox.Enabled = false;
-                UsernameLabel.Enabled = false;
-                UsernameBox.Enabled = false;
-                PasswordLabel.Enabled = false;
-                PasswordBox.Enabled = false;
+                Sync_CalDAVLabel.Enabled = false;
+                Sync_CalDAVBox.Enabled = false;
+                Sync_UsernameLabel.Enabled = false;
+                Sync_UsernameBox.Enabled = false;
+                Sync_PasswordLabel.Enabled = false;
+                Sync_PasswordBox.Enabled = false;
             }
         }
 
         private void CustomCalendarButton_CheckedChanged(object sender, EventArgs e)
         {
-            aTimePicker.Enabled = CustomCalendarButton.Checked;
-            bTimePicker.Enabled = CustomCalendarButton.Checked;
+            Sync_aTimePicker.Enabled = Sync_CustomCalendarButton.Checked;
+            Sync_bTimePicker.Enabled = Sync_CustomCalendarButton.Checked;
         }
     }
 }
