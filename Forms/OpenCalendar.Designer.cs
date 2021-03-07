@@ -31,141 +31,151 @@ namespace Timotheus.Forms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OpenCalendar));
-            this.CloseButton = new System.Windows.Forms.Button();
-            this.ICSButton = new System.Windows.Forms.RadioButton();
-            this.CalDAVButton = new System.Windows.Forms.RadioButton();
-            this.ICSText = new System.Windows.Forms.TextBox();
-            this.BrowseButton = new System.Windows.Forms.Button();
-            this.CalDAVText = new System.Windows.Forms.TextBox();
-            this.OpenButton = new System.Windows.Forms.Button();
-            this.UsernameText = new System.Windows.Forms.TextBox();
-            this.UsernameLabel = new System.Windows.Forms.Label();
-            this.PasswordText = new System.Windows.Forms.TextBox();
-            this.PasswordLabel = new System.Windows.Forms.Label();
+            this.Open_CancelButton = new System.Windows.Forms.Button();
+            this.Open_ICSButton = new System.Windows.Forms.RadioButton();
+            this.Open_CalDAVButton = new System.Windows.Forms.RadioButton();
+            this.Open_ICSBox = new System.Windows.Forms.TextBox();
+            this.Open_BrowseButton = new System.Windows.Forms.Button();
+            this.Open_CalDAVBox = new System.Windows.Forms.TextBox();
+            this.Open_OpenButton = new System.Windows.Forms.Button();
+            this.Open_UsernameBox = new System.Windows.Forms.TextBox();
+            this.Open_UsernameLabel = new System.Windows.Forms.Label();
+            this.Open_PasswordBox = new System.Windows.Forms.TextBox();
+            this.Open_PasswordLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // CloseButton
+            // Open_CancelButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(310, 160);
-            this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(75, 23);
-            this.CloseButton.TabIndex = 0;
-            this.CloseButton.Text = "Close";
-            this.CloseButton.UseVisualStyleBackColor = true;
-            this.CloseButton.Click += new System.EventHandler(this.CloseDialog);
+            this.Open_CancelButton.Location = new System.Drawing.Point(354, 213);
+            this.Open_CancelButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Open_CancelButton.Name = "Open_CancelButton";
+            this.Open_CancelButton.Size = new System.Drawing.Size(86, 31);
+            this.Open_CancelButton.TabIndex = 0;
+            this.Open_CancelButton.Text = "Cancel";
+            this.Open_CancelButton.UseVisualStyleBackColor = true;
+            this.Open_CancelButton.Click += new System.EventHandler(this.CloseDialog);
             // 
-            // ICSButton
+            // Open_ICSButton
             // 
-            this.ICSButton.AutoSize = true;
-            this.ICSButton.Checked = true;
-            this.ICSButton.Location = new System.Drawing.Point(20, 20);
-            this.ICSButton.Name = "ICSButton";
-            this.ICSButton.Size = new System.Drawing.Size(42, 19);
-            this.ICSButton.TabIndex = 1;
-            this.ICSButton.TabStop = true;
-            this.ICSButton.Text = ".ics";
-            this.ICSButton.UseVisualStyleBackColor = true;
+            this.Open_ICSButton.AutoSize = true;
+            this.Open_ICSButton.Checked = true;
+            this.Open_ICSButton.Location = new System.Drawing.Point(23, 27);
+            this.Open_ICSButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Open_ICSButton.Name = "Open_ICSButton";
+            this.Open_ICSButton.Size = new System.Drawing.Size(50, 24);
+            this.Open_ICSButton.TabIndex = 1;
+            this.Open_ICSButton.TabStop = true;
+            this.Open_ICSButton.Text = ".ics";
+            this.Open_ICSButton.UseVisualStyleBackColor = true;
             // 
-            // CalDAVButton
+            // Open_CalDAVButton
             // 
-            this.CalDAVButton.AutoSize = true;
-            this.CalDAVButton.Location = new System.Drawing.Point(20, 55);
-            this.CalDAVButton.Name = "CalDAVButton";
-            this.CalDAVButton.Size = new System.Drawing.Size(64, 19);
-            this.CalDAVButton.TabIndex = 2;
-            this.CalDAVButton.Text = "CalDAV";
-            this.CalDAVButton.UseVisualStyleBackColor = true;
-            this.CalDAVButton.CheckedChanged += new System.EventHandler(this.CalDAVButton_CheckedChanged);
+            this.Open_CalDAVButton.AutoSize = true;
+            this.Open_CalDAVButton.Location = new System.Drawing.Point(23, 73);
+            this.Open_CalDAVButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Open_CalDAVButton.Name = "Open_CalDAVButton";
+            this.Open_CalDAVButton.Size = new System.Drawing.Size(80, 24);
+            this.Open_CalDAVButton.TabIndex = 2;
+            this.Open_CalDAVButton.Text = "CalDAV";
+            this.Open_CalDAVButton.UseVisualStyleBackColor = true;
+            this.Open_CalDAVButton.CheckedChanged += new System.EventHandler(this.CalDAVButton_CheckedChanged);
             // 
-            // ICSText
+            // Open_ICSBox
             // 
-            this.ICSText.Location = new System.Drawing.Point(100, 20);
-            this.ICSText.Name = "ICSText";
-            this.ICSText.Size = new System.Drawing.Size(200, 23);
-            this.ICSText.TabIndex = 3;
+            this.Open_ICSBox.Location = new System.Drawing.Point(114, 27);
+            this.Open_ICSBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Open_ICSBox.Name = "Open_ICSBox";
+            this.Open_ICSBox.Size = new System.Drawing.Size(228, 27);
+            this.Open_ICSBox.TabIndex = 3;
             // 
-            // BrowseButton
+            // Open_BrowseButton
             // 
-            this.BrowseButton.Location = new System.Drawing.Point(310, 20);
-            this.BrowseButton.Name = "BrowseButton";
-            this.BrowseButton.Size = new System.Drawing.Size(75, 23);
-            this.BrowseButton.TabIndex = 4;
-            this.BrowseButton.Text = "Browse";
-            this.BrowseButton.UseVisualStyleBackColor = true;
-            this.BrowseButton.Click += new System.EventHandler(this.BrowseLocalDirectories);
+            this.Open_BrowseButton.Location = new System.Drawing.Point(354, 25);
+            this.Open_BrowseButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Open_BrowseButton.Name = "Open_BrowseButton";
+            this.Open_BrowseButton.Size = new System.Drawing.Size(86, 31);
+            this.Open_BrowseButton.TabIndex = 4;
+            this.Open_BrowseButton.Text = "Browse";
+            this.Open_BrowseButton.UseVisualStyleBackColor = true;
+            this.Open_BrowseButton.Click += new System.EventHandler(this.BrowseLocalDirectories);
             // 
-            // CalDAVText
+            // Open_CalDAVBox
             // 
-            this.CalDAVText.Enabled = false;
-            this.CalDAVText.Location = new System.Drawing.Point(100, 55);
-            this.CalDAVText.Name = "CalDAVText";
-            this.CalDAVText.Size = new System.Drawing.Size(285, 23);
-            this.CalDAVText.TabIndex = 5;
+            this.Open_CalDAVBox.Enabled = false;
+            this.Open_CalDAVBox.Location = new System.Drawing.Point(114, 73);
+            this.Open_CalDAVBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Open_CalDAVBox.Name = "Open_CalDAVBox";
+            this.Open_CalDAVBox.Size = new System.Drawing.Size(325, 27);
+            this.Open_CalDAVBox.TabIndex = 5;
             // 
-            // OpenButton
+            // Open_OpenButton
             // 
-            this.OpenButton.Location = new System.Drawing.Point(225, 160);
-            this.OpenButton.Name = "OpenButton";
-            this.OpenButton.Size = new System.Drawing.Size(75, 23);
-            this.OpenButton.TabIndex = 6;
-            this.OpenButton.Text = "Open";
-            this.OpenButton.UseVisualStyleBackColor = true;
-            this.OpenButton.Click += new System.EventHandler(this.LoadCalendar);
+            this.Open_OpenButton.Location = new System.Drawing.Point(257, 213);
+            this.Open_OpenButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Open_OpenButton.Name = "Open_OpenButton";
+            this.Open_OpenButton.Size = new System.Drawing.Size(86, 31);
+            this.Open_OpenButton.TabIndex = 6;
+            this.Open_OpenButton.Text = "Open";
+            this.Open_OpenButton.UseVisualStyleBackColor = true;
+            this.Open_OpenButton.Click += new System.EventHandler(this.LoadCalendar);
             // 
-            // UsernameText
+            // Open_UsernameBox
             // 
-            this.UsernameText.Enabled = false;
-            this.UsernameText.Location = new System.Drawing.Point(100, 90);
-            this.UsernameText.Name = "UsernameText";
-            this.UsernameText.Size = new System.Drawing.Size(285, 23);
-            this.UsernameText.TabIndex = 7;
+            this.Open_UsernameBox.Enabled = false;
+            this.Open_UsernameBox.Location = new System.Drawing.Point(114, 120);
+            this.Open_UsernameBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Open_UsernameBox.Name = "Open_UsernameBox";
+            this.Open_UsernameBox.Size = new System.Drawing.Size(325, 27);
+            this.Open_UsernameBox.TabIndex = 7;
             // 
-            // UsernameLabel
+            // Open_UsernameLabel
             // 
-            this.UsernameLabel.AutoSize = true;
-            this.UsernameLabel.Enabled = false;
-            this.UsernameLabel.Location = new System.Drawing.Point(20, 90);
-            this.UsernameLabel.Name = "UsernameLabel";
-            this.UsernameLabel.Size = new System.Drawing.Size(60, 15);
-            this.UsernameLabel.TabIndex = 8;
-            this.UsernameLabel.Text = "Username";
+            this.Open_UsernameLabel.AutoSize = true;
+            this.Open_UsernameLabel.Enabled = false;
+            this.Open_UsernameLabel.Location = new System.Drawing.Point(23, 123);
+            this.Open_UsernameLabel.Name = "Open_UsernameLabel";
+            this.Open_UsernameLabel.Size = new System.Drawing.Size(75, 20);
+            this.Open_UsernameLabel.TabIndex = 8;
+            this.Open_UsernameLabel.Text = "Username";
             // 
-            // PasswordText
+            // Open_PasswordBox
             // 
-            this.PasswordText.Enabled = false;
-            this.PasswordText.Location = new System.Drawing.Point(100, 125);
-            this.PasswordText.Name = "PasswordText";
-            this.PasswordText.Size = new System.Drawing.Size(285, 23);
-            this.PasswordText.TabIndex = 9;
+            this.Open_PasswordBox.Enabled = false;
+            this.Open_PasswordBox.Location = new System.Drawing.Point(114, 167);
+            this.Open_PasswordBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Open_PasswordBox.Name = "Open_PasswordBox";
+            this.Open_PasswordBox.Size = new System.Drawing.Size(325, 27);
+            this.Open_PasswordBox.TabIndex = 9;
             // 
-            // PasswordLabel
+            // Open_PasswordLabel
             // 
-            this.PasswordLabel.AutoSize = true;
-            this.PasswordLabel.Enabled = false;
-            this.PasswordLabel.Location = new System.Drawing.Point(20, 125);
-            this.PasswordLabel.Name = "PasswordLabel";
-            this.PasswordLabel.Size = new System.Drawing.Size(57, 15);
-            this.PasswordLabel.TabIndex = 10;
-            this.PasswordLabel.Text = "Password";
+            this.Open_PasswordLabel.AutoSize = true;
+            this.Open_PasswordLabel.Enabled = false;
+            this.Open_PasswordLabel.Location = new System.Drawing.Point(23, 170);
+            this.Open_PasswordLabel.Name = "Open_PasswordLabel";
+            this.Open_PasswordLabel.Size = new System.Drawing.Size(70, 20);
+            this.Open_PasswordLabel.TabIndex = 10;
+            this.Open_PasswordLabel.Text = "Password";
             // 
             // OpenCalendar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 201);
-            this.Controls.Add(this.PasswordLabel);
-            this.Controls.Add(this.PasswordText);
-            this.Controls.Add(this.UsernameLabel);
-            this.Controls.Add(this.UsernameText);
-            this.Controls.Add(this.OpenButton);
-            this.Controls.Add(this.CalDAVText);
-            this.Controls.Add(this.BrowseButton);
-            this.Controls.Add(this.ICSText);
-            this.Controls.Add(this.CalDAVButton);
-            this.Controls.Add(this.ICSButton);
-            this.Controls.Add(this.CloseButton);
+            this.ClientSize = new System.Drawing.Size(462, 268);
+            this.Controls.Add(this.Open_PasswordLabel);
+            this.Controls.Add(this.Open_PasswordBox);
+            this.Controls.Add(this.Open_UsernameLabel);
+            this.Controls.Add(this.Open_UsernameBox);
+            this.Controls.Add(this.Open_OpenButton);
+            this.Controls.Add(this.Open_CalDAVBox);
+            this.Controls.Add(this.Open_BrowseButton);
+            this.Controls.Add(this.Open_ICSBox);
+            this.Controls.Add(this.Open_CalDAVButton);
+            this.Controls.Add(this.Open_ICSButton);
+            this.Controls.Add(this.Open_CancelButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "OpenCalendar";
@@ -178,16 +188,16 @@ namespace Timotheus.Forms
 
         #endregion
 
-        private System.Windows.Forms.Button CloseButton;
-        private System.Windows.Forms.RadioButton ICSButton;
-        private System.Windows.Forms.RadioButton CalDAVButton;
-        private System.Windows.Forms.TextBox ICSText;
-        private System.Windows.Forms.Button BrowseButton;
-        private System.Windows.Forms.TextBox CalDAVText;
-        private System.Windows.Forms.Button OpenButton;
-        private System.Windows.Forms.TextBox UsernameText;
-        private System.Windows.Forms.Label UsernameLabel;
-        private System.Windows.Forms.TextBox PasswordText;
-        private System.Windows.Forms.Label PasswordLabel;
+        private System.Windows.Forms.Button Open_CancelButton;
+        private System.Windows.Forms.RadioButton Open_ICSButton;
+        private System.Windows.Forms.RadioButton Open_CalDAVButton;
+        private System.Windows.Forms.TextBox Open_ICSBox;
+        private System.Windows.Forms.Button Open_BrowseButton;
+        private System.Windows.Forms.TextBox Open_CalDAVBox;
+        private System.Windows.Forms.Button Open_OpenButton;
+        private System.Windows.Forms.TextBox Open_UsernameBox;
+        private System.Windows.Forms.Label Open_UsernameLabel;
+        private System.Windows.Forms.TextBox Open_PasswordBox;
+        private System.Windows.Forms.Label Open_PasswordLabel;
     }
 }

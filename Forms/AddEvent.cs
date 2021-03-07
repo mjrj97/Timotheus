@@ -23,6 +23,7 @@ namespace Timotheus.Forms
 
             LocalizationLoader locale = new LocalizationLoader(System.Globalization.CultureInfo.CurrentCulture.Name);
 
+            this.Text = locale.GetLocalization(this.Name);
             Add_NameLabel.Text = locale.GetLocalization(Add_NameLabel.Name);
             Add_StartLabel.Text = locale.GetLocalization(Add_StartLabel.Name);
             Add_EndLabel.Text = locale.GetLocalization(Add_EndLabel.Name);
