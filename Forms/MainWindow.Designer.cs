@@ -22,9 +22,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.Calendar_View = new System.Windows.Forms.DataGridView();
+            this.Calendar_StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Calendar_EndColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Calendar_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Calendar_DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Calendar_LocationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.Calendar_Page = new System.Windows.Forms.TabPage();
             this.Calendar_MonthButton = new System.Windows.Forms.RadioButton();
@@ -40,24 +45,24 @@
             this.Calendar_PeriodBox = new System.Windows.Forms.TextBox();
             this.Calendar_AddYearButton = new System.Windows.Forms.Button();
             this.Calendar_SubtractYearButton = new System.Windows.Forms.Button();
-            this.sftpPage = new System.Windows.Forms.TabPage();
-            this.SynchronizeButton = new System.Windows.Forms.Button();
-            this.DownloadAllButton = new System.Windows.Forms.Button();
-            this.ShowDirectoryButton = new System.Windows.Forms.Button();
-            this.FileView = new System.Windows.Forms.DataGridView();
-            this.FileNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FileSizeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BrowseButton = new System.Windows.Forms.Button();
-            this.RemoteDirectoryBox = new System.Windows.Forms.TextBox();
-            this.RemoteDirectoryLabel = new System.Windows.Forms.Label();
-            this.LocalDirectoryLabel = new System.Windows.Forms.Label();
-            this.LocalDirectoryBox = new System.Windows.Forms.TextBox();
-            this.PasswordLabel = new System.Windows.Forms.Label();
-            this.PasswordBox = new System.Windows.Forms.TextBox();
-            this.UsernameLabel = new System.Windows.Forms.Label();
-            this.UsernameBox = new System.Windows.Forms.TextBox();
-            this.HostLabel = new System.Windows.Forms.Label();
-            this.HostBox = new System.Windows.Forms.TextBox();
+            this.SFTP_Page = new System.Windows.Forms.TabPage();
+            this.SFTP_SyncButton = new System.Windows.Forms.Button();
+            this.SFTP_DownloadButton = new System.Windows.Forms.Button();
+            this.SFTP_ShowDirectoryButton = new System.Windows.Forms.Button();
+            this.SFTP_View = new System.Windows.Forms.DataGridView();
+            this.SFTP_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SFTP_SizeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SFTP_BrowseButton = new System.Windows.Forms.Button();
+            this.SFTP_RemoteDirectoryBox = new System.Windows.Forms.TextBox();
+            this.SFTP_RemoteDirectoryLabel = new System.Windows.Forms.Label();
+            this.SFTP_LocalDirectoryLabel = new System.Windows.Forms.Label();
+            this.SFTP_LocalDirectoryBox = new System.Windows.Forms.TextBox();
+            this.SFTP_PasswordLabel = new System.Windows.Forms.Label();
+            this.SFTP_PasswordBox = new System.Windows.Forms.TextBox();
+            this.SFTP_UsernameLabel = new System.Windows.Forms.Label();
+            this.SFTP_UsernameBox = new System.Windows.Forms.TextBox();
+            this.SFTP_HostLabel = new System.Windows.Forms.Label();
+            this.SFTP_HostBox = new System.Windows.Forms.TextBox();
             this.consentFormPage = new System.Windows.Forms.TabPage();
             this.RemoveConsentFormButton = new System.Windows.Forms.Button();
             this.AddConsentFormButton = new System.Windows.Forms.Button();
@@ -89,16 +94,11 @@
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
-            this.Calendar_StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Calendar_EndColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Calendar_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Calendar_DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Calendar_LocationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.Calendar_View)).BeginInit();
             this.tabControl.SuspendLayout();
             this.Calendar_Page.SuspendLayout();
-            this.sftpPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FileView)).BeginInit();
+            this.SFTP_Page.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).BeginInit();
             this.consentFormPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ConsentFormView)).BeginInit();
             this.settingsPage.SuspendLayout();
@@ -121,14 +121,14 @@
             this.Calendar_NameColumn,
             this.Calendar_DescriptionColumn,
             this.Calendar_LocationColumn});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Calendar_View.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Calendar_View.DefaultCellStyle = dataGridViewCellStyle1;
             this.Calendar_View.Location = new System.Drawing.Point(11, 52);
             this.Calendar_View.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Calendar_View.Name = "Calendar_View";
@@ -139,13 +139,57 @@
             this.Calendar_View.Size = new System.Drawing.Size(885, 441);
             this.Calendar_View.TabIndex = 3;
             // 
+            // Calendar_StartColumn
+            // 
+            this.Calendar_StartColumn.DataPropertyName = "StartTime";
+            this.Calendar_StartColumn.FillWeight = 39.11343F;
+            this.Calendar_StartColumn.HeaderText = "Start";
+            this.Calendar_StartColumn.MinimumWidth = 6;
+            this.Calendar_StartColumn.Name = "Calendar_StartColumn";
+            this.Calendar_StartColumn.Width = 125;
+            // 
+            // Calendar_EndColumn
+            // 
+            this.Calendar_EndColumn.DataPropertyName = "EndTime";
+            this.Calendar_EndColumn.FillWeight = 44.62484F;
+            this.Calendar_EndColumn.HeaderText = "End";
+            this.Calendar_EndColumn.MinimumWidth = 6;
+            this.Calendar_EndColumn.Name = "Calendar_EndColumn";
+            this.Calendar_EndColumn.Width = 125;
+            // 
+            // Calendar_NameColumn
+            // 
+            this.Calendar_NameColumn.DataPropertyName = "Name";
+            this.Calendar_NameColumn.FillWeight = 132.2595F;
+            this.Calendar_NameColumn.HeaderText = "Name";
+            this.Calendar_NameColumn.MinimumWidth = 6;
+            this.Calendar_NameColumn.Name = "Calendar_NameColumn";
+            this.Calendar_NameColumn.Width = 253;
+            // 
+            // Calendar_DescriptionColumn
+            // 
+            this.Calendar_DescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Calendar_DescriptionColumn.DataPropertyName = "Description";
+            this.Calendar_DescriptionColumn.FillWeight = 184.0022F;
+            this.Calendar_DescriptionColumn.HeaderText = "Description";
+            this.Calendar_DescriptionColumn.MinimumWidth = 6;
+            this.Calendar_DescriptionColumn.Name = "Calendar_DescriptionColumn";
+            // 
+            // Calendar_LocationColumn
+            // 
+            this.Calendar_LocationColumn.DataPropertyName = "Location";
+            this.Calendar_LocationColumn.HeaderText = "Location";
+            this.Calendar_LocationColumn.MinimumWidth = 6;
+            this.Calendar_LocationColumn.Name = "Calendar_LocationColumn";
+            this.Calendar_LocationColumn.Width = 125;
+            // 
             // tabControl
             // 
             this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.Calendar_Page);
-            this.tabControl.Controls.Add(this.sftpPage);
+            this.tabControl.Controls.Add(this.SFTP_Page);
             this.tabControl.Controls.Add(this.consentFormPage);
             this.tabControl.Controls.Add(this.settingsPage);
             this.tabControl.Controls.Add(this.helpPage);
@@ -335,198 +379,198 @@
             this.Calendar_SubtractYearButton.UseVisualStyleBackColor = true;
             this.Calendar_SubtractYearButton.Click += new System.EventHandler(this.UpdatePeriod);
             // 
-            // sftpPage
+            // SFTP_Page
             // 
-            this.sftpPage.Controls.Add(this.SynchronizeButton);
-            this.sftpPage.Controls.Add(this.DownloadAllButton);
-            this.sftpPage.Controls.Add(this.ShowDirectoryButton);
-            this.sftpPage.Controls.Add(this.FileView);
-            this.sftpPage.Controls.Add(this.BrowseButton);
-            this.sftpPage.Controls.Add(this.RemoteDirectoryBox);
-            this.sftpPage.Controls.Add(this.RemoteDirectoryLabel);
-            this.sftpPage.Controls.Add(this.LocalDirectoryLabel);
-            this.sftpPage.Controls.Add(this.LocalDirectoryBox);
-            this.sftpPage.Controls.Add(this.PasswordLabel);
-            this.sftpPage.Controls.Add(this.PasswordBox);
-            this.sftpPage.Controls.Add(this.UsernameLabel);
-            this.sftpPage.Controls.Add(this.UsernameBox);
-            this.sftpPage.Controls.Add(this.HostLabel);
-            this.sftpPage.Controls.Add(this.HostBox);
-            this.sftpPage.Location = new System.Drawing.Point(4, 29);
-            this.sftpPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.sftpPage.Name = "sftpPage";
-            this.sftpPage.Size = new System.Drawing.Size(909, 550);
-            this.sftpPage.TabIndex = 2;
-            this.sftpPage.Text = "SFTP";
-            this.sftpPage.UseVisualStyleBackColor = true;
+            this.SFTP_Page.Controls.Add(this.SFTP_SyncButton);
+            this.SFTP_Page.Controls.Add(this.SFTP_DownloadButton);
+            this.SFTP_Page.Controls.Add(this.SFTP_ShowDirectoryButton);
+            this.SFTP_Page.Controls.Add(this.SFTP_View);
+            this.SFTP_Page.Controls.Add(this.SFTP_BrowseButton);
+            this.SFTP_Page.Controls.Add(this.SFTP_RemoteDirectoryBox);
+            this.SFTP_Page.Controls.Add(this.SFTP_RemoteDirectoryLabel);
+            this.SFTP_Page.Controls.Add(this.SFTP_LocalDirectoryLabel);
+            this.SFTP_Page.Controls.Add(this.SFTP_LocalDirectoryBox);
+            this.SFTP_Page.Controls.Add(this.SFTP_PasswordLabel);
+            this.SFTP_Page.Controls.Add(this.SFTP_PasswordBox);
+            this.SFTP_Page.Controls.Add(this.SFTP_UsernameLabel);
+            this.SFTP_Page.Controls.Add(this.SFTP_UsernameBox);
+            this.SFTP_Page.Controls.Add(this.SFTP_HostLabel);
+            this.SFTP_Page.Controls.Add(this.SFTP_HostBox);
+            this.SFTP_Page.Location = new System.Drawing.Point(4, 29);
+            this.SFTP_Page.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.SFTP_Page.Name = "SFTP_Page";
+            this.SFTP_Page.Size = new System.Drawing.Size(909, 550);
+            this.SFTP_Page.TabIndex = 2;
+            this.SFTP_Page.Text = "SFTP";
+            this.SFTP_Page.UseVisualStyleBackColor = true;
             // 
-            // SynchronizeButton
+            // SFTP_SyncButton
             // 
-            this.SynchronizeButton.Location = new System.Drawing.Point(11, 264);
-            this.SynchronizeButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.SynchronizeButton.Name = "SynchronizeButton";
-            this.SynchronizeButton.Size = new System.Drawing.Size(251, 51);
-            this.SynchronizeButton.TabIndex = 14;
-            this.SynchronizeButton.Text = "Synchronize";
-            this.SynchronizeButton.UseVisualStyleBackColor = true;
-            this.SynchronizeButton.Click += new System.EventHandler(this.SyncDirectories);
+            this.SFTP_SyncButton.Location = new System.Drawing.Point(11, 264);
+            this.SFTP_SyncButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.SFTP_SyncButton.Name = "SFTP_SyncButton";
+            this.SFTP_SyncButton.Size = new System.Drawing.Size(251, 51);
+            this.SFTP_SyncButton.TabIndex = 14;
+            this.SFTP_SyncButton.Text = "Synchronize";
+            this.SFTP_SyncButton.UseVisualStyleBackColor = true;
+            this.SFTP_SyncButton.Click += new System.EventHandler(this.SyncDirectories);
             // 
-            // DownloadAllButton
+            // SFTP_DownloadButton
             // 
-            this.DownloadAllButton.Location = new System.Drawing.Point(11, 205);
-            this.DownloadAllButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.DownloadAllButton.Name = "DownloadAllButton";
-            this.DownloadAllButton.Size = new System.Drawing.Size(251, 51);
-            this.DownloadAllButton.TabIndex = 13;
-            this.DownloadAllButton.Text = "Download all files";
-            this.DownloadAllButton.UseVisualStyleBackColor = true;
-            this.DownloadAllButton.Click += new System.EventHandler(this.DownloadAll);
+            this.SFTP_DownloadButton.Location = new System.Drawing.Point(11, 205);
+            this.SFTP_DownloadButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.SFTP_DownloadButton.Name = "SFTP_DownloadButton";
+            this.SFTP_DownloadButton.Size = new System.Drawing.Size(251, 51);
+            this.SFTP_DownloadButton.TabIndex = 13;
+            this.SFTP_DownloadButton.Text = "Download all files";
+            this.SFTP_DownloadButton.UseVisualStyleBackColor = true;
+            this.SFTP_DownloadButton.Click += new System.EventHandler(this.DownloadAll);
             // 
-            // ShowDirectoryButton
+            // SFTP_ShowDirectoryButton
             // 
-            this.ShowDirectoryButton.Location = new System.Drawing.Point(11, 147);
-            this.ShowDirectoryButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ShowDirectoryButton.Name = "ShowDirectoryButton";
-            this.ShowDirectoryButton.Size = new System.Drawing.Size(251, 51);
-            this.ShowDirectoryButton.TabIndex = 12;
-            this.ShowDirectoryButton.Text = "Show directory";
-            this.ShowDirectoryButton.UseVisualStyleBackColor = true;
-            this.ShowDirectoryButton.Click += new System.EventHandler(this.ShowDirectory);
+            this.SFTP_ShowDirectoryButton.Location = new System.Drawing.Point(11, 147);
+            this.SFTP_ShowDirectoryButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.SFTP_ShowDirectoryButton.Name = "SFTP_ShowDirectoryButton";
+            this.SFTP_ShowDirectoryButton.Size = new System.Drawing.Size(251, 51);
+            this.SFTP_ShowDirectoryButton.TabIndex = 12;
+            this.SFTP_ShowDirectoryButton.Text = "Show directory";
+            this.SFTP_ShowDirectoryButton.UseVisualStyleBackColor = true;
+            this.SFTP_ShowDirectoryButton.Click += new System.EventHandler(this.ShowDirectory);
             // 
-            // FileView
+            // SFTP_View
             // 
-            this.FileView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.SFTP_View.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FileView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.FileView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.FileNameColumn,
-            this.FileSizeColumn});
-            this.FileView.Location = new System.Drawing.Point(286, 93);
-            this.FileView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.FileView.Name = "FileView";
-            this.FileView.RowHeadersVisible = false;
-            this.FileView.RowHeadersWidth = 51;
-            this.FileView.RowTemplate.Height = 25;
-            this.FileView.Size = new System.Drawing.Size(613, 443);
-            this.FileView.TabIndex = 11;
+            this.SFTP_View.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.SFTP_View.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SFTP_NameColumn,
+            this.SFTP_SizeColumn});
+            this.SFTP_View.Location = new System.Drawing.Point(286, 93);
+            this.SFTP_View.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.SFTP_View.Name = "SFTP_View";
+            this.SFTP_View.RowHeadersVisible = false;
+            this.SFTP_View.RowHeadersWidth = 51;
+            this.SFTP_View.RowTemplate.Height = 25;
+            this.SFTP_View.Size = new System.Drawing.Size(613, 443);
+            this.SFTP_View.TabIndex = 11;
             // 
-            // FileNameColumn
+            // SFTP_NameColumn
             // 
-            this.FileNameColumn.DataPropertyName = "Name";
-            this.FileNameColumn.HeaderText = "File name";
-            this.FileNameColumn.MinimumWidth = 6;
-            this.FileNameColumn.Name = "FileNameColumn";
-            this.FileNameColumn.Width = 400;
+            this.SFTP_NameColumn.DataPropertyName = "Name";
+            this.SFTP_NameColumn.HeaderText = "File name";
+            this.SFTP_NameColumn.MinimumWidth = 6;
+            this.SFTP_NameColumn.Name = "SFTP_NameColumn";
+            this.SFTP_NameColumn.Width = 400;
             // 
-            // FileSizeColumn
+            // SFTP_SizeColumn
             // 
-            this.FileSizeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.FileSizeColumn.DataPropertyName = "Length";
-            this.FileSizeColumn.HeaderText = "File size";
-            this.FileSizeColumn.MinimumWidth = 6;
-            this.FileSizeColumn.Name = "FileSizeColumn";
+            this.SFTP_SizeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.SFTP_SizeColumn.DataPropertyName = "Length";
+            this.SFTP_SizeColumn.HeaderText = "File size";
+            this.SFTP_SizeColumn.MinimumWidth = 6;
+            this.SFTP_SizeColumn.Name = "SFTP_SizeColumn";
             // 
-            // BrowseButton
+            // SFTP_BrowseButton
             // 
-            this.BrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BrowseButton.Location = new System.Drawing.Point(813, 13);
-            this.BrowseButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.BrowseButton.Name = "BrowseButton";
-            this.BrowseButton.Size = new System.Drawing.Size(86, 27);
-            this.BrowseButton.TabIndex = 10;
-            this.BrowseButton.Text = "Browse";
-            this.BrowseButton.UseVisualStyleBackColor = true;
-            this.BrowseButton.Click += new System.EventHandler(this.BrowseLocalDirectory);
+            this.SFTP_BrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.SFTP_BrowseButton.Location = new System.Drawing.Point(813, 13);
+            this.SFTP_BrowseButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.SFTP_BrowseButton.Name = "SFTP_BrowseButton";
+            this.SFTP_BrowseButton.Size = new System.Drawing.Size(86, 27);
+            this.SFTP_BrowseButton.TabIndex = 10;
+            this.SFTP_BrowseButton.Text = "Browse";
+            this.SFTP_BrowseButton.UseVisualStyleBackColor = true;
+            this.SFTP_BrowseButton.Click += new System.EventHandler(this.BrowseLocalDirectory);
             // 
-            // RemoteDirectoryBox
+            // SFTP_RemoteDirectoryBox
             // 
-            this.RemoteDirectoryBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.SFTP_RemoteDirectoryBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.RemoteDirectoryBox.Location = new System.Drawing.Point(415, 53);
-            this.RemoteDirectoryBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.RemoteDirectoryBox.Name = "RemoteDirectoryBox";
-            this.RemoteDirectoryBox.Size = new System.Drawing.Size(483, 27);
-            this.RemoteDirectoryBox.TabIndex = 9;
+            this.SFTP_RemoteDirectoryBox.Location = new System.Drawing.Point(415, 53);
+            this.SFTP_RemoteDirectoryBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.SFTP_RemoteDirectoryBox.Name = "SFTP_RemoteDirectoryBox";
+            this.SFTP_RemoteDirectoryBox.Size = new System.Drawing.Size(483, 27);
+            this.SFTP_RemoteDirectoryBox.TabIndex = 9;
             // 
-            // RemoteDirectoryLabel
+            // SFTP_RemoteDirectoryLabel
             // 
-            this.RemoteDirectoryLabel.AutoSize = true;
-            this.RemoteDirectoryLabel.Location = new System.Drawing.Point(286, 57);
-            this.RemoteDirectoryLabel.Name = "RemoteDirectoryLabel";
-            this.RemoteDirectoryLabel.Size = new System.Drawing.Size(124, 20);
-            this.RemoteDirectoryLabel.TabIndex = 8;
-            this.RemoteDirectoryLabel.Text = "Remote directory";
+            this.SFTP_RemoteDirectoryLabel.AutoSize = true;
+            this.SFTP_RemoteDirectoryLabel.Location = new System.Drawing.Point(286, 57);
+            this.SFTP_RemoteDirectoryLabel.Name = "SFTP_RemoteDirectoryLabel";
+            this.SFTP_RemoteDirectoryLabel.Size = new System.Drawing.Size(124, 20);
+            this.SFTP_RemoteDirectoryLabel.TabIndex = 8;
+            this.SFTP_RemoteDirectoryLabel.Text = "Remote directory";
             // 
-            // LocalDirectoryLabel
+            // SFTP_LocalDirectoryLabel
             // 
-            this.LocalDirectoryLabel.AutoSize = true;
-            this.LocalDirectoryLabel.Location = new System.Drawing.Point(286, 17);
-            this.LocalDirectoryLabel.Name = "LocalDirectoryLabel";
-            this.LocalDirectoryLabel.Size = new System.Drawing.Size(107, 20);
-            this.LocalDirectoryLabel.TabIndex = 7;
-            this.LocalDirectoryLabel.Text = "Local directory";
+            this.SFTP_LocalDirectoryLabel.AutoSize = true;
+            this.SFTP_LocalDirectoryLabel.Location = new System.Drawing.Point(286, 17);
+            this.SFTP_LocalDirectoryLabel.Name = "SFTP_LocalDirectoryLabel";
+            this.SFTP_LocalDirectoryLabel.Size = new System.Drawing.Size(107, 20);
+            this.SFTP_LocalDirectoryLabel.TabIndex = 7;
+            this.SFTP_LocalDirectoryLabel.Text = "Local directory";
             // 
-            // LocalDirectoryBox
+            // SFTP_LocalDirectoryBox
             // 
-            this.LocalDirectoryBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.SFTP_LocalDirectoryBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LocalDirectoryBox.Location = new System.Drawing.Point(415, 13);
-            this.LocalDirectoryBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.LocalDirectoryBox.Name = "LocalDirectoryBox";
-            this.LocalDirectoryBox.Size = new System.Drawing.Size(390, 27);
-            this.LocalDirectoryBox.TabIndex = 6;
+            this.SFTP_LocalDirectoryBox.Location = new System.Drawing.Point(415, 13);
+            this.SFTP_LocalDirectoryBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.SFTP_LocalDirectoryBox.Name = "SFTP_LocalDirectoryBox";
+            this.SFTP_LocalDirectoryBox.Size = new System.Drawing.Size(390, 27);
+            this.SFTP_LocalDirectoryBox.TabIndex = 6;
             // 
-            // PasswordLabel
+            // SFTP_PasswordLabel
             // 
-            this.PasswordLabel.AutoSize = true;
-            this.PasswordLabel.Location = new System.Drawing.Point(11, 97);
-            this.PasswordLabel.Name = "PasswordLabel";
-            this.PasswordLabel.Size = new System.Drawing.Size(70, 20);
-            this.PasswordLabel.TabIndex = 5;
-            this.PasswordLabel.Text = "Password";
+            this.SFTP_PasswordLabel.AutoSize = true;
+            this.SFTP_PasswordLabel.Location = new System.Drawing.Point(11, 97);
+            this.SFTP_PasswordLabel.Name = "SFTP_PasswordLabel";
+            this.SFTP_PasswordLabel.Size = new System.Drawing.Size(70, 20);
+            this.SFTP_PasswordLabel.TabIndex = 5;
+            this.SFTP_PasswordLabel.Text = "Password";
             // 
-            // PasswordBox
+            // SFTP_PasswordBox
             // 
-            this.PasswordBox.Location = new System.Drawing.Point(91, 93);
-            this.PasswordBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.PasswordBox.Name = "PasswordBox";
-            this.PasswordBox.Size = new System.Drawing.Size(171, 27);
-            this.PasswordBox.TabIndex = 4;
+            this.SFTP_PasswordBox.Location = new System.Drawing.Point(91, 93);
+            this.SFTP_PasswordBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.SFTP_PasswordBox.Name = "SFTP_PasswordBox";
+            this.SFTP_PasswordBox.Size = new System.Drawing.Size(171, 27);
+            this.SFTP_PasswordBox.TabIndex = 4;
             // 
-            // UsernameLabel
+            // SFTP_UsernameLabel
             // 
-            this.UsernameLabel.AutoSize = true;
-            this.UsernameLabel.Location = new System.Drawing.Point(11, 57);
-            this.UsernameLabel.Name = "UsernameLabel";
-            this.UsernameLabel.Size = new System.Drawing.Size(75, 20);
-            this.UsernameLabel.TabIndex = 3;
-            this.UsernameLabel.Text = "Username";
+            this.SFTP_UsernameLabel.AutoSize = true;
+            this.SFTP_UsernameLabel.Location = new System.Drawing.Point(11, 57);
+            this.SFTP_UsernameLabel.Name = "SFTP_UsernameLabel";
+            this.SFTP_UsernameLabel.Size = new System.Drawing.Size(75, 20);
+            this.SFTP_UsernameLabel.TabIndex = 3;
+            this.SFTP_UsernameLabel.Text = "Username";
             // 
-            // UsernameBox
+            // SFTP_UsernameBox
             // 
-            this.UsernameBox.Location = new System.Drawing.Point(91, 53);
-            this.UsernameBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.UsernameBox.Name = "UsernameBox";
-            this.UsernameBox.Size = new System.Drawing.Size(171, 27);
-            this.UsernameBox.TabIndex = 2;
+            this.SFTP_UsernameBox.Location = new System.Drawing.Point(91, 53);
+            this.SFTP_UsernameBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.SFTP_UsernameBox.Name = "SFTP_UsernameBox";
+            this.SFTP_UsernameBox.Size = new System.Drawing.Size(171, 27);
+            this.SFTP_UsernameBox.TabIndex = 2;
             // 
-            // HostLabel
+            // SFTP_HostLabel
             // 
-            this.HostLabel.AutoSize = true;
-            this.HostLabel.Location = new System.Drawing.Point(11, 17);
-            this.HostLabel.Name = "HostLabel";
-            this.HostLabel.Size = new System.Drawing.Size(40, 20);
-            this.HostLabel.TabIndex = 1;
-            this.HostLabel.Text = "Host";
+            this.SFTP_HostLabel.AutoSize = true;
+            this.SFTP_HostLabel.Location = new System.Drawing.Point(11, 17);
+            this.SFTP_HostLabel.Name = "SFTP_HostLabel";
+            this.SFTP_HostLabel.Size = new System.Drawing.Size(40, 20);
+            this.SFTP_HostLabel.TabIndex = 1;
+            this.SFTP_HostLabel.Text = "Host";
             // 
-            // HostBox
+            // SFTP_HostBox
             // 
-            this.HostBox.Location = new System.Drawing.Point(91, 13);
-            this.HostBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.HostBox.Name = "HostBox";
-            this.HostBox.Size = new System.Drawing.Size(171, 27);
-            this.HostBox.TabIndex = 0;
+            this.SFTP_HostBox.Location = new System.Drawing.Point(91, 13);
+            this.SFTP_HostBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.SFTP_HostBox.Name = "SFTP_HostBox";
+            this.SFTP_HostBox.Size = new System.Drawing.Size(171, 27);
+            this.SFTP_HostBox.TabIndex = 0;
             // 
             // consentFormPage
             // 
@@ -850,50 +894,6 @@
             this.TrayClose.Text = "Close";
             this.TrayClose.Click += new System.EventHandler(this.Exit);
             // 
-            // Calendar_StartColumn
-            // 
-            this.Calendar_StartColumn.DataPropertyName = "StartTime";
-            this.Calendar_StartColumn.FillWeight = 39.11343F;
-            this.Calendar_StartColumn.HeaderText = "Start";
-            this.Calendar_StartColumn.MinimumWidth = 6;
-            this.Calendar_StartColumn.Name = "Calendar_StartColumn";
-            this.Calendar_StartColumn.Width = 125;
-            // 
-            // Calendar_EndColumn
-            // 
-            this.Calendar_EndColumn.DataPropertyName = "EndTime";
-            this.Calendar_EndColumn.FillWeight = 44.62484F;
-            this.Calendar_EndColumn.HeaderText = "End";
-            this.Calendar_EndColumn.MinimumWidth = 6;
-            this.Calendar_EndColumn.Name = "Calendar_EndColumn";
-            this.Calendar_EndColumn.Width = 125;
-            // 
-            // Calendar_NameColumn
-            // 
-            this.Calendar_NameColumn.DataPropertyName = "Name";
-            this.Calendar_NameColumn.FillWeight = 132.2595F;
-            this.Calendar_NameColumn.HeaderText = "Name";
-            this.Calendar_NameColumn.MinimumWidth = 6;
-            this.Calendar_NameColumn.Name = "Calendar_NameColumn";
-            this.Calendar_NameColumn.Width = 253;
-            // 
-            // Calendar_DescriptionColumn
-            // 
-            this.Calendar_DescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Calendar_DescriptionColumn.DataPropertyName = "Description";
-            this.Calendar_DescriptionColumn.FillWeight = 184.0022F;
-            this.Calendar_DescriptionColumn.HeaderText = "Description";
-            this.Calendar_DescriptionColumn.MinimumWidth = 6;
-            this.Calendar_DescriptionColumn.Name = "Calendar_DescriptionColumn";
-            // 
-            // Calendar_LocationColumn
-            // 
-            this.Calendar_LocationColumn.DataPropertyName = "Location";
-            this.Calendar_LocationColumn.HeaderText = "Location";
-            this.Calendar_LocationColumn.MinimumWidth = 6;
-            this.Calendar_LocationColumn.Name = "Calendar_LocationColumn";
-            this.Calendar_LocationColumn.Width = 125;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -910,9 +910,9 @@
             this.tabControl.ResumeLayout(false);
             this.Calendar_Page.ResumeLayout(false);
             this.Calendar_Page.PerformLayout();
-            this.sftpPage.ResumeLayout(false);
-            this.sftpPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FileView)).EndInit();
+            this.SFTP_Page.ResumeLayout(false);
+            this.SFTP_Page.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).EndInit();
             this.consentFormPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ConsentFormView)).EndInit();
             this.settingsPage.ResumeLayout(false);
@@ -931,7 +931,6 @@
 
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage helpPage;
-        private System.Windows.Forms.TabPage sftpPage;
         private System.Windows.Forms.TabPage settingsPage;
         private System.Windows.Forms.NotifyIcon TrayIcon;
         private System.Windows.Forms.ContextMenuStrip TrayContextMenu;
@@ -946,7 +945,6 @@
         private System.Windows.Forms.Label AuthorLabel;
         private System.Windows.Forms.Label LicenseLabel;
         private System.Windows.Forms.TabPage Calendar_Page;
-        private System.Windows.Forms.DataGridView Calendar_View;
         private System.Windows.Forms.Button Calendar_SaveButton;
         private System.Windows.Forms.Button Calendar_OpenButton;
         private System.Windows.Forms.Button Calendar_ExportButton;
@@ -960,34 +958,36 @@
         private System.Windows.Forms.RadioButton Calendar_HalfYearButton;
         private System.Windows.Forms.RadioButton Calendar_YearButton;
         private System.Windows.Forms.RadioButton Calendar_AllButton;
+        private System.Windows.Forms.DataGridView Calendar_View;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_StartColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_EndColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_DescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_LocationColumn;
-        private System.Windows.Forms.TextBox HostBox;
-        private System.Windows.Forms.TextBox UsernameBox;
-        private System.Windows.Forms.Label PasswordLabel;
-        private System.Windows.Forms.TextBox PasswordBox;
-        private System.Windows.Forms.Label UsernameLabel;
-        private System.Windows.Forms.TextBox RemoteDirectoryBox;
-        private System.Windows.Forms.Label RemoteDirectoryLabel;
-        private System.Windows.Forms.Label LocalDirectoryLabel;
-        private System.Windows.Forms.TextBox LocalDirectoryBox;
-        private System.Windows.Forms.Button BrowseButton;
-        private System.Windows.Forms.DataGridView FileView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FileNameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FileSizeColumn;
-        private System.Windows.Forms.Button ShowDirectoryButton;
-        private System.Windows.Forms.Button DownloadAllButton;
-        private System.Windows.Forms.Button SynchronizeButton;
+        private System.Windows.Forms.TabPage SFTP_Page;
+        private System.Windows.Forms.Label SFTP_HostLabel;
+        private System.Windows.Forms.TextBox SFTP_HostBox;
+        private System.Windows.Forms.Label SFTP_UsernameLabel;
+        private System.Windows.Forms.TextBox SFTP_UsernameBox;
+        private System.Windows.Forms.Label SFTP_PasswordLabel;
+        private System.Windows.Forms.TextBox SFTP_PasswordBox;
+        private System.Windows.Forms.Label SFTP_RemoteDirectoryLabel;
+        private System.Windows.Forms.TextBox SFTP_RemoteDirectoryBox;
+        private System.Windows.Forms.Label SFTP_LocalDirectoryLabel;
+        private System.Windows.Forms.TextBox SFTP_LocalDirectoryBox;
+        private System.Windows.Forms.Button SFTP_BrowseButton;
+        private System.Windows.Forms.Button SFTP_ShowDirectoryButton;
+        private System.Windows.Forms.Button SFTP_DownloadButton;
+        private System.Windows.Forms.Button SFTP_SyncButton;
+        private System.Windows.Forms.DataGridView SFTP_View;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SFTP_NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SFTP_SizeColumn;
         private System.Windows.Forms.GroupBox infoBox;
         private System.Windows.Forms.Label AddressLabel;
         private System.Windows.Forms.TextBox AddressBox;
         private System.Windows.Forms.Label NameLabel;
         private System.Windows.Forms.Label LogoLabel;
         private System.Windows.Forms.TextBox NameBox;
-        private System.Windows.Forms.Label HostLabel;
         private System.Windows.Forms.Button BrowseLogoButton;
         private System.Windows.Forms.PictureBox LogoPictureBox;
         private System.Windows.Forms.TextBox LogoBox;

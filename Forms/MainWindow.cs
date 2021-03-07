@@ -44,15 +44,15 @@ namespace Timotheus.Forms
                 steamReader.Close();
 
                 if (content.Length > 4)
-                    UsernameBox.Text = content[4].Trim();
+                    SFTP_UsernameBox.Text = content[4].Trim();
                 if (content.Length > 5)
-                    PasswordBox.Text = content[5].Trim();
+                    SFTP_PasswordBox.Text = content[5].Trim();
                 if (content.Length > 3)
-                    HostBox.Text = content[3].Trim();
+                    SFTP_HostBox.Text = content[3].Trim();
                 if (content.Length > 6)
-                    RemoteDirectoryBox.Text = content[6].Trim();
+                    SFTP_RemoteDirectoryBox.Text = content[6].Trim();
                 if (content.Length > 7)
-                    LocalDirectoryBox.Text = content[7].Trim();
+                    SFTP_LocalDirectoryBox.Text = content[7].Trim();
                 if (content.Length > 8)
                     NameBox.Text = content[8].Trim();
                 if (content.Length > 9)
@@ -70,12 +70,12 @@ namespace Timotheus.Forms
         private void SetupUI()
         {
             Calendar_View.AutoGenerateColumns = false;
-            FileView.AutoGenerateColumns = false;
+            SFTP_View.AutoGenerateColumns = false;
             ConsentFormView.AutoGenerateColumns = false;
             Calendar_View.DataSource = new BindingSource(shownEvents, null);
-            FileView.DataSource = new BindingSource(shownFiles, null);
+            SFTP_View.DataSource = new BindingSource(shownFiles, null);
             ConsentFormView.DataSource = new BindingSource(consentForms, null);
-            PasswordBox.PasswordChar = '*';
+            SFTP_PasswordBox.PasswordChar = '*';
 
             LocalizationLoader locale = new LocalizationLoader(System.Globalization.CultureInfo.CurrentCulture.Name);
 
@@ -96,6 +96,21 @@ namespace Timotheus.Forms
             Calendar_ExportButton.Text = locale.GetLocalization(Calendar_ExportButton.Name);
             Calendar_RemoveButton.Text = locale.GetLocalization(Calendar_RemoveButton.Name);
             Calendar_AddButton.Text = locale.GetLocalization(Calendar_AddButton.Name);
+            #endregion
+
+            #region SFTP
+            SFTP_Page.Text = locale.GetLocalization(SFTP_Page.Name);
+            SFTP_HostLabel.Text = locale.GetLocalization(SFTP_HostLabel.Name);
+            SFTP_UsernameLabel.Text = locale.GetLocalization(SFTP_UsernameLabel.Name);
+            SFTP_PasswordLabel.Text = locale.GetLocalization(SFTP_PasswordLabel.Name);
+            SFTP_RemoteDirectoryLabel.Text = locale.GetLocalization(SFTP_RemoteDirectoryLabel.Name);
+            SFTP_LocalDirectoryLabel.Text = locale.GetLocalization(SFTP_LocalDirectoryLabel.Name);
+            SFTP_BrowseButton.Text = locale.GetLocalization(SFTP_BrowseButton.Name);
+            SFTP_ShowDirectoryButton.Text = locale.GetLocalization(SFTP_ShowDirectoryButton.Name);
+            SFTP_DownloadButton.Text = locale.GetLocalization(SFTP_DownloadButton.Name);
+            SFTP_SyncButton.Text = locale.GetLocalization(SFTP_SyncButton.Name);
+            SFTP_NameColumn.HeaderText = locale.GetLocalization(SFTP_NameColumn.Name);
+            SFTP_SizeColumn.HeaderText = locale.GetLocalization(SFTP_SizeColumn.Name);
             #endregion
         }
 
@@ -355,7 +370,7 @@ namespace Timotheus.Forms
             using FolderBrowserDialog openFolderDialog = new FolderBrowserDialog();
             if (openFolderDialog.ShowDialog() == DialogResult.OK)
             {
-                LocalDirectoryBox.Text = openFolderDialog.SelectedPath;
+                SFTP_LocalDirectoryBox.Text = openFolderDialog.SelectedPath;
             }
         }
 
@@ -364,9 +379,9 @@ namespace Timotheus.Forms
         {
             try
             {
-                using SftpClient sftp = new SftpClient(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
+                using SftpClient sftp = new SftpClient(SFTP_HostBox.Text, SFTP_UsernameBox.Text, SFTP_PasswordBox.Text);
                 sftp.Connect();
-                IEnumerable<SftpFile> files = SFTP.GetListOfFiles(sftp, RemoteDirectoryBox.Text);
+                IEnumerable<SftpFile> files = SFTP.GetListOfFiles(sftp, SFTP_RemoteDirectoryBox.Text);
                 sftp.Disconnect();
                 shownFiles.Clear();
                 foreach (SftpFile file in files)
@@ -386,9 +401,9 @@ namespace Timotheus.Forms
         {
             try
             {
-                using SftpClient sftp = new SftpClient(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
+                using SftpClient sftp = new SftpClient(SFTP_HostBox.Text, SFTP_UsernameBox.Text, SFTP_PasswordBox.Text);
                 sftp.Connect();
-                SFTP.DownloadDirectory(sftp, RemoteDirectoryBox.Text, LocalDirectoryBox.Text);
+                SFTP.DownloadDirectory(sftp, SFTP_RemoteDirectoryBox.Text, SFTP_LocalDirectoryBox.Text);
                 sftp.Disconnect();
             }
             catch (Exception ex)
@@ -402,9 +417,9 @@ namespace Timotheus.Forms
         {
             try
             {
-                using SftpClient sftp = new SftpClient(HostBox.Text, UsernameBox.Text, PasswordBox.Text);
+                using SftpClient sftp = new SftpClient(SFTP_HostBox.Text, SFTP_UsernameBox.Text, SFTP_PasswordBox.Text);
                 sftp.Connect();
-                SFTP.Synchronize(sftp, RemoteDirectoryBox.Text, LocalDirectoryBox.Text);
+                SFTP.Synchronize(sftp, SFTP_RemoteDirectoryBox.Text, SFTP_LocalDirectoryBox.Text);
                 sftp.Disconnect();
             }
             catch (Exception ex)
