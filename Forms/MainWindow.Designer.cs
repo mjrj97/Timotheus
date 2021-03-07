@@ -985,7 +985,7 @@
         private System.Windows.Forms.Label Settings_NameLabel;
         private System.Windows.Forms.TextBox Settings_NameBox;
         private System.Windows.Forms.Label Settings_AddressLabel;
-        private System.Windows.Forms.TextBox Settings_AddressBox;
+        public System.Windows.Forms.TextBox Settings_AddressBox;
         private System.Windows.Forms.Label Settings_LogoLabel;
         private System.Windows.Forms.TextBox Settings_LogoBox;
         private System.Windows.Forms.Button Settings_BrowseButton;
