@@ -29,18 +29,16 @@ namespace Timotheus.Forms
                     Open_CalDAVBox.Text = content[2].Trim();
             }
 
-            LocalizationLoader locale = new LocalizationLoader(MainWindow.directory, System.Globalization.CultureInfo.CurrentCulture.Name);
-            if (locale.Loaded())
-            {
-                Text = locale.GetLocalization(Name);
-                Open_OpenButton.Text = locale.GetLocalization(Open_OpenButton.Name);
-                Open_CancelButton.Text = locale.GetLocalization(Open_CancelButton.Name);
-                Open_ICSButton.Text = locale.GetLocalization(Open_ICSButton.Name);
-                Open_CalDAVButton.Text = locale.GetLocalization(Open_CalDAVButton.Name);
-                Open_BrowseButton.Text = locale.GetLocalization(Open_BrowseButton.Name);
-                Open_UsernameLabel.Text = locale.GetLocalization(Open_UsernameLabel.Name);
-                Open_PasswordLabel.Text = locale.GetLocalization(Open_PasswordLabel.Name);
-            }
+            LocalizationLoader locale = new LocalizationLoader(MainWindow.directory, MainWindow.culture);
+
+            Text = locale.GetLocalization(this);
+            Open_OpenButton.Text = locale.GetLocalization(Open_OpenButton);
+            Open_CancelButton.Text = locale.GetLocalization(Open_CancelButton);
+            Open_ICSButton.Text = locale.GetLocalization(Open_ICSButton);
+            Open_CalDAVButton.Text = locale.GetLocalization(Open_CalDAVButton);
+            Open_BrowseButton.Text = locale.GetLocalization(Open_BrowseButton);
+            Open_UsernameLabel.Text = locale.GetLocalization(Open_UsernameLabel);
+            Open_PasswordLabel.Text = locale.GetLocalization(Open_PasswordLabel);
         }
 
         //Opens dialog where the user can find a .ics file

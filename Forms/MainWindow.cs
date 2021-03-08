@@ -31,6 +31,7 @@ namespace Timotheus.Forms
         private Period period = Period.Year;
 
         public static string directory;
+        public static string culture;
 
         //Constructor
         public MainWindow()
@@ -40,6 +41,7 @@ namespace Timotheus.Forms
             #else
             directory = Application.StartupPath + "locale\\";
             #endif
+            culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 
             window = this;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
@@ -88,86 +90,84 @@ namespace Timotheus.Forms
             ConsentForms_View.DataSource = new BindingSource(consentForms, null);
             SFTP_PasswordBox.PasswordChar = '*';
 
-            LocalizationLoader locale = new LocalizationLoader(directory, System.Globalization.CultureInfo.CurrentCulture.Name);
-            if (locale.Loaded())
-            {
-                #region Calendar
-                Calendar_StartColumn.HeaderText = locale.GetLocalization(Calendar_StartColumn.Name);
-                Calendar_EndColumn.HeaderText = locale.GetLocalization(Calendar_EndColumn.Name);
-                Calendar_NameColumn.HeaderText = locale.GetLocalization(Calendar_NameColumn.Name);
-                Calendar_DescriptionColumn.HeaderText = locale.GetLocalization(Calendar_DescriptionColumn.Name);
-                Calendar_LocationColumn.HeaderText = locale.GetLocalization(Calendar_LocationColumn.Name);
-                Calendar_Page.Text = locale.GetLocalization(Calendar_Page.Name);
-                Calendar_MonthButton.Text = locale.GetLocalization(Calendar_MonthButton.Name);
-                Calendar_HalfYearButton.Text = locale.GetLocalization(Calendar_HalfYearButton.Name);
-                Calendar_YearButton.Text = locale.GetLocalization(Calendar_YearButton.Name);
-                Calendar_AllButton.Text = locale.GetLocalization(Calendar_AllButton.Name);
-                Calendar_SaveButton.Text = locale.GetLocalization(Calendar_SaveButton.Name);
-                Calendar_OpenButton.Text = locale.GetLocalization(Calendar_OpenButton.Name);
-                Calendar_SyncButton.Text = locale.GetLocalization(Calendar_SyncButton.Name);
-                Calendar_ExportButton.Text = locale.GetLocalization(Calendar_ExportButton.Name);
-                Calendar_RemoveButton.Text = locale.GetLocalization(Calendar_RemoveButton.Name);
-                Calendar_AddButton.Text = locale.GetLocalization(Calendar_AddButton.Name);
+            LocalizationLoader locale = new LocalizationLoader(directory, culture);
 
-                month[0] = locale.GetLocalization("Calendar_January");
-                month[1] = locale.GetLocalization("Calendar_February");
-                month[2] = locale.GetLocalization("Calendar_March");
-                month[3] = locale.GetLocalization("Calendar_April");
-                month[4] = locale.GetLocalization("Calendar_May");
-                month[5] = locale.GetLocalization("Calendar_June");
-                month[6] = locale.GetLocalization("Calendar_July");
-                month[7] = locale.GetLocalization("Calendar_August");
-                month[8] = locale.GetLocalization("Calendar_September");
-                month[9] = locale.GetLocalization("Calendar_October");
-                month[10] = locale.GetLocalization("Calendar_November");
-                month[11] = locale.GetLocalization("Calendar_December");
+            #region Calendar
+            Calendar_StartColumn.HeaderText = locale.GetLocalization(Calendar_StartColumn);
+            Calendar_EndColumn.HeaderText = locale.GetLocalization(Calendar_EndColumn);
+            Calendar_NameColumn.HeaderText = locale.GetLocalization(Calendar_NameColumn);
+            Calendar_DescriptionColumn.HeaderText = locale.GetLocalization(Calendar_DescriptionColumn);
+            Calendar_LocationColumn.HeaderText = locale.GetLocalization(Calendar_LocationColumn);
+            Calendar_Page.Text = locale.GetLocalization(Calendar_Page);
+            Calendar_MonthButton.Text = locale.GetLocalization(Calendar_MonthButton);
+            Calendar_HalfYearButton.Text = locale.GetLocalization(Calendar_HalfYearButton);
+            Calendar_YearButton.Text = locale.GetLocalization(Calendar_YearButton);
+            Calendar_AllButton.Text = locale.GetLocalization(Calendar_AllButton);
+            Calendar_SaveButton.Text = locale.GetLocalization(Calendar_SaveButton);
+            Calendar_OpenButton.Text = locale.GetLocalization(Calendar_OpenButton);
+            Calendar_SyncButton.Text = locale.GetLocalization(Calendar_SyncButton);
+            Calendar_ExportButton.Text = locale.GetLocalization(Calendar_ExportButton);
+            Calendar_RemoveButton.Text = locale.GetLocalization(Calendar_RemoveButton);
+            Calendar_AddButton.Text = locale.GetLocalization(Calendar_AddButton);
 
-                spring = locale.GetLocalization("Calendar_Spring");
-                fall = locale.GetLocalization("Calendar_Fall");
-                #endregion
+            month[0] = locale.GetLocalization("Calendar_January", "January");
+            month[1] = locale.GetLocalization("Calendar_February", "February");
+            month[2] = locale.GetLocalization("Calendar_March", "March");
+            month[3] = locale.GetLocalization("Calendar_April", "April");
+            month[4] = locale.GetLocalization("Calendar_May", "May");
+            month[5] = locale.GetLocalization("Calendar_June", "June");
+            month[6] = locale.GetLocalization("Calendar_July", "July");
+            month[7] = locale.GetLocalization("Calendar_August", "August");
+            month[8] = locale.GetLocalization("Calendar_September", "September");
+            month[9] = locale.GetLocalization("Calendar_October", "October");
+            month[10] = locale.GetLocalization("Calendar_November", "November");
+            month[11] = locale.GetLocalization("Calendar_December", "December");
 
-                #region SFTP
-                SFTP_Page.Text = locale.GetLocalization(SFTP_Page.Name);
-                SFTP_HostLabel.Text = locale.GetLocalization(SFTP_HostLabel.Name);
-                SFTP_UsernameLabel.Text = locale.GetLocalization(SFTP_UsernameLabel.Name);
-                SFTP_PasswordLabel.Text = locale.GetLocalization(SFTP_PasswordLabel.Name);
-                SFTP_RemoteDirectoryLabel.Text = locale.GetLocalization(SFTP_RemoteDirectoryLabel.Name);
-                SFTP_LocalDirectoryLabel.Text = locale.GetLocalization(SFTP_LocalDirectoryLabel.Name);
-                SFTP_BrowseButton.Text = locale.GetLocalization(SFTP_BrowseButton.Name);
-                SFTP_ShowDirectoryButton.Text = locale.GetLocalization(SFTP_ShowDirectoryButton.Name);
-                SFTP_DownloadButton.Text = locale.GetLocalization(SFTP_DownloadButton.Name);
-                SFTP_SyncButton.Text = locale.GetLocalization(SFTP_SyncButton.Name);
-                SFTP_NameColumn.HeaderText = locale.GetLocalization(SFTP_NameColumn.Name);
-                SFTP_SizeColumn.HeaderText = locale.GetLocalization(SFTP_SizeColumn.Name);
-                #endregion
+            spring = locale.GetLocalization("Calendar_Spring");
+            fall = locale.GetLocalization("Calendar_Fall");
+            #endregion
 
-                #region Consent Forms
-                ConsentForms_Page.Text = locale.GetLocalization(ConsentForms_Page.Name);
-                ConsentForms_AddButton.Text = locale.GetLocalization(ConsentForms_AddButton.Name);
-                ConsentForms_RemoveButton.Text = locale.GetLocalization(ConsentForms_RemoveButton.Name);
-                ConsentForms_NameColumn.HeaderText = locale.GetLocalization(ConsentForms_NameColumn.Name);
-                ConsentForms_DateColumn.HeaderText = locale.GetLocalization(ConsentForms_DateColumn.Name);
-                ConsentForms_VersionColumn.HeaderText = locale.GetLocalization(ConsentForms_VersionColumn.Name);
-                ConsentForms_CommentColumn.HeaderText = locale.GetLocalization(ConsentForms_CommentColumn.Name);
-                #endregion
+            #region SFTP
+            SFTP_Page.Text = locale.GetLocalization(SFTP_Page);
+            SFTP_HostLabel.Text = locale.GetLocalization(SFTP_HostLabel);
+            SFTP_UsernameLabel.Text = locale.GetLocalization(SFTP_UsernameLabel);
+            SFTP_PasswordLabel.Text = locale.GetLocalization(SFTP_PasswordLabel);
+            SFTP_RemoteDirectoryLabel.Text = locale.GetLocalization(SFTP_RemoteDirectoryLabel);
+            SFTP_LocalDirectoryLabel.Text = locale.GetLocalization(SFTP_LocalDirectoryLabel);
+            SFTP_BrowseButton.Text = locale.GetLocalization(SFTP_BrowseButton);
+            SFTP_ShowDirectoryButton.Text = locale.GetLocalization(SFTP_ShowDirectoryButton);
+            SFTP_DownloadButton.Text = locale.GetLocalization(SFTP_DownloadButton);
+            SFTP_SyncButton.Text = locale.GetLocalization(SFTP_SyncButton);
+            SFTP_NameColumn.HeaderText = locale.GetLocalization(SFTP_NameColumn);
+            SFTP_SizeColumn.HeaderText = locale.GetLocalization(SFTP_SizeColumn);
+            #endregion
 
-                #region Settings
-                Settings_Page.Text = locale.GetLocalization(Settings_Page.Name);
-                Settings_NameLabel.Text = locale.GetLocalization(Settings_NameLabel.Name);
-                Settings_AddressLabel.Text = locale.GetLocalization(Settings_AddressLabel.Name);
-                Settings_LogoLabel.Text = locale.GetLocalization(Settings_LogoLabel.Name);
-                Settings_BrowseButton.Text = locale.GetLocalization(Settings_BrowseButton.Name);
-                #endregion
+            #region Consent Forms
+            ConsentForms_Page.Text = locale.GetLocalization(ConsentForms_Page);
+            ConsentForms_AddButton.Text = locale.GetLocalization(ConsentForms_AddButton);
+            ConsentForms_RemoveButton.Text = locale.GetLocalization(ConsentForms_RemoveButton);
+            ConsentForms_NameColumn.HeaderText = locale.GetLocalization(ConsentForms_NameColumn);
+            ConsentForms_DateColumn.HeaderText = locale.GetLocalization(ConsentForms_DateColumn);
+            ConsentForms_VersionColumn.HeaderText = locale.GetLocalization(ConsentForms_VersionColumn);
+            ConsentForms_CommentColumn.HeaderText = locale.GetLocalization(ConsentForms_CommentColumn);
+            #endregion
 
-                #region Help
-                Help_Page.Text = locale.GetLocalization(Help_Page.Name);
-                Help_AuthorLabel.Text = locale.GetLocalization(Help_AuthorLabel.Name) + ": Martin J. R. Jensen";
-                Help_VersionLabel.Text = locale.GetLocalization(Help_VersionLabel.Name) + " v. 0.1.0";
-                Help_LicenseLabel.Text = locale.GetLocalization(Help_LicenseLabel.Name) + ": Apache-2.0";
-                Help_EmailLabel.Text = locale.GetLocalization(Help_EmailLabel.Name);
-                Help_SourceLabel.Text = locale.GetLocalization(Help_SourceLabel.Name);
-                #endregion
-            }
+            #region Settings
+            Settings_Page.Text = locale.GetLocalization(Settings_Page);
+            Settings_NameLabel.Text = locale.GetLocalization(Settings_NameLabel);
+            Settings_AddressLabel.Text = locale.GetLocalization(Settings_AddressLabel);
+            Settings_LogoLabel.Text = locale.GetLocalization(Settings_LogoLabel);
+            Settings_BrowseButton.Text = locale.GetLocalization(Settings_BrowseButton);
+            #endregion
+
+            #region Help
+            Help_Page.Text = locale.GetLocalization(Help_Page);
+            Help_AuthorLabel.Text = locale.GetLocalization(Help_AuthorLabel) + ": Martin J. R. Jensen";
+            Help_VersionLabel.Text = locale.GetLocalization(Help_VersionLabel) + " v. 0.1.0";
+            Help_LicenseLabel.Text = locale.GetLocalization(Help_LicenseLabel) + ": Apache-2.0";
+            Help_EmailLabel.Text = locale.GetLocalization(Help_EmailLabel);
+            Help_SourceLabel.Text = locale.GetLocalization(Help_SourceLabel);
+            #endregion
         }
 
         #region Calendar
