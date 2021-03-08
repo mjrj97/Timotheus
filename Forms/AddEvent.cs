@@ -21,17 +21,19 @@ namespace Timotheus.Forms
             Add_EndPicker.Value = end;
             Add_LocationBox.Text = MainWindow.window.Settings_AddressBox.Text;
 
-            LocalizationLoader locale = new LocalizationLoader(System.Globalization.CultureInfo.CurrentCulture.Name);
-
-            this.Text = locale.GetLocalization(this.Name);
-            Add_NameLabel.Text = locale.GetLocalization(Add_NameLabel.Name);
-            Add_StartLabel.Text = locale.GetLocalization(Add_StartLabel.Name);
-            Add_EndLabel.Text = locale.GetLocalization(Add_EndLabel.Name);
-            Add_LocationLabel.Text = locale.GetLocalization(Add_LocationLabel.Name);
-            Add_DescriptionLabel.Text = locale.GetLocalization(Add_DescriptionLabel.Name);
-            Add_AllDayBox.Text = locale.GetLocalization(Add_AllDayBox.Name);
-            Add_AddButton.Text = locale.GetLocalization(Add_AddButton.Name);
-            Add_CancelButton.Text = locale.GetLocalization(Add_CancelButton.Name);
+            LocalizationLoader locale = new LocalizationLoader(MainWindow.directory, System.Globalization.CultureInfo.CurrentCulture.Name);
+            if (locale.Loaded())
+            {
+                Text = locale.GetLocalization(Name);
+                Add_NameLabel.Text = locale.GetLocalization(Add_NameLabel.Name);
+                Add_StartLabel.Text = locale.GetLocalization(Add_StartLabel.Name);
+                Add_EndLabel.Text = locale.GetLocalization(Add_EndLabel.Name);
+                Add_LocationLabel.Text = locale.GetLocalization(Add_LocationLabel.Name);
+                Add_DescriptionLabel.Text = locale.GetLocalization(Add_DescriptionLabel.Name);
+                Add_AllDayBox.Text = locale.GetLocalization(Add_AllDayBox.Name);
+                Add_AddButton.Text = locale.GetLocalization(Add_AddButton.Name);
+                Add_CancelButton.Text = locale.GetLocalization(Add_CancelButton.Name);
+            }
         }
 
         //Adds event to the current calendar in MainWindow

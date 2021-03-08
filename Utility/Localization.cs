@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Windows.Forms;
 using System.Collections.Generic;
 
 namespace Timotheus.Utility
@@ -8,9 +7,10 @@ namespace Timotheus.Utility
     {
         readonly List<Localization> locale = new List<Localization>();
 
-        public LocalizationLoader(string culture)
+        public LocalizationLoader(string path, string culture)
         {
-            string file = Application.StartupPath + "locale\\" + culture + ".txt";
+            string file = path + culture + ".txt";
+            System.Diagnostics.Debug.WriteLine(file);
             if (File.Exists(file))
             {
                 StreamReader steamReader = new StreamReader(file);
@@ -41,6 +41,11 @@ namespace Timotheus.Utility
 
                 return new Localization(name, value);
             }
+        }
+
+        public bool Loaded()
+        {
+            return locale.Count > 0;
         }
 
         public string GetLocalization(string name)

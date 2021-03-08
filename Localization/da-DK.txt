@@ -1,0 +1,88 @@
+Calendar_Page,Kalender
+Calendar_StartColumn,Start
+Calendar_EndColumn,Slut
+Calendar_NameColumn,Navn
+Calendar_DescriptionColumn,Beskrivelse
+Calendar_LocationColumn,Adresse
+Calendar_MonthButton,Måned
+Calendar_HalfYearButton,Halvår
+Calendar_YearButton,År
+Calendar_AllButton,Alle
+Calendar_SaveButton,Gem
+Calendar_OpenButton,Åben
+Calendar_SyncButton,Synkronisér
+Calendar_ExportButton,Eksport PDF
+Calendar_RemoveButton,Slet
+Calendar_AddButton,Tilføj
+Calendar_Spring,Forår
+Calendar_Fall,Efterår
+Calendar_January,Januar
+Calendar_February,Februar
+Calendar_March,Marts
+Calendar_April,April
+Calendar_May,Maj
+Calendar_June,Juni
+Calendar_July,Juli
+Calendar_August,August
+Calendar_September,September
+Calendar_October,Oktober
+Calendar_November,November
+Calendar_December,December
+SFTP_Page,SFTP
+SFTP_HostLabel,Host
+SFTP_UsernameLabel,Brugernavn
+SFTP_PasswordLabel,Adgangskode
+SFTP_RemoteDirectoryLabel,Fjern mappe
+SFTP_LocalDirectoryLabel,Lokal mappe
+SFTP_BrowseButton,Gennemse
+SFTP_ShowDirectoryButton,Vis mappe
+SFTP_DownloadButton,Download all files
+SFTP_SyncButton,Synkronisér
+SFTP_NameColumn,Filnavn
+SFTP_SizeColumn,Filstørrelse
+ConsentForms_Page,Samtykkeerklæringer
+ConsentForms_AddButton,Tilføj
+ConsentForms_RemoveButton,Slet
+ConsentForms_NameColumn,Navn
+ConsentForms_DateColumn,Underskrevet
+ConsentForms_VersionColumn,Version
+ConsentForms_CommentColumn,Kommentar
+Settings_Page,Indstillinger
+Settings_NameLabel,Navn
+Settings_AddressLabel,Adresse
+Settings_LogoLabel,Logo
+Settings_BrowseButton,Gennemse
+Help_Page,Hjælp
+Help_AuthorLabel,Forfatter
+Help_VersionLabel,Timotheus
+Help_LicenseLabel,Licens
+Help_EmailLabel,Email:
+Help_SourceLabel,Kilde:
+AddEvent,Tilføj
+Add_NameLabel,Navn
+Add_StartLabel,Start
+Add_EndLabel,Slut
+Add_LocationLabel,Adresse
+Add_DescriptionLabel,Beskriv.
+Add_AllDayBox,Heldagsbegivenhed
+Add_AddButton,Tilføj
+Add_CancelButton,Annullér
+OpenCalendar,Åben
+Open_OpenButton,Åben
+Open_CancelButton,Annullér
+Open_ICSButton,.ics
+Open_CalDAVButton,CalDAV
+Open_BrowseButton,Gennemse
+Open_UsernameLabel,Brugernavn
+Open_PasswordLabel,Adgangskode
+SyncCalendar,Synkronisér
+Sync_SyncButton,Synkronisér
+Sync_CancelButton,Annullér
+Sync_UseExistingButton,Nuværende kalender
+Sync_NewCalendarButton,En anden kalender
+Sync_PasswordLabel,Adgangskode
+Sync_UsernameLabel,Brugernavn
+Sync_CalDAVLabel,CalDAV
+Sync_PeriodCalendarButton,Synkronisér denne periode
+Sync_EntireCalendarButton,Synkronisér hele kalenderen
+Sync_CustomCalendarButton,Synkronisér brugerdefineret periode
