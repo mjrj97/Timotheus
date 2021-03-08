@@ -37,7 +37,7 @@ SFTP_LocalDirectoryLabel,Local directory
 SFTP_BrowseButton,Browse
 SFTP_ShowDirectoryButton,Show directory
 SFTP_DownloadButton,Download all files
-SFTP_SyncButton,Synchronize
+SFTP_SyncButton,Synchronise
 SFTP_NameColumn,File name
 SFTP_SizeColumn,File size
 ConsentForms_Page,Consent forms
@@ -75,7 +75,7 @@ Open_CalDAVButton,CalDAV
 Open_BrowseButton,Browse
 Open_UsernameLabel,Username
 Open_PasswordLabel,Password
-SyncCalendar,Synchronize
+SyncCalendar,Synchronise
 Sync_SyncButton,Sync
 Sync_CancelButton,Cancel
 Sync_UseExistingButton,Current calendar
