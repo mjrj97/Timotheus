@@ -14,26 +14,70 @@ using Renci.SshNet;
 
 namespace Timotheus.Forms
 {
+    /// <summary>
+    /// Main window of the Timotheus program which holds all the primary data.
+    /// </summary>
     public partial class MainWindow : Form
     {
+        /// <summary>
+        /// Holds the current instance of MainWindow.
+        /// </summary>
         public static MainWindow window;
+        /// <summary>
+        /// List of events in the period a to b shown in the Calendar_View. Updated using UpdateTable().
+        /// </summary>
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
+        /// <summary>
+        /// List of files in the SFTP remote directory. Updated using ShowDirectory().
+        /// </summary>
         public SortableBindingList<SftpFile> shownFiles = new SortableBindingList<SftpFile>();
+        /// <summary>
+        /// List of all consent forms loaded into the program.
+        /// </summary>
         public SortableBindingList<ConsentForm> consentForms = new SortableBindingList<ConsentForm>();
 
+        /// <summary>
+        /// Current calendar used by the program.
+        /// </summary>
         public Calendar calendar = new Calendar();
+        /// <summary>
+        /// List of the names of each month.
+        /// </summary>
         private readonly string[] month = new string[12];
-        private string spring;
-        private string fall;
+        /// <summary>
+        /// Name of the spring period.
+        /// </summary>
+        private string spring = "Spring";
+        /// <summary>
+        /// Name of the fall period.
+        /// </summary>
+        private string fall = "Fall";
 
+        /// <summary>
+        /// Start of the period which sorts the different lists.
+        /// </summary>
         public DateTime a = new DateTime(DateTime.Now.Year, 1, 1);
+        /// <summary>
+        /// End of the period which sorts the different lists.
+        /// </summary>
         public DateTime b = new DateTime(DateTime.Now.Year + 1, 1, 1);
+        /// <summary>
+        /// Type of period used by Calendar_View.
+        /// </summary>
         private Period period = Period.Year;
 
+        /// <summary>
+        /// The directory of the program. Used to load data from subfolders and files.
+        /// </summary>
         public static string directory;
+        /// <summary>
+        /// Culture/language of the computer (e.g. en-GB). Used to load localization.
+        /// </summary>
         public static string culture;
 
-        //Constructor
+        /// <summary>
+        /// Constructor. Loads initial data and localization.
+        /// </summary>
         public MainWindow()
         {
             #if DEBUG
@@ -79,7 +123,9 @@ namespace Timotheus.Forms
             }
         }
 
-        //Assigns the different lists to their appropriate DataGridViews, disables AutoGenerateColumns, and loads localization.
+        /// <summary>
+        /// Assigns the different lists to their appropriate DataGridViews, disables AutoGenerateColumns, and loads localization.
+        /// </summary>
         private void SetupUI()
         {
             Calendar_View.AutoGenerateColumns = false;
@@ -123,8 +169,8 @@ namespace Timotheus.Forms
             month[10] = locale.GetLocalization("Calendar_November", "November");
             month[11] = locale.GetLocalization("Calendar_December", "December");
 
-            spring = locale.GetLocalization("Calendar_Spring");
-            fall = locale.GetLocalization("Calendar_Fall");
+            spring = locale.GetLocalization("Calendar_Spring", spring);
+            fall = locale.GetLocalization("Calendar_Fall", fall);
             #endregion
 
             #region SFTP
@@ -171,8 +217,9 @@ namespace Timotheus.Forms
         }
 
         #region Calendar
-
-        //Updates the contents of the event table
+        /// <summary>
+        /// Updates the contents of the event table.
+        /// </summary>
         public void UpdateTable()
         {
             shownEvents.Clear();
@@ -184,7 +231,9 @@ namespace Timotheus.Forms
             Calendar_View.Sort(Calendar_View.Columns[0], ListSortDirection.Ascending);
         }
 
-        //Changes the selected year and updates calls UpdateTable
+        /// <summary>
+        /// Changes the selected year and calls UpdateTable.
+        /// </summary>
         private void UpdatePeriod(object sender, EventArgs e)
         {
             if (sender != null)
@@ -245,7 +294,9 @@ namespace Timotheus.Forms
             UpdateTable();
         }
 
-        //Updates the year text according to the selected period
+        /// <summary>
+        /// Updates the year text according to the selected period.
+        /// </summary>
         private void PeriodChanged(object sender, EventArgs e)
         {
             RadioButton button = (RadioButton)sender;
@@ -331,7 +382,9 @@ namespace Timotheus.Forms
             }
         }
 
-        //Opens dialog where the user can define the attributes of the new event
+        /// <summary>
+        /// Opens dialog where the user can define the attributes of the new event.
+        /// </summary>
         private void AddEvent(object sender, EventArgs e)
         {
 
@@ -343,7 +396,9 @@ namespace Timotheus.Forms
             addEvent.ShowDialog();
         }
 
-        //Removes the selected event
+        /// <summary>
+        /// Removes the selected event.
+        /// </summary>
         private void RemoveEvent(object sender, EventArgs e)
         {
             if (shownEvents.Count > 0)
@@ -360,7 +415,9 @@ namespace Timotheus.Forms
             }
         }
 
-        //Opens dialog and saves the current calendar as .ics
+        /// <summary>
+        /// Opens dialog and saves the current calendar as .ics.
+        /// </summary>
         private void SaveCalendar(object sender, EventArgs e)
         {
             Stream stream;
@@ -381,7 +438,9 @@ namespace Timotheus.Forms
             }
         }
 
-        //Opens dialog where the user can open the calendar from a .ics file or CalDAV link
+        /// <summary>
+        /// Opens dialog where the user can open the calendar from a .ics file or CalDAV link.
+        /// </summary>
         private void OpenCalendar(object sender, EventArgs e)
         {
               OpenCalendar open = new OpenCalendar
@@ -391,7 +450,9 @@ namespace Timotheus.Forms
             open.ShowDialog();
         }
 
-		//Opens a dialog where the user can save the current calendar as .pdf
+        /// <summary>
+        /// Opens a dialog where the user can save the current calendar as .pdf.
+        /// </summary>
         private void ExportPDF(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -406,7 +467,9 @@ namespace Timotheus.Forms
             }
         }
 
-        //Opens dialog where the user can sync the current calendar with a remote calendar
+        /// <summary>
+        /// Opens dialog where the user can sync the current calendar with a remote calendar.
+        /// </summary>
         private void SyncCalendar(object sender, EventArgs e)
         {
             SyncCalendar sync = new SyncCalendar
@@ -415,12 +478,12 @@ namespace Timotheus.Forms
             };
             sync.ShowDialog();
         }
-
         #endregion
 
         #region SFTP
-
-        //Opens dialog so the user can chose the local directory SFTP should use.
+        /// <summary>
+        /// Opens dialog so the user can chose the local directory SFTP should use.
+        /// </summary>
         private void BrowseLocalDirectory(object sender, EventArgs e)
         {
             using FolderBrowserDialog openFolderDialog = new FolderBrowserDialog();
@@ -430,7 +493,9 @@ namespace Timotheus.Forms
             }
         }
 
-        //Gets the list of files from the remote directory and displays them in FileView
+        /// <summary>
+        /// Gets the list of files from the remote directory and displays them in FileView.
+        /// </summary>
         private void ShowDirectory(object sender, EventArgs e)
         {
             try
@@ -452,7 +517,9 @@ namespace Timotheus.Forms
             }
         }
 
-        //Downloads all files in remote directory and subfolders to local directory
+        /// <summary>
+        /// Downloads all files in remote directory and subfolders to local directory.
+        /// </summary>
         private void DownloadAll(object sender, EventArgs e)
         {
             try
@@ -468,7 +535,9 @@ namespace Timotheus.Forms
             }
         }
 
-        //Synchronizes the local and remote directory
+        /// <summary>
+        /// Synchronizes the local and remote directory.
+        /// </summary>
         private void SyncDirectories(object sender, EventArgs e)
         {
             try
@@ -483,16 +552,20 @@ namespace Timotheus.Forms
                 MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         #endregion
 
         #region Consent forms
-
+        /// <summary>
+        /// Add a simple consent form.
+        /// </summary>
         private void AddConsentForm(object sender, EventArgs e)
         {
             consentForms.Add(new ConsentForm("Test person", DateTime.Now, DateTime.Now));
         }
 
+        /// <summary>
+        /// Removes the selected consent form.
+        /// </summary>
         private void RemoveConsentForm(object sender, EventArgs e)
         {
             if (consentForms.Count > 0)
@@ -501,11 +574,12 @@ namespace Timotheus.Forms
                 consentForms.Remove(form);
             }
         }
-
         #endregion
 
         #region Settings
-
+        /// <summary>
+        /// Opens a dialog where the user can find the logo file.
+        /// </summary>
         private void BrowseLogo(object sender, EventArgs e)
         {
             // open file dialog   
@@ -522,12 +596,12 @@ namespace Timotheus.Forms
                 Settings_LogoBox.Text = open.FileName;
             }
         }
-
         #endregion
 
         #region Help
-
-        //Opens link to the GitHub page
+        /// <summary>
+        /// Opens link to the GitHub repository.
+        /// </summary>
         private void SourceLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Help_SourceLink.LinkVisited = true;
@@ -538,7 +612,9 @@ namespace Timotheus.Forms
             p.Start();
         }
 
-        //Send email to Martin
+        /// <summary>
+        /// Send email to the author.
+        /// </summary>
         private void EmailLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Help_EmailLink.LinkVisited = true;
@@ -548,26 +624,30 @@ namespace Timotheus.Forms
             p.StartInfo.CreateNoWindow = true;
             p.Start();
         }
-
         #endregion
 
         #region Tray icon
-
-        //Reopen Timotheus window
+        /// <summary>
+        /// Reopens the Timotheus window.
+        /// </summary>
         private void Open(object sender, EventArgs e)
         {
             Show();
             WindowState = FormWindowState.Normal;
             TrayIcon.Visible = false;
         }
-        
-        //Close application
+
+        /// <summary>
+        /// Closes the application.
+        /// </summary>
         private void Exit(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        //If the user minimizes the application, minimize it to the tray.
+        /// <summary>
+        /// If the user minimizes the application, minimize it to the tray.
+        /// </summary>
         private void Manager_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
@@ -576,10 +656,11 @@ namespace Timotheus.Forms
                 TrayIcon.Visible = true;
             }
         }
-
         #endregion
 
-        //Processes hotkeys
+        /// <summary>
+        /// Processes the hotkeys. Delete removes the selected item in a DataGridView.
+        /// </summary>
         protected override bool ProcessDialogKey(Keys keyData)
         {
             if (ModifierKeys == Keys.None)
@@ -604,6 +685,9 @@ namespace Timotheus.Forms
         }
     }
 
+    /// <summary>
+    /// Used to define the type of period used by a DataGridView.
+    /// </summary>
     enum Period
     {
         All,

@@ -5,9 +5,14 @@ using System.Windows.Forms;
 
 namespace Timotheus.Forms
 {
+    /// <summary>
+    /// Add event dialog which contains fields where the users can define the values of the variables found in Event, and adds the event to the current calendar in MainWindow.
+    /// </summary>
     public partial class AddEvent : Form
     {
-        //Constructor
+        /// <summary>
+        /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
+        /// </summary>
         public AddEvent()
         {
             InitializeComponent();
@@ -34,7 +39,9 @@ namespace Timotheus.Forms
             Add_CancelButton.Text = locale.GetLocalization(Add_CancelButton);
         }
 
-        //Adds event to the current calendar in MainWindow
+        /// <summary>
+        /// Adds event to the current calendar in MainWindow
+        /// </summary>
         private void AddButton(object sender, EventArgs e)
         {
             int hour = 0;
@@ -76,13 +83,17 @@ namespace Timotheus.Forms
             }
         }
 
-        //Closes the dialog without adding the event
+        /// <summary>
+        /// Closes the dialog without adding the event
+        /// </summary>
         private void CloseButton(object sender, EventArgs e)
         {
             Close();
         }
 
-        //Processes the hotkeys
+        /// <summary>
+        /// Processes the hotkeys. Escape closes the dialog. Enter adds the event.
+        /// </summary>
         protected override bool ProcessDialogKey(Keys keyData)
         {
             if (ModifierKeys == Keys.None)
@@ -102,6 +113,9 @@ namespace Timotheus.Forms
         }
 
         //Enables and disables the start/end time boxes if the events last all day.
+        /// <summary>
+        /// Enables and disables the start/end time boxes if the events last all day.
+        /// </summary>
         private void AllDayBox_CheckedChanged(object sender, EventArgs e)
         {
             Add_StartBox.Enabled = !Add_AllDayBox.Checked;

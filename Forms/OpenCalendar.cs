@@ -6,9 +6,15 @@ using Timotheus.Utility;
 
 namespace Timotheus.Forms
 {
+    /// <summary>
+    /// Open calendar dialog with which the user can load calendar data from either an .ics file or a remote calendar.
+    /// </summary>
     public partial class OpenCalendar : Form
     {
         //Constructor
+        /// <summary>
+        /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
+        /// </summary>
         public OpenCalendar()
         {
             InitializeComponent();
@@ -41,7 +47,9 @@ namespace Timotheus.Forms
             Open_PasswordLabel.Text = locale.GetLocalization(Open_PasswordLabel);
         }
 
-        //Opens dialog where the user can find a .ics file
+        /// <summary>
+        /// Opens dialog where the user can find a .ics file in a local directory.
+        /// </summary>
         private void BrowseLocalDirectories(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new OpenFileDialog
@@ -58,7 +66,9 @@ namespace Timotheus.Forms
             }
         }
 
-        //Loads the calendar from a .ics file or CalDAV link
+        /// <summary>
+        /// Loads the calendar from a .ics file or CalDAV link.
+        /// </summary>
         private void LoadCalendar(object sender, EventArgs e)
         {
             try
@@ -79,13 +89,17 @@ namespace Timotheus.Forms
             Close();
         }
 
-        //Close the dialog without loading a calendar
+        /// <summary>
+        /// Close the dialog without loading a calendar.
+        /// </summary>
         private void CloseDialog(object sender, EventArgs e)
         {
             Close();
         }
 
-		//Processes the hotkeys
+        /// <summary>
+        /// Processes the hotkeys. Escape closes the dialog. Enter opens with the inputted data.
+        /// </summary>
         protected override bool ProcessDialogKey(Keys keyData)
         {
             if (ModifierKeys == Keys.None)
@@ -104,7 +118,9 @@ namespace Timotheus.Forms
             return base.ProcessDialogKey(keyData);
         }
 
-        //Enables or disables relevant UI when the radio buttons are checked
+        /// <summary>
+        /// Enables or disables relevant UI when the radio buttons are checked.
+        /// </summary>
         private void CalDAVButton_CheckedChanged(object sender, EventArgs e)
         {
             if (Open_CalDAVButton.Checked)

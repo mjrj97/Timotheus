@@ -5,9 +5,14 @@ using Timotheus.Utility;
 
 namespace Timotheus.Forms
 {
+    /// <summary>
+    /// Synchronize dialog that allows the user to specify how the calendar should be synced and with which remote calendar.
+    /// </summary>
     public partial class SyncCalendar : Form
     {
-        //Constructor
+        /// <summary>
+        /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
+        /// </summary>
         public SyncCalendar()
         {
             InitializeComponent();
@@ -59,7 +64,9 @@ namespace Timotheus.Forms
             Sync_CustomCalendarButton.Text = locale.GetLocalization(Sync_CustomCalendarButton);
         }
 
-        //Syncs the calendar using selected settings
+        /// <summary>
+        /// Syncs the calendar using selected settings and closes the dialog.
+        /// </summary>
         private void Sync(object sender, EventArgs e)
         {
             if (Sync_NewCalendarButton.Checked)
@@ -90,13 +97,17 @@ namespace Timotheus.Forms
             }
         }
 
-        //Closes the dialog without syncing
+        /// <summary>
+        /// Closes the dialog without syncing.
+        /// </summary>
         private void Close(object sender, EventArgs e)
         {
             Close();
         }
 
-		//Processes the hotkeys
+        /// <summary>
+        /// Processes the hotkeys. Escape closes the dialog. Enter sends a sync request.
+        /// </summary>
         protected override bool ProcessDialogKey(Keys keyData)
         {
             if (ModifierKeys == Keys.None)
@@ -115,7 +126,9 @@ namespace Timotheus.Forms
             return base.ProcessDialogKey(keyData);
         }
 
-        //Enables or disables relevant UI when the radio buttons are checked
+        /// <summary>
+        /// Enables or disables relevant textboxes when the radio buttons are checked.
+        /// </summary>
         private void NewCalendarButton_CheckedChanged(object sender, EventArgs e)
         {
             if (Sync_NewCalendarButton.Checked)
@@ -138,6 +151,9 @@ namespace Timotheus.Forms
             }
         }
 
+        /// <summary>
+        /// Enables or disables the DateTimePickers when the radio button is (un)checked.
+        /// </summary>
         private void CustomCalendarButton_CheckedChanged(object sender, EventArgs e)
         {
             Sync_aTimePicker.Enabled = Sync_CustomCalendarButton.Checked;

@@ -4,7 +4,9 @@ using System.ComponentModel;
 
 namespace Timotheus.Utility
 {
-    //Source: https://martinwilley.com/net/code/forms/sortablebindinglist.html
+    /// <summary>
+    /// A list that can be sorted and used in DataGridViews. <see href="https://martinwilley.com/net/code/forms/sortablebindinglist.html">SOURCE</see>
+    /// </summary>
     public class SortableBindingList<T> : BindingList<T> where T : class
     {
         private bool _isSorted;
