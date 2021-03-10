@@ -388,7 +388,6 @@ namespace Timotheus.Forms
         /// </summary>
         private void AddEvent(object sender, EventArgs e)
         {
-
             AddEvent addEvent = new AddEvent
             {
                 Owner = this
@@ -561,7 +560,12 @@ namespace Timotheus.Forms
         /// </summary>
         private void AddConsentForm(object sender, EventArgs e)
         {
-            consentForms.Add(new ConsentForm("Test person", DateTime.Now, DateTime.Now));
+            AddConsentForm addConsentForm = new AddConsentForm
+            {
+                Owner = this
+            };
+
+            addConsentForm.ShowDialog();
         }
 
         /// <summary>

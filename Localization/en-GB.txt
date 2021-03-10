@@ -87,3 +87,6 @@ Sync_CalDAVLabel,CalDAV
 Sync_PeriodCalendarButton,Sync the period
 Sync_EntireCalendarButton,Sync the entire calendar
 Sync_CustomCalendarButton,Sync custom period
+AddConsentForm,Add
+AddConsentForm_AddButton,Add
+AddConsentForm_CancelButton,Cancel

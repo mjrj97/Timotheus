@@ -87,3 +87,6 @@ Sync_CalDAVLabel,CalDAV
 Sync_PeriodCalendarButton,Synkronisér denne periode
 Sync_EntireCalendarButton,Synkronisér hele kalenderen
 Sync_CustomCalendarButton,Synkronisér brugerdefineret periode
+AddConsentForm,Tilføj
+AddConsentForm_AddButton,Tilføj
+AddConsentForm_CancelButton,Annullér
