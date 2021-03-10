@@ -52,6 +52,7 @@ Settings_NameLabel,Name
 Settings_AddressLabel,Address
 Settings_LogoLabel,Logo
 Settings_BrowseButton,Browse
+Settings_InfoBox,Association information
 Help_Page,Help
 Help_AuthorLabel,Author
 Help_VersionLabel,Timotheus

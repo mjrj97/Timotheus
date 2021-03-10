@@ -52,6 +52,7 @@ Settings_NameLabel,Navn
 Settings_AddressLabel,Adresse
 Settings_LogoLabel,Logo
 Settings_BrowseButton,Gennemse
+Settings_InfoBox,Foreningens information
 Help_Page,Hjælp
 Help_AuthorLabel,Forfatter
 Help_VersionLabel,Timotheus

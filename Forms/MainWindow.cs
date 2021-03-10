@@ -85,7 +85,7 @@ namespace Timotheus.Forms
             #else
             directory = Application.StartupPath + "locale\\";
             #endif
-            culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+            culture = System.Globalization.CultureInfo.CurrentUICulture.Name;
 
             window = this;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
@@ -200,6 +200,7 @@ namespace Timotheus.Forms
 
             #region Settings
             Settings_Page.Text = locale.GetLocalization(Settings_Page);
+            Settings_InfoBox.Text = locale.GetLocalization(Settings_InfoBox);
             Settings_NameLabel.Text = locale.GetLocalization(Settings_NameLabel);
             Settings_AddressLabel.Text = locale.GetLocalization(Settings_AddressLabel);
             Settings_LogoLabel.Text = locale.GetLocalization(Settings_LogoLabel);
