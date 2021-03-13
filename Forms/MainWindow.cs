@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using System.Net;
 using System.Drawing;
 using Renci.SshNet.Sftp;
 using Renci.SshNet;
@@ -67,28 +66,11 @@ namespace Timotheus.Forms
         private Period period = Period.Year;
 
         /// <summary>
-        /// The directory of the program. Used to load data from subfolders and files.
-        /// </summary>
-        public static string directory;
-        /// <summary>
-        /// Culture/language of the computer (e.g. en-GB). Used to load localization.
-        /// </summary>
-        public static string culture;
-
-        /// <summary>
         /// Constructor. Loads initial data and localization.
         /// </summary>
         public MainWindow()
         {
-            #if DEBUG
-            directory = Application.StartupPath[0..^24] + "Localization\\";
-            #else
-            directory = Application.StartupPath + "locale\\";
-            #endif
-            culture = System.Globalization.CultureInfo.CurrentUICulture.Name;
-
             window = this;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             InitializeComponent();
             SetupUI();
             Calendar_PeriodBox.Text = a.Year.ToString();
@@ -136,7 +118,7 @@ namespace Timotheus.Forms
             ConsentForms_View.DataSource = new BindingSource(consentForms, null);
             SFTP_PasswordBox.PasswordChar = '*';
 
-            LocalizationLoader locale = new LocalizationLoader(directory, culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
 
             #region Calendar
             Calendar_StartColumn.HeaderText = locale.GetLocalization(Calendar_StartColumn);

@@ -60,33 +60,33 @@ Help_LicenseLabel,License
 Help_EmailLabel,Email:
 Help_SourceLabel,Source:
 AddEvent,Add
-Add_NameLabel,Name
-Add_StartLabel,Start
-Add_EndLabel,End
-Add_LocationLabel,Location
-Add_DescriptionLabel,Descript.
-Add_AllDayBox,All day event
-Add_AddButton,Add
-Add_CancelButton,Cancel
+AddEvent_NameLabel,Name
+AddEvent_StartLabel,Start
+AddEvent_EndLabel,End
+AddEvent_LocationLabel,Location
+AddEvent_DescriptionLabel,Descript.
+AddEvent_AllDayBox,All day event
+AddEvent_AddButton,Add
+AddEvent_CancelButton,Cancel
 OpenCalendar,Open
-Open_OpenButton,Open
-Open_CancelButton,Cancel
-Open_ICSButton,.ics
-Open_CalDAVButton,CalDAV
-Open_BrowseButton,Browse
-Open_UsernameLabel,Username
-Open_PasswordLabel,Password
+OpenCalendar_OpenButton,Open
+OpenCalendar_CancelButton,Cancel
+OpenCalendar_ICSButton,.ics
+OpenCalendar_CalDAVButton,CalDAV
+OpenCalendar_BrowseButton,Browse
+OpenCalendar_UsernameLabel,Username
+OpenCalendar_PasswordLabel,Password
 SyncCalendar,Synchronise
-Sync_SyncButton,Sync
-Sync_CancelButton,Cancel
-Sync_UseExistingButton,Current calendar
-Sync_NewCalendarButton,Another calendar
-Sync_PasswordLabel,Password
-Sync_UsernameLabel,Username
-Sync_CalDAVLabel,CalDAV
-Sync_PeriodCalendarButton,Sync the period
-Sync_EntireCalendarButton,Sync the entire calendar
-Sync_CustomCalendarButton,Sync custom period
+SyncCalendar_SyncButton,Sync
+SyncCalendar_CancelButton,Cancel
+SyncCalendar_UseExistingButton,Current calendar
+SyncCalendar_NewCalendarButton,Another calendar
+SyncCalendar_PasswordLabel,Password
+SyncCalendar_UsernameLabel,Username
+SyncCalendar_CalDAVLabel,CalDAV
+SyncCalendar_PeriodCalendarButton,Sync the period
+SyncCalendar_EntireCalendarButton,Sync the entire calendar
+SyncCalendar_CustomCalendarButton,Sync custom period
 AddConsentForm,Add
 AddConsentForm_AddButton,Add
 AddConsentForm_CancelButton,Cancel

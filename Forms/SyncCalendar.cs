@@ -16,7 +16,7 @@ namespace Timotheus.Forms
         public SyncCalendar()
         {
             InitializeComponent();
-            Sync_PasswordBox.PasswordChar = '*';
+            SyncCalendar_PasswordBox.PasswordChar = '*';
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -26,42 +26,42 @@ namespace Timotheus.Forms
                 steamReader.Close();
 
                 if (content.Length > 0)
-                    Sync_UsernameBox.Text = content[0].Trim();
+                    SyncCalendar_UsernameBox.Text = content[0].Trim();
                 if (content.Length > 1)
-                    Sync_PasswordBox.Text = content[1].Trim();
+                    SyncCalendar_PasswordBox.Text = content[1].Trim();
                 if (content.Length > 2)
-                    Sync_CalDAVBox.Text = content[2].Trim();
+                    SyncCalendar_CalDAVBox.Text = content[2].Trim();
             }
 
             if (MainWindow.window.calendar.IsSetup())
             {
-                Sync_UseExistingButton.Enabled = true;
-                Sync_UseExistingButton.Checked = true;
+                SyncCalendar_UseExistingButton.Enabled = true;
+                SyncCalendar_UseExistingButton.Checked = true;
             }
             else
             {
-                Sync_NewCalendarButton.Checked = true;
-                Sync_CalDAVLabel.Enabled = true;
-                Sync_CalDAVBox.Enabled = true;
-                Sync_UsernameLabel.Enabled = true;
-                Sync_UsernameBox.Enabled = true;
-                Sync_PasswordLabel.Enabled = true;
-                Sync_PasswordBox.Enabled = true;
+                SyncCalendar_NewCalendarButton.Checked = true;
+                SyncCalendar_CalDAVLabel.Enabled = true;
+                SyncCalendar_CalDAVBox.Enabled = true;
+                SyncCalendar_UsernameLabel.Enabled = true;
+                SyncCalendar_UsernameBox.Enabled = true;
+                SyncCalendar_PasswordLabel.Enabled = true;
+                SyncCalendar_PasswordBox.Enabled = true;
             }
 
-            LocalizationLoader locale = new LocalizationLoader(MainWindow.directory, MainWindow.culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
             
             Text = locale.GetLocalization(this);
-            Sync_SyncButton.Text = locale.GetLocalization(Sync_SyncButton);
-            Sync_CancelButton.Text = locale.GetLocalization(Sync_CancelButton);
-            Sync_UseExistingButton.Text = locale.GetLocalization(Sync_UseExistingButton);
-            Sync_NewCalendarButton.Text = locale.GetLocalization(Sync_NewCalendarButton);
-            Sync_PasswordLabel.Text = locale.GetLocalization(Sync_PasswordLabel);
-            Sync_UsernameLabel.Text = locale.GetLocalization(Sync_UsernameLabel);
-            Sync_CalDAVLabel.Text = locale.GetLocalization(Sync_CalDAVLabel);
-            Sync_PeriodCalendarButton.Text = locale.GetLocalization(Sync_PeriodCalendarButton) + ": " + MainWindow.window.Calendar_PeriodBox.Text;
-            Sync_EntireCalendarButton.Text = locale.GetLocalization(Sync_EntireCalendarButton);
-            Sync_CustomCalendarButton.Text = locale.GetLocalization(Sync_CustomCalendarButton);
+            SyncCalendar_SyncButton.Text = locale.GetLocalization(SyncCalendar_SyncButton);
+            SyncCalendar_CancelButton.Text = locale.GetLocalization(SyncCalendar_CancelButton);
+            SyncCalendar_UseExistingButton.Text = locale.GetLocalization(SyncCalendar_UseExistingButton);
+            SyncCalendar_NewCalendarButton.Text = locale.GetLocalization(SyncCalendar_NewCalendarButton);
+            SyncCalendar_PasswordLabel.Text = locale.GetLocalization(SyncCalendar_PasswordLabel);
+            SyncCalendar_UsernameLabel.Text = locale.GetLocalization(SyncCalendar_UsernameLabel);
+            SyncCalendar_CalDAVLabel.Text = locale.GetLocalization(SyncCalendar_CalDAVLabel);
+            SyncCalendar_PeriodCalendarButton.Text = locale.GetLocalization(SyncCalendar_PeriodCalendarButton) + ": " + MainWindow.window.Calendar_PeriodBox.Text;
+            SyncCalendar_EntireCalendarButton.Text = locale.GetLocalization(SyncCalendar_EntireCalendarButton);
+            SyncCalendar_CustomCalendarButton.Text = locale.GetLocalization(SyncCalendar_CustomCalendarButton);
         }
 
         /// <summary>
@@ -69,21 +69,21 @@ namespace Timotheus.Forms
         /// </summary>
         private void Sync(object sender, EventArgs e)
         {
-            if (Sync_NewCalendarButton.Checked)
+            if (SyncCalendar_NewCalendarButton.Checked)
             {
-                MainWindow.window.calendar.SetupSync(Sync_UsernameBox.Text, Sync_PasswordBox.Text, Sync_CalDAVBox.Text);
+                MainWindow.window.calendar.SetupSync(SyncCalendar_UsernameBox.Text, SyncCalendar_PasswordBox.Text, SyncCalendar_CalDAVBox.Text);
             }
 
             try
             {
-                if (Sync_EntireCalendarButton.Checked)
+                if (SyncCalendar_EntireCalendarButton.Checked)
                     MainWindow.window.calendar.Sync();
-                else if (Sync_PeriodCalendarButton.Checked)
+                else if (SyncCalendar_PeriodCalendarButton.Checked)
                     MainWindow.window.calendar.Sync(MainWindow.window.a, MainWindow.window.b);
-                else if (Sync_CustomCalendarButton.Checked)
+                else if (SyncCalendar_CustomCalendarButton.Checked)
                 {
-                    DateTime a = Sync_aTimePicker.Value;
-                    DateTime b = Sync_bTimePicker.Value.AddDays(1);
+                    DateTime a = SyncCalendar_aTimePicker.Value;
+                    DateTime b = SyncCalendar_bTimePicker.Value.AddDays(1);
 
                     MainWindow.window.calendar.Sync(new DateTime(a.Year, a.Month, a.Day), new DateTime(b.Year, b.Month, b.Day));
                 }
@@ -131,23 +131,23 @@ namespace Timotheus.Forms
         /// </summary>
         private void NewCalendarButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (Sync_NewCalendarButton.Checked)
+            if (SyncCalendar_NewCalendarButton.Checked)
             {
-                Sync_CalDAVLabel.Enabled = true;
-                Sync_CalDAVBox.Enabled = true;
-                Sync_UsernameLabel.Enabled = true;
-                Sync_UsernameBox.Enabled = true;
-                Sync_PasswordLabel.Enabled = true;
-                Sync_PasswordBox.Enabled = true;
+                SyncCalendar_CalDAVLabel.Enabled = true;
+                SyncCalendar_CalDAVBox.Enabled = true;
+                SyncCalendar_UsernameLabel.Enabled = true;
+                SyncCalendar_UsernameBox.Enabled = true;
+                SyncCalendar_PasswordLabel.Enabled = true;
+                SyncCalendar_PasswordBox.Enabled = true;
             }
             else
             {
-                Sync_CalDAVLabel.Enabled = false;
-                Sync_CalDAVBox.Enabled = false;
-                Sync_UsernameLabel.Enabled = false;
-                Sync_UsernameBox.Enabled = false;
-                Sync_PasswordLabel.Enabled = false;
-                Sync_PasswordBox.Enabled = false;
+                SyncCalendar_CalDAVLabel.Enabled = false;
+                SyncCalendar_CalDAVBox.Enabled = false;
+                SyncCalendar_UsernameLabel.Enabled = false;
+                SyncCalendar_UsernameBox.Enabled = false;
+                SyncCalendar_PasswordLabel.Enabled = false;
+                SyncCalendar_PasswordBox.Enabled = false;
             }
         }
 
@@ -156,8 +156,8 @@ namespace Timotheus.Forms
         /// </summary>
         private void CustomCalendarButton_CheckedChanged(object sender, EventArgs e)
         {
-            Sync_aTimePicker.Enabled = Sync_CustomCalendarButton.Checked;
-            Sync_bTimePicker.Enabled = Sync_CustomCalendarButton.Checked;
+            SyncCalendar_aTimePicker.Enabled = SyncCalendar_CustomCalendarButton.Checked;
+            SyncCalendar_bTimePicker.Enabled = SyncCalendar_CustomCalendarButton.Checked;
         }
     }
 }

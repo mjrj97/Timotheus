@@ -60,33 +60,33 @@ Help_LicenseLabel,Licens
 Help_EmailLabel,Email:
 Help_SourceLabel,Kilde:
 AddEvent,Tilføj
-Add_NameLabel,Navn
-Add_StartLabel,Start
-Add_EndLabel,Slut
-Add_LocationLabel,Adresse
-Add_DescriptionLabel,Beskriv.
-Add_AllDayBox,Heldagsbegivenhed
-Add_AddButton,Tilføj
-Add_CancelButton,Annullér
+AddEvent_NameLabel,Navn
+AddEvent_StartLabel,Start
+AddEvent_EndLabel,Slut
+AddEvent_LocationLabel,Adresse
+AddEvent_DescriptionLabel,Beskriv.
+AddEvent_AllDayBox,Heldagsbegivenhed
+AddEvent_AddButton,Tilføj
+AddEvent_CancelButton,Annullér
 OpenCalendar,Åben
-Open_OpenButton,Åben
-Open_CancelButton,Annullér
-Open_ICSButton,.ics
-Open_CalDAVButton,CalDAV
-Open_BrowseButton,Gennemse
-Open_UsernameLabel,Brugernavn
-Open_PasswordLabel,Adgangskode
+OpenCalendar_OpenButton,Åben
+OpenCalendar_CancelButton,Annullér
+OpenCalendar_ICSButton,.ics
+OpenCalendar_CalDAVButton,CalDAV
+OpenCalendar_BrowseButton,Gennemse
+OpenCalendar_UsernameLabel,Brugernavn
+OpenCalendar_PasswordLabel,Adgangskode
 SyncCalendar,Synkronisér
-Sync_SyncButton,Synkronisér
-Sync_CancelButton,Annullér
-Sync_UseExistingButton,Nuværende kalender
-Sync_NewCalendarButton,En anden kalender
-Sync_PasswordLabel,Adgangskode
-Sync_UsernameLabel,Brugernavn
-Sync_CalDAVLabel,CalDAV
-Sync_PeriodCalendarButton,Synkronisér denne periode
-Sync_EntireCalendarButton,Synkronisér hele kalenderen
-Sync_CustomCalendarButton,Synkronisér brugerdefineret periode
+SyncCalendar_SyncButton,Synkronisér
+SyncCalendar_CancelButton,Annullér
+SyncCalendar_UseExistingButton,Nuværende kalender
+SyncCalendar_NewCalendarButton,En anden kalender
+SyncCalendar_PasswordLabel,Adgangskode
+SyncCalendar_UsernameLabel,Brugernavn
+SyncCalendar_CalDAVLabel,CalDAV
+SyncCalendar_PeriodCalendarButton,Synkronisér denne periode
+SyncCalendar_EntireCalendarButton,Synkronisér hele kalenderen
+SyncCalendar_CustomCalendarButton,Synkronisér brugerdefineret periode
 AddConsentForm,Tilføj
 AddConsentForm_AddButton,Tilføj
 AddConsentForm_CancelButton,Annullér

@@ -22,7 +22,6 @@ namespace Timotheus.Utility
         public LocalizationLoader(string path, string culture)
         {
             string file = path + culture + ".txt";
-            System.Diagnostics.Debug.WriteLine(culture);
             if (File.Exists(file))
             {
                 StreamReader steamReader = new StreamReader(file);
