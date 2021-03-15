@@ -93,7 +93,6 @@ namespace Timotheus.Utility
             // all styles and paragraphs that do not redefine the font.
             style.Font.Name = "Arvo";
 
-
             // Create a new style called Table based on style Normal.
             style = _document.Styles.AddStyle("Table", "Normal");
             style.Font.Name = "Arvo";
@@ -139,16 +138,12 @@ namespace Timotheus.Utility
                 image.LockAspectRatio = true;
             }
            
-
             // add title
             var paragraph = section.AddParagraph("Program");
             paragraph.Format.Font.Size = 40;
 
             paragraph = section.AddParagraph($"Velkomemen i {_associationName}");
             paragraph.Format.Font.Size = 20;
-
-       
-
 
             // extra Paragraph to add space
             section.AddParagraph();
@@ -224,9 +219,9 @@ namespace Timotheus.Utility
                 string musician = "";
                 string coffeeTeam = "";
 
-                var row = this._table.AddRow();
+                Row row = _table.AddRow();
 
-                row.Cells[0].AddParagraph(time.ToString("ddd, MMM d", CultureInfo.CreateSpecificCulture("da-DK")));
+                row.Cells[0].AddParagraph(time.ToString("ddd, MMM d", CultureInfo.CreateSpecificCulture(Program.culture)));
                 
                 if (time.Minute == 0 && time.Hour == 0)
                 {
@@ -234,7 +229,7 @@ namespace Timotheus.Utility
                 }
                 else
                 {
-                    row.Cells[1].AddParagraph(time.ToString("t", CultureInfo.CreateSpecificCulture("da-DK")));
+                    row.Cells[1].AddParagraph(time.ToString("t", CultureInfo.CreateSpecificCulture(Program.culture)));
                 }
 
                 row.Cells[2].AddParagraph(name);
