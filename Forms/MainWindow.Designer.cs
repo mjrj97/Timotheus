@@ -94,6 +94,14 @@ namespace Timotheus.Forms
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.memberPage = new System.Windows.Forms.TabPage();
+            this.RemovePersonButton = new System.Windows.Forms.Button();
+            this.AddPersonButton = new System.Windows.Forms.Button();
+            this.MemberTableView = new System.Windows.Forms.DataGridView();
+            this.memberFromColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MemberNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BirthdayColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AdresseColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.Calendar_View)).BeginInit();
             this.tabControl.SuspendLayout();
             this.Calendar_Page.SuspendLayout();
@@ -1041,5 +1049,13 @@ namespace Timotheus.Forms
         private System.Windows.Forms.Label Help_SourceLabel;
         private System.Windows.Forms.LinkLabel Help_SourceLink;
         private System.Windows.Forms.PictureBox Help_IconBox;
+        private System.Windows.Forms.TabPage memberPage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn memberFromColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MemberNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BirthdayColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AdresseColumn;
+        private System.Windows.Forms.DataGridView MemberTableView;
+        private System.Windows.Forms.Button AddPersonButton;
+        private System.Windows.Forms.Button RemovePersonButton;
     }
 }
