@@ -78,7 +78,7 @@ namespace Timotheus.Forms
                 else
                     MainWindow.window.calendar = new Calendar(OpenCalendar_ICSBox.Text);
 
-                MainWindow.window.UpdateTable();
+                MainWindow.window.UpdateCalendarTable();
                 Close();
             }
             catch (Exception ex)

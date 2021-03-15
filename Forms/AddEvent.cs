@@ -74,7 +74,7 @@ namespace Timotheus.Forms
 
                 Event ev = new Event(start, end, AddEvent_NameBox.Text, AddEvent_DescriptionBox.Text, AddEvent_LocationBox.Text, null);
                 MainWindow.window.calendar.events.Add(ev);
-                MainWindow.window.UpdateTable();
+                MainWindow.window.UpdateCalendarTable();
                 Close();
             }
             catch (Exception ex)

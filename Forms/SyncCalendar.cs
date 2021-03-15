@@ -88,7 +88,7 @@ namespace Timotheus.Forms
                     MainWindow.window.calendar.Sync(new DateTime(a.Year, a.Month, a.Day), new DateTime(b.Year, b.Month, b.Day));
                 }
 
-                MainWindow.window.UpdateTable();
+                MainWindow.window.UpdateCalendarTable();
                 Close();
             }
             catch (Exception ex)

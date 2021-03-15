@@ -203,7 +203,7 @@ namespace Timotheus.Forms
         /// <summary>
         /// Updates the contents of the event table.
         /// </summary>
-        public void UpdateTable()
+        public void UpdateCalendarTable()
         {
             shownEvents.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
@@ -274,7 +274,7 @@ namespace Timotheus.Forms
                 }
             }
 
-            UpdateTable();
+            UpdateCalendarTable();
         }
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace Timotheus.Forms
                     Calendar_SubtractYearButton.Enabled = true;
                 }
 
-                UpdateTable();
+                UpdateCalendarTable();
             }
         }
 
@@ -393,7 +393,7 @@ namespace Timotheus.Forms
                         index = i;
                 }
                 calendar.events[index].Deleted = true;
-                UpdateTable();
+                UpdateCalendarTable();
             }
         }
 
