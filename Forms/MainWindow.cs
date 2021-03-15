@@ -1,5 +1,6 @@
 ﻿using Timotheus.Schedule;
 using Timotheus.Utility;
+using Timotheus.Persons;
 using System;
 using System.Text;
 using System.ComponentModel;
@@ -8,12 +9,14 @@ using System.IO;
 using System.Windows.Forms;
 using System.Net;
 
+
 namespace Timotheus.Forms
 {
     public partial class MainWindow : Form
     {
         public static MainWindow window;
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
+        public SortableBindingList<Person> Persons = new SortableBindingList<Person>();
 
         private int year;
         public Calendar calendar = new Calendar();
@@ -27,6 +30,9 @@ namespace Timotheus.Forms
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             Year.Text = year.ToString();
             CalendarView.DataSource = new BindingSource(shownEvents, null);
+            MemberTableView.DataSource = new BindingSource(Persons, null);
+
+            Persons.Add(new Person("Jesper Roager", "Odense", new DateTime(2003, 5, 8), new DateTime(2021, 1, 5)));
         }
 
         public void AddEventToCalendar(Event ev)
@@ -192,5 +198,6 @@ namespace Timotheus.Forms
                 TrayIcon.Visible = true;
             }
         }
+
     }
 }
