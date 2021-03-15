@@ -1,5 +1,6 @@
-﻿using Timotheus.Schedule;
+using Timotheus.Schedule;
 using Timotheus.Utility;
+using Timotheus.Persons;
 using System;
 using System.Text;
 using System.ComponentModel;
@@ -10,6 +11,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using Renci.SshNet.Sftp;
 using Renci.SshNet;
+
 
 namespace Timotheus.Forms
 {
@@ -34,6 +36,10 @@ namespace Timotheus.Forms
         /// List of all consent forms loaded into the program.
         /// </summary>
         public SortableBindingList<ConsentForm> consentForms = new SortableBindingList<ConsentForm>();
+        /// <summary>
+        /// List of all persons.
+        /// </summary>
+        public SortableBindingList<Person> Persons = new SortableBindingList<Person>();
 
         /// <summary>
         /// Current calendar used by the program.
@@ -74,6 +80,8 @@ namespace Timotheus.Forms
             InitializeComponent();
             SetupUI();
             Calendar_PeriodBox.Text = a.Year.ToString();
+            
+            Persons.Add(new Person("Jesper Roager", "Odense", new DateTime(2003, 5, 8), new DateTime(2021, 1, 5)));
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -113,9 +121,11 @@ namespace Timotheus.Forms
             Calendar_View.AutoGenerateColumns = false;
             SFTP_View.AutoGenerateColumns = false;
             ConsentForms_View.AutoGenerateColumns = false;
+            MemberTableView.AutoGenerateColumns = false;
             Calendar_View.DataSource = new BindingSource(shownEvents, null);
             SFTP_View.DataSource = new BindingSource(shownFiles, null);
             ConsentForms_View.DataSource = new BindingSource(consentForms, null);
+            MemberTableView.DataSource = new BindingSource(Persons, null);
             SFTP_PasswordBox.PasswordChar = '*';
 
             LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
@@ -643,6 +653,7 @@ namespace Timotheus.Forms
                 TrayIcon.Visible = true;
             }
         }
+        
         #endregion
 
         /// <summary>

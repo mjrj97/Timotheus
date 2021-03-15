@@ -1,4 +1,4 @@
-﻿namespace Timotheus.Forms
+namespace Timotheus.Forms
 {
     partial class MainWindow
     {
@@ -192,6 +192,7 @@
             this.tabControl.Controls.Add(this.ConsentForms_Page);
             this.tabControl.Controls.Add(this.Settings_Page);
             this.tabControl.Controls.Add(this.Help_Page);
+            this.tabControl.Controls.Add(this.memberPage);
             this.tabControl.Location = new System.Drawing.Point(2, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -831,6 +832,81 @@
             this.Help_IconBox.TabIndex = 0;
             this.Help_IconBox.TabStop = false;
             // 
+            // memberPage
+            // 
+            this.memberPage.Controls.Add(this.RemovePersonButton);
+            this.memberPage.Controls.Add(this.AddPersonButton);
+            this.memberPage.Controls.Add(this.MemberTableView);
+            this.memberPage.Location = new System.Drawing.Point(4, 24);
+            this.memberPage.Name = "memberPage";
+            this.memberPage.Size = new System.Drawing.Size(794, 409);
+            this.memberPage.TabIndex = 2;
+            this.memberPage.Text = "Members";
+            this.memberPage.UseVisualStyleBackColor = true;
+            // 
+            // RemovePersonButton
+            // 
+            this.RemovePersonButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.RemovePersonButton.Location = new System.Drawing.Point(91, 379);
+            this.RemovePersonButton.Name = "RemovePersonButton";
+            this.RemovePersonButton.Size = new System.Drawing.Size(75, 23);
+            this.RemovePersonButton.TabIndex = 6;
+            this.RemovePersonButton.Text = "Remove";
+            this.RemovePersonButton.UseVisualStyleBackColor = true;
+            // 
+            // AddPersonButton
+            // 
+            this.AddPersonButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AddPersonButton.Location = new System.Drawing.Point(10, 378);
+            this.AddPersonButton.Name = "AddPersonButton";
+            this.AddPersonButton.Size = new System.Drawing.Size(75, 23);
+            this.AddPersonButton.TabIndex = 5;
+            this.AddPersonButton.Text = "Add";
+            this.AddPersonButton.UseVisualStyleBackColor = true;
+            // 
+            // MemberTableView
+            // 
+            this.MemberTableView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.MemberTableView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.memberFromColumn,
+            this.MemberNameColumn,
+            this.BirthdayColumn,
+            this.AdresseColumn});
+            this.MemberTableView.Location = new System.Drawing.Point(10, 3);
+            this.MemberTableView.Name = "MemberTableView";
+            this.MemberTableView.RowHeadersVisible = false;
+            this.MemberTableView.RowTemplate.Height = 25;
+            this.MemberTableView.Size = new System.Drawing.Size(774, 364);
+            this.MemberTableView.TabIndex = 0;
+            // 
+            // memberFromColumn
+            // 
+            this.memberFromColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.memberFromColumn.DataPropertyName = "memberSince";
+            this.memberFromColumn.HeaderText = "Member since";
+            this.memberFromColumn.Name = "memberFromColumn";
+            // 
+            // MemberNameColumn
+            // 
+            this.MemberNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.MemberNameColumn.DataPropertyName = "name";
+            this.MemberNameColumn.HeaderText = "Name";
+            this.MemberNameColumn.Name = "MemberNameColumn";
+            // 
+            // BirthdayColumn
+            // 
+            this.BirthdayColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.BirthdayColumn.DataPropertyName = "birthday";
+            this.BirthdayColumn.HeaderText = "Birthday";
+            this.BirthdayColumn.Name = "BirthdayColumn";
+            // 
+            // AdresseColumn
+            // 
+            this.AdresseColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.AdresseColumn.DataPropertyName = "adresse";
+            this.AdresseColumn.HeaderText = "Adresse";
+            this.AdresseColumn.Name = "AdresseColumn";
+            // 
             // TrayIcon
             // 
             this.TrayIcon.ContextMenuStrip = this.TrayContextMenu;
@@ -888,9 +964,9 @@
             this.Help_Page.ResumeLayout(false);
             this.Help_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Help_IconBox)).EndInit();
+            this.memberPage.ResumeLayout(false);
             this.TrayContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
 
         #endregion
