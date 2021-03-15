@@ -5,39 +5,39 @@ using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using Timotheus.Schedule;
 
-namespace Timotheus.Utility
+namespace Timotheus.Utility.PDFcreater
 {
     /// <summary>
     /// Creates the invoice form.
     /// </summary>
-    public class PDFCreater
+    public class PDFcreater
     {
         /// <summary>
         /// The MigraDoc document that represents the invoice.
         /// </summary>
-        private Document _document;
+        Document _document;
 
         /// <summary>
         /// The table of the MigraDoc document that contains the invoice items.
         /// </summary>
-        private Table _table;
+        Table _table;
 
         /// <summary>
         /// filename
         /// </summary>
-        private readonly string _filename;
+        string _filename;
 
         /// <summary>
         /// list of events
         /// </summary>
-        private readonly List<Event> _Events;
+        List<Event> _Events;
 
         readonly static Color White = new Color(255, 255, 255);
 
         /// <summary>
         /// Initializes a new instance of the class PDFcreater and opens the specified XML document.
         /// </summary>
-        public PDFCreater(string filename, List<Event> Events)
+        public PDFcreater(string filename, List<Event> Events)
         {
             _filename = filename;
             _Events = Events;

@@ -4,9 +4,7 @@ using System.ComponentModel;
 
 namespace Timotheus.Utility
 {
-    /// <summary>
-    /// A list that can be sorted and used in DataGridViews. <see href="https://martinwilley.com/net/code/forms/sortablebindinglist.html">SOURCE</see>
-    /// </summary>
+    //Source: https://martinwilley.com/net/code/forms/sortablebindinglist.html
     public class SortableBindingList<T> : BindingList<T> where T : class
     {
         private bool _isSorted;
@@ -82,7 +80,8 @@ namespace Timotheus.Utility
             _sortProperty = prop;
             _sortDirection = direction;
 
-            if (!(Items is List<T> list)) return;
+            List<T> list = Items as List<T>;
+            if (list == null) return;
 
             list.Sort(Compare);
 
@@ -90,6 +89,7 @@ namespace Timotheus.Utility
             //fire an event that the list has been changed.
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
+
 
         private int Compare(T lhs, T rhs)
         {
@@ -112,9 +112,9 @@ namespace Timotheus.Utility
             {
                 return 1; //first has value, second doesn't
             }
-            if (lhsValue is IComparable comparable)
+            if (lhsValue is IComparable)
             {
-                return comparable.CompareTo(rhsValue);
+                return ((IComparable)lhsValue).CompareTo(rhsValue);
             }
             if (lhsValue.Equals(rhsValue))
             {

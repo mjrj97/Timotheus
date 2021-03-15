@@ -2,55 +2,31 @@
 using System.IO;
 using System.Windows.Forms;
 using Timotheus.Schedule;
-using Timotheus.Utility;
 
 namespace Timotheus.Forms
 {
-    /// <summary>
-    /// Open calendar dialog with which the user can load calendar data from either an .ics file or a remote calendar.
-    /// </summary>
     public partial class OpenCalendar : Form
     {
-        //Constructor
-        /// <summary>
-        /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
-        /// </summary>
         public OpenCalendar()
         {
             InitializeComponent();
-            OpenCalendar_PasswordBox.PasswordChar = '*';
+            PasswordText.PasswordChar = '*';
 
-            string fullName = Path.Combine(Application.StartupPath, "Data.txt");
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string fullName = Path.Combine(desktopPath, "Data.txt");
             if (File.Exists(fullName))
             {
                 StreamReader steamReader = new StreamReader(fullName);
                 string[] content = steamReader.ReadToEnd().Split("\n");
                 steamReader.Close();
 
-                if (content.Length > 0)
-                    OpenCalendar_UsernameBox.Text = content[0].Trim();
-                if (content.Length > 1)
-                    OpenCalendar_PasswordBox.Text = content[1].Trim();
-                if (content.Length > 2)
-                    OpenCalendar_CalDAVBox.Text = content[2].Trim();
+                UsernameText.Text = content[0].Trim();
+                PasswordText.Text = content[1].Trim();
+                CalDAVText.Text = content[2].Trim();
             }
-
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
-
-            Text = locale.GetLocalization(this);
-            OpenCalendar_OpenButton.Text = locale.GetLocalization(OpenCalendar_OpenButton);
-            OpenCalendar_CancelButton.Text = locale.GetLocalization(OpenCalendar_CancelButton);
-            OpenCalendar_ICSButton.Text = locale.GetLocalization(OpenCalendar_ICSButton);
-            OpenCalendar_CalDAVButton.Text = locale.GetLocalization(OpenCalendar_CalDAVButton);
-            OpenCalendar_BrowseButton.Text = locale.GetLocalization(OpenCalendar_BrowseButton);
-            OpenCalendar_UsernameLabel.Text = locale.GetLocalization(OpenCalendar_UsernameLabel);
-            OpenCalendar_PasswordLabel.Text = locale.GetLocalization(OpenCalendar_PasswordLabel);
         }
 
-        /// <summary>
-        /// Opens dialog where the user can find a .ics file in a local directory.
-        /// </summary>
-        private void BrowseLocalDirectories(object sender, EventArgs e)
+        private void BrowseButton_Click(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -62,21 +38,18 @@ namespace Timotheus.Forms
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                OpenCalendar_ICSBox.Text = openFileDialog.FileName;
+                ICSText.Text = openFileDialog.FileName;
             }
         }
 
-        /// <summary>
-        /// Loads the calendar from a .ics file or CalDAV link.
-        /// </summary>
-        private void LoadCalendar(object sender, EventArgs e)
+        private void OpenButton_Click(object sender, EventArgs e)
         {
             try
             {
-                if (OpenCalendar_CalDAVButton.Checked)
-                    MainWindow.window.calendar = new Calendar(OpenCalendar_UsernameBox.Text, OpenCalendar_PasswordBox.Text, OpenCalendar_CalDAVBox.Text);
+                if (CalDAVButton.Checked)
+                    MainWindow.window.calendar = new Calendar(UsernameText.Text, PasswordText.Text, CalDAVText.Text);
                 else
-                    MainWindow.window.calendar = new Calendar(OpenCalendar_ICSBox.Text);
+                    MainWindow.window.calendar = new Calendar(ICSText.Text);
 
                 MainWindow.window.UpdateTable();
                 Close();
@@ -89,61 +62,52 @@ namespace Timotheus.Forms
             Close();
         }
 
-        /// <summary>
-        /// Close the dialog without loading a calendar.
-        /// </summary>
-        private void CloseDialog(object sender, EventArgs e)
+        private void CloseButton_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        /// <summary>
-        /// Processes the hotkeys. Escape closes the dialog. Enter opens with the inputted data.
-        /// </summary>
         protected override bool ProcessDialogKey(Keys keyData)
         {
             if (ModifierKeys == Keys.None)
             {
                 if (keyData == Keys.Enter)
                 {
-                    LoadCalendar(null, null);
+                    OpenButton_Click(null, null);
                     return true;
                 }
                 else if (keyData == Keys.Escape)
                 {
-                    CloseDialog(null, null);
+                    CloseButton_Click(null, null);
                     return true;
                 }
             }
             return base.ProcessDialogKey(keyData);
         }
 
-        /// <summary>
-        /// Enables or disables relevant UI when the radio buttons are checked.
-        /// </summary>
         private void CalDAVButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (OpenCalendar_CalDAVButton.Checked)
+            if (CalDAVButton.Checked)
             {
-                OpenCalendar_CalDAVBox.Enabled = true;
-                OpenCalendar_UsernameLabel.Enabled = true;
-                OpenCalendar_UsernameBox.Enabled = true;
-                OpenCalendar_PasswordLabel.Enabled = true;
-                OpenCalendar_PasswordBox.Enabled = true;
+                CalDAVText.Enabled = true;
+                UsernameLabel.Enabled = true;
+                UsernameText.Enabled = true;
+                PasswordLabel.Enabled = true;
+                PasswordText.Enabled = true;
 
-                OpenCalendar_BrowseButton.Enabled = false;
-                OpenCalendar_ICSBox.Enabled = false;
+                BrowseButton.Enabled = false;
+                ICSText.Enabled = false;
             }
             else
             {
-                OpenCalendar_CalDAVBox.Enabled = false;
-                OpenCalendar_UsernameLabel.Enabled = false;
-                OpenCalendar_UsernameBox.Enabled = false;
-                OpenCalendar_PasswordLabel.Enabled = false;
-                OpenCalendar_PasswordBox.Enabled = false;
+                CalDAVText.Enabled = false;
+                UsernameLabel.Enabled = false;
+                UsernameText.Enabled = false;
+                PasswordLabel.Enabled = false;
+                PasswordText.Enabled = false;
 
-                OpenCalendar_BrowseButton.Enabled = true;
-                OpenCalendar_ICSBox.Enabled = true;
+                BrowseButton.Enabled = true;
+                ICSText.Enabled = true;
             }
         }
     }

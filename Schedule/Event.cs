@@ -2,52 +2,21 @@
 
 namespace Timotheus.Schedule
 {
-    /// <summary>
-    /// A class that conforms to the iCal definition of a calendar event.
-    /// </summary>
     public class Event
     {
-        //Hidden versions that holds the values of the public variables.
         private string name;
         private string description;
         private string location;
 
-        /// <summary>
-        /// Start time of the event.
-        /// </summary>
         public DateTime StartTime { get; set; }
-        /// <summary>
-        /// End time of the event.
-        /// </summary>
         public DateTime EndTime { get; set; }
-        /// <summary>
-        /// Last time that the event was changed.
-        /// </summary>
         public DateTime Changed;
-        /// <summary>
-        /// Time when the event was created.
-        /// </summary>
         public DateTime Created;
 
-        /// <summary>
-        /// Name of the event. Cannot be multiple lines.
-        /// </summary>
         public string Name { get { return name;  } set { name = value.Replace("\r\n", ""); Changed = DateTime.Now; } }
-        /// <summary>
-        /// Description of the event.
-        /// </summary>
         public string Description { get { return description; } set { description = value; Changed = DateTime.Now; } }
-        /// <summary>
-        /// Location of the event. Is often an address. Cannot be multiple lines.
-        /// </summary>
         public string Location { get { return location; } set { location = value.Replace("\r\n", ""); Changed = DateTime.Now; } }
-        /// <summary>
-        /// Unique identifier of the event. Cannot be changed.
-        /// </summary>
         public readonly string UID;
-        /// <summary>
-        /// Is true of the event is marked for deletion. Is used instead of just deleting the event, so the calendar knows which event was deleted locally when syncing.
-        /// </summary>
         public bool Deleted;
 
         //Constructors
@@ -70,9 +39,6 @@ namespace Timotheus.Schedule
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string UID) : this(StartTime, EndTime, DateTime.Now, Name, Description, null, UID) { }
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description) : this(StartTime, EndTime, DateTime.Now, Name, Description, null, null) { }
 
-        /// <summary>
-        /// Generates a UID to be used a unique identifier in the calendar.
-        /// </summary>
         public static string GenerateUID()
         {
             byte[] data = new byte[16];
@@ -83,10 +49,6 @@ namespace Timotheus.Schedule
             return UID;
         }
 
-        /// <summary>
-        /// Updates the variables of this event with the variables of a separate event ev.
-        /// </summary>
-        /// <param name="ev">Newer version of this (Must have the same UID).</param>
         public void Update(Event ev)
         {
             if (UID == ev.UID)
@@ -100,19 +62,11 @@ namespace Timotheus.Schedule
             }
         }
 
-        /// <summary>
-        /// Checks if the event is in a given period of time.
-        /// </summary>
-        /// <param name="a">Start time of the interval.</param>
-        /// <param name="b">End time of the interval.</param>
-        public bool IsInPeriod(DateTime a, DateTime b)
+        public Event Copy()
         {
-            return (StartTime > a && StartTime < b) || (EndTime > a && EndTime < b);
+            return new Event(StartTime, EndTime, Created, Name, Description, Location, UID);
         }
 
-        /// <summary>
-        /// Checks if another object has the same values as this.
-        /// </summary>
         public override bool Equals(object obj)
         {
             bool equals = false;
@@ -124,9 +78,6 @@ namespace Timotheus.Schedule
             return equals;
         }
 
-        /// <summary>
-        /// Returns the hash code of this.
-        /// </summary>
         public override int GetHashCode()
         {
             return base.GetHashCode();
