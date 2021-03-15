@@ -18,7 +18,7 @@ namespace Timotheus.Forms
         public OpenCalendar()
         {
             InitializeComponent();
-            Open_PasswordBox.PasswordChar = '*';
+            OpenCalendar_PasswordBox.PasswordChar = '*';
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -28,23 +28,23 @@ namespace Timotheus.Forms
                 steamReader.Close();
 
                 if (content.Length > 0)
-                    Open_UsernameBox.Text = content[0].Trim();
+                    OpenCalendar_UsernameBox.Text = content[0].Trim();
                 if (content.Length > 1)
-                    Open_PasswordBox.Text = content[1].Trim();
+                    OpenCalendar_PasswordBox.Text = content[1].Trim();
                 if (content.Length > 2)
-                    Open_CalDAVBox.Text = content[2].Trim();
+                    OpenCalendar_CalDAVBox.Text = content[2].Trim();
             }
 
-            LocalizationLoader locale = new LocalizationLoader(MainWindow.directory, MainWindow.culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
 
             Text = locale.GetLocalization(this);
-            Open_OpenButton.Text = locale.GetLocalization(Open_OpenButton);
-            Open_CancelButton.Text = locale.GetLocalization(Open_CancelButton);
-            Open_ICSButton.Text = locale.GetLocalization(Open_ICSButton);
-            Open_CalDAVButton.Text = locale.GetLocalization(Open_CalDAVButton);
-            Open_BrowseButton.Text = locale.GetLocalization(Open_BrowseButton);
-            Open_UsernameLabel.Text = locale.GetLocalization(Open_UsernameLabel);
-            Open_PasswordLabel.Text = locale.GetLocalization(Open_PasswordLabel);
+            OpenCalendar_OpenButton.Text = locale.GetLocalization(OpenCalendar_OpenButton);
+            OpenCalendar_CancelButton.Text = locale.GetLocalization(OpenCalendar_CancelButton);
+            OpenCalendar_ICSButton.Text = locale.GetLocalization(OpenCalendar_ICSButton);
+            OpenCalendar_CalDAVButton.Text = locale.GetLocalization(OpenCalendar_CalDAVButton);
+            OpenCalendar_BrowseButton.Text = locale.GetLocalization(OpenCalendar_BrowseButton);
+            OpenCalendar_UsernameLabel.Text = locale.GetLocalization(OpenCalendar_UsernameLabel);
+            OpenCalendar_PasswordLabel.Text = locale.GetLocalization(OpenCalendar_PasswordLabel);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Timotheus.Forms
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Open_ICSBox.Text = openFileDialog.FileName;
+                OpenCalendar_ICSBox.Text = openFileDialog.FileName;
             }
         }
 
@@ -73,12 +73,12 @@ namespace Timotheus.Forms
         {
             try
             {
-                if (Open_CalDAVButton.Checked)
-                    MainWindow.window.calendar = new Calendar(Open_UsernameBox.Text, Open_PasswordBox.Text, Open_CalDAVBox.Text);
+                if (OpenCalendar_CalDAVButton.Checked)
+                    MainWindow.window.calendar = new Calendar(OpenCalendar_UsernameBox.Text, OpenCalendar_PasswordBox.Text, OpenCalendar_CalDAVBox.Text);
                 else
-                    MainWindow.window.calendar = new Calendar(Open_ICSBox.Text);
+                    MainWindow.window.calendar = new Calendar(OpenCalendar_ICSBox.Text);
 
-                MainWindow.window.UpdateTable();
+                MainWindow.window.UpdateCalendarTable();
                 Close();
             }
             catch (Exception ex)
@@ -123,27 +123,27 @@ namespace Timotheus.Forms
         /// </summary>
         private void CalDAVButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (Open_CalDAVButton.Checked)
+            if (OpenCalendar_CalDAVButton.Checked)
             {
-                Open_CalDAVBox.Enabled = true;
-                Open_UsernameLabel.Enabled = true;
-                Open_UsernameBox.Enabled = true;
-                Open_PasswordLabel.Enabled = true;
-                Open_PasswordBox.Enabled = true;
+                OpenCalendar_CalDAVBox.Enabled = true;
+                OpenCalendar_UsernameLabel.Enabled = true;
+                OpenCalendar_UsernameBox.Enabled = true;
+                OpenCalendar_PasswordLabel.Enabled = true;
+                OpenCalendar_PasswordBox.Enabled = true;
 
-                Open_BrowseButton.Enabled = false;
-                Open_ICSBox.Enabled = false;
+                OpenCalendar_BrowseButton.Enabled = false;
+                OpenCalendar_ICSBox.Enabled = false;
             }
             else
             {
-                Open_CalDAVBox.Enabled = false;
-                Open_UsernameLabel.Enabled = false;
-                Open_UsernameBox.Enabled = false;
-                Open_PasswordLabel.Enabled = false;
-                Open_PasswordBox.Enabled = false;
+                OpenCalendar_CalDAVBox.Enabled = false;
+                OpenCalendar_UsernameLabel.Enabled = false;
+                OpenCalendar_UsernameBox.Enabled = false;
+                OpenCalendar_PasswordLabel.Enabled = false;
+                OpenCalendar_PasswordBox.Enabled = false;
 
-                Open_BrowseButton.Enabled = true;
-                Open_ICSBox.Enabled = true;
+                OpenCalendar_BrowseButton.Enabled = true;
+                OpenCalendar_ICSBox.Enabled = true;
             }
         }
     }

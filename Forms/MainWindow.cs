@@ -1,5 +1,6 @@
-﻿using Timotheus.Schedule;
+using Timotheus.Schedule;
 using Timotheus.Utility;
+using Timotheus.Persons;
 using System;
 using System.Text;
 using System.ComponentModel;
@@ -7,7 +8,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using System.Net;
 using System.Drawing;
 using Renci.SshNet.Sftp;
 using Renci.SshNet;
@@ -35,6 +35,10 @@ namespace Timotheus.Forms
         /// List of all consent forms loaded into the program.
         /// </summary>
         public SortableBindingList<ConsentForm> consentForms = new SortableBindingList<ConsentForm>();
+        /// <summary>
+        /// List of all persons.
+        /// </summary>
+        public SortableBindingList<Person> Persons = new SortableBindingList<Person>();
 
         /// <summary>
         /// Current calendar used by the program.
@@ -67,31 +71,16 @@ namespace Timotheus.Forms
         private Period period = Period.Year;
 
         /// <summary>
-        /// The directory of the program. Used to load data from subfolders and files.
-        /// </summary>
-        public static string directory;
-        /// <summary>
-        /// Culture/language of the computer (e.g. en-GB). Used to load localization.
-        /// </summary>
-        public static string culture;
-
-        /// <summary>
         /// Constructor. Loads initial data and localization.
         /// </summary>
         public MainWindow()
         {
-            #if DEBUG
-            directory = Application.StartupPath[0..^24] + "Localization\\";
-            #else
-            directory = Application.StartupPath + "locale\\";
-            #endif
-            culture = System.Globalization.CultureInfo.CurrentUICulture.Name;
-
             window = this;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             InitializeComponent();
             SetupUI();
             Calendar_PeriodBox.Text = a.Year.ToString();
+            
+            Persons.Add(new Person("Jesper Roager", "Odense", new DateTime(2003, 5, 8), new DateTime(2021, 1, 5)));
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -131,12 +120,14 @@ namespace Timotheus.Forms
             Calendar_View.AutoGenerateColumns = false;
             SFTP_View.AutoGenerateColumns = false;
             ConsentForms_View.AutoGenerateColumns = false;
+            Members_View.AutoGenerateColumns = false;
             Calendar_View.DataSource = new BindingSource(shownEvents, null);
             SFTP_View.DataSource = new BindingSource(shownFiles, null);
             ConsentForms_View.DataSource = new BindingSource(consentForms, null);
+            Members_View.DataSource = new BindingSource(Persons, null);
             SFTP_PasswordBox.PasswordChar = '*';
 
-            LocalizationLoader locale = new LocalizationLoader(directory, culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
 
             #region Calendar
             Calendar_StartColumn.HeaderText = locale.GetLocalization(Calendar_StartColumn);
@@ -188,6 +179,14 @@ namespace Timotheus.Forms
             SFTP_SizeColumn.HeaderText = locale.GetLocalization(SFTP_SizeColumn);
             #endregion
 
+            #region Members
+            Members_Page.Text = locale.GetLocalization(Members_Page);
+            Members_NameColumn.HeaderText = locale.GetLocalization(Members_NameColumn);
+            Members_AddressColumn.HeaderText = locale.GetLocalization(Members_AddressColumn);
+            Members_BirthdayColumn.HeaderText = locale.GetLocalization(Members_BirthdayColumn);
+            Members_SinceColumn.HeaderText = locale.GetLocalization(Members_SinceColumn);
+            #endregion
+
             #region Consent Forms
             ConsentForms_Page.Text = locale.GetLocalization(ConsentForms_Page);
             ConsentForms_AddButton.Text = locale.GetLocalization(ConsentForms_AddButton);
@@ -221,7 +220,7 @@ namespace Timotheus.Forms
         /// <summary>
         /// Updates the contents of the event table.
         /// </summary>
-        public void UpdateTable()
+        public void UpdateCalendarTable()
         {
             shownEvents.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
@@ -292,7 +291,7 @@ namespace Timotheus.Forms
                 }
             }
 
-            UpdateTable();
+            UpdateCalendarTable();
         }
 
         /// <summary>
@@ -379,7 +378,7 @@ namespace Timotheus.Forms
                     Calendar_SubtractYearButton.Enabled = true;
                 }
 
-                UpdateTable();
+                UpdateCalendarTable();
             }
         }
 
@@ -411,7 +410,7 @@ namespace Timotheus.Forms
                         index = i;
                 }
                 calendar.events[index].Deleted = true;
-                UpdateTable();
+                UpdateCalendarTable();
             }
         }
 
@@ -463,7 +462,7 @@ namespace Timotheus.Forms
             {
                 FileInfo file = new FileInfo(saveFileDialog.FileName);
 
-                calendar.ExportPDF(file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_PictureBox.Image);
+                calendar.ExportPDF(file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text);
             }
         }
 
@@ -661,6 +660,7 @@ namespace Timotheus.Forms
                 TrayIcon.Visible = true;
             }
         }
+        
         #endregion
 
         /// <summary>

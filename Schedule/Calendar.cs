@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 using Timotheus.Utility;
 
 namespace Timotheus.Schedule
@@ -274,13 +275,13 @@ namespace Timotheus.Schedule
         /// <param name="associationName">The association's name/title.</param>
         /// <param name="associationAddress">The postal address of the assocation.</param>
         /// <param name="logo">The association's logo.</param>
-        public void ExportPDF(string filePath, string title, string associationName, string associationAddress, Image logo)
+        public void ExportPDF(string filePath, string title, string associationName, string associationAddress, String logo)
         {
             //Defines encoding 1252
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             // Create an invoice form with the sample invoice data.
-            PDFCreater pdf = new PDFCreater(title, events);
+            PDFCreater pdf = new PDFCreater(title, events, associationName, associationAddress, logo);
 
             // Create the document using MigraDoc.
             MigraDoc.DocumentObjectModel.Document document = pdf.CreateDocument();

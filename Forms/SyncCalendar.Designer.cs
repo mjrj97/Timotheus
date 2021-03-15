@@ -30,265 +30,262 @@ namespace Timotheus.Forms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SyncCalendar));
-            this.Sync_SyncButton = new System.Windows.Forms.Button();
-            this.Sync_UseExistingButton = new System.Windows.Forms.RadioButton();
-            this.Sync_DestinationBox = new System.Windows.Forms.GroupBox();
-            this.Sync_PasswordBox = new System.Windows.Forms.TextBox();
-            this.Sync_UsernameBox = new System.Windows.Forms.TextBox();
-            this.Sync_CalDAVBox = new System.Windows.Forms.TextBox();
-            this.Sync_PasswordLabel = new System.Windows.Forms.Label();
-            this.Sync_UsernameLabel = new System.Windows.Forms.Label();
-            this.Sync_CalDAVLabel = new System.Windows.Forms.Label();
-            this.Sync_NewCalendarButton = new System.Windows.Forms.RadioButton();
-            this.Sync_CancelButton = new System.Windows.Forms.Button();
-            this.Sync_SettingsBox = new System.Windows.Forms.GroupBox();
-            this.Sync_bTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.Sync_aTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.Sync_CustomCalendarButton = new System.Windows.Forms.RadioButton();
-            this.Sync_PeriodCalendarButton = new System.Windows.Forms.RadioButton();
-            this.Sync_EntireCalendarButton = new System.Windows.Forms.RadioButton();
-            this.Sync_DestinationBox.SuspendLayout();
-            this.Sync_SettingsBox.SuspendLayout();
+            this.SyncCalendar_SyncButton = new System.Windows.Forms.Button();
+            this.SyncCalendar_UseExistingButton = new System.Windows.Forms.RadioButton();
+            this.SyncCalendar_DestinationBox = new System.Windows.Forms.GroupBox();
+            this.SyncCalendar_PasswordBox = new System.Windows.Forms.TextBox();
+            this.SyncCalendar_UsernameBox = new System.Windows.Forms.TextBox();
+            this.SyncCalendar_CalDAVBox = new System.Windows.Forms.TextBox();
+            this.SyncCalendar_PasswordLabel = new System.Windows.Forms.Label();
+            this.SyncCalendar_UsernameLabel = new System.Windows.Forms.Label();
+            this.SyncCalendar_CalDAVLabel = new System.Windows.Forms.Label();
+            this.SyncCalendar_NewCalendarButton = new System.Windows.Forms.RadioButton();
+            this.SyncCalendar_CancelButton = new System.Windows.Forms.Button();
+            this.SyncCalendar_SettingsBox = new System.Windows.Forms.GroupBox();
+            this.SyncCalendar_bTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.SyncCalendar_aTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.SyncCalendar_CustomCalendarButton = new System.Windows.Forms.RadioButton();
+            this.SyncCalendar_PeriodCalendarButton = new System.Windows.Forms.RadioButton();
+            this.SyncCalendar_EntireCalendarButton = new System.Windows.Forms.RadioButton();
+            this.SyncCalendar_DestinationBox.SuspendLayout();
+            this.SyncCalendar_SettingsBox.SuspendLayout();
             this.SuspendLayout();
             // 
-            // Sync_SyncButton
+            // SyncCalendar_SyncButton
             // 
-            this.Sync_SyncButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.SyncCalendar_SyncButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Sync_SyncButton.Location = new System.Drawing.Point(212, 414);
-            this.Sync_SyncButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Sync_SyncButton.Name = "Sync_SyncButton";
-            this.Sync_SyncButton.Size = new System.Drawing.Size(86, 31);
-            this.Sync_SyncButton.TabIndex = 0;
-            this.Sync_SyncButton.Text = "Sync";
-            this.Sync_SyncButton.UseVisualStyleBackColor = true;
-            this.Sync_SyncButton.Click += new System.EventHandler(this.Sync);
+            this.SyncCalendar_SyncButton.Location = new System.Drawing.Point(186, 310);
+            this.SyncCalendar_SyncButton.Name = "SyncCalendar_SyncButton";
+            this.SyncCalendar_SyncButton.Size = new System.Drawing.Size(75, 23);
+            this.SyncCalendar_SyncButton.TabIndex = 0;
+            this.SyncCalendar_SyncButton.Text = "Sync";
+            this.SyncCalendar_SyncButton.UseVisualStyleBackColor = true;
+            this.SyncCalendar_SyncButton.Click += new System.EventHandler(this.Sync);
             // 
-            // Sync_UseExistingButton
+            // SyncCalendar_UseExistingButton
             // 
-            this.Sync_UseExistingButton.AutoSize = true;
-            this.Sync_UseExistingButton.Enabled = false;
-            this.Sync_UseExistingButton.Location = new System.Drawing.Point(11, 27);
-            this.Sync_UseExistingButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Sync_UseExistingButton.Name = "Sync_UseExistingButton";
-            this.Sync_UseExistingButton.Size = new System.Drawing.Size(139, 24);
-            this.Sync_UseExistingButton.TabIndex = 1;
-            this.Sync_UseExistingButton.TabStop = true;
-            this.Sync_UseExistingButton.Text = "Current calendar";
-            this.Sync_UseExistingButton.UseVisualStyleBackColor = true;
+            this.SyncCalendar_UseExistingButton.AutoSize = true;
+            this.SyncCalendar_UseExistingButton.Enabled = false;
+            this.SyncCalendar_UseExistingButton.Location = new System.Drawing.Point(10, 20);
+            this.SyncCalendar_UseExistingButton.Name = "SyncCalendar_UseExistingButton";
+            this.SyncCalendar_UseExistingButton.Size = new System.Drawing.Size(113, 19);
+            this.SyncCalendar_UseExistingButton.TabIndex = 1;
+            this.SyncCalendar_UseExistingButton.TabStop = true;
+            this.SyncCalendar_UseExistingButton.Text = "Current calendar";
+            this.SyncCalendar_UseExistingButton.UseVisualStyleBackColor = true;
             // 
-            // Sync_DestinationBox
+            // SyncCalendar_DestinationBox
             // 
-            this.Sync_DestinationBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.SyncCalendar_DestinationBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Sync_DestinationBox.Controls.Add(this.Sync_PasswordBox);
-            this.Sync_DestinationBox.Controls.Add(this.Sync_UsernameBox);
-            this.Sync_DestinationBox.Controls.Add(this.Sync_CalDAVBox);
-            this.Sync_DestinationBox.Controls.Add(this.Sync_PasswordLabel);
-            this.Sync_DestinationBox.Controls.Add(this.Sync_UsernameLabel);
-            this.Sync_DestinationBox.Controls.Add(this.Sync_CalDAVLabel);
-            this.Sync_DestinationBox.Controls.Add(this.Sync_NewCalendarButton);
-            this.Sync_DestinationBox.Controls.Add(this.Sync_UseExistingButton);
-            this.Sync_DestinationBox.Location = new System.Drawing.Point(11, 7);
-            this.Sync_DestinationBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Sync_DestinationBox.Name = "Sync_DestinationBox";
-            this.Sync_DestinationBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Sync_DestinationBox.Size = new System.Drawing.Size(377, 221);
-            this.Sync_DestinationBox.TabIndex = 2;
-            this.Sync_DestinationBox.TabStop = false;
-            this.Sync_DestinationBox.Text = "Destination";
+            this.SyncCalendar_DestinationBox.Controls.Add(this.SyncCalendar_PasswordBox);
+            this.SyncCalendar_DestinationBox.Controls.Add(this.SyncCalendar_UsernameBox);
+            this.SyncCalendar_DestinationBox.Controls.Add(this.SyncCalendar_CalDAVBox);
+            this.SyncCalendar_DestinationBox.Controls.Add(this.SyncCalendar_PasswordLabel);
+            this.SyncCalendar_DestinationBox.Controls.Add(this.SyncCalendar_UsernameLabel);
+            this.SyncCalendar_DestinationBox.Controls.Add(this.SyncCalendar_CalDAVLabel);
+            this.SyncCalendar_DestinationBox.Controls.Add(this.SyncCalendar_NewCalendarButton);
+            this.SyncCalendar_DestinationBox.Controls.Add(this.SyncCalendar_UseExistingButton);
+            this.SyncCalendar_DestinationBox.Location = new System.Drawing.Point(10, 5);
+            this.SyncCalendar_DestinationBox.Name = "SyncCalendar_DestinationBox";
+            this.SyncCalendar_DestinationBox.Size = new System.Drawing.Size(330, 166);
+            this.SyncCalendar_DestinationBox.TabIndex = 2;
+            this.SyncCalendar_DestinationBox.TabStop = false;
+            this.SyncCalendar_DestinationBox.Text = "Destination";
             // 
-            // Sync_PasswordBox
+            // SyncCalendar_PasswordBox
             // 
-            this.Sync_PasswordBox.Enabled = false;
-            this.Sync_PasswordBox.Location = new System.Drawing.Point(103, 173);
-            this.Sync_PasswordBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Sync_PasswordBox.Name = "Sync_PasswordBox";
-            this.Sync_PasswordBox.Size = new System.Drawing.Size(262, 27);
-            this.Sync_PasswordBox.TabIndex = 8;
+            this.SyncCalendar_PasswordBox.Enabled = false;
+            this.SyncCalendar_PasswordBox.Location = new System.Drawing.Point(90, 130);
+            this.SyncCalendar_PasswordBox.Name = "SyncCalendar_PasswordBox";
+            this.SyncCalendar_PasswordBox.Size = new System.Drawing.Size(230, 23);
+            this.SyncCalendar_PasswordBox.TabIndex = 8;
             // 
-            // Sync_UsernameBox
+            // SyncCalendar_UsernameBox
             // 
-            this.Sync_UsernameBox.Enabled = false;
-            this.Sync_UsernameBox.Location = new System.Drawing.Point(103, 135);
-            this.Sync_UsernameBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Sync_UsernameBox.Name = "Sync_UsernameBox";
-            this.Sync_UsernameBox.Size = new System.Drawing.Size(262, 27);
-            this.Sync_UsernameBox.TabIndex = 7;
+            this.SyncCalendar_UsernameBox.Enabled = false;
+            this.SyncCalendar_UsernameBox.Location = new System.Drawing.Point(90, 101);
+            this.SyncCalendar_UsernameBox.Name = "SyncCalendar_UsernameBox";
+            this.SyncCalendar_UsernameBox.Size = new System.Drawing.Size(230, 23);
+            this.SyncCalendar_UsernameBox.TabIndex = 7;
             // 
-            // Sync_CalDAVBox
+            // SyncCalendar_CalDAVBox
             // 
-            this.Sync_CalDAVBox.Enabled = false;
-            this.Sync_CalDAVBox.Location = new System.Drawing.Point(103, 96);
-            this.Sync_CalDAVBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Sync_CalDAVBox.Name = "Sync_CalDAVBox";
-            this.Sync_CalDAVBox.Size = new System.Drawing.Size(262, 27);
-            this.Sync_CalDAVBox.TabIndex = 6;
+            this.SyncCalendar_CalDAVBox.Enabled = false;
+            this.SyncCalendar_CalDAVBox.Location = new System.Drawing.Point(90, 72);
+            this.SyncCalendar_CalDAVBox.Name = "SyncCalendar_CalDAVBox";
+            this.SyncCalendar_CalDAVBox.Size = new System.Drawing.Size(230, 23);
+            this.SyncCalendar_CalDAVBox.TabIndex = 6;
             // 
-            // Sync_PasswordLabel
+            // SyncCalendar_PasswordLabel
             // 
-            this.Sync_PasswordLabel.AutoSize = true;
-            this.Sync_PasswordLabel.Enabled = false;
-            this.Sync_PasswordLabel.Location = new System.Drawing.Point(11, 177);
-            this.Sync_PasswordLabel.Name = "Sync_PasswordLabel";
-            this.Sync_PasswordLabel.Size = new System.Drawing.Size(70, 20);
-            this.Sync_PasswordLabel.TabIndex = 5;
-            this.Sync_PasswordLabel.Text = "Password";
+            this.SyncCalendar_PasswordLabel.AutoSize = true;
+            this.SyncCalendar_PasswordLabel.Enabled = false;
+            this.SyncCalendar_PasswordLabel.Location = new System.Drawing.Point(10, 133);
+            this.SyncCalendar_PasswordLabel.Name = "SyncCalendar_PasswordLabel";
+            this.SyncCalendar_PasswordLabel.Size = new System.Drawing.Size(57, 15);
+            this.SyncCalendar_PasswordLabel.TabIndex = 5;
+            this.SyncCalendar_PasswordLabel.Text = "Password";
             // 
-            // Sync_UsernameLabel
+            // SyncCalendar_UsernameLabel
             // 
-            this.Sync_UsernameLabel.AutoSize = true;
-            this.Sync_UsernameLabel.Enabled = false;
-            this.Sync_UsernameLabel.Location = new System.Drawing.Point(11, 139);
-            this.Sync_UsernameLabel.Name = "Sync_UsernameLabel";
-            this.Sync_UsernameLabel.Size = new System.Drawing.Size(75, 20);
-            this.Sync_UsernameLabel.TabIndex = 4;
-            this.Sync_UsernameLabel.Text = "Username";
+            this.SyncCalendar_UsernameLabel.AutoSize = true;
+            this.SyncCalendar_UsernameLabel.Enabled = false;
+            this.SyncCalendar_UsernameLabel.Location = new System.Drawing.Point(10, 104);
+            this.SyncCalendar_UsernameLabel.Name = "SyncCalendar_UsernameLabel";
+            this.SyncCalendar_UsernameLabel.Size = new System.Drawing.Size(60, 15);
+            this.SyncCalendar_UsernameLabel.TabIndex = 4;
+            this.SyncCalendar_UsernameLabel.Text = "Username";
             // 
-            // Sync_CalDAVLabel
+            // SyncCalendar_CalDAVLabel
             // 
-            this.Sync_CalDAVLabel.AutoSize = true;
-            this.Sync_CalDAVLabel.Enabled = false;
-            this.Sync_CalDAVLabel.Location = new System.Drawing.Point(11, 100);
-            this.Sync_CalDAVLabel.Name = "Sync_CalDAVLabel";
-            this.Sync_CalDAVLabel.Size = new System.Drawing.Size(59, 20);
-            this.Sync_CalDAVLabel.TabIndex = 3;
-            this.Sync_CalDAVLabel.Text = "CalDAV";
+            this.SyncCalendar_CalDAVLabel.AutoSize = true;
+            this.SyncCalendar_CalDAVLabel.Enabled = false;
+            this.SyncCalendar_CalDAVLabel.Location = new System.Drawing.Point(10, 75);
+            this.SyncCalendar_CalDAVLabel.Name = "SyncCalendar_CalDAVLabel";
+            this.SyncCalendar_CalDAVLabel.Size = new System.Drawing.Size(46, 15);
+            this.SyncCalendar_CalDAVLabel.TabIndex = 3;
+            this.SyncCalendar_CalDAVLabel.Text = "CalDAV";
             // 
-            // Sync_NewCalendarButton
+            // SyncCalendar_NewCalendarButton
             // 
-            this.Sync_NewCalendarButton.AutoSize = true;
-            this.Sync_NewCalendarButton.Location = new System.Drawing.Point(11, 60);
-            this.Sync_NewCalendarButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Sync_NewCalendarButton.Name = "Sync_NewCalendarButton";
-            this.Sync_NewCalendarButton.Size = new System.Drawing.Size(144, 24);
-            this.Sync_NewCalendarButton.TabIndex = 2;
-            this.Sync_NewCalendarButton.TabStop = true;
-            this.Sync_NewCalendarButton.Text = "Another calendar";
-            this.Sync_NewCalendarButton.UseVisualStyleBackColor = true;
-            this.Sync_NewCalendarButton.CheckedChanged += new System.EventHandler(this.NewCalendarButton_CheckedChanged);
+            this.SyncCalendar_NewCalendarButton.AutoSize = true;
+            this.SyncCalendar_NewCalendarButton.Location = new System.Drawing.Point(10, 45);
+            this.SyncCalendar_NewCalendarButton.Name = "SyncCalendar_NewCalendarButton";
+            this.SyncCalendar_NewCalendarButton.Size = new System.Drawing.Size(116, 19);
+            this.SyncCalendar_NewCalendarButton.TabIndex = 2;
+            this.SyncCalendar_NewCalendarButton.TabStop = true;
+            this.SyncCalendar_NewCalendarButton.Text = "Another calendar";
+            this.SyncCalendar_NewCalendarButton.UseVisualStyleBackColor = true;
+            this.SyncCalendar_NewCalendarButton.CheckedChanged += new System.EventHandler(this.NewCalendarButton_CheckedChanged);
             // 
-            // Sync_CancelButton
+            // SyncCalendar_CancelButton
             // 
-            this.Sync_CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.SyncCalendar_CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Sync_CancelButton.Location = new System.Drawing.Point(304, 414);
-            this.Sync_CancelButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Sync_CancelButton.Name = "Sync_CancelButton";
-            this.Sync_CancelButton.Size = new System.Drawing.Size(86, 31);
-            this.Sync_CancelButton.TabIndex = 3;
-            this.Sync_CancelButton.Text = "Cancel";
-            this.Sync_CancelButton.UseVisualStyleBackColor = true;
-            this.Sync_CancelButton.Click += new System.EventHandler(this.Close);
+            this.SyncCalendar_CancelButton.Location = new System.Drawing.Point(266, 310);
+            this.SyncCalendar_CancelButton.Name = "SyncCalendar_CancelButton";
+            this.SyncCalendar_CancelButton.Size = new System.Drawing.Size(75, 23);
+            this.SyncCalendar_CancelButton.TabIndex = 3;
+            this.SyncCalendar_CancelButton.Text = "Cancel";
+            this.SyncCalendar_CancelButton.UseVisualStyleBackColor = true;
+            this.SyncCalendar_CancelButton.Click += new System.EventHandler(this.Close);
             // 
-            // Sync_SettingsBox
+            // SyncCalendar_SettingsBox
             // 
-            this.Sync_SettingsBox.Controls.Add(this.Sync_bTimePicker);
-            this.Sync_SettingsBox.Controls.Add(this.Sync_aTimePicker);
-            this.Sync_SettingsBox.Controls.Add(this.Sync_CustomCalendarButton);
-            this.Sync_SettingsBox.Controls.Add(this.Sync_PeriodCalendarButton);
-            this.Sync_SettingsBox.Controls.Add(this.Sync_EntireCalendarButton);
-            this.Sync_SettingsBox.Location = new System.Drawing.Point(11, 235);
-            this.Sync_SettingsBox.Name = "Sync_SettingsBox";
-            this.Sync_SettingsBox.Size = new System.Drawing.Size(377, 168);
-            this.Sync_SettingsBox.TabIndex = 4;
-            this.Sync_SettingsBox.TabStop = false;
-            this.Sync_SettingsBox.Text = "Settings";
+            this.SyncCalendar_SettingsBox.Controls.Add(this.SyncCalendar_bTimePicker);
+            this.SyncCalendar_SettingsBox.Controls.Add(this.SyncCalendar_aTimePicker);
+            this.SyncCalendar_SettingsBox.Controls.Add(this.SyncCalendar_CustomCalendarButton);
+            this.SyncCalendar_SettingsBox.Controls.Add(this.SyncCalendar_PeriodCalendarButton);
+            this.SyncCalendar_SettingsBox.Controls.Add(this.SyncCalendar_EntireCalendarButton);
+            this.SyncCalendar_SettingsBox.Location = new System.Drawing.Point(10, 176);
+            this.SyncCalendar_SettingsBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.SyncCalendar_SettingsBox.Name = "SyncCalendar_SettingsBox";
+            this.SyncCalendar_SettingsBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.SyncCalendar_SettingsBox.Size = new System.Drawing.Size(330, 126);
+            this.SyncCalendar_SettingsBox.TabIndex = 4;
+            this.SyncCalendar_SettingsBox.TabStop = false;
+            this.SyncCalendar_SettingsBox.Text = "Settings";
             // 
-            // Sync_bTimePicker
+            // SyncCalendar_bTimePicker
             // 
-            this.Sync_bTimePicker.Enabled = false;
-            this.Sync_bTimePicker.Location = new System.Drawing.Point(195, 126);
-            this.Sync_bTimePicker.Name = "Sync_bTimePicker";
-            this.Sync_bTimePicker.Size = new System.Drawing.Size(170, 27);
-            this.Sync_bTimePicker.TabIndex = 4;
+            this.SyncCalendar_bTimePicker.Enabled = false;
+            this.SyncCalendar_bTimePicker.Location = new System.Drawing.Point(171, 94);
+            this.SyncCalendar_bTimePicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.SyncCalendar_bTimePicker.Name = "SyncCalendar_bTimePicker";
+            this.SyncCalendar_bTimePicker.Size = new System.Drawing.Size(149, 23);
+            this.SyncCalendar_bTimePicker.TabIndex = 4;
             // 
-            // Sync_aTimePicker
+            // SyncCalendar_aTimePicker
             // 
-            this.Sync_aTimePicker.Enabled = false;
-            this.Sync_aTimePicker.Location = new System.Drawing.Point(11, 126);
-            this.Sync_aTimePicker.Name = "Sync_aTimePicker";
-            this.Sync_aTimePicker.Size = new System.Drawing.Size(170, 27);
-            this.Sync_aTimePicker.TabIndex = 3;
+            this.SyncCalendar_aTimePicker.Enabled = false;
+            this.SyncCalendar_aTimePicker.Location = new System.Drawing.Point(10, 94);
+            this.SyncCalendar_aTimePicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.SyncCalendar_aTimePicker.Name = "SyncCalendar_aTimePicker";
+            this.SyncCalendar_aTimePicker.Size = new System.Drawing.Size(149, 23);
+            this.SyncCalendar_aTimePicker.TabIndex = 3;
             // 
-            // Sync_CustomCalendarButton
+            // SyncCalendar_CustomCalendarButton
             // 
-            this.Sync_CustomCalendarButton.AutoSize = true;
-            this.Sync_CustomCalendarButton.Location = new System.Drawing.Point(11, 86);
-            this.Sync_CustomCalendarButton.Name = "Sync_CustomCalendarButton";
-            this.Sync_CustomCalendarButton.Size = new System.Drawing.Size(160, 24);
-            this.Sync_CustomCalendarButton.TabIndex = 2;
-            this.Sync_CustomCalendarButton.TabStop = true;
-            this.Sync_CustomCalendarButton.Text = "Sync custom period";
-            this.Sync_CustomCalendarButton.UseVisualStyleBackColor = true;
-            this.Sync_CustomCalendarButton.CheckedChanged += new System.EventHandler(this.CustomCalendarButton_CheckedChanged);
+            this.SyncCalendar_CustomCalendarButton.AutoSize = true;
+            this.SyncCalendar_CustomCalendarButton.Location = new System.Drawing.Point(10, 64);
+            this.SyncCalendar_CustomCalendarButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.SyncCalendar_CustomCalendarButton.Name = "SyncCalendar_CustomCalendarButton";
+            this.SyncCalendar_CustomCalendarButton.Size = new System.Drawing.Size(130, 19);
+            this.SyncCalendar_CustomCalendarButton.TabIndex = 2;
+            this.SyncCalendar_CustomCalendarButton.TabStop = true;
+            this.SyncCalendar_CustomCalendarButton.Text = "Sync custom period";
+            this.SyncCalendar_CustomCalendarButton.UseVisualStyleBackColor = true;
+            this.SyncCalendar_CustomCalendarButton.CheckedChanged += new System.EventHandler(this.CustomCalendarButton_CheckedChanged);
             // 
-            // Sync_PeriodCalendarButton
+            // SyncCalendar_PeriodCalendarButton
             // 
-            this.Sync_PeriodCalendarButton.AutoSize = true;
-            this.Sync_PeriodCalendarButton.Location = new System.Drawing.Point(11, 56);
-            this.Sync_PeriodCalendarButton.Name = "Sync_PeriodCalendarButton";
-            this.Sync_PeriodCalendarButton.Size = new System.Drawing.Size(133, 24);
-            this.Sync_PeriodCalendarButton.TabIndex = 1;
-            this.Sync_PeriodCalendarButton.TabStop = true;
-            this.Sync_PeriodCalendarButton.Text = "Sync the period";
-            this.Sync_PeriodCalendarButton.UseVisualStyleBackColor = true;
+            this.SyncCalendar_PeriodCalendarButton.AutoSize = true;
+            this.SyncCalendar_PeriodCalendarButton.Location = new System.Drawing.Point(10, 42);
+            this.SyncCalendar_PeriodCalendarButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.SyncCalendar_PeriodCalendarButton.Name = "SyncCalendar_PeriodCalendarButton";
+            this.SyncCalendar_PeriodCalendarButton.Size = new System.Drawing.Size(107, 19);
+            this.SyncCalendar_PeriodCalendarButton.TabIndex = 1;
+            this.SyncCalendar_PeriodCalendarButton.TabStop = true;
+            this.SyncCalendar_PeriodCalendarButton.Text = "Sync the period";
+            this.SyncCalendar_PeriodCalendarButton.UseVisualStyleBackColor = true;
             // 
-            // Sync_EntireCalendarButton
+            // SyncCalendar_EntireCalendarButton
             // 
-            this.Sync_EntireCalendarButton.AutoSize = true;
-            this.Sync_EntireCalendarButton.Checked = true;
-            this.Sync_EntireCalendarButton.Location = new System.Drawing.Point(11, 26);
-            this.Sync_EntireCalendarButton.Name = "Sync_EntireCalendarButton";
-            this.Sync_EntireCalendarButton.Size = new System.Drawing.Size(188, 24);
-            this.Sync_EntireCalendarButton.TabIndex = 0;
-            this.Sync_EntireCalendarButton.TabStop = true;
-            this.Sync_EntireCalendarButton.Text = "Sync the entire calendar";
-            this.Sync_EntireCalendarButton.UseVisualStyleBackColor = true;
+            this.SyncCalendar_EntireCalendarButton.AutoSize = true;
+            this.SyncCalendar_EntireCalendarButton.Checked = true;
+            this.SyncCalendar_EntireCalendarButton.Location = new System.Drawing.Point(10, 20);
+            this.SyncCalendar_EntireCalendarButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.SyncCalendar_EntireCalendarButton.Name = "SyncCalendar_EntireCalendarButton";
+            this.SyncCalendar_EntireCalendarButton.Size = new System.Drawing.Size(151, 19);
+            this.SyncCalendar_EntireCalendarButton.TabIndex = 0;
+            this.SyncCalendar_EntireCalendarButton.TabStop = true;
+            this.SyncCalendar_EntireCalendarButton.Text = "Sync the entire calendar";
+            this.SyncCalendar_EntireCalendarButton.UseVisualStyleBackColor = true;
             // 
             // SyncCalendar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(402, 458);
-            this.Controls.Add(this.Sync_SettingsBox);
-            this.Controls.Add(this.Sync_CancelButton);
-            this.Controls.Add(this.Sync_DestinationBox);
-            this.Controls.Add(this.Sync_SyncButton);
+            this.ClientSize = new System.Drawing.Size(352, 344);
+            this.Controls.Add(this.SyncCalendar_SettingsBox);
+            this.Controls.Add(this.SyncCalendar_CancelButton);
+            this.Controls.Add(this.SyncCalendar_DestinationBox);
+            this.Controls.Add(this.SyncCalendar_SyncButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SyncCalendar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Sync";
-            this.Sync_DestinationBox.ResumeLayout(false);
-            this.Sync_DestinationBox.PerformLayout();
-            this.Sync_SettingsBox.ResumeLayout(false);
-            this.Sync_SettingsBox.PerformLayout();
+            this.SyncCalendar_DestinationBox.ResumeLayout(false);
+            this.SyncCalendar_DestinationBox.PerformLayout();
+            this.SyncCalendar_SettingsBox.ResumeLayout(false);
+            this.SyncCalendar_SettingsBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button Sync_SyncButton;
-        private System.Windows.Forms.RadioButton Sync_UseExistingButton;
-        private System.Windows.Forms.GroupBox Sync_DestinationBox;
-        private System.Windows.Forms.RadioButton Sync_NewCalendarButton;
-        private System.Windows.Forms.Label Sync_PasswordLabel;
-        private System.Windows.Forms.Label Sync_UsernameLabel;
-        private System.Windows.Forms.Label Sync_CalDAVLabel;
-        private System.Windows.Forms.Button Sync_CancelButton;
-        private System.Windows.Forms.TextBox Sync_PasswordBox;
-        private System.Windows.Forms.TextBox Sync_UsernameBox;
-        private System.Windows.Forms.TextBox Sync_CalDAVBox;
-        private System.Windows.Forms.GroupBox Sync_SettingsBox;
-        private System.Windows.Forms.RadioButton Sync_PeriodCalendarButton;
-        private System.Windows.Forms.RadioButton Sync_EntireCalendarButton;
-        private System.Windows.Forms.DateTimePicker Sync_bTimePicker;
-        private System.Windows.Forms.DateTimePicker Sync_aTimePicker;
-        private System.Windows.Forms.RadioButton Sync_CustomCalendarButton;
+        private System.Windows.Forms.Button SyncCalendar_SyncButton;
+        private System.Windows.Forms.RadioButton SyncCalendar_UseExistingButton;
+        private System.Windows.Forms.GroupBox SyncCalendar_DestinationBox;
+        private System.Windows.Forms.RadioButton SyncCalendar_NewCalendarButton;
+        private System.Windows.Forms.Label SyncCalendar_PasswordLabel;
+        private System.Windows.Forms.Label SyncCalendar_UsernameLabel;
+        private System.Windows.Forms.Label SyncCalendar_CalDAVLabel;
+        private System.Windows.Forms.Button SyncCalendar_CancelButton;
+        private System.Windows.Forms.TextBox SyncCalendar_PasswordBox;
+        private System.Windows.Forms.TextBox SyncCalendar_UsernameBox;
+        private System.Windows.Forms.TextBox SyncCalendar_CalDAVBox;
+        private System.Windows.Forms.GroupBox SyncCalendar_SettingsBox;
+        private System.Windows.Forms.RadioButton SyncCalendar_PeriodCalendarButton;
+        private System.Windows.Forms.RadioButton SyncCalendar_EntireCalendarButton;
+        private System.Windows.Forms.DateTimePicker SyncCalendar_bTimePicker;
+        private System.Windows.Forms.DateTimePicker SyncCalendar_aTimePicker;
+        private System.Windows.Forms.RadioButton SyncCalendar_CustomCalendarButton;
     }
 }

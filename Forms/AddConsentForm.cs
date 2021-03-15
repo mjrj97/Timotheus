@@ -16,7 +16,7 @@ namespace Timotheus.Forms
         {
             InitializeComponent();
 
-            LocalizationLoader locale = new LocalizationLoader(MainWindow.directory, MainWindow.culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
 
             Text = locale.GetLocalization(this);
             AddConsentForm_AddButton.Text = locale.GetLocalization(AddConsentForm_AddButton);

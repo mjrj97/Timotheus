@@ -1,4 +1,4 @@
-﻿namespace Timotheus.Forms
+namespace Timotheus.Forms
 {
     partial class MainWindow
     {
@@ -63,6 +63,12 @@
             this.SFTP_UsernameBox = new System.Windows.Forms.TextBox();
             this.SFTP_HostLabel = new System.Windows.Forms.Label();
             this.SFTP_HostBox = new System.Windows.Forms.TextBox();
+            this.Members_Page = new System.Windows.Forms.TabPage();
+            this.Members_View = new System.Windows.Forms.DataGridView();
+            this.Members_SinceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Members_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Members_BirthdayColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Members_AddressColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ConsentForms_Page = new System.Windows.Forms.TabPage();
             this.ConsentForms_RemoveButton = new System.Windows.Forms.Button();
             this.ConsentForms_AddButton = new System.Windows.Forms.Button();
@@ -99,6 +105,8 @@
             this.Calendar_Page.SuspendLayout();
             this.SFTP_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).BeginInit();
+            this.Members_Page.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Members_View)).BeginInit();
             this.ConsentForms_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).BeginInit();
             this.Settings_Page.SuspendLayout();
@@ -189,6 +197,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.Calendar_Page);
             this.tabControl.Controls.Add(this.SFTP_Page);
+            this.tabControl.Controls.Add(this.Members_Page);
             this.tabControl.Controls.Add(this.ConsentForms_Page);
             this.tabControl.Controls.Add(this.Settings_Page);
             this.tabControl.Controls.Add(this.Help_Page);
@@ -553,6 +562,59 @@
             this.SFTP_HostBox.Size = new System.Drawing.Size(132, 23);
             this.SFTP_HostBox.TabIndex = 0;
             // 
+            // Members_Page
+            // 
+            this.Members_Page.Controls.Add(this.Members_View);
+            this.Members_Page.Location = new System.Drawing.Point(4, 24);
+            this.Members_Page.Name = "Members_Page";
+            this.Members_Page.Size = new System.Drawing.Size(794, 409);
+            this.Members_Page.TabIndex = 2;
+            this.Members_Page.Text = "Members";
+            this.Members_Page.UseVisualStyleBackColor = true;
+            // 
+            // Members_View
+            // 
+            this.Members_View.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Members_View.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Members_SinceColumn,
+            this.Members_NameColumn,
+            this.Members_BirthdayColumn,
+            this.Members_AddressColumn});
+            this.Members_View.Location = new System.Drawing.Point(10, 10);
+            this.Members_View.Name = "Members_View";
+            this.Members_View.RowHeadersVisible = false;
+            this.Members_View.RowTemplate.Height = 25;
+            this.Members_View.Size = new System.Drawing.Size(776, 346);
+            this.Members_View.TabIndex = 0;
+            // 
+            // Members_SinceColumn
+            // 
+            this.Members_SinceColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_SinceColumn.DataPropertyName = "memberSince";
+            this.Members_SinceColumn.HeaderText = "Member since";
+            this.Members_SinceColumn.Name = "Members_SinceColumn";
+            // 
+            // Members_NameColumn
+            // 
+            this.Members_NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_NameColumn.DataPropertyName = "name";
+            this.Members_NameColumn.HeaderText = "Name";
+            this.Members_NameColumn.Name = "Members_NameColumn";
+            // 
+            // Members_BirthdayColumn
+            // 
+            this.Members_BirthdayColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_BirthdayColumn.DataPropertyName = "birthday";
+            this.Members_BirthdayColumn.HeaderText = "Birthday";
+            this.Members_BirthdayColumn.Name = "Members_BirthdayColumn";
+            // 
+            // Members_AddressColumn
+            // 
+            this.Members_AddressColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_AddressColumn.DataPropertyName = "address";
+            this.Members_AddressColumn.HeaderText = "Address";
+            this.Members_AddressColumn.Name = "Members_AddressColumn";
+            // 
             // ConsentForms_Page
             // 
             this.ConsentForms_Page.Controls.Add(this.ConsentForms_RemoveButton);
@@ -879,6 +941,8 @@
             this.SFTP_Page.ResumeLayout(false);
             this.SFTP_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).EndInit();
+            this.Members_Page.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Members_View)).EndInit();
             this.ConsentForms_Page.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).EndInit();
             this.Settings_Page.ResumeLayout(false);
@@ -938,6 +1002,12 @@
         private System.Windows.Forms.DataGridView SFTP_View;
         private System.Windows.Forms.DataGridViewTextBoxColumn SFTP_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn SFTP_SizeColumn;
+        private System.Windows.Forms.TabPage Members_Page;
+        private System.Windows.Forms.DataGridView Members_View;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Members_SinceColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Members_NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Members_BirthdayColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Members_AddressColumn;
         private System.Windows.Forms.TabPage ConsentForms_Page;
         private System.Windows.Forms.Button ConsentForms_AddButton;
         private System.Windows.Forms.Button ConsentForms_RemoveButton;

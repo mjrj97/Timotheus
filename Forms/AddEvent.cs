@@ -21,22 +21,22 @@ namespace Timotheus.Forms
             DateTime end = DateTime.Now.AddMinutes(30);
 
             Add_StartBox.Text = start.Hour.ToString("00") + ":" + start.Minute.ToString("00");
-            Add_EndBox.Text = end.Hour.ToString("00") + ":" + end.Minute.ToString("00");
-            Add_StartPicker.Value = start;
-            Add_EndPicker.Value = end;
-            Add_LocationBox.Text = MainWindow.window.Settings_AddressBox.Text;
+            AddEvent_EndBox.Text = end.Hour.ToString("00") + ":" + end.Minute.ToString("00");
+            AddEvent_StartPicker.Value = start;
+            AddEvent_EndPicker.Value = end;
+            AddEvent_LocationBox.Text = MainWindow.window.Settings_AddressBox.Text;
 
-            LocalizationLoader locale = new LocalizationLoader(MainWindow.directory, MainWindow.culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
 
             Text = locale.GetLocalization(this);
-            Add_NameLabel.Text = locale.GetLocalization(Add_NameLabel);
-            Add_StartLabel.Text = locale.GetLocalization(Add_StartLabel);
-            Add_EndLabel.Text = locale.GetLocalization(Add_EndLabel);
-            Add_LocationLabel.Text = locale.GetLocalization(Add_LocationLabel);
-            Add_DescriptionLabel.Text = locale.GetLocalization(Add_DescriptionLabel);
-            Add_AllDayBox.Text = locale.GetLocalization(Add_AllDayBox);
-            Add_AddButton.Text = locale.GetLocalization(Add_AddButton);
-            Add_CancelButton.Text = locale.GetLocalization(Add_CancelButton);
+            AddEvent_NameLabel.Text = locale.GetLocalization(AddEvent_NameLabel);
+            AddEvent_StartLabel.Text = locale.GetLocalization(AddEvent_StartLabel);
+            AddEvent_EndLabel.Text = locale.GetLocalization(AddEvent_EndLabel);
+            AddEvent_LocationLabel.Text = locale.GetLocalization(AddEvent_LocationLabel);
+            AddEvent_DescriptionLabel.Text = locale.GetLocalization(AddEvent_DescriptionLabel);
+            AddEvent_AllDayBox.Text = locale.GetLocalization(AddEvent_AllDayBox);
+            AddEvent_AddButton.Text = locale.GetLocalization(AddEvent_AddButton);
+            AddEvent_CancelButton.Text = locale.GetLocalization(AddEvent_CancelButton);
         }
 
         /// <summary>
@@ -48,33 +48,33 @@ namespace Timotheus.Forms
             int minute = 0;
             
             string startTime = Add_StartBox.Text.Trim();
-            string endTime = Add_EndBox.Text.Trim();
+            string endTime = AddEvent_EndBox.Text.Trim();
 
             DateTime start;
             DateTime end;
 
             try
             {
-                if (Add_NameBox.Text.Trim() == String.Empty)
+                if (AddEvent_NameBox.Text.Trim() == String.Empty)
                     throw new Exception("Name cannot be empty.");
 
-                if (!Add_AllDayBox.Checked)
+                if (!AddEvent_AllDayBox.Checked)
                 {
                     hour = int.Parse(startTime.Substring(0, -3 + startTime.Length));
                     minute = int.Parse(startTime.Substring(-2 + startTime.Length, 2));
                 }
-                start = new DateTime(Add_StartPicker.Value.Year, Add_StartPicker.Value.Month, Add_StartPicker.Value.Day, hour, minute, 0);
+                start = new DateTime(AddEvent_StartPicker.Value.Year, AddEvent_StartPicker.Value.Month, AddEvent_StartPicker.Value.Day, hour, minute, 0);
 
-                if (!Add_AllDayBox.Checked)
+                if (!AddEvent_AllDayBox.Checked)
                 {
                     hour = int.Parse(endTime.Substring(0, -3 + endTime.Length));
                     minute = int.Parse(endTime.Substring(-2 + endTime.Length, 2));
                 }
-                end = new DateTime(Add_EndPicker.Value.Year, Add_EndPicker.Value.Month, Add_EndPicker.Value.Day, hour, minute, 0);
+                end = new DateTime(AddEvent_EndPicker.Value.Year, AddEvent_EndPicker.Value.Month, AddEvent_EndPicker.Value.Day, hour, minute, 0);
 
-                Event ev = new Event(start, end, Add_NameBox.Text, Add_DescriptionBox.Text, Add_LocationBox.Text, null);
+                Event ev = new Event(start, end, AddEvent_NameBox.Text, AddEvent_DescriptionBox.Text, AddEvent_LocationBox.Text, null);
                 MainWindow.window.calendar.events.Add(ev);
-                MainWindow.window.UpdateTable();
+                MainWindow.window.UpdateCalendarTable();
                 Close();
             }
             catch (Exception ex)
@@ -103,7 +103,7 @@ namespace Timotheus.Forms
                     CloseButton(null, null);
                     return true;
                 }
-                else if (keyData == Keys.Enter && !Add_DescriptionBox.Focused)
+                else if (keyData == Keys.Enter && !AddEvent_DescriptionBox.Focused)
                 {
                     AddButton(null, null);
                     return true;
@@ -118,8 +118,8 @@ namespace Timotheus.Forms
         /// </summary>
         private void AllDayBox_CheckedChanged(object sender, EventArgs e)
         {
-            Add_StartBox.Enabled = !Add_AllDayBox.Checked;
-            Add_EndBox.Enabled = !Add_AllDayBox.Checked;
+            Add_StartBox.Enabled = !AddEvent_AllDayBox.Checked;
+            AddEvent_EndBox.Enabled = !AddEvent_AllDayBox.Checked;
         }
     }
 }

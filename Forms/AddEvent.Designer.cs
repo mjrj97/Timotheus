@@ -29,183 +29,172 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddEvent));
-            this.Add_NameBox = new System.Windows.Forms.TextBox();
-            this.Add_NameLabel = new System.Windows.Forms.Label();
+            this.AddEvent_NameBox = new System.Windows.Forms.TextBox();
+            this.AddEvent_NameLabel = new System.Windows.Forms.Label();
             this.Add_StartBox = new System.Windows.Forms.TextBox();
-            this.Add_StartPicker = new System.Windows.Forms.DateTimePicker();
-            this.Add_EndBox = new System.Windows.Forms.TextBox();
-            this.Add_EndPicker = new System.Windows.Forms.DateTimePicker();
-            this.Add_StartLabel = new System.Windows.Forms.Label();
-            this.Add_EndLabel = new System.Windows.Forms.Label();
-            this.Add_LocationBox = new System.Windows.Forms.TextBox();
-            this.Add_LocationLabel = new System.Windows.Forms.Label();
-            this.Add_DescriptionBox = new System.Windows.Forms.RichTextBox();
-            this.Add_DescriptionLabel = new System.Windows.Forms.Label();
-            this.Add_AddButton = new System.Windows.Forms.Button();
-            this.Add_CancelButton = new System.Windows.Forms.Button();
-            this.Add_AllDayBox = new System.Windows.Forms.CheckBox();
+            this.AddEvent_StartPicker = new System.Windows.Forms.DateTimePicker();
+            this.AddEvent_EndBox = new System.Windows.Forms.TextBox();
+            this.AddEvent_EndPicker = new System.Windows.Forms.DateTimePicker();
+            this.AddEvent_StartLabel = new System.Windows.Forms.Label();
+            this.AddEvent_EndLabel = new System.Windows.Forms.Label();
+            this.AddEvent_LocationBox = new System.Windows.Forms.TextBox();
+            this.AddEvent_LocationLabel = new System.Windows.Forms.Label();
+            this.AddEvent_DescriptionBox = new System.Windows.Forms.RichTextBox();
+            this.AddEvent_DescriptionLabel = new System.Windows.Forms.Label();
+            this.AddEvent_AddButton = new System.Windows.Forms.Button();
+            this.AddEvent_CancelButton = new System.Windows.Forms.Button();
+            this.AddEvent_AllDayBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
-            // Add_NameBox
+            // AddEvent_NameBox
             // 
-            this.Add_NameBox.Location = new System.Drawing.Point(100, 21);
-            this.Add_NameBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Add_NameBox.Name = "Add_NameBox";
-            this.Add_NameBox.Size = new System.Drawing.Size(270, 27);
-            this.Add_NameBox.TabIndex = 0;
+            this.AddEvent_NameBox.Location = new System.Drawing.Point(85, 16);
+            this.AddEvent_NameBox.Name = "AddEvent_NameBox";
+            this.AddEvent_NameBox.Size = new System.Drawing.Size(237, 23);
+            this.AddEvent_NameBox.TabIndex = 0;
             // 
-            // Add_NameLabel
+            // AddEvent_NameLabel
             // 
-            this.Add_NameLabel.AutoSize = true;
-            this.Add_NameLabel.Location = new System.Drawing.Point(14, 24);
-            this.Add_NameLabel.Name = "Add_NameLabel";
-            this.Add_NameLabel.Size = new System.Drawing.Size(49, 20);
-            this.Add_NameLabel.TabIndex = 9;
-            this.Add_NameLabel.Text = "Name";
+            this.AddEvent_NameLabel.AutoSize = true;
+            this.AddEvent_NameLabel.Location = new System.Drawing.Point(12, 18);
+            this.AddEvent_NameLabel.Name = "AddEvent_NameLabel";
+            this.AddEvent_NameLabel.Size = new System.Drawing.Size(39, 15);
+            this.AddEvent_NameLabel.TabIndex = 9;
+            this.AddEvent_NameLabel.Text = "Name";
             // 
             // Add_StartBox
             // 
-            this.Add_StartBox.Location = new System.Drawing.Point(97, 67);
-            this.Add_StartBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Add_StartBox.Location = new System.Drawing.Point(85, 50);
             this.Add_StartBox.Name = "Add_StartBox";
-            this.Add_StartBox.Size = new System.Drawing.Size(83, 27);
+            this.Add_StartBox.Size = new System.Drawing.Size(73, 23);
             this.Add_StartBox.TabIndex = 1;
             // 
-            // Add_StartPicker
+            // AddEvent_StartPicker
             // 
-            this.Add_StartPicker.Location = new System.Drawing.Point(187, 67);
-            this.Add_StartPicker.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Add_StartPicker.Name = "Add_StartPicker";
-            this.Add_StartPicker.Size = new System.Drawing.Size(180, 27);
-            this.Add_StartPicker.TabIndex = 2;
+            this.AddEvent_StartPicker.Location = new System.Drawing.Point(164, 50);
+            this.AddEvent_StartPicker.Name = "AddEvent_StartPicker";
+            this.AddEvent_StartPicker.Size = new System.Drawing.Size(158, 23);
+            this.AddEvent_StartPicker.TabIndex = 2;
             // 
-            // Add_EndBox
+            // AddEvent_EndBox
             // 
-            this.Add_EndBox.Location = new System.Drawing.Point(97, 113);
-            this.Add_EndBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Add_EndBox.Name = "Add_EndBox";
-            this.Add_EndBox.Size = new System.Drawing.Size(83, 27);
-            this.Add_EndBox.TabIndex = 3;
+            this.AddEvent_EndBox.Location = new System.Drawing.Point(85, 85);
+            this.AddEvent_EndBox.Name = "AddEvent_EndBox";
+            this.AddEvent_EndBox.Size = new System.Drawing.Size(73, 23);
+            this.AddEvent_EndBox.TabIndex = 3;
             // 
-            // Add_EndPicker
+            // AddEvent_EndPicker
             // 
-            this.Add_EndPicker.Location = new System.Drawing.Point(187, 113);
-            this.Add_EndPicker.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Add_EndPicker.Name = "Add_EndPicker";
-            this.Add_EndPicker.Size = new System.Drawing.Size(180, 27);
-            this.Add_EndPicker.TabIndex = 4;
+            this.AddEvent_EndPicker.Location = new System.Drawing.Point(164, 85);
+            this.AddEvent_EndPicker.Name = "AddEvent_EndPicker";
+            this.AddEvent_EndPicker.Size = new System.Drawing.Size(158, 23);
+            this.AddEvent_EndPicker.TabIndex = 4;
             // 
-            // Add_StartLabel
+            // AddEvent_StartLabel
             // 
-            this.Add_StartLabel.AutoSize = true;
-            this.Add_StartLabel.Location = new System.Drawing.Point(14, 71);
-            this.Add_StartLabel.Name = "Add_StartLabel";
-            this.Add_StartLabel.Size = new System.Drawing.Size(40, 20);
-            this.Add_StartLabel.TabIndex = 10;
-            this.Add_StartLabel.Text = "Start";
+            this.AddEvent_StartLabel.AutoSize = true;
+            this.AddEvent_StartLabel.Location = new System.Drawing.Point(12, 53);
+            this.AddEvent_StartLabel.Name = "AddEvent_StartLabel";
+            this.AddEvent_StartLabel.Size = new System.Drawing.Size(31, 15);
+            this.AddEvent_StartLabel.TabIndex = 10;
+            this.AddEvent_StartLabel.Text = "Start";
             // 
-            // Add_EndLabel
+            // AddEvent_EndLabel
             // 
-            this.Add_EndLabel.AutoSize = true;
-            this.Add_EndLabel.Location = new System.Drawing.Point(14, 117);
-            this.Add_EndLabel.Name = "Add_EndLabel";
-            this.Add_EndLabel.Size = new System.Drawing.Size(34, 20);
-            this.Add_EndLabel.TabIndex = 11;
-            this.Add_EndLabel.Text = "End";
+            this.AddEvent_EndLabel.AutoSize = true;
+            this.AddEvent_EndLabel.Location = new System.Drawing.Point(12, 88);
+            this.AddEvent_EndLabel.Name = "AddEvent_EndLabel";
+            this.AddEvent_EndLabel.Size = new System.Drawing.Size(27, 15);
+            this.AddEvent_EndLabel.TabIndex = 11;
+            this.AddEvent_EndLabel.Text = "End";
             // 
-            // Add_LocationBox
+            // AddEvent_LocationBox
             // 
-            this.Add_LocationBox.Location = new System.Drawing.Point(98, 200);
-            this.Add_LocationBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Add_LocationBox.Name = "Add_LocationBox";
-            this.Add_LocationBox.Size = new System.Drawing.Size(269, 27);
-            this.Add_LocationBox.TabIndex = 5;
+            this.AddEvent_LocationBox.Location = new System.Drawing.Point(86, 150);
+            this.AddEvent_LocationBox.Name = "AddEvent_LocationBox";
+            this.AddEvent_LocationBox.Size = new System.Drawing.Size(236, 23);
+            this.AddEvent_LocationBox.TabIndex = 5;
             // 
-            // Add_LocationLabel
+            // AddEvent_LocationLabel
             // 
-            this.Add_LocationLabel.AutoSize = true;
-            this.Add_LocationLabel.Location = new System.Drawing.Point(14, 204);
-            this.Add_LocationLabel.Name = "Add_LocationLabel";
-            this.Add_LocationLabel.Size = new System.Drawing.Size(66, 20);
-            this.Add_LocationLabel.TabIndex = 12;
-            this.Add_LocationLabel.Text = "Location";
+            this.AddEvent_LocationLabel.AutoSize = true;
+            this.AddEvent_LocationLabel.Location = new System.Drawing.Point(12, 153);
+            this.AddEvent_LocationLabel.Name = "AddEvent_LocationLabel";
+            this.AddEvent_LocationLabel.Size = new System.Drawing.Size(53, 15);
+            this.AddEvent_LocationLabel.TabIndex = 12;
+            this.AddEvent_LocationLabel.Text = "Location";
             // 
-            // Add_DescriptionBox
+            // AddEvent_DescriptionBox
             // 
-            this.Add_DescriptionBox.Location = new System.Drawing.Point(97, 247);
-            this.Add_DescriptionBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Add_DescriptionBox.Name = "Add_DescriptionBox";
-            this.Add_DescriptionBox.Size = new System.Drawing.Size(270, 99);
-            this.Add_DescriptionBox.TabIndex = 6;
-            this.Add_DescriptionBox.Text = "";
+            this.AddEvent_DescriptionBox.Location = new System.Drawing.Point(85, 185);
+            this.AddEvent_DescriptionBox.Name = "AddEvent_DescriptionBox";
+            this.AddEvent_DescriptionBox.Size = new System.Drawing.Size(237, 75);
+            this.AddEvent_DescriptionBox.TabIndex = 6;
+            this.AddEvent_DescriptionBox.Text = "";
             // 
-            // Add_DescriptionLabel
+            // AddEvent_DescriptionLabel
             // 
-            this.Add_DescriptionLabel.AutoSize = true;
-            this.Add_DescriptionLabel.Location = new System.Drawing.Point(14, 251);
-            this.Add_DescriptionLabel.Name = "Add_DescriptionLabel";
-            this.Add_DescriptionLabel.Size = new System.Drawing.Size(85, 20);
-            this.Add_DescriptionLabel.TabIndex = 13;
-            this.Add_DescriptionLabel.Text = "Description";
+            this.AddEvent_DescriptionLabel.AutoSize = true;
+            this.AddEvent_DescriptionLabel.Location = new System.Drawing.Point(12, 188);
+            this.AddEvent_DescriptionLabel.Name = "AddEvent_DescriptionLabel";
+            this.AddEvent_DescriptionLabel.Size = new System.Drawing.Size(67, 15);
+            this.AddEvent_DescriptionLabel.TabIndex = 13;
+            this.AddEvent_DescriptionLabel.Text = "Description";
             // 
-            // Add_AddButton
+            // AddEvent_AddButton
             // 
-            this.Add_AddButton.Location = new System.Drawing.Point(97, 360);
-            this.Add_AddButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Add_AddButton.Name = "Add_AddButton";
-            this.Add_AddButton.Size = new System.Drawing.Size(131, 33);
-            this.Add_AddButton.TabIndex = 7;
-            this.Add_AddButton.Text = "Add";
-            this.Add_AddButton.UseVisualStyleBackColor = true;
-            this.Add_AddButton.Click += new System.EventHandler(this.AddButton);
+            this.AddEvent_AddButton.Location = new System.Drawing.Point(85, 270);
+            this.AddEvent_AddButton.Name = "AddEvent_AddButton";
+            this.AddEvent_AddButton.Size = new System.Drawing.Size(115, 25);
+            this.AddEvent_AddButton.TabIndex = 7;
+            this.AddEvent_AddButton.Text = "Add";
+            this.AddEvent_AddButton.UseVisualStyleBackColor = true;
+            this.AddEvent_AddButton.Click += new System.EventHandler(this.AddButton);
             // 
-            // Add_CancelButton
+            // AddEvent_CancelButton
             // 
-            this.Add_CancelButton.Location = new System.Drawing.Point(237, 360);
-            this.Add_CancelButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Add_CancelButton.Name = "Add_CancelButton";
-            this.Add_CancelButton.Size = new System.Drawing.Size(131, 33);
-            this.Add_CancelButton.TabIndex = 8;
-            this.Add_CancelButton.Text = "Cancel";
-            this.Add_CancelButton.UseVisualStyleBackColor = true;
-            this.Add_CancelButton.Click += new System.EventHandler(this.CloseButton);
+            this.AddEvent_CancelButton.Location = new System.Drawing.Point(207, 270);
+            this.AddEvent_CancelButton.Name = "AddEvent_CancelButton";
+            this.AddEvent_CancelButton.Size = new System.Drawing.Size(115, 25);
+            this.AddEvent_CancelButton.TabIndex = 8;
+            this.AddEvent_CancelButton.Text = "Cancel";
+            this.AddEvent_CancelButton.UseVisualStyleBackColor = true;
+            this.AddEvent_CancelButton.Click += new System.EventHandler(this.CloseButton);
             // 
-            // Add_AllDayBox
+            // AddEvent_AllDayBox
             // 
-            this.Add_AllDayBox.AutoSize = true;
-            this.Add_AllDayBox.Location = new System.Drawing.Point(97, 160);
-            this.Add_AllDayBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Add_AllDayBox.Name = "Add_AllDayBox";
-            this.Add_AllDayBox.Size = new System.Drawing.Size(117, 24);
-            this.Add_AllDayBox.TabIndex = 14;
-            this.Add_AllDayBox.Text = "All day event";
-            this.Add_AllDayBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Add_AllDayBox.UseVisualStyleBackColor = true;
-            this.Add_AllDayBox.CheckedChanged += new System.EventHandler(this.AllDayBox_CheckedChanged);
+            this.AddEvent_AllDayBox.AutoSize = true;
+            this.AddEvent_AllDayBox.Location = new System.Drawing.Point(85, 120);
+            this.AddEvent_AllDayBox.Name = "AddEvent_AllDayBox";
+            this.AddEvent_AllDayBox.Size = new System.Drawing.Size(94, 19);
+            this.AddEvent_AllDayBox.TabIndex = 14;
+            this.AddEvent_AllDayBox.Text = "All day event";
+            this.AddEvent_AllDayBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.AddEvent_AllDayBox.UseVisualStyleBackColor = true;
+            this.AddEvent_AllDayBox.CheckedChanged += new System.EventHandler(this.AllDayBox_CheckedChanged);
             // 
             // AddEvent
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(382, 409);
-            this.Controls.Add(this.Add_AllDayBox);
-            this.Controls.Add(this.Add_DescriptionLabel);
-            this.Controls.Add(this.Add_DescriptionBox);
-            this.Controls.Add(this.Add_LocationLabel);
-            this.Controls.Add(this.Add_LocationBox);
-            this.Controls.Add(this.Add_EndLabel);
-            this.Controls.Add(this.Add_StartLabel);
-            this.Controls.Add(this.Add_EndBox);
+            this.ClientSize = new System.Drawing.Size(334, 307);
+            this.Controls.Add(this.AddEvent_AllDayBox);
+            this.Controls.Add(this.AddEvent_DescriptionLabel);
+            this.Controls.Add(this.AddEvent_DescriptionBox);
+            this.Controls.Add(this.AddEvent_LocationLabel);
+            this.Controls.Add(this.AddEvent_LocationBox);
+            this.Controls.Add(this.AddEvent_EndLabel);
+            this.Controls.Add(this.AddEvent_StartLabel);
+            this.Controls.Add(this.AddEvent_EndBox);
             this.Controls.Add(this.Add_StartBox);
-            this.Controls.Add(this.Add_EndPicker);
-            this.Controls.Add(this.Add_StartPicker);
-            this.Controls.Add(this.Add_NameLabel);
-            this.Controls.Add(this.Add_NameBox);
-            this.Controls.Add(this.Add_AddButton);
-            this.Controls.Add(this.Add_CancelButton);
+            this.Controls.Add(this.AddEvent_EndPicker);
+            this.Controls.Add(this.AddEvent_StartPicker);
+            this.Controls.Add(this.AddEvent_NameLabel);
+            this.Controls.Add(this.AddEvent_NameBox);
+            this.Controls.Add(this.AddEvent_AddButton);
+            this.Controls.Add(this.AddEvent_CancelButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddEvent";
@@ -218,20 +207,20 @@
 
         #endregion
 
-        private System.Windows.Forms.Button Add_CancelButton;
-        private System.Windows.Forms.Button Add_AddButton;
-        private System.Windows.Forms.TextBox Add_NameBox;
-        private System.Windows.Forms.Label Add_NameLabel;
-        private System.Windows.Forms.DateTimePicker Add_StartPicker;
-        private System.Windows.Forms.DateTimePicker Add_EndPicker;
+        private System.Windows.Forms.Button AddEvent_CancelButton;
+        private System.Windows.Forms.Button AddEvent_AddButton;
+        private System.Windows.Forms.TextBox AddEvent_NameBox;
+        private System.Windows.Forms.Label AddEvent_NameLabel;
+        private System.Windows.Forms.DateTimePicker AddEvent_StartPicker;
+        private System.Windows.Forms.DateTimePicker AddEvent_EndPicker;
         private System.Windows.Forms.TextBox Add_StartBox;
-        private System.Windows.Forms.TextBox Add_EndBox;
-        private System.Windows.Forms.Label Add_StartLabel;
-        private System.Windows.Forms.Label Add_EndLabel;
-        private System.Windows.Forms.TextBox Add_LocationBox;
-        private System.Windows.Forms.Label Add_LocationLabel;
-        private System.Windows.Forms.RichTextBox Add_DescriptionBox;
-        private System.Windows.Forms.Label Add_DescriptionLabel;
-        private System.Windows.Forms.CheckBox Add_AllDayBox;
+        private System.Windows.Forms.TextBox AddEvent_EndBox;
+        private System.Windows.Forms.Label AddEvent_StartLabel;
+        private System.Windows.Forms.Label AddEvent_EndLabel;
+        private System.Windows.Forms.TextBox AddEvent_LocationBox;
+        private System.Windows.Forms.Label AddEvent_LocationLabel;
+        private System.Windows.Forms.RichTextBox AddEvent_DescriptionBox;
+        private System.Windows.Forms.Label AddEvent_DescriptionLabel;
+        private System.Windows.Forms.CheckBox AddEvent_AllDayBox;
     }
 }
