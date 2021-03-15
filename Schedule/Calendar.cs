@@ -6,42 +6,76 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Windows.Forms;
-using Timotheus.Utility.PDFcreater;
-using MigraDoc.Rendering;
+using Timotheus.Utility;
 
 namespace Timotheus.Schedule
 {
+    /// <summary>
+    /// Calendar object that contains a list of events, and is used to add/remove events on a remote calendar using iCal and CalDAV.
+    /// </summary>
     public class Calendar
     {
+        /// <summary>
+        /// Username and password used to gain access to remote calendar.
+        /// </summary>
         private NetworkCredential credentials;
+        /// <summary>
+        /// This is the CalDAV url/link to the remote calendar.
+        /// </summary>
         private string url;
+        /// <summary>
+        /// A list of the events in the local calendar.
+        /// </summary>
         public readonly List<Event> events = new List<Event>();
+        /// <summary>
+        /// HTTP Client used to make HTTP requests.
+        /// </summary>
         private readonly HttpClient client = new HttpClient();
 
+        /// <summary>
+        /// Calendar timezone.
+        /// </summary>
         private string timezone;
+        /// <summary>
+        /// iCalendar version.
+        /// </summary>
         private string version;
+        /// <summary>
+        /// Identifier for the product that created the iCalendar object.
+        /// </summary>
         private string prodid;
 
-        //Constructors
+        /// <summary>
+        /// Creates a Calendar object and pulls calendar data from URL using specified credentials.
+        /// </summary>
         public Calendar(string username, string password, string url)
         {
             SetupSync(username, password, url);
             events = LoadFromLines(HttpRequest(url, credentials));
         }
+        /// <summary>
+        /// Creates a Calendar object and loads event data from .ics file.
+        /// </summary>
         public Calendar(string path)
         {
             events = LoadFromLines(File.ReadAllLines(path));
         }
+        /// <summary>
+        /// Creates an empty Calendar object.
+        /// </summary>
         public Calendar()
         {
             url = string.Empty;
             timezone = GenerateTimeZone();
             version = "2.0";
-            prodid = "Calendar";
+            prodid = "-//mjrj97//Timotheus//EN";
         }
 
-        //Setters
-        public void AddEvent(Event ev)
+        /// <summary>
+        /// Add an event on the remote calendar.
+        /// </summary>
+        /// <param name="ev">Adds the event to the remote calendar. Assumes that the UID is one the remote calendar.</param>
+        private void AddEvent(Event ev)
         {
             string request =
             "BEGIN:VCALENDAR\n" +
@@ -54,11 +88,22 @@ namespace Timotheus.Schedule
             HttpRequest(url + ev.UID + ".ics", credentials, "PUT", Encoding.UTF8.GetBytes(request));
         }
 
-        public void DeleteEvent(string ID)
+        /// <summary>
+        /// Removes an event on the remote calendar.
+        /// </summary>
+        /// <param name="ev">Event that should be deleted. Assumes that the UID is one the remote calendar.</param>
+        private void DeleteEvent(Event ev)
         {
-            HttpRequest(url + ID + ".ics", credentials, "DELETE");
+            HttpRequest(url + ev.UID + ".ics", credentials, "DELETE");
         }
 
+        /// <summary>
+        /// Loads events from a calendar ics string.
+        /// </summary>
+        /// <returns>
+        /// A list Events found in string array.
+        /// </returns>
+        /// <param name="lines">String array in iCal format.</param>
         public List<Event> LoadFromLines(string[] lines)
         {
             string tempTimeZone = String.Empty;
@@ -144,6 +189,12 @@ namespace Timotheus.Schedule
             return events;
         }
 
+        /// <summary>
+        /// Sets up the calendar for syncing with a remote calendar.
+        /// </summary>
+        /// <param name="username">Usually an email.</param>
+        /// <param name="password">Password to the email.</param>
+        /// <param name="url">CalDAV link to the remote calendar.</param>
         public void SetupSync(string username, string password, string url)
         {
             this.url = url;
@@ -153,7 +204,10 @@ namespace Timotheus.Schedule
             client.DefaultRequestHeaders.Add("Accept-charset", "UTF-8");
         }
 
-        public void Sync()
+        /// <summary>
+        /// Syncs the events in the time interval from a to b with the remote calendar. (As long as either the start time or end time is in the interval)
+        /// </summary>
+        public void Sync(DateTime a, DateTime b)
         {
             List<Event> remoteEvents = LoadFromLines(HttpRequest(url, credentials));
             bool[] foundLocal = new bool[events.Count];
@@ -168,56 +222,78 @@ namespace Timotheus.Schedule
                         foundLocal[i] = true;
                         foundRemote[j] = true;
 
-                        if (events[i].Deleted)
-                            DeleteEvent(events[i].UID);
-                        else if (!events[i].Equals(remoteEvents[j]))
+                        if (events[i].IsInPeriod(a,b))
                         {
-                            if (events[i].Changed >= remoteEvents[j].Changed)
+                            if (events[i].Deleted)
+                                DeleteEvent(events[i]);
+                            else if (!events[i].Equals(remoteEvents[j]))
                             {
-                                DeleteEvent(events[i].UID);
-                                AddEvent(events[i]);
+                                if (events[i].Changed >= remoteEvents[j].Changed)
+                                {
+                                    DeleteEvent(events[i]);
+                                    AddEvent(events[i]);
+                                }
+                                else
+                                    events[i].Update(remoteEvents[j]);
                             }
-                            else
-                                events[i].Update(remoteEvents[j]);
                         }
                     }
                 }
             }
             for (int i = 0; i < events.Count; i++)
             {
-                if (!foundLocal[i])
-                    AddEvent(events[i]);
+                if (events[i].IsInPeriod(a, b))
+                {
+                    if (!foundLocal[i])
+                        AddEvent(events[i]);
+                }
             }
             for (int i = 0; i < remoteEvents.Count; i++)
             {
-                if (!foundRemote[i])
-                    events.Add(remoteEvents[i]);
+                if (remoteEvents[i].IsInPeriod(a, b))
+                {
+                    if (!foundRemote[i])
+                        events.Add(remoteEvents[i]);
+                }
             }
         }
+        /// <summary>
+        /// Syncs the entire local calendar with the entire remote calendar server.
+        /// </summary>
+        public void Sync ()
+        {
+            Sync(DateTime.MinValue, DateTime.MaxValue);
+        }
 
+        /// <summary>
+        /// Exports the calendar as a PDF to a file path and gives it a title.
+        /// </summary>
+        /// <param name="filePath">Path where the PDF should be stored.</param>
+        /// <param name="title">PDF title/name.</param>
         public void ExportPDF(string filePath, string title)
         {
             //Defines encoding 1252
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             // Create an invoice form with the sample invoice data.
-            var PDF = new PDFcreater(title, events);
+            PDFCreater pdf = new PDFCreater(title, events);
 
             // Create the document using MigraDoc.
-            var document = PDF.CreateDocument();
+            MigraDoc.DocumentObjectModel.Document document = pdf.CreateDocument();
             document.UseCmykColor = false;
 
             // Create a renderer for PDF that uses Unicode font encoding.
-            var pdfRenderer = new PdfDocumentRenderer(true);
-
-            // Set the MigraDoc document.
-            pdfRenderer.Document = document;
+            var pdfRenderer = new MigraDoc.Rendering.PdfDocumentRenderer(true)
+            {
+                // Set the MigraDoc document.
+                Document = document
+            };
 
             // Create the PDF document.
             pdfRenderer.RenderDocument();
 
             // Save the PDF document...
-            var filename = $"{filePath}\\{title}";
+            string filename = $"{filePath}\\{title}";
 
             try
             {
@@ -227,11 +303,12 @@ namespace Timotheus.Schedule
             {
                 MessageBox.Show(e.Message, "Saving error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            // ...and start a viewer.
         }
 
-        //Getters
+        /// <summary>
+        /// Returns a calendars iCal equivalent string.
+        /// </summary>
+        /// <param name="name">Name of the calendar.</param>
         public string GetCalendarICS(string name)
         {
             string ics = "BEGIN:VCALENDAR\nVERSION:" + version +
@@ -247,6 +324,10 @@ namespace Timotheus.Schedule
             return ics;
         }
 
+        /// <summary>
+        /// Converts a Event into a iCal string.
+        /// </summary>
+        /// <param name="ev">Calendar event that should be converted.</param>
         public static string GetEventICS(Event ev)
         {
             string evString = "BEGIN:VEVENT\n" +
@@ -271,18 +352,9 @@ namespace Timotheus.Schedule
             return evString;
         }
 
-        public static Event FindEvent(List<Event> events, string UID)
-        {
-            for (int i = 0; i < events.Count; i++)
-            {
-                if (events[i].UID.Equals(UID))
-                {
-                    return events[i];
-                }
-            }
-            return null;
-        }
-
+        /// <summary>
+        /// Returns a iCal timezone based in Europe/Copenhagen.
+        /// </summary>
         public string GenerateTimeZone()
         {
             return "BEGIN:VTIMEZONE\n" +
@@ -362,12 +434,17 @@ namespace Timotheus.Schedule
             "END:VTIMEZONE";
         }
 
+        /// <summary>
+        /// Checks if the calendar is connected a remote server (Has URL and credentials).
+        /// </summary>
         public bool IsSetup()
         {
-            return url != string.Empty;
+            return url != string.Empty && credentials != null;
         }
 
-        //HTTP Request
+        /// <summary>
+        /// Sends a HTTP request to a URL and returns the response as a string array.
+        /// </summary>
         public static string[] HttpRequest(string url, NetworkCredential credentials, string method, byte[] data)
         {
             WebRequest request = WebRequest.Create(url);
@@ -393,16 +470,25 @@ namespace Timotheus.Schedule
             response.Close();
             return responseFromServer;
         }
+        /// <summary>
+        /// Sends a HTTP request to a URL and returns the response as a string array.
+        /// </summary>
         public static string[] HttpRequest(string url, NetworkCredential credentials, string method)
         {
             return HttpRequest(url, credentials, method, null);
         }
+        /// <summary>
+        /// Sends a HTTP request to a URL and returns the response as a string array.
+        /// </summary>
         public static string[] HttpRequest(string url, NetworkCredential credentials)
         {
             return HttpRequest(url, credentials, null, null);
         }
 
-        //Get value after colon
+        /// <summary>
+        /// Returns text after the last colon in a string.
+        /// </summary>
+        /// <param name="line">Line from iCalendar with format PROPERTY:VALUE eg. VERSION:2.0</param>
         private string GetValue(string line)
         {
             int i = 0;
@@ -413,17 +499,25 @@ namespace Timotheus.Schedule
             return line.Substring(i + 1, line.Length - i - 1).Trim();
         }
 
-        //Conversions
+        /// <summary>
+        /// Converts a DateTime object to a iCal date and time.
+        /// </summary>
         public static string DateTimeToString(DateTime date)
         {
             return date.Year.ToString("D4") + date.Month.ToString("D2") + date.Day.ToString("D2") + "T" + date.Hour.ToString("D2") + date.Minute.ToString("D2") + date.Second.ToString("D2");
         }
 
+        /// <summary>
+        /// Converts a DateTime object to a iCal date.
+        /// </summary>
         public static string DateToString(DateTime date)
         {
             return date.Year.ToString("D4") + date.Month.ToString("D2") + date.Day.ToString("D2");
         }
 
+        /// <summary>
+        /// Converts a iCal date and time to a DateTime object.
+        /// </summary>
         public static DateTime StringToDate(string date)
         {
             if (date.Length == 8)
@@ -432,11 +526,17 @@ namespace Timotheus.Schedule
                 return new DateTime(int.Parse(date.Substring(0, 4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), int.Parse(date.Substring(9, 2)), int.Parse(date.Substring(11, 2)), int.Parse(date.Substring(13, 2)));
         }
 
+        /// <summary>
+        /// Converts a line from iCal to C# compatible string.
+        /// </summary>
         public static string ConvertFromCALString(string text)
         {
             return text.Replace("\\n", "\r\n").Replace("\\,", ",");
         }
 
+        /// <summary>
+        /// Converts a string to a iCal compatible string.
+        /// </summary>
         public static string ConvertToCALString(string text)
         {
             return text.Replace("\n", "\\n").Replace("\r", "").Replace(",", "\\,");

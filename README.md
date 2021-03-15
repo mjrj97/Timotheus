@@ -7,16 +7,14 @@ The purpose of this project is to create software that can manage a small associ
 - [X] Calendar/Schedule editor
 - [X] Syncing calendars using the CalDAV protocol
 - [ ] Managing GDPR consent forms and member directory
-- [ ] SFTP-based storage
+- [X] SFTP-based storage
 - [ ] Encryption of stored data
 - [ ] Accounting
 - [ ] Small Group Management
 
 ## Libraries
-PdfSharp 1.50.5147</br>
 PDFsharp-MigraDoc 1.50.5147</br>
-SSH.NET 2020.0.1</br>
-System.Text.Encoding.CodePages 5.0.0
+SSH.NET 2020.0.1
 
 ## How to contribute
 You are welcome to contribute to the project!
@@ -32,15 +30,14 @@ Formålet med dette projekt er at udvikle software, der kan behandle en lille fo
 - [X] Kalender/tidsplan redigeringsværktøj
 - [X] Kalender synkronisering med CalDAV protokollen
 - [ ] Administration af GDPR samtykkeerklæringer og medlemslister
-- [ ] SFTP baseret dataopbevaring
+- [X] SFTP baseret dataopbevaring
 - [ ] Kryptering af lagrede data
 - [ ] Regnskabsførelse
 - [ ] Administration af smågrupper
 
 ## Biblioteker
-PdfSharp 1.50.5147</br>
-SSH.NET 2020.0.1</br>
-System.Text.Encoding.CodePages 5.0.0
+PDFsharp-MigraDoc 1.50.5147</br>
+SSH.NET 2020.0.1
 
 ## Hvordan man kan bidrage
 Man er velkommen til at bidrage til projektet!
