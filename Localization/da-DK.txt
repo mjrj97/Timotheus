@@ -95,3 +95,7 @@ SyncCalendar_CustomCalendarButton,Synkronisér brugerdefineret periode
 AddConsentForm,Tilføj
 AddConsentForm_AddButton,Tilføj
 AddConsentForm_CancelButton,Annullér
+AddConsentForm_NameLabel,Navn
+AddConsentForm_SignedLabel,Underskrevet
+AddConsentForm_VersionLabel,Version
+AddConsentForm_CommentLabel,Kommentar

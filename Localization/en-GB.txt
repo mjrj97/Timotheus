@@ -95,3 +95,7 @@ SyncCalendar_CustomCalendarButton,Sync custom period
 AddConsentForm,Add
 AddConsentForm_AddButton,Add
 AddConsentForm_CancelButton,Cancel
+AddConsentForm_NameLabel,Name
+AddConsentForm_SignedLabel,Signed
+AddConsentForm_VersionLabel,Version
+AddConsentForm_CommentLabel,Comment
