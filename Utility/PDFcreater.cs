@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Collections.Generic;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
+using MigraDoc.DocumentObjectModel.Shapes;
 using Timotheus.Schedule;
 
 namespace Timotheus.Utility
@@ -32,15 +33,33 @@ namespace Timotheus.Utility
         /// </summary>
         private readonly List<Event> _Events;
 
+        /// <summary>
+        /// associationAddress
+        /// </summary>
+        private readonly string _associationAddress;
+
+        /// <summary>
+        /// associationName
+        /// </summary>
+        private readonly string _associationName;
+
+        /// <summary>
+        /// logoPath
+        /// </summary>
+        private readonly string _logoPath;
+
         readonly static Color White = new Color(255, 255, 255);
 
         /// <summary>
         /// Initializes a new instance of the class PDFcreater and opens the specified XML document.
         /// </summary>
-        public PDFCreater(string filename, List<Event> Events)
+        public PDFCreater(string filename, List<Event> Events, String associationName, string associationAddress, string logoPath)
         {
             _filename = filename;
             _Events = Events;
+            _associationAddress = associationAddress;
+            _associationName = associationName;
+            _logoPath = logoPath;
         }
 
         /// <summary>
@@ -51,7 +70,8 @@ namespace Timotheus.Utility
             // Create a new MigraDoc document.
             _document = new Document();
             _document.Info.Title = _filename;
-   
+            _document.Info.Author = _associationName;
+
             DefineStyles();
 
             CreatePage();
@@ -108,11 +128,27 @@ namespace Timotheus.Utility
             // The default position for the header is 1.25 cm.
             // We add 0.5 cm spacing between header image and body and get 5.25 cm.
             // Default value is 2.5 cm.
-            section.PageSetup.TopMargin = "2.25cm";
+            section.PageSetup.TopMargin = "1cm";
+            section.PageSetup.LeftMargin = "1cm";
+            section.PageSetup.RightMargin = "1cm";
+
+            if (_logoPath != "")
+            {
+                Image image = section.AddImage(_logoPath);
+                image.Height = "3cm";
+                image.LockAspectRatio = true;
+            }
+           
 
             // add title
             var paragraph = section.AddParagraph("Program");
             paragraph.Format.Font.Size = 40;
+
+            paragraph = section.AddParagraph($"Velkomemen i {_associationName}");
+            paragraph.Format.Font.Size = 20;
+
+       
+
 
             // extra Paragraph to add space
             section.AddParagraph();
@@ -127,22 +163,22 @@ namespace Timotheus.Utility
             _table.Rows.LeftIndent = 0;
 
             // Before you can add a row, you must define the columns.
-            var column = _table.AddColumn("2.5cm");
+            var column = _table.AddColumn("3.5cm");
             column.Format.Alignment = ParagraphAlignment.Left;
 
-            column = _table.AddColumn("2.5cm");
+            column = _table.AddColumn("3.5cm");
+            column.Format.Alignment = ParagraphAlignment.Left;
+
+            column = _table.AddColumn("11cm");
+            column.Format.Alignment = ParagraphAlignment.Left;
+
+            column = _table.AddColumn("3cm");
+            column.Format.Alignment = ParagraphAlignment.Left;
+
+            column = _table.AddColumn("3cm");
             column.Format.Alignment = ParagraphAlignment.Left;
 
             column = _table.AddColumn("7cm");
-            column.Format.Alignment = ParagraphAlignment.Left;
-
-            column = _table.AddColumn("3cm");
-            column.Format.Alignment = ParagraphAlignment.Left;
-
-            column = _table.AddColumn("3cm");
-            column.Format.Alignment = ParagraphAlignment.Left;
-
-            column = _table.AddColumn("5cm");
             column.Format.Alignment = ParagraphAlignment.Left;
 
             // Create the header of the table.
@@ -157,7 +193,11 @@ namespace Timotheus.Utility
             row.Cells[4].AddParagraph("Musiker");
             row.Cells[5].AddParagraph("Kaffehold ");
 
-            //  _table.SetEdge(0, 0, 6, 2, Edge.Box, BorderStyle.Single, 0.75, Color.Empty);
+            // Creater footer
+            paragraph = section.Footers.Primary.AddParagraph();
+            paragraph.AddText(_associationAddress);
+            paragraph.Format.Font.Size = 9;
+            paragraph.Format.Alignment = ParagraphAlignment.Center;
         }
 
         /// <summary>

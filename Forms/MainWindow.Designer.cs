@@ -22,7 +22,7 @@ namespace Timotheus.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.Calendar_View = new System.Windows.Forms.DataGridView();
             this.Calendar_StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -65,6 +65,10 @@ namespace Timotheus.Forms
             this.SFTP_HostBox = new System.Windows.Forms.TextBox();
             this.Members_Page = new System.Windows.Forms.TabPage();
             this.Members_View = new System.Windows.Forms.DataGridView();
+            this.Members_SinceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Members_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Members_BirthdayColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Members_AddressColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ConsentForms_Page = new System.Windows.Forms.TabPage();
             this.ConsentForms_RemoveButton = new System.Windows.Forms.Button();
             this.ConsentForms_AddButton = new System.Windows.Forms.Button();
@@ -96,10 +100,6 @@ namespace Timotheus.Forms
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
-            this.Members_SinceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Members_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Members_BirthdayColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Members_AddressColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.Calendar_View)).BeginInit();
             this.tabControl.SuspendLayout();
             this.Calendar_Page.SuspendLayout();
@@ -129,14 +129,14 @@ namespace Timotheus.Forms
             this.Calendar_NameColumn,
             this.Calendar_DescriptionColumn,
             this.Calendar_LocationColumn});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Calendar_View.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Calendar_View.DefaultCellStyle = dataGridViewCellStyle1;
             this.Calendar_View.Location = new System.Drawing.Point(10, 39);
             this.Calendar_View.Name = "Calendar_View";
             this.Calendar_View.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -587,6 +587,34 @@ namespace Timotheus.Forms
             this.Members_View.Size = new System.Drawing.Size(776, 346);
             this.Members_View.TabIndex = 0;
             // 
+            // Members_SinceColumn
+            // 
+            this.Members_SinceColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_SinceColumn.DataPropertyName = "memberSince";
+            this.Members_SinceColumn.HeaderText = "Member since";
+            this.Members_SinceColumn.Name = "Members_SinceColumn";
+            // 
+            // Members_NameColumn
+            // 
+            this.Members_NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_NameColumn.DataPropertyName = "name";
+            this.Members_NameColumn.HeaderText = "Name";
+            this.Members_NameColumn.Name = "Members_NameColumn";
+            // 
+            // Members_BirthdayColumn
+            // 
+            this.Members_BirthdayColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_BirthdayColumn.DataPropertyName = "birthday";
+            this.Members_BirthdayColumn.HeaderText = "Birthday";
+            this.Members_BirthdayColumn.Name = "Members_BirthdayColumn";
+            // 
+            // Members_AddressColumn
+            // 
+            this.Members_AddressColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_AddressColumn.DataPropertyName = "address";
+            this.Members_AddressColumn.HeaderText = "Address";
+            this.Members_AddressColumn.Name = "Members_AddressColumn";
+            // 
             // ConsentForms_Page
             // 
             this.ConsentForms_Page.Controls.Add(this.ConsentForms_RemoveButton);
@@ -894,34 +922,6 @@ namespace Timotheus.Forms
             this.TrayClose.Size = new System.Drawing.Size(103, 22);
             this.TrayClose.Text = "Close";
             this.TrayClose.Click += new System.EventHandler(this.Exit);
-            // 
-            // Members_SinceColumn
-            // 
-            this.Members_SinceColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Members_SinceColumn.DataPropertyName = "memberSince";
-            this.Members_SinceColumn.HeaderText = "Member since";
-            this.Members_SinceColumn.Name = "Members_SinceColumn";
-            // 
-            // Members_NameColumn
-            // 
-            this.Members_NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Members_NameColumn.DataPropertyName = "name";
-            this.Members_NameColumn.HeaderText = "Name";
-            this.Members_NameColumn.Name = "Members_NameColumn";
-            // 
-            // Members_BirthdayColumn
-            // 
-            this.Members_BirthdayColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Members_BirthdayColumn.DataPropertyName = "birthday";
-            this.Members_BirthdayColumn.HeaderText = "Birthday";
-            this.Members_BirthdayColumn.Name = "Members_BirthdayColumn";
-            // 
-            // Members_AddressColumn
-            // 
-            this.Members_AddressColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Members_AddressColumn.DataPropertyName = "address";
-            this.Members_AddressColumn.HeaderText = "Address";
-            this.Members_AddressColumn.Name = "Members_AddressColumn";
             // 
             // MainWindow
             // 
