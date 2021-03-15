@@ -180,9 +180,9 @@ namespace Timotheus.Utility
                 string name = _Events[i].Name;
                 string description  = _Events[i].Description;
                 DateTime time = _Events[i].StartTime;
-                string leder = "";
-                string Musiker = "";
-                string Kaffehold = "";
+                string leader = "";
+                string musician = "";
+                string coffeeTeam = "";
 
                 var row = this._table.AddRow();
 
@@ -198,9 +198,9 @@ namespace Timotheus.Utility
                 }
 
                 row.Cells[2].AddParagraph(name);
-                row.Cells[3].AddParagraph(leder);
-                row.Cells[4].AddParagraph(Musiker);
-                row.Cells[5].AddParagraph(Kaffehold);
+                row.Cells[3].AddParagraph(leader);
+                row.Cells[4].AddParagraph(musician);
+                row.Cells[5].AddParagraph(coffeeTeam);
             }   
         }
     }

@@ -12,7 +12,6 @@ using System.Drawing;
 using Renci.SshNet.Sftp;
 using Renci.SshNet;
 
-
 namespace Timotheus.Forms
 {
     /// <summary>
@@ -121,11 +120,11 @@ namespace Timotheus.Forms
             Calendar_View.AutoGenerateColumns = false;
             SFTP_View.AutoGenerateColumns = false;
             ConsentForms_View.AutoGenerateColumns = false;
-            MemberTableView.AutoGenerateColumns = false;
+            Members_View.AutoGenerateColumns = false;
             Calendar_View.DataSource = new BindingSource(shownEvents, null);
             SFTP_View.DataSource = new BindingSource(shownFiles, null);
             ConsentForms_View.DataSource = new BindingSource(consentForms, null);
-            MemberTableView.DataSource = new BindingSource(Persons, null);
+            Members_View.DataSource = new BindingSource(Persons, null);
             SFTP_PasswordBox.PasswordChar = '*';
 
             LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
@@ -178,6 +177,14 @@ namespace Timotheus.Forms
             SFTP_SyncButton.Text = locale.GetLocalization(SFTP_SyncButton);
             SFTP_NameColumn.HeaderText = locale.GetLocalization(SFTP_NameColumn);
             SFTP_SizeColumn.HeaderText = locale.GetLocalization(SFTP_SizeColumn);
+            #endregion
+
+            #region Members
+            Members_Page.Text = locale.GetLocalization(Members_Page);
+            Members_NameColumn.HeaderText = locale.GetLocalization(Members_NameColumn);
+            Members_AddressColumn.HeaderText = locale.GetLocalization(Members_AddressColumn);
+            Members_BirthdayColumn.HeaderText = locale.GetLocalization(Members_BirthdayColumn);
+            Members_SinceColumn.HeaderText = locale.GetLocalization(Members_SinceColumn);
             #endregion
 
             #region Consent Forms
@@ -455,7 +462,7 @@ namespace Timotheus.Forms
             {
                 FileInfo file = new FileInfo(saveFileDialog.FileName);
 
-                calendar.ExportPDF(file.DirectoryName, file.Name);
+                calendar.ExportPDF(file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_PictureBox.Image);
             }
         }
 

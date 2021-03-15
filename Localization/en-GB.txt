@@ -40,6 +40,11 @@ SFTP_DownloadButton,Download all files
 SFTP_SyncButton,Synchronise
 SFTP_NameColumn,File name
 SFTP_SizeColumn,File size
+Members_Page,Members
+Members_NameColumn,Name
+Members_AddressColumn,Address
+Members_BirthdayColumn,Birthday
+Members_SinceColumn,Member since
 ConsentForms_Page,Consent forms
 ConsentForms_AddButton,Add
 ConsentForms_RemoveButton,Remove

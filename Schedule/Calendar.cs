@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -270,7 +271,10 @@ namespace Timotheus.Schedule
         /// </summary>
         /// <param name="filePath">Path where the PDF should be stored.</param>
         /// <param name="title">PDF title/name.</param>
-        public void ExportPDF(string filePath, string title)
+        /// <param name="associationName">The association's name/title.</param>
+        /// <param name="associationAddress">The postal address of the assocation.</param>
+        /// <param name="logo">The association's logo.</param>
+        public void ExportPDF(string filePath, string title, string associationName, string associationAddress, Image logo)
         {
             //Defines encoding 1252
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);

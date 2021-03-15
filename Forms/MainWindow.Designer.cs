@@ -22,7 +22,7 @@ namespace Timotheus.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.Calendar_View = new System.Windows.Forms.DataGridView();
             this.Calendar_StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,6 +63,8 @@ namespace Timotheus.Forms
             this.SFTP_UsernameBox = new System.Windows.Forms.TextBox();
             this.SFTP_HostLabel = new System.Windows.Forms.Label();
             this.SFTP_HostBox = new System.Windows.Forms.TextBox();
+            this.Members_Page = new System.Windows.Forms.TabPage();
+            this.Members_View = new System.Windows.Forms.DataGridView();
             this.ConsentForms_Page = new System.Windows.Forms.TabPage();
             this.ConsentForms_RemoveButton = new System.Windows.Forms.Button();
             this.ConsentForms_AddButton = new System.Windows.Forms.Button();
@@ -94,19 +96,17 @@ namespace Timotheus.Forms
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
-            this.memberPage = new System.Windows.Forms.TabPage();
-            this.RemovePersonButton = new System.Windows.Forms.Button();
-            this.AddPersonButton = new System.Windows.Forms.Button();
-            this.MemberTableView = new System.Windows.Forms.DataGridView();
-            this.memberFromColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MemberNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BirthdayColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AdresseColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Members_SinceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Members_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Members_BirthdayColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Members_AddressColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.Calendar_View)).BeginInit();
             this.tabControl.SuspendLayout();
             this.Calendar_Page.SuspendLayout();
             this.SFTP_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).BeginInit();
+            this.Members_Page.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Members_View)).BeginInit();
             this.ConsentForms_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).BeginInit();
             this.Settings_Page.SuspendLayout();
@@ -129,14 +129,14 @@ namespace Timotheus.Forms
             this.Calendar_NameColumn,
             this.Calendar_DescriptionColumn,
             this.Calendar_LocationColumn});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Calendar_View.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Calendar_View.DefaultCellStyle = dataGridViewCellStyle2;
             this.Calendar_View.Location = new System.Drawing.Point(10, 39);
             this.Calendar_View.Name = "Calendar_View";
             this.Calendar_View.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -197,10 +197,10 @@ namespace Timotheus.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.Calendar_Page);
             this.tabControl.Controls.Add(this.SFTP_Page);
+            this.tabControl.Controls.Add(this.Members_Page);
             this.tabControl.Controls.Add(this.ConsentForms_Page);
             this.tabControl.Controls.Add(this.Settings_Page);
             this.tabControl.Controls.Add(this.Help_Page);
-            this.tabControl.Controls.Add(this.memberPage);
             this.tabControl.Location = new System.Drawing.Point(2, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -562,6 +562,31 @@ namespace Timotheus.Forms
             this.SFTP_HostBox.Size = new System.Drawing.Size(132, 23);
             this.SFTP_HostBox.TabIndex = 0;
             // 
+            // Members_Page
+            // 
+            this.Members_Page.Controls.Add(this.Members_View);
+            this.Members_Page.Location = new System.Drawing.Point(4, 24);
+            this.Members_Page.Name = "Members_Page";
+            this.Members_Page.Size = new System.Drawing.Size(794, 409);
+            this.Members_Page.TabIndex = 2;
+            this.Members_Page.Text = "Members";
+            this.Members_Page.UseVisualStyleBackColor = true;
+            // 
+            // Members_View
+            // 
+            this.Members_View.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Members_View.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Members_SinceColumn,
+            this.Members_NameColumn,
+            this.Members_BirthdayColumn,
+            this.Members_AddressColumn});
+            this.Members_View.Location = new System.Drawing.Point(10, 10);
+            this.Members_View.Name = "Members_View";
+            this.Members_View.RowHeadersVisible = false;
+            this.Members_View.RowTemplate.Height = 25;
+            this.Members_View.Size = new System.Drawing.Size(776, 346);
+            this.Members_View.TabIndex = 0;
+            // 
             // ConsentForms_Page
             // 
             this.ConsentForms_Page.Controls.Add(this.ConsentForms_RemoveButton);
@@ -840,81 +865,6 @@ namespace Timotheus.Forms
             this.Help_IconBox.TabIndex = 0;
             this.Help_IconBox.TabStop = false;
             // 
-            // memberPage
-            // 
-            this.memberPage.Controls.Add(this.RemovePersonButton);
-            this.memberPage.Controls.Add(this.AddPersonButton);
-            this.memberPage.Controls.Add(this.MemberTableView);
-            this.memberPage.Location = new System.Drawing.Point(4, 24);
-            this.memberPage.Name = "memberPage";
-            this.memberPage.Size = new System.Drawing.Size(794, 409);
-            this.memberPage.TabIndex = 2;
-            this.memberPage.Text = "Members";
-            this.memberPage.UseVisualStyleBackColor = true;
-            // 
-            // RemovePersonButton
-            // 
-            this.RemovePersonButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.RemovePersonButton.Location = new System.Drawing.Point(91, 379);
-            this.RemovePersonButton.Name = "RemovePersonButton";
-            this.RemovePersonButton.Size = new System.Drawing.Size(75, 23);
-            this.RemovePersonButton.TabIndex = 6;
-            this.RemovePersonButton.Text = "Remove";
-            this.RemovePersonButton.UseVisualStyleBackColor = true;
-            // 
-            // AddPersonButton
-            // 
-            this.AddPersonButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddPersonButton.Location = new System.Drawing.Point(10, 378);
-            this.AddPersonButton.Name = "AddPersonButton";
-            this.AddPersonButton.Size = new System.Drawing.Size(75, 23);
-            this.AddPersonButton.TabIndex = 5;
-            this.AddPersonButton.Text = "Add";
-            this.AddPersonButton.UseVisualStyleBackColor = true;
-            // 
-            // MemberTableView
-            // 
-            this.MemberTableView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.MemberTableView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.memberFromColumn,
-            this.MemberNameColumn,
-            this.BirthdayColumn,
-            this.AdresseColumn});
-            this.MemberTableView.Location = new System.Drawing.Point(10, 3);
-            this.MemberTableView.Name = "MemberTableView";
-            this.MemberTableView.RowHeadersVisible = false;
-            this.MemberTableView.RowTemplate.Height = 25;
-            this.MemberTableView.Size = new System.Drawing.Size(774, 364);
-            this.MemberTableView.TabIndex = 0;
-            // 
-            // memberFromColumn
-            // 
-            this.memberFromColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.memberFromColumn.DataPropertyName = "memberSince";
-            this.memberFromColumn.HeaderText = "Member since";
-            this.memberFromColumn.Name = "memberFromColumn";
-            // 
-            // MemberNameColumn
-            // 
-            this.MemberNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.MemberNameColumn.DataPropertyName = "name";
-            this.MemberNameColumn.HeaderText = "Name";
-            this.MemberNameColumn.Name = "MemberNameColumn";
-            // 
-            // BirthdayColumn
-            // 
-            this.BirthdayColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.BirthdayColumn.DataPropertyName = "birthday";
-            this.BirthdayColumn.HeaderText = "Birthday";
-            this.BirthdayColumn.Name = "BirthdayColumn";
-            // 
-            // AdresseColumn
-            // 
-            this.AdresseColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.AdresseColumn.DataPropertyName = "adresse";
-            this.AdresseColumn.HeaderText = "Adresse";
-            this.AdresseColumn.Name = "AdresseColumn";
-            // 
             // TrayIcon
             // 
             this.TrayIcon.ContextMenuStrip = this.TrayContextMenu;
@@ -945,6 +895,34 @@ namespace Timotheus.Forms
             this.TrayClose.Text = "Close";
             this.TrayClose.Click += new System.EventHandler(this.Exit);
             // 
+            // Members_SinceColumn
+            // 
+            this.Members_SinceColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_SinceColumn.DataPropertyName = "memberSince";
+            this.Members_SinceColumn.HeaderText = "Member since";
+            this.Members_SinceColumn.Name = "Members_SinceColumn";
+            // 
+            // Members_NameColumn
+            // 
+            this.Members_NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_NameColumn.DataPropertyName = "name";
+            this.Members_NameColumn.HeaderText = "Name";
+            this.Members_NameColumn.Name = "Members_NameColumn";
+            // 
+            // Members_BirthdayColumn
+            // 
+            this.Members_BirthdayColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_BirthdayColumn.DataPropertyName = "birthday";
+            this.Members_BirthdayColumn.HeaderText = "Birthday";
+            this.Members_BirthdayColumn.Name = "Members_BirthdayColumn";
+            // 
+            // Members_AddressColumn
+            // 
+            this.Members_AddressColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_AddressColumn.DataPropertyName = "address";
+            this.Members_AddressColumn.HeaderText = "Address";
+            this.Members_AddressColumn.Name = "Members_AddressColumn";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -963,6 +941,8 @@ namespace Timotheus.Forms
             this.SFTP_Page.ResumeLayout(false);
             this.SFTP_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).EndInit();
+            this.Members_Page.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Members_View)).EndInit();
             this.ConsentForms_Page.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).EndInit();
             this.Settings_Page.ResumeLayout(false);
@@ -972,9 +952,9 @@ namespace Timotheus.Forms
             this.Help_Page.ResumeLayout(false);
             this.Help_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Help_IconBox)).EndInit();
-            this.memberPage.ResumeLayout(false);
             this.TrayContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -1022,6 +1002,12 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridView SFTP_View;
         private System.Windows.Forms.DataGridViewTextBoxColumn SFTP_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn SFTP_SizeColumn;
+        private System.Windows.Forms.TabPage Members_Page;
+        private System.Windows.Forms.DataGridView Members_View;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Members_SinceColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Members_NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Members_BirthdayColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Members_AddressColumn;
         private System.Windows.Forms.TabPage ConsentForms_Page;
         private System.Windows.Forms.Button ConsentForms_AddButton;
         private System.Windows.Forms.Button ConsentForms_RemoveButton;
@@ -1049,13 +1035,5 @@ namespace Timotheus.Forms
         private System.Windows.Forms.Label Help_SourceLabel;
         private System.Windows.Forms.LinkLabel Help_SourceLink;
         private System.Windows.Forms.PictureBox Help_IconBox;
-        private System.Windows.Forms.TabPage memberPage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn memberFromColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MemberNameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BirthdayColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AdresseColumn;
-        private System.Windows.Forms.DataGridView MemberTableView;
-        private System.Windows.Forms.Button AddPersonButton;
-        private System.Windows.Forms.Button RemovePersonButton;
     }
 }
