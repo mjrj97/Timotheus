@@ -53,7 +53,7 @@ namespace Timotheus.Utility
         /// <summary>
         /// Initializes a new instance of the class PDFcreater and opens the specified XML document.
         /// </summary>
-        public PDFCreater(string filename, List<Event> Events, String associationName, string associationAddress, string logoPath)
+        public PDFCreater(string filename, List<Event> Events, String associationName, string associationAddress, string logoPath, string periodName)
         {
             _filename = filename;
             _Events = Events;
