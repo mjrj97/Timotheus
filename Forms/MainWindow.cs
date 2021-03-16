@@ -39,6 +39,10 @@ namespace Timotheus.Forms
         /// List of all persons.
         /// </summary>
         public SortableBindingList<Person> Persons = new SortableBindingList<Person>();
+        /// <summary>
+        /// List of all transactions.
+        /// </summary>
+        public SortableBindingList<Transaction> transactions = new SortableBindingList<Transaction>();
 
         /// <summary>
         /// Current calendar used by the program.
@@ -79,8 +83,6 @@ namespace Timotheus.Forms
             InitializeComponent();
             SetupUI();
             Calendar_PeriodBox.Text = a.Year.ToString();
-            
-            Persons.Add(new Person("Jesper Roager", "Odense", new DateTime(2003, 5, 8), new DateTime(2021, 1, 5)));
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -121,21 +123,24 @@ namespace Timotheus.Forms
             SFTP_View.AutoGenerateColumns = false;
             ConsentForms_View.AutoGenerateColumns = false;
             Members_View.AutoGenerateColumns = false;
+            Accounting_View.AutoGenerateColumns = false;
             Calendar_View.DataSource = new BindingSource(shownEvents, null);
             SFTP_View.DataSource = new BindingSource(shownFiles, null);
             ConsentForms_View.DataSource = new BindingSource(consentForms, null);
             Members_View.DataSource = new BindingSource(Persons, null);
+            Accounting_View.DataSource = new BindingSource(transactions, null);
+            Accounting_View.Columns[5].DefaultCellStyle.ForeColor = Color.Red;
             SFTP_PasswordBox.PasswordChar = '*';
 
             LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
 
             #region Calendar
+            Calendar_Page.Text = locale.GetLocalization(Calendar_Page);
             Calendar_StartColumn.HeaderText = locale.GetLocalization(Calendar_StartColumn);
             Calendar_EndColumn.HeaderText = locale.GetLocalization(Calendar_EndColumn);
             Calendar_NameColumn.HeaderText = locale.GetLocalization(Calendar_NameColumn);
             Calendar_DescriptionColumn.HeaderText = locale.GetLocalization(Calendar_DescriptionColumn);
             Calendar_LocationColumn.HeaderText = locale.GetLocalization(Calendar_LocationColumn);
-            Calendar_Page.Text = locale.GetLocalization(Calendar_Page);
             Calendar_MonthButton.Text = locale.GetLocalization(Calendar_MonthButton);
             Calendar_HalfYearButton.Text = locale.GetLocalization(Calendar_HalfYearButton);
             Calendar_YearButton.Text = locale.GetLocalization(Calendar_YearButton);
@@ -195,6 +200,17 @@ namespace Timotheus.Forms
             ConsentForms_DateColumn.HeaderText = locale.GetLocalization(ConsentForms_DateColumn);
             ConsentForms_VersionColumn.HeaderText = locale.GetLocalization(ConsentForms_VersionColumn);
             ConsentForms_CommentColumn.HeaderText = locale.GetLocalization(ConsentForms_CommentColumn);
+            #endregion
+
+            #region Accounting
+            Accounting_Page.Text = locale.GetLocalization(Accounting_Page);
+            Accounting_DateColumn.HeaderText = locale.GetLocalization(Accounting_DateColumn);
+            Accounting_AppendixColumn.HeaderText = locale.GetLocalization(Accounting_AppendixColumn);
+            Accounting_DescriptionColumn.HeaderText = locale.GetLocalization(Accounting_DescriptionColumn);
+            Accounting_AccountNumberColumn.HeaderText = locale.GetLocalization(Accounting_AccountNumberColumn);
+            Accounting_InColumn.HeaderText = locale.GetLocalization(Accounting_InColumn);
+            Accounting_OutColumn.HeaderText = locale.GetLocalization(Accounting_OutColumn);
+            Accounting_BalanceColumn.HeaderText = locale.GetLocalization(Accounting_BalanceColumn);
             #endregion
 
             #region Settings
@@ -576,6 +592,32 @@ namespace Timotheus.Forms
             {
                 ConsentForm form = consentForms[ConsentForms_View.CurrentCell.OwningRow.Index];
                 consentForms.Remove(form);
+            }
+        }
+        #endregion
+
+        #region Accounting
+        public void UpdateAccountingTable()
+        {
+            transactions.Clear();
+            for (int i = 0; i < Transaction.list.Count; i++)
+            {
+                transactions.Add(Transaction.list[i]);
+            }
+        }
+
+        private void AddTransaction(object sender, EventArgs e)
+        {
+            new Transaction(DateTime.Now.Date, 0, "Test transaction", 0, 100.0, 50.0);
+            UpdateAccountingTable();
+        }
+
+        private void RemoveTransaction(object sender, EventArgs e)
+        {
+            if (transactions.Count > 0)
+            {
+                Transaction transaction = transactions[Accounting_View.CurrentCell.OwningRow.Index];
+                transactions.Remove(transaction);
             }
         }
         #endregion

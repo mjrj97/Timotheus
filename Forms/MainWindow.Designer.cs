@@ -77,6 +77,17 @@ namespace Timotheus.Forms
             this.ConsentForms_DateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ConsentForms_VersionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ConsentForms_CommentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Accounting_Page = new System.Windows.Forms.TabPage();
+            this.Accounting_RemoveButton = new System.Windows.Forms.Button();
+            this.Accounting_AddButton = new System.Windows.Forms.Button();
+            this.Accounting_View = new System.Windows.Forms.DataGridView();
+            this.Accounting_DateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Accounting_AppendixColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Accounting_DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Accounting_AccountNumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Accounting_InColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Accounting_OutColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Accounting_BalanceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Settings_Page = new System.Windows.Forms.TabPage();
             this.Settings_InfoBox = new System.Windows.Forms.GroupBox();
             this.Settings_LogoBox = new System.Windows.Forms.TextBox();
@@ -109,6 +120,8 @@ namespace Timotheus.Forms
             ((System.ComponentModel.ISupportInitialize)(this.Members_View)).BeginInit();
             this.ConsentForms_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).BeginInit();
+            this.Accounting_Page.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Accounting_View)).BeginInit();
             this.Settings_Page.SuspendLayout();
             this.Settings_InfoBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Settings_PictureBox)).BeginInit();
@@ -199,6 +212,7 @@ namespace Timotheus.Forms
             this.tabControl.Controls.Add(this.SFTP_Page);
             this.tabControl.Controls.Add(this.Members_Page);
             this.tabControl.Controls.Add(this.ConsentForms_Page);
+            this.tabControl.Controls.Add(this.Accounting_Page);
             this.tabControl.Controls.Add(this.Settings_Page);
             this.tabControl.Controls.Add(this.Help_Page);
             this.tabControl.Location = new System.Drawing.Point(2, 3);
@@ -701,6 +715,107 @@ namespace Timotheus.Forms
             this.ConsentForms_CommentColumn.MinimumWidth = 6;
             this.ConsentForms_CommentColumn.Name = "ConsentForms_CommentColumn";
             // 
+            // Accounting_Page
+            // 
+            this.Accounting_Page.Controls.Add(this.Accounting_RemoveButton);
+            this.Accounting_Page.Controls.Add(this.Accounting_AddButton);
+            this.Accounting_Page.Controls.Add(this.Accounting_View);
+            this.Accounting_Page.Location = new System.Drawing.Point(4, 24);
+            this.Accounting_Page.Name = "Accounting_Page";
+            this.Accounting_Page.Padding = new System.Windows.Forms.Padding(3);
+            this.Accounting_Page.Size = new System.Drawing.Size(794, 409);
+            this.Accounting_Page.TabIndex = 5;
+            this.Accounting_Page.Text = "Accounting";
+            this.Accounting_Page.UseVisualStyleBackColor = true;
+            // 
+            // Accounting_RemoveButton
+            // 
+            this.Accounting_RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Accounting_RemoveButton.Location = new System.Drawing.Point(91, 379);
+            this.Accounting_RemoveButton.Name = "Accounting_RemoveButton";
+            this.Accounting_RemoveButton.Size = new System.Drawing.Size(75, 23);
+            this.Accounting_RemoveButton.TabIndex = 2;
+            this.Accounting_RemoveButton.Text = "Remove";
+            this.Accounting_RemoveButton.UseVisualStyleBackColor = true;
+            this.Accounting_RemoveButton.Click += new System.EventHandler(this.RemoveTransaction);
+            // 
+            // Accounting_AddButton
+            // 
+            this.Accounting_AddButton.Location = new System.Drawing.Point(10, 379);
+            this.Accounting_AddButton.Name = "Accounting_AddButton";
+            this.Accounting_AddButton.Size = new System.Drawing.Size(75, 23);
+            this.Accounting_AddButton.TabIndex = 1;
+            this.Accounting_AddButton.Text = "Add";
+            this.Accounting_AddButton.UseVisualStyleBackColor = true;
+            this.Accounting_AddButton.Click += new System.EventHandler(this.AddTransaction);
+            // 
+            // Accounting_View
+            // 
+            this.Accounting_View.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Accounting_View.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Accounting_View.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Accounting_DateColumn,
+            this.Accounting_AppendixColumn,
+            this.Accounting_DescriptionColumn,
+            this.Accounting_AccountNumberColumn,
+            this.Accounting_InColumn,
+            this.Accounting_OutColumn,
+            this.Accounting_BalanceColumn});
+            this.Accounting_View.Location = new System.Drawing.Point(10, 10);
+            this.Accounting_View.Name = "Accounting_View";
+            this.Accounting_View.RowHeadersVisible = false;
+            this.Accounting_View.RowTemplate.Height = 25;
+            this.Accounting_View.Size = new System.Drawing.Size(776, 363);
+            this.Accounting_View.TabIndex = 0;
+            // 
+            // Accounting_DateColumn
+            // 
+            this.Accounting_DateColumn.DataPropertyName = "Date";
+            this.Accounting_DateColumn.HeaderText = "Date";
+            this.Accounting_DateColumn.Name = "Accounting_DateColumn";
+            this.Accounting_DateColumn.Width = 90;
+            // 
+            // Accounting_AppendixColumn
+            // 
+            this.Accounting_AppendixColumn.DataPropertyName = "Appendix";
+            this.Accounting_AppendixColumn.HeaderText = "Appendix";
+            this.Accounting_AppendixColumn.Name = "Accounting_AppendixColumn";
+            this.Accounting_AppendixColumn.Width = 70;
+            // 
+            // Accounting_DescriptionColumn
+            // 
+            this.Accounting_DescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Accounting_DescriptionColumn.DataPropertyName = "Description";
+            this.Accounting_DescriptionColumn.HeaderText = "Description";
+            this.Accounting_DescriptionColumn.Name = "Accounting_DescriptionColumn";
+            // 
+            // Accounting_AccountNumberColumn
+            // 
+            this.Accounting_AccountNumberColumn.DataPropertyName = "AccountNumber";
+            this.Accounting_AccountNumberColumn.HeaderText = "Account number";
+            this.Accounting_AccountNumberColumn.Name = "Accounting_AccountNumberColumn";
+            this.Accounting_AccountNumberColumn.Width = 75;
+            // 
+            // Accounting_InColumn
+            // 
+            this.Accounting_InColumn.DataPropertyName = "InValue";
+            this.Accounting_InColumn.HeaderText = "In";
+            this.Accounting_InColumn.Name = "Accounting_InColumn";
+            this.Accounting_InColumn.Width = 75;
+            // 
+            // Accounting_OutColumn
+            // 
+            this.Accounting_OutColumn.DataPropertyName = "OutValue";
+            this.Accounting_OutColumn.HeaderText = "Out";
+            this.Accounting_OutColumn.Name = "Accounting_OutColumn";
+            this.Accounting_OutColumn.Width = 75;
+            // 
+            // Accounting_BalanceColumn
+            // 
+            this.Accounting_BalanceColumn.DataPropertyName = "Balance";
+            this.Accounting_BalanceColumn.HeaderText = "Balance";
+            this.Accounting_BalanceColumn.Name = "Accounting_BalanceColumn";
+            // 
             // Settings_Page
             // 
             this.Settings_Page.Controls.Add(this.Settings_InfoBox);
@@ -945,6 +1060,8 @@ namespace Timotheus.Forms
             ((System.ComponentModel.ISupportInitialize)(this.Members_View)).EndInit();
             this.ConsentForms_Page.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).EndInit();
+            this.Accounting_Page.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Accounting_View)).EndInit();
             this.Settings_Page.ResumeLayout(false);
             this.Settings_InfoBox.ResumeLayout(false);
             this.Settings_InfoBox.PerformLayout();
@@ -1035,5 +1152,16 @@ namespace Timotheus.Forms
         private System.Windows.Forms.Label Help_SourceLabel;
         private System.Windows.Forms.LinkLabel Help_SourceLink;
         private System.Windows.Forms.PictureBox Help_IconBox;
+        private System.Windows.Forms.TabPage Accounting_Page;
+        private System.Windows.Forms.DataGridView Accounting_View;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_DateColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_AppendixColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_DescriptionColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_AccountNumberColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_InColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_OutColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_BalanceColumn;
+        private System.Windows.Forms.Button Accounting_RemoveButton;
+        private System.Windows.Forms.Button Accounting_AddButton;
     }
 }
