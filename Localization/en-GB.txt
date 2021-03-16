@@ -52,6 +52,14 @@ ConsentForms_NameColumn,Name
 ConsentForms_DateColumn,Signed
 ConsentForms_VersionColumn,Version
 ConsentForms_CommentColumn,Comment
+Accounting_Page,Accounting
+Accounting_DateColumn,Date
+Accounting_AppendixColumn,Appendix
+Accounting_DescriptionColumn,Description
+Accounting_AccountNumberColumn,Account number
+Accounting_InColumn,In
+Accounting_OutColumn,Out
+Accounting_BalanceColumn,Balance
 Settings_Page,Settings
 Settings_NameLabel,Name
 Settings_AddressLabel,Address
