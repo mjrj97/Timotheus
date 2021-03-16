@@ -48,7 +48,20 @@ namespace Timotheus.Utility
         /// </summary>
         private readonly string _logoPath;
 
+        /// <summary>
+        /// periodName
+        /// </summary>
+        private readonly string _periodName;
+
+        /// <summary>
+        /// White 
+        /// </summary>
         readonly static Color White = new Color(255, 255, 255);
+
+        /// <summary>
+        ///  Title Color
+        /// </summary>
+        readonly static Color tiltleColor = new Color(5, 105, 115);
 
         /// <summary>
         /// Initializes a new instance of the class PDFcreater and opens the specified XML document.
@@ -60,6 +73,7 @@ namespace Timotheus.Utility
             _associationAddress = associationAddress;
             _associationName = associationName;
             _logoPath = logoPath;
+            _periodName = periodName;
         }
 
         /// <summary>
@@ -137,13 +151,15 @@ namespace Timotheus.Utility
                 image.Height = "3cm";
                 image.LockAspectRatio = true;
             }
-           
-            // add title
-            var paragraph = section.AddParagraph("Program");
-            paragraph.Format.Font.Size = 40;
 
-            paragraph = section.AddParagraph($"Velkomemen i {_associationName}");
+            // add title
+            Paragraph paragraph = section.AddParagraph($"Velkomemen i {_associationName}");
             paragraph.Format.Font.Size = 20;
+            paragraph.Format.Font.Color = tiltleColor;
+
+            paragraph = section.AddParagraph($"    -    Program for {_periodName}");
+            paragraph.Format.Font.Size = 15;
+            paragraph.Format.Font.Color = tiltleColor;
 
             // extra Paragraph to add space
             section.AddParagraph();
@@ -161,10 +177,10 @@ namespace Timotheus.Utility
             var column = _table.AddColumn("3.5cm");
             column.Format.Alignment = ParagraphAlignment.Left;
 
-            column = _table.AddColumn("3.5cm");
+            column = _table.AddColumn("1.5cm");
             column.Format.Alignment = ParagraphAlignment.Left;
 
-            column = _table.AddColumn("11cm");
+            column = _table.AddColumn("13cm");
             column.Format.Alignment = ParagraphAlignment.Left;
 
             column = _table.AddColumn("3cm");
@@ -182,7 +198,7 @@ namespace Timotheus.Utility
             row.Format.Font.Bold = true;
             row.Shading.Color = White;
             row.Cells[0].AddParagraph("Dato");
-            row.Cells[1].AddParagraph("Tidspunkt");  
+            row.Cells[1].AddParagraph("Start");  
             row.Cells[2].AddParagraph("Handling");
             row.Cells[3].AddParagraph("Mødeleder ");
             row.Cells[4].AddParagraph("Musiker");
@@ -193,6 +209,17 @@ namespace Timotheus.Utility
             paragraph.AddText(_associationAddress);
             paragraph.Format.Font.Size = 9;
             paragraph.Format.Alignment = ParagraphAlignment.Center;
+
+            // Create a paragraph with centered page number. See definition of style "Footer".
+            paragraph = new Paragraph();
+            paragraph.AddTab();
+            paragraph.AddPageField();
+
+            // Add paragraph to footer for odd pages.
+            section.Footers.Primary.Add(paragraph);
+            // Add clone of paragraph to footer for odd pages. Cloning is necessary because an object must
+            // not belong to more than one other object. If you forget cloning an exception is thrown.
+            section.Footers.EvenPage.Add(paragraph.Clone());
         }
 
         /// <summary>
@@ -221,11 +248,11 @@ namespace Timotheus.Utility
 
                 Row row = _table.AddRow();
 
-                row.Cells[0].AddParagraph(time.ToString("ddd, MMM d", CultureInfo.CreateSpecificCulture(Program.culture)));
+                row.Cells[0].AddParagraph(time.ToString("ddd. MMM. d.", CultureInfo.CreateSpecificCulture(Program.culture)));
                 
                 if (time.Minute == 0 && time.Hour == 0)
                 {
-                    row.Cells[1].AddParagraph("Hele dagen");
+                    row.Cells[1].AddParagraph("");
                 }
                 else
                 {
