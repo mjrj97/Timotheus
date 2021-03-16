@@ -7,7 +7,7 @@ namespace Timotheus.Persons
     public class Person
     {
         public string name { get; set; }
-        public string adresse { get; set; }
+        public string address { get; set; }
         public DateTime birthday { get; set; }
         public DateTime memberSince { get; set; }
 
@@ -15,7 +15,7 @@ namespace Timotheus.Persons
         public Person(string Name, string Address, DateTime Birthday, DateTime MemberSince)
         {
             name = Name;
-            adresse = Address;
+            address = Address;
             birthday = Birthday;
             memberSince = MemberSince;
             

@@ -190,6 +190,8 @@ namespace Timotheus.Forms
             Members_AddressColumn.HeaderText = locale.GetLocalization(Members_AddressColumn);
             Members_BirthdayColumn.HeaderText = locale.GetLocalization(Members_BirthdayColumn);
             Members_SinceColumn.HeaderText = locale.GetLocalization(Members_SinceColumn);
+            Members_AddButton.Text = locale.GetLocalization(Members_AddButton);
+            Members_RemoveButton.Text = locale.GetLocalization(Members_RemoveButton);
             #endregion
 
             #region Consent Forms
@@ -622,6 +624,32 @@ namespace Timotheus.Forms
         }
         #endregion
 
+        #region Members
+
+        /// <summary>
+        /// Opens dialog where the user can add a new member
+        /// </summary>
+        private void Members_AddButton_Click(object sender, EventArgs e)
+        {
+            
+            AddMember addMember = new AddMember
+            {
+                Owner = this
+            };
+
+            addMember.ShowDialog();
+           
+        }
+
+        /// <summary>
+        /// Opens dialog where the user can remove a member
+        /// </summary>
+        private void Members_RemoveButton_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
         #region Settings
         /// <summary>
         /// Opens a dialog where the user can find the logo file.
@@ -730,6 +758,7 @@ namespace Timotheus.Forms
             }
             return base.ProcessDialogKey(keyData);
         }
+
     }
 
     /// <summary>

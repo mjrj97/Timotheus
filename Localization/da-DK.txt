@@ -45,6 +45,8 @@ Members_NameColumn,Navn
 Members_AddressColumn,Adresse
 Members_BirthdayColumn,Fødselsdag
 Members_SinceColumn,Medlem siden
+Members_RemoveButton,Fjern
+Members_AddButton,Tilføj
 ConsentForms_Page,Samtykkeerklæringer
 ConsentForms_AddButton,Tilføj
 ConsentForms_RemoveButton,Slet
@@ -81,6 +83,12 @@ AddEvent_DescriptionLabel,Beskriv.
 AddEvent_AllDayBox,Heldagsbegivenhed
 AddEvent_AddButton,Tilføj
 AddEvent_CancelButton,Annullér
+AddMember_NameLabel,Navn
+AddMember_AddressLabel,Adresse
+AddMember_BirthdayLabel,Fødselsdag
+AddMember_MemberSince,Medlem siden
+AddMember_AddButton,Tilføj
+AddMember_CancelButton,Annullér
 OpenCalendar,Åben
 OpenCalendar_OpenButton,Åben
 OpenCalendar_CancelButton,Annullér

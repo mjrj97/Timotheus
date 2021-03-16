@@ -64,6 +64,8 @@ namespace Timotheus.Forms
             this.SFTP_HostLabel = new System.Windows.Forms.Label();
             this.SFTP_HostBox = new System.Windows.Forms.TextBox();
             this.Members_Page = new System.Windows.Forms.TabPage();
+            this.Members_AddButton = new System.Windows.Forms.Button();
+            this.Members_RemoveButton = new System.Windows.Forms.Button();
             this.Members_View = new System.Windows.Forms.DataGridView();
             this.Members_SinceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Members_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -578,6 +580,8 @@ namespace Timotheus.Forms
             // 
             // Members_Page
             // 
+            this.Members_Page.Controls.Add(this.Members_AddButton);
+            this.Members_Page.Controls.Add(this.Members_RemoveButton);
             this.Members_Page.Controls.Add(this.Members_View);
             this.Members_Page.Location = new System.Drawing.Point(4, 24);
             this.Members_Page.Name = "Members_Page";
@@ -585,6 +589,26 @@ namespace Timotheus.Forms
             this.Members_Page.TabIndex = 2;
             this.Members_Page.Text = "Members";
             this.Members_Page.UseVisualStyleBackColor = true;
+            // 
+            // Members_AddButton
+            // 
+            this.Members_AddButton.Location = new System.Drawing.Point(10, 379);
+            this.Members_AddButton.Name = "Members_AddButton";
+            this.Members_AddButton.Size = new System.Drawing.Size(75, 23);
+            this.Members_AddButton.TabIndex = 2;
+            this.Members_AddButton.Text = "Add";
+            this.Members_AddButton.UseVisualStyleBackColor = true;
+            this.Members_AddButton.Click += new System.EventHandler(this.Members_AddButton_Click);
+            // 
+            // Members_RemoveButton
+            // 
+            this.Members_RemoveButton.Location = new System.Drawing.Point(91, 379);
+            this.Members_RemoveButton.Name = "Members_RemoveButton";
+            this.Members_RemoveButton.Size = new System.Drawing.Size(75, 23);
+            this.Members_RemoveButton.TabIndex = 1;
+            this.Members_RemoveButton.Text = "Remove";
+            this.Members_RemoveButton.UseVisualStyleBackColor = true;
+            this.Members_RemoveButton.Click += new System.EventHandler(this.Members_RemoveButton_Click);
             // 
             // Members_View
             // 
@@ -598,7 +622,7 @@ namespace Timotheus.Forms
             this.Members_View.Name = "Members_View";
             this.Members_View.RowHeadersVisible = false;
             this.Members_View.RowTemplate.Height = 25;
-            this.Members_View.Size = new System.Drawing.Size(776, 346);
+            this.Members_View.Size = new System.Drawing.Size(776, 363);
             this.Members_View.TabIndex = 0;
             // 
             // Members_SinceColumn
@@ -1163,5 +1187,7 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_BalanceColumn;
         private System.Windows.Forms.Button Accounting_RemoveButton;
         private System.Windows.Forms.Button Accounting_AddButton;
+        private System.Windows.Forms.Button Members_AddButton;
+        private System.Windows.Forms.Button Members_RemoveButton;
     }
 }
