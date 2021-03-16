@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Collections.Generic;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
+using MigraDoc.DocumentObjectModel.Shapes;
 using Timotheus.Schedule;
 
 namespace Timotheus.Utility
@@ -32,15 +33,47 @@ namespace Timotheus.Utility
         /// </summary>
         private readonly List<Event> _Events;
 
+        /// <summary>
+        /// associationAddress
+        /// </summary>
+        private readonly string _associationAddress;
+
+        /// <summary>
+        /// associationName
+        /// </summary>
+        private readonly string _associationName;
+
+        /// <summary>
+        /// logoPath
+        /// </summary>
+        private readonly string _logoPath;
+
+        /// <summary>
+        /// periodName
+        /// </summary>
+        private readonly string _periodName;
+
+        /// <summary>
+        /// White 
+        /// </summary>
         readonly static Color White = new Color(255, 255, 255);
+
+        /// <summary>
+        ///  Title Color
+        /// </summary>
+        readonly static Color tiltleColor = new Color(5, 105, 115);
 
         /// <summary>
         /// Initializes a new instance of the class PDFcreater and opens the specified XML document.
         /// </summary>
-        public PDFCreater(string filename, List<Event> Events)
+        public PDFCreater(string filename, List<Event> Events, String associationName, string associationAddress, string logoPath, string periodName)
         {
             _filename = filename;
             _Events = Events;
+            _associationAddress = associationAddress;
+            _associationName = associationName;
+            _logoPath = logoPath;
+            _periodName = periodName;
         }
 
         /// <summary>
@@ -51,7 +84,8 @@ namespace Timotheus.Utility
             // Create a new MigraDoc document.
             _document = new Document();
             _document.Info.Title = _filename;
-   
+            _document.Info.Author = _associationName;
+
             DefineStyles();
 
             CreatePage();
@@ -72,7 +106,6 @@ namespace Timotheus.Utility
             // font of the whole document. Or, more exactly, it changes the font of
             // all styles and paragraphs that do not redefine the font.
             style.Font.Name = "Arvo";
-
 
             // Create a new style called Table based on style Normal.
             style = _document.Styles.AddStyle("Table", "Normal");
@@ -108,11 +141,25 @@ namespace Timotheus.Utility
             // The default position for the header is 1.25 cm.
             // We add 0.5 cm spacing between header image and body and get 5.25 cm.
             // Default value is 2.5 cm.
-            section.PageSetup.TopMargin = "2.25cm";
+            section.PageSetup.TopMargin = "1cm";
+            section.PageSetup.LeftMargin = "1cm";
+            section.PageSetup.RightMargin = "1cm";
+
+            if (_logoPath != "")
+            {
+                Image image = section.AddImage(_logoPath);
+                image.Height = "3cm";
+                image.LockAspectRatio = true;
+            }
 
             // add title
-            var paragraph = section.AddParagraph("Program");
-            paragraph.Format.Font.Size = 40;
+            Paragraph paragraph = section.AddParagraph($"Velkomemen i {_associationName}");
+            paragraph.Format.Font.Size = 20;
+            paragraph.Format.Font.Color = tiltleColor;
+
+            paragraph = section.AddParagraph($"    -    Program for {_periodName}");
+            paragraph.Format.Font.Size = 15;
+            paragraph.Format.Font.Color = tiltleColor;
 
             // extra Paragraph to add space
             section.AddParagraph();
@@ -127,22 +174,22 @@ namespace Timotheus.Utility
             _table.Rows.LeftIndent = 0;
 
             // Before you can add a row, you must define the columns.
-            var column = _table.AddColumn("2.5cm");
+            var column = _table.AddColumn("3.5cm");
             column.Format.Alignment = ParagraphAlignment.Left;
 
-            column = _table.AddColumn("2.5cm");
+            column = _table.AddColumn("1.5cm");
+            column.Format.Alignment = ParagraphAlignment.Left;
+
+            column = _table.AddColumn("13cm");
+            column.Format.Alignment = ParagraphAlignment.Left;
+
+            column = _table.AddColumn("3cm");
+            column.Format.Alignment = ParagraphAlignment.Left;
+
+            column = _table.AddColumn("3cm");
             column.Format.Alignment = ParagraphAlignment.Left;
 
             column = _table.AddColumn("7cm");
-            column.Format.Alignment = ParagraphAlignment.Left;
-
-            column = _table.AddColumn("3cm");
-            column.Format.Alignment = ParagraphAlignment.Left;
-
-            column = _table.AddColumn("3cm");
-            column.Format.Alignment = ParagraphAlignment.Left;
-
-            column = _table.AddColumn("5cm");
             column.Format.Alignment = ParagraphAlignment.Left;
 
             // Create the header of the table.
@@ -151,13 +198,28 @@ namespace Timotheus.Utility
             row.Format.Font.Bold = true;
             row.Shading.Color = White;
             row.Cells[0].AddParagraph("Dato");
-            row.Cells[1].AddParagraph("Tidspunkt");  
+            row.Cells[1].AddParagraph("Start");  
             row.Cells[2].AddParagraph("Handling");
             row.Cells[3].AddParagraph("Mødeleder ");
             row.Cells[4].AddParagraph("Musiker");
             row.Cells[5].AddParagraph("Kaffehold ");
 
-            //  _table.SetEdge(0, 0, 6, 2, Edge.Box, BorderStyle.Single, 0.75, Color.Empty);
+            // Creater footer
+            paragraph = section.Footers.Primary.AddParagraph();
+            paragraph.AddText(_associationAddress);
+            paragraph.Format.Font.Size = 9;
+            paragraph.Format.Alignment = ParagraphAlignment.Center;
+
+            // Create a paragraph with centered page number. See definition of style "Footer".
+            paragraph = new Paragraph();
+            paragraph.AddTab();
+            paragraph.AddPageField();
+
+            // Add paragraph to footer for odd pages.
+            section.Footers.Primary.Add(paragraph);
+            // Add clone of paragraph to footer for odd pages. Cloning is necessary because an object must
+            // not belong to more than one other object. If you forget cloning an exception is thrown.
+            section.Footers.EvenPage.Add(paragraph.Clone());
         }
 
         /// <summary>
@@ -184,17 +246,17 @@ namespace Timotheus.Utility
                 string musician = "";
                 string coffeeTeam = "";
 
-                var row = this._table.AddRow();
+                Row row = _table.AddRow();
 
-                row.Cells[0].AddParagraph(time.ToString("ddd, MMM d", CultureInfo.CreateSpecificCulture("da-DK")));
+                row.Cells[0].AddParagraph(time.ToString("ddd. MMM. d.", CultureInfo.CreateSpecificCulture(Program.culture)));
                 
                 if (time.Minute == 0 && time.Hour == 0)
                 {
-                    row.Cells[1].AddParagraph("Hele dagen");
+                    row.Cells[1].AddParagraph("");
                 }
                 else
                 {
-                    row.Cells[1].AddParagraph(time.ToString("t", CultureInfo.CreateSpecificCulture("da-DK")));
+                    row.Cells[1].AddParagraph(time.ToString("t", CultureInfo.CreateSpecificCulture(Program.culture)));
                 }
 
                 row.Cells[2].AddParagraph(name);

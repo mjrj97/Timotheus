@@ -478,7 +478,7 @@ namespace Timotheus.Forms
             {
                 FileInfo file = new FileInfo(saveFileDialog.FileName);
 
-                calendar.ExportPDF(file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_PictureBox.Image);
+                calendar.ExportPDF(file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text, Calendar_PeriodBox.Text, a, b);
             }
         }
 
