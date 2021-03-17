@@ -2,7 +2,6 @@ using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.Persons;
 using System;
-using System.Text;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -49,10 +48,6 @@ namespace Timotheus.Forms
         /// </summary>
         public Calendar calendar = new Calendar();
         /// <summary>
-        /// List of the names of each month.
-        /// </summary>
-        private readonly string[] month = new string[12];
-        /// <summary>
         /// Name of the spring period.
         /// </summary>
         private string spring = "Spring";
@@ -82,7 +77,6 @@ namespace Timotheus.Forms
             window = this;
             InitializeComponent();
             SetupUI();
-            Calendar_PeriodBox.Text = a.Year.ToString();
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -119,22 +113,13 @@ namespace Timotheus.Forms
         /// </summary>
         private void SetupUI()
         {
-            Calendar_View.AutoGenerateColumns = false;
-            SFTP_View.AutoGenerateColumns = false;
-            ConsentForms_View.AutoGenerateColumns = false;
-            Members_View.AutoGenerateColumns = false;
-            Accounting_View.AutoGenerateColumns = false;
-            Calendar_View.DataSource = new BindingSource(shownEvents, null);
-            SFTP_View.DataSource = new BindingSource(shownFiles, null);
-            ConsentForms_View.DataSource = new BindingSource(consentForms, null);
-            Members_View.DataSource = new BindingSource(Persons, null);
-            Accounting_View.DataSource = new BindingSource(transactions, null);
-            Accounting_View.Columns[5].DefaultCellStyle.ForeColor = Color.Red;
-            SFTP_PasswordBox.PasswordChar = '*';
-
             LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
 
             #region Calendar
+            Calendar_View.AutoGenerateColumns = false;
+            Calendar_View.DataSource = new BindingSource(shownEvents, null);
+            Calendar_PeriodBox.Text = a.Year.ToString();
+
             Calendar_Page.Text = locale.GetLocalization(Calendar_Page);
             Calendar_StartColumn.HeaderText = locale.GetLocalization(Calendar_StartColumn);
             Calendar_EndColumn.HeaderText = locale.GetLocalization(Calendar_EndColumn);
@@ -152,24 +137,15 @@ namespace Timotheus.Forms
             Calendar_RemoveButton.Text = locale.GetLocalization(Calendar_RemoveButton);
             Calendar_AddButton.Text = locale.GetLocalization(Calendar_AddButton);
 
-            month[0] = locale.GetLocalization("Calendar_January", "January");
-            month[1] = locale.GetLocalization("Calendar_February", "February");
-            month[2] = locale.GetLocalization("Calendar_March", "March");
-            month[3] = locale.GetLocalization("Calendar_April", "April");
-            month[4] = locale.GetLocalization("Calendar_May", "May");
-            month[5] = locale.GetLocalization("Calendar_June", "June");
-            month[6] = locale.GetLocalization("Calendar_July", "July");
-            month[7] = locale.GetLocalization("Calendar_August", "August");
-            month[8] = locale.GetLocalization("Calendar_September", "September");
-            month[9] = locale.GetLocalization("Calendar_October", "October");
-            month[10] = locale.GetLocalization("Calendar_November", "November");
-            month[11] = locale.GetLocalization("Calendar_December", "December");
-
             spring = locale.GetLocalization("Calendar_Spring", spring);
             fall = locale.GetLocalization("Calendar_Fall", fall);
             #endregion
 
             #region SFTP
+            SFTP_View.AutoGenerateColumns = false;
+            SFTP_View.DataSource = new BindingSource(shownFiles, null);
+            SFTP_PasswordBox.PasswordChar = '*';
+            
             SFTP_Page.Text = locale.GetLocalization(SFTP_Page);
             SFTP_HostLabel.Text = locale.GetLocalization(SFTP_HostLabel);
             SFTP_UsernameLabel.Text = locale.GetLocalization(SFTP_UsernameLabel);
@@ -185,6 +161,9 @@ namespace Timotheus.Forms
             #endregion
 
             #region Members
+            Members_View.AutoGenerateColumns = false;
+            Members_View.DataSource = new BindingSource(Persons, null);
+            
             Members_Page.Text = locale.GetLocalization(Members_Page);
             Members_NameColumn.HeaderText = locale.GetLocalization(Members_NameColumn);
             Members_AddressColumn.HeaderText = locale.GetLocalization(Members_AddressColumn);
@@ -193,6 +172,9 @@ namespace Timotheus.Forms
             #endregion
 
             #region Consent Forms
+            ConsentForms_View.AutoGenerateColumns = false;
+            ConsentForms_View.DataSource = new BindingSource(consentForms, null);
+            
             ConsentForms_Page.Text = locale.GetLocalization(ConsentForms_Page);
             ConsentForms_AddButton.Text = locale.GetLocalization(ConsentForms_AddButton);
             ConsentForms_RemoveButton.Text = locale.GetLocalization(ConsentForms_RemoveButton);
@@ -203,6 +185,10 @@ namespace Timotheus.Forms
             #endregion
 
             #region Accounting
+            Accounting_View.AutoGenerateColumns = false;
+            Accounting_View.DataSource = new BindingSource(transactions, null);
+            Accounting_View.Columns[5].DefaultCellStyle.ForeColor = Color.Red;
+            
             Accounting_Page.Text = locale.GetLocalization(Accounting_Page);
             Accounting_DateColumn.HeaderText = locale.GetLocalization(Accounting_DateColumn);
             Accounting_AppendixColumn.HeaderText = locale.GetLocalization(Accounting_AppendixColumn);
@@ -269,15 +255,15 @@ namespace Timotheus.Forms
                         b = b.AddMonths(6);
 
                         if (a.Month > 6)
-                            Calendar_PeriodBox.Text = a.Year + " " + fall;
+                            Calendar_PeriodBox.Text = fall + " " + a.Year;
                         else
-                            Calendar_PeriodBox.Text = a.Year + " " + spring;
+                            Calendar_PeriodBox.Text = spring + " " + a.Year;
                     }
                     else if (period == Period.Month)
                     {
                         a = a.AddMonths(1);
                         b = b.AddMonths(1);
-                        Calendar_PeriodBox.Text = a.Year + " " + month[a.Month-1];
+                        Calendar_PeriodBox.Text = a.ToString("MMMM") + " " + a.Year;
                     }
                 }
                 else if (button.Text == "-")
@@ -294,15 +280,15 @@ namespace Timotheus.Forms
                         b = b.AddMonths(-6);
 
                         if (a.Month > 6)
-                            Calendar_PeriodBox.Text = a.Year + " " + fall;
+                            Calendar_PeriodBox.Text = fall + " " + a.Year;
                         else
-                            Calendar_PeriodBox.Text = a.Year + " " + spring;
+                            Calendar_PeriodBox.Text = spring + " " + a.Year;
                     }
                     else if (period == Period.Month)
                     {
                         a = a.AddMonths(-1);
                         b = b.AddMonths(-1);
-                        Calendar_PeriodBox.Text = a.Year + " " + month[a.Month - 1];
+                        Calendar_PeriodBox.Text = a.ToString("MMMM") + " " + a.Year + " ";
                     }
                 }
             }
@@ -376,9 +362,9 @@ namespace Timotheus.Forms
                         }
 
                         if (a.Month > 6)
-                            Calendar_PeriodBox.Text = a.Year + " " + fall;
+                            Calendar_PeriodBox.Text = fall + " " + a.Year;
                         else
-                            Calendar_PeriodBox.Text = a.Year + " " + spring;
+                            Calendar_PeriodBox.Text = spring + " " + a.Year;
                         period = Period.Halfyear;
                     }
                     else if (Calendar_MonthButton.Checked)
@@ -386,7 +372,7 @@ namespace Timotheus.Forms
                         a = new DateTime(a.Year, a.Month, 1);
                         b = a.AddMonths(1);
 
-                        Calendar_PeriodBox.Text = a.Year + " " + month[a.Month - 1];
+                        Calendar_PeriodBox.Text = a.ToString("MMMM") + " " + a.Year;
                         period = Period.Month;
                     }
 
@@ -446,7 +432,7 @@ namespace Timotheus.Forms
             {
                 if ((stream = saveFileDialog.OpenFile()) != null)
                 {
-                    byte[] data = Encoding.UTF8.GetBytes(calendar.GetCalendarICS(Path.GetFileNameWithoutExtension(saveFileDialog.FileName)));
+                    byte[] data = System.Text.Encoding.UTF8.GetBytes(calendar.GetCalendarICS(Path.GetFileNameWithoutExtension(saveFileDialog.FileName)));
                     stream.Write(data);
                     stream.Close();
                 }

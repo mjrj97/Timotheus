@@ -14,20 +14,8 @@ Calendar_SyncButton,Synkronisér
 Calendar_ExportButton,Eksport PDF
 Calendar_RemoveButton,Slet
 Calendar_AddButton,Tilføj
-Calendar_Spring,Forår
-Calendar_Fall,Efterår
-Calendar_January,Januar
-Calendar_February,Februar
-Calendar_March,Marts
-Calendar_April,April
-Calendar_May,Maj
-Calendar_June,Juni
-Calendar_July,Juli
-Calendar_August,August
-Calendar_September,September
-Calendar_October,Oktober
-Calendar_November,November
-Calendar_December,December
+Calendar_Spring,Foråret
+Calendar_Fall,Efteråret
 SFTP_Page,SFTP
 SFTP_HostLabel,Host
 SFTP_UsernameLabel,Brugernavn
@@ -107,3 +95,11 @@ AddConsentForm_NameLabel,Navn
 AddConsentForm_SignedLabel,Underskrevet
 AddConsentForm_VersionLabel,Version
 AddConsentForm_CommentLabel,Kommentar
+PDF_Welcome,Velkommen i
+PDF_Schedule,Program for
+PDF_Date,Dato
+PDF_Start,Start
+PDF_Activity,Aktivitet
+PDF_Leader,Mødeleder
+PDF_Musician,Musiker
+PDF_Coffee,Kaffehold

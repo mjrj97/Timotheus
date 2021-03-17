@@ -16,18 +16,6 @@ Calendar_RemoveButton,Remove
 Calendar_AddButton,Add
 Calendar_Spring,Spring
 Calendar_Fall,Fall
-Calendar_January,January
-Calendar_February,February
-Calendar_March,March
-Calendar_April,April
-Calendar_May,May
-Calendar_June,June
-Calendar_July,July
-Calendar_August,August
-Calendar_September,September
-Calendar_October,October
-Calendar_November,November
-Calendar_December,December
 SFTP_Page,SFTP
 SFTP_HostLabel,Host
 SFTP_UsernameLabel,Username
@@ -107,3 +95,11 @@ AddConsentForm_NameLabel,Name
 AddConsentForm_SignedLabel,Signed
 AddConsentForm_VersionLabel,Version
 AddConsentForm_CommentLabel,Comment
+PDF_Welcome,Welcome to
+PDF_Schedule,Schedule for
+PDF_Date,Date
+PDF_Start,Start
+PDF_Activity,Activity
+PDF_Leader,Leader
+PDF_Musician,Musician
+PDF_Coffee,Coffee
