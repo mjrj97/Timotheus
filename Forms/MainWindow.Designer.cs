@@ -831,9 +831,9 @@ namespace Timotheus.Forms
             // Accounting_AccountNumberColumn
             // 
             this.Accounting_AccountNumberColumn.DataPropertyName = "AccountNumber";
-            this.Accounting_AccountNumberColumn.HeaderText = "Account number";
+            this.Accounting_AccountNumberColumn.HeaderText = "a/c";
             this.Accounting_AccountNumberColumn.Name = "Accounting_AccountNumberColumn";
-            this.Accounting_AccountNumberColumn.Width = 75;
+            this.Accounting_AccountNumberColumn.Width = 65;
             // 
             // Accounting_InColumn
             // 
@@ -1194,6 +1194,11 @@ namespace Timotheus.Forms
         private System.Windows.Forms.PictureBox Help_IconBox;
         private System.Windows.Forms.TabPage Accounting_Page;
         private System.Windows.Forms.DataGridView Accounting_View;
+        private System.Windows.Forms.Button Accounting_RemoveButton;
+        private System.Windows.Forms.Button Accounting_AddButton;
+        private System.Windows.Forms.Button Accounting_AddYearButton;
+        private System.Windows.Forms.Button Accounting_SubtractYearButton;
+        public System.Windows.Forms.TextBox Accounting_YearBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_DateColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_AppendixColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_DescriptionColumn;
@@ -1201,10 +1206,5 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_InColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_OutColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_BalanceColumn;
-        private System.Windows.Forms.Button Accounting_RemoveButton;
-        private System.Windows.Forms.Button Accounting_AddButton;
-        private System.Windows.Forms.Button Accounting_AddYearButton;
-        private System.Windows.Forms.Button Accounting_SubtractYearButton;
-        public System.Windows.Forms.TextBox Accounting_YearBox;
     }
 }

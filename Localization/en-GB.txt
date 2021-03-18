@@ -44,13 +44,19 @@ Accounting_Page,Accounting
 Accounting_DateColumn,Date
 Accounting_AppendixColumn,Appendix
 Accounting_DescriptionColumn,Description
-Accounting_AccountNumberColumn,Account number
+Accounting_AccountNumberColumn,a/c
 Accounting_InColumn,In
 Accounting_OutColumn,Out
 Accounting_BalanceColumn,Balance
 AddTransaction,Add
 AddTransaction_AddButton,Add
 AddTransaction_CancelButton,Cancel
+AddTransaction_AccountLabel,a/c
+AddTransaction_AppendixLabel,Appendix
+AddTransaction_Currency,£
+AddTransaction_DateLabel,Date
+AddTransaction_InLabel,Income
+AddTransaction_OutLabel,Expense
 Settings_Page,Settings
 Settings_NameLabel,Name
 Settings_AddressLabel,Address

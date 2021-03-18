@@ -51,6 +51,12 @@ Accounting_BalanceColumn,Saldo
 AddTransaction,Tilføj
 AddTransaction_AddButton,Tilføj
 AddTransaction_CancelButton,Annullér
+AddTransaction_AccountLabel,Konto nr.
+AddTransaction_AppendixLabel,Bilag nr.
+AddTransaction_Currency,DKK
+AddTransaction_DateLabel,Dato
+AddTransaction_InLabel,Inkomst
+AddTransaction_OutLabel,Udgift
 Settings_Page,Indstillinger
 Settings_NameLabel,Navn
 Settings_AddressLabel,Adresse
