@@ -45,8 +45,9 @@ Members_NameColumn,Navn
 Members_AddressColumn,Adresse
 Members_BirthdayColumn,Fødselsdag
 Members_SinceColumn,Medlem siden
-Members_RemoveButton,Fjern
+Members_RemoveButton,Slet
 Members_AddButton,Tilføj
+Members_Under25Label,Medlemer under 25:
 ConsentForms_Page,Samtykkeerklæringer
 ConsentForms_AddButton,Tilføj
 ConsentForms_RemoveButton,Slet

@@ -64,6 +64,10 @@ namespace Timotheus.Forms
             this.SFTP_HostLabel = new System.Windows.Forms.Label();
             this.SFTP_HostBox = new System.Windows.Forms.TextBox();
             this.Members_Page = new System.Windows.Forms.TabPage();
+            this.Members_PeriodeBox = new System.Windows.Forms.TextBox();
+            this.Members_AddYearButton = new System.Windows.Forms.Button();
+            this.Members_SubtractYearButton = new System.Windows.Forms.Button();
+            this.Members_Under25Label = new System.Windows.Forms.Label();
             this.Members_AddButton = new System.Windows.Forms.Button();
             this.Members_RemoveButton = new System.Windows.Forms.Button();
             this.Members_View = new System.Windows.Forms.DataGridView();
@@ -580,6 +584,10 @@ namespace Timotheus.Forms
             // 
             // Members_Page
             // 
+            this.Members_Page.Controls.Add(this.Members_PeriodeBox);
+            this.Members_Page.Controls.Add(this.Members_AddYearButton);
+            this.Members_Page.Controls.Add(this.Members_SubtractYearButton);
+            this.Members_Page.Controls.Add(this.Members_Under25Label);
             this.Members_Page.Controls.Add(this.Members_AddButton);
             this.Members_Page.Controls.Add(this.Members_RemoveButton);
             this.Members_Page.Controls.Add(this.Members_View);
@@ -589,6 +597,44 @@ namespace Timotheus.Forms
             this.Members_Page.TabIndex = 2;
             this.Members_Page.Text = "Members";
             this.Members_Page.UseVisualStyleBackColor = true;
+            // 
+            // Members_PeriodeBox
+            // 
+            this.Members_PeriodeBox.Location = new System.Drawing.Point(39, 6);
+            this.Members_PeriodeBox.Name = "Members_PeriodeBox";
+            this.Members_PeriodeBox.Size = new System.Drawing.Size(100, 23);
+            this.Members_PeriodeBox.TabIndex = 6;
+            this.Members_PeriodeBox.Text = "2020";
+            this.Members_PeriodeBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Members_AddYearButton
+            // 
+            this.Members_AddYearButton.Location = new System.Drawing.Point(145, 6);
+            this.Members_AddYearButton.Name = "Members_AddYearButton";
+            this.Members_AddYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.Members_AddYearButton.Size = new System.Drawing.Size(23, 23);
+            this.Members_AddYearButton.TabIndex = 5;
+            this.Members_AddYearButton.Text = "+";
+            this.Members_AddYearButton.UseVisualStyleBackColor = true;
+            // 
+            // Members_SubtractYearButton
+            // 
+            this.Members_SubtractYearButton.Location = new System.Drawing.Point(10, 6);
+            this.Members_SubtractYearButton.Name = "Members_SubtractYearButton";
+            this.Members_SubtractYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.Members_SubtractYearButton.Size = new System.Drawing.Size(23, 23);
+            this.Members_SubtractYearButton.TabIndex = 4;
+            this.Members_SubtractYearButton.Text = "-";
+            this.Members_SubtractYearButton.UseVisualStyleBackColor = true;
+            // 
+            // Members_Under25Label
+            // 
+            this.Members_Under25Label.AutoSize = true;
+            this.Members_Under25Label.Location = new System.Drawing.Point(636, 383);
+            this.Members_Under25Label.Name = "Members_Under25Label";
+            this.Members_Under25Label.Size = new System.Drawing.Size(112, 15);
+            this.Members_Under25Label.TabIndex = 3;
+            this.Members_Under25Label.Text = "Memders under 25: ";
             // 
             // Members_AddButton
             // 
@@ -618,11 +664,11 @@ namespace Timotheus.Forms
             this.Members_NameColumn,
             this.Members_BirthdayColumn,
             this.Members_AddressColumn});
-            this.Members_View.Location = new System.Drawing.Point(10, 10);
+            this.Members_View.Location = new System.Drawing.Point(6, 35);
             this.Members_View.Name = "Members_View";
             this.Members_View.RowHeadersVisible = false;
             this.Members_View.RowTemplate.Height = 25;
-            this.Members_View.Size = new System.Drawing.Size(776, 363);
+            this.Members_View.Size = new System.Drawing.Size(776, 338);
             this.Members_View.TabIndex = 0;
             // 
             // Members_SinceColumn
@@ -1081,6 +1127,7 @@ namespace Timotheus.Forms
             this.SFTP_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).EndInit();
             this.Members_Page.ResumeLayout(false);
+            this.Members_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Members_View)).EndInit();
             this.ConsentForms_Page.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).EndInit();
@@ -1189,5 +1236,9 @@ namespace Timotheus.Forms
         private System.Windows.Forms.Button Accounting_AddButton;
         private System.Windows.Forms.Button Members_AddButton;
         private System.Windows.Forms.Button Members_RemoveButton;
+        private System.Windows.Forms.Label Members_Under25Label;
+        public System.Windows.Forms.TextBox Members_PeriodeBox;
+        private System.Windows.Forms.Button Members_AddYearButton;
+        private System.Windows.Forms.Button Members_SubtractYearButton;
     }
 }

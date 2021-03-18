@@ -47,6 +47,7 @@ Members_BirthdayColumn,Birthday
 Members_SinceColumn,Member since
 Members_RemoveButton,Remove
 Members_AddButton,Add
+Members_Under25Label,Medlemer under 25:
 ConsentForms_Page,Consent forms
 ConsentForms_AddButton,Add
 ConsentForms_RemoveButton,Remove

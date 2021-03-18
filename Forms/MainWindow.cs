@@ -24,7 +24,7 @@ namespace Timotheus.Forms
         /// </summary>
         public static MainWindow window;
         /// <summary>
-        /// List of events in the period a to b shown in the Calendar_View. Updated using UpdateTable().
+        /// List of events in the period from StartPeriod to EndPeriod shown in the Calendar_View. Updated using UpdateTable().
         /// </summary>
         public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
         /// <summary>
@@ -64,15 +64,20 @@ namespace Timotheus.Forms
         /// <summary>
         /// Start of the period which sorts the different lists.
         /// </summary>
-        public DateTime a = new DateTime(DateTime.Now.Year, 1, 1);
+        public DateTime StartPeriod = new DateTime(DateTime.Now.Year, 1, 1);
         /// <summary>
         /// End of the period which sorts the different lists.
         /// </summary>
-        public DateTime b = new DateTime(DateTime.Now.Year + 1, 1, 1);
+        public DateTime EndPeriod = new DateTime(DateTime.Now.Year + 1, 1, 1);
         /// <summary>
         /// Type of period used by Calendar_View.
         /// </summary>
         private Period period = Period.Year;
+
+        /// <summary>
+        /// To save the Members under 25 ind the correct language
+        /// </summary>
+        private string MembersUnder25Text;
 
         /// <summary>
         /// Constructor. Loads initial data and localization.
@@ -82,7 +87,9 @@ namespace Timotheus.Forms
             window = this;
             InitializeComponent();
             SetupUI();
-            Calendar_PeriodBox.Text = a.Year.ToString();
+            Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
+            Update_Members_Under25Label();
+
 
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
@@ -192,6 +199,7 @@ namespace Timotheus.Forms
             Members_SinceColumn.HeaderText = locale.GetLocalization(Members_SinceColumn);
             Members_AddButton.Text = locale.GetLocalization(Members_AddButton);
             Members_RemoveButton.Text = locale.GetLocalization(Members_RemoveButton);
+            MembersUnder25Text = locale.GetLocalization(Members_Under25Label);
             #endregion
 
             #region Consent Forms
@@ -243,7 +251,7 @@ namespace Timotheus.Forms
             shownEvents.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
             {
-                if (calendar.events[i].IsInPeriod(a,b) && !calendar.events[i].Deleted)
+                if (calendar.events[i].IsInPeriod(StartPeriod,EndPeriod) && !calendar.events[i].Deleted)
                     shownEvents.Add(calendar.events[i]);
             }
             Calendar_View.Sort(Calendar_View.Columns[0], ListSortDirection.Ascending);
@@ -261,50 +269,50 @@ namespace Timotheus.Forms
                 {
                     if (period == Period.Year)
                     {
-                        a = a.AddYears(1);
-                        b = b.AddYears(1);
-                        Calendar_PeriodBox.Text = a.Year.ToString();
+                        StartPeriod = StartPeriod.AddYears(1);
+                        EndPeriod = EndPeriod.AddYears(1);
+                        Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
                     }
                     else if (period == Period.Halfyear)
                     {
-                        a = a.AddMonths(6);
-                        b = b.AddMonths(6);
+                        StartPeriod = StartPeriod.AddMonths(6);
+                        EndPeriod = EndPeriod.AddMonths(6);
 
-                        if (a.Month > 6)
-                            Calendar_PeriodBox.Text = a.Year + " " + fall;
+                        if (StartPeriod.Month > 6)
+                            Calendar_PeriodBox.Text = StartPeriod.Year + " " + fall;
                         else
-                            Calendar_PeriodBox.Text = a.Year + " " + spring;
+                            Calendar_PeriodBox.Text = StartPeriod.Year + " " + spring;
                     }
                     else if (period == Period.Month)
                     {
-                        a = a.AddMonths(1);
-                        b = b.AddMonths(1);
-                        Calendar_PeriodBox.Text = a.Year + " " + month[a.Month-1];
+                        StartPeriod = StartPeriod.AddMonths(1);
+                        EndPeriod = EndPeriod.AddMonths(1);
+                        Calendar_PeriodBox.Text = StartPeriod.Year + " " + month[StartPeriod.Month-1];
                     }
                 }
                 else if (button.Text == "-")
                 {
                     if (period == Period.Year)
                     {
-                        a = a.AddYears(-1);
-                        b = b.AddYears(-1);
-                        Calendar_PeriodBox.Text = a.Year.ToString();
+                        StartPeriod = StartPeriod.AddYears(-1);
+                        EndPeriod = EndPeriod.AddYears(-1);
+                        Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
                     }
                     else if (period == Period.Halfyear)
                     {
-                        a = a.AddMonths(-6);
-                        b = b.AddMonths(-6);
+                        StartPeriod = StartPeriod.AddMonths(-6);
+                        EndPeriod = EndPeriod.AddMonths(-6);
 
-                        if (a.Month > 6)
-                            Calendar_PeriodBox.Text = a.Year + " " + fall;
+                        if (StartPeriod.Month > 6)
+                            Calendar_PeriodBox.Text = StartPeriod.Year + " " + fall;
                         else
-                            Calendar_PeriodBox.Text = a.Year + " " + spring;
+                            Calendar_PeriodBox.Text = StartPeriod.Year + " " + spring;
                     }
                     else if (period == Period.Month)
                     {
-                        a = a.AddMonths(-1);
-                        b = b.AddMonths(-1);
-                        Calendar_PeriodBox.Text = a.Year + " " + month[a.Month - 1];
+                        StartPeriod = StartPeriod.AddMonths(-1);
+                        EndPeriod = EndPeriod.AddMonths(-1);
+                        Calendar_PeriodBox.Text = StartPeriod.Year + " " + month[StartPeriod.Month - 1];
                     }
                 }
             }
@@ -326,8 +334,8 @@ namespace Timotheus.Forms
                     Calendar_AddYearButton.Enabled = false;
                     Calendar_SubtractYearButton.Enabled = false;
 
-                    a = DateTime.MinValue;
-                    b = DateTime.MaxValue;
+                    StartPeriod = DateTime.MinValue;
+                    EndPeriod = DateTime.MaxValue;
                     period = Period.All;
                 }
                 else
@@ -336,16 +344,16 @@ namespace Timotheus.Forms
                     {
                         if (period == Period.All)
                         {
-                            a = new DateTime(DateTime.Now.Year, 1, 1);
-                            b = new DateTime(DateTime.Now.Year + 1, 1, 1);
+                            StartPeriod = new DateTime(DateTime.Now.Year, 1, 1);
+                            EndPeriod = new DateTime(DateTime.Now.Year + 1, 1, 1);
                         }
                         else
                         {
-                            a = new DateTime(a.Year, 1, 1);
-                            b = new DateTime(a.Year + 1, 1, 1);
+                            StartPeriod = new DateTime(StartPeriod.Year, 1, 1);
+                            EndPeriod = new DateTime(StartPeriod.Year + 1, 1, 1);
                         }
 
-                        Calendar_PeriodBox.Text = a.Year.ToString();
+                        Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
                         period = Period.Year;
                     }
                     else if (Calendar_HalfYearButton.Checked)
@@ -354,41 +362,41 @@ namespace Timotheus.Forms
                         {
                             if (DateTime.Now.Month > 6)
                             {
-                                a = new DateTime(DateTime.Now.Year, 7, 1);
-                                b = new DateTime(DateTime.Now.Year+1, 1, 1);
+                                StartPeriod = new DateTime(DateTime.Now.Year, 7, 1);
+                                EndPeriod = new DateTime(DateTime.Now.Year+1, 1, 1);
                             }
                             else
                             {
-                                a = new DateTime(DateTime.Now.Year, 1, 1);
-                                b = new DateTime(DateTime.Now.Year, 7, 1);
+                                StartPeriod = new DateTime(DateTime.Now.Year, 1, 1);
+                                EndPeriod = new DateTime(DateTime.Now.Year, 7, 1);
                             }
                         }
                         else
                         {
-                            if (a.Month > 6)
+                            if (StartPeriod.Month > 6)
                             {
-                                a = new DateTime(a.Year, 7, 1);
-                                b = new DateTime(a.Year + 1, 1, 1);
+                                StartPeriod = new DateTime(StartPeriod.Year, 7, 1);
+                                EndPeriod = new DateTime(StartPeriod.Year + 1, 1, 1);
                             }
                             else
                             {
-                                a = new DateTime(a.Year, 1, 1);
-                                b = new DateTime(a.Year, 7, 1);
+                                StartPeriod = new DateTime(StartPeriod.Year, 1, 1);
+                                EndPeriod = new DateTime(StartPeriod.Year, 7, 1);
                             }
                         }
 
-                        if (a.Month > 6)
-                            Calendar_PeriodBox.Text = a.Year + " " + fall;
+                        if (StartPeriod.Month > 6)
+                            Calendar_PeriodBox.Text = StartPeriod.Year + " " + fall;
                         else
-                            Calendar_PeriodBox.Text = a.Year + " " + spring;
+                            Calendar_PeriodBox.Text = StartPeriod.Year + " " + spring;
                         period = Period.Halfyear;
                     }
                     else if (Calendar_MonthButton.Checked)
                     {
-                        a = new DateTime(a.Year, a.Month, 1);
-                        b = a.AddMonths(1);
+                        StartPeriod = new DateTime(StartPeriod.Year, StartPeriod.Month, 1);
+                        EndPeriod = StartPeriod.AddMonths(1);
 
-                        Calendar_PeriodBox.Text = a.Year + " " + month[a.Month - 1];
+                        Calendar_PeriodBox.Text = StartPeriod.Year + " " + month[StartPeriod.Month - 1];
                         period = Period.Month;
                     }
 
@@ -638,7 +646,8 @@ namespace Timotheus.Forms
             };
 
             addMember.ShowDialog();
-           
+            Update_Members_Under25Label();
+
         }
 
         /// <summary>
@@ -646,8 +655,29 @@ namespace Timotheus.Forms
         /// </summary>
         private void Members_RemoveButton_Click(object sender, EventArgs e)
         {
+            if (Persons.Count > 0)
+            {
+                Persons.RemoveAt(Members_View.CurrentCell.OwningRow.Index);
+            }
+            Update_Members_Under25Label();
 
         }
+
+        /// <summary>
+        /// Updates Members under 25 label
+        /// </summary>
+        private void Update_Members_Under25Label() 
+        {
+            int NumberUnder25 = 0;
+
+            for (int i = 0; i < Persons.Count; i++)
+            {
+                if (Persons[i].Age < 25)
+                    NumberUnder25++;
+            }
+            Members_Under25Label.Text = MembersUnder25Text + " " + NumberUnder25;
+        }
+
         #endregion
 
         #region Settings
@@ -662,6 +692,7 @@ namespace Timotheus.Forms
                 // image filters  
                 Filter = "Image Files(*.png; *.jpg; *.jpeg; *.gif; *.bmp)|*.png; *.jpg; *.jpeg; *.gif; *.bmp"
             };
+
             if (open.ShowDialog() == DialogResult.OK)
             {
                 // display image in picture box  
@@ -758,7 +789,6 @@ namespace Timotheus.Forms
             }
             return base.ProcessDialogKey(keyData);
         }
-
     }
 
     /// <summary>

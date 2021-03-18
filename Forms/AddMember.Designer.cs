@@ -39,6 +39,8 @@ namespace Timotheus.Forms
             this.AddMember_MemberSinceCalender = new System.Windows.Forms.MonthCalendar();
             this.AddMember_AddButton = new System.Windows.Forms.Button();
             this.AddMember_CancelButton = new System.Windows.Forms.Button();
+            this.AddMember_BirthdayDateLabel = new System.Windows.Forms.Label();
+            this.AddMember_MemberSinceDateLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // AddMember_NameLabel
@@ -72,7 +74,6 @@ namespace Timotheus.Forms
             this.AddMember_AddressBox.Name = "AddMember_AddressBox";
             this.AddMember_AddressBox.Size = new System.Drawing.Size(171, 23);
             this.AddMember_AddressBox.TabIndex = 3;
-            this.AddMember_AddressBox.TextChanged += new System.EventHandler(this.AddMember_AddressBox_TextChanged);
             // 
             // AddMember_BirthdayLabel
             // 
@@ -88,6 +89,7 @@ namespace Timotheus.Forms
             this.Addmember_BirthdayCalendar.Location = new System.Drawing.Point(127, 114);
             this.Addmember_BirthdayCalendar.Name = "Addmember_BirthdayCalendar";
             this.Addmember_BirthdayCalendar.TabIndex = 5;
+            this.Addmember_BirthdayCalendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.Addmember_BirthdayCalendar_DateChanged);
             // 
             // AddMember_MemberSinceLabel
             // 
@@ -103,6 +105,7 @@ namespace Timotheus.Forms
             this.AddMember_MemberSinceCalender.Location = new System.Drawing.Point(127, 294);
             this.AddMember_MemberSinceCalender.Name = "AddMember_MemberSinceCalender";
             this.AddMember_MemberSinceCalender.TabIndex = 7;
+            this.AddMember_MemberSinceCalender.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.AddMember_MemberSinceCalender_DateChanged);
             // 
             // AddMember_AddButton
             // 
@@ -124,11 +127,30 @@ namespace Timotheus.Forms
             this.AddMember_CancelButton.UseVisualStyleBackColor = true;
             this.AddMember_CancelButton.Click += new System.EventHandler(this.AddMember_CancelButton_Click);
             // 
+            // AddMember_BirthdayDateLabel
+            // 
+            this.AddMember_BirthdayDateLabel.AutoSize = true;
+            this.AddMember_BirthdayDateLabel.Location = new System.Drawing.Point(25, 140);
+            this.AddMember_BirthdayDateLabel.Name = "AddMember_BirthdayDateLabel";
+            this.AddMember_BirthdayDateLabel.Size = new System.Drawing.Size(0, 15);
+            this.AddMember_BirthdayDateLabel.TabIndex = 10;
+            // 
+            // AddMember_MemberSinceDateLabel
+            // 
+            this.AddMember_MemberSinceDateLabel.AutoSize = true;
+            this.AddMember_MemberSinceDateLabel.Location = new System.Drawing.Point(25, 329);
+            this.AddMember_MemberSinceDateLabel.Name = "AddMember_MemberSinceDateLabel";
+            this.AddMember_MemberSinceDateLabel.Size = new System.Drawing.Size(10, 15);
+            this.AddMember_MemberSinceDateLabel.TabIndex = 11;
+            this.AddMember_MemberSinceDateLabel.Text = " ";
+            // 
             // AddMember
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(324, 507);
+            this.Controls.Add(this.AddMember_MemberSinceDateLabel);
+            this.Controls.Add(this.AddMember_BirthdayDateLabel);
             this.Controls.Add(this.AddMember_CancelButton);
             this.Controls.Add(this.AddMember_AddButton);
             this.Controls.Add(this.AddMember_MemberSinceCalender);
@@ -141,7 +163,6 @@ namespace Timotheus.Forms
             this.Controls.Add(this.AddMember_NameLabel);
             this.Name = "AddMember";
             this.Text = "Add member";
-            this.Load += new System.EventHandler(this.AddMember_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,5 +184,7 @@ namespace Timotheus.Forms
         private System.Windows.Forms.MonthCalendar AddMember_MemberSinceCalender;
         private System.Windows.Forms.Button AddMember_AddButton;
         private System.Windows.Forms.Button AddMember_CancelButton;
+        private System.Windows.Forms.Label AddMember_BirthdayDateLabel;
+        private System.Windows.Forms.Label AddMember_MemberSinceDateLabel;
     }
 }

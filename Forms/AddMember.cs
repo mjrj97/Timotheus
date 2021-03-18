@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Globalization;
 using Timotheus.Utility;
 using Timotheus.Persons;
 
@@ -23,16 +24,6 @@ namespace Timotheus.Forms
 
         }
 
-        private void AddMember_AddressBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void AddMember_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void AddMember_AddButton_Click(object sender, EventArgs e)
         {
             Person person = new Person(AddMember_NameBox.Text, AddMember_AddressBox.Text, Addmember_BirthdayCalendar.SelectionStart, AddMember_MemberSinceCalender.SelectionStart);
@@ -43,6 +34,16 @@ namespace Timotheus.Forms
         private void AddMember_CancelButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void Addmember_BirthdayCalendar_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            AddMember_BirthdayDateLabel.Text = Addmember_BirthdayCalendar.SelectionStart.ToString("d-M-yyyy", CultureInfo.CreateSpecificCulture(Program.culture));
+        }
+
+        private void AddMember_MemberSinceCalender_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            AddMember_MemberSinceDateLabel.Text = AddMember_MemberSinceCalender.SelectionStart.ToString("d-M-yyyy", CultureInfo.CreateSpecificCulture(Program.culture));
         }
     }
 }
