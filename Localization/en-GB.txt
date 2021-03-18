@@ -48,6 +48,9 @@ Accounting_AccountNumberColumn,Account number
 Accounting_InColumn,In
 Accounting_OutColumn,Out
 Accounting_BalanceColumn,Balance
+AddTransaction,Add
+AddTransaction_AddButton,Add
+AddTransaction_CancelButton,Cancel
 Settings_Page,Settings
 Settings_NameLabel,Name
 Settings_AddressLabel,Address

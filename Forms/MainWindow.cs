@@ -185,6 +185,7 @@ namespace Timotheus.Forms
             #endregion
 
             #region Accounting
+            Accounting_YearBox.Text = a.Year.ToString();
             Accounting_View.AutoGenerateColumns = false;
             Accounting_View.DataSource = new BindingSource(transactions, null);
             Accounting_View.Columns[5].DefaultCellStyle.ForeColor = Color.Red;
@@ -583,19 +584,37 @@ namespace Timotheus.Forms
         #endregion
 
         #region Accounting
+        private void UpdateAccountingYear(object sender, EventArgs e)
+        {
+            if (sender != null)
+            {
+                Button button = (Button)sender;
+                if (button.Text == "+")
+                    Accounting_YearBox.Text = (int.Parse(Accounting_YearBox.Text) + 1).ToString();
+                else if (button.Text == "-")
+                    Accounting_YearBox.Text = (int.Parse(Accounting_YearBox.Text) - 1).ToString();
+                UpdateAccountingTable();
+            }
+        }
+
         public void UpdateAccountingTable()
         {
             transactions.Clear();
             for (int i = 0; i < Transaction.list.Count; i++)
             {
-                transactions.Add(Transaction.list[i]);
+                if (int.Parse(Accounting_YearBox.Text) == Transaction.list[i].Date.Year)
+                    transactions.Add(Transaction.list[i]);
             }
         }
 
         private void AddTransaction(object sender, EventArgs e)
         {
-            new Transaction(DateTime.Now.Date, 0, "Test transaction", 0, 100.0, 50.0);
-            UpdateAccountingTable();
+            AddTransaction addTransaction = new AddTransaction
+            {
+                Owner = this
+            };
+
+            addTransaction.ShowDialog();
         }
 
         private void RemoveTransaction(object sender, EventArgs e)

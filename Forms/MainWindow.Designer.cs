@@ -78,6 +78,9 @@ namespace Timotheus.Forms
             this.ConsentForms_VersionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ConsentForms_CommentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Accounting_Page = new System.Windows.Forms.TabPage();
+            this.Accounting_AddYearButton = new System.Windows.Forms.Button();
+            this.Accounting_SubtractYearButton = new System.Windows.Forms.Button();
+            this.Accounting_YearBox = new System.Windows.Forms.TextBox();
             this.Accounting_RemoveButton = new System.Windows.Forms.Button();
             this.Accounting_AddButton = new System.Windows.Forms.Button();
             this.Accounting_View = new System.Windows.Forms.DataGridView();
@@ -717,6 +720,9 @@ namespace Timotheus.Forms
             // 
             // Accounting_Page
             // 
+            this.Accounting_Page.Controls.Add(this.Accounting_AddYearButton);
+            this.Accounting_Page.Controls.Add(this.Accounting_SubtractYearButton);
+            this.Accounting_Page.Controls.Add(this.Accounting_YearBox);
             this.Accounting_Page.Controls.Add(this.Accounting_RemoveButton);
             this.Accounting_Page.Controls.Add(this.Accounting_AddButton);
             this.Accounting_Page.Controls.Add(this.Accounting_View);
@@ -727,6 +733,37 @@ namespace Timotheus.Forms
             this.Accounting_Page.TabIndex = 5;
             this.Accounting_Page.Text = "Accounting";
             this.Accounting_Page.UseVisualStyleBackColor = true;
+            // 
+            // Accounting_AddYearButton
+            // 
+            this.Accounting_AddYearButton.Location = new System.Drawing.Point(143, 10);
+            this.Accounting_AddYearButton.Name = "Accounting_AddYearButton";
+            this.Accounting_AddYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.Accounting_AddYearButton.Size = new System.Drawing.Size(23, 23);
+            this.Accounting_AddYearButton.TabIndex = 5;
+            this.Accounting_AddYearButton.Text = "+";
+            this.Accounting_AddYearButton.UseVisualStyleBackColor = true;
+            this.Accounting_AddYearButton.Click += new System.EventHandler(this.UpdateAccountingYear);
+            // 
+            // Accounting_SubtractYearButton
+            // 
+            this.Accounting_SubtractYearButton.Location = new System.Drawing.Point(10, 10);
+            this.Accounting_SubtractYearButton.Name = "Accounting_SubtractYearButton";
+            this.Accounting_SubtractYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.Accounting_SubtractYearButton.Size = new System.Drawing.Size(23, 23);
+            this.Accounting_SubtractYearButton.TabIndex = 4;
+            this.Accounting_SubtractYearButton.Text = "-";
+            this.Accounting_SubtractYearButton.UseVisualStyleBackColor = true;
+            this.Accounting_SubtractYearButton.Click += new System.EventHandler(this.UpdateAccountingYear);
+            // 
+            // Accounting_YearBox
+            // 
+            this.Accounting_YearBox.Location = new System.Drawing.Point(38, 10);
+            this.Accounting_YearBox.Name = "Accounting_YearBox";
+            this.Accounting_YearBox.Size = new System.Drawing.Size(100, 23);
+            this.Accounting_YearBox.TabIndex = 3;
+            this.Accounting_YearBox.Text = "2020";
+            this.Accounting_YearBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Accounting_RemoveButton
             // 
@@ -751,7 +788,9 @@ namespace Timotheus.Forms
             // 
             // Accounting_View
             // 
-            this.Accounting_View.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Accounting_View.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Accounting_View.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Accounting_View.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Accounting_DateColumn,
@@ -761,11 +800,11 @@ namespace Timotheus.Forms
             this.Accounting_InColumn,
             this.Accounting_OutColumn,
             this.Accounting_BalanceColumn});
-            this.Accounting_View.Location = new System.Drawing.Point(10, 10);
+            this.Accounting_View.Location = new System.Drawing.Point(10, 39);
             this.Accounting_View.Name = "Accounting_View";
             this.Accounting_View.RowHeadersVisible = false;
             this.Accounting_View.RowTemplate.Height = 25;
-            this.Accounting_View.Size = new System.Drawing.Size(776, 363);
+            this.Accounting_View.Size = new System.Drawing.Size(774, 331);
             this.Accounting_View.TabIndex = 0;
             // 
             // Accounting_DateColumn
@@ -1061,6 +1100,7 @@ namespace Timotheus.Forms
             this.ConsentForms_Page.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).EndInit();
             this.Accounting_Page.ResumeLayout(false);
+            this.Accounting_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Accounting_View)).EndInit();
             this.Settings_Page.ResumeLayout(false);
             this.Settings_InfoBox.ResumeLayout(false);
@@ -1163,5 +1203,8 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_BalanceColumn;
         private System.Windows.Forms.Button Accounting_RemoveButton;
         private System.Windows.Forms.Button Accounting_AddButton;
+        private System.Windows.Forms.Button Accounting_AddYearButton;
+        private System.Windows.Forms.Button Accounting_SubtractYearButton;
+        public System.Windows.Forms.TextBox Accounting_YearBox;
     }
 }
