@@ -1,6 +1,7 @@
 using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.Persons;
+using Timotheus.Accounting;
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -42,6 +43,10 @@ namespace Timotheus.Forms
         /// List of all transactions.
         /// </summary>
         public SortableBindingList<Transaction> transactions = new SortableBindingList<Transaction>();
+        /// <summary>
+        /// List of all accounts.
+        /// </summary>
+        public SortableBindingList<Account> accounts = new SortableBindingList<Account>();
 
         /// <summary>
         /// Current calendar used by the program.
@@ -455,7 +460,7 @@ namespace Timotheus.Forms
         /// <summary>
         /// Opens a dialog where the user can save the current calendar as .pdf.
         /// </summary>
-        private void ExportPDF(object sender, EventArgs e)
+        private void ExportCalendar(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
@@ -584,6 +589,9 @@ namespace Timotheus.Forms
         #endregion
 
         #region Accounting
+        /// <summary>
+        /// Changes the value in the year box to another year.
+        /// </summary>
         private void UpdateAccountingYear(object sender, EventArgs e)
         {
             if (sender != null)
@@ -597,19 +605,26 @@ namespace Timotheus.Forms
             }
         }
 
+        /// <summary>
+        /// Updates the contents of the Accounting_View so only transactions in the given year are shown.
+        /// </summary>
         public void UpdateAccountingTable()
         {
+            int year = int.Parse(Accounting_YearBox.Text);
             transactions.Clear();
             for (int i = 0; i < Transaction.list.Count; i++)
             {
-                if (int.Parse(Accounting_YearBox.Text) == Transaction.list[i].Date.Year)
+                if (year == Transaction.list[i].Date.Year)
                     transactions.Add(Transaction.list[i]);
             }
         }
 
+        /// <summary>
+        /// Opens AddTransaction dialog.
+        /// </summary>
         private void AddTransaction(object sender, EventArgs e)
         {
-            AddTransaction addTransaction = new AddTransaction
+            AddTransaction addTransaction = new AddTransaction(accounts.ToArray())
             {
                 Owner = this
             };
@@ -617,13 +632,33 @@ namespace Timotheus.Forms
             addTransaction.ShowDialog();
         }
 
+        /// <summary>
+        /// Removes the selected transaction in the Accounting_View and list in Transaction class.
+        /// </summary>
         private void RemoveTransaction(object sender, EventArgs e)
         {
             if (transactions.Count > 0)
             {
                 Transaction transaction = transactions[Accounting_View.CurrentCell.OwningRow.Index];
                 transactions.Remove(transaction);
+                Transaction.list.Remove(transaction);
             }
+        }
+
+        /// <summary>
+        /// Exports the accounts as a PDF only containing the transactions in the selected year.
+        /// </summary>
+        private void ExportAccounts(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Opens dialog to manage the list of accounts.
+        /// </summary>
+        private void ShowAccounts(object sender, EventArgs e)
+        {
+
         }
         #endregion
 

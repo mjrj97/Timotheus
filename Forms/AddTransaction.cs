@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows.Forms;
 using Timotheus.Utility;
+using Timotheus.Accounting;
 
 namespace Timotheus.Forms
 {
@@ -18,15 +19,11 @@ namespace Timotheus.Forms
         /// <summary>
         /// Constructor. Loads the localization and initializes the components.
         /// </summary>
-        public AddTransaction()
+        public AddTransaction(Account[] accounts)
         {
             InitializeComponent();
             decimalSeparator = Convert.ToChar(new CultureInfo(Program.culture, false).NumberFormat.NumberDecimalSeparator);
-            AddTransaction_AccountPicker.DataSource = new Account[] {
-                new Account{ ID = 1, Name = "One" },
-                new Account{ ID = 2, Name = "Two" },
-                new Account{ ID = 3, Name = "Three" }
-            };
+            AddTransaction_AccountPicker.DataSource = accounts;
 
             LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
 
@@ -131,11 +128,5 @@ namespace Timotheus.Forms
 
             return value;
         }
-    }
-
-    class Account
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
     }
 }

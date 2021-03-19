@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Timotheus.Forms;
 
-namespace Timotheus.Utility
+namespace Timotheus.Accounting
 {
     /// <summary>
     /// Data type consisting of an income and expense corresponding to a bank transaction at a specific date.

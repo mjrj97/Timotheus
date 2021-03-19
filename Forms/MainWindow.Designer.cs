@@ -78,6 +78,8 @@ namespace Timotheus.Forms
             this.ConsentForms_VersionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ConsentForms_CommentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Accounting_Page = new System.Windows.Forms.TabPage();
+            this.Accounting_AccountButton = new System.Windows.Forms.Button();
+            this.Accounting_ExportButton = new System.Windows.Forms.Button();
             this.Accounting_AddYearButton = new System.Windows.Forms.Button();
             this.Accounting_SubtractYearButton = new System.Windows.Forms.Button();
             this.Accounting_YearBox = new System.Windows.Forms.TextBox();
@@ -342,7 +344,7 @@ namespace Timotheus.Forms
             this.Calendar_ExportButton.TabIndex = 6;
             this.Calendar_ExportButton.Text = "Export PDF";
             this.Calendar_ExportButton.UseVisualStyleBackColor = true;
-            this.Calendar_ExportButton.Click += new System.EventHandler(this.ExportPDF);
+            this.Calendar_ExportButton.Click += new System.EventHandler(this.ExportCalendar);
             // 
             // Calendar_RemoveButton
             // 
@@ -720,6 +722,8 @@ namespace Timotheus.Forms
             // 
             // Accounting_Page
             // 
+            this.Accounting_Page.Controls.Add(this.Accounting_AccountButton);
+            this.Accounting_Page.Controls.Add(this.Accounting_ExportButton);
             this.Accounting_Page.Controls.Add(this.Accounting_AddYearButton);
             this.Accounting_Page.Controls.Add(this.Accounting_SubtractYearButton);
             this.Accounting_Page.Controls.Add(this.Accounting_YearBox);
@@ -733,6 +737,26 @@ namespace Timotheus.Forms
             this.Accounting_Page.TabIndex = 5;
             this.Accounting_Page.Text = "Accounting";
             this.Accounting_Page.UseVisualStyleBackColor = true;
+            // 
+            // Accounting_AccountButton
+            // 
+            this.Accounting_AccountButton.Location = new System.Drawing.Point(598, 378);
+            this.Accounting_AccountButton.Name = "Accounting_AccountButton";
+            this.Accounting_AccountButton.Size = new System.Drawing.Size(75, 23);
+            this.Accounting_AccountButton.TabIndex = 7;
+            this.Accounting_AccountButton.Text = "Accounts";
+            this.Accounting_AccountButton.UseVisualStyleBackColor = true;
+            this.Accounting_AccountButton.Click += new System.EventHandler(this.ShowAccounts);
+            // 
+            // Accounting_ExportButton
+            // 
+            this.Accounting_ExportButton.Location = new System.Drawing.Point(684, 378);
+            this.Accounting_ExportButton.Name = "Accounting_ExportButton";
+            this.Accounting_ExportButton.Size = new System.Drawing.Size(100, 23);
+            this.Accounting_ExportButton.TabIndex = 6;
+            this.Accounting_ExportButton.Text = "Export PDF";
+            this.Accounting_ExportButton.UseVisualStyleBackColor = true;
+            this.Accounting_ExportButton.Click += new System.EventHandler(this.ExportAccounts);
             // 
             // Accounting_AddYearButton
             // 
@@ -768,7 +792,7 @@ namespace Timotheus.Forms
             // Accounting_RemoveButton
             // 
             this.Accounting_RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Accounting_RemoveButton.Location = new System.Drawing.Point(91, 379);
+            this.Accounting_RemoveButton.Location = new System.Drawing.Point(95, 378);
             this.Accounting_RemoveButton.Name = "Accounting_RemoveButton";
             this.Accounting_RemoveButton.Size = new System.Drawing.Size(75, 23);
             this.Accounting_RemoveButton.TabIndex = 2;
@@ -778,7 +802,7 @@ namespace Timotheus.Forms
             // 
             // Accounting_AddButton
             // 
-            this.Accounting_AddButton.Location = new System.Drawing.Point(10, 379);
+            this.Accounting_AddButton.Location = new System.Drawing.Point(10, 378);
             this.Accounting_AddButton.Name = "Accounting_AddButton";
             this.Accounting_AddButton.Size = new System.Drawing.Size(75, 23);
             this.Accounting_AddButton.TabIndex = 1;
@@ -1206,5 +1230,7 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_InColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_OutColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_BalanceColumn;
+        private System.Windows.Forms.Button Accounting_ExportButton;
+        private System.Windows.Forms.Button Accounting_AccountButton;
     }
 }
