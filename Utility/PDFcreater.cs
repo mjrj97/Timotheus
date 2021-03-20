@@ -9,19 +9,12 @@ using Timotheus.Schedule;
 namespace Timotheus.Utility
 {
     /// <summary>
-    /// Creates the invoice form.
+    /// Class containing methods to export data suchs as the calendar, memberlist and accounts.
     /// </summary>
     public class PDFCreater
     {
-        /// <summary>
-        /// White 
-        /// </summary>
         private readonly static Color White = new Color(255, 255, 255);
-
-        /// <summary>
-        ///  Title Color
-        /// </summary>
-        private readonly static Color TitleColor = new Color(5, 105, 115);
+        private readonly static Color HeadingColor = new Color(5, 105, 115);
 
         /// <summary>
         /// Defines the styles used to format the MigraDoc document.
@@ -43,6 +36,19 @@ namespace Timotheus.Utility
             style = document.Styles[StyleNames.Header];
             style.ParagraphFormat.AddTabStop("16cm", TabAlignment.Right);
 
+            // Define Headings
+            style = document.Styles["Heading1"];
+            style.Font.Name = "Arvo";
+            style.Font.Size = 18;
+            style.Font.Color = HeadingColor;
+            style.Font.Bold = true;
+
+            style = document.Styles["Heading2"];
+            style.Font.Name = "Arvo";
+            style.Font.Size = 14;
+            style.Font.Color = HeadingColor;
+            style.Font.Bold = false;
+
             // Create a new style called Reference based on style Normal.
             style = document.Styles.AddStyle("Reference", "Normal");
             style.ParagraphFormat.SpaceBefore = "5mm";
@@ -51,12 +57,31 @@ namespace Timotheus.Utility
 
             return style;
         }
-
+        
         /// <summary>
-        /// Creates the static parts of the invoice.
+        /// Exports a calendar as a PDF.
         /// </summary>
-        private static Table CreatePage(Document document, string logoPath, string associationName, string associationAddress, string periodName)
+        /// <param name="filePath">Path the PDF should be saved at.</param>
+        /// <param name="title">Name of the PDF file.</param>
+        /// <param name="events">List of events to be included.</param>
+        /// <param name="associationName">Name of the association.</param>
+        /// <param name="associationAddress">Address of the association.</param>
+        /// <param name="logoPath">Path to the associations logo.</param>
+        /// <param name="periodName">Name of the time period. i.e. fall 2021</param>
+        public static void ExportCalendar(string filePath, string title, List<Event> events, string associationName, string associationAddress, string logoPath, string periodName)
         {
+            string fileName = $"{filePath}\\{title}";
+
+            // Create the document using MigraDoc.
+            Document document = new Document();
+            document.Info.Title = fileName;
+            document.Info.Author = associationName;
+            document.DefaultPageSetup.Orientation = Orientation.Landscape;
+            document.UseCmykColor = false;
+
+            DefineStyles(document);
+
+            #region Localization
             string welcome = "Welcome to";
             string schedule = "Schedule for";
             string date = "Date";
@@ -76,23 +101,18 @@ namespace Timotheus.Utility
             leader = locale.GetLocalization("PDF_Leader", leader);
             musician = locale.GetLocalization("PDF_Musician", musician);
             coffee = locale.GetLocalization("PDF_Coffee", coffee);
+            #endregion
 
             // Each MigraDoc document needs at least one section.
             Section section = document.AddSection();
 
-            // Define the page setup. We use an image in the header, therefore the
-            // default top margin is too small for our invoice.
             section.PageSetup = document.DefaultPageSetup.Clone();
-            // We increase the TopMargin to prevent the document body from overlapping the page header.
-            // We have an image of 3.5 cm height in the header.
-            // The default position for the header is 1.25 cm.
-            // We add 0.5 cm spacing between header image and body and get 5.25 cm.
-            // Default value is 2.5 cm.
             section.PageSetup.TopMargin = "1cm";
             section.PageSetup.LeftMargin = "1cm";
             section.PageSetup.RightMargin = "1cm";
 
-            if (logoPath != string.Empty)
+            //Add logo if defined.
+            if (logoPath != string.Empty && logoPath != null)
             {
                 Image image = section.AddImage(logoPath);
                 image.Height = "3cm";
@@ -101,15 +121,9 @@ namespace Timotheus.Utility
 
             section.AddParagraph();
 
-            // add title
-            Paragraph paragraph = section.AddParagraph(welcome + " " + associationName);
-            paragraph.Format.Font.Size = 18;
-            paragraph.Format.Font.Color = TitleColor;
-            paragraph.Format.Font.Bold = true;
-
-            paragraph = section.AddParagraph(schedule + " " + periodName.ToLower());
-            paragraph.Format.Font.Size = 14;
-            paragraph.Format.Font.Color = TitleColor;
+            // add headings
+            section.AddParagraph(welcome + " " + associationName, "Heading1");
+            section.AddParagraph(schedule + " " + periodName.ToLower(), "Heading2");
 
             // extra Paragraph to add space
             section.AddParagraph();
@@ -123,39 +137,28 @@ namespace Timotheus.Utility
             table.Borders.Right.Width = 0.5;
             table.Rows.LeftIndent = 0;
 
-            // Before you can add a row, you must define the columns.
-            Column column = table.AddColumn("3.3cm");
-            column.Format.Alignment = ParagraphAlignment.Left;
+            // Define the columns
+            table.AddColumn("3.3cm");
+            table.AddColumn("2.2cm");
+            table.AddColumn("12.5cm");
+            table.AddColumn("3cm");
+            table.AddColumn("3cm");
+            table.AddColumn("7cm");
 
-            column = table.AddColumn("2.2cm");
-            column.Format.Alignment = ParagraphAlignment.Left;
-
-            column = table.AddColumn("12.5cm");
-            column.Format.Alignment = ParagraphAlignment.Left;
-
-            column = table.AddColumn("3cm");
-            column.Format.Alignment = ParagraphAlignment.Left;
-
-            column = table.AddColumn("3cm");
-            column.Format.Alignment = ParagraphAlignment.Left;
-
-            column = table.AddColumn("7cm");
-            column.Format.Alignment = ParagraphAlignment.Left;
-
-            // Create the header of the table.
+            // Add the header text of the columns.
             Row row = table.AddRow();
             row.HeadingFormat = true;
             row.Format.Font.Bold = true;
             row.Shading.Color = White;
             row.Cells[0].AddParagraph(date);
-            row.Cells[1].AddParagraph(start);  
+            row.Cells[1].AddParagraph(start);
             row.Cells[2].AddParagraph(activity);
             row.Cells[3].AddParagraph(leader);
             row.Cells[4].AddParagraph(musician);
             row.Cells[5].AddParagraph(coffee);
 
-            // Create a paragraph with centered page number. See definition of style "Footer".
-            paragraph = new Paragraph();
+            // Create a the footer containing the page number and assocaition address.
+            Paragraph paragraph = new Paragraph();
             paragraph.AddPageField();
             paragraph.AddText(" / ");
             paragraph.AddNumPagesField();
@@ -164,28 +167,10 @@ namespace Timotheus.Utility
             paragraph.AddText(associationAddress);
             paragraph.Format.Font.Size = 9;
 
-            // Add paragraph to footer for pages.
+            // Add footer to pages.
             section.Footers.Primary.Add(paragraph);
             section.Footers.EvenPage.Add(paragraph.Clone());
 
-            return table;
-        }
-
-        public static void ExportCalendar(string filePath, string title, List<Event> events, string associationName, string associationAddress, string logoPath, string periodName)
-        {
-            string fileName = $"{filePath}\\{title}";
-
-            // Create the document using MigraDoc.
-            Document document = new Document();
-            document.Info.Title = fileName;
-            document.Info.Author = associationName;
-            document.DefaultPageSetup.Orientation = Orientation.Landscape;
-            document.UseCmykColor = false;
-
-            DefineStyles(document);
-
-            Table table = CreatePage(document, logoPath, associationName, associationAddress, periodName);
-            
             // Creates the dynamic parts of the PDF.
             for (int i = 0; i < events.Count; i++)
             {
@@ -194,11 +179,8 @@ namespace Timotheus.Utility
                     string name = events[i].Name;
                     string description = events[i].Description;
                     DateTime time = events[i].StartTime;
-                    string leader = "";
-                    string musician = "";
-                    string coffee = "";
 
-                    Row row = table.AddRow();
+                    row = table.AddRow();
 
                     row.Cells[0].AddParagraph(time.ToString("ddd. d. MMM.", Program.culture));
 
@@ -208,9 +190,9 @@ namespace Timotheus.Utility
                         row.Cells[1].AddParagraph(time.ToString("t", Program.culture));
 
                     row.Cells[2].AddParagraph(name);
-                    row.Cells[3].AddParagraph(leader);
-                    row.Cells[4].AddParagraph(musician);
-                    row.Cells[5].AddParagraph(coffee);
+                    row.Cells[3].AddParagraph("");
+                    row.Cells[4].AddParagraph("");
+                    row.Cells[5].AddParagraph("");
                 }
             }
 
