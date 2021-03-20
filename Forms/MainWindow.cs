@@ -118,7 +118,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void SetupUI()
         {
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
 
             #region Calendar
             Calendar_View.AutoGenerateColumns = false;

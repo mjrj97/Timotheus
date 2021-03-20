@@ -22,10 +22,10 @@ namespace Timotheus.Forms
         public AddTransaction(Account[] accounts)
         {
             InitializeComponent();
-            decimalSeparator = Convert.ToChar(new CultureInfo(Program.culture, false).NumberFormat.NumberDecimalSeparator);
+            decimalSeparator = Convert.ToChar(Program.culture.NumberFormat.NumberDecimalSeparator);
             AddTransaction_AccountPicker.DataSource = accounts;
 
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
 
             Text = locale.GetLocalization(this);
             AddTransaction_AddButton.Text = locale.GetLocalization(AddTransaction_AddButton);
@@ -124,7 +124,7 @@ namespace Timotheus.Forms
             double value = 0.0f;
 
             if (text.Length > 0)
-                value = double.Parse(text, new CultureInfo(Program.culture, false));
+                value = double.Parse(text, Program.culture);
 
             return value;
         }

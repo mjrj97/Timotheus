@@ -275,11 +275,8 @@ namespace Timotheus.Schedule
         /// <param name="logo">The association's logo.</param>
         /// <param name="a">First date in period.</param>
         /// <param name="b">Last date in period.</param>
-        public void ExportPDF(string filePath, string title, string associationName, string associationAddress, string logo, string periodName, DateTime a, DateTime b)
+        public void ExportPDF(string filePath, string title, string associationName, string associationAddress, string logoPath, string periodName, DateTime a, DateTime b)
         {
-            //Defines encoding 1252
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
             List<Event> eventsInPeriod = new List<Event>();
             for (int i = 0; i < events.Count; i++)
             {
@@ -287,29 +284,14 @@ namespace Timotheus.Schedule
                     eventsInPeriod.Add(events[i]);
             }
 
-            // Create an invoice form with the sample invoice data.
-            PDFCreater pdf = new PDFCreater(title, eventsInPeriod, associationName, associationAddress, logo, periodName);
-
-            // Create the document using MigraDoc.
-            MigraDoc.DocumentObjectModel.Document document = pdf.CreateDocument();
-            document.UseCmykColor = false;
-
-            // Create a renderer for PDF that uses Unicode font encoding.
-            var pdfRenderer = new MigraDoc.Rendering.PdfDocumentRenderer(true)
+            eventsInPeriod.Sort(delegate (Event x, Event y)
             {
-                // Set the MigraDoc document.
-                Document = document
-            };
-
-            // Create the PDF document.
-            pdfRenderer.RenderDocument();
-
-            // Save the PDF document...
-            string filename = $"{filePath}\\{title}";
+                return x.StartTime.CompareTo(y.StartTime);
+            });
 
             try
             {
-                pdfRenderer.Save(filename);
+                PDFCreater.ExportCalendar(filePath, title, eventsInPeriod, associationName, associationAddress, logoPath, periodName);
             }
             catch (Exception e)
             {
