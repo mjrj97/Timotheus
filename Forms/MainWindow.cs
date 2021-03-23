@@ -191,9 +191,11 @@ namespace Timotheus.Forms
 
             #region Accounting
             Accounting_YearBox.Text = a.Year.ToString();
-            Accounting_View.AutoGenerateColumns = false;
-            Accounting_View.DataSource = new BindingSource(transactions, null);
-            Accounting_View.Columns[5].DefaultCellStyle.ForeColor = Color.Red;
+            Accounting_TransactionsView.AutoGenerateColumns = false;
+            Accounting_TransactionsView.DataSource = new BindingSource(transactions, null);
+            Accounting_AccountsView.AutoGenerateColumns = false;
+            Accounting_AccountsView.DataSource = new BindingSource(accounts, null);
+            Accounting_TransactionsView.Columns[5].DefaultCellStyle.ForeColor = Color.Red;
             
             Accounting_Page.Text = locale.GetLocalization(Accounting_Page);
             Accounting_DateColumn.HeaderText = locale.GetLocalization(Accounting_DateColumn);
@@ -639,7 +641,7 @@ namespace Timotheus.Forms
         {
             if (transactions.Count > 0)
             {
-                Transaction transaction = transactions[Accounting_View.CurrentCell.OwningRow.Index];
+                Transaction transaction = transactions[Accounting_TransactionsView.CurrentCell.OwningRow.Index];
                 transactions.Remove(transaction);
                 Transaction.list.Remove(transaction);
             }
@@ -649,14 +651,6 @@ namespace Timotheus.Forms
         /// Exports the accounts as a PDF only containing the transactions in the selected year.
         /// </summary>
         private void ExportAccounts(object sender, EventArgs e)
-        {
-
-        }
-
-        /// <summary>
-        /// Opens dialog to manage the list of accounts.
-        /// </summary>
-        private void ShowAccounts(object sender, EventArgs e)
         {
 
         }
