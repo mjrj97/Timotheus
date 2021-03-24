@@ -387,7 +387,7 @@ namespace Timotheus.Forms
             this.Calendar_AddYearButton.TabIndex = 1;
             this.Calendar_AddYearButton.Text = "+";
             this.Calendar_AddYearButton.UseVisualStyleBackColor = true;
-            this.Calendar_AddYearButton.Click += new System.EventHandler(this.UpdatePeriod);
+            this.Calendar_AddYearButton.Click += new System.EventHandler(this.UpdateCalenderPeriod);
             // 
             // Calendar_SubtractYearButton
             // 
@@ -398,7 +398,7 @@ namespace Timotheus.Forms
             this.Calendar_SubtractYearButton.TabIndex = 0;
             this.Calendar_SubtractYearButton.Text = "-";
             this.Calendar_SubtractYearButton.UseVisualStyleBackColor = true;
-            this.Calendar_SubtractYearButton.Click += new System.EventHandler(this.UpdatePeriod);
+            this.Calendar_SubtractYearButton.Click += new System.EventHandler(this.UpdateCalenderPeriod);
             // 
             // SFTP_Page
             // 
@@ -616,6 +616,7 @@ namespace Timotheus.Forms
             this.Members_AddYearButton.TabIndex = 5;
             this.Members_AddYearButton.Text = "+";
             this.Members_AddYearButton.UseVisualStyleBackColor = true;
+            this.Members_AddYearButton.Click += new System.EventHandler(this.UpdateMemberPeriod);
             // 
             // Members_SubtractYearButton
             // 
@@ -626,6 +627,7 @@ namespace Timotheus.Forms
             this.Members_SubtractYearButton.TabIndex = 4;
             this.Members_SubtractYearButton.Text = "-";
             this.Members_SubtractYearButton.UseVisualStyleBackColor = true;
+            this.Members_SubtractYearButton.Click += new System.EventHandler(this.UpdateMemberPeriod);
             // 
             // Members_Under25Label
             // 

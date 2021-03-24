@@ -28,6 +28,7 @@ namespace Timotheus.Forms
         {
             Person person = new Person(AddMember_NameBox.Text, AddMember_AddressBox.Text, Addmember_BirthdayCalendar.SelectionStart, AddMember_MemberSinceCalender.SelectionStart);
             MainWindow.window.Persons.Add(person);
+            MainWindow.window.UpdateMemberTable();
             Close();
         }
 

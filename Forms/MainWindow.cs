@@ -40,6 +40,10 @@ namespace Timotheus.Forms
         /// </summary>
         public SortableBindingList<Person> Persons = new SortableBindingList<Person>();
         /// <summary>
+        /// List of Members in the period 
+        /// </summary>
+        public SortableBindingList<Person> shownPersons = new SortableBindingList<Person>();
+        /// <summary>
         /// List of all transactions.
         /// </summary>
         public SortableBindingList<Transaction> transactions = new SortableBindingList<Transaction>();
@@ -62,11 +66,11 @@ namespace Timotheus.Forms
         private string fall = "Fall";
 
         /// <summary>
-        /// Start of the period which sorts the different lists.
+        /// Start of the period in calanderwhich sorts the different lists.
         /// </summary>
         public DateTime StartPeriod = new DateTime(DateTime.Now.Year, 1, 1);
         /// <summary>
-        /// End of the period which sorts the different lists.
+        /// End of the period in calander which sorts the different lists.
         /// </summary>
         public DateTime EndPeriod = new DateTime(DateTime.Now.Year + 1, 1, 1);
         /// <summary>
@@ -80,6 +84,11 @@ namespace Timotheus.Forms
         private string MembersUnder25Text;
 
         /// <summary>
+        /// Start of the period in Member sorts the different lists.
+        /// </summary>
+        private DateTime MemberInYear = new DateTime(DateTime.Now.Year, 1, 1);
+
+        /// <summary>
         /// Constructor. Loads initial data and localization.
         /// </summary>
         public MainWindow()
@@ -88,6 +97,7 @@ namespace Timotheus.Forms
             InitializeComponent();
             SetupUI();
             Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
+            Members_PeriodeBox.Text = MemberInYear.Year.ToString();
             Update_Members_Under25Label();
 
 
@@ -134,7 +144,7 @@ namespace Timotheus.Forms
             Calendar_View.DataSource = new BindingSource(shownEvents, null);
             SFTP_View.DataSource = new BindingSource(shownFiles, null);
             ConsentForms_View.DataSource = new BindingSource(consentForms, null);
-            Members_View.DataSource = new BindingSource(Persons, null);
+            Members_View.DataSource = new BindingSource(shownPersons, null);
             Accounting_View.DataSource = new BindingSource(transactions, null);
             Accounting_View.Columns[5].DefaultCellStyle.ForeColor = Color.Red;
             SFTP_PasswordBox.PasswordChar = '*';
@@ -260,7 +270,7 @@ namespace Timotheus.Forms
         /// <summary>
         /// Changes the selected year and calls UpdateTable.
         /// </summary>
-        private void UpdatePeriod(object sender, EventArgs e)
+        private void UpdateCalenderPeriod(object sender, EventArgs e)
         {
             if (sender != null)
             {
@@ -677,6 +687,39 @@ namespace Timotheus.Forms
             }
             Members_Under25Label.Text = MembersUnder25Text + " " + NumberUnder25;
         }
+        private void UpdateMemberPeriod(object sender, EventArgs e)
+        {
+            if (sender != null)
+            {
+                Button button = (Button)sender;
+                if (button.Text == "+")
+                {
+                    MemberInYear = MemberInYear.AddYears(1);
+                    Members_PeriodeBox.Text = MemberInYear.Year.ToString();
+
+
+                }
+                else if (button.Text == "-")
+                {
+
+                    MemberInYear = MemberInYear.AddYears(-1);
+                    Members_PeriodeBox.Text = MemberInYear.Year.ToString();
+
+                }
+                UpdateMemberTable();
+            }
+        }
+
+        public void UpdateMemberTable()
+        {
+            shownPersons.Clear();
+            for (int i = 0; i < Persons.Count; i++)
+            {
+                if (Persons[i].memberSince.Year == MemberInYear.Year)
+                    shownPersons.Add(Persons[i]);
+            }
+            
+        }
 
         #endregion
 
@@ -789,6 +832,8 @@ namespace Timotheus.Forms
             }
             return base.ProcessDialogKey(keyData);
         }
+
+  
     }
 
     /// <summary>
