@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Windows.Forms;
 using Timotheus.Utility;
 using Timotheus.Accounting;
@@ -47,7 +46,7 @@ namespace Timotheus.Forms
             try
             {
                 new Transaction(AddTransaction_DatePicker.Value.Date, ParseStringToInt(AddTransaction_AppendixBox.Text), AddTransaction_DescriptionBox.Text, AddTransaction_AccountPicker.SelectedIndex, ParseStringToDouble(AddTransaction_InBox.Text), ParseStringToDouble(AddTransaction_OutBox.Text));
-                MainWindow.window.UpdateAccountingTable();
+                MainWindow.window.UpdateTransactionsTable();
                 Close();
             }
             catch (Exception ex)

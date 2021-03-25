@@ -209,7 +209,7 @@ namespace Timotheus.Forms
             #endregion
 
             #region Accounting
-            Accounting_YearBox.Text = a.Year.ToString();
+            Accounting_YearBox.Text = StartPeriod.Year.ToString();
             Accounting_TransactionsView.AutoGenerateColumns = false;
             Accounting_TransactionsView.DataSource = new BindingSource(transactions, null);
             Accounting_AccountsView.AutoGenerateColumns = false;
@@ -492,7 +492,7 @@ namespace Timotheus.Forms
             {
                 FileInfo file = new FileInfo(saveFileDialog.FileName);
 
-                calendar.ExportPDF(file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text, Calendar_PeriodBox.Text, a, b);
+                calendar.ExportPDF(file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text, Calendar_PeriodBox.Text, StartPeriod, EndPeriod);
             }
         }
 
@@ -702,13 +702,11 @@ namespace Timotheus.Forms
         #endregion
 
         #region Members
-
         /// <summary>
         /// Opens dialog where the user can add a new member
         /// </summary>
-        private void Members_AddButton_Click(object sender, EventArgs e)
+        private void AddMember(object sender, EventArgs e)
         {
-            
             AddMember addMember = new AddMember
             {
                 Owner = this
@@ -716,7 +714,6 @@ namespace Timotheus.Forms
 
             addMember.ShowDialog();
             Update_Members_Under25Label();
-
         }
 
         /// <summary>
@@ -730,7 +727,6 @@ namespace Timotheus.Forms
             }
             UpdateMemberTable();
             Update_Members_Under25Label();
-
         }
 
         /// <summary>
@@ -748,6 +744,9 @@ namespace Timotheus.Forms
             Members_Under25Label.Text = MembersUnder25Text + " " + NumberUnder25;
         }
 
+        /// <summary>
+        /// Updates the text in the period text box.
+        /// </summary>
         private void UpdateMemberPeriod(object sender, EventArgs e)
         {
             if (sender != null)
@@ -757,30 +756,29 @@ namespace Timotheus.Forms
                 {
                     MemberInYear = MemberInYear.AddYears(1);
                     Members_PeriodeBox.Text = MemberInYear.Year.ToString();
-
-
                 }
                 else if (button.Text == "-")
                 {
 
                     MemberInYear = MemberInYear.AddYears(-1);
                     Members_PeriodeBox.Text = MemberInYear.Year.ToString();
-
                 }
                 UpdateMemberTable();
                 Update_Members_Under25Label();
             }
         }
 
+        /// <summary>
+        /// Updates the contents of the Members_View
+        /// </summary>
         public void UpdateMemberTable()
         {
             shownPersons.Clear();
             for (int i = 0; i < Persons.Count; i++)
             {
-                if (Persons[i].memberSince.Year == MemberInYear.Year)
+                if (Persons[i].MemberSince.Year == MemberInYear.Year)
                     shownPersons.Add(Persons[i]);
             }
-            
         }
         #endregion
 

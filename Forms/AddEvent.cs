@@ -112,7 +112,6 @@ namespace Timotheus.Forms
             return base.ProcessDialogKey(keyData);
         }
 
-        //Enables and disables the start/end time boxes if the events last all day.
         /// <summary>
         /// Enables and disables the start/end time boxes if the events last all day.
         /// </summary>

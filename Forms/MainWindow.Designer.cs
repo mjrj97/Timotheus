@@ -661,7 +661,7 @@ namespace Timotheus.Forms
             this.Members_AddButton.TabIndex = 2;
             this.Members_AddButton.Text = "Add";
             this.Members_AddButton.UseVisualStyleBackColor = true;
-            this.Members_AddButton.Click += new System.EventHandler(this.Members_AddButton_Click);
+            this.Members_AddButton.Click += new System.EventHandler(this.AddMember);
             // 
             // Members_RemoveButton
             // 
@@ -685,11 +685,11 @@ namespace Timotheus.Forms
             this.Members_NameColumn,
             this.Members_BirthdayColumn,
             this.Members_AddressColumn});
-            this.Members_View.Location = new System.Drawing.Point(6, 35);
+            this.Members_View.Location = new System.Drawing.Point(10, 35);
             this.Members_View.Name = "Members_View";
             this.Members_View.RowHeadersVisible = false;
             this.Members_View.RowTemplate.Height = 25;
-            this.Members_View.Size = new System.Drawing.Size(776, 338);
+            this.Members_View.Size = new System.Drawing.Size(772, 338);
             this.Members_View.TabIndex = 0;
             // 
             // Members_SinceColumn
