@@ -663,12 +663,13 @@ namespace Timotheus.Forms
         /// <summary>
         /// Opens dialog where the user can remove a member
         /// </summary>
-        private void Members_RemoveButton_Click(object sender, EventArgs e)
+        private void RemoveMember(object sender, EventArgs e)
         {
             if (Persons.Count > 0)
             {
-                Persons.RemoveAt(Members_View.CurrentCell.OwningRow.Index);
+                Persons.Remove(shownPersons[Members_View.CurrentCell.OwningRow.Index]);
             }
+            UpdateMemberTable();
             Update_Members_Under25Label();
 
         }
@@ -682,11 +683,12 @@ namespace Timotheus.Forms
 
             for (int i = 0; i < shownPersons.Count; i++)
             {
-                if (Persons[i].Age < 25)
+                if (shownPersons[i].Age < 25)
                     NumberUnder25++;
             }
             Members_Under25Label.Text = MembersUnder25Text + " " + NumberUnder25;
         }
+
         private void UpdateMemberPeriod(object sender, EventArgs e)
         {
             if (sender != null)
@@ -721,7 +723,6 @@ namespace Timotheus.Forms
             }
             
         }
-
         #endregion
 
         #region Settings
@@ -818,17 +819,24 @@ namespace Timotheus.Forms
                 if (keyData == Keys.Delete)
                 {
                     //If in Calendar tab, it removes the selected event
-                    if (tabControl.SelectedIndex == 0)
+                    if (tabControl.SelectedIndex == tabControl.TabPages.IndexOf(Calendar_Page))
                     {
                         RemoveEvent(null, null);
                         return true;
                     }
                     //If in Consent Forms tab, it removes the selected consent form
-                    else if (tabControl.SelectedIndex == 2)
+                    else if (tabControl.SelectedIndex == tabControl.TabPages.IndexOf(ConsentForms_Page))
                     {
                         RemoveConsentForm(null, null);
                         return true;
                     }
+                    //If in Member tab, it removes the selected event
+                    if (tabControl.SelectedIndex == tabControl.TabPages.IndexOf(Members_Page))
+                    {
+                        RemoveMember(null, null);
+                        return true;
+                    }
+                 
                 }
             }
             return base.ProcessDialogKey(keyData);

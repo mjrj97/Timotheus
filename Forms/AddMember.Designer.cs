@@ -29,6 +29,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddMember));
             this.AddMember_NameLabel = new System.Windows.Forms.Label();
             this.AddMember_NameBox = new System.Windows.Forms.TextBox();
             this.AddMember_AddressLabel = new System.Windows.Forms.Label();
@@ -46,7 +47,7 @@ namespace Timotheus.Forms
             // AddMember_NameLabel
             // 
             this.AddMember_NameLabel.AutoSize = true;
-            this.AddMember_NameLabel.Location = new System.Drawing.Point(16, 24);
+            this.AddMember_NameLabel.Location = new System.Drawing.Point(16, 27);
             this.AddMember_NameLabel.Name = "AddMember_NameLabel";
             this.AddMember_NameLabel.Size = new System.Drawing.Size(39, 15);
             this.AddMember_NameLabel.TabIndex = 0;
@@ -62,7 +63,7 @@ namespace Timotheus.Forms
             // AddMember_AddressLabel
             // 
             this.AddMember_AddressLabel.AutoSize = true;
-            this.AddMember_AddressLabel.Location = new System.Drawing.Point(18, 56);
+            this.AddMember_AddressLabel.Location = new System.Drawing.Point(16, 56);
             this.AddMember_AddressLabel.Name = "AddMember_AddressLabel";
             this.AddMember_AddressLabel.Size = new System.Drawing.Size(49, 15);
             this.AddMember_AddressLabel.TabIndex = 2;
@@ -159,9 +160,11 @@ namespace Timotheus.Forms
             this.Controls.Add(this.AddMember_NameBox);
             this.Controls.Add(this.AddMember_NameLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddMember";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add member";
             this.ResumeLayout(false);
             this.PerformLayout();

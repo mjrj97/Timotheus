@@ -659,7 +659,7 @@ namespace Timotheus.Forms
             this.Members_RemoveButton.TabIndex = 1;
             this.Members_RemoveButton.Text = "Remove";
             this.Members_RemoveButton.UseVisualStyleBackColor = true;
-            this.Members_RemoveButton.Click += new System.EventHandler(this.Members_RemoveButton_Click);
+            this.Members_RemoveButton.Click += new System.EventHandler(this.RemoveMember);
             // 
             // Members_View
             // 
