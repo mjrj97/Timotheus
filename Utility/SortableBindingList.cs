@@ -31,6 +31,19 @@ namespace Timotheus.Utility
         }
 
         /// <summary>
+        /// Returns the list as an equivalent array.
+        /// </summary>
+        public T[] ToArray()
+        {
+            T[] array = new T[Count];
+            for (int i = 0; i < Count; i++)
+            {
+                array[i] = this[i];
+            }
+            return array;
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the list supports sorting.
         /// </summary>
         protected override bool SupportsSortingCore

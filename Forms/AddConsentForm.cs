@@ -16,11 +16,15 @@ namespace Timotheus.Forms
         {
             InitializeComponent();
 
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
 
             Text = locale.GetLocalization(this);
             AddConsentForm_AddButton.Text = locale.GetLocalization(AddConsentForm_AddButton);
             AddConsentForm_CancelButton.Text = locale.GetLocalization(AddConsentForm_CancelButton);
+            AddConsentForm_NameLabel.Text = locale.GetLocalization(AddConsentForm_NameLabel);
+            AddConsentForm_SignedLabel.Text = locale.GetLocalization(AddConsentForm_SignedLabel);
+            AddConsentForm_VersionLabel.Text = locale.GetLocalization(AddConsentForm_VersionLabel);
+            AddConsentForm_CommentLabel.Text = locale.GetLocalization(AddConsentForm_CommentLabel);
         }
 
         /// <summary>
@@ -30,7 +34,7 @@ namespace Timotheus.Forms
         {
             try
             {
-                MainWindow.window.consentForms.Add(new ConsentForm("Test person", DateTime.Now, DateTime.Now, ""));
+                MainWindow.window.consentForms.Add(new ConsentForm(AddConsentForm_NameBox.Text, AddConsentForm_SignedDate.Value, AddConsentForm_VersionDate.Value, AddConsentForm_CommentBox.Text));
                 Close();
             }
             catch (Exception ex)

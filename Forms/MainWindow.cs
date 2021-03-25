@@ -1,8 +1,8 @@
 using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.Persons;
+using Timotheus.Accounting;
 using System;
-using System.Text;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -47,15 +47,15 @@ namespace Timotheus.Forms
         /// List of all transactions.
         /// </summary>
         public SortableBindingList<Transaction> transactions = new SortableBindingList<Transaction>();
+        /// <summary>
+        /// List of all accounts.
+        /// </summary>
+        public SortableBindingList<Account> accounts = new SortableBindingList<Account>();
 
         /// <summary>
         /// Current calendar used by the program.
         /// </summary>
         public Calendar calendar = new Calendar();
-        /// <summary>
-        /// List of the names of each month.
-        /// </summary>
-        private readonly string[] month = new string[12];
         /// <summary>
         /// Name of the spring period.
         /// </summary>
@@ -96,11 +96,7 @@ namespace Timotheus.Forms
             window = this;
             InitializeComponent();
             SetupUI();
-            Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
-            Members_PeriodeBox.Text = MemberInYear.Year.ToString();
-            Update_Members_Under25Label();
-
-
+            
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
             if (File.Exists(fullName))
             {
@@ -136,22 +132,13 @@ namespace Timotheus.Forms
         /// </summary>
         private void SetupUI()
         {
-            Calendar_View.AutoGenerateColumns = false;
-            SFTP_View.AutoGenerateColumns = false;
-            ConsentForms_View.AutoGenerateColumns = false;
-            Members_View.AutoGenerateColumns = false;
-            Accounting_View.AutoGenerateColumns = false;
-            Calendar_View.DataSource = new BindingSource(shownEvents, null);
-            SFTP_View.DataSource = new BindingSource(shownFiles, null);
-            ConsentForms_View.DataSource = new BindingSource(consentForms, null);
-            Members_View.DataSource = new BindingSource(shownPersons, null);
-            Accounting_View.DataSource = new BindingSource(transactions, null);
-            Accounting_View.Columns[5].DefaultCellStyle.ForeColor = Color.Red;
-            SFTP_PasswordBox.PasswordChar = '*';
-
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
 
             #region Calendar
+            Calendar_View.AutoGenerateColumns = false;
+            Calendar_View.DataSource = new BindingSource(shownEvents, null);
+            
+            Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
             Calendar_Page.Text = locale.GetLocalization(Calendar_Page);
             Calendar_StartColumn.HeaderText = locale.GetLocalization(Calendar_StartColumn);
             Calendar_EndColumn.HeaderText = locale.GetLocalization(Calendar_EndColumn);
@@ -169,24 +156,15 @@ namespace Timotheus.Forms
             Calendar_RemoveButton.Text = locale.GetLocalization(Calendar_RemoveButton);
             Calendar_AddButton.Text = locale.GetLocalization(Calendar_AddButton);
 
-            month[0] = locale.GetLocalization("Calendar_January", "January");
-            month[1] = locale.GetLocalization("Calendar_February", "February");
-            month[2] = locale.GetLocalization("Calendar_March", "March");
-            month[3] = locale.GetLocalization("Calendar_April", "April");
-            month[4] = locale.GetLocalization("Calendar_May", "May");
-            month[5] = locale.GetLocalization("Calendar_June", "June");
-            month[6] = locale.GetLocalization("Calendar_July", "July");
-            month[7] = locale.GetLocalization("Calendar_August", "August");
-            month[8] = locale.GetLocalization("Calendar_September", "September");
-            month[9] = locale.GetLocalization("Calendar_October", "October");
-            month[10] = locale.GetLocalization("Calendar_November", "November");
-            month[11] = locale.GetLocalization("Calendar_December", "December");
-
             spring = locale.GetLocalization("Calendar_Spring", spring);
             fall = locale.GetLocalization("Calendar_Fall", fall);
             #endregion
 
             #region SFTP
+            SFTP_View.AutoGenerateColumns = false;
+            SFTP_View.DataSource = new BindingSource(shownFiles, null);
+            SFTP_PasswordBox.PasswordChar = '*';
+            
             SFTP_Page.Text = locale.GetLocalization(SFTP_Page);
             SFTP_HostLabel.Text = locale.GetLocalization(SFTP_HostLabel);
             SFTP_UsernameLabel.Text = locale.GetLocalization(SFTP_UsernameLabel);
@@ -202,6 +180,11 @@ namespace Timotheus.Forms
             #endregion
 
             #region Members
+            Members_View.AutoGenerateColumns = false;
+            Members_View.DataSource = new BindingSource(shownPersons, null);
+            
+            Members_PeriodeBox.Text = MemberInYear.Year.ToString();
+            Update_Members_Under25Label();
             Members_Page.Text = locale.GetLocalization(Members_Page);
             Members_NameColumn.HeaderText = locale.GetLocalization(Members_NameColumn);
             Members_AddressColumn.HeaderText = locale.GetLocalization(Members_AddressColumn);
@@ -213,6 +196,9 @@ namespace Timotheus.Forms
             #endregion
 
             #region Consent Forms
+            ConsentForms_View.AutoGenerateColumns = false;
+            ConsentForms_View.DataSource = new BindingSource(consentForms, null);
+            
             ConsentForms_Page.Text = locale.GetLocalization(ConsentForms_Page);
             ConsentForms_AddButton.Text = locale.GetLocalization(ConsentForms_AddButton);
             ConsentForms_RemoveButton.Text = locale.GetLocalization(ConsentForms_RemoveButton);
@@ -223,6 +209,13 @@ namespace Timotheus.Forms
             #endregion
 
             #region Accounting
+            Accounting_YearBox.Text = a.Year.ToString();
+            Accounting_TransactionsView.AutoGenerateColumns = false;
+            Accounting_TransactionsView.DataSource = new BindingSource(transactions, null);
+            Accounting_AccountsView.AutoGenerateColumns = false;
+            Accounting_AccountsView.DataSource = new BindingSource(accounts, null);
+            Accounting_TransactionsView.Columns[5].DefaultCellStyle.ForeColor = Color.Red;
+            
             Accounting_Page.Text = locale.GetLocalization(Accounting_Page);
             Accounting_DateColumn.HeaderText = locale.GetLocalization(Accounting_DateColumn);
             Accounting_AppendixColumn.HeaderText = locale.GetLocalization(Accounting_AppendixColumn);
@@ -297,7 +290,7 @@ namespace Timotheus.Forms
                     {
                         StartPeriod = StartPeriod.AddMonths(1);
                         EndPeriod = EndPeriod.AddMonths(1);
-                        Calendar_PeriodBox.Text = StartPeriod.Year + " " + month[StartPeriod.Month-1];
+                        Calendar_PeriodBox.Text = StartPeriod.ToString("MMMM") + " " + StartPeriod.Year;
                     }
                 }
                 else if (button.Text == "-")
@@ -322,7 +315,7 @@ namespace Timotheus.Forms
                     {
                         StartPeriod = StartPeriod.AddMonths(-1);
                         EndPeriod = EndPeriod.AddMonths(-1);
-                        Calendar_PeriodBox.Text = StartPeriod.Year + " " + month[StartPeriod.Month - 1];
+                        Calendar_PeriodBox.Text = StartPeriod.ToString("MMMM") + " " + StartPeriod.Year + " ";
                     }
                 }
             }
@@ -396,9 +389,10 @@ namespace Timotheus.Forms
                         }
 
                         if (StartPeriod.Month > 6)
-                            Calendar_PeriodBox.Text = StartPeriod.Year + " " + fall;
+                            Calendar_PeriodBox.Text = fall + " " + StartPeriod.Year;
                         else
-                            Calendar_PeriodBox.Text = StartPeriod.Year + " " + spring;
+                            Calendar_PeriodBox.Text = spring + " " + StartPeriod.Year;
+                            
                         period = Period.Halfyear;
                     }
                     else if (Calendar_MonthButton.Checked)
@@ -406,7 +400,7 @@ namespace Timotheus.Forms
                         StartPeriod = new DateTime(StartPeriod.Year, StartPeriod.Month, 1);
                         EndPeriod = StartPeriod.AddMonths(1);
 
-                        Calendar_PeriodBox.Text = StartPeriod.Year + " " + month[StartPeriod.Month - 1];
+                        Calendar_PeriodBox.Text = StartPeriod.ToString("MMMM") + " " + StartPeriod.Year;
                         period = Period.Month;
                     }
 
@@ -466,7 +460,7 @@ namespace Timotheus.Forms
             {
                 if ((stream = saveFileDialog.OpenFile()) != null)
                 {
-                    byte[] data = Encoding.UTF8.GetBytes(calendar.GetCalendarICS(Path.GetFileNameWithoutExtension(saveFileDialog.FileName)));
+                    byte[] data = System.Text.Encoding.UTF8.GetBytes(calendar.GetCalendarICS(Path.GetFileNameWithoutExtension(saveFileDialog.FileName)));
                     stream.Write(data);
                     stream.Close();
                 }
@@ -488,7 +482,7 @@ namespace Timotheus.Forms
         /// <summary>
         /// Opens a dialog where the user can save the current calendar as .pdf.
         /// </summary>
-        private void ExportPDF(object sender, EventArgs e)
+        private void ExportCalendar(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
@@ -498,7 +492,7 @@ namespace Timotheus.Forms
             {
                 FileInfo file = new FileInfo(saveFileDialog.FileName);
 
-                calendar.ExportPDF(file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_PictureBox.Image);
+                calendar.ExportPDF(file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text, Calendar_PeriodBox.Text, a, b);
             }
         }
 
@@ -617,28 +611,68 @@ namespace Timotheus.Forms
         #endregion
 
         #region Accounting
-        public void UpdateAccountingTable()
+        /// <summary>
+        /// Changes the value in the year box to another year.
+        /// </summary>
+        private void UpdateAccountingYear(object sender, EventArgs e)
         {
-            transactions.Clear();
-            for (int i = 0; i < Transaction.list.Count; i++)
+            if (sender != null)
             {
-                transactions.Add(Transaction.list[i]);
+                Button button = (Button)sender;
+                if (button.Text == "+")
+                    Accounting_YearBox.Text = (int.Parse(Accounting_YearBox.Text) + 1).ToString();
+                else if (button.Text == "-")
+                    Accounting_YearBox.Text = (int.Parse(Accounting_YearBox.Text) - 1).ToString();
+                UpdateAccountingTable();
             }
         }
 
-        private void AddTransaction(object sender, EventArgs e)
+        /// <summary>
+        /// Updates the contents of the Accounting_View so only transactions in the given year are shown.
+        /// </summary>
+        public void UpdateAccountingTable()
         {
-            new Transaction(DateTime.Now.Date, 0, "Test transaction", 0, 100.0, 50.0);
-            UpdateAccountingTable();
+            int year = int.Parse(Accounting_YearBox.Text);
+            transactions.Clear();
+            for (int i = 0; i < Transaction.list.Count; i++)
+            {
+                if (year == Transaction.list[i].Date.Year)
+                    transactions.Add(Transaction.list[i]);
+            }
         }
 
+        /// <summary>
+        /// Opens AddTransaction dialog.
+        /// </summary>
+        private void AddTransaction(object sender, EventArgs e)
+        {
+            AddTransaction addTransaction = new AddTransaction(accounts.ToArray())
+            {
+                Owner = this
+            };
+
+            addTransaction.ShowDialog();
+        }
+
+        /// <summary>
+        /// Removes the selected transaction in the Accounting_View and list in Transaction class.
+        /// </summary>
         private void RemoveTransaction(object sender, EventArgs e)
         {
             if (transactions.Count > 0)
             {
-                Transaction transaction = transactions[Accounting_View.CurrentCell.OwningRow.Index];
+                Transaction transaction = transactions[Accounting_TransactionsView.CurrentCell.OwningRow.Index];
                 transactions.Remove(transaction);
+                Transaction.list.Remove(transaction);
             }
+        }
+
+        /// <summary>
+        /// Exports the accounts as a PDF only containing the transactions in the selected year.
+        /// </summary>
+        private void ExportAccounts(object sender, EventArgs e)
+        {
+
         }
         #endregion
 

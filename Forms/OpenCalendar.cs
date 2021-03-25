@@ -35,7 +35,7 @@ namespace Timotheus.Forms
                     OpenCalendar_CalDAVBox.Text = content[2].Trim();
             }
 
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
 
             Text = locale.GetLocalization(this);
             OpenCalendar_OpenButton.Text = locale.GetLocalization(OpenCalendar_OpenButton);

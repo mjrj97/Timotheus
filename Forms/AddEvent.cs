@@ -26,7 +26,7 @@ namespace Timotheus.Forms
             AddEvent_EndPicker.Value = end;
             AddEvent_LocationBox.Text = MainWindow.window.Settings_AddressBox.Text;
 
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
 
             Text = locale.GetLocalization(this);
             AddEvent_NameLabel.Text = locale.GetLocalization(AddEvent_NameLabel);

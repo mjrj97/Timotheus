@@ -2,14 +2,21 @@
 using System.Collections.Generic;
 using Timotheus.Forms;
 
-namespace Timotheus.Utility
+namespace Timotheus.Accounting
 {
+    /// <summary>
+    /// Data type consisting of an income and expense corresponding to a bank transaction at a specific date.
+    /// </summary>
     public class Transaction
     {
+        // Private versions of the data listed below. Used to make a custom setter for the data.
         private DateTime date;
         private double inValue;
         private double outValue;
 
+        /// <summary>
+        /// Date of the transaction.
+        /// </summary>
         public DateTime Date
         {
             get
@@ -22,9 +29,21 @@ namespace Timotheus.Utility
                 AddTransaction();
             }
         }
+        /// <summary>
+        /// Appendix number corresponding to the transaction.
+        /// </summary>
         public int Appendix { get; set; }
+        /// <summary>
+        /// Description/Name of the transaction.
+        /// </summary>
         public string Description { get; set; }
+        /// <summary>
+        /// Account attributed to the transaction (e.g. materials, grants).
+        /// </summary>
         public int AccountNumber { get; set; }
+        /// <summary>
+        /// The income from this transaction. Always positive.
+        /// </summary>
         public double InValue
         {
             get
@@ -33,10 +52,13 @@ namespace Timotheus.Utility
             }
             set
             {
-                inValue = value;
+                inValue = Math.Abs(value);
                 UpdateBalance();
             }
         }
+        /// <summary>
+        /// The expense from this transaction. Always positive.
+        /// </summary>
         public double OutValue
         {
             get
@@ -45,14 +67,23 @@ namespace Timotheus.Utility
             }
             set
             {
-                outValue = value;
+                outValue = Math.Abs(value);
                 UpdateBalance();
             }
         }
+        /// <summary>
+        /// The balance after this transaction.
+        /// </summary>
         public double Balance { get; private set; }
 
+        /// <summary>
+        /// List of transactions sorted by date.
+        /// </summary>
         public static List<Transaction> list = new List<Transaction>();
 
+        /// <summary>
+        /// Constructor. Creates a transaction and adds it to the list (Sorted by date).
+        /// </summary>
         public Transaction(DateTime Date, int Appendix, string Description, int AccountNumber, double InValue, double OutValue)
         {
             this.Date = Date;
@@ -63,6 +94,9 @@ namespace Timotheus.Utility
             this.OutValue = OutValue;
         }
 
+        /// <summary>
+        /// Updates the balance of this, and every following transaction.
+        /// </summary>
         private void UpdateBalance()
         {
             double previousBalance = 0.0;
@@ -74,6 +108,9 @@ namespace Timotheus.Utility
                 list[i + 1].UpdateBalance();
         }
 
+        /// <summary>
+        /// Adds the transaction to the list (Sorted by date).
+        /// </summary>
         private void AddTransaction()
         {
             int insertIndex = -1;

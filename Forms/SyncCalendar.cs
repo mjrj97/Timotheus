@@ -49,7 +49,7 @@ namespace Timotheus.Forms
                 SyncCalendar_PasswordBox.Enabled = true;
             }
 
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture);
+            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
             
             Text = locale.GetLocalization(this);
             SyncCalendar_SyncButton.Text = locale.GetLocalization(SyncCalendar_SyncButton);
