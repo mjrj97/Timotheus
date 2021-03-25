@@ -603,14 +603,14 @@ namespace Timotheus.Forms
                     Accounting_YearBox.Text = (int.Parse(Accounting_YearBox.Text) + 1).ToString();
                 else if (button.Text == "-")
                     Accounting_YearBox.Text = (int.Parse(Accounting_YearBox.Text) - 1).ToString();
-                UpdateAccountingTable();
+                UpdateTransactionsTable();
             }
         }
 
         /// <summary>
-        /// Updates the contents of the Accounting_View so only transactions in the given year are shown.
+        /// Updates the contents of the Accounting_TransactionsView so only transactions in the given year are shown.
         /// </summary>
-        public void UpdateAccountingTable()
+        public void UpdateTransactionsTable()
         {
             int year = int.Parse(Accounting_YearBox.Text);
             transactions.Clear();
@@ -618,6 +618,31 @@ namespace Timotheus.Forms
             {
                 if (year == Transaction.list[i].Date.Year)
                     transactions.Add(Transaction.list[i]);
+            }
+            UpdateAccountsTable();
+        }
+
+        /// <summary>
+        /// Updates the contents of the Accounting_AccountsView so the balance of each account only shows values relevant to that year.
+        /// </summary>
+        public void UpdateAccountsTable()
+        {
+            int year = int.Parse(Accounting_YearBox.Text);
+            double[] balances = new double[accounts.Count];
+            for (int i = 0; i < transactions.Count; i++)
+            {
+                if (year == transactions[i].Date.Year)
+                {
+                    for (int j = 0; j < accounts.Count; j++)
+                    {
+                        if (accounts[j].ID == transactions[i].AccountNumber)
+                            balances[j] += transactions[i].InValue + transactions[i].OutValue;
+                    }
+                }
+            }
+            for (int i = 0; i < balances.Length; i++)
+            {
+                accounts[i].SetBalance(balances[i]);
             }
         }
 

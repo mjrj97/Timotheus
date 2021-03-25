@@ -136,7 +136,7 @@ namespace Timotheus.Accounting
                 list.Insert(insertIndex, this);
             if (MainWindow.window != null)
             {
-                MainWindow.window.UpdateAccountingTable();
+                MainWindow.window.UpdateTransactionsTable();
                 list[0].UpdateBalance();
             }
         }
