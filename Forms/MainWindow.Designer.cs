@@ -64,6 +64,12 @@ namespace Timotheus.Forms
             this.SFTP_HostLabel = new System.Windows.Forms.Label();
             this.SFTP_HostBox = new System.Windows.Forms.TextBox();
             this.Members_Page = new System.Windows.Forms.TabPage();
+            this.Members_PeriodeBox = new System.Windows.Forms.TextBox();
+            this.Members_AddYearButton = new System.Windows.Forms.Button();
+            this.Members_SubtractYearButton = new System.Windows.Forms.Button();
+            this.Members_Under25Label = new System.Windows.Forms.Label();
+            this.Members_AddButton = new System.Windows.Forms.Button();
+            this.Members_RemoveButton = new System.Windows.Forms.Button();
             this.Members_View = new System.Windows.Forms.DataGridView();
             this.Members_SinceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Members_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -394,7 +400,7 @@ namespace Timotheus.Forms
             this.Calendar_AddYearButton.TabIndex = 1;
             this.Calendar_AddYearButton.Text = "+";
             this.Calendar_AddYearButton.UseVisualStyleBackColor = true;
-            this.Calendar_AddYearButton.Click += new System.EventHandler(this.UpdatePeriod);
+            this.Calendar_AddYearButton.Click += new System.EventHandler(this.UpdateCalenderPeriod);
             // 
             // Calendar_SubtractYearButton
             // 
@@ -405,7 +411,7 @@ namespace Timotheus.Forms
             this.Calendar_SubtractYearButton.TabIndex = 0;
             this.Calendar_SubtractYearButton.Text = "-";
             this.Calendar_SubtractYearButton.UseVisualStyleBackColor = true;
-            this.Calendar_SubtractYearButton.Click += new System.EventHandler(this.UpdatePeriod);
+            this.Calendar_SubtractYearButton.Click += new System.EventHandler(this.UpdateCalenderPeriod);
             // 
             // SFTP_Page
             // 
@@ -591,6 +597,12 @@ namespace Timotheus.Forms
             // 
             // Members_Page
             // 
+            this.Members_Page.Controls.Add(this.Members_PeriodeBox);
+            this.Members_Page.Controls.Add(this.Members_AddYearButton);
+            this.Members_Page.Controls.Add(this.Members_SubtractYearButton);
+            this.Members_Page.Controls.Add(this.Members_Under25Label);
+            this.Members_Page.Controls.Add(this.Members_AddButton);
+            this.Members_Page.Controls.Add(this.Members_RemoveButton);
             this.Members_Page.Controls.Add(this.Members_View);
             this.Members_Page.Location = new System.Drawing.Point(4, 24);
             this.Members_Page.Name = "Members_Page";
@@ -599,19 +611,85 @@ namespace Timotheus.Forms
             this.Members_Page.Text = "Members";
             this.Members_Page.UseVisualStyleBackColor = true;
             // 
+            // Members_PeriodeBox
+            // 
+            this.Members_PeriodeBox.Location = new System.Drawing.Point(39, 6);
+            this.Members_PeriodeBox.Name = "Members_PeriodeBox";
+            this.Members_PeriodeBox.Size = new System.Drawing.Size(100, 23);
+            this.Members_PeriodeBox.TabIndex = 6;
+            this.Members_PeriodeBox.Text = "2020";
+            this.Members_PeriodeBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Members_AddYearButton
+            // 
+            this.Members_AddYearButton.Location = new System.Drawing.Point(145, 6);
+            this.Members_AddYearButton.Name = "Members_AddYearButton";
+            this.Members_AddYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.Members_AddYearButton.Size = new System.Drawing.Size(23, 23);
+            this.Members_AddYearButton.TabIndex = 5;
+            this.Members_AddYearButton.Text = "+";
+            this.Members_AddYearButton.UseVisualStyleBackColor = true;
+            this.Members_AddYearButton.Click += new System.EventHandler(this.UpdateMemberPeriod);
+            // 
+            // Members_SubtractYearButton
+            // 
+            this.Members_SubtractYearButton.Location = new System.Drawing.Point(10, 6);
+            this.Members_SubtractYearButton.Name = "Members_SubtractYearButton";
+            this.Members_SubtractYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.Members_SubtractYearButton.Size = new System.Drawing.Size(23, 23);
+            this.Members_SubtractYearButton.TabIndex = 4;
+            this.Members_SubtractYearButton.Text = "-";
+            this.Members_SubtractYearButton.UseVisualStyleBackColor = true;
+            this.Members_SubtractYearButton.Click += new System.EventHandler(this.UpdateMemberPeriod);
+            // 
+            // Members_Under25Label
+            // 
+            this.Members_Under25Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Members_Under25Label.AutoSize = true;
+            this.Members_Under25Label.Location = new System.Drawing.Point(636, 383);
+            this.Members_Under25Label.Name = "Members_Under25Label";
+            this.Members_Under25Label.Size = new System.Drawing.Size(112, 15);
+            this.Members_Under25Label.TabIndex = 3;
+            this.Members_Under25Label.Text = "Memders under 25: ";
+            // 
+            // Members_AddButton
+            // 
+            this.Members_AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Members_AddButton.Location = new System.Drawing.Point(10, 379);
+            this.Members_AddButton.Name = "Members_AddButton";
+            this.Members_AddButton.Size = new System.Drawing.Size(75, 23);
+            this.Members_AddButton.TabIndex = 2;
+            this.Members_AddButton.Text = "Add";
+            this.Members_AddButton.UseVisualStyleBackColor = true;
+            this.Members_AddButton.Click += new System.EventHandler(this.Members_AddButton_Click);
+            // 
+            // Members_RemoveButton
+            // 
+            this.Members_RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Members_RemoveButton.Location = new System.Drawing.Point(91, 379);
+            this.Members_RemoveButton.Name = "Members_RemoveButton";
+            this.Members_RemoveButton.Size = new System.Drawing.Size(75, 23);
+            this.Members_RemoveButton.TabIndex = 1;
+            this.Members_RemoveButton.Text = "Remove";
+            this.Members_RemoveButton.UseVisualStyleBackColor = true;
+            this.Members_RemoveButton.Click += new System.EventHandler(this.RemoveMember);
+            // 
             // Members_View
             // 
+            this.Members_View.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Members_View.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Members_View.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Members_SinceColumn,
             this.Members_NameColumn,
             this.Members_BirthdayColumn,
             this.Members_AddressColumn});
-            this.Members_View.Location = new System.Drawing.Point(10, 10);
+            this.Members_View.Location = new System.Drawing.Point(6, 35);
             this.Members_View.Name = "Members_View";
             this.Members_View.RowHeadersVisible = false;
             this.Members_View.RowTemplate.Height = 25;
-            this.Members_View.Size = new System.Drawing.Size(776, 346);
+            this.Members_View.Size = new System.Drawing.Size(776, 338);
             this.Members_View.TabIndex = 0;
             // 
             // Members_SinceColumn
@@ -1167,6 +1245,7 @@ namespace Timotheus.Forms
             this.SFTP_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).EndInit();
             this.Members_Page.ResumeLayout(false);
+            this.Members_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Members_View)).EndInit();
             this.ConsentForms_Page.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).EndInit();
@@ -1241,6 +1320,12 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Members_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Members_BirthdayColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Members_AddressColumn;
+        public System.Windows.Forms.TextBox Members_PeriodeBox;
+        private System.Windows.Forms.Button Members_AddYearButton;
+        private System.Windows.Forms.Button Members_SubtractYearButton;
+        private System.Windows.Forms.Button Members_AddButton;
+        private System.Windows.Forms.Button Members_RemoveButton;
+        private System.Windows.Forms.Label Members_Under25Label;
         private System.Windows.Forms.TabPage ConsentForms_Page;
         private System.Windows.Forms.Button ConsentForms_AddButton;
         private System.Windows.Forms.Button ConsentForms_RemoveButton;
@@ -1270,11 +1355,14 @@ namespace Timotheus.Forms
         private System.Windows.Forms.PictureBox Help_IconBox;
         private System.Windows.Forms.TabPage Accounting_Page;
         private System.Windows.Forms.DataGridView Accounting_TransactionsView;
-        private System.Windows.Forms.Button Accounting_RemoveButton;
+        private System.Windows.Forms.DataGridView Accounting_AccountsView;
+        private System.Windows.Forms.SplitContainer Account_SplitPanel;
         private System.Windows.Forms.Button Accounting_AddButton;
+        private System.Windows.Forms.Button Accounting_RemoveButton;
         private System.Windows.Forms.Button Accounting_AddYearButton;
         private System.Windows.Forms.Button Accounting_SubtractYearButton;
         public System.Windows.Forms.TextBox Accounting_YearBox;
+        private System.Windows.Forms.Button Accounting_ExportButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_DateColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_AppendixColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_DescriptionColumn;
@@ -1282,9 +1370,6 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_InColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_OutColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_BalanceColumn;
-        private System.Windows.Forms.Button Accounting_ExportButton;
-        private System.Windows.Forms.SplitContainer Account_SplitPanel;
-        private System.Windows.Forms.DataGridView Accounting_AccountsView;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NetColumn;
     }

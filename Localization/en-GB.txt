@@ -33,6 +33,9 @@ Members_NameColumn,Name
 Members_AddressColumn,Address
 Members_BirthdayColumn,Birthday
 Members_SinceColumn,Member since
+Members_RemoveButton,Remove
+Members_AddButton,Add
+Members_Under25Label,Medlemer under 25:
 ConsentForms_Page,Consent forms
 ConsentForms_AddButton,Add
 ConsentForms_RemoveButton,Remove
@@ -78,6 +81,12 @@ AddEvent_DescriptionLabel,Descript.
 AddEvent_AllDayBox,All day event
 AddEvent_AddButton,Add
 AddEvent_CancelButton,Cancel
+AddMember_NameLabel,Name
+AddMember_AddressLabel,Address
+AddMember_BirthdayLabel,Birthday
+AddMember_MemberSince,Member since
+AddMember_AddButton,Add
+AddMember_CancelButton,Cancel
 OpenCalendar,Open
 OpenCalendar_OpenButton,Open
 OpenCalendar_CancelButton,Cancel
