@@ -20,6 +20,7 @@ namespace Timotheus.Persons
             birthday = Birthday;
             memberSince = MemberSince;
             
+            //Caucluater age when the start being member
             Age = memberSince.Year - birthday.Year;
             if (memberSince.DayOfYear < birthday.DayOfYear)
                 Age -= 1;

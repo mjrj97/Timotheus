@@ -680,7 +680,7 @@ namespace Timotheus.Forms
         {
             int NumberUnder25 = 0;
 
-            for (int i = 0; i < Persons.Count; i++)
+            for (int i = 0; i < shownPersons.Count; i++)
             {
                 if (Persons[i].Age < 25)
                     NumberUnder25++;
@@ -707,6 +707,7 @@ namespace Timotheus.Forms
 
                 }
                 UpdateMemberTable();
+                Update_Members_Under25Label();
             }
         }
 

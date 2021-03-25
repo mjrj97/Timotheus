@@ -26,7 +26,7 @@ namespace Timotheus.Forms
 
         private void AddMember_AddButton_Click(object sender, EventArgs e)
         {
-            Person person = new Person(AddMember_NameBox.Text, AddMember_AddressBox.Text, Addmember_BirthdayCalendar.SelectionStart, AddMember_MemberSinceCalender.SelectionStart);
+            Person person = new Person(AddMember_NameBox.Text, AddMember_AddressBox.Text, Addmember_BirthdayPicker.Value, AddMember_MemberSincePicker.Value);
             MainWindow.window.Persons.Add(person);
             MainWindow.window.UpdateMemberTable();
             Close();
@@ -39,12 +39,13 @@ namespace Timotheus.Forms
 
         private void Addmember_BirthdayCalendar_DateChanged(object sender, DateRangeEventArgs e)
         {
-            AddMember_BirthdayDateLabel.Text = Addmember_BirthdayCalendar.SelectionStart.ToString("d-M-yyyy", CultureInfo.CreateSpecificCulture(Program.culture));
+            AddMember_BirthdayDateLabel.Text = Addmember_BirthdayPicker.Value.ToString("d-M-yyyy", CultureInfo.CreateSpecificCulture(Program.culture));
         }
 
         private void AddMember_MemberSinceCalender_DateChanged(object sender, DateRangeEventArgs e)
         {
-            AddMember_MemberSinceDateLabel.Text = AddMember_MemberSinceCalender.SelectionStart.ToString("d-M-yyyy", CultureInfo.CreateSpecificCulture(Program.culture));
+            AddMember_MemberSinceDateLabel.Text = AddMember_MemberSincePicker.Value.ToString("d-M-yyyy", CultureInfo.CreateSpecificCulture(Program.culture));
         }
+
     }
 }

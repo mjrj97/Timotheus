@@ -631,6 +631,7 @@ namespace Timotheus.Forms
             // 
             // Members_Under25Label
             // 
+            this.Members_Under25Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.Members_Under25Label.AutoSize = true;
             this.Members_Under25Label.Location = new System.Drawing.Point(636, 383);
             this.Members_Under25Label.Name = "Members_Under25Label";
@@ -640,6 +641,7 @@ namespace Timotheus.Forms
             // 
             // Members_AddButton
             // 
+            this.Members_AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Members_AddButton.Location = new System.Drawing.Point(10, 379);
             this.Members_AddButton.Name = "Members_AddButton";
             this.Members_AddButton.Size = new System.Drawing.Size(75, 23);
@@ -650,6 +652,7 @@ namespace Timotheus.Forms
             // 
             // Members_RemoveButton
             // 
+            this.Members_RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Members_RemoveButton.Location = new System.Drawing.Point(91, 379);
             this.Members_RemoveButton.Name = "Members_RemoveButton";
             this.Members_RemoveButton.Size = new System.Drawing.Size(75, 23);
@@ -660,6 +663,9 @@ namespace Timotheus.Forms
             // 
             // Members_View
             // 
+            this.Members_View.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Members_View.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Members_View.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Members_SinceColumn,
