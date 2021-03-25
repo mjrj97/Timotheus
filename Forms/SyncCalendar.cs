@@ -79,7 +79,7 @@ namespace Timotheus.Forms
                 if (SyncCalendar_EntireCalendarButton.Checked)
                     MainWindow.window.calendar.Sync();
                 else if (SyncCalendar_PeriodCalendarButton.Checked)
-                    MainWindow.window.calendar.Sync(MainWindow.window.a, MainWindow.window.b);
+                    MainWindow.window.calendar.Sync(MainWindow.window.StartPeriod, MainWindow.window.EndPeriod);
                 else if (SyncCalendar_CustomCalendarButton.Checked)
                 {
                     DateTime a = SyncCalendar_aTimePicker.Value;
