@@ -35,12 +35,13 @@ namespace Timotheus.Forms
         {
             try
             {
-                MainWindow.window.consentForms.Add(new Person(AddConsentForm_NameBox.Text, AddConsentForm_SignedDate.Value, AddConsentForm_VersionDate.Value, AddConsentForm_CommentBox.Text));
+                new Person(AddConsentForm_NameBox.Text, AddConsentForm_SignedDate.Value, AddConsentForm_VersionDate.Value, AddConsentForm_CommentBox.Text);
+                MainWindow.window.UpdateConsentFormsTable();
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.Error(ex.Message, "Exception_InvalidInput");
             }
         }
 

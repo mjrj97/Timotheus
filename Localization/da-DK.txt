@@ -121,3 +121,6 @@ PDF_Activity,Aktivitet
 PDF_Leader,Mødeleder
 PDF_Musician,Musiker
 PDF_Coffee,Kaffehold
+Exception_Sync,Kunne ikke synkronisere
+Exception_InvalidInput,Input er ikke valid
+Exception_LoadFailed,Kunne ikke indlæses

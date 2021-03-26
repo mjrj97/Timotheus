@@ -121,3 +121,6 @@ PDF_Activity,Activity
 PDF_Leader,Leader
 PDF_Musician,Musician
 PDF_Coffee,Coffee
+Exception_Sync,Couldn't sync
+Exception_InvalidInput,Invalid input
+Exception_LoadFailed,Failed to load

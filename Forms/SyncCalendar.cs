@@ -93,7 +93,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Sync error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.Error(ex.Message, "Exception_Sync");
             }
         }
 

@@ -36,8 +36,7 @@ namespace Timotheus.Forms
                 if (AddMember_AddressBox.Text.Trim() == String.Empty)
                     throw new Exception("Address cannot be empty.");
 
-                Person person = new Person(AddMember_NameBox.Text, AddMember_AddressBox.Text, Addmember_BirthdayPicker.Value.Date, AddMember_MemberSincePicker.Value.Date);
-                MainWindow.window.Persons.Add(person);
+                new Person(AddMember_NameBox.Text, AddMember_AddressBox.Text, Addmember_BirthdayPicker.Value.Date, AddMember_MemberSincePicker.Value.Date);
                 MainWindow.window.UpdateMemberTable();
                 CloseButton(null, null);
             }

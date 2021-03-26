@@ -11,7 +11,6 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class OpenCalendar : Form
     {
-        //Constructor
         /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
         /// </summary>
@@ -83,7 +82,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.Error(ex.Message, "Exception_LoadFailed");
             }
 
             Close();

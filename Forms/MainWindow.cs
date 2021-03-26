@@ -32,10 +32,6 @@ namespace Timotheus.Forms
         /// </summary>
         public SortableBindingList<SftpFile> shownFiles = new SortableBindingList<SftpFile>();
         /// <summary>
-        /// List of all persons.
-        /// </summary>
-        public SortableBindingList<Person> Persons = new SortableBindingList<Person>();
-        /// <summary>
         /// List of Members in the period 
         /// </summary>
         public SortableBindingList<Person> shownPersons = new SortableBindingList<Person>();
@@ -542,7 +538,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.Error(ex.Message, "Exception_InvalidInput");
             }
         }
 
@@ -560,7 +556,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.Error(ex.Message, "Exception_InvalidInput");
             }
         }
 
@@ -578,7 +574,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.Error(ex.Message, "Exception_InvalidInput");
             }
         }
         #endregion
@@ -603,19 +599,22 @@ namespace Timotheus.Forms
         private void RemoveConsentForm(object sender, EventArgs e)
         {
             if (consentForms.Count > 0)
-                Persons.Remove(consentForms[ConsentForms_View.CurrentCell.OwningRow.Index]);
+            {
+                Person.list.Remove(consentForms[ConsentForms_View.CurrentCell.OwningRow.Index]);
+                UpdateConsentFormsTable();
+            }
         }
 
         /// <summary>
         /// Updates the contents of the consent form table.
         /// </summary>
-        private void UpdateConsentFormsTable()
+        public void UpdateConsentFormsTable()
         {
             consentForms.Clear();
-            for (int i = 0; i < Persons.Count; i++)
+            for (int i = 0; i < Person.list.Count; i++)
             {
-                if (Persons[i].Signed != DateTime.MinValue)
-                    consentForms.Add(Persons[i]);
+                if (Person.list[i].Signed != DateTime.MinValue)
+                    consentForms.Add(Person.list[i]);
             }
         }
         #endregion
@@ -731,9 +730,9 @@ namespace Timotheus.Forms
         /// </summary>
         private void RemoveMember(object sender, EventArgs e)
         {
-            if (Persons.Count > 0)
+            if (Person.list.Count > 0)
             {
-                Persons.Remove(shownPersons[Members_View.CurrentCell.OwningRow.Index]);
+                Person.list.Remove(shownPersons[Members_View.CurrentCell.OwningRow.Index]);
             }
             UpdateMemberTable();
             CountMembersUnder25();
@@ -788,10 +787,10 @@ namespace Timotheus.Forms
         public void UpdateMemberTable()
         {
             shownPersons.Clear();
-            for (int i = 0; i < Persons.Count; i++)
+            for (int i = 0; i < Person.list.Count; i++)
             {
-                if (Persons[i].Entry.Year == MemberInYear.Year)
-                    shownPersons.Add(Persons[i]);
+                if (Person.list[i].Entry.Year == MemberInYear.Year)
+                    shownPersons.Add(Person.list[i]);
             }
         }
         #endregion

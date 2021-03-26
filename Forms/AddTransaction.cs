@@ -51,7 +51,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.Error(ex.Message, "Exception_InvalidInput");
             }
         }
 

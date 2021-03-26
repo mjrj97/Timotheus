@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Timotheus.Forms;
 
 namespace Timotheus.Persons
@@ -63,6 +64,8 @@ namespace Timotheus.Persons
         /// </summary>
         public DateTime Version { get; set; }
 
+        public static List<Person> list = new List<Person>();
+
         //Constructors
         public Person(string Name, string Address, DateTime Birthday, DateTime Entry) //Called by AddMember
         {
@@ -73,16 +76,20 @@ namespace Timotheus.Persons
             this.Entry = Entry;
             Signed = DateTime.MinValue;
             Version = DateTime.MinValue;
+
+            list.Add(this);
         }
         public Person(string Name, DateTime Signed, DateTime Version, string Comment) //Called by AddConsentForm
         {
             this.Name = Name;
             Address = string.Empty;
             this.Comment = Comment;
-            this.Birthday = DateTime.MinValue;
-            this.Entry = DateTime.MinValue;
+            Birthday = DateTime.MinValue;
+            Entry = DateTime.MinValue;
             this.Signed = Signed;
             this.Version = Version;
+
+            list.Add(this);
         }
     }
 }

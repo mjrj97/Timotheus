@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using Timotheus.Forms;
+using Timotheus.Utility;
 
 namespace Timotheus
 {
@@ -42,6 +43,19 @@ namespace Timotheus
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainWindow());
+        }
+
+        /// <summary>
+        /// Displays an error dialog to the user.
+        /// </summary>
+        /// <param name="text">Text to be shown in the error dialog.</param>
+        /// <param name="name">Name of the error to find in localization. Is shown in window name.</param>
+        public static void Error(string text, string name)
+        {
+            LocalizationLoader locale = new LocalizationLoader(directory, culture.Name);
+            string windowName = locale.GetLocalization(name, name);
+
+            MessageBox.Show(text, windowName, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
