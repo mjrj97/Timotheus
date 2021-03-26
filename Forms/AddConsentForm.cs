@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Timotheus.Persons;
 using Timotheus.Utility;
 
 namespace Timotheus.Forms
@@ -34,7 +35,7 @@ namespace Timotheus.Forms
         {
             try
             {
-                MainWindow.window.consentForms.Add(new ConsentForm(AddConsentForm_NameBox.Text, AddConsentForm_SignedDate.Value, AddConsentForm_VersionDate.Value, AddConsentForm_CommentBox.Text));
+                MainWindow.window.consentForms.Add(new Person(AddConsentForm_NameBox.Text, AddConsentForm_SignedDate.Value, AddConsentForm_VersionDate.Value, AddConsentForm_CommentBox.Text));
                 Close();
             }
             catch (Exception ex)

@@ -29,6 +29,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddConsentForm));
             this.AddConsentForm_CancelButton = new System.Windows.Forms.Button();
             this.AddConsentForm_AddButton = new System.Windows.Forms.Button();
             this.AddConsentForm_NameBox = new System.Windows.Forms.TextBox();
@@ -142,6 +143,7 @@ namespace Timotheus.Forms
             this.Controls.Add(this.AddConsentForm_AddButton);
             this.Controls.Add(this.AddConsentForm_CancelButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddConsentForm";

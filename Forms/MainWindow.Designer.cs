@@ -71,9 +71,9 @@ namespace Timotheus.Forms
             this.Members_AddButton = new System.Windows.Forms.Button();
             this.Members_RemoveButton = new System.Windows.Forms.Button();
             this.Members_View = new System.Windows.Forms.DataGridView();
-            this.Members_SinceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Members_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Members_EntryColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Members_BirthdayColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Members_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Members_AddressColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ConsentForms_Page = new System.Windows.Forms.TabPage();
             this.ConsentForms_RemoveButton = new System.Windows.Forms.Button();
@@ -177,6 +177,7 @@ namespace Timotheus.Forms
             this.Calendar_View.RowTemplate.Height = 25;
             this.Calendar_View.Size = new System.Drawing.Size(774, 331);
             this.Calendar_View.TabIndex = 3;
+            this.Calendar_View.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
             // 
             // Calendar_StartColumn
             // 
@@ -613,7 +614,7 @@ namespace Timotheus.Forms
             // 
             // Members_PeriodeBox
             // 
-            this.Members_PeriodeBox.Location = new System.Drawing.Point(39, 6);
+            this.Members_PeriodeBox.Location = new System.Drawing.Point(38, 10);
             this.Members_PeriodeBox.Name = "Members_PeriodeBox";
             this.Members_PeriodeBox.Size = new System.Drawing.Size(100, 23);
             this.Members_PeriodeBox.TabIndex = 6;
@@ -622,7 +623,7 @@ namespace Timotheus.Forms
             // 
             // Members_AddYearButton
             // 
-            this.Members_AddYearButton.Location = new System.Drawing.Point(145, 6);
+            this.Members_AddYearButton.Location = new System.Drawing.Point(143, 10);
             this.Members_AddYearButton.Name = "Members_AddYearButton";
             this.Members_AddYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
             this.Members_AddYearButton.Size = new System.Drawing.Size(23, 23);
@@ -633,7 +634,7 @@ namespace Timotheus.Forms
             // 
             // Members_SubtractYearButton
             // 
-            this.Members_SubtractYearButton.Location = new System.Drawing.Point(10, 6);
+            this.Members_SubtractYearButton.Location = new System.Drawing.Point(10, 10);
             this.Members_SubtractYearButton.Name = "Members_SubtractYearButton";
             this.Members_SubtractYearButton.Padding = new System.Windows.Forms.Padding(2, 0, 0, 0);
             this.Members_SubtractYearButton.Size = new System.Drawing.Size(23, 23);
@@ -648,14 +649,14 @@ namespace Timotheus.Forms
             this.Members_Under25Label.AutoSize = true;
             this.Members_Under25Label.Location = new System.Drawing.Point(636, 383);
             this.Members_Under25Label.Name = "Members_Under25Label";
-            this.Members_Under25Label.Size = new System.Drawing.Size(112, 15);
+            this.Members_Under25Label.Size = new System.Drawing.Size(109, 15);
             this.Members_Under25Label.TabIndex = 3;
-            this.Members_Under25Label.Text = "Memders under 25: ";
+            this.Members_Under25Label.Text = "Members under 25:";
             // 
             // Members_AddButton
             // 
             this.Members_AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Members_AddButton.Location = new System.Drawing.Point(10, 379);
+            this.Members_AddButton.Location = new System.Drawing.Point(10, 378);
             this.Members_AddButton.Name = "Members_AddButton";
             this.Members_AddButton.Size = new System.Drawing.Size(75, 23);
             this.Members_AddButton.TabIndex = 2;
@@ -666,7 +667,7 @@ namespace Timotheus.Forms
             // Members_RemoveButton
             // 
             this.Members_RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Members_RemoveButton.Location = new System.Drawing.Point(91, 379);
+            this.Members_RemoveButton.Location = new System.Drawing.Point(95, 378);
             this.Members_RemoveButton.Name = "Members_RemoveButton";
             this.Members_RemoveButton.Size = new System.Drawing.Size(75, 23);
             this.Members_RemoveButton.TabIndex = 1;
@@ -681,37 +682,41 @@ namespace Timotheus.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Members_View.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Members_View.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Members_SinceColumn,
-            this.Members_NameColumn,
+            this.Members_EntryColumn,
             this.Members_BirthdayColumn,
+            this.Members_NameColumn,
             this.Members_AddressColumn});
-            this.Members_View.Location = new System.Drawing.Point(10, 35);
+            this.Members_View.Location = new System.Drawing.Point(10, 39);
             this.Members_View.Name = "Members_View";
             this.Members_View.RowHeadersVisible = false;
             this.Members_View.RowTemplate.Height = 25;
-            this.Members_View.Size = new System.Drawing.Size(772, 338);
+            this.Members_View.Size = new System.Drawing.Size(774, 331);
             this.Members_View.TabIndex = 0;
+            this.Members_View.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
             // 
-            // Members_SinceColumn
+            // Members_EntryColumn
             // 
-            this.Members_SinceColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Members_SinceColumn.DataPropertyName = "memberSince";
-            this.Members_SinceColumn.HeaderText = "Member since";
-            this.Members_SinceColumn.Name = "Members_SinceColumn";
-            // 
-            // Members_NameColumn
-            // 
-            this.Members_NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Members_NameColumn.DataPropertyName = "name";
-            this.Members_NameColumn.HeaderText = "Name";
-            this.Members_NameColumn.Name = "Members_NameColumn";
+            this.Members_EntryColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Members_EntryColumn.DataPropertyName = "entry";
+            this.Members_EntryColumn.HeaderText = "Entry";
+            this.Members_EntryColumn.Name = "Members_EntryColumn";
+            this.Members_EntryColumn.Width = 125;
             // 
             // Members_BirthdayColumn
             // 
-            this.Members_BirthdayColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Members_BirthdayColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Members_BirthdayColumn.DataPropertyName = "birthday";
             this.Members_BirthdayColumn.HeaderText = "Birthday";
             this.Members_BirthdayColumn.Name = "Members_BirthdayColumn";
+            this.Members_BirthdayColumn.Width = 125;
+            // 
+            // Members_NameColumn
+            // 
+            this.Members_NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Members_NameColumn.DataPropertyName = "name";
+            this.Members_NameColumn.HeaderText = "Name";
+            this.Members_NameColumn.Name = "Members_NameColumn";
+            this.Members_NameColumn.Width = 350;
             // 
             // Members_AddressColumn
             // 
@@ -773,6 +778,7 @@ namespace Timotheus.Forms
             this.ConsentForms_View.RowTemplate.Height = 25;
             this.ConsentForms_View.Size = new System.Drawing.Size(776, 357);
             this.ConsentForms_View.TabIndex = 0;
+            this.ConsentForms_View.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
             // 
             // ConsentForms_NameColumn
             // 
@@ -863,6 +869,7 @@ namespace Timotheus.Forms
             this.Accounting_TransactionsView.RowTemplate.Height = 25;
             this.Accounting_TransactionsView.Size = new System.Drawing.Size(774, 217);
             this.Accounting_TransactionsView.TabIndex = 0;
+            this.Accounting_TransactionsView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
             // 
             // Accounting_DateColumn
             // 
@@ -1316,10 +1323,6 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn SFTP_SizeColumn;
         private System.Windows.Forms.TabPage Members_Page;
         private System.Windows.Forms.DataGridView Members_View;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Members_SinceColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Members_NameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Members_BirthdayColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Members_AddressColumn;
         public System.Windows.Forms.TextBox Members_PeriodeBox;
         private System.Windows.Forms.Button Members_AddYearButton;
         private System.Windows.Forms.Button Members_SubtractYearButton;
@@ -1372,5 +1375,9 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_BalanceColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NetColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Members_EntryColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Members_BirthdayColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Members_NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Members_AddressColumn;
     }
 }

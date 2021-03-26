@@ -32,10 +32,10 @@ Members_Page,Members
 Members_NameColumn,Name
 Members_AddressColumn,Address
 Members_BirthdayColumn,Birthday
-Members_SinceColumn,Member since
+Members_EntryColumn,Entry
 Members_RemoveButton,Remove
 Members_AddButton,Add
-Members_Under25Label,Medlemer under 25:
+Members_Under25Label,Members under 25:
 ConsentForms_Page,Consent forms
 ConsentForms_AddButton,Add
 ConsentForms_RemoveButton,Remove

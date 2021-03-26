@@ -32,10 +32,6 @@ namespace Timotheus.Forms
         /// </summary>
         public SortableBindingList<SftpFile> shownFiles = new SortableBindingList<SftpFile>();
         /// <summary>
-        /// List of all consent forms loaded into the program.
-        /// </summary>
-        public SortableBindingList<ConsentForm> consentForms = new SortableBindingList<ConsentForm>();
-        /// <summary>
         /// List of all persons.
         /// </summary>
         public SortableBindingList<Person> Persons = new SortableBindingList<Person>();
@@ -43,6 +39,10 @@ namespace Timotheus.Forms
         /// List of Members in the period 
         /// </summary>
         public SortableBindingList<Person> shownPersons = new SortableBindingList<Person>();
+        /// <summary>
+        /// List of all consent forms loaded into the program.
+        /// </summary>
+        public SortableBindingList<Person> consentForms = new SortableBindingList<Person>();
         /// <summary>
         /// List of all transactions.
         /// </summary>
@@ -79,7 +79,7 @@ namespace Timotheus.Forms
         private Period period = Period.Year;
 
         /// <summary>
-        /// To save the Members under 25 ind the correct language
+        /// To save the Members under 25 in the correct language
         /// </summary>
         private string MembersUnder25Text;
 
@@ -184,15 +184,15 @@ namespace Timotheus.Forms
             Members_View.DataSource = new BindingSource(shownPersons, null);
             
             Members_PeriodeBox.Text = MemberInYear.Year.ToString();
-            Update_Members_Under25Label();
             Members_Page.Text = locale.GetLocalization(Members_Page);
             Members_NameColumn.HeaderText = locale.GetLocalization(Members_NameColumn);
             Members_AddressColumn.HeaderText = locale.GetLocalization(Members_AddressColumn);
             Members_BirthdayColumn.HeaderText = locale.GetLocalization(Members_BirthdayColumn);
-            Members_SinceColumn.HeaderText = locale.GetLocalization(Members_SinceColumn);
+            Members_EntryColumn.HeaderText = locale.GetLocalization(Members_EntryColumn);
             Members_AddButton.Text = locale.GetLocalization(Members_AddButton);
             Members_RemoveButton.Text = locale.GetLocalization(Members_RemoveButton);
             MembersUnder25Text = locale.GetLocalization(Members_Under25Label);
+            CountMembersUnder25();
             #endregion
 
             #region Consent Forms
@@ -603,9 +603,19 @@ namespace Timotheus.Forms
         private void RemoveConsentForm(object sender, EventArgs e)
         {
             if (consentForms.Count > 0)
+                Persons.Remove(consentForms[ConsentForms_View.CurrentCell.OwningRow.Index]);
+        }
+
+        /// <summary>
+        /// Updates the contents of the consent form table.
+        /// </summary>
+        private void UpdateConsentFormsTable()
+        {
+            consentForms.Clear();
+            for (int i = 0; i < Persons.Count; i++)
             {
-                ConsentForm form = consentForms[ConsentForms_View.CurrentCell.OwningRow.Index];
-                consentForms.Remove(form);
+                if (Persons[i].Signed != DateTime.MinValue)
+                    consentForms.Add(Persons[i]);
             }
         }
         #endregion
@@ -713,7 +723,7 @@ namespace Timotheus.Forms
             };
 
             addMember.ShowDialog();
-            Update_Members_Under25Label();
+            CountMembersUnder25();
         }
 
         /// <summary>
@@ -726,19 +736,23 @@ namespace Timotheus.Forms
                 Persons.Remove(shownPersons[Members_View.CurrentCell.OwningRow.Index]);
             }
             UpdateMemberTable();
-            Update_Members_Under25Label();
+            CountMembersUnder25();
         }
 
         /// <summary>
         /// Updates Members under 25 label
         /// </summary>
-        private void Update_Members_Under25Label() 
+        public void CountMembersUnder25() 
         {
             int NumberUnder25 = 0;
 
             for (int i = 0; i < shownPersons.Count; i++)
             {
-                if (shownPersons[i].Age < 25)
+                int Age = shownPersons[i].Entry.Year - shownPersons[i].Birthday.Year;
+                if (shownPersons[i].Entry.DayOfYear < shownPersons[i].Birthday.DayOfYear)
+                    Age -= 1;
+
+                if (Age < 25)
                     NumberUnder25++;
             }
             Members_Under25Label.Text = MembersUnder25Text + " " + NumberUnder25;
@@ -764,7 +778,7 @@ namespace Timotheus.Forms
                     Members_PeriodeBox.Text = MemberInYear.Year.ToString();
                 }
                 UpdateMemberTable();
-                Update_Members_Under25Label();
+                CountMembersUnder25();
             }
         }
 
@@ -776,7 +790,7 @@ namespace Timotheus.Forms
             shownPersons.Clear();
             for (int i = 0; i < Persons.Count; i++)
             {
-                if (Persons[i].MemberSince.Year == MemberInYear.Year)
+                if (Persons[i].Entry.Year == MemberInYear.Year)
                     shownPersons.Add(Persons[i]);
             }
         }
@@ -899,7 +913,14 @@ namespace Timotheus.Forms
             return base.ProcessDialogKey(keyData);
         }
 
-  
+        /// <summary>
+        /// Handles errors if Date format is not correct.
+        /// </summary>
+        private void HandleDateError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            ((DataGridView)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].Value = DateTime.Now.Date;
+            e.Cancel = true;
+        }
     }
 
     /// <summary>
