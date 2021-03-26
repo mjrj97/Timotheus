@@ -64,6 +64,9 @@ namespace Timotheus.Persons
         /// </summary>
         public DateTime Version { get; set; }
 
+        /// <summary>
+        /// List of created persons.
+        /// </summary>
         public static List<Person> list = new List<Person>();
 
         //Constructors

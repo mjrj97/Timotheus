@@ -10,5 +10,11 @@
         {
             Balance = value;
         }
+
+        public Account(int ID, string Name)
+        {
+            this.ID = ID;
+            this.Name = Name;
+        }
     }
 }

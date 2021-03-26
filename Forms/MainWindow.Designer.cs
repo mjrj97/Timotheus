@@ -776,7 +776,7 @@ namespace Timotheus.Forms
             this.ConsentForms_View.RowHeadersVisible = false;
             this.ConsentForms_View.RowHeadersWidth = 51;
             this.ConsentForms_View.RowTemplate.Height = 25;
-            this.ConsentForms_View.Size = new System.Drawing.Size(776, 357);
+            this.ConsentForms_View.Size = new System.Drawing.Size(774, 360);
             this.ConsentForms_View.TabIndex = 0;
             this.ConsentForms_View.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
             // 
@@ -831,9 +831,6 @@ namespace Timotheus.Forms
             // 
             // Account_SplitPanel
             // 
-            this.Account_SplitPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.Account_SplitPanel.Location = new System.Drawing.Point(10, 39);
             this.Account_SplitPanel.Name = "Account_SplitPanel";
             this.Account_SplitPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -847,13 +844,11 @@ namespace Timotheus.Forms
             this.Account_SplitPanel.Panel2.Controls.Add(this.Accounting_AccountsView);
             this.Account_SplitPanel.Size = new System.Drawing.Size(774, 331);
             this.Account_SplitPanel.SplitterDistance = 220;
+            this.Account_SplitPanel.SplitterWidth = 5;
             this.Account_SplitPanel.TabIndex = 8;
             // 
             // Accounting_TransactionsView
             // 
-            this.Accounting_TransactionsView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.Accounting_TransactionsView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Accounting_TransactionsView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Accounting_DateColumn,
@@ -863,11 +858,12 @@ namespace Timotheus.Forms
             this.Accounting_InColumn,
             this.Accounting_OutColumn,
             this.Accounting_BalanceColumn});
+            this.Accounting_TransactionsView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Accounting_TransactionsView.Location = new System.Drawing.Point(0, 0);
             this.Accounting_TransactionsView.Name = "Accounting_TransactionsView";
             this.Accounting_TransactionsView.RowHeadersVisible = false;
             this.Accounting_TransactionsView.RowTemplate.Height = 25;
-            this.Accounting_TransactionsView.Size = new System.Drawing.Size(774, 217);
+            this.Accounting_TransactionsView.Size = new System.Drawing.Size(774, 220);
             this.Accounting_TransactionsView.TabIndex = 0;
             this.Accounting_TransactionsView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
             // 
@@ -921,18 +917,16 @@ namespace Timotheus.Forms
             // 
             // Accounting_AccountsView
             // 
-            this.Accounting_AccountsView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.Accounting_AccountsView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Accounting_AccountsView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Accounting_NameColumn,
             this.Accounting_NetColumn});
-            this.Accounting_AccountsView.Location = new System.Drawing.Point(0, 3);
+            this.Accounting_AccountsView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Accounting_AccountsView.Location = new System.Drawing.Point(0, 0);
             this.Accounting_AccountsView.Name = "Accounting_AccountsView";
             this.Accounting_AccountsView.RowHeadersVisible = false;
             this.Accounting_AccountsView.RowTemplate.Height = 25;
-            this.Accounting_AccountsView.Size = new System.Drawing.Size(774, 104);
+            this.Accounting_AccountsView.Size = new System.Drawing.Size(774, 106);
             this.Accounting_AccountsView.TabIndex = 0;
             // 
             // Accounting_NameColumn
@@ -944,6 +938,7 @@ namespace Timotheus.Forms
             // 
             // Accounting_NetColumn
             // 
+            this.Accounting_NetColumn.DataPropertyName = "Balance";
             this.Accounting_NetColumn.HeaderText = "Net";
             this.Accounting_NetColumn.Name = "Accounting_NetColumn";
             // 
@@ -992,7 +987,7 @@ namespace Timotheus.Forms
             // Accounting_RemoveButton
             // 
             this.Accounting_RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Accounting_RemoveButton.Location = new System.Drawing.Point(91, 378);
+            this.Accounting_RemoveButton.Location = new System.Drawing.Point(95, 378);
             this.Accounting_RemoveButton.Name = "Accounting_RemoveButton";
             this.Accounting_RemoveButton.Size = new System.Drawing.Size(75, 23);
             this.Accounting_RemoveButton.TabIndex = 2;
@@ -1373,11 +1368,11 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_InColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_OutColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_BalanceColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NetColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Members_EntryColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Members_BirthdayColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Members_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Members_AddressColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NetColumn;
     }
 }

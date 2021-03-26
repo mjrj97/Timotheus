@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
@@ -28,17 +29,34 @@ namespace Timotheus
         [STAThread]
         static void Main()
         {
+            //Define the localization directory.
             #if DEBUG
             directory = Application.StartupPath[0..^24] + "Localization\\";
             #else
             directory = Application.StartupPath + "locale\\";
             #endif
             culture = CultureInfo.CurrentUICulture;
+
+            //Checks if localization file is in folder. If not, it defaults to en-US.
+            string[] localizationFiles = Directory.GetFiles(directory);
+            bool foundLocalization = false;
+            int i = 0;
+            while (i < localizationFiles.Length && !foundLocalization)
+            {
+                if (localizationFiles[i].Contains(culture.Name))
+                    foundLocalization = true;
+                i++;
+            }
+            if (!foundLocalization)
+                culture = CultureInfo.GetCultureInfo("en-US");
+
+            //Defines the security protocol
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
             //Defines encoding 1252
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
+            //Open the MainWindow
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

@@ -32,15 +32,15 @@ namespace Timotheus.Forms
         /// </summary>
         public SortableBindingList<SftpFile> shownFiles = new SortableBindingList<SftpFile>();
         /// <summary>
-        /// List of Members in the period 
+        /// List of Members in the defined period.
         /// </summary>
-        public SortableBindingList<Person> shownPersons = new SortableBindingList<Person>();
+        public SortableBindingList<Person> members = new SortableBindingList<Person>();
         /// <summary>
         /// List of all consent forms loaded into the program.
         /// </summary>
         public SortableBindingList<Person> consentForms = new SortableBindingList<Person>();
         /// <summary>
-        /// List of all transactions.
+        /// List of all transactions in the defined period.
         /// </summary>
         public SortableBindingList<Transaction> transactions = new SortableBindingList<Transaction>();
         /// <summary>
@@ -78,11 +78,6 @@ namespace Timotheus.Forms
         /// To save the Members under 25 in the correct language
         /// </summary>
         private string MembersUnder25Text;
-
-        /// <summary>
-        /// Start of the period in Member sorts the different lists.
-        /// </summary>
-        private DateTime MemberInYear = new DateTime(DateTime.Now.Year, 1, 1);
 
         /// <summary>
         /// Constructor. Loads initial data and localization.
@@ -177,9 +172,9 @@ namespace Timotheus.Forms
 
             #region Members
             Members_View.AutoGenerateColumns = false;
-            Members_View.DataSource = new BindingSource(shownPersons, null);
+            Members_View.DataSource = new BindingSource(members, null);
             
-            Members_PeriodeBox.Text = MemberInYear.Year.ToString();
+            Members_PeriodeBox.Text = StartPeriod.Year.ToString();
             Members_Page.Text = locale.GetLocalization(Members_Page);
             Members_NameColumn.HeaderText = locale.GetLocalization(Members_NameColumn);
             Members_AddressColumn.HeaderText = locale.GetLocalization(Members_AddressColumn);
@@ -220,6 +215,11 @@ namespace Timotheus.Forms
             Accounting_InColumn.HeaderText = locale.GetLocalization(Accounting_InColumn);
             Accounting_OutColumn.HeaderText = locale.GetLocalization(Accounting_OutColumn);
             Accounting_BalanceColumn.HeaderText = locale.GetLocalization(Accounting_BalanceColumn);
+
+            //Only for testing
+            accounts.Add(new Account(1, "Kontingent"));
+            accounts.Add(new Account(2, "Materialer"));
+            accounts.Add(new Account(3, "Gebyrer"));
             #endregion
 
             #region Settings
@@ -579,6 +579,87 @@ namespace Timotheus.Forms
         }
         #endregion
 
+        #region Members
+        /// <summary>
+        /// Opens dialog where the user can add a new member
+        /// </summary>
+        private void AddMember(object sender, EventArgs e)
+        {
+            AddMember addMember = new AddMember
+            {
+                Owner = this
+            };
+
+            addMember.ShowDialog();
+            CountMembersUnder25();
+        }
+
+        /// <summary>
+        /// Opens dialog where the user can remove a member
+        /// </summary>
+        private void RemoveMember(object sender, EventArgs e)
+        {
+            if (Person.list.Count > 0)
+            {
+                Person.list.Remove(members[Members_View.CurrentCell.OwningRow.Index]);
+            }
+            UpdateMemberTable();
+            CountMembersUnder25();
+        }
+
+        /// <summary>
+        /// Updates Members under 25 label
+        /// </summary>
+        public void CountMembersUnder25()
+        {
+            int NumberUnder25 = 0;
+
+            for (int i = 0; i < members.Count; i++)
+            {
+                int Age = members[i].Entry.Year - members[i].Birthday.Year;
+                if (members[i].Entry.DayOfYear < members[i].Birthday.DayOfYear)
+                    Age -= 1;
+
+                if (Age < 25)
+                    NumberUnder25++;
+            }
+            Members_Under25Label.Text = MembersUnder25Text + " " + NumberUnder25;
+        }
+
+        /// <summary>
+        /// Updates the text in the period text box.
+        /// </summary>
+        private void UpdateMemberPeriod(object sender, EventArgs e)
+        {
+            if (sender != null)
+            {
+                Button button = (Button)sender;
+                int year = int.Parse(Members_PeriodeBox.Text);
+                if (button.Text == "+")
+                    year++;
+                else if (button.Text == "-")
+                    year--;
+                Members_PeriodeBox.Text = year.ToString();
+                UpdateMemberTable();
+                CountMembersUnder25();
+            }
+        }
+
+        /// <summary>
+        /// Updates the contents of the Members_View
+        /// </summary>
+        public void UpdateMemberTable()
+        {
+            int year = int.Parse(Members_PeriodeBox.Text);
+            members.Clear();
+            for (int i = 0; i < Person.list.Count; i++)
+            {
+                if (Person.list[i].Entry.Year == year)
+                    members.Add(Person.list[i]);
+            }
+        }
+        #endregion
+
         #region Consent forms
         /// <summary>
         /// Add a simple consent form.
@@ -665,7 +746,7 @@ namespace Timotheus.Forms
                     for (int j = 0; j < accounts.Count; j++)
                     {
                         if (accounts[j].ID == transactions[i].AccountNumber)
-                            balances[j] += transactions[i].InValue + transactions[i].OutValue;
+                            balances[j] += transactions[i].InValue - transactions[i].OutValue;
                     }
                 }
             }
@@ -673,6 +754,7 @@ namespace Timotheus.Forms
             {
                 accounts[i].SetBalance(balances[i]);
             }
+            Accounting_AccountsView.Refresh();
         }
 
         /// <summary>
@@ -707,91 +789,6 @@ namespace Timotheus.Forms
         private void ExportAccounts(object sender, EventArgs e)
         {
 
-        }
-        #endregion
-
-        #region Members
-        /// <summary>
-        /// Opens dialog where the user can add a new member
-        /// </summary>
-        private void AddMember(object sender, EventArgs e)
-        {
-            AddMember addMember = new AddMember
-            {
-                Owner = this
-            };
-
-            addMember.ShowDialog();
-            CountMembersUnder25();
-        }
-
-        /// <summary>
-        /// Opens dialog where the user can remove a member
-        /// </summary>
-        private void RemoveMember(object sender, EventArgs e)
-        {
-            if (Person.list.Count > 0)
-            {
-                Person.list.Remove(shownPersons[Members_View.CurrentCell.OwningRow.Index]);
-            }
-            UpdateMemberTable();
-            CountMembersUnder25();
-        }
-
-        /// <summary>
-        /// Updates Members under 25 label
-        /// </summary>
-        public void CountMembersUnder25() 
-        {
-            int NumberUnder25 = 0;
-
-            for (int i = 0; i < shownPersons.Count; i++)
-            {
-                int Age = shownPersons[i].Entry.Year - shownPersons[i].Birthday.Year;
-                if (shownPersons[i].Entry.DayOfYear < shownPersons[i].Birthday.DayOfYear)
-                    Age -= 1;
-
-                if (Age < 25)
-                    NumberUnder25++;
-            }
-            Members_Under25Label.Text = MembersUnder25Text + " " + NumberUnder25;
-        }
-
-        /// <summary>
-        /// Updates the text in the period text box.
-        /// </summary>
-        private void UpdateMemberPeriod(object sender, EventArgs e)
-        {
-            if (sender != null)
-            {
-                Button button = (Button)sender;
-                if (button.Text == "+")
-                {
-                    MemberInYear = MemberInYear.AddYears(1);
-                    Members_PeriodeBox.Text = MemberInYear.Year.ToString();
-                }
-                else if (button.Text == "-")
-                {
-
-                    MemberInYear = MemberInYear.AddYears(-1);
-                    Members_PeriodeBox.Text = MemberInYear.Year.ToString();
-                }
-                UpdateMemberTable();
-                CountMembersUnder25();
-            }
-        }
-
-        /// <summary>
-        /// Updates the contents of the Members_View
-        /// </summary>
-        public void UpdateMemberTable()
-        {
-            shownPersons.Clear();
-            for (int i = 0; i < Person.list.Count; i++)
-            {
-                if (Person.list[i].Entry.Year == MemberInYear.Year)
-                    shownPersons.Add(Person.list[i]);
-            }
         }
         #endregion
 
@@ -913,7 +910,7 @@ namespace Timotheus.Forms
         }
 
         /// <summary>
-        /// Handles errors if Date format is not correct.
+        /// Handles errors if inputed date is not formatted correctly.
         /// </summary>
         private void HandleDateError(object sender, DataGridViewDataErrorEventArgs e)
         {

@@ -45,7 +45,7 @@ namespace Timotheus.Forms
         {
             try
             {
-                new Transaction(AddTransaction_DatePicker.Value.Date, ParseStringToInt(AddTransaction_AppendixBox.Text), AddTransaction_DescriptionBox.Text, AddTransaction_AccountPicker.SelectedIndex, ParseStringToDouble(AddTransaction_InBox.Text), ParseStringToDouble(AddTransaction_OutBox.Text));
+                new Transaction(AddTransaction_DatePicker.Value.Date, ParseStringToInt(AddTransaction_AppendixBox.Text), AddTransaction_DescriptionBox.Text, ((Account)AddTransaction_AccountPicker.SelectedItem).ID, ParseStringToDouble(AddTransaction_InBox.Text), ParseStringToDouble(AddTransaction_OutBox.Text));
                 MainWindow.window.UpdateTransactionsTable();
                 Close();
             }
