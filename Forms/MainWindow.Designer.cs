@@ -276,7 +276,7 @@ namespace Timotheus.Forms
             this.Calendar_MonthButton.TabStop = true;
             this.Calendar_MonthButton.Text = "Month";
             this.Calendar_MonthButton.UseVisualStyleBackColor = true;
-            this.Calendar_MonthButton.CheckedChanged += new System.EventHandler(this.PeriodChanged);
+            this.Calendar_MonthButton.CheckedChanged += new System.EventHandler(this.PeriodChangedButton);
             // 
             // Calendar_HalfYearButton
             // 
@@ -289,7 +289,7 @@ namespace Timotheus.Forms
             this.Calendar_HalfYearButton.TabStop = true;
             this.Calendar_HalfYearButton.Text = "Half-year";
             this.Calendar_HalfYearButton.UseVisualStyleBackColor = true;
-            this.Calendar_HalfYearButton.CheckedChanged += new System.EventHandler(this.PeriodChanged);
+            this.Calendar_HalfYearButton.CheckedChanged += new System.EventHandler(this.PeriodChangedButton);
             // 
             // Calendar_YearButton
             // 
@@ -303,7 +303,7 @@ namespace Timotheus.Forms
             this.Calendar_YearButton.TabStop = true;
             this.Calendar_YearButton.Text = "Year";
             this.Calendar_YearButton.UseVisualStyleBackColor = true;
-            this.Calendar_YearButton.CheckedChanged += new System.EventHandler(this.PeriodChanged);
+            this.Calendar_YearButton.CheckedChanged += new System.EventHandler(this.PeriodChangedButton);
             // 
             // Calendar_AllButton
             // 
@@ -315,7 +315,7 @@ namespace Timotheus.Forms
             this.Calendar_AllButton.TabIndex = 10;
             this.Calendar_AllButton.Text = "All";
             this.Calendar_AllButton.UseVisualStyleBackColor = true;
-            this.Calendar_AllButton.CheckedChanged += new System.EventHandler(this.PeriodChanged);
+            this.Calendar_AllButton.CheckedChanged += new System.EventHandler(this.PeriodChangedButton);
             // 
             // Calendar_SaveButton
             // 
@@ -391,6 +391,7 @@ namespace Timotheus.Forms
             this.Calendar_PeriodBox.TabIndex = 2;
             this.Calendar_PeriodBox.Text = "2020";
             this.Calendar_PeriodBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Calendar_PeriodBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Calendar_PeriodBox_KeyUp);
             // 
             // Calendar_AddYearButton
             // 
@@ -620,6 +621,7 @@ namespace Timotheus.Forms
             this.Members_PeriodeBox.TabIndex = 6;
             this.Members_PeriodeBox.Text = "2020";
             this.Members_PeriodeBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Members_PeriodeBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Members_PeriodeBox_KeyUp);
             // 
             // Members_AddYearButton
             // 

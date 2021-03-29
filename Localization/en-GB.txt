@@ -16,6 +16,7 @@ Calendar_RemoveButton,Remove
 Calendar_AddButton,Add
 Calendar_Spring,Spring
 Calendar_Fall,Fall
+Calendar_All,All
 SFTP_Page,SFTP
 SFTP_HostLabel,Host
 SFTP_UsernameLabel,Username
