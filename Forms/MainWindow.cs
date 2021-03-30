@@ -88,8 +88,12 @@ namespace Timotheus.Forms
         /// <summary>
         /// Start of the period in Member sorts the different lists.
         /// </summary>
-        private DateTime MemberInYear = new DateTime(DateTime.Now.Year, 1, 1);
+        private DateTime MemberlistYear = new DateTime(DateTime.Now.Year, 1, 1);
 
+        /// <summary>
+        /// Start of the period in acunting sorts the different lists.
+        /// </summary>
+        private DateTime AccountingYear = new DateTime(DateTime.Now.Year, 1, 1);
 
         /// <summary>
         /// Constructor. Loads initial data and localization.
@@ -187,7 +191,7 @@ namespace Timotheus.Forms
             Members_View.AutoGenerateColumns = false;
             Members_View.DataSource = new BindingSource(members, null);
 
-            Members_PeriodeBox.Text = MemberInYear.Year.ToString();
+            Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
             Members_Page.Text = locale.GetLocalization(Members_Page);
             Members_NameColumn.HeaderText = locale.GetLocalization(Members_NameColumn);
             Members_AddressColumn.HeaderText = locale.GetLocalization(Members_AddressColumn);
@@ -512,90 +516,79 @@ namespace Timotheus.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                String text = Calendar_PeriodBox.Text;
-                string[] SpiltText = text.Split(" ");
+                String inputText = Calendar_PeriodBox.Text;
+                string[] SpiltText = inputText.Split(" ");
 
                 DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo(Program.culture.Name).DateTimeFormat;
                 List<string> MonthNames = new List<string>(dtfi.MonthNames);
+                MonthNames = MonthNames.ConvertAll(d => d.ToLower());
 
                 int NewYear;
+                string text;
 
-              
-                if (text.ToLower().Equals(all.ToLower()))
+                if (inputText.ToLower().Equals(all.ToLower()))
                 {
                     Calendar_AllButton.Checked = true;
                 }
-                else if (SpiltText.Length == 1)
+                else if (SpiltText.Length == 1 && Int32.TryParse(inputText, out NewYear) && NewYear > 0 && NewYear < 10000)
                 {
                     Calendar_YearButton.Checked = true;
+
+                    int change = NewYear - StartPeriod.Year;
+                    StartPeriod = StartPeriod.AddYears(change);
+                    EndPeriod = EndPeriod.AddYears(change);
                 }
                 else if (SpiltText.Length == 2)
                 {
-                    //check if it is halfyear
-                    if(Int32.TryParse(SpiltText[0], out NewYear) 
-                        && NewYear > 0 
-                        && NewYear < 10000 
-                        &&( SpiltText[1].ToLower().Equals(fall.ToLower()) 
-                            | SpiltText[1].ToLower().Equals(spring.ToLower())))
+                    if (Int32.TryParse(SpiltText[0], out NewYear))
                     {
-                        Calendar_HalfYearButton.Checked = true;
-                    }else if(MonthNames.Contains(SpiltText[0]) 
-                        && Int32.TryParse(SpiltText[1], out NewYear)
-                        && NewYear > 0
-                        && NewYear < 10000)
-                    {
-                        Calendar_MonthButton.Checked = true;
+                        text = SpiltText[1].ToLower();
                     }
-                }
+                    else if (Int32.TryParse(SpiltText[1], out NewYear))
+                    {
+                        text = SpiltText[0].ToLower();
+                    }else
+                    {
+                        text = null;
+                    }
 
-                PeriodChanged();
-
-                
-                switch (period)
-                {
-                    case Period.Year:
-                        if (Int32.TryParse(text, out NewYear) && NewYear > 0 && NewYear < 10000)
+                    if (text != null)
+                    {
+                        //check if it is halfyear
+                        if (NewYear > 0 && NewYear < 10000 && (text.Equals(fall.ToLower()) | text.Equals(spring.ToLower())))
                         {
-                            int change = NewYear - StartPeriod.Year;
-                            StartPeriod = StartPeriod.AddYears(change);
-                            EndPeriod = EndPeriod.AddYears(change);
-                        }
-                        UpdatePeriodBox();
-                        break;
-                    case Period.Halfyear:
-                        
-
-                        if (Int32.TryParse(SpiltText[0], out  NewYear) && NewYear > 0 && NewYear < 10000 && SpiltText.Length == 2)
-                        {
-                            if (SpiltText[1].ToLower().Equals(fall.ToLower()))
+                            Calendar_HalfYearButton.Checked = true;
+                            
+                            if (text.Equals(fall.ToLower()))
                             {
                                 StartPeriod = new DateTime(NewYear, 7, 1);
                                 EndPeriod = new DateTime(NewYear + 1, 1, 1);
                             }
-                            else if (SpiltText[1].ToLower().Equals(spring.ToLower()))
+                            else if (text.Equals(spring.ToLower()))
                             {
                                 StartPeriod = new DateTime(NewYear, 1, 1);
                                 EndPeriod = new DateTime(NewYear, 7, 1);
                             }
-                        }                        
-                        UpdatePeriodBox();  
-                        break;
-                    case Period.Month:
-                        try
-                        {
-                            DateTime NewDateTime = DateTime.Parse(text, Program.culture);
-                            StartPeriod = new DateTime(NewDateTime.Year, NewDateTime.Month, 1);
-                            EndPeriod = StartPeriod.AddMonths(1);
                         }
-                        catch (FormatException)
+                        else if (MonthNames.Contains(text) && NewYear > 0 && NewYear < 10000)
                         {
-                            //Should there be mesage her???
+                            Calendar_MonthButton.Checked = true;
+                            
+                            try
+                            {
+                                DateTime NewDateTime = DateTime.Parse(inputText, Program.culture);
+                                StartPeriod = new DateTime(NewDateTime.Year, NewDateTime.Month, 1);
+                                EndPeriod = StartPeriod.AddMonths(1);
+                            }
+                            catch (FormatException)
+                            {
+                                //Should there be mesage her???
+                            }
                         }
-
-                        UpdatePeriodBox();
-                        break;
+                    }
                 }
 
+                PeriodChanged();
                 UpdateCalendarTable();
                 e.Handled = true;
             }
@@ -618,7 +611,7 @@ namespace Timotheus.Forms
                         Calendar_PeriodBox.Text = StartPeriod.Year + " " + spring;
                     break;
                 case Period.Month:
-                        Calendar_PeriodBox.Text = StartPeriod.ToString("MMMM") + " " + StartPeriod.Year;
+                        Calendar_PeriodBox.Text = StartPeriod.ToString("MMMM", Program.culture) + " " + StartPeriod.Year;
                     break;
             }
             
@@ -752,14 +745,14 @@ namespace Timotheus.Forms
                 Button button = (Button)sender;
                 if (button.Text == "+")
                 {
-                    MemberInYear = MemberInYear.AddYears(1);
-                    Members_PeriodeBox.Text = MemberInYear.Year.ToString();
+                    MemberlistYear = MemberlistYear.AddYears(1);
+                    Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
                 }
                 else if (button.Text == "-")
                 {
 
-                    MemberInYear = MemberInYear.AddYears(-1);
-                    Members_PeriodeBox.Text = MemberInYear.Year.ToString();
+                    MemberlistYear = MemberlistYear.AddYears(-1);
+                    Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
                 }
                 UpdateMemberTable();
                 CountMembersUnder25();
@@ -774,7 +767,7 @@ namespace Timotheus.Forms
             members.Clear();
             for (int i = 0; i < Person.list.Count; i++)
             {
-                if (Person.list[i].Entry.Year == MemberInYear.Year)
+                if (Person.list[i].Entry.Year == MemberlistYear.Year)
                     members.Add(Person.list[i]);
             }
         }
@@ -785,15 +778,14 @@ namespace Timotheus.Forms
             {
                 if (Int32.TryParse(Members_PeriodeBox.Text, out int NewYear) && NewYear > 0 && NewYear < 10000)
                 {
-                    int change = NewYear - MemberInYear.Year;
-                   
-                    MemberInYear = MemberInYear.AddYears(change);
-                    Members_PeriodeBox.Text = MemberInYear.Year.ToString();
+                    int change = NewYear - MemberlistYear.Year;                   
+                    MemberlistYear = MemberlistYear.AddYears(change);
+                    Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
                     UpdateMemberTable();
                 }
                 else
                 {
-                    Members_PeriodeBox.Text = MemberInYear.Year.ToString();
+                    Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
                 }
                 e.Handled = true;
             }
@@ -850,9 +842,15 @@ namespace Timotheus.Forms
             {
                 Button button = (Button)sender;
                 if (button.Text == "+")
-                    Accounting_YearBox.Text = (int.Parse(Accounting_YearBox.Text) + 1).ToString();
+                {
+                    AccountingYear = AccountingYear.AddYears(1);
+                    Accounting_YearBox.Text = AccountingYear.Year.ToString();
+                }
                 else if (button.Text == "-")
-                    Accounting_YearBox.Text = (int.Parse(Accounting_YearBox.Text) - 1).ToString();
+                {
+                    AccountingYear = AccountingYear.AddYears(-1);
+                    Accounting_YearBox.Text = AccountingYear.Year.ToString();
+                }
                 UpdateTransactionsTable();
             }
         }
@@ -862,7 +860,7 @@ namespace Timotheus.Forms
         /// </summary>
         public void UpdateTransactionsTable()
         {
-            int year = int.Parse(Accounting_YearBox.Text);
+            int year = AccountingYear.Year;
             transactions.Clear();
             for (int i = 0; i < Transaction.list.Count; i++)
             {
@@ -877,7 +875,7 @@ namespace Timotheus.Forms
         /// </summary>
         public void UpdateAccountsTable()
         {
-            int year = int.Parse(Accounting_YearBox.Text);
+            int year = AccountingYear.Year;
             double[] balances = new double[accounts.Count];
             for (int i = 0; i < transactions.Count; i++)
             {
@@ -929,6 +927,24 @@ namespace Timotheus.Forms
         private void ExportAccounts(object sender, EventArgs e)
         {
 
+        }
+        private void Accounting_YearBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (Int32.TryParse(Accounting_YearBox.Text, out int NewYear) && NewYear > 0 && NewYear < 10000)
+                {
+
+                    AccountingYear = AccountingYear.AddYears(NewYear - AccountingYear.Year);
+                    Accounting_YearBox.Text = AccountingYear.Year.ToString();
+                    UpdateTransactionsTable();                    
+                }
+                else
+                {
+                    Accounting_YearBox.Text = AccountingYear.Year.ToString();
+                }
+                e.Handled = true;
+            }
         }
         #endregion
 

@@ -985,6 +985,7 @@ namespace Timotheus.Forms
             this.Accounting_YearBox.TabIndex = 3;
             this.Accounting_YearBox.Text = "2020";
             this.Accounting_YearBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Accounting_YearBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Accounting_YearBox_KeyUp);
             // 
             // Accounting_RemoveButton
             // 
