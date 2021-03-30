@@ -29,7 +29,7 @@ namespace Timotheus.Persons
         /// The persons birthday.
         /// </summary>
         public DateTime Birthday
-        { 
+        {
             get
             {
                 return birthday;
@@ -93,6 +93,14 @@ namespace Timotheus.Persons
             this.Version = Version;
 
             list.Add(this);
+        }
+
+        public int calculateAge()
+        {
+            int Age = this.Entry.Year - this.Birthday.Year;
+            if (this.Entry.DayOfYear < this.Birthday.DayOfYear)
+                Age -= 1;
+            return Age;
         }
     }
 }

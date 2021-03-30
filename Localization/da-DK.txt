@@ -16,6 +16,7 @@ Calendar_RemoveButton,Slet
 Calendar_AddButton,Tilføj
 Calendar_Spring,Foråret
 Calendar_Fall,Efteråret
+Calendar_All,Alle
 SFTP_Page,SFTP
 SFTP_HostLabel,Host
 SFTP_UsernameLabel,Brugernavn
