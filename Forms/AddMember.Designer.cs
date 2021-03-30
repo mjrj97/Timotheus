@@ -35,13 +35,13 @@ namespace Timotheus.Forms
             this.AddMember_AddressLabel = new System.Windows.Forms.Label();
             this.AddMember_AddressBox = new System.Windows.Forms.TextBox();
             this.AddMember_BirthdayLabel = new System.Windows.Forms.Label();
-            this.AddMember_MemberSinceLabel = new System.Windows.Forms.Label();
+            this.AddMember_EntryLabel = new System.Windows.Forms.Label();
             this.AddMember_AddButton = new System.Windows.Forms.Button();
             this.AddMember_CancelButton = new System.Windows.Forms.Button();
             this.AddMember_BirthdayDateLabel = new System.Windows.Forms.Label();
             this.AddMember_MemberSinceDateLabel = new System.Windows.Forms.Label();
             this.Addmember_BirthdayPicker = new System.Windows.Forms.DateTimePicker();
-            this.AddMember_MemberSincePicker = new System.Windows.Forms.DateTimePicker();
+            this.AddMember_EntryPicker = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // AddMember_NameLabel
@@ -85,14 +85,14 @@ namespace Timotheus.Forms
             this.AddMember_BirthdayLabel.TabIndex = 4;
             this.AddMember_BirthdayLabel.Text = "Birthday";
             // 
-            // AddMember_MemberSinceLabel
+            // AddMember_EntryLabel
             // 
-            this.AddMember_MemberSinceLabel.AutoSize = true;
-            this.AddMember_MemberSinceLabel.Location = new System.Drawing.Point(16, 110);
-            this.AddMember_MemberSinceLabel.Name = "AddMember_MemberSinceLabel";
-            this.AddMember_MemberSinceLabel.Size = new System.Drawing.Size(82, 15);
-            this.AddMember_MemberSinceLabel.TabIndex = 6;
-            this.AddMember_MemberSinceLabel.Text = "Member since";
+            this.AddMember_EntryLabel.AutoSize = true;
+            this.AddMember_EntryLabel.Location = new System.Drawing.Point(16, 110);
+            this.AddMember_EntryLabel.Name = "AddMember_EntryLabel";
+            this.AddMember_EntryLabel.Size = new System.Drawing.Size(34, 15);
+            this.AddMember_EntryLabel.TabIndex = 6;
+            this.AddMember_EntryLabel.Text = "Entry";
             // 
             // AddMember_AddButton
             // 
@@ -135,25 +135,25 @@ namespace Timotheus.Forms
             this.Addmember_BirthdayPicker.Size = new System.Drawing.Size(200, 23);
             this.Addmember_BirthdayPicker.TabIndex = 12;
             // 
-            // AddMember_MemberSincePicker
+            // AddMember_EntryPicker
             // 
-            this.AddMember_MemberSincePicker.Location = new System.Drawing.Point(104, 106);
-            this.AddMember_MemberSincePicker.Name = "AddMember_MemberSincePicker";
-            this.AddMember_MemberSincePicker.Size = new System.Drawing.Size(200, 23);
-            this.AddMember_MemberSincePicker.TabIndex = 13;
+            this.AddMember_EntryPicker.Location = new System.Drawing.Point(104, 106);
+            this.AddMember_EntryPicker.Name = "AddMember_EntryPicker";
+            this.AddMember_EntryPicker.Size = new System.Drawing.Size(200, 23);
+            this.AddMember_EntryPicker.TabIndex = 13;
             // 
             // AddMember
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(316, 183);
-            this.Controls.Add(this.AddMember_MemberSincePicker);
+            this.Controls.Add(this.AddMember_EntryPicker);
             this.Controls.Add(this.Addmember_BirthdayPicker);
             this.Controls.Add(this.AddMember_MemberSinceDateLabel);
             this.Controls.Add(this.AddMember_BirthdayDateLabel);
             this.Controls.Add(this.AddMember_CancelButton);
             this.Controls.Add(this.AddMember_AddButton);
-            this.Controls.Add(this.AddMember_MemberSinceLabel);
+            this.Controls.Add(this.AddMember_EntryLabel);
             this.Controls.Add(this.AddMember_BirthdayLabel);
             this.Controls.Add(this.AddMember_AddressBox);
             this.Controls.Add(this.AddMember_AddressLabel);
@@ -178,12 +178,12 @@ namespace Timotheus.Forms
         private System.Windows.Forms.Label AddMember_AddressLabel;
         private System.Windows.Forms.TextBox AddMember_AddressBox;
         private System.Windows.Forms.Label AddMember_BirthdayLabel;
-        private System.Windows.Forms.Label AddMember_MemberSinceLabel;
+        private System.Windows.Forms.Label AddMember_EntryLabel;
         private System.Windows.Forms.Button AddMember_AddButton;
         private System.Windows.Forms.Button AddMember_CancelButton;
         private System.Windows.Forms.Label AddMember_BirthdayDateLabel;
         private System.Windows.Forms.Label AddMember_MemberSinceDateLabel;
         private System.Windows.Forms.DateTimePicker Addmember_BirthdayPicker;
-        private System.Windows.Forms.DateTimePicker AddMember_MemberSincePicker;
+        private System.Windows.Forms.DateTimePicker AddMember_EntryPicker;
     }
 }

@@ -494,9 +494,15 @@ namespace Timotheus.Forms
             };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                FileInfo file = new FileInfo(saveFileDialog.FileName);
-
-                calendar.ExportPDF(file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text, Calendar_PeriodBox.Text, StartPeriod, EndPeriod);
+                try
+                {
+                    FileInfo file = new FileInfo(saveFileDialog.FileName);
+                    PDFCreater.ExportCalendar(file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text, Calendar_PeriodBox.Text);
+                }
+                catch (Exception ex)
+                {
+                    Program.Error(ex.Message, "Exception_Saving");
+                }
             }
         }
 
