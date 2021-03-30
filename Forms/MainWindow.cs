@@ -953,6 +953,23 @@ namespace Timotheus.Forms
                 Settings_LogoBox.Text = open.FileName;
             }
         }
+
+        private void Settings_LogoBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    Settings_PictureBox.Image = Image.FromFile(Settings_LogoBox.Text);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                e.Handled = true;
+            }
+        }
         #endregion
 
         #region Help

@@ -1042,6 +1042,7 @@ namespace Timotheus.Forms
             this.Settings_LogoBox.Name = "Settings_LogoBox";
             this.Settings_LogoBox.Size = new System.Drawing.Size(226, 23);
             this.Settings_LogoBox.TabIndex = 8;
+            this.Settings_LogoBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Settings_LogoBox_KeyUp);
             // 
             // Settings_LogoLabel
             // 
