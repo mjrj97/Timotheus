@@ -260,43 +260,9 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Syncs the entire local calendar with the entire remote calendar server.
         /// </summary>
-        public void Sync ()
+        public void Sync()
         {
             Sync(DateTime.MinValue, DateTime.MaxValue);
-        }
-
-        /// <summary>
-        /// Exports the calendar as a PDF to a file path and gives it a title.
-        /// </summary>
-        /// <param name="filePath">Path where the PDF should be stored.</param>
-        /// <param name="title">PDF title/name.</param>
-        /// <param name="associationName">The association's name/title.</param>
-        /// <param name="associationAddress">The postal address of the assocation.</param>
-        /// <param name="logo">The association's logo.</param>
-        /// <param name="a">First date in period.</param>
-        /// <param name="b">Last date in period.</param>
-        public void ExportPDF(string filePath, string title, string associationName, string associationAddress, string logoPath, string periodName, DateTime a, DateTime b)
-        {
-            List<Event> eventsInPeriod = new List<Event>();
-            for (int i = 0; i < events.Count; i++)
-            {
-                if (events[i].IsInPeriod(a, b))
-                    eventsInPeriod.Add(events[i]);
-            }
-
-            eventsInPeriod.Sort(delegate (Event x, Event y)
-            {
-                return x.StartTime.CompareTo(y.StartTime);
-            });
-
-            try
-            {
-                PDFCreater.ExportCalendar(filePath, title, eventsInPeriod, associationName, associationAddress, logoPath, periodName);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Saving error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         /// <summary>

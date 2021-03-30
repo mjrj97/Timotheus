@@ -56,7 +56,7 @@ AddTransaction_AddButton,Add
 AddTransaction_CancelButton,Cancel
 AddTransaction_AccountLabel,a/c
 AddTransaction_AppendixLabel,Appendix
-AddTransaction_Currency,£
+AddTransaction_Currency,$
 AddTransaction_DateLabel,Date
 AddTransaction_InLabel,Income
 AddTransaction_OutLabel,Expense
@@ -84,7 +84,7 @@ AddEvent_CancelButton,Cancel
 AddMember_NameLabel,Name
 AddMember_AddressLabel,Address
 AddMember_BirthdayLabel,Birthday
-AddMember_MemberSince,Member since
+AddMember_EntryLabel,Entry
 AddMember_AddButton,Add
 AddMember_CancelButton,Cancel
 OpenCalendar,Open
@@ -123,4 +123,5 @@ PDF_Musician,Musician
 PDF_Coffee,Coffee
 Exception_Sync,Couldn't sync
 Exception_InvalidInput,Invalid input
+Exception_SavingFailed,Failed to save
 Exception_LoadFailed,Failed to load

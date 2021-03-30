@@ -84,7 +84,7 @@ AddEvent_CancelButton,Annullér
 AddMember_NameLabel,Navn
 AddMember_AddressLabel,Adresse
 AddMember_BirthdayLabel,Fødselsdag
-AddMember_MemberSince,Medlem siden
+AddMember_EntryLabel,Indmeldelse
 AddMember_AddButton,Tilføj
 AddMember_CancelButton,Annullér
 OpenCalendar,Åben
@@ -123,4 +123,5 @@ PDF_Musician,Musiker
 PDF_Coffee,Kaffehold
 Exception_Sync,Kunne ikke synkronisere
 Exception_InvalidInput,Input er ikke valid
+Exception_SavingFailed,Kunne ikke gemmes
 Exception_LoadFailed,Kunne ikke indlæses

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using MigraDoc.Rendering;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.DocumentObjectModel.Shapes;
-using Timotheus.Schedule;
+using Timotheus.Forms;
 
 namespace Timotheus.Utility
 {
@@ -13,6 +12,7 @@ namespace Timotheus.Utility
     /// </summary>
     public class PDFCreater
     {
+        //Primary colors
         private readonly static Color White = new Color(255, 255, 255);
         private readonly static Color HeadingColor = new Color(5, 105, 115);
 
@@ -63,12 +63,11 @@ namespace Timotheus.Utility
         /// </summary>
         /// <param name="filePath">Path the PDF should be saved at.</param>
         /// <param name="title">Name of the PDF file.</param>
-        /// <param name="events">List of events to be included.</param>
         /// <param name="associationName">Name of the association.</param>
         /// <param name="associationAddress">Address of the association.</param>
         /// <param name="logoPath">Path to the associations logo.</param>
         /// <param name="periodName">Name of the time period. i.e. fall 2021</param>
-        public static void ExportCalendar(string filePath, string title, List<Event> events, string associationName, string associationAddress, string logoPath, string periodName)
+        public static void ExportCalendar(string filePath, string title, string associationName, string associationAddress, string logoPath, string periodName)
         {
             string fileName = $"{filePath}\\{title}";
 
@@ -172,28 +171,25 @@ namespace Timotheus.Utility
             section.Footers.EvenPage.Add(paragraph.Clone());
 
             // Creates the dynamic parts of the PDF.
-            for (int i = 0; i < events.Count; i++)
+            for (int i = 0; i < MainWindow.window.shownEvents.Count; i++)
             {
-                if (!events[i].Deleted)
-                {
-                    string name = events[i].Name;
-                    string description = events[i].Description;
-                    DateTime time = events[i].StartTime;
+                string name = MainWindow.window.shownEvents[i].Name;
+                string description = MainWindow.window.shownEvents[i].Description;
+                DateTime time = MainWindow.window.shownEvents[i].StartTime;
 
-                    row = table.AddRow();
+                row = table.AddRow();
 
-                    row.Cells[0].AddParagraph(time.ToString("ddd. d. MMM.", Program.culture));
+                row.Cells[0].AddParagraph(time.ToString("ddd. d. MMM.", Program.culture));
 
-                    if (time.Minute == 0 && time.Hour == 0)
-                        row.Cells[1].AddParagraph("");
-                    else
-                        row.Cells[1].AddParagraph(time.ToString("t", Program.culture));
+                if (time.Minute == 0 && time.Hour == 0)
+                    row.Cells[1].AddParagraph("");
+                else
+                    row.Cells[1].AddParagraph(time.ToString("t", Program.culture));
 
-                    row.Cells[2].AddParagraph(name);
-                    row.Cells[3].AddParagraph("");
-                    row.Cells[4].AddParagraph("");
-                    row.Cells[5].AddParagraph("");
-                }
+                row.Cells[2].AddParagraph(name);
+                row.Cells[3].AddParagraph("");
+                row.Cells[4].AddParagraph("");
+                row.Cells[5].AddParagraph("");
             }
 
             // Create a renderer for PDF that uses Unicode font encoding.
@@ -205,6 +201,11 @@ namespace Timotheus.Utility
             // Create the PDF document.
             pdfRenderer.RenderDocument();
             pdfRenderer.Save(fileName);
+        }
+    
+        public static void ExportAccounts(string filePath, string title)
+        {
+
         }
     }
 }

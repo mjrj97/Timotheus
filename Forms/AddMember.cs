@@ -19,6 +19,7 @@ namespace Timotheus.Forms
             AddMember_NameLabel.Text = locale.GetLocalization(AddMember_NameLabel);
             AddMember_AddressLabel.Text = locale.GetLocalization(AddMember_AddressLabel);
             AddMember_BirthdayLabel.Text = locale.GetLocalization(AddMember_BirthdayLabel);
+            AddMember_EntryLabel.Text = locale.GetLocalization(AddMember_EntryLabel);
             AddMember_AddButton.Text = locale.GetLocalization(AddMember_AddButton);
             AddMember_CancelButton.Text = locale.GetLocalization(AddMember_CancelButton);
         }
@@ -36,7 +37,7 @@ namespace Timotheus.Forms
                 if (AddMember_AddressBox.Text.Trim() == String.Empty)
                     throw new Exception("Address cannot be empty.");
 
-                new Person(AddMember_NameBox.Text, AddMember_AddressBox.Text, Addmember_BirthdayPicker.Value.Date, AddMember_MemberSincePicker.Value.Date);
+                new Person(AddMember_NameBox.Text, AddMember_AddressBox.Text, Addmember_BirthdayPicker.Value.Date, AddMember_EntryPicker.Value.Date);
                 MainWindow.window.UpdateMemberTable();
                 CloseButton(null, null);
             }
