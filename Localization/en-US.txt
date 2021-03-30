@@ -57,7 +57,7 @@ AddTransaction_AddButton,Add
 AddTransaction_CancelButton,Cancel
 AddTransaction_AccountLabel,a/c
 AddTransaction_AppendixLabel,Appendix
-AddTransaction_Currency,£
+AddTransaction_Currency,Â£
 AddTransaction_DateLabel,Date
 AddTransaction_InLabel,Income
 AddTransaction_OutLabel,Expense
@@ -124,4 +124,5 @@ PDF_Musician,Musician
 PDF_Coffee,Coffee
 Exception_Sync,Couldn't sync
 Exception_InvalidInput,Invalid input
+Exception_SavingFailed,Failed to save
 Exception_LoadFailed,Failed to load
