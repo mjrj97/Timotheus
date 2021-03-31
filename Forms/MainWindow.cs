@@ -49,7 +49,6 @@ namespace Timotheus.Forms
         /// List of all accounts.
         /// </summary>
         public SortableBindingList<Account> accounts = new SortableBindingList<Account>();
-
         /// <summary>
         /// Current calendar used by the program.
         /// </summary>
@@ -66,7 +65,6 @@ namespace Timotheus.Forms
         /// Name of the all period.
         /// </summary>
         private string all = "All";
-
         /// <summary>
         /// Start of the period in calanderwhich sorts the different lists.
         /// </summary>
@@ -94,6 +92,11 @@ namespace Timotheus.Forms
         /// Start of the period in acunting sorts the different lists.
         /// </summary>
         private DateTime AccountingYear = new DateTime(DateTime.Now.Year, 1, 1);
+
+        /// <summary>
+        /// List of Boardmembers in the defined period.
+        /// </summary>
+        public SortableBindingList<BoardMember> Boardmembers = new SortableBindingList<BoardMember>();
 
         /// <summary>
         /// Constructor. Loads initial data and localization.
@@ -132,6 +135,22 @@ namespace Timotheus.Forms
                         Settings_PictureBox.Image = Image.FromFile(content[10].Trim());
                 }
             }
+
+            Person testperson = new Person("Jesper", "rewr", new DateTime(1), new DateTime(1));
+            Boardmembers.Add(new BoardMember(testperson, Roles.Ordinary));
+
+            testperson = new Person("Casper", "123", new DateTime(1), new DateTime(1));
+            Boardmembers.Add(new BoardMember(testperson, Roles.Ordinary));
+
+            testperson = new Person("Jesper", "13", new DateTime(1), new DateTime(1));
+            Boardmembers.Add(new BoardMember(testperson, Roles.Ordinary));
+
+            for (int i = 0; i < Boardmembers.Count; i++)
+            {
+                flowLayoutPanel_BoardMangement.Controls.Add(Boardmembers[i].genreategruopeBox());
+            }
+            
+          
         }
 
         /// <summary>
@@ -1065,19 +1084,19 @@ namespace Timotheus.Forms
                 if (keyData == Keys.Delete)
                 {
                     //If in Calendar tab, it removes the selected event
-                    if (tabControl.SelectedIndex == tabControl.TabPages.IndexOf(Calendar_Page))
+                    if (BoardManagement_Page.SelectedIndex == BoardManagement_Page.TabPages.IndexOf(Calendar_Page))
                     {
                         RemoveEvent(null, null);
                         return true;
                     }
                     //If in Consent Forms tab, it removes the selected consent form
-                    else if (tabControl.SelectedIndex == tabControl.TabPages.IndexOf(ConsentForms_Page))
+                    else if (BoardManagement_Page.SelectedIndex == BoardManagement_Page.TabPages.IndexOf(ConsentForms_Page))
                     {
                         RemoveConsentForm(null, null);
                         return true;
                     }
                     //If in Member tab, it removes the selected event
-                    if (tabControl.SelectedIndex == tabControl.TabPages.IndexOf(Members_Page))
+                    if (BoardManagement_Page.SelectedIndex == BoardManagement_Page.TabPages.IndexOf(Members_Page))
                     {
                         RemoveMember(null, null);
                         return true;
@@ -1096,8 +1115,13 @@ namespace Timotheus.Forms
             ((DataGridView)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].Value = DateTime.Now.Date;
             e.Cancel = true;
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
- 
+
     /// <summary>
     /// Used to define the type of period used by a DataGridView.
     /// </summary>

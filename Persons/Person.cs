@@ -69,6 +69,22 @@ namespace Timotheus.Persons
         /// </summary>
         public static List<Person> list = new List<Person>();
 
+        // Default constructor. If a derived class does not invoke a base-
+        // class constructor explicitly, the default constructor is called
+        // implicitly.
+        public Person() 
+        {
+            this.Name = string.Empty;
+            this.Address = string.Empty;
+            Comment = string.Empty;
+            this.Birthday = DateTime.MinValue;
+            this.Entry = DateTime.MinValue;
+            Signed = DateTime.MinValue;
+            Version = DateTime.MinValue;
+
+            list.Add(this);
+        }
+
         //Constructors
         public Person(string Name, string Address, DateTime Birthday, DateTime Entry) //Called by AddMember
         {

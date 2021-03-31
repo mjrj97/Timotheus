@@ -22,7 +22,7 @@ namespace Timotheus.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.Calendar_View = new System.Windows.Forms.DataGridView();
             this.Calendar_StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -30,7 +30,7 @@ namespace Timotheus.Forms
             this.Calendar_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Calendar_DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Calendar_LocationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabControl = new System.Windows.Forms.TabControl();
+            this.BoardManagement_Page = new System.Windows.Forms.TabControl();
             this.Calendar_Page = new System.Windows.Forms.TabPage();
             this.Calendar_MonthButton = new System.Windows.Forms.RadioButton();
             this.Calendar_HalfYearButton = new System.Windows.Forms.RadioButton();
@@ -75,6 +75,11 @@ namespace Timotheus.Forms
             this.Members_BirthdayColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Members_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Members_AddressColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.flowLayoutPanel_BoardMangement = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ConsentForms_Page = new System.Windows.Forms.TabPage();
             this.ConsentForms_RemoveButton = new System.Windows.Forms.Button();
             this.ConsentForms_AddButton = new System.Windows.Forms.Button();
@@ -125,13 +130,20 @@ namespace Timotheus.Forms
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Calendar_View)).BeginInit();
-            this.tabControl.SuspendLayout();
+            this.BoardManagement_Page.SuspendLayout();
             this.Calendar_Page.SuspendLayout();
             this.SFTP_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SFTP_View)).BeginInit();
             this.Members_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Members_View)).BeginInit();
+            this.tabPage1.SuspendLayout();
+            this.flowLayoutPanel_BoardMangement.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.ConsentForms_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).BeginInit();
             this.Accounting_Page.SuspendLayout();
@@ -147,6 +159,8 @@ namespace Timotheus.Forms
             this.Help_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Help_IconBox)).BeginInit();
             this.TrayContextMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // Calendar_View
@@ -161,14 +175,14 @@ namespace Timotheus.Forms
             this.Calendar_NameColumn,
             this.Calendar_DescriptionColumn,
             this.Calendar_LocationColumn});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Calendar_View.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Calendar_View.DefaultCellStyle = dataGridViewCellStyle2;
             this.Calendar_View.Location = new System.Drawing.Point(10, 39);
             this.Calendar_View.Name = "Calendar_View";
             this.Calendar_View.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -223,23 +237,24 @@ namespace Timotheus.Forms
             this.Calendar_LocationColumn.Name = "Calendar_LocationColumn";
             this.Calendar_LocationColumn.Width = 125;
             // 
-            // tabControl
+            // BoardManagement_Page
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.BoardManagement_Page.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl.Controls.Add(this.Calendar_Page);
-            this.tabControl.Controls.Add(this.SFTP_Page);
-            this.tabControl.Controls.Add(this.Members_Page);
-            this.tabControl.Controls.Add(this.ConsentForms_Page);
-            this.tabControl.Controls.Add(this.Accounting_Page);
-            this.tabControl.Controls.Add(this.Settings_Page);
-            this.tabControl.Controls.Add(this.Help_Page);
-            this.tabControl.Location = new System.Drawing.Point(2, 3);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(802, 437);
-            this.tabControl.TabIndex = 0;
+            this.BoardManagement_Page.Controls.Add(this.Calendar_Page);
+            this.BoardManagement_Page.Controls.Add(this.SFTP_Page);
+            this.BoardManagement_Page.Controls.Add(this.Members_Page);
+            this.BoardManagement_Page.Controls.Add(this.tabPage1);
+            this.BoardManagement_Page.Controls.Add(this.ConsentForms_Page);
+            this.BoardManagement_Page.Controls.Add(this.Accounting_Page);
+            this.BoardManagement_Page.Controls.Add(this.Settings_Page);
+            this.BoardManagement_Page.Controls.Add(this.Help_Page);
+            this.BoardManagement_Page.Location = new System.Drawing.Point(2, 3);
+            this.BoardManagement_Page.Name = "BoardManagement_Page";
+            this.BoardManagement_Page.SelectedIndex = 0;
+            this.BoardManagement_Page.Size = new System.Drawing.Size(802, 437);
+            this.BoardManagement_Page.TabIndex = 0;
             // 
             // Calendar_Page
             // 
@@ -726,6 +741,56 @@ namespace Timotheus.Forms
             this.Members_AddressColumn.DataPropertyName = "address";
             this.Members_AddressColumn.HeaderText = "Address";
             this.Members_AddressColumn.Name = "Members_AddressColumn";
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.flowLayoutPanel_BoardMangement);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(794, 409);
+            this.tabPage1.TabIndex = 6;
+            this.tabPage1.Text = "Board Management";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // flowLayoutPanel_BoardMangement
+            // 
+            this.flowLayoutPanel_BoardMangement.Controls.Add(this.groupBox1);
+            this.flowLayoutPanel_BoardMangement.Location = new System.Drawing.Point(6, 16);
+            this.flowLayoutPanel_BoardMangement.Name = "flowLayoutPanel_BoardMangement";
+            this.flowLayoutPanel_BoardMangement.Size = new System.Drawing.Size(780, 386);
+            this.flowLayoutPanel_BoardMangement.TabIndex = 0;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.pictureBox1);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(428, 167);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "First board member";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(244, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(38, 15);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "label1";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(6, 19);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(100, 100);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // ConsentForms_Page
             // 
@@ -1232,19 +1297,44 @@ namespace Timotheus.Forms
             this.TrayClose.Text = "Close";
             this.TrayClose.Click += new System.EventHandler(this.Exit);
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox3.TabIndex = 0;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox2.TabIndex = 0;
+            this.pictureBox2.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(138, 59);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(38, 15);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "label2";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(804, 441);
-            this.Controls.Add(this.tabControl);
+            this.Controls.Add(this.BoardManagement_Page);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(500, 248);
             this.Name = "MainWindow";
             this.Text = "Timotheus";
             this.Resize += new System.EventHandler(this.Manager_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.Calendar_View)).EndInit();
-            this.tabControl.ResumeLayout(false);
+            this.BoardManagement_Page.ResumeLayout(false);
             this.Calendar_Page.ResumeLayout(false);
             this.Calendar_Page.PerformLayout();
             this.SFTP_Page.ResumeLayout(false);
@@ -1253,6 +1343,11 @@ namespace Timotheus.Forms
             this.Members_Page.ResumeLayout(false);
             this.Members_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Members_View)).EndInit();
+            this.tabPage1.ResumeLayout(false);
+            this.flowLayoutPanel_BoardMangement.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ConsentForms_Page.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).EndInit();
             this.Accounting_Page.ResumeLayout(false);
@@ -1271,13 +1366,15 @@ namespace Timotheus.Forms
             this.Help_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Help_IconBox)).EndInit();
             this.TrayContextMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabControl BoardManagement_Page;
         private System.Windows.Forms.NotifyIcon TrayIcon;
         private System.Windows.Forms.ContextMenuStrip TrayContextMenu;
         private System.Windows.Forms.ToolStripMenuItem TrayOpen;
@@ -1378,5 +1475,15 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Members_AddressColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NetColumn;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel_BoardMangement;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
