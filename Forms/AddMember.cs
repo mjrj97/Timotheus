@@ -13,9 +13,11 @@ namespace Timotheus.Forms
         public AddMember()
         {
             InitializeComponent();
-
             LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
+            AddMember_ComboBox.DataSource = Person.list;
 
+            AddMember_AddExistingButton.Text = locale.GetLocalization(AddMember_AddExistingButton);
+            AddMember_NewPersonButton.Text = locale.GetLocalization(AddMember_NewPersonButton);
             AddMember_NameLabel.Text = locale.GetLocalization(AddMember_NameLabel);
             AddMember_AddressLabel.Text = locale.GetLocalization(AddMember_AddressLabel);
             AddMember_BirthdayLabel.Text = locale.GetLocalization(AddMember_BirthdayLabel);
@@ -31,13 +33,27 @@ namespace Timotheus.Forms
         {
             try
             {
-                if (AddMember_NameBox.Text.Trim() == String.Empty)
-                    throw new Exception("Name cannot be empty.");
-
-                if (AddMember_AddressBox.Text.Trim() == String.Empty)
+                if (AddMember_AddressBox.Text.Trim() == string.Empty)
                     throw new Exception("Address cannot be empty.");
 
-                new Person(AddMember_NameBox.Text, AddMember_AddressBox.Text, Addmember_BirthdayPicker.Value.Date, AddMember_EntryPicker.Value.Date);
+                if (AddMember_NewPersonButton.Checked)
+                {
+                    if (AddMember_NameBox.Text.Trim() == string.Empty)
+                        throw new Exception("Name cannot be empty.");
+
+                    new Person(AddMember_NameBox.Text, AddMember_AddressBox.Text, AddMember_BirthdayPicker.Value.Date, AddMember_EntryPicker.Value.Date);
+                }
+                else
+                {
+                    if (AddMember_ComboBox.SelectedItem == null)
+                        throw new Exception("Name cannot be empty.");
+
+                    Person person = (Person)AddMember_ComboBox.SelectedItem;
+                    person.Address = AddMember_AddressBox.Text;
+                    person.Birthday = AddMember_BirthdayPicker.Value.Date;
+                    person.Entry = AddMember_EntryPicker.Value.Date;
+                }
+
                 MainWindow.window.UpdateMemberTable();
                 CloseButton(null, null);
             }
@@ -53,6 +69,15 @@ namespace Timotheus.Forms
         private void CloseButton(object sender, EventArgs e)
         {
             Close();
+        }
+
+        /// <summary>
+        /// Updates content if radio buttons changes.
+        /// </summary>
+        private void RadioButtonsChanged(object sender, EventArgs e)
+        {
+            AddMember_ComboBox.Visible = AddMember_AddExistingButton.Checked;
+            AddMember_NameBox.Visible = !AddMember_AddExistingButton.Checked;
         }
 
         /// <summary>
