@@ -95,10 +95,10 @@ namespace Timotheus.Persons
             list.Add(this);
         }
 
-        public int calculateAge()
+        public int CalculateAge()
         {
-            int Age = this.Entry.Year - this.Birthday.Year;
-            if (this.Entry.DayOfYear < this.Birthday.DayOfYear)
+            int Age = Entry.Year - Birthday.Year;
+            if (Entry.DayOfYear < Birthday.DayOfYear)
                 Age -= 1;
             return Age;
         }

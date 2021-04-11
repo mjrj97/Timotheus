@@ -332,22 +332,23 @@ namespace Timotheus.Forms
             RadioButton button = (RadioButton)sender;
             if (button.Checked)
             {
-                PeriodChanged();
+                ChangePeriod();
             }
         }
 
-        private void PeriodChanged()
+        /// <summary>
+        /// Changes the period
+        /// </summary>
+        private void ChangePeriod()
         {
             if (Calendar_AllButton.Checked)
             {
-
                 Calendar_AddYearButton.Enabled = false;
                 Calendar_SubtractYearButton.Enabled = false;
 
                 StartPeriod = DateTime.MinValue;
                 EndPeriod = DateTime.MaxValue;
                 period = Period.All;
-
             }
             else
             {
@@ -364,9 +365,7 @@ namespace Timotheus.Forms
                         EndPeriod = new DateTime(StartPeriod.Year + 1, 1, 1);
                     }
 
-
                     period = Period.Year;
-
                 }
                 else if (Calendar_HalfYearButton.Checked)
                 {
@@ -398,13 +397,11 @@ namespace Timotheus.Forms
                     }
 
                     period = Period.Halfyear;
-
                 }
                 else if (Calendar_MonthButton.Checked)
                 {
                     StartPeriod = new DateTime(StartPeriod.Year, StartPeriod.Month, 1);
                     EndPeriod = StartPeriod.AddMonths(1);
-
 
                     period = Period.Month;
                 }
@@ -518,25 +515,27 @@ namespace Timotheus.Forms
             sync.ShowDialog();
         }
 
+        /// <summary>
+        /// Updates the period if the user manually changes the period in the text box.
+        /// </summary>
         private void Calendar_PeriodBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                String inputText = Calendar_PeriodBox.Text;
+                string inputText = Calendar_PeriodBox.Text;
                 string[] SpiltText = inputText.Split(" ");
 
                 DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo(Program.culture.Name).DateTimeFormat;
                 List<string> MonthNames = new List<string>(dtfi.MonthNames);
                 MonthNames = MonthNames.ConvertAll(d => d.ToLower());
 
-                int NewYear;
                 string text;
 
                 if (inputText.ToLower().Equals(all.ToLower()))
                 {
                     Calendar_AllButton.Checked = true;
                 }
-                else if (SpiltText.Length == 1 && Int32.TryParse(inputText, out NewYear) && NewYear > 0 && NewYear < 10000)
+                else if (SpiltText.Length == 1 && int.TryParse(inputText, out int NewYear) && NewYear > 0 && NewYear < 10000)
                 {
                     Calendar_YearButton.Checked = true;
 
@@ -546,14 +545,15 @@ namespace Timotheus.Forms
                 }
                 else if (SpiltText.Length == 2)
                 {
-                    if (Int32.TryParse(SpiltText[0], out NewYear))
+                    if (int.TryParse(SpiltText[0], out NewYear))
                     {
                         text = SpiltText[1].ToLower();
                     }
-                    else if (Int32.TryParse(SpiltText[1], out NewYear))
+                    else if (int.TryParse(SpiltText[1], out NewYear))
                     {
                         text = SpiltText[0].ToLower();
-                    }else
+                    }
+                    else
                     {
                         text = null;
                     }
@@ -588,18 +588,21 @@ namespace Timotheus.Forms
                             }
                             catch (FormatException)
                             {
-                                //Should there be mesage her???
+                                //Should there be mesage here?
                             }
                         }
                     }
                 }
 
-                PeriodChanged();
+                ChangePeriod();
                 UpdateCalendarTable();
                 e.Handled = true;
             }
         }
 
+        /// <summary>
+        /// Updates the text in the period box.
+        /// </summary>
         private void UpdatePeriodBox()
         {
             switch (period)
@@ -735,7 +738,7 @@ namespace Timotheus.Forms
 
             for (int i = 0; i < members.Count; i++)
             {
-                if (members[i].calculateAge() < 25)
+                if (members[i].CalculateAge() < 25)
                     NumberUnder25++;
             }
             Members_Under25Label.Text = MembersUnder25Text + " " + NumberUnder25;
@@ -778,11 +781,14 @@ namespace Timotheus.Forms
             }
         }
 
+        /// <summary>
+        /// Updates the year for the memberlist, if manually changed in the text box.
+        /// </summary>
         private void Members_PeriodeBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (Int32.TryParse(Members_PeriodeBox.Text, out int NewYear) && NewYear > 0 && NewYear < 10000)
+                if (int.TryParse(Members_PeriodeBox.Text, out int NewYear) && NewYear > 0 && NewYear < 10000)
                 {
                     int change = NewYear - MemberlistYear.Year;                   
                     MemberlistYear = MemberlistYear.AddYears(change);
@@ -934,13 +940,16 @@ namespace Timotheus.Forms
         {
 
         }
+
+        /// <summary>
+        /// Updates the accounting year if the user manually changes in the text box.
+        /// </summary>
         private void Accounting_YearBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (Int32.TryParse(Accounting_YearBox.Text, out int NewYear) && NewYear > 0 && NewYear < 10000)
+                if (int.TryParse(Accounting_YearBox.Text, out int NewYear) && NewYear > 0 && NewYear < 10000)
                 {
-
                     AccountingYear = AccountingYear.AddYears(NewYear - AccountingYear.Year);
                     Accounting_YearBox.Text = AccountingYear.Year.ToString();
                     UpdateTransactionsTable();                    
@@ -976,6 +985,9 @@ namespace Timotheus.Forms
             }
         }
 
+        /// <summary>
+        /// Automatically updates the logo in the picture box, if the user changes the text box.
+        /// </summary>
         private void Settings_LogoBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -1052,7 +1064,6 @@ namespace Timotheus.Forms
                 TrayIcon.Visible = true;
             }
         }
-        
         #endregion
 
         /// <summary>
