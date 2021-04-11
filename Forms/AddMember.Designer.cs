@@ -176,6 +176,7 @@ namespace Timotheus.Forms
             this.AddMember_ComboBox.Size = new System.Drawing.Size(225, 23);
             this.AddMember_ComboBox.TabIndex = 17;
             this.AddMember_ComboBox.Visible = false;
+            this.AddMember_ComboBox.SelectedValueChanged += new System.EventHandler(this.ComboBoxChange);
             // 
             // AddMember_NewPersonButton
             // 

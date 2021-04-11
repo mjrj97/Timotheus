@@ -72,12 +72,35 @@ namespace Timotheus.Forms
         }
 
         /// <summary>
+        /// Updates fields if value in ComboBox is changed.
+        /// </summary>
+        private void ComboBoxChange(object sender, EventArgs e)
+        {
+            if (AddMember_ComboBox.SelectedItem != null && AddMember_AddExistingButton.Checked)
+            {
+                Person person = (Person)AddMember_ComboBox.SelectedItem;
+                AddMember_AddressBox.Text = person.Address;
+                AddMember_BirthdayPicker.Value = person.Birthday;
+                AddMember_EntryPicker.Value = person.Entry;
+            }
+        }
+
+        /// <summary>
         /// Updates content if radio buttons changes.
         /// </summary>
         private void RadioButtonsChanged(object sender, EventArgs e)
         {
             AddMember_ComboBox.Visible = AddMember_AddExistingButton.Checked;
             AddMember_NameBox.Visible = !AddMember_AddExistingButton.Checked;
+
+            if (AddMember_AddExistingButton.Checked)
+                ComboBoxChange(null, null);
+            else
+            {
+                AddMember_AddressBox.Text = string.Empty;
+                AddMember_EntryPicker.Value = DateTime.Now;
+                AddMember_BirthdayPicker.Value = DateTime.Now;
+            }
         }
 
         /// <summary>

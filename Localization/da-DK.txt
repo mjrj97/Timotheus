@@ -88,6 +88,8 @@ AddMember_BirthdayLabel,Fødselsdag
 AddMember_EntryLabel,Indmeldelse
 AddMember_AddButton,Tilføj
 AddMember_CancelButton,Annullér
+AddMember_NewPersonButton,Ny
+AddMember_AddExistingButton,Fra liste
 OpenCalendar,Åben
 OpenCalendar_OpenButton,Åben
 OpenCalendar_CancelButton,Annullér

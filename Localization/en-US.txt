@@ -88,6 +88,8 @@ AddMember_BirthdayLabel,Birthday
 AddMember_EntryLabel,Entry
 AddMember_AddButton,Add
 AddMember_CancelButton,Cancel
+AddMember_NewPersonButton,New
+AddMember_AddExistingButton,From list
 OpenCalendar,Open
 OpenCalendar_OpenButton,Open
 OpenCalendar_CancelButton,Cancel
