@@ -52,7 +52,7 @@ namespace Timotheus.Forms
             this.OpenCalendar_CancelButton.TabIndex = 0;
             this.OpenCalendar_CancelButton.Text = "Cancel";
             this.OpenCalendar_CancelButton.UseVisualStyleBackColor = true;
-            this.OpenCalendar_CancelButton.Click += new System.EventHandler(this.CloseDialog);
+            this.OpenCalendar_CancelButton.Click += new System.EventHandler(this.Close);
             // 
             // OpenCalendar_ICSButton
             // 

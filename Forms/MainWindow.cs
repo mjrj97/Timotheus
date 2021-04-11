@@ -9,10 +9,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Globalization;
 using Renci.SshNet.Sftp;
 using Renci.SshNet;
-using Calendar = Timotheus.Schedule.Calendar;
 
 namespace Timotheus.Forms
 {
@@ -22,13 +20,9 @@ namespace Timotheus.Forms
     public partial class MainWindow : Form
     {
         /// <summary>
-        /// Holds the current instance of MainWindow.
-        /// </summary>
-        public static MainWindow window;
-        /// <summary>
         /// List of events in the period from StartPeriod to EndPeriod shown in the Calendar_View. Updated using UpdateTable().
         /// </summary>
-        public SortableBindingList<Event> shownEvents = new SortableBindingList<Event>();
+        public SortableBindingList<Event> events = new SortableBindingList<Event>();
         /// <summary>
         /// List of files in the SFTP remote directory. Updated using ShowDirectory().
         /// </summary>
@@ -100,7 +94,6 @@ namespace Timotheus.Forms
         /// </summary>
         public MainWindow()
         {
-            window = this;
             InitializeComponent();
             SetupUI();
             
@@ -143,7 +136,7 @@ namespace Timotheus.Forms
 
             #region Calendar
             Calendar_View.AutoGenerateColumns = false;
-            Calendar_View.DataSource = new BindingSource(shownEvents, null);
+            Calendar_View.DataSource = new BindingSource(events, null);
             
             Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
             Calendar_Page.Text = locale.GetLocalization(Calendar_Page);
@@ -200,7 +193,7 @@ namespace Timotheus.Forms
             Members_AddButton.Text = locale.GetLocalization(Members_AddButton);
             Members_RemoveButton.Text = locale.GetLocalization(Members_RemoveButton);
             MembersUnder25Text = locale.GetLocalization(Members_Under25Label);
-            CountMembersUnder25();
+            UpdateMemberTable();
             #endregion
 
             #region Consent Forms
@@ -264,11 +257,11 @@ namespace Timotheus.Forms
         /// </summary>
         public void UpdateCalendarTable()
         {
-            shownEvents.Clear();
+            events.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
             {
                 if (calendar.events[i].IsInPeriod(StartPeriod,EndPeriod) && !calendar.events[i].Deleted)
-                    shownEvents.Add(calendar.events[i]);
+                    events.Add(calendar.events[i]);
             }
             Calendar_View.Sort(Calendar_View.Columns[0], ListSortDirection.Ascending);
         }
@@ -418,12 +411,17 @@ namespace Timotheus.Forms
         /// </summary>
         private void AddEvent(object sender, EventArgs e)
         {
-            AddEvent addEvent = new AddEvent
+            AddEvent addEvent = new AddEvent(Settings_AddressBox.Text)
             {
                 Owner = this
             };
-
-            addEvent.ShowDialog();
+            DialogResult result = addEvent.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Event ev = new Event(addEvent.Event_Start, addEvent.Event_End, addEvent.Event_Name, addEvent.Event_Description, addEvent.Event_Location, null);
+                calendar.events.Add(ev);
+                UpdateCalendarTable();
+            }
         }
 
         /// <summary>
@@ -431,9 +429,9 @@ namespace Timotheus.Forms
         /// </summary>
         private void RemoveEvent(object sender, EventArgs e)
         {
-            if (shownEvents.Count > 0)
+            if (events.Count > 0)
             {
-                Event ev = shownEvents[Calendar_View.CurrentCell.OwningRow.Index];
+                Event ev = events[Calendar_View.CurrentCell.OwningRow.Index];
                 int index = 0;
                 for (int i = 0; i < calendar.events.Count; i++)
                 {
@@ -473,11 +471,20 @@ namespace Timotheus.Forms
         /// </summary>
         private void OpenCalendar(object sender, EventArgs e)
         {
-              OpenCalendar open = new OpenCalendar
+            OpenCalendar open = new OpenCalendar
             {
                 Owner = this
             };
-            open.ShowDialog();
+            DialogResult result = open.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                if (open.Online)
+                    calendar = new Calendar(open.Username, open.Password, open.CalDAV);
+                else
+                    calendar = new Calendar(open.ICS);
+
+                UpdateCalendarTable();
+            }
         }
 
         /// <summary>
@@ -494,7 +501,7 @@ namespace Timotheus.Forms
                 try
                 {
                     FileInfo file = new FileInfo(saveFileDialog.FileName);
-                    PDFCreater.ExportCalendar(file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text, Calendar_PeriodBox.Text);
+                    PDFCreater.ExportCalendar(events, file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text, Calendar_PeriodBox.Text);
                 }
                 catch (Exception ex)
                 {
@@ -508,11 +515,25 @@ namespace Timotheus.Forms
         /// </summary>
         private void SyncCalendar(object sender, EventArgs e)
         {
-            SyncCalendar sync = new SyncCalendar
+            SyncCalendar sync = new SyncCalendar(calendar.IsSetup(), Calendar_PeriodBox.Text)
             {
                 Owner = this
             };
-            sync.ShowDialog();
+            DialogResult result = sync.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                if (sync.Calendar_New)
+                    calendar.SetupSync(sync.Username, sync.Password, sync.CalDAV);
+
+                if (sync.SyncType == 0)
+                    calendar.Sync();
+                else if (sync.SyncType == 1)
+                    calendar.Sync(StartPeriod, EndPeriod);
+                else if (sync.SyncType == 2)
+                    calendar.Sync(sync.a, sync.b);
+
+                UpdateCalendarTable();
+            }
         }
 
         /// <summary>
@@ -525,7 +546,7 @@ namespace Timotheus.Forms
                 string inputText = Calendar_PeriodBox.Text;
                 string[] SpiltText = inputText.Split(" ");
 
-                DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo(Program.culture.Name).DateTimeFormat;
+                System.Globalization.DateTimeFormatInfo dtfi = System.Globalization.CultureInfo.GetCultureInfo(Program.culture.Name).DateTimeFormat;
                 List<string> MonthNames = new List<string>(dtfi.MonthNames);
                 MonthNames = MonthNames.ConvertAll(d => d.ToLower());
 
@@ -727,7 +748,6 @@ namespace Timotheus.Forms
                 }
 
                 UpdateMemberTable();
-                CountMembersUnder25();
             }
         }
 
@@ -741,22 +761,6 @@ namespace Timotheus.Forms
                 Person.list.Remove(members[Members_View.CurrentCell.OwningRow.Index]);
             }
             UpdateMemberTable();
-            CountMembersUnder25();
-        }
-
-        /// <summary>
-        /// Updates Members under 25 label
-        /// </summary>
-        public void CountMembersUnder25()
-        {
-            int NumberUnder25 = 0;
-
-            for (int i = 0; i < members.Count; i++)
-            {
-                if (members[i].CalculateAge() < 25)
-                    NumberUnder25++;
-            }
-            Members_Under25Label.Text = MembersUnder25Text + " " + NumberUnder25;
         }
 
         /// <summary>
@@ -779,21 +783,31 @@ namespace Timotheus.Forms
                     Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
                 }
                 UpdateMemberTable();
-                CountMembersUnder25();
             }
         }
 
         /// <summary>
         /// Updates the contents of the Members_View
         /// </summary>
-        public void UpdateMemberTable()
+        public void UpdateMemberTable(object sender, DataGridViewCellEventArgs e)
         {
+            int MembersUnder25 = 0;
+            
             members.Clear();
             for (int i = 0; i < Person.list.Count; i++)
             {
                 if (Person.list[i].Entry.Year == MemberlistYear.Year)
+                {
                     members.Add(Person.list[i]);
+                    if (Person.list[i].CalculateAge() < 25)
+                        MembersUnder25++;
+                }
             }
+            Members_Under25Label.Text = MembersUnder25Text + " " + MembersUnder25;
+        }
+        public void UpdateMemberTable()
+        {
+            UpdateMemberTable(null, null);
         }
 
         /// <summary>
@@ -829,8 +843,12 @@ namespace Timotheus.Forms
             {
                 Owner = this
             };
-
-            addConsentForm.ShowDialog();
+            DialogResult result = addConsentForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                new Person(addConsentForm.ConsentForm_Name, addConsentForm.ConsentForm_Signed, addConsentForm.ConsentForm_Version, addConsentForm.ConsentForm_Comment);
+                UpdateConsentFormsTable();
+            }
         }
 
         /// <summary>
@@ -885,7 +903,7 @@ namespace Timotheus.Forms
         /// <summary>
         /// Updates the contents of the Accounting_TransactionsView so only transactions in the given year are shown.
         /// </summary>
-        public void UpdateTransactionsTable()
+        public void UpdateTransactionsTable(object sender, DataGridViewCellEventArgs e)
         {
             int year = AccountingYear.Year;
             transactions.Clear();
@@ -894,7 +912,12 @@ namespace Timotheus.Forms
                 if (year == Transaction.list[i].Date.Year)
                     transactions.Add(Transaction.list[i]);
             }
+
             UpdateAccountsTable();
+        }
+        public void UpdateTransactionsTable()
+        {
+            UpdateTransactionsTable(null, null);
         }
 
         /// <summary>
@@ -931,8 +954,12 @@ namespace Timotheus.Forms
             {
                 Owner = this
             };
-
-            addTransaction.ShowDialog();
+            DialogResult result = addTransaction.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                new Transaction(addTransaction.Transaction_Date, addTransaction.Transaction_Appendix, addTransaction.Transaction_Description, addTransaction.Transaction_Account, addTransaction.Transaction_In, addTransaction.Transaction_Out);
+                UpdateTransactionsTable();
+            }
         }
 
         /// <summary>

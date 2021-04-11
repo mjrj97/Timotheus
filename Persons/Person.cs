@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Timotheus.Forms;
 
 namespace Timotheus.Persons
 {
@@ -9,10 +8,6 @@ namespace Timotheus.Persons
     /// </summary>
     public class Person
     {
-        //Private versions of the variables below. Used if a custom setter is defined.
-        private DateTime birthday;
-        private DateTime entry;
-
         /// <summary>
         /// Full name of the person.
         /// </summary>
@@ -28,33 +23,11 @@ namespace Timotheus.Persons
         /// <summary>
         /// The persons birthday.
         /// </summary>
-        public DateTime Birthday
-        {
-            get
-            {
-                return birthday;
-            }
-            set
-            {
-                birthday = value;
-                MainWindow.window.CountMembersUnder25();
-            }
-        }
+        public DateTime Birthday { get; set; }
         /// <summary>
         /// The date the person became a member in the association.
         /// </summary>
-        public DateTime Entry
-        {
-            get
-            {
-                return entry;
-            }
-            set
-            {
-                entry = value;
-                MainWindow.window.CountMembersUnder25();
-            }
-        }
+        public DateTime Entry { get; set; }
         /// <summary>
         /// Date when consent was given.
         /// </summary>

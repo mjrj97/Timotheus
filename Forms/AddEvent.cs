@@ -1,5 +1,4 @@
-﻿using Timotheus.Schedule;
-using Timotheus.Utility;
+﻿using Timotheus.Utility;
 using System;
 using System.Windows.Forms;
 
@@ -10,21 +9,24 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class AddEvent : Form
     {
+        public string Event_Name = string.Empty;
+        public DateTime Event_Start = DateTime.Now;
+        public DateTime Event_End = DateTime.Now.AddMinutes(30);
+        public string Event_Description = string.Empty;
+        public string Event_Location = string.Empty;
+
         /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
         /// </summary>
-        public AddEvent()
+        public AddEvent(string Address)
         {
             InitializeComponent();
 
-            DateTime start = DateTime.Now;
-            DateTime end = DateTime.Now.AddMinutes(30);
-
-            Add_StartBox.Text = start.Hour.ToString("00") + ":" + start.Minute.ToString("00");
-            AddEvent_EndBox.Text = end.Hour.ToString("00") + ":" + end.Minute.ToString("00");
-            AddEvent_StartPicker.Value = start;
-            AddEvent_EndPicker.Value = end;
-            AddEvent_LocationBox.Text = MainWindow.window.Settings_AddressBox.Text;
+            Add_StartBox.Text = Event_Start.Hour.ToString("00") + ":" + Event_Start.Minute.ToString("00");
+            AddEvent_EndBox.Text = Event_End.Hour.ToString("00") + ":" + Event_End.Minute.ToString("00");
+            AddEvent_StartPicker.Value = Event_Start;
+            AddEvent_EndPicker.Value = Event_End;
+            AddEvent_LocationBox.Text = Address;
 
             LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
 
@@ -42,7 +44,7 @@ namespace Timotheus.Forms
         /// <summary>
         /// Adds event to the current calendar in MainWindow
         /// </summary>
-        private void AddButton(object sender, EventArgs e)
+        private void Add(object sender, EventArgs e)
         {
             int hour = 0;
             int minute = 0;
@@ -50,12 +52,9 @@ namespace Timotheus.Forms
             string startTime = Add_StartBox.Text.Trim();
             string endTime = AddEvent_EndBox.Text.Trim();
 
-            DateTime start;
-            DateTime end;
-
             try
             {
-                if (AddEvent_NameBox.Text.Trim() == String.Empty)
+                if (AddEvent_NameBox.Text.Trim() == string.Empty)
                     throw new Exception("Name cannot be empty.");
 
                 if (!AddEvent_AllDayBox.Checked)
@@ -63,19 +62,20 @@ namespace Timotheus.Forms
                     hour = int.Parse(startTime.Substring(0, -3 + startTime.Length));
                     minute = int.Parse(startTime.Substring(-2 + startTime.Length, 2));
                 }
-                start = new DateTime(AddEvent_StartPicker.Value.Year, AddEvent_StartPicker.Value.Month, AddEvent_StartPicker.Value.Day, hour, minute, 0);
+                Event_Start = new DateTime(AddEvent_StartPicker.Value.Year, AddEvent_StartPicker.Value.Month, AddEvent_StartPicker.Value.Day, hour, minute, 0);
 
                 if (!AddEvent_AllDayBox.Checked)
                 {
                     hour = int.Parse(endTime.Substring(0, -3 + endTime.Length));
                     minute = int.Parse(endTime.Substring(-2 + endTime.Length, 2));
                 }
-                end = new DateTime(AddEvent_EndPicker.Value.Year, AddEvent_EndPicker.Value.Month, AddEvent_EndPicker.Value.Day, hour, minute, 0);
+                Event_End = new DateTime(AddEvent_EndPicker.Value.Year, AddEvent_EndPicker.Value.Month, AddEvent_EndPicker.Value.Day, hour, minute, 0);
+                
+                Event_Name = AddEvent_NameBox.Text;
+                Event_Description = AddEvent_DescriptionBox.Text;
+                Event_Location = AddEvent_LocationBox.Text;
 
-                Event ev = new Event(start, end, AddEvent_NameBox.Text, AddEvent_DescriptionBox.Text, AddEvent_LocationBox.Text, null);
-                MainWindow.window.calendar.events.Add(ev);
-                MainWindow.window.UpdateCalendarTable();
-                Close();
+                DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
@@ -86,9 +86,9 @@ namespace Timotheus.Forms
         /// <summary>
         /// Closes the dialog without adding the event
         /// </summary>
-        private void CloseButton(object sender, EventArgs e)
+        private void Close(object sender, EventArgs e)
         {
-            Close();
+            DialogResult = DialogResult.Cancel;
         }
 
         /// <summary>
@@ -100,12 +100,12 @@ namespace Timotheus.Forms
             {
                 if (keyData == Keys.Escape)
                 {
-                    CloseButton(null, null);
+                    Close(null, null);
                     return true;
                 }
                 else if (keyData == Keys.Enter && !AddEvent_DescriptionBox.Focused)
                 {
-                    AddButton(null, null);
+                    Add(null, null);
                     return true;
                 }
             }

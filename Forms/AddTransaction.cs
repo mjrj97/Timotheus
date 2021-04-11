@@ -10,6 +10,13 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class AddTransaction : Form
     {
+        public DateTime Transaction_Date;
+        public int Transaction_Appendix;
+        public string Transaction_Description;
+        public int Transaction_Account;
+        public double Transaction_In;
+        public double Transaction_Out;
+
         /// <summary>
         /// Decimal separator used by the cultured defined by program.
         /// </summary>
@@ -45,9 +52,14 @@ namespace Timotheus.Forms
         {
             try
             {
-                new Transaction(AddTransaction_DatePicker.Value.Date, ParseStringToInt(AddTransaction_AppendixBox.Text), AddTransaction_DescriptionBox.Text, ((Account)AddTransaction_AccountPicker.SelectedItem).ID, ParseStringToDouble(AddTransaction_InBox.Text), ParseStringToDouble(AddTransaction_OutBox.Text));
-                MainWindow.window.UpdateTransactionsTable();
-                Close();
+                Transaction_Date = AddTransaction_DatePicker.Value.Date;
+                Transaction_Appendix = ParseStringToInt(AddTransaction_AppendixBox.Text);
+                Transaction_Description = AddTransaction_DescriptionBox.Text;
+                Transaction_Account = ((Account)AddTransaction_AccountPicker.SelectedItem).ID;
+                Transaction_In = ParseStringToDouble(AddTransaction_InBox.Text);
+                Transaction_Out = ParseStringToDouble(AddTransaction_OutBox.Text);
+
+                DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
@@ -58,9 +70,9 @@ namespace Timotheus.Forms
         /// <summary>
         /// Closes the dialog without adding the transaction.
         /// </summary>
-        private void Cancel(object sender, EventArgs e)
+        private void Close(object sender, EventArgs e)
         {
-            Close();
+            DialogResult = DialogResult.Cancel;
         }
 
         /// <summary>
@@ -72,7 +84,7 @@ namespace Timotheus.Forms
             {
                 if (keyData == Keys.Escape)
                 {
-                    Cancel(null, null);
+                    Close(null, null);
                     return true;
                 }
                 else if (keyData == Keys.Enter)

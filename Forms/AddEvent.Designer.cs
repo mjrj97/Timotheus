@@ -149,7 +149,7 @@
             this.AddEvent_AddButton.TabIndex = 7;
             this.AddEvent_AddButton.Text = "Add";
             this.AddEvent_AddButton.UseVisualStyleBackColor = true;
-            this.AddEvent_AddButton.Click += new System.EventHandler(this.AddButton);
+            this.AddEvent_AddButton.Click += new System.EventHandler(this.Add);
             // 
             // AddEvent_CancelButton
             // 
@@ -159,7 +159,7 @@
             this.AddEvent_CancelButton.TabIndex = 8;
             this.AddEvent_CancelButton.Text = "Cancel";
             this.AddEvent_CancelButton.UseVisualStyleBackColor = true;
-            this.AddEvent_CancelButton.Click += new System.EventHandler(this.CloseButton);
+            this.AddEvent_CancelButton.Click += new System.EventHandler(this.Close);
             // 
             // AddEvent_AllDayBox
             // 

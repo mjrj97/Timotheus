@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using Timotheus.Schedule;
 using Timotheus.Utility;
 
 namespace Timotheus.Forms
@@ -11,6 +10,12 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class OpenCalendar : Form
     {
+        public string Username;
+        public string Password;
+        public bool Online;
+        public string CalDAV;
+        public string ICS;
+
         /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
         /// </summary>
@@ -72,28 +77,26 @@ namespace Timotheus.Forms
         {
             try
             {
-                if (OpenCalendar_CalDAVButton.Checked)
-                    MainWindow.window.calendar = new Calendar(OpenCalendar_UsernameBox.Text, OpenCalendar_PasswordBox.Text, OpenCalendar_CalDAVBox.Text);
-                else
-                    MainWindow.window.calendar = new Calendar(OpenCalendar_ICSBox.Text);
+                Online = OpenCalendar_CalDAVButton.Checked;
+                Username = OpenCalendar_UsernameBox.Text;
+                Password = OpenCalendar_PasswordBox.Text;
+                CalDAV = OpenCalendar_CalDAVBox.Text;
+                ICS = OpenCalendar_ICSBox.Text;
 
-                MainWindow.window.UpdateCalendarTable();
-                Close();
+                DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
                 Program.Error(ex.Message, "Exception_LoadFailed");
             }
-
-            Close();
         }
 
         /// <summary>
         /// Close the dialog without loading a calendar.
         /// </summary>
-        private void CloseDialog(object sender, EventArgs e)
+        private void Close(object sender, EventArgs e)
         {
-            Close();
+            DialogResult = DialogResult.Cancel;
         }
 
         /// <summary>
@@ -110,7 +113,7 @@ namespace Timotheus.Forms
                 }
                 else if (keyData == Keys.Escape)
                 {
-                    CloseDialog(null, null);
+                    Close(null, null);
                     return true;
                 }
             }

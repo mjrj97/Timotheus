@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Timotheus.Persons;
 using Timotheus.Utility;
 
 namespace Timotheus.Forms
@@ -10,6 +9,11 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class AddConsentForm : Form
     {
+        public string ConsentForm_Name;
+        public DateTime ConsentForm_Signed;
+        public DateTime ConsentForm_Version;
+        public string ConsentForm_Comment;
+
         /// <summary>
         /// Constructor. Loads the localization for the dialog.
         /// </summary>
@@ -35,9 +39,14 @@ namespace Timotheus.Forms
         {
             try
             {
-                new Person(AddConsentForm_NameBox.Text, AddConsentForm_SignedDate.Value, AddConsentForm_VersionDate.Value, AddConsentForm_CommentBox.Text);
-                MainWindow.window.UpdateConsentFormsTable();
-                Close();
+                if (AddConsentForm_NameBox.Text.Trim() == string.Empty)
+                    throw new Exception("Name cannot be empty.");
+
+                ConsentForm_Name = AddConsentForm_NameBox.Text;
+                ConsentForm_Signed = AddConsentForm_SignedDate.Value.Date;
+                ConsentForm_Version = AddConsentForm_VersionDate.Value.Date;
+                ConsentForm_Comment = AddConsentForm_CommentBox.Text;
+                DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
@@ -48,9 +57,9 @@ namespace Timotheus.Forms
         /// <summary>
         /// Closes the dialog without adding a consent form.
         /// </summary>
-        private void Cancel(object sender, EventArgs e)
+        private void Close(object sender, EventArgs e)
         {
-            Close();
+            DialogResult = DialogResult.Cancel;
         }
 
         /// <summary>
@@ -62,7 +71,7 @@ namespace Timotheus.Forms
             {
                 if (keyData == Keys.Escape)
                 {
-                    Cancel(null, null);
+                    Close(null, null);
                     return true;
                 }
                 else if (keyData == Keys.Enter)

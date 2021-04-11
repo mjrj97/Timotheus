@@ -3,7 +3,7 @@ using MigraDoc.Rendering;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.DocumentObjectModel.Shapes;
-using Timotheus.Forms;
+using Timotheus.Schedule;
 
 namespace Timotheus.Utility
 {
@@ -67,7 +67,7 @@ namespace Timotheus.Utility
         /// <param name="associationAddress">Address of the association.</param>
         /// <param name="logoPath">Path to the associations logo.</param>
         /// <param name="periodName">Name of the time period. i.e. fall 2021</param>
-        public static void ExportCalendar(string filePath, string title, string associationName, string associationAddress, string logoPath, string periodName)
+        public static void ExportCalendar(SortableBindingList<Event> events, string filePath, string title, string associationName, string associationAddress, string logoPath, string periodName)
         {
             string fileName = $"{filePath}\\{title}";
 
@@ -171,11 +171,11 @@ namespace Timotheus.Utility
             section.Footers.EvenPage.Add(paragraph.Clone());
 
             // Creates the dynamic parts of the PDF.
-            for (int i = 0; i < MainWindow.window.shownEvents.Count; i++)
+            for (int i = 0; i < events.Count; i++)
             {
-                string name = MainWindow.window.shownEvents[i].Name;
-                string description = MainWindow.window.shownEvents[i].Description;
-                DateTime time = MainWindow.window.shownEvents[i].StartTime;
+                string name = events[i].Name;
+                //string description = events[i].Description;
+                DateTime time = events[i].StartTime;
 
                 row = table.AddRow();
 
@@ -201,11 +201,6 @@ namespace Timotheus.Utility
             // Create the PDF document.
             pdfRenderer.RenderDocument();
             pdfRenderer.Save(fileName);
-        }
-    
-        public static void ExportAccounts(string filePath, string title)
-        {
-
         }
     }
 }

@@ -57,7 +57,7 @@ namespace Timotheus.Forms
             this.AddTransaction_CancelButton.TabIndex = 18;
             this.AddTransaction_CancelButton.Text = "Cancel";
             this.AddTransaction_CancelButton.UseVisualStyleBackColor = true;
-            this.AddTransaction_CancelButton.Click += new System.EventHandler(this.Cancel);
+            this.AddTransaction_CancelButton.Click += new System.EventHandler(this.Close);
             // 
             // AddTransaction_AddButton
             // 

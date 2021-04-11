@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Timotheus.Forms;
 
 namespace Timotheus.Accounting
 {
@@ -11,8 +10,6 @@ namespace Timotheus.Accounting
     {
         // Private versions of the data listed below. Used to make a custom setter for the data.
         private DateTime date;
-        private double inValue;
-        private double outValue;
 
         /// <summary>
         /// Date of the transaction.
@@ -44,33 +41,11 @@ namespace Timotheus.Accounting
         /// <summary>
         /// The income from this transaction. Always positive.
         /// </summary>
-        public double InValue
-        {
-            get
-            {
-                return inValue;
-            }
-            set
-            {
-                inValue = Math.Abs(value);
-                UpdateBalance();
-            }
-        }
+        public double InValue { get; set; }
         /// <summary>
         /// The expense from this transaction. Always positive.
         /// </summary>
-        public double OutValue
-        {
-            get
-            {
-                return outValue;
-            }
-            set
-            {
-                outValue = Math.Abs(value);
-                UpdateBalance();
-            }
-        }
+        public double OutValue { get; set; }
         /// <summary>
         /// The balance after this transaction.
         /// </summary>
@@ -134,11 +109,7 @@ namespace Timotheus.Accounting
                 list.Add(this);
             else
                 list.Insert(insertIndex, this);
-            if (MainWindow.window != null)
-            {
-                MainWindow.window.UpdateTransactionsTable();
-                list[0].UpdateBalance();
-            }
+            list[0].UpdateBalance();
         }
     }
 }

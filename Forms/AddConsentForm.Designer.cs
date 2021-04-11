@@ -50,7 +50,7 @@ namespace Timotheus.Forms
             this.AddConsentForm_CancelButton.TabIndex = 0;
             this.AddConsentForm_CancelButton.Text = "Cancel";
             this.AddConsentForm_CancelButton.UseVisualStyleBackColor = true;
-            this.AddConsentForm_CancelButton.Click += new System.EventHandler(this.Cancel);
+            this.AddConsentForm_CancelButton.Click += new System.EventHandler(this.Close);
             // 
             // AddConsentForm_AddButton
             // 

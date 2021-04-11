@@ -695,6 +695,7 @@ namespace Timotheus.Forms
             this.Members_View.Size = new System.Drawing.Size(774, 331);
             this.Members_View.TabIndex = 0;
             this.Members_View.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
+            this.Members_View.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.UpdateMemberTable);
             // 
             // Members_EntryColumn
             // 
@@ -868,6 +869,7 @@ namespace Timotheus.Forms
             this.Accounting_TransactionsView.Size = new System.Drawing.Size(774, 220);
             this.Accounting_TransactionsView.TabIndex = 0;
             this.Accounting_TransactionsView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
+            this.Accounting_TransactionsView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.UpdateTransactionsTable);
             // 
             // Accounting_DateColumn
             // 
@@ -1290,7 +1292,7 @@ namespace Timotheus.Forms
         private System.Windows.Forms.Button Calendar_AddButton;
         private System.Windows.Forms.Button Calendar_AddYearButton;
         private System.Windows.Forms.Button Calendar_SubtractYearButton;
-        public System.Windows.Forms.TextBox Calendar_PeriodBox;
+        private System.Windows.Forms.TextBox Calendar_PeriodBox;
         private System.Windows.Forms.Button Calendar_SyncButton;
         private System.Windows.Forms.RadioButton Calendar_MonthButton;
         private System.Windows.Forms.RadioButton Calendar_HalfYearButton;
@@ -1322,7 +1324,7 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn SFTP_SizeColumn;
         private System.Windows.Forms.TabPage Members_Page;
         private System.Windows.Forms.DataGridView Members_View;
-        public System.Windows.Forms.TextBox Members_PeriodeBox;
+        private System.Windows.Forms.TextBox Members_PeriodeBox;
         private System.Windows.Forms.Button Members_AddYearButton;
         private System.Windows.Forms.Button Members_SubtractYearButton;
         private System.Windows.Forms.Button Members_AddButton;
@@ -1340,7 +1342,7 @@ namespace Timotheus.Forms
         private System.Windows.Forms.Label Settings_NameLabel;
         private System.Windows.Forms.TextBox Settings_NameBox;
         private System.Windows.Forms.Label Settings_AddressLabel;
-        public System.Windows.Forms.TextBox Settings_AddressBox;
+        private System.Windows.Forms.TextBox Settings_AddressBox;
         private System.Windows.Forms.Label Settings_LogoLabel;
         private System.Windows.Forms.TextBox Settings_LogoBox;
         private System.Windows.Forms.Button Settings_BrowseButton;
@@ -1363,7 +1365,7 @@ namespace Timotheus.Forms
         private System.Windows.Forms.Button Accounting_RemoveButton;
         private System.Windows.Forms.Button Accounting_AddYearButton;
         private System.Windows.Forms.Button Accounting_SubtractYearButton;
-        public System.Windows.Forms.TextBox Accounting_YearBox;
+        private System.Windows.Forms.TextBox Accounting_YearBox;
         private System.Windows.Forms.Button Accounting_ExportButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_DateColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_AppendixColumn;
