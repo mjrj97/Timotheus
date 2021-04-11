@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Timotheus.Utility;
 using Timotheus.Persons;
@@ -7,14 +8,23 @@ namespace Timotheus.Forms
 {
     public partial class AddMember : Form
     {
+        public bool Member_New;
+        public int Member_Index;
+        public string Member_Name;
+        public string Member_Address;
+        public DateTime Member_Birthday;
+        public DateTime Member_Entry;
+
         /// <summary>
         /// Constructor. Loads localization.
         /// </summary>
-        public AddMember()
+        public AddMember(List<Person> list, int year)
         {
             InitializeComponent();
+            AddMember_ComboBox.DataSource = list;
+            AddMember_EntryPicker.Value = new DateTime(year, 1, 1);
+
             LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
-            AddMember_ComboBox.DataSource = Person.list;
 
             AddMember_AddExistingButton.Text = locale.GetLocalization(AddMember_AddExistingButton);
             AddMember_NewPersonButton.Text = locale.GetLocalization(AddMember_NewPersonButton);
@@ -29,46 +39,39 @@ namespace Timotheus.Forms
         /// <summary>
         /// Adds the member to the persons list and updates the view in Members tab.
         /// </summary>
-        private void AddButton(object sender, EventArgs e)
+        private void Add(object sender, EventArgs e)
         {
             try
             {
+                if ((AddMember_NewPersonButton.Checked && AddMember_NameBox.Text.Trim() == string.Empty) || (!AddMember_NewPersonButton.Checked && AddMember_ComboBox.SelectedItem == null))
+                    throw new Exception("Name cannot be empty.");
+                
                 if (AddMember_AddressBox.Text.Trim() == string.Empty)
                     throw new Exception("Address cannot be empty.");
 
-                if (AddMember_NewPersonButton.Checked)
-                {
-                    if (AddMember_NameBox.Text.Trim() == string.Empty)
-                        throw new Exception("Name cannot be empty.");
+                Member_New = AddMember_NewPersonButton.Checked;
+                Member_Name = AddMember_NameBox.Text;
+                Member_Address = AddMember_AddressBox.Text;
+                Member_Birthday = AddMember_BirthdayPicker.Value.Date;
+                Member_Entry = AddMember_EntryPicker.Value.Date;
 
-                    new Person(AddMember_NameBox.Text, AddMember_AddressBox.Text, AddMember_BirthdayPicker.Value.Date, AddMember_EntryPicker.Value.Date);
-                }
-                else
-                {
-                    if (AddMember_ComboBox.SelectedItem == null)
-                        throw new Exception("Name cannot be empty.");
+                if (!AddMember_NewPersonButton.Checked)
+                    Member_Index = AddMember_ComboBox.SelectedIndex;
 
-                    Person person = (Person)AddMember_ComboBox.SelectedItem;
-                    person.Address = AddMember_AddressBox.Text;
-                    person.Birthday = AddMember_BirthdayPicker.Value.Date;
-                    person.Entry = AddMember_EntryPicker.Value.Date;
-                }
-
-                MainWindow.window.UpdateMemberTable();
-                CloseButton(null, null);
+                DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Invalid input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.Error(ex.Message, "Invalid input");
             }
         }
 
         /// <summary>
         /// Closes the dialog.
         /// </summary>
-        private void CloseButton(object sender, EventArgs e)
+        private void Close(object sender, EventArgs e)
         {
-            Close();
+            DialogResult = DialogResult.Cancel;
         }
 
         /// <summary>
@@ -112,12 +115,12 @@ namespace Timotheus.Forms
             {
                 if (keyData == Keys.Escape)
                 {
-                    CloseButton(null, null);
+                    Close(null, null);
                     return true;
                 }
                 else if (keyData == Keys.Enter)
                 {
-                    AddButton(null, null);
+                    Add(null, null);
                     return true;
                 }
             }

@@ -707,13 +707,28 @@ namespace Timotheus.Forms
         /// </summary>
         private void AddMember(object sender, EventArgs e)
         {
-            AddMember addMember = new AddMember
+            AddMember addMember = new AddMember(Person.list, MemberlistYear.Year)
             {
                 Owner = this
             };
+            DialogResult result = addMember.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                if (addMember.Member_New)
+                {
+                    new Person(addMember.Member_Name, addMember.Member_Address, addMember.Member_Birthday, addMember.Member_Entry);
+                }
+                else
+                {
+                    Person person = Person.list[addMember.Member_Index];
+                    person.Address = addMember.Member_Address;
+                    person.Birthday = addMember.Member_Birthday;
+                    person.Entry = addMember.Member_Entry;
+                }
 
-            addMember.ShowDialog();
-            CountMembersUnder25();
+                UpdateMemberTable();
+                CountMembersUnder25();
+            }
         }
 
         /// <summary>

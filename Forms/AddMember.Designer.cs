@@ -110,7 +110,7 @@ namespace Timotheus.Forms
             this.AddMember_AddButton.TabIndex = 8;
             this.AddMember_AddButton.Text = "Add";
             this.AddMember_AddButton.UseVisualStyleBackColor = true;
-            this.AddMember_AddButton.Click += new System.EventHandler(this.AddButton);
+            this.AddMember_AddButton.Click += new System.EventHandler(this.Add);
             // 
             // AddMember_CancelButton
             // 
@@ -121,7 +121,7 @@ namespace Timotheus.Forms
             this.AddMember_CancelButton.TabIndex = 9;
             this.AddMember_CancelButton.Text = "Cancel";
             this.AddMember_CancelButton.UseVisualStyleBackColor = true;
-            this.AddMember_CancelButton.Click += new System.EventHandler(this.CloseButton);
+            this.AddMember_CancelButton.Click += new System.EventHandler(this.Close);
             // 
             // AddMember_BirthdayDateLabel
             // 
