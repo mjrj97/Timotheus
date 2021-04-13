@@ -839,14 +839,24 @@ namespace Timotheus.Forms
         /// </summary>
         private void AddConsentForm(object sender, EventArgs e)
         {
-            AddConsentForm addConsentForm = new AddConsentForm
+            AddConsentForm addConsentForm = new AddConsentForm(Person.list)
             {
                 Owner = this
             };
             DialogResult result = addConsentForm.ShowDialog();
             if (result == DialogResult.OK)
             {
-                new Person(addConsentForm.ConsentForm_Name, addConsentForm.ConsentForm_Signed, addConsentForm.ConsentForm_Version, addConsentForm.ConsentForm_Comment);
+                if (addConsentForm.ConsentForm_New)
+                    new Person(addConsentForm.ConsentForm_Name, addConsentForm.ConsentForm_Signed, addConsentForm.ConsentForm_Version, addConsentForm.ConsentForm_Comment);
+                else
+                {
+                    Person person = Person.list[addConsentForm.ConsentForm_Index];
+                    person.Name = addConsentForm.ConsentForm_Name;
+                    person.Signed = addConsentForm.ConsentForm_Signed;
+                    person.Version = addConsentForm.ConsentForm_Version;
+                    person.Comment = addConsentForm.ConsentForm_Comment;
+                }
+
                 UpdateConsentFormsTable();
             }
         }
