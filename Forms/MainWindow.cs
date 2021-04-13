@@ -1152,7 +1152,7 @@ namespace Timotheus.Forms
         }
 
         /// <summary>
-        /// Handles errors if inputed date is not formatted correctly.
+        /// Handles errors if inputed date (DataGridView) is not formatted correctly.
         /// </summary>
         private void HandleDateError(object sender, DataGridViewDataErrorEventArgs e)
         {

@@ -58,7 +58,8 @@ namespace Timotheus.Schedule
         /// </summary>
         public Calendar(string path)
         {
-            events = LoadFromLines(File.ReadAllLines(path));
+            string[] text = File.ReadAllText(path).Replace("\r\n ", "").Split("\n");
+            events = LoadFromLines(text);
         }
         /// <summary>
         /// Creates an empty Calendar object.
@@ -426,7 +427,11 @@ namespace Timotheus.Schedule
             WebResponse response = request.GetResponse();
             Stream dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
-            string[] responseFromServer = reader.ReadToEnd().Split("\n");
+            string[] responseFromServer = reader.ReadToEnd().Replace("\r\n ", "").Split("\n");
+            for (int i = 0; i < responseFromServer.Length; i++)
+            {
+                System.Diagnostics.Debug.Write(responseFromServer[i]);
+            }
             response.Close();
             return responseFromServer;
         }
