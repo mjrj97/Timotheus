@@ -76,10 +76,12 @@ namespace Timotheus.Forms
             this.Members_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Members_AddressColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.flowLayoutPanel_BoardMangement = new System.Windows.Forms.FlowLayoutPanel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.BoardManagement_View = new System.Windows.Forms.DataGridView();
+            this.BoardManagement_ImageColumn = new System.Windows.Forms.DataGridViewImageColumn();
+            this.BoardManagement_EmailColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BoardManagement_RoleColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.BoardManagement_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BoardManagement_tlfColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ConsentForms_Page = new System.Windows.Forms.TabPage();
             this.ConsentForms_RemoveButton = new System.Windows.Forms.Button();
             this.ConsentForms_AddButton = new System.Windows.Forms.Button();
@@ -132,7 +134,9 @@ namespace Timotheus.Forms
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.BoardManagement_Addbutton = new System.Windows.Forms.Button();
+            this.Boardmanmengt_RmoveButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Calendar_View)).BeginInit();
             this.BoardManagement_Page.SuspendLayout();
             this.Calendar_Page.SuspendLayout();
@@ -141,9 +145,7 @@ namespace Timotheus.Forms
             this.Members_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Members_View)).BeginInit();
             this.tabPage1.SuspendLayout();
-            this.flowLayoutPanel_BoardMangement.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BoardManagement_View)).BeginInit();
             this.ConsentForms_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).BeginInit();
             this.Accounting_Page.SuspendLayout();
@@ -161,6 +163,7 @@ namespace Timotheus.Forms
             this.TrayContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // Calendar_View
@@ -255,6 +258,7 @@ namespace Timotheus.Forms
             this.BoardManagement_Page.SelectedIndex = 0;
             this.BoardManagement_Page.Size = new System.Drawing.Size(802, 437);
             this.BoardManagement_Page.TabIndex = 0;
+            this.BoardManagement_Page.SelectedIndexChanged += new System.EventHandler(this.BoardManagement_Page_SelectedIndexChanged);
             // 
             // Calendar_Page
             // 
@@ -694,6 +698,7 @@ namespace Timotheus.Forms
             // 
             // Members_View
             // 
+            this.Members_View.AllowUserToAddRows = false;
             this.Members_View.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -744,7 +749,10 @@ namespace Timotheus.Forms
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.flowLayoutPanel_BoardMangement);
+            this.tabPage1.Controls.Add(this.Boardmanmengt_RmoveButton);
+            this.tabPage1.Controls.Add(this.BoardManagement_Addbutton);
+            this.tabPage1.Controls.Add(this.dataGridView1);
+            this.tabPage1.Controls.Add(this.BoardManagement_View);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -753,44 +761,62 @@ namespace Timotheus.Forms
             this.tabPage1.Text = "Board Management";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanel_BoardMangement
+            // BoardManagement_View
             // 
-            this.flowLayoutPanel_BoardMangement.Controls.Add(this.groupBox1);
-            this.flowLayoutPanel_BoardMangement.Location = new System.Drawing.Point(6, 16);
-            this.flowLayoutPanel_BoardMangement.Name = "flowLayoutPanel_BoardMangement";
-            this.flowLayoutPanel_BoardMangement.Size = new System.Drawing.Size(780, 386);
-            this.flowLayoutPanel_BoardMangement.TabIndex = 0;
+            this.BoardManagement_View.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BoardManagement_View.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.BoardManagement_View.BackgroundColor = System.Drawing.SystemColors.AppWorkspace;
+            this.BoardManagement_View.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.BoardManagement_View.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.BoardManagement_ImageColumn,
+            this.BoardManagement_EmailColumn,
+            this.BoardManagement_RoleColumn,
+            this.BoardManagement_NameColumn,
+            this.BoardManagement_tlfColumn});
+            this.BoardManagement_View.Location = new System.Drawing.Point(6, 55);
+            this.BoardManagement_View.Name = "BoardManagement_View";
+            this.BoardManagement_View.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.BoardManagement_View.RowHeadersVisible = false;
+            this.BoardManagement_View.RowTemplate.Height = 25;
+            this.BoardManagement_View.Size = new System.Drawing.Size(780, 181);
+            this.BoardManagement_View.TabIndex = 1;
+            this.BoardManagement_View.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BoardManagement_View_CellContentClick);
             // 
-            // groupBox1
+            // BoardManagement_ImageColumn
             // 
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.pictureBox1);
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(428, 167);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "First board member";
+            this.BoardManagement_ImageColumn.DataPropertyName = "picturepath";
+            this.BoardManagement_ImageColumn.HeaderText = "image";
+            this.BoardManagement_ImageColumn.Image = ((System.Drawing.Image)(resources.GetObject("BoardManagement_ImageColumn.Image")));
+            this.BoardManagement_ImageColumn.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.BoardManagement_ImageColumn.Name = "BoardManagement_ImageColumn";
             // 
-            // label1
+            // BoardManagement_EmailColumn
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(244, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.BoardManagement_EmailColumn.DataPropertyName = "email";
+            this.BoardManagement_EmailColumn.HeaderText = "Email";
+            this.BoardManagement_EmailColumn.Name = "BoardManagement_EmailColumn";
             // 
-            // pictureBox1
+            // BoardManagement_RoleColumn
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(6, 19);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 100);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.BoardManagement_RoleColumn.DataPropertyName = "Role";
+            this.BoardManagement_RoleColumn.HeaderText = "Role";
+            this.BoardManagement_RoleColumn.Name = "BoardManagement_RoleColumn";
+            this.BoardManagement_RoleColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.BoardManagement_RoleColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // BoardManagement_NameColumn
+            // 
+            this.BoardManagement_NameColumn.DataPropertyName = "Name";
+            this.BoardManagement_NameColumn.HeaderText = "Name";
+            this.BoardManagement_NameColumn.Name = "BoardManagement_NameColumn";
+            // 
+            // BoardManagement_tlfColumn
+            // 
+            this.BoardManagement_tlfColumn.DataPropertyName = "tlf";
+            this.BoardManagement_tlfColumn.HeaderText = "Tlf";
+            this.BoardManagement_tlfColumn.Name = "BoardManagement_tlfColumn";
             // 
             // ConsentForms_Page
             // 
@@ -1313,14 +1339,33 @@ namespace Timotheus.Forms
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
-            // label2
+            // dataGridView1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(138, 59);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 15);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "label2";
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(6, 242);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 25;
+            this.dataGridView1.Size = new System.Drawing.Size(780, 109);
+            this.dataGridView1.TabIndex = 2;
+            // 
+            // BoardManagement_Addbutton
+            // 
+            this.BoardManagement_Addbutton.Location = new System.Drawing.Point(6, 381);
+            this.BoardManagement_Addbutton.Name = "BoardManagement_Addbutton";
+            this.BoardManagement_Addbutton.Size = new System.Drawing.Size(75, 23);
+            this.BoardManagement_Addbutton.TabIndex = 3;
+            this.BoardManagement_Addbutton.Text = "Add";
+            this.BoardManagement_Addbutton.UseVisualStyleBackColor = true;
+            this.BoardManagement_Addbutton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // Boardmanmengt_RmoveButton
+            // 
+            this.Boardmanmengt_RmoveButton.Location = new System.Drawing.Point(87, 381);
+            this.Boardmanmengt_RmoveButton.Name = "Boardmanmengt_RmoveButton";
+            this.Boardmanmengt_RmoveButton.Size = new System.Drawing.Size(75, 23);
+            this.Boardmanmengt_RmoveButton.TabIndex = 4;
+            this.Boardmanmengt_RmoveButton.Text = "Remove";
+            this.Boardmanmengt_RmoveButton.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 
@@ -1344,10 +1389,7 @@ namespace Timotheus.Forms
             this.Members_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Members_View)).EndInit();
             this.tabPage1.ResumeLayout(false);
-            this.flowLayoutPanel_BoardMangement.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BoardManagement_View)).EndInit();
             this.ConsentForms_Page.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ConsentForms_View)).EndInit();
             this.Accounting_Page.ResumeLayout(false);
@@ -1368,6 +1410,7 @@ namespace Timotheus.Forms
             this.TrayContextMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1476,14 +1519,16 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NetColumn;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel_BoardMangement;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridView BoardManagement_View;
+        private System.Windows.Forms.DataGridViewImageColumn BoardManagement_ImageColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BoardManagement_EmailColumn;
+        private System.Windows.Forms.DataGridViewComboBoxColumn BoardManagement_RoleColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BoardManagement_NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BoardManagement_tlfColumn;
+        private System.Windows.Forms.Button Boardmanmengt_RmoveButton;
+        private System.Windows.Forms.Button BoardManagement_Addbutton;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace Timotheus.Persons
 {
@@ -21,7 +22,7 @@ namespace Timotheus.Persons
         /// <summary>
         /// picturepath
         /// </summary>
-        public string picturepath { get; set; }
+        public Image picturepath { get; set; }
 
         /// <summary>
         /// role
@@ -38,10 +39,14 @@ namespace Timotheus.Persons
             Role = role;
             this.tlf = tlf;
             this.email = email;
+            if (picturepath != null)
+            {
+                this.picturepath = Image.FromFile(picturepath);
+            }
 
             Signed = DateTime.MinValue;
             Version = DateTime.MinValue;
-            this.picturepath = picturepath;
+            this.picturepath = Image.FromFile(picturepath);
         }
         public BoardMember(Person member, Roles role, string tlf = null, string email = null, string picturepath = null)
         {
@@ -53,7 +58,11 @@ namespace Timotheus.Persons
             Role = role;
             this.tlf = tlf;
             this.email = email;
-            this.picturepath = picturepath;
+            if (picturepath != null)
+            {
+                this.picturepath = Image.FromFile(picturepath);
+            }
+            
 
             Signed = DateTime.MinValue;
             Version = DateTime.MinValue;

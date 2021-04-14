@@ -94,9 +94,9 @@ namespace Timotheus.Forms
         private DateTime AccountingYear = new DateTime(DateTime.Now.Year, 1, 1);
 
         /// <summary>
-        /// List of Boardmembers in the defined period.
+        /// List of Board in the defined period.
         /// </summary>
-        public SortableBindingList<BoardMember> Boardmembers = new SortableBindingList<BoardMember>();
+        public SortableBindingList<Board> boards = new SortableBindingList<Board>();
 
         /// <summary>
         /// Constructor. Loads initial data and localization.
@@ -105,6 +105,7 @@ namespace Timotheus.Forms
         {
             window = this;
             InitializeComponent();
+            boards.Add(new Board());
             SetupUI();
             
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
@@ -136,21 +137,7 @@ namespace Timotheus.Forms
                 }
             }
 
-            Person testperson = new Person("Jesper", "rewr", new DateTime(1), new DateTime(1));
-            Boardmembers.Add(new BoardMember(testperson, Roles.Ordinary));
 
-            testperson = new Person("Casper", "123", new DateTime(1), new DateTime(1));
-            Boardmembers.Add(new BoardMember(testperson, Roles.Ordinary));
-
-            testperson = new Person("Jesper", "13", new DateTime(1), new DateTime(1));
-            Boardmembers.Add(new BoardMember(testperson, Roles.Ordinary));
-
-            for (int i = 0; i < Boardmembers.Count; i++)
-            {
-                flowLayoutPanel_BoardMangement.Controls.Add(Boardmembers[i].genreategruopeBox());
-            }
-            
-          
         }
 
         /// <summary>
@@ -220,6 +207,24 @@ namespace Timotheus.Forms
             Members_RemoveButton.Text = locale.GetLocalization(Members_RemoveButton);
             MembersUnder25Text = locale.GetLocalization(Members_Under25Label);
             CountMembersUnder25();
+            #endregion
+
+            #region Board Management
+            BoardManagement_View.AutoGenerateColumns = false;
+
+         /*   foreach (string role in Enum.GetNames(typeof(Roles)))
+            {
+                Console.WriteLine(role);
+                BoardManagement_RoleColumn.Items.Add(role);
+            }*/
+            BoardManagement_RoleColumn.DataSource = Enum.GetValues(typeof(Roles));
+            BoardManagement_RoleColumn.ValueType = typeof(Roles);
+
+
+
+           BoardManagement_View.DataSource = new BindingSource(boards[0].BoardMembers, null);
+           
+
             #endregion
 
             #region Consent Forms
@@ -1116,10 +1121,7 @@ namespace Timotheus.Forms
             e.Cancel = true;
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
 
-        }
     }
 
     /// <summary>
