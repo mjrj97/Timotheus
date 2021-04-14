@@ -481,7 +481,10 @@ namespace Timotheus.Forms
                 if (open.Online)
                     calendar = new Calendar(open.Username, open.Password, open.CalDAV);
                 else
-                    calendar = new Calendar(open.ICS);
+                {
+                    string[] lines = File.ReadAllText(open.ICS).Replace("\r\n ", "").Split("\n");
+                    calendar = new Calendar(lines);
+                }
 
                 UpdateCalendarTable();
             }

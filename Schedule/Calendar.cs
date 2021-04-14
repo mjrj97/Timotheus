@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Windows.Forms;
-using Timotheus.Utility;
 
 namespace Timotheus.Schedule
 {
@@ -56,10 +52,9 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Creates a Calendar object and loads event data from .ics file.
         /// </summary>
-        public Calendar(string path)
+        public Calendar(string[] lines)
         {
-            string[] text = File.ReadAllText(path).Replace("\r\n ", "").Split("\n");
-            events = LoadFromLines(text);
+            events = LoadFromLines(lines);
         }
         /// <summary>
         /// Creates an empty Calendar object.
@@ -86,7 +81,7 @@ namespace Timotheus.Schedule
             GetEventICS(ev) + "\n" +
             "END:VCALENDAR";
 
-            HttpRequest(url + ev.UID + ".ics", credentials, "PUT", Encoding.UTF8.GetBytes(request));
+            HttpRequest(url + ev.UID + ".ics", credentials, "PUT", System.Text.Encoding.UTF8.GetBytes(request));
         }
 
         /// <summary>
@@ -107,17 +102,17 @@ namespace Timotheus.Schedule
         /// <param name="lines">String array in iCal format.</param>
         public List<Event> LoadFromLines(string[] lines)
         {
-            string tempTimeZone = String.Empty;
-            string tempVersion = String.Empty;
-            string tempProdID = String.Empty;
+            string tempTimeZone = string.Empty;
+            string tempVersion = string.Empty;
+            string tempProdID = string.Empty;
 
             DateTime tempStartTime = DateTime.Now;
             DateTime tempEndTime = DateTime.Now;
             DateTime tempCreated = DateTime.Now;
-            string tempName = String.Empty;
-            string tempLocation = String.Empty;
-            string tempDescription = String.Empty;
-            string tempUID = String.Empty;
+            string tempName = string.Empty;
+            string tempLocation = string.Empty;
+            string tempDescription = string.Empty;
+            string tempUID = string.Empty;
 
             int timeZoneStart = 0;
             int timeZoneEnd = 0;
@@ -172,15 +167,15 @@ namespace Timotheus.Schedule
                     {
                         events.Add(new Event(tempStartTime, tempEndTime, tempCreated, tempName, tempDescription, tempLocation, tempUID));
 
-                        tempName = String.Empty;
-                        tempDescription = String.Empty;
-                        tempLocation = String.Empty;
-                        tempUID = String.Empty;
+                        tempName = string.Empty;
+                        tempDescription = string.Empty;
+                        tempLocation = string.Empty;
+                        tempUID = string.Empty;
                     }
                 }
             }
 
-            if (tempTimeZone == String.Empty)
+            if (tempTimeZone == string.Empty)
                 timezone = GenerateTimeZone();
             else
                 timezone = tempTimeZone;
@@ -201,7 +196,7 @@ namespace Timotheus.Schedule
             this.url = url;
             credentials = new NetworkCredential(username, password);
             client.BaseAddress = new Uri(url);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(username + ":" + password)));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(username + ":" + password)));
             client.DefaultRequestHeaders.Add("Accept-charset", "UTF-8");
         }
 
@@ -303,10 +298,10 @@ namespace Timotheus.Schedule
                 evString += "DTSTART;TZID=Europe/Copenhagen:" + DateTimeToString(ev.StartTime) + "\n" +
                 "DTEND;TZID=Europe/Copenhagen:" + DateTimeToString(ev.EndTime) + "\n";
             }
-            if (ev.Description != String.Empty)
+            if (ev.Description != string.Empty)
                 evString += "DESCRIPTION:" + ConvertToCALString(ev.Description) + "\n";
             evString += "DTSTAMP:" + DateTimeToString(ev.Created) + "Z\n";
-            if (ev.Location != String.Empty)
+            if (ev.Location != string.Empty)
                 evString += "LOCATION:" + ConvertToCALString(ev.Location) + "\n";
             evString += "SUMMARY:" + ev.Name + "\nEND:VEVENT";
 
@@ -425,13 +420,8 @@ namespace Timotheus.Schedule
             }
 
             WebResponse response = request.GetResponse();
-            Stream dataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataStream);
+            System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
             string[] responseFromServer = reader.ReadToEnd().Replace("\r\n ", "").Split("\n");
-            for (int i = 0; i < responseFromServer.Length; i++)
-            {
-                System.Diagnostics.Debug.Write(responseFromServer[i]);
-            }
             response.Close();
             return responseFromServer;
         }
