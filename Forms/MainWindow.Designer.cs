@@ -22,7 +22,7 @@ namespace Timotheus.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.Calendar_View = new System.Windows.Forms.DataGridView();
             this.Calendar_StartColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,6 +76,8 @@ namespace Timotheus.Forms
             this.Members_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Members_AddressColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.Boardmanmengt_RmoveButton = new System.Windows.Forms.Button();
+            this.BoardManagement_Addbutton = new System.Windows.Forms.Button();
             this.BoardManagement_View = new System.Windows.Forms.DataGridView();
             this.BoardManagement_ImageColumn = new System.Windows.Forms.DataGridViewImageColumn();
             this.BoardManagement_EmailColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -134,9 +136,6 @@ namespace Timotheus.Forms
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.BoardManagement_Addbutton = new System.Windows.Forms.Button();
-            this.Boardmanmengt_RmoveButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Calendar_View)).BeginInit();
             this.BoardManagement_Page.SuspendLayout();
             this.Calendar_Page.SuspendLayout();
@@ -163,7 +162,6 @@ namespace Timotheus.Forms
             this.TrayContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // Calendar_View
@@ -178,14 +176,14 @@ namespace Timotheus.Forms
             this.Calendar_NameColumn,
             this.Calendar_DescriptionColumn,
             this.Calendar_LocationColumn});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Calendar_View.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Calendar_View.DefaultCellStyle = dataGridViewCellStyle1;
             this.Calendar_View.Location = new System.Drawing.Point(10, 39);
             this.Calendar_View.Name = "Calendar_View";
             this.Calendar_View.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -258,7 +256,6 @@ namespace Timotheus.Forms
             this.BoardManagement_Page.SelectedIndex = 0;
             this.BoardManagement_Page.Size = new System.Drawing.Size(802, 437);
             this.BoardManagement_Page.TabIndex = 0;
-            this.BoardManagement_Page.SelectedIndexChanged += new System.EventHandler(this.BoardManagement_Page_SelectedIndexChanged);
             // 
             // Calendar_Page
             // 
@@ -751,7 +748,6 @@ namespace Timotheus.Forms
             // 
             this.tabPage1.Controls.Add(this.Boardmanmengt_RmoveButton);
             this.tabPage1.Controls.Add(this.BoardManagement_Addbutton);
-            this.tabPage1.Controls.Add(this.dataGridView1);
             this.tabPage1.Controls.Add(this.BoardManagement_View);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
@@ -760,6 +756,25 @@ namespace Timotheus.Forms
             this.tabPage1.TabIndex = 6;
             this.tabPage1.Text = "Board Management";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // Boardmanmengt_RmoveButton
+            // 
+            this.Boardmanmengt_RmoveButton.Location = new System.Drawing.Point(87, 381);
+            this.Boardmanmengt_RmoveButton.Name = "Boardmanmengt_RmoveButton";
+            this.Boardmanmengt_RmoveButton.Size = new System.Drawing.Size(75, 23);
+            this.Boardmanmengt_RmoveButton.TabIndex = 4;
+            this.Boardmanmengt_RmoveButton.Text = "Remove";
+            this.Boardmanmengt_RmoveButton.UseVisualStyleBackColor = true;
+            // 
+            // BoardManagement_Addbutton
+            // 
+            this.BoardManagement_Addbutton.Location = new System.Drawing.Point(6, 381);
+            this.BoardManagement_Addbutton.Name = "BoardManagement_Addbutton";
+            this.BoardManagement_Addbutton.Size = new System.Drawing.Size(75, 23);
+            this.BoardManagement_Addbutton.TabIndex = 3;
+            this.BoardManagement_Addbutton.Text = "Add";
+            this.BoardManagement_Addbutton.UseVisualStyleBackColor = true;
+            this.BoardManagement_Addbutton.Click += new System.EventHandler(this.BoardManagement_Addbutton_Click);
             // 
             // BoardManagement_View
             // 
@@ -780,9 +795,8 @@ namespace Timotheus.Forms
             this.BoardManagement_View.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.BoardManagement_View.RowHeadersVisible = false;
             this.BoardManagement_View.RowTemplate.Height = 25;
-            this.BoardManagement_View.Size = new System.Drawing.Size(780, 181);
+            this.BoardManagement_View.Size = new System.Drawing.Size(780, 307);
             this.BoardManagement_View.TabIndex = 1;
-            this.BoardManagement_View.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BoardManagement_View_CellContentClick);
             // 
             // BoardManagement_ImageColumn
             // 
@@ -1339,34 +1353,6 @@ namespace Timotheus.Forms
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 242);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(780, 109);
-            this.dataGridView1.TabIndex = 2;
-            // 
-            // BoardManagement_Addbutton
-            // 
-            this.BoardManagement_Addbutton.Location = new System.Drawing.Point(6, 381);
-            this.BoardManagement_Addbutton.Name = "BoardManagement_Addbutton";
-            this.BoardManagement_Addbutton.Size = new System.Drawing.Size(75, 23);
-            this.BoardManagement_Addbutton.TabIndex = 3;
-            this.BoardManagement_Addbutton.Text = "Add";
-            this.BoardManagement_Addbutton.UseVisualStyleBackColor = true;
-            this.BoardManagement_Addbutton.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // Boardmanmengt_RmoveButton
-            // 
-            this.Boardmanmengt_RmoveButton.Location = new System.Drawing.Point(87, 381);
-            this.Boardmanmengt_RmoveButton.Name = "Boardmanmengt_RmoveButton";
-            this.Boardmanmengt_RmoveButton.Size = new System.Drawing.Size(75, 23);
-            this.Boardmanmengt_RmoveButton.TabIndex = 4;
-            this.Boardmanmengt_RmoveButton.Text = "Remove";
-            this.Boardmanmengt_RmoveButton.UseVisualStyleBackColor = true;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1410,7 +1396,6 @@ namespace Timotheus.Forms
             this.TrayContextMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1529,6 +1514,5 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn BoardManagement_tlfColumn;
         private System.Windows.Forms.Button Boardmanmengt_RmoveButton;
         private System.Windows.Forms.Button BoardManagement_Addbutton;
-        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

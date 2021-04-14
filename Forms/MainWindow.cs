@@ -106,6 +106,13 @@ namespace Timotheus.Forms
             window = this;
             InitializeComponent();
             boards.Add(new Board());
+           
+
+
+            new Person("Casper", "123", new DateTime(2021,1,1), new DateTime(2021, 1, 1));
+            BoardMember BoardMember = new BoardMember(Person.list[Person.list.Count- 1], Roles.Ordinary);
+           
+            boards[0].BoardMembers.Add(BoardMember);
             SetupUI();
             
             string fullName = Path.Combine(Application.StartupPath, "Data.txt");
@@ -1121,7 +1128,11 @@ namespace Timotheus.Forms
             e.Cancel = true;
         }
 
+      
+        private void BoardManagement_Addbutton_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 
     /// <summary>
