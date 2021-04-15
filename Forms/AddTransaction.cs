@@ -10,11 +10,29 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class AddTransaction : Form
     {
+        /// <summary>
+        /// Date of the transaction
+        /// </summary>
         public DateTime Transaction_Date;
+        /// <summary>
+        /// Number of the appendix associated with the transaction.
+        /// </summary>
         public int Transaction_Appendix;
+        /// <summary>
+        /// Text that describes the transaction.
+        /// </summary>
         public string Transaction_Description;
+        /// <summary>
+        /// Account number associated with the transaction.
+        /// </summary>
         public int Transaction_Account;
+        /// <summary>
+        /// Income.
+        /// </summary>
         public double Transaction_In;
+        /// <summary>
+        /// Expense.
+        /// </summary>
         public double Transaction_Out;
 
         /// <summary>
@@ -31,18 +49,16 @@ namespace Timotheus.Forms
             decimalSeparator = Convert.ToChar(Program.culture.NumberFormat.NumberDecimalSeparator);
             AddTransaction_AccountPicker.DataSource = accounts;
 
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
-
-            Text = locale.GetLocalization(this);
-            AddTransaction_AddButton.Text = locale.GetLocalization(AddTransaction_AddButton);
-            AddTransaction_CancelButton.Text = locale.GetLocalization(AddTransaction_CancelButton);
-            AddTransaction_AccountLabel.Text = locale.GetLocalization(AddTransaction_AccountLabel);
-            AddTransaction_AppendixLabel.Text = locale.GetLocalization(AddTransaction_AppendixLabel);
-            AddTransaction_Currency1.Text = locale.GetLocalization("AddTransaction_Currency", "$");
-            AddTransaction_Currency2.Text = locale.GetLocalization("AddTransaction_Currency", "$");
-            AddTransaction_DateLabel.Text = locale.GetLocalization(AddTransaction_DateLabel);
-            AddTransaction_InLabel.Text = locale.GetLocalization(AddTransaction_InLabel);
-            AddTransaction_OutLabel.Text = locale.GetLocalization(AddTransaction_OutLabel);
+            Text = Localization.Get(this);
+            AddTransaction_AddButton.Text = Localization.Get(AddTransaction_AddButton);
+            AddTransaction_CancelButton.Text = Localization.Get(AddTransaction_CancelButton);
+            AddTransaction_AccountLabel.Text = Localization.Get(AddTransaction_AccountLabel);
+            AddTransaction_AppendixLabel.Text = Localization.Get(AddTransaction_AppendixLabel);
+            AddTransaction_Currency1.Text = Localization.Get("AddTransaction_Currency", "$");
+            AddTransaction_Currency2.Text = Localization.Get("AddTransaction_Currency", "$");
+            AddTransaction_DateLabel.Text = Localization.Get(AddTransaction_DateLabel);
+            AddTransaction_InLabel.Text = Localization.Get(AddTransaction_InLabel);
+            AddTransaction_OutLabel.Text = Localization.Get(AddTransaction_OutLabel);
         }
 
         /// <summary>

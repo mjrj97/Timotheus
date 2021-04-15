@@ -50,6 +50,9 @@ namespace Timotheus
             if (!foundLocalization)
                 culture = CultureInfo.GetCultureInfo("en-US");
 
+            //Initializes the loading of localization.
+            Localization.Initialize(directory, culture.Name);
+
             //Defines the security protocol
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
@@ -70,9 +73,7 @@ namespace Timotheus
         /// <param name="name">Name of the error to find in localization. Is shown in window name.</param>
         public static void Error(string text, string name)
         {
-            LocalizationLoader locale = new LocalizationLoader(directory, culture.Name);
-            string windowName = locale.GetLocalization(name, name);
-
+            string windowName = Localization.Get(name, name);
             MessageBox.Show(text, windowName, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }

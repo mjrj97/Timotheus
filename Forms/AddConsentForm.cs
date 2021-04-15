@@ -44,15 +44,13 @@ namespace Timotheus.Forms
             InitializeComponent();
             AddConsentForm_ComboBox.DataSource = list;
 
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
-
-            Text = locale.GetLocalization(this);
-            AddConsentForm_AddButton.Text = locale.GetLocalization(AddConsentForm_AddButton);
-            AddConsentForm_CancelButton.Text = locale.GetLocalization(AddConsentForm_CancelButton);
-            AddConsentForm_NameLabel.Text = locale.GetLocalization(AddConsentForm_NameLabel);
-            AddConsentForm_SignedLabel.Text = locale.GetLocalization(AddConsentForm_SignedLabel);
-            AddConsentForm_VersionLabel.Text = locale.GetLocalization(AddConsentForm_VersionLabel);
-            AddConsentForm_CommentLabel.Text = locale.GetLocalization(AddConsentForm_CommentLabel);
+            Text = Localization.Get(this);
+            AddConsentForm_AddButton.Text = Localization.Get(AddConsentForm_AddButton);
+            AddConsentForm_CancelButton.Text = Localization.Get(AddConsentForm_CancelButton);
+            AddConsentForm_NameLabel.Text = Localization.Get(AddConsentForm_NameLabel);
+            AddConsentForm_SignedLabel.Text = Localization.Get(AddConsentForm_SignedLabel);
+            AddConsentForm_VersionLabel.Text = Localization.Get(AddConsentForm_VersionLabel);
+            AddConsentForm_CommentLabel.Text = Localization.Get(AddConsentForm_CommentLabel);
         }
 
         /// <summary>

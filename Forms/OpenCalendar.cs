@@ -10,10 +10,25 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class OpenCalendar : Form
     {
+        /// <summary>
+        /// Username/email for the CalDAV.
+        /// </summary>
         public string Username;
+        /// <summary>
+        /// Password to the CalDAV link.
+        /// </summary>
         public string Password;
+        /// <summary>
+        /// Whether the calendar should be loaded from link or .ics file.
+        /// </summary>
         public bool Online;
+        /// <summary>
+        /// CalDAV link to the calendar.
+        /// </summary>
         public string CalDAV;
+        /// <summary>
+        /// Path to the .ics file.
+        /// </summary>
         public string ICS;
 
         /// <summary>
@@ -39,16 +54,14 @@ namespace Timotheus.Forms
                     OpenCalendar_CalDAVBox.Text = content[2].Trim();
             }
 
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
-
-            Text = locale.GetLocalization(this);
-            OpenCalendar_OpenButton.Text = locale.GetLocalization(OpenCalendar_OpenButton);
-            OpenCalendar_CancelButton.Text = locale.GetLocalization(OpenCalendar_CancelButton);
-            OpenCalendar_ICSButton.Text = locale.GetLocalization(OpenCalendar_ICSButton);
-            OpenCalendar_CalDAVButton.Text = locale.GetLocalization(OpenCalendar_CalDAVButton);
-            OpenCalendar_BrowseButton.Text = locale.GetLocalization(OpenCalendar_BrowseButton);
-            OpenCalendar_UsernameLabel.Text = locale.GetLocalization(OpenCalendar_UsernameLabel);
-            OpenCalendar_PasswordLabel.Text = locale.GetLocalization(OpenCalendar_PasswordLabel);
+            Text = Localization.Get(this);
+            OpenCalendar_OpenButton.Text = Localization.Get(OpenCalendar_OpenButton);
+            OpenCalendar_CancelButton.Text = Localization.Get(OpenCalendar_CancelButton);
+            OpenCalendar_ICSButton.Text = Localization.Get(OpenCalendar_ICSButton);
+            OpenCalendar_CalDAVButton.Text = Localization.Get(OpenCalendar_CalDAVButton);
+            OpenCalendar_BrowseButton.Text = Localization.Get(OpenCalendar_BrowseButton);
+            OpenCalendar_UsernameLabel.Text = Localization.Get(OpenCalendar_UsernameLabel);
+            OpenCalendar_PasswordLabel.Text = Localization.Get(OpenCalendar_PasswordLabel);
         }
 
         /// <summary>
