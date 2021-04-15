@@ -409,17 +409,13 @@ namespace Timotheus.Forms
         /// </summary>
         private void AddEvent(object sender, EventArgs e)
         {
-            AddEvent addEvent = new AddEvent(Settings_AddressBox.Text)
+            AddEvent addEvent = new AddEvent(calendar, Settings_AddressBox.Text)
             {
                 Owner = this
             };
             DialogResult result = addEvent.ShowDialog();
             if (result == DialogResult.OK)
-            {
-                Event ev = new Event(addEvent.Event_Start, addEvent.Event_End, addEvent.Event_Name, addEvent.Event_Description, addEvent.Event_Location, null);
-                calendar.events.Add(ev);
                 UpdateCalendarTable();
-            }
         }
 
         /// <summary>
@@ -476,14 +472,7 @@ namespace Timotheus.Forms
             DialogResult result = open.ShowDialog();
             if (result == DialogResult.OK)
             {
-                if (open.Online)
-                    calendar = new Calendar(open.Username, open.Password, open.CalDAV);
-                else
-                {
-                    string[] lines = File.ReadAllText(open.ICS).Replace("\r\n ", "").Split("\n");
-                    calendar = new Calendar(lines);
-                }
-
+                calendar = open.calendar;
                 UpdateCalendarTable();
             }
         }
@@ -516,25 +505,13 @@ namespace Timotheus.Forms
         /// </summary>
         private void SyncCalendar(object sender, EventArgs e)
         {
-            SyncCalendar sync = new SyncCalendar(calendar.IsSetup(), Calendar_PeriodBox.Text)
+            SyncCalendar sync = new SyncCalendar(calendar, Calendar_PeriodBox.Text)
             {
                 Owner = this
             };
             DialogResult result = sync.ShowDialog();
             if (result == DialogResult.OK)
-            {
-                if (sync.Calendar_New)
-                    calendar.SetupSync(sync.Username, sync.Password, sync.CalDAV);
-
-                if (sync.SyncType == 0)
-                    calendar.Sync();
-                else if (sync.SyncType == 1)
-                    calendar.Sync(StartPeriod, EndPeriod);
-                else if (sync.SyncType == 2)
-                    calendar.Sync(sync.a, sync.b);
-
                 UpdateCalendarTable();
-            }
         }
 
         /// <summary>
@@ -735,21 +712,7 @@ namespace Timotheus.Forms
             };
             DialogResult result = addMember.ShowDialog();
             if (result == DialogResult.OK)
-            {
-                if (addMember.Member_New)
-                {
-                    new Person(addMember.Member_Name, addMember.Member_Address, addMember.Member_Birthday, addMember.Member_Entry);
-                }
-                else
-                {
-                    Person person = Person.list[addMember.Member_Index];
-                    person.Address = addMember.Member_Address;
-                    person.Birthday = addMember.Member_Birthday;
-                    person.Entry = addMember.Member_Entry;
-                }
-
                 UpdateMemberTable();
-            }
         }
 
         /// <summary>
@@ -846,20 +809,7 @@ namespace Timotheus.Forms
             };
             DialogResult result = addConsentForm.ShowDialog();
             if (result == DialogResult.OK)
-            {
-                if (addConsentForm.ConsentForm_New)
-                    new Person(addConsentForm.ConsentForm_Name, addConsentForm.ConsentForm_Signed, addConsentForm.ConsentForm_Version, addConsentForm.ConsentForm_Comment);
-                else
-                {
-                    Person person = Person.list[addConsentForm.ConsentForm_Index];
-                    person.Name = addConsentForm.ConsentForm_Name;
-                    person.Signed = addConsentForm.ConsentForm_Signed;
-                    person.Version = addConsentForm.ConsentForm_Version;
-                    person.Comment = addConsentForm.ConsentForm_Comment;
-                }
-
                 UpdateConsentFormsTable();
-            }
         }
 
         /// <summary>
@@ -967,10 +917,7 @@ namespace Timotheus.Forms
             };
             DialogResult result = addTransaction.ShowDialog();
             if (result == DialogResult.OK)
-            {
-                new Transaction(addTransaction.Transaction_Date, addTransaction.Transaction_Appendix, addTransaction.Transaction_Description, addTransaction.Transaction_Account, addTransaction.Transaction_In, addTransaction.Transaction_Out);
                 UpdateTransactionsTable();
-            }
         }
 
         /// <summary>

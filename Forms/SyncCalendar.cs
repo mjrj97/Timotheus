@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Timotheus.Schedule;
 using Timotheus.Utility;
 
 namespace Timotheus.Forms
@@ -11,39 +12,16 @@ namespace Timotheus.Forms
     public partial class SyncCalendar : Form
     {
         /// <summary>
-        /// Whether a Calendar should have a new setup.
+        /// Calendar to sync. Is assigned by the constructor.
         /// </summary>
-        public bool Calendar_New;
-        /// <summary>
-        /// Username/email for the CalDAV server.
-        /// </summary>
-        public string Username;
-        /// <summary>
-        /// Password for the CalDAV server.
-        /// </summary>
-        public string Password;
-        /// <summary>
-        /// CalDAV link.
-        /// </summary>
-        public string CalDAV;
-        /// <summary>
-        /// Which type of sync should be done.
-        /// </summary>
-        public int SyncType;
-        /// <summary>
-        /// Start date for the period to sync.
-        /// </summary>
-        public DateTime a;
-        /// <summary>
-        /// End date for the period to sync.
-        /// </summary>
-        public DateTime b;
+        private readonly Calendar calendar;
 
         /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
         /// </summary>
-        public SyncCalendar(bool isSetup, string period)
+        public SyncCalendar(Calendar calendar, string period)
         {
+            this.calendar = calendar;
             InitializeComponent();
             SyncCalendar_PasswordBox.PasswordChar = '*';
 
@@ -62,7 +40,7 @@ namespace Timotheus.Forms
                     SyncCalendar_CalDAVBox.Text = content[2].Trim();
             }
 
-            if (isSetup)
+            if (calendar.IsSetup())
             {
                 SyncCalendar_UseExistingButton.Enabled = true;
                 SyncCalendar_UseExistingButton.Checked = true;
@@ -98,20 +76,15 @@ namespace Timotheus.Forms
         {
             try
             {
-                Calendar_New = SyncCalendar_NewCalendarButton.Checked;
-                Username = SyncCalendar_UsernameBox.Text;
-                Password = SyncCalendar_PasswordBox.Text;
-                CalDAV = SyncCalendar_CalDAVBox.Text;
-
-                a = SyncCalendar_aTimePicker.Value.Date;
-                b = SyncCalendar_bTimePicker.Value.Date.AddDays(1);
+                if (SyncCalendar_NewCalendarButton.Checked)
+                    calendar.SetupSync(SyncCalendar_UsernameBox.Text, SyncCalendar_PasswordBox.Text, SyncCalendar_CalDAVBox.Text);
 
                 if (SyncCalendar_EntireCalendarButton.Checked)
-                    SyncType = 0;
+                    calendar.Sync();
                 else if (SyncCalendar_PeriodCalendarButton.Checked)
-                    SyncType = 1;
+                    calendar.Sync(DateTime.Now, DateTime.Now);
                 else if (SyncCalendar_CustomCalendarButton.Checked)
-                    SyncType = 2;
+                    calendar.Sync(SyncCalendar_aTimePicker.Value.Date, SyncCalendar_bTimePicker.Value.Date.AddDays(1));
 
                 DialogResult = DialogResult.OK;
             }

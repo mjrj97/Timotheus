@@ -12,31 +12,6 @@ namespace Timotheus.Forms
     public partial class AddMember : Form
     {
         /// <summary>
-        /// Is checked if a new person object should be created.
-        /// </summary>
-        public bool Member_New;
-        /// <summary>
-        /// Index of the member in the Person.list.
-        /// </summary>
-        public int Member_Index;
-        /// <summary>
-        /// Name of the member.
-        /// </summary>
-        public string Member_Name;
-        /// <summary>
-        /// Address of the member.
-        /// </summary>
-        public string Member_Address;
-        /// <summary>
-        /// Birthday of the member.
-        /// </summary>
-        public DateTime Member_Birthday;
-        /// <summary>
-        /// Entry date of the member in the association.
-        /// </summary>
-        public DateTime Member_Entry;
-
-        /// <summary>
         /// Constructor. Loads localization.
         /// </summary>
         public AddMember(List<Person> list, int year)
@@ -68,14 +43,15 @@ namespace Timotheus.Forms
                 if (AddMember_AddressBox.Text.Trim() == string.Empty)
                     throw new Exception("Exception_EmptyAddress");
 
-                Member_New = AddMember_NewPersonButton.Checked;
-                Member_Name = AddMember_NameBox.Text;
-                Member_Address = AddMember_AddressBox.Text;
-                Member_Birthday = AddMember_BirthdayPicker.Value.Date;
-                Member_Entry = AddMember_EntryPicker.Value.Date;
-
-                if (!AddMember_NewPersonButton.Checked)
-                    Member_Index = AddMember_ComboBox.SelectedIndex;
+                if (AddMember_NewPersonButton.Checked)
+                    new Person(AddMember_NameBox.Text, AddMember_AddressBox.Text, AddMember_BirthdayPicker.Value.Date, AddMember_EntryPicker.Value.Date);
+                else
+                {
+                    Person person = Person.list[AddMember_ComboBox.SelectedIndex];
+                    person.Address = AddMember_AddressBox.Text;
+                    person.Birthday = AddMember_BirthdayPicker.Value.Date;
+                    person.Entry = AddMember_EntryPicker.Value.Date;
+                }
 
                 DialogResult = DialogResult.OK;
             }

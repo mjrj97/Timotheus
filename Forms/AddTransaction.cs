@@ -11,31 +11,6 @@ namespace Timotheus.Forms
     public partial class AddTransaction : Form
     {
         /// <summary>
-        /// Date of the transaction
-        /// </summary>
-        public DateTime Transaction_Date;
-        /// <summary>
-        /// Number of the appendix associated with the transaction.
-        /// </summary>
-        public int Transaction_Appendix;
-        /// <summary>
-        /// Text that describes the transaction.
-        /// </summary>
-        public string Transaction_Description;
-        /// <summary>
-        /// Account number associated with the transaction.
-        /// </summary>
-        public int Transaction_Account;
-        /// <summary>
-        /// Income.
-        /// </summary>
-        public double Transaction_In;
-        /// <summary>
-        /// Expense.
-        /// </summary>
-        public double Transaction_Out;
-
-        /// <summary>
         /// Decimal separator used by the cultured defined by program.
         /// </summary>
         private readonly char decimalSeparator;
@@ -68,13 +43,7 @@ namespace Timotheus.Forms
         {
             try
             {
-                Transaction_Date = AddTransaction_DatePicker.Value.Date;
-                Transaction_Appendix = ParseStringToInt(AddTransaction_AppendixBox.Text);
-                Transaction_Description = AddTransaction_DescriptionBox.Text;
-                Transaction_Account = ((Account)AddTransaction_AccountPicker.SelectedItem).ID;
-                Transaction_In = ParseStringToDouble(AddTransaction_InBox.Text);
-                Transaction_Out = ParseStringToDouble(AddTransaction_OutBox.Text);
-
+                new Transaction(AddTransaction_DatePicker.Value.Date, ParseStringToInt(AddTransaction_AppendixBox.Text), AddTransaction_DescriptionBox.Text, ((Account)AddTransaction_AccountPicker.SelectedItem).ID, ParseStringToDouble(AddTransaction_InBox.Text), ParseStringToDouble(AddTransaction_OutBox.Text));
                 DialogResult = DialogResult.OK;
             }
             catch (Exception ex)

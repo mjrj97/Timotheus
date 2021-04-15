@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Timotheus.Schedule;
 using Timotheus.Utility;
 
 namespace Timotheus.Forms
@@ -11,25 +12,9 @@ namespace Timotheus.Forms
     public partial class OpenCalendar : Form
     {
         /// <summary>
-        /// Username/email for the CalDAV.
+        /// Loaded calendar. Only changes if LoadCalendar is called.
         /// </summary>
-        public string Username = string.Empty;
-        /// <summary>
-        /// Password to the CalDAV link.
-        /// </summary>
-        public string Password = string.Empty;
-        /// <summary>
-        /// Whether the calendar should be loaded from link or .ics file.
-        /// </summary>
-        public bool Online = false;
-        /// <summary>
-        /// CalDAV link to the calendar.
-        /// </summary>
-        public string CalDAV = string.Empty;
-        /// <summary>
-        /// Path to the .ics file.
-        /// </summary>
-        public string ICS = string.Empty;
+        public Calendar calendar;
 
         /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
@@ -90,14 +75,16 @@ namespace Timotheus.Forms
         {
             try
             {
-                Online = OpenCalendar_CalDAVButton.Checked;
-                Username = OpenCalendar_UsernameBox.Text;
-                Password = OpenCalendar_PasswordBox.Text;
-                CalDAV = OpenCalendar_CalDAVBox.Text;
-                ICS = OpenCalendar_ICSBox.Text;
-
-                if (!Online && ICS == string.Empty)
+                if (!OpenCalendar_CalDAVButton.Checked && OpenCalendar_ICSBox.Text == string.Empty)
                     throw new Exception("Exception_EmptyICS");
+
+                if (OpenCalendar_CalDAVButton.Checked)
+                    calendar = new Calendar(OpenCalendar_UsernameBox.Text, OpenCalendar_PasswordBox.Text, OpenCalendar_CalDAVBox.Text);
+                else
+                {
+                    string[] lines = File.ReadAllText(OpenCalendar_ICSBox.Text).Replace("\r\n ", "").Split("\n");
+                    calendar = new Calendar(lines);
+                }
 
                 DialogResult = DialogResult.OK;
             }
