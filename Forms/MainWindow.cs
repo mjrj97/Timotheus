@@ -505,7 +505,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void SyncCalendar(object sender, EventArgs e)
         {
-            SyncCalendar sync = new SyncCalendar(calendar, Calendar_PeriodBox.Text)
+            SyncCalendar sync = new SyncCalendar(calendar, Calendar_PeriodBox.Text, StartPeriod, EndPeriod)
             {
                 Owner = this
             };

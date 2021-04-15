@@ -17,11 +17,23 @@ namespace Timotheus.Forms
         private readonly Calendar calendar;
 
         /// <summary>
+        /// Start date of the standard sync period. Is assigned by the constructor.
+        /// </summary>
+        private readonly DateTime a;
+        /// <summary>
+        /// End date of the standard sync period. Is assigned by the constructor.
+        /// </summary>
+        private readonly DateTime b;
+
+        /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
         /// </summary>
-        public SyncCalendar(Calendar calendar, string period)
+        public SyncCalendar(Calendar calendar, string period, DateTime a, DateTime b)
         {
             this.calendar = calendar;
+            this.a = a;
+            this.b = b;
+
             InitializeComponent();
             SyncCalendar_PasswordBox.PasswordChar = '*';
 
@@ -82,7 +94,7 @@ namespace Timotheus.Forms
                 if (SyncCalendar_EntireCalendarButton.Checked)
                     calendar.Sync();
                 else if (SyncCalendar_PeriodCalendarButton.Checked)
-                    calendar.Sync(DateTime.Now, DateTime.Now);
+                    calendar.Sync(a, b);
                 else if (SyncCalendar_CustomCalendarButton.Checked)
                     calendar.Sync(SyncCalendar_aTimePicker.Value.Date, SyncCalendar_bTimePicker.Value.Date.AddDays(1));
 
