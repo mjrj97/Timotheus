@@ -118,5 +118,10 @@ namespace Timotheus.Persons
                 Age -= 1;
             return Age;
         }
+        public override string ToString()
+        {
+            return Name;
+        }
+
     }
 }

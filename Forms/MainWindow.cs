@@ -1131,7 +1131,14 @@ namespace Timotheus.Forms
       
         private void BoardManagement_Addbutton_Click(object sender, EventArgs e)
         {
+            
+            AddBoardMember AddBoardMember = new AddBoardMember(members)
+            {
+                Owner = this,                
+            };
 
+            AddBoardMember.ShowDialog();
+            CountMembersUnder25();
         }
     }
 
