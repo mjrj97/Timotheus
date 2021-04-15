@@ -81,7 +81,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message);
+                Program.Error("Exception_InvalidInput", ex.Message);
             }
         }
 

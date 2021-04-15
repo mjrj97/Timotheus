@@ -129,5 +129,6 @@ Exception_Saving,Kunne ikke gemme fil
 Exception_LoadFailed,Kunne ikke læse fil
 Exception_Sync,Kunne ikke synkronisere
 Exception_InvalidInput,Ugyldig input
-Exception_EmptyName,Ugyldig input;Navn må ikke være tom.
-Exception_EmptyAddress,Ugyldig input;Adresse må ikke være tom.
+Exception_EmptyICS,ICS felt kan ikke være tom
+Exception_EmptyName,Navn må ikke være tom
+Exception_EmptyAddress,Adresse må ikke være tom

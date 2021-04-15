@@ -69,46 +69,13 @@ namespace Timotheus
         /// <summary>
         /// Displays an error dialog to the user.
         /// </summary>
-        /// <param name="text">Name of the exception to be found in Localization. If not found, it is used a the text of the error window.</param>
-        public static void Error(string text)
-        {
-            string value = Localization.Get(text);
-
-            string errorName;
-            string errorText;
-
-            if (value == string.Empty)
-            {
-                errorName = Localization.Get("Exception_Name", "Error");
-                errorText = text;
-            }
-            else
-            {
-                int i = 0;
-                bool found = false;
-                while (!found && i < value.Length)
-                {
-                    if (value[i] == ';')
-                        found = true;
-                    i++;
-                }
-
-                errorName = value.Substring(0,i);
-                errorText = value.Substring(i + 1, value.Length - i - 1);
-            }
-
-            MessageBox.Show(errorText, errorName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        /// <summary>
-        /// Displays an error dialog to the user.
-        /// </summary>
         /// <param name="name">Name of the exception to be found in Localization.</param>
         /// <param name="text">Specify the text of the error without localization.</param>
         public static void Error(string name, string text)
         {
             string errorName = Localization.Get(name, name);
-            MessageBox.Show(text, errorName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            string errorText = Localization.Get(text, text);
+            MessageBox.Show(errorText, errorName, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

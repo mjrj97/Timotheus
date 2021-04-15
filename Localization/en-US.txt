@@ -129,5 +129,6 @@ Exception_Saving,Couldn't save file
 Exception_LoadFailed,Couldn't load file
 Exception_Sync,Couldn't sync the calendar
 Exception_InvalidInput,Invalid input
-Exception_EmptyName,Invalid input;Name cannot be empty.
-Exception_EmptyAddress,Invalid input;Address cannot be empty.
+Exception_EmptyICS,ICS field cannot be empty
+Exception_EmptyName,Name cannot be empty
+Exception_EmptyAddress,Address cannot be empty

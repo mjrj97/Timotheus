@@ -694,8 +694,8 @@ namespace Timotheus.Forms
             this.Members_View.RowTemplate.Height = 25;
             this.Members_View.Size = new System.Drawing.Size(774, 331);
             this.Members_View.TabIndex = 0;
-            this.Members_View.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
             this.Members_View.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.UpdateMemberTable);
+            this.Members_View.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
             // 
             // Members_EntryColumn
             // 
@@ -868,8 +868,8 @@ namespace Timotheus.Forms
             this.Accounting_TransactionsView.RowTemplate.Height = 25;
             this.Accounting_TransactionsView.Size = new System.Drawing.Size(774, 220);
             this.Accounting_TransactionsView.TabIndex = 0;
-            this.Accounting_TransactionsView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
             this.Accounting_TransactionsView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.UpdateTransactionsTable);
+            this.Accounting_TransactionsView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
             // 
             // Accounting_DateColumn
             // 

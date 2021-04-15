@@ -13,23 +13,23 @@ namespace Timotheus.Forms
         /// <summary>
         /// Username/email for the CalDAV.
         /// </summary>
-        public string Username;
+        public string Username = string.Empty;
         /// <summary>
         /// Password to the CalDAV link.
         /// </summary>
-        public string Password;
+        public string Password = string.Empty;
         /// <summary>
         /// Whether the calendar should be loaded from link or .ics file.
         /// </summary>
-        public bool Online;
+        public bool Online = false;
         /// <summary>
         /// CalDAV link to the calendar.
         /// </summary>
-        public string CalDAV;
+        public string CalDAV = string.Empty;
         /// <summary>
         /// Path to the .ics file.
         /// </summary>
-        public string ICS;
+        public string ICS = string.Empty;
 
         /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
@@ -95,6 +95,9 @@ namespace Timotheus.Forms
                 Password = OpenCalendar_PasswordBox.Text;
                 CalDAV = OpenCalendar_CalDAVBox.Text;
                 ICS = OpenCalendar_ICSBox.Text;
+
+                if (!Online && ICS == string.Empty)
+                    throw new Exception("Exception_EmptyICS");
 
                 DialogResult = DialogResult.OK;
             }
