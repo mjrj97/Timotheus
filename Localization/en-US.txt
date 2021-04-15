@@ -124,7 +124,10 @@ PDF_Activity,Activity
 PDF_Leader,Leader
 PDF_Musician,Musician
 PDF_Coffee,Coffee
-Exception_Sync,Couldn't sync
+Exception_Name,Error
+Exception_Saving,Couldn't save file
+Exception_LoadFailed,Couldn't load file
+Exception_Sync,Couldn't sync the calendar
 Exception_InvalidInput,Invalid input
-Exception_SavingFailed,Failed to save
-Exception_LoadFailed,Failed to load
+Exception_EmptyName,Invalid input;Name cannot be empty.
+Exception_EmptyAddress,Invalid input;Address cannot be empty.

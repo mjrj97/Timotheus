@@ -63,10 +63,10 @@ namespace Timotheus.Forms
             try
             {
                 if ((AddMember_NewPersonButton.Checked && AddMember_NameBox.Text.Trim() == string.Empty) || (!AddMember_NewPersonButton.Checked && AddMember_ComboBox.SelectedItem == null))
-                    throw new Exception("Name cannot be empty.");
+                    throw new Exception("Exception_EmptyName");
                 
                 if (AddMember_AddressBox.Text.Trim() == string.Empty)
-                    throw new Exception("Address cannot be empty.");
+                    throw new Exception("Exception_EmptyAddress");
 
                 Member_New = AddMember_NewPersonButton.Checked;
                 Member_Name = AddMember_NameBox.Text;
@@ -81,7 +81,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message, "Invalid input");
+                Program.Error(ex.Message);
             }
         }
 

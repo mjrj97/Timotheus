@@ -506,7 +506,7 @@ namespace Timotheus.Forms
                 }
                 catch (Exception ex)
                 {
-                    Program.Error(ex.Message, "Exception_Saving");
+                    Program.Error("Exception_Saving", ex.Message);
                 }
             }
         }
@@ -682,7 +682,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message, "Exception_InvalidInput");
+                Program.Error("Exception_InvalidInput", ex.Message);
             }
         }
 
@@ -700,7 +700,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message, "Exception_InvalidInput");
+                Program.Error("Exception_InvalidInput", ex.Message);
             }
         }
 
@@ -718,7 +718,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message, "Exception_InvalidInput");
+                Program.Error("Exception_InvalidInput", ex.Message);
             }
         }
         #endregion

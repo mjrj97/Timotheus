@@ -124,7 +124,10 @@ PDF_Activity,Aktivitet
 PDF_Leader,Mødeleder
 PDF_Musician,Musiker
 PDF_Coffee,Kaffehold
+Exception_Name,Fejl
+Exception_Saving,Kunne ikke gemme fil
+Exception_LoadFailed,Kunne ikke læse fil
 Exception_Sync,Kunne ikke synkronisere
-Exception_InvalidInput,Input er ikke valid
-Exception_SavingFailed,Kunne ikke gemmes
-Exception_LoadFailed,Kunne ikke indlæses
+Exception_InvalidInput,Ugyldig input
+Exception_EmptyName,Ugyldig input;Navn må ikke være tom.
+Exception_EmptyAddress,Ugyldig input;Adresse må ikke være tom.

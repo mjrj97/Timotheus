@@ -9,10 +9,25 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class AddEvent : Form
     {
+        /// <summary>
+        /// Name of the event.
+        /// </summary>
         public string Event_Name = string.Empty;
+        /// <summary>
+        /// Start date of the event.
+        /// </summary>
         public DateTime Event_Start = DateTime.Now;
+        /// <summary>
+        /// End date of the event.
+        /// </summary>
         public DateTime Event_End = DateTime.Now.AddMinutes(30);
+        /// <summary>
+        /// Description of the event.
+        /// </summary>
         public string Event_Description = string.Empty;
+        /// <summary>
+        /// Location for the event.
+        /// </summary>
         public string Event_Location = string.Empty;
 
         /// <summary>
@@ -53,7 +68,7 @@ namespace Timotheus.Forms
             try
             {
                 if (AddEvent_NameBox.Text.Trim() == string.Empty)
-                    throw new Exception("Name cannot be empty.");
+                    throw new Exception("Exception_EmptyName");
 
                 if (!AddEvent_AllDayBox.Checked)
                 {
@@ -77,7 +92,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message, "Exception_InvalidInput");
+                Program.Error(ex.Message);
             }
         }
 

@@ -61,7 +61,7 @@ namespace Timotheus.Forms
             try
             {
                 if (AddConsentForm_NameBox.Text.Trim() == string.Empty)
-                    throw new Exception("Name cannot be empty.");
+                    throw new Exception("Exception_EmptyName");
 
                 ConsentForm_New = AddConsentForm_NewButton.Checked;
                 ConsentForm_Name = AddConsentForm_NameBox.Text;
@@ -76,7 +76,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message, "Exception_InvalidInput");
+                Program.Error(ex.Message);
             }
         }
 

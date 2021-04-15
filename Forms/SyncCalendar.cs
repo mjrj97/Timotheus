@@ -31,11 +31,11 @@ namespace Timotheus.Forms
         /// </summary>
         public int SyncType;
         /// <summary>
-        /// Start datetime of the event.
+        /// Start date for the period to sync.
         /// </summary>
         public DateTime a;
         /// <summary>
-        /// End datetime of the event.
+        /// End date for the period to sync.
         /// </summary>
         public DateTime b;
 
@@ -117,7 +117,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message, "Exception_Sync");
+                Program.Error("Exception_Sync", ex.Message);
             }
         }
 

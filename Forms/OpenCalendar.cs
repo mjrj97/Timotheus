@@ -100,7 +100,7 @@ namespace Timotheus.Forms
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message, "Exception_LoadFailed");
+                Program.Error("Exception_LoadFailed", ex.Message);
             }
         }
 
