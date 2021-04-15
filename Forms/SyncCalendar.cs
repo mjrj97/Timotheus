@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Timotheus.Schedule;
 using Timotheus.Utility;
 
 namespace Timotheus.Forms
@@ -10,19 +11,29 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class SyncCalendar : Form
     {
-        public bool Calendar_New;
-        public string Username;
-        public string Password;
-        public string CalDAV;
-        public int SyncType;
-        public DateTime a;
-        public DateTime b;
+        /// <summary>
+        /// Calendar to sync. Is assigned by the constructor.
+        /// </summary>
+        private readonly Calendar calendar;
+
+        /// <summary>
+        /// Start date of the standard sync period. Is assigned by the constructor.
+        /// </summary>
+        private readonly DateTime a;
+        /// <summary>
+        /// End date of the standard sync period. Is assigned by the constructor.
+        /// </summary>
+        private readonly DateTime b;
 
         /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
         /// </summary>
-        public SyncCalendar(bool isSetup, string period)
+        public SyncCalendar(Calendar calendar, string period, DateTime a, DateTime b)
         {
+            this.calendar = calendar;
+            this.a = a;
+            this.b = b;
+
             InitializeComponent();
             SyncCalendar_PasswordBox.PasswordChar = '*';
 
@@ -41,7 +52,7 @@ namespace Timotheus.Forms
                     SyncCalendar_CalDAVBox.Text = content[2].Trim();
             }
 
-            if (isSetup)
+            if (calendar.IsSetup())
             {
                 SyncCalendar_UseExistingButton.Enabled = true;
                 SyncCalendar_UseExistingButton.Checked = true;
@@ -57,19 +68,17 @@ namespace Timotheus.Forms
                 SyncCalendar_PasswordBox.Enabled = true;
             }
 
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
-            
-            Text = locale.GetLocalization(this);
-            SyncCalendar_SyncButton.Text = locale.GetLocalization(SyncCalendar_SyncButton);
-            SyncCalendar_CancelButton.Text = locale.GetLocalization(SyncCalendar_CancelButton);
-            SyncCalendar_UseExistingButton.Text = locale.GetLocalization(SyncCalendar_UseExistingButton);
-            SyncCalendar_NewCalendarButton.Text = locale.GetLocalization(SyncCalendar_NewCalendarButton);
-            SyncCalendar_PasswordLabel.Text = locale.GetLocalization(SyncCalendar_PasswordLabel);
-            SyncCalendar_UsernameLabel.Text = locale.GetLocalization(SyncCalendar_UsernameLabel);
-            SyncCalendar_CalDAVLabel.Text = locale.GetLocalization(SyncCalendar_CalDAVLabel);
-            SyncCalendar_PeriodCalendarButton.Text = locale.GetLocalization(SyncCalendar_PeriodCalendarButton) + ": " + period;
-            SyncCalendar_EntireCalendarButton.Text = locale.GetLocalization(SyncCalendar_EntireCalendarButton);
-            SyncCalendar_CustomCalendarButton.Text = locale.GetLocalization(SyncCalendar_CustomCalendarButton);
+           Text = Localization.Get(this);
+            SyncCalendar_SyncButton.Text = Localization.Get(SyncCalendar_SyncButton);
+            SyncCalendar_CancelButton.Text = Localization.Get(SyncCalendar_CancelButton);
+            SyncCalendar_UseExistingButton.Text = Localization.Get(SyncCalendar_UseExistingButton);
+            SyncCalendar_NewCalendarButton.Text = Localization.Get(SyncCalendar_NewCalendarButton);
+            SyncCalendar_PasswordLabel.Text = Localization.Get(SyncCalendar_PasswordLabel);
+            SyncCalendar_UsernameLabel.Text = Localization.Get(SyncCalendar_UsernameLabel);
+            SyncCalendar_CalDAVLabel.Text = Localization.Get(SyncCalendar_CalDAVLabel);
+            SyncCalendar_PeriodCalendarButton.Text = Localization.Get(SyncCalendar_PeriodCalendarButton) + ": " + period;
+            SyncCalendar_EntireCalendarButton.Text = Localization.Get(SyncCalendar_EntireCalendarButton);
+            SyncCalendar_CustomCalendarButton.Text = Localization.Get(SyncCalendar_CustomCalendarButton);
         }
 
         /// <summary>
@@ -79,26 +88,21 @@ namespace Timotheus.Forms
         {
             try
             {
-                Calendar_New = SyncCalendar_NewCalendarButton.Checked;
-                Username = SyncCalendar_UsernameBox.Text;
-                Password = SyncCalendar_PasswordBox.Text;
-                CalDAV = SyncCalendar_CalDAVBox.Text;
-
-                a = SyncCalendar_aTimePicker.Value.Date;
-                b = SyncCalendar_bTimePicker.Value.Date.AddDays(1);
+                if (SyncCalendar_NewCalendarButton.Checked)
+                    calendar.SetupSync(SyncCalendar_UsernameBox.Text, SyncCalendar_PasswordBox.Text, SyncCalendar_CalDAVBox.Text);
 
                 if (SyncCalendar_EntireCalendarButton.Checked)
-                    SyncType = 0;
+                    calendar.Sync();
                 else if (SyncCalendar_PeriodCalendarButton.Checked)
-                    SyncType = 1;
+                    calendar.Sync(a, b);
                 else if (SyncCalendar_CustomCalendarButton.Checked)
-                    SyncType = 2;
+                    calendar.Sync(SyncCalendar_aTimePicker.Value.Date, SyncCalendar_bTimePicker.Value.Date.AddDays(1));
 
                 DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message, "Exception_Sync");
+                Program.Error("Exception_Sync", ex.Message);
             }
         }
 

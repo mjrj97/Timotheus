@@ -12,31 +12,6 @@ namespace Timotheus.Forms
     public partial class AddConsentForm : Form
     {
         /// <summary>
-        /// Checked if a new person should be created. Only updated on Add().
-        /// </summary>
-        public bool ConsentForm_New;
-        /// <summary>
-        /// Index of the person in the ComboBox. Only updated on Add(), only applies if ConsentForm_New == true.
-        /// </summary>
-        public int ConsentForm_Index;
-        /// <summary>
-        /// The name of the person who signed the consent form. Only updated on Add().
-        /// </summary>
-        public string ConsentForm_Name;
-        /// <summary>
-        /// Signing date of the consent form. Only updated on Add().
-        /// </summary>
-        public DateTime ConsentForm_Signed;
-        /// <summary>
-        /// Version of the consent form. Only updated on Add().
-        /// </summary>
-        public DateTime ConsentForm_Version;
-        /// <summary>
-        /// Comment to the consent form. Only updated on Add().
-        /// </summary>
-        public string ConsentForm_Comment;
-
-        /// <summary>
         /// Constructor. Loads the localization for the dialog.
         /// </summary>
         public AddConsentForm(List<Person> list)
@@ -44,15 +19,13 @@ namespace Timotheus.Forms
             InitializeComponent();
             AddConsentForm_ComboBox.DataSource = list;
 
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
-
-            Text = locale.GetLocalization(this);
-            AddConsentForm_AddButton.Text = locale.GetLocalization(AddConsentForm_AddButton);
-            AddConsentForm_CancelButton.Text = locale.GetLocalization(AddConsentForm_CancelButton);
-            AddConsentForm_NameLabel.Text = locale.GetLocalization(AddConsentForm_NameLabel);
-            AddConsentForm_SignedLabel.Text = locale.GetLocalization(AddConsentForm_SignedLabel);
-            AddConsentForm_VersionLabel.Text = locale.GetLocalization(AddConsentForm_VersionLabel);
-            AddConsentForm_CommentLabel.Text = locale.GetLocalization(AddConsentForm_CommentLabel);
+            Text = Localization.Get(this);
+            AddConsentForm_AddButton.Text = Localization.Get(AddConsentForm_AddButton);
+            AddConsentForm_CancelButton.Text = Localization.Get(AddConsentForm_CancelButton);
+            AddConsentForm_NameLabel.Text = Localization.Get(AddConsentForm_NameLabel);
+            AddConsentForm_SignedLabel.Text = Localization.Get(AddConsentForm_SignedLabel);
+            AddConsentForm_VersionLabel.Text = Localization.Get(AddConsentForm_VersionLabel);
+            AddConsentForm_CommentLabel.Text = Localization.Get(AddConsentForm_CommentLabel);
         }
 
         /// <summary>
@@ -63,22 +36,24 @@ namespace Timotheus.Forms
             try
             {
                 if (AddConsentForm_NameBox.Text.Trim() == string.Empty)
-                    throw new Exception("Name cannot be empty.");
+                    throw new Exception("Exception_EmptyName");
 
-                ConsentForm_New = AddConsentForm_NewButton.Checked;
-                ConsentForm_Name = AddConsentForm_NameBox.Text;
-                ConsentForm_Signed = AddConsentForm_SignedDate.Value.Date;
-                ConsentForm_Version = AddConsentForm_VersionDate.Value.Date;
-                ConsentForm_Comment = AddConsentForm_CommentBox.Text;
-
-                if (!ConsentForm_New)
-                    ConsentForm_Index = AddConsentForm_ComboBox.SelectedIndex;
+                if (AddConsentForm_NewButton.Checked)
+                    new Person(AddConsentForm_NameBox.Text, AddConsentForm_SignedDate.Value.Date, AddConsentForm_VersionDate.Value.Date, AddConsentForm_CommentBox.Text);
+                else
+                {
+                    Person person = Person.list[AddConsentForm_ComboBox.SelectedIndex];
+                    person.Name = AddConsentForm_NameBox.Text;
+                    person.Signed = AddConsentForm_SignedDate.Value.Date;
+                    person.Version = AddConsentForm_VersionDate.Value.Date;
+                    person.Comment = AddConsentForm_CommentBox.Text;
+                }
 
                 DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message, "Exception_InvalidInput");
+                Program.Error("Exception_InvalidInput", ex.Message);
             }
         }
 

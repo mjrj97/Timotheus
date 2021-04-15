@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Timotheus.Schedule;
 using Timotheus.Utility;
 
 namespace Timotheus.Forms
@@ -10,11 +11,10 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class OpenCalendar : Form
     {
-        public string Username;
-        public string Password;
-        public bool Online;
-        public string CalDAV;
-        public string ICS;
+        /// <summary>
+        /// Loaded calendar. Only changes if LoadCalendar is called.
+        /// </summary>
+        public Calendar calendar;
 
         /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
@@ -39,16 +39,14 @@ namespace Timotheus.Forms
                     OpenCalendar_CalDAVBox.Text = content[2].Trim();
             }
 
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
-
-            Text = locale.GetLocalization(this);
-            OpenCalendar_OpenButton.Text = locale.GetLocalization(OpenCalendar_OpenButton);
-            OpenCalendar_CancelButton.Text = locale.GetLocalization(OpenCalendar_CancelButton);
-            OpenCalendar_ICSButton.Text = locale.GetLocalization(OpenCalendar_ICSButton);
-            OpenCalendar_CalDAVButton.Text = locale.GetLocalization(OpenCalendar_CalDAVButton);
-            OpenCalendar_BrowseButton.Text = locale.GetLocalization(OpenCalendar_BrowseButton);
-            OpenCalendar_UsernameLabel.Text = locale.GetLocalization(OpenCalendar_UsernameLabel);
-            OpenCalendar_PasswordLabel.Text = locale.GetLocalization(OpenCalendar_PasswordLabel);
+            Text = Localization.Get(this);
+            OpenCalendar_OpenButton.Text = Localization.Get(OpenCalendar_OpenButton);
+            OpenCalendar_CancelButton.Text = Localization.Get(OpenCalendar_CancelButton);
+            OpenCalendar_ICSButton.Text = Localization.Get(OpenCalendar_ICSButton);
+            OpenCalendar_CalDAVButton.Text = Localization.Get(OpenCalendar_CalDAVButton);
+            OpenCalendar_BrowseButton.Text = Localization.Get(OpenCalendar_BrowseButton);
+            OpenCalendar_UsernameLabel.Text = Localization.Get(OpenCalendar_UsernameLabel);
+            OpenCalendar_PasswordLabel.Text = Localization.Get(OpenCalendar_PasswordLabel);
         }
 
         /// <summary>
@@ -77,17 +75,22 @@ namespace Timotheus.Forms
         {
             try
             {
-                Online = OpenCalendar_CalDAVButton.Checked;
-                Username = OpenCalendar_UsernameBox.Text;
-                Password = OpenCalendar_PasswordBox.Text;
-                CalDAV = OpenCalendar_CalDAVBox.Text;
-                ICS = OpenCalendar_ICSBox.Text;
+                if (!OpenCalendar_CalDAVButton.Checked && OpenCalendar_ICSBox.Text == string.Empty)
+                    throw new Exception("Exception_EmptyICS");
+
+                if (OpenCalendar_CalDAVButton.Checked)
+                    calendar = new Calendar(OpenCalendar_UsernameBox.Text, OpenCalendar_PasswordBox.Text, OpenCalendar_CalDAVBox.Text);
+                else
+                {
+                    string[] lines = File.ReadAllText(OpenCalendar_ICSBox.Text).Replace("\r\n ", "").Split("\n");
+                    calendar = new Calendar(lines);
+                }
 
                 DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message, "Exception_LoadFailed");
+                Program.Error("Exception_LoadFailed", ex.Message);
             }
         }
 

@@ -1,6 +1,7 @@
-﻿using Timotheus.Utility;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using Timotheus.Schedule;
+using Timotheus.Utility;
 
 namespace Timotheus.Forms
 {
@@ -9,36 +10,34 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class AddEvent : Form
     {
-        public string Event_Name = string.Empty;
-        public DateTime Event_Start = DateTime.Now;
-        public DateTime Event_End = DateTime.Now.AddMinutes(30);
-        public string Event_Description = string.Empty;
-        public string Event_Location = string.Empty;
+        /// <summary>
+        /// Calendar that the event should be added to.
+        /// </summary>
+        private readonly Calendar calendar;
 
         /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
         /// </summary>
-        public AddEvent(string Address)
+        public AddEvent(Calendar calendar, string Address)
         {
+            this.calendar = calendar;
             InitializeComponent();
 
-            Add_StartBox.Text = Event_Start.Hour.ToString("00") + ":" + Event_Start.Minute.ToString("00");
-            AddEvent_EndBox.Text = Event_End.Hour.ToString("00") + ":" + Event_End.Minute.ToString("00");
-            AddEvent_StartPicker.Value = Event_Start;
-            AddEvent_EndPicker.Value = Event_End;
+            Add_StartBox.Text = DateTime.Now.Hour.ToString("00") + ":" + DateTime.Now.Minute.ToString("00");
+            AddEvent_EndBox.Text = DateTime.Now.AddMinutes(30).Hour.ToString("00") + ":" + DateTime.Now.AddMinutes(30).Minute.ToString("00");
+            AddEvent_StartPicker.Value = DateTime.Now;
+            AddEvent_EndPicker.Value = DateTime.Now.AddMinutes(30);
             AddEvent_LocationBox.Text = Address;
 
-            LocalizationLoader locale = new LocalizationLoader(Program.directory, Program.culture.Name);
-
-            Text = locale.GetLocalization(this);
-            AddEvent_NameLabel.Text = locale.GetLocalization(AddEvent_NameLabel);
-            AddEvent_StartLabel.Text = locale.GetLocalization(AddEvent_StartLabel);
-            AddEvent_EndLabel.Text = locale.GetLocalization(AddEvent_EndLabel);
-            AddEvent_LocationLabel.Text = locale.GetLocalization(AddEvent_LocationLabel);
-            AddEvent_DescriptionLabel.Text = locale.GetLocalization(AddEvent_DescriptionLabel);
-            AddEvent_AllDayBox.Text = locale.GetLocalization(AddEvent_AllDayBox);
-            AddEvent_AddButton.Text = locale.GetLocalization(AddEvent_AddButton);
-            AddEvent_CancelButton.Text = locale.GetLocalization(AddEvent_CancelButton);
+            Text = Localization.Get(this);
+            AddEvent_NameLabel.Text = Localization.Get(AddEvent_NameLabel);
+            AddEvent_StartLabel.Text = Localization.Get(AddEvent_StartLabel);
+            AddEvent_EndLabel.Text = Localization.Get(AddEvent_EndLabel);
+            AddEvent_LocationLabel.Text = Localization.Get(AddEvent_LocationLabel);
+            AddEvent_DescriptionLabel.Text = Localization.Get(AddEvent_DescriptionLabel);
+            AddEvent_AllDayBox.Text = Localization.Get(AddEvent_AllDayBox);
+            AddEvent_AddButton.Text = Localization.Get(AddEvent_AddButton);
+            AddEvent_CancelButton.Text = Localization.Get(AddEvent_CancelButton);
         }
 
         /// <summary>
@@ -55,31 +54,30 @@ namespace Timotheus.Forms
             try
             {
                 if (AddEvent_NameBox.Text.Trim() == string.Empty)
-                    throw new Exception("Name cannot be empty.");
+                    throw new Exception("Exception_EmptyName");
 
                 if (!AddEvent_AllDayBox.Checked)
                 {
                     hour = int.Parse(startTime.Substring(0, -3 + startTime.Length));
                     minute = int.Parse(startTime.Substring(-2 + startTime.Length, 2));
                 }
-                Event_Start = new DateTime(AddEvent_StartPicker.Value.Year, AddEvent_StartPicker.Value.Month, AddEvent_StartPicker.Value.Day, hour, minute, 0);
+                DateTime Event_Start = new DateTime(AddEvent_StartPicker.Value.Year, AddEvent_StartPicker.Value.Month, AddEvent_StartPicker.Value.Day, hour, minute, 0);
 
                 if (!AddEvent_AllDayBox.Checked)
                 {
                     hour = int.Parse(endTime.Substring(0, -3 + endTime.Length));
                     minute = int.Parse(endTime.Substring(-2 + endTime.Length, 2));
                 }
-                Event_End = new DateTime(AddEvent_EndPicker.Value.Year, AddEvent_EndPicker.Value.Month, AddEvent_EndPicker.Value.Day, hour, minute, 0);
+                DateTime Event_End = new DateTime(AddEvent_EndPicker.Value.Year, AddEvent_EndPicker.Value.Month, AddEvent_EndPicker.Value.Day, hour, minute, 0);
                 
-                Event_Name = AddEvent_NameBox.Text;
-                Event_Description = AddEvent_DescriptionBox.Text;
-                Event_Location = AddEvent_LocationBox.Text;
+                Event ev = new Event(Event_Start, Event_End, AddEvent_NameBox.Text, AddEvent_DescriptionBox.Text, AddEvent_LocationBox.Text, null);
+                calendar.events.Add(ev);
 
                 DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
-                Program.Error(ex.Message, "Exception_InvalidInput");
+                Program.Error("Exception_InvalidInput", ex.Message);
             }
         }
 
