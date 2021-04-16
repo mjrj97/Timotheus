@@ -1,70 +1,65 @@
 ﻿using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Timotheus.Utility
 {
-    // Inspired by: https://www.c-sharpcorner.com/article/encryption-and-decryption-using-a-symmetric-key-in-c-sharp/
+    /// <summary>
+    /// Class that contains methods to encrypt and decrypt byte arrays [<see href="https://stackoverflow.com/questions/42834063/decrypting-byte-array-with-symmetricalgorithm-and-cryptostream">Source</see>].
+    /// </summary>
     public static class Cipher
     {
         /// <summary>
-        /// Method that encrypts a string to a byte array using a key.
+        /// Method that encrypts a byte array using a key.
         /// </summary>
-        /// <param name="key">Password/key used to encrypt the data.</param>
-        /// <param name="text">Text to be encrypted.</param>
-        public static byte[] Encrypt(string key, string text)
+        /// <param name="password">Password/key used to encrypt the data.</param>
+        /// <param name="data">Data to be encrypted.</param>
+        public static byte[] Encrypt(byte[] data, string password)
         {
-            byte[] iv = new byte[16];
-            byte[] array;
-
-            using (Aes aes = Aes.Create())
+            using (SymmetricAlgorithm algorithm = GetAlgorithm(password))
+            using (ICryptoTransform encryptor = algorithm.CreateEncryptor())
+            using (MemoryStream ms = new MemoryStream())
+            using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
             {
-                aes.Key = Encoding.UTF8.GetBytes(key);
-                aes.IV = iv;
-
-                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-
-                using (MemoryStream memoryStream = new MemoryStream())
-                {
-                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
-                    {
-                        using (StreamWriter streamWriter = new StreamWriter(cryptoStream))
-                        {
-                            streamWriter.Write(text);
-                        }
-                        array = memoryStream.ToArray();
-                    }
-                }
+                cs.Write(data, 0, data.Length);
+                cs.FlushFinalBlock();
+                return ms.ToArray();
             }
-            return array;
         }
 
         /// <summary>
         /// Method that decrypts a byte array to a string using a key.
         /// </summary>
-        /// <param name="key">Password/key used to encrypt the data.</param>
+        /// <param name="password">Password/key used to encrypt the data.</param>
         /// <param name="data">Encrypted data to be decrypted.</param>
-        public static string Decrypt(string key, byte[] data)
+        public static byte[] Decrypt(byte[] data, string password)
         {
-            byte[] iv = new byte[16];
-
-            using (Aes aes = Aes.Create())
+            using (SymmetricAlgorithm algorithm = GetAlgorithm(password))
+            using (ICryptoTransform decryptor = algorithm.CreateDecryptor())
+            using (MemoryStream ms = new MemoryStream())
+            using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Write))
             {
-                aes.Key = Encoding.UTF8.GetBytes(key);
-                aes.IV = iv;
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-
-                using (MemoryStream memoryStream = new MemoryStream(data))
-                {
-                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (StreamReader streamReader = new StreamReader(cryptoStream))
-                        {
-                            return streamReader.ReadToEnd();
-                        }
-                    }
-                }
+                cs.Write(data, 0, data.Length);
+                cs.FlushFinalBlock();
+                return ms.ToArray();
             }
+        }
+
+        /// <summary>
+        /// Returns the symmetric algorithm associated with the given password.
+        /// </summary>
+        private static SymmetricAlgorithm GetAlgorithm(string password)
+        {
+            Rijndael algorithm = Rijndael.Create();
+            byte[] salt = { 0x53, 0x6f, 0x64, 0x69, 0x75, 0x6d, 0x20, 0x43, 0x68, 0x6c, 0x6f, 0x72, 0x69, 0x64, 0x65 };
+
+            using (Rfc2898DeriveBytes rdb = new Rfc2898DeriveBytes(password, salt))
+            {
+                algorithm.Padding = PaddingMode.ISO10126;
+                algorithm.Key = rdb.GetBytes(32);
+                algorithm.IV = rdb.GetBytes(16);
+            }
+
+            return algorithm;
         }
     }
 }
