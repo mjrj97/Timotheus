@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Security.Cryptography;
 
-namespace Timotheus.Utility
+namespace Timotheus.Cryptography
 {
     /// <summary>
     /// Class that contains methods to encrypt and decrypt byte arrays [<see href="https://stackoverflow.com/questions/42834063/decrypting-byte-array-with-symmetricalgorithm-and-cryptostream">Source</see>].
@@ -15,15 +15,13 @@ namespace Timotheus.Utility
         /// <param name="data">Data to be encrypted.</param>
         public static byte[] Encrypt(byte[] data, string password)
         {
-            using (SymmetricAlgorithm algorithm = GetAlgorithm(password))
-            using (ICryptoTransform encryptor = algorithm.CreateEncryptor())
-            using (MemoryStream ms = new MemoryStream())
-            using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
-            {
-                cs.Write(data, 0, data.Length);
-                cs.FlushFinalBlock();
-                return ms.ToArray();
-            }
+            using SymmetricAlgorithm algorithm = GetAlgorithm(password);
+            using ICryptoTransform encryptor = algorithm.CreateEncryptor();
+            using MemoryStream ms = new MemoryStream();
+            using CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
+            cs.Write(data, 0, data.Length);
+            cs.FlushFinalBlock();
+            return ms.ToArray();
         }
 
         /// <summary>
@@ -33,15 +31,13 @@ namespace Timotheus.Utility
         /// <param name="data">Encrypted data to be decrypted.</param>
         public static byte[] Decrypt(byte[] data, string password)
         {
-            using (SymmetricAlgorithm algorithm = GetAlgorithm(password))
-            using (ICryptoTransform decryptor = algorithm.CreateDecryptor())
-            using (MemoryStream ms = new MemoryStream())
-            using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Write))
-            {
-                cs.Write(data, 0, data.Length);
-                cs.FlushFinalBlock();
-                return ms.ToArray();
-            }
+            using SymmetricAlgorithm algorithm = GetAlgorithm(password);
+            using ICryptoTransform decryptor = algorithm.CreateDecryptor();
+            using MemoryStream ms = new MemoryStream();
+            using CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Write);
+            cs.Write(data, 0, data.Length);
+            cs.FlushFinalBlock();
+            return ms.ToArray();
         }
 
         /// <summary>
