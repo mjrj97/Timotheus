@@ -12,6 +12,11 @@ namespace Timotheus.Cryptography
         private readonly List<Key> keys;
 
         /// <summary>
+        /// Character that is used to separate a keys name and value in the file.
+        /// </summary>
+        private readonly char separator = ',';
+
+        /// <summary>
         /// Constructor. Loads an encrypted file of keys using the given password.
         /// </summary>
         /// <param name="path">Path to the file.</param>
@@ -24,6 +29,17 @@ namespace Timotheus.Cryptography
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
             string text = System.Text.Encoding.UTF8.GetString(data);
             keys = Load(text);
+        }
+
+        /// <summary>
+        /// Constructor. Loads an encrypted file of keys using the given password, with a given separator character.
+        /// </summary>
+        /// <param name="path">Path to the file.</param>
+        /// <param name="password">Password to decrypt the file.</param>
+        /// <param name="separator">Define the character used to separate the name and value of a key.</param>
+        public Register(string path, string password, char separator) : this(path, password)
+        {
+            this.separator = separator;
         }
 
         /// <summary>
@@ -40,14 +56,42 @@ namespace Timotheus.Cryptography
         }
 
         /// <summary>
+        /// Constructor. Loads an unencrypted file of keys, with a given separator character.
+        /// </summary>
+        /// <param name="path">Path to the file.</param>
+        /// <param name="separator">Define the character used to separate the name and value of a key.</param>
+        public Register(string path, char separator) : this(path)
+        {
+            this.separator = separator;
+        }
+
+        /// <summary>
         /// Gets all keys found in the given text.
         /// </summary>
         /// <param name="text">Unencrypted text with keys.</param>
         /// <returns></returns>
-        private static List<Key> Load(string text)
+        private List<Key> Load(string text)
         {
-            //Needs code to decompile the text into a list of keys.
-            return new List<Key>();
+            List<Key> keys = new List<Key>();
+            string[] lines = text.Split('\n');
+
+            string name;
+            string value; 
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                int j = 0;
+                while (lines[i][j] != separator && j < lines[i].Length)
+                {
+                    j++;
+                }
+                name = lines[i].Substring(0, j);
+                value = lines[i].Substring(j + 1, lines[i].Length - j - 1).Trim();
+
+                keys.Add(new Key(name, value));
+            }
+
+            return keys;
         }
 
         /// <summary>
