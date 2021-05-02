@@ -1,9 +1,9 @@
-﻿namespace Timotheus.Cryptography
+﻿namespace Timotheus.Utility
 {
     public class Key
     {
-        public string name;
-        public string value;
+        public readonly string name;
+        public readonly string value;
 
         public Key(string name, string value)
         {

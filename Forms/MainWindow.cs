@@ -137,26 +137,26 @@ namespace Timotheus.Forms
             Calendar_View.DataSource = new BindingSource(events, null);
             
             Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
-            Calendar_Page.Text = Localization.Get(Calendar_Page);
-            Calendar_StartColumn.HeaderText = Localization.Get(Calendar_StartColumn);
-            Calendar_EndColumn.HeaderText = Localization.Get(Calendar_EndColumn);
-            Calendar_NameColumn.HeaderText = Localization.Get(Calendar_NameColumn);
-            Calendar_DescriptionColumn.HeaderText = Localization.Get(Calendar_DescriptionColumn);
-            Calendar_LocationColumn.HeaderText = Localization.Get(Calendar_LocationColumn);
-            Calendar_MonthButton.Text = Localization.Get(Calendar_MonthButton);
-            Calendar_HalfYearButton.Text = Localization.Get(Calendar_HalfYearButton);
-            Calendar_YearButton.Text = Localization.Get(Calendar_YearButton);
-            Calendar_AllButton.Text = Localization.Get(Calendar_AllButton);
-            Calendar_SaveButton.Text = Localization.Get(Calendar_SaveButton);
-            Calendar_OpenButton.Text = Localization.Get(Calendar_OpenButton);
-            Calendar_SyncButton.Text = Localization.Get(Calendar_SyncButton);
-            Calendar_ExportButton.Text = Localization.Get(Calendar_ExportButton);
-            Calendar_RemoveButton.Text = Localization.Get(Calendar_RemoveButton);
-            Calendar_AddButton.Text = Localization.Get(Calendar_AddButton);
+            Calendar_Page.Text = Program.Localization.Get(Calendar_Page);
+            Calendar_StartColumn.HeaderText = Program.Localization.Get(Calendar_StartColumn);
+            Calendar_EndColumn.HeaderText = Program.Localization.Get(Calendar_EndColumn);
+            Calendar_NameColumn.HeaderText = Program.Localization.Get(Calendar_NameColumn);
+            Calendar_DescriptionColumn.HeaderText = Program.Localization.Get(Calendar_DescriptionColumn);
+            Calendar_LocationColumn.HeaderText = Program.Localization.Get(Calendar_LocationColumn);
+            Calendar_MonthButton.Text = Program.Localization.Get(Calendar_MonthButton);
+            Calendar_HalfYearButton.Text = Program.Localization.Get(Calendar_HalfYearButton);
+            Calendar_YearButton.Text = Program.Localization.Get(Calendar_YearButton);
+            Calendar_AllButton.Text = Program.Localization.Get(Calendar_AllButton);
+            Calendar_SaveButton.Text = Program.Localization.Get(Calendar_SaveButton);
+            Calendar_OpenButton.Text = Program.Localization.Get(Calendar_OpenButton);
+            Calendar_SyncButton.Text = Program.Localization.Get(Calendar_SyncButton);
+            Calendar_ExportButton.Text = Program.Localization.Get(Calendar_ExportButton);
+            Calendar_RemoveButton.Text = Program.Localization.Get(Calendar_RemoveButton);
+            Calendar_AddButton.Text = Program.Localization.Get(Calendar_AddButton);
 
-            spring = Localization.Get("Calendar_Spring", spring);
-            fall = Localization.Get("Calendar_Fall", fall);
-            all = Localization.Get("Calendar_All", all);
+            spring = Program.Localization.Get("Calendar_Spring", spring);
+            fall = Program.Localization.Get("Calendar_Fall", fall);
+            all = Program.Localization.Get("Calendar_All", all);
             #endregion
 
             #region SFTP
@@ -164,18 +164,18 @@ namespace Timotheus.Forms
             SFTP_View.DataSource = new BindingSource(shownFiles, null);
             SFTP_PasswordBox.PasswordChar = '*';
             
-            SFTP_Page.Text = Localization.Get(SFTP_Page);
-            SFTP_HostLabel.Text = Localization.Get(SFTP_HostLabel);
-            SFTP_UsernameLabel.Text = Localization.Get(SFTP_UsernameLabel);
-            SFTP_PasswordLabel.Text = Localization.Get(SFTP_PasswordLabel);
-            SFTP_RemoteDirectoryLabel.Text = Localization.Get(SFTP_RemoteDirectoryLabel);
-            SFTP_LocalDirectoryLabel.Text = Localization.Get(SFTP_LocalDirectoryLabel);
-            SFTP_BrowseButton.Text = Localization.Get(SFTP_BrowseButton);
-            SFTP_ShowDirectoryButton.Text = Localization.Get(SFTP_ShowDirectoryButton);
-            SFTP_DownloadButton.Text = Localization.Get(SFTP_DownloadButton);
-            SFTP_SyncButton.Text = Localization.Get(SFTP_SyncButton);
-            SFTP_NameColumn.HeaderText = Localization.Get(SFTP_NameColumn);
-            SFTP_SizeColumn.HeaderText = Localization.Get(SFTP_SizeColumn);
+            SFTP_Page.Text = Program.Localization.Get(SFTP_Page);
+            SFTP_HostLabel.Text = Program.Localization.Get(SFTP_HostLabel);
+            SFTP_UsernameLabel.Text = Program.Localization.Get(SFTP_UsernameLabel);
+            SFTP_PasswordLabel.Text = Program.Localization.Get(SFTP_PasswordLabel);
+            SFTP_RemoteDirectoryLabel.Text = Program.Localization.Get(SFTP_RemoteDirectoryLabel);
+            SFTP_LocalDirectoryLabel.Text = Program.Localization.Get(SFTP_LocalDirectoryLabel);
+            SFTP_BrowseButton.Text = Program.Localization.Get(SFTP_BrowseButton);
+            SFTP_ShowDirectoryButton.Text = Program.Localization.Get(SFTP_ShowDirectoryButton);
+            SFTP_DownloadButton.Text = Program.Localization.Get(SFTP_DownloadButton);
+            SFTP_SyncButton.Text = Program.Localization.Get(SFTP_SyncButton);
+            SFTP_NameColumn.HeaderText = Program.Localization.Get(SFTP_NameColumn);
+            SFTP_SizeColumn.HeaderText = Program.Localization.Get(SFTP_SizeColumn);
             #endregion
 
             #region Members
@@ -183,14 +183,14 @@ namespace Timotheus.Forms
             Members_View.DataSource = new BindingSource(members, null);
 
             Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
-            Members_Page.Text = Localization.Get(Members_Page);
-            Members_NameColumn.HeaderText = Localization.Get(Members_NameColumn);
-            Members_AddressColumn.HeaderText = Localization.Get(Members_AddressColumn);
-            Members_BirthdayColumn.HeaderText = Localization.Get(Members_BirthdayColumn);
-            Members_EntryColumn.HeaderText = Localization.Get(Members_EntryColumn);
-            Members_AddButton.Text = Localization.Get(Members_AddButton);
-            Members_RemoveButton.Text = Localization.Get(Members_RemoveButton);
-            MembersUnder25Text = Localization.Get(Members_Under25Label);
+            Members_Page.Text = Program.Localization.Get(Members_Page);
+            Members_NameColumn.HeaderText = Program.Localization.Get(Members_NameColumn);
+            Members_AddressColumn.HeaderText = Program.Localization.Get(Members_AddressColumn);
+            Members_BirthdayColumn.HeaderText = Program.Localization.Get(Members_BirthdayColumn);
+            Members_EntryColumn.HeaderText = Program.Localization.Get(Members_EntryColumn);
+            Members_AddButton.Text = Program.Localization.Get(Members_AddButton);
+            Members_RemoveButton.Text = Program.Localization.Get(Members_RemoveButton);
+            MembersUnder25Text = Program.Localization.Get(Members_Under25Label);
             UpdateMemberTable();
             #endregion
 
@@ -198,13 +198,13 @@ namespace Timotheus.Forms
             ConsentForms_View.AutoGenerateColumns = false;
             ConsentForms_View.DataSource = new BindingSource(consentForms, null);
             
-            ConsentForms_Page.Text = Localization.Get(ConsentForms_Page);
-            ConsentForms_AddButton.Text = Localization.Get(ConsentForms_AddButton);
-            ConsentForms_RemoveButton.Text = Localization.Get(ConsentForms_RemoveButton);
-            ConsentForms_NameColumn.HeaderText = Localization.Get(ConsentForms_NameColumn);
-            ConsentForms_DateColumn.HeaderText = Localization.Get(ConsentForms_DateColumn);
-            ConsentForms_VersionColumn.HeaderText = Localization.Get(ConsentForms_VersionColumn);
-            ConsentForms_CommentColumn.HeaderText = Localization.Get(ConsentForms_CommentColumn);
+            ConsentForms_Page.Text = Program.Localization.Get(ConsentForms_Page);
+            ConsentForms_AddButton.Text = Program.Localization.Get(ConsentForms_AddButton);
+            ConsentForms_RemoveButton.Text = Program.Localization.Get(ConsentForms_RemoveButton);
+            ConsentForms_NameColumn.HeaderText = Program.Localization.Get(ConsentForms_NameColumn);
+            ConsentForms_DateColumn.HeaderText = Program.Localization.Get(ConsentForms_DateColumn);
+            ConsentForms_VersionColumn.HeaderText = Program.Localization.Get(ConsentForms_VersionColumn);
+            ConsentForms_CommentColumn.HeaderText = Program.Localization.Get(ConsentForms_CommentColumn);
             #endregion
 
             #region Accounting
@@ -215,14 +215,14 @@ namespace Timotheus.Forms
             Accounting_AccountsView.DataSource = new BindingSource(accounts, null);
             Accounting_TransactionsView.Columns[5].DefaultCellStyle.ForeColor = Color.Red;
             
-            Accounting_Page.Text = Localization.Get(Accounting_Page);
-            Accounting_DateColumn.HeaderText = Localization.Get(Accounting_DateColumn);
-            Accounting_AppendixColumn.HeaderText = Localization.Get(Accounting_AppendixColumn);
-            Accounting_DescriptionColumn.HeaderText = Localization.Get(Accounting_DescriptionColumn);
-            Accounting_AccountNumberColumn.HeaderText = Localization.Get(Accounting_AccountNumberColumn);
-            Accounting_InColumn.HeaderText = Localization.Get(Accounting_InColumn);
-            Accounting_OutColumn.HeaderText = Localization.Get(Accounting_OutColumn);
-            Accounting_BalanceColumn.HeaderText = Localization.Get(Accounting_BalanceColumn);
+            Accounting_Page.Text = Program.Localization.Get(Accounting_Page);
+            Accounting_DateColumn.HeaderText = Program.Localization.Get(Accounting_DateColumn);
+            Accounting_AppendixColumn.HeaderText = Program.Localization.Get(Accounting_AppendixColumn);
+            Accounting_DescriptionColumn.HeaderText = Program.Localization.Get(Accounting_DescriptionColumn);
+            Accounting_AccountNumberColumn.HeaderText = Program.Localization.Get(Accounting_AccountNumberColumn);
+            Accounting_InColumn.HeaderText = Program.Localization.Get(Accounting_InColumn);
+            Accounting_OutColumn.HeaderText = Program.Localization.Get(Accounting_OutColumn);
+            Accounting_BalanceColumn.HeaderText = Program.Localization.Get(Accounting_BalanceColumn);
 
             //Only for testing
             accounts.Add(new Account(1, "Kontingent"));
@@ -231,21 +231,21 @@ namespace Timotheus.Forms
             #endregion
 
             #region Settings
-            Settings_Page.Text = Localization.Get(Settings_Page);
-            Settings_InfoBox.Text = Localization.Get(Settings_InfoBox);
-            Settings_NameLabel.Text = Localization.Get(Settings_NameLabel);
-            Settings_AddressLabel.Text = Localization.Get(Settings_AddressLabel);
-            Settings_LogoLabel.Text = Localization.Get(Settings_LogoLabel);
-            Settings_BrowseButton.Text = Localization.Get(Settings_BrowseButton);
+            Settings_Page.Text = Program.Localization.Get(Settings_Page);
+            Settings_InfoBox.Text = Program.Localization.Get(Settings_InfoBox);
+            Settings_NameLabel.Text = Program.Localization.Get(Settings_NameLabel);
+            Settings_AddressLabel.Text = Program.Localization.Get(Settings_AddressLabel);
+            Settings_LogoLabel.Text = Program.Localization.Get(Settings_LogoLabel);
+            Settings_BrowseButton.Text = Program.Localization.Get(Settings_BrowseButton);
             #endregion
 
             #region Help
-            Help_Page.Text = Localization.Get(Help_Page);
-            Help_AuthorLabel.Text = Localization.Get(Help_AuthorLabel) + ": Martin J. R. Jensen";
-            Help_VersionLabel.Text = Localization.Get(Help_VersionLabel) + " v. 0.1.0";
-            Help_LicenseLabel.Text = Localization.Get(Help_LicenseLabel) + ": Apache-2.0";
-            Help_EmailLabel.Text = Localization.Get(Help_EmailLabel);
-            Help_SourceLabel.Text = Localization.Get(Help_SourceLabel);
+            Help_Page.Text = Program.Localization.Get(Help_Page);
+            Help_AuthorLabel.Text = Program.Localization.Get(Help_AuthorLabel) + ": Martin J. R. Jensen";
+            Help_VersionLabel.Text = Program.Localization.Get(Help_VersionLabel) + " v. 0.1.0";
+            Help_LicenseLabel.Text = Program.Localization.Get(Help_LicenseLabel) + ": Apache-2.0";
+            Help_EmailLabel.Text = Program.Localization.Get(Help_EmailLabel);
+            Help_SourceLabel.Text = Program.Localization.Get(Help_SourceLabel);
             #endregion
         }
 

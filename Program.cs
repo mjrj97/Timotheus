@@ -22,6 +22,10 @@ namespace Timotheus
         /// Culture/language of the computer (e.g. en-GB). Used to load localization.
         /// </summary>
         public static CultureInfo culture;
+        /// <summary>
+        /// A register containing all the localizations for the program.
+        /// </summary>
+        public static Register Localization;
 
         /// <summary>
         /// Starting point of the program, and loads the main window.
@@ -51,7 +55,7 @@ namespace Timotheus
                 culture = CultureInfo.GetCultureInfo("en-US");
 
             //Initializes the loading of localization.
-            Localization.Initialize(directory, culture.Name);
+            Localization = new Register(directory + culture.Name + ".txt");
 
             //Defines the security protocol
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;

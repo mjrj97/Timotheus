@@ -2,7 +2,6 @@
 using System.IO;
 using System.Windows.Forms;
 using Timotheus.Schedule;
-using Timotheus.Utility;
 
 namespace Timotheus.Forms
 {
@@ -68,17 +67,17 @@ namespace Timotheus.Forms
                 SyncCalendar_PasswordBox.Enabled = true;
             }
 
-           Text = Localization.Get(this);
-            SyncCalendar_SyncButton.Text = Localization.Get(SyncCalendar_SyncButton);
-            SyncCalendar_CancelButton.Text = Localization.Get(SyncCalendar_CancelButton);
-            SyncCalendar_UseExistingButton.Text = Localization.Get(SyncCalendar_UseExistingButton);
-            SyncCalendar_NewCalendarButton.Text = Localization.Get(SyncCalendar_NewCalendarButton);
-            SyncCalendar_PasswordLabel.Text = Localization.Get(SyncCalendar_PasswordLabel);
-            SyncCalendar_UsernameLabel.Text = Localization.Get(SyncCalendar_UsernameLabel);
-            SyncCalendar_CalDAVLabel.Text = Localization.Get(SyncCalendar_CalDAVLabel);
-            SyncCalendar_PeriodCalendarButton.Text = Localization.Get(SyncCalendar_PeriodCalendarButton) + ": " + period;
-            SyncCalendar_EntireCalendarButton.Text = Localization.Get(SyncCalendar_EntireCalendarButton);
-            SyncCalendar_CustomCalendarButton.Text = Localization.Get(SyncCalendar_CustomCalendarButton);
+           Text = Program.Localization.Get(this);
+            SyncCalendar_SyncButton.Text = Program.Localization.Get(SyncCalendar_SyncButton);
+            SyncCalendar_CancelButton.Text = Program.Localization.Get(SyncCalendar_CancelButton);
+            SyncCalendar_UseExistingButton.Text = Program.Localization.Get(SyncCalendar_UseExistingButton);
+            SyncCalendar_NewCalendarButton.Text = Program.Localization.Get(SyncCalendar_NewCalendarButton);
+            SyncCalendar_PasswordLabel.Text = Program.Localization.Get(SyncCalendar_PasswordLabel);
+            SyncCalendar_UsernameLabel.Text = Program.Localization.Get(SyncCalendar_UsernameLabel);
+            SyncCalendar_CalDAVLabel.Text = Program.Localization.Get(SyncCalendar_CalDAVLabel);
+            SyncCalendar_PeriodCalendarButton.Text = Program.Localization.Get(SyncCalendar_PeriodCalendarButton) + ": " + period;
+            SyncCalendar_EntireCalendarButton.Text = Program.Localization.Get(SyncCalendar_EntireCalendarButton);
+            SyncCalendar_CustomCalendarButton.Text = Program.Localization.Get(SyncCalendar_CustomCalendarButton);
         }
 
         /// <summary>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using Timotheus.Schedule;
-using Timotheus.Utility;
 
 namespace Timotheus.Forms
 {
@@ -29,15 +28,15 @@ namespace Timotheus.Forms
             AddEvent_EndPicker.Value = DateTime.Now.AddMinutes(30);
             AddEvent_LocationBox.Text = Address;
 
-            Text = Localization.Get(this);
-            AddEvent_NameLabel.Text = Localization.Get(AddEvent_NameLabel);
-            AddEvent_StartLabel.Text = Localization.Get(AddEvent_StartLabel);
-            AddEvent_EndLabel.Text = Localization.Get(AddEvent_EndLabel);
-            AddEvent_LocationLabel.Text = Localization.Get(AddEvent_LocationLabel);
-            AddEvent_DescriptionLabel.Text = Localization.Get(AddEvent_DescriptionLabel);
-            AddEvent_AllDayBox.Text = Localization.Get(AddEvent_AllDayBox);
-            AddEvent_AddButton.Text = Localization.Get(AddEvent_AddButton);
-            AddEvent_CancelButton.Text = Localization.Get(AddEvent_CancelButton);
+            Text = Program.Localization.Get(this);
+            AddEvent_NameLabel.Text = Program.Localization.Get(AddEvent_NameLabel);
+            AddEvent_StartLabel.Text = Program.Localization.Get(AddEvent_StartLabel);
+            AddEvent_EndLabel.Text = Program.Localization.Get(AddEvent_EndLabel);
+            AddEvent_LocationLabel.Text = Program.Localization.Get(AddEvent_LocationLabel);
+            AddEvent_DescriptionLabel.Text = Program.Localization.Get(AddEvent_DescriptionLabel);
+            AddEvent_AllDayBox.Text = Program.Localization.Get(AddEvent_AllDayBox);
+            AddEvent_AddButton.Text = Program.Localization.Get(AddEvent_AddButton);
+            AddEvent_CancelButton.Text = Program.Localization.Get(AddEvent_CancelButton);
         }
 
         /// <summary>

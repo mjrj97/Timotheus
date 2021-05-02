@@ -1,15 +1,16 @@
 ﻿using System.IO;
-using System.Collections.Generic;
 using System;
+using System.Windows.Forms;
+using Timotheus.Cryptography;
 
-namespace Timotheus.Cryptography
+namespace Timotheus.Utility
 {
     public class Register
     {
         /// <summary>
         /// List of keys with a given name and value.
         /// </summary>
-        private readonly List<Key> keys;
+        private readonly Key[] keys;
 
         /// <summary>
         /// Character that is used to separate a keys name and value in the file.
@@ -70,10 +71,10 @@ namespace Timotheus.Cryptography
         /// </summary>
         /// <param name="text">Unencrypted text with keys.</param>
         /// <returns></returns>
-        private List<Key> Load(string text)
+        private Key[] Load(string text)
         {
-            List<Key> keys = new List<Key>();
             string[] lines = text.Split('\n');
+            Key[] keys = new Key[lines.Length];
 
             string name;
             string value; 
@@ -88,7 +89,7 @@ namespace Timotheus.Cryptography
                 name = lines[i].Substring(0, j);
                 value = lines[i].Substring(j + 1, lines[i].Length - j - 1).Trim();
 
-                keys.Add(new Key(name, value));
+                keys[i] = new Key(name, value);
             }
 
             return keys;
@@ -101,12 +102,56 @@ namespace Timotheus.Cryptography
         public string Get(string name)
         {
             string value = string.Empty;
-            for (int i = 0; i < keys.Count; i++)
+            int i = 0;
+            bool found = false;
+
+            while (i < keys.Length && !found)
             {
                 if (keys[i].name == name)
+                {
                     value = keys[i].value;
+                    found = true;
+                }
+                i++;
             }
             return value;
+        }
+        /// <summary>
+        /// Returns the value withc corresponding the name, but a standard value can be provided in case the variable wasn't found.
+        /// </summary>
+        /// <param name="name">The name of the variable (e.g. Calendar_Page).</param>
+        /// <param name="standard">The standard value in case the variable wasn't found.</param>
+        public string Get(string name, string standard)
+        {
+            string value = Get(name);
+            if (value == string.Empty)
+                return standard;
+            else
+                return value;
+        }
+        /// <summary>
+        /// Finds the localization using control.Name.
+        /// </summary>
+        /// <param name="control">The control object that needs a language specific text.</param>
+        public string Get(Control control)
+        {
+            string value = Get(control.Name);
+            if (value == string.Empty)
+                return control.Text;
+            else
+                return value;
+        }
+        /// <summary>
+        /// Finds the localization using column.Name.
+        /// </summary>
+        /// <param name="column">The column that needs a language specific header text.</param>
+        public string Get(DataGridViewColumn column)
+        {
+            string value = Get(column.Name);
+            if (value == string.Empty)
+                return column.HeaderText;
+            else
+                return value;
         }
     }
 }

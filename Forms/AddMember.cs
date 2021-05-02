@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Timotheus.Utility;
 using Timotheus.Persons;
 
 namespace Timotheus.Forms
@@ -20,14 +19,14 @@ namespace Timotheus.Forms
             AddMember_ComboBox.DataSource = list;
             AddMember_EntryPicker.Value = new DateTime(year, 1, 1);
 
-            AddMember_AddExistingButton.Text = Localization.Get(AddMember_AddExistingButton);
-            AddMember_NewPersonButton.Text = Localization.Get(AddMember_NewPersonButton);
-            AddMember_NameLabel.Text = Localization.Get(AddMember_NameLabel);
-            AddMember_AddressLabel.Text = Localization.Get(AddMember_AddressLabel);
-            AddMember_BirthdayLabel.Text = Localization.Get(AddMember_BirthdayLabel);
-            AddMember_EntryLabel.Text = Localization.Get(AddMember_EntryLabel);
-            AddMember_AddButton.Text = Localization.Get(AddMember_AddButton);
-            AddMember_CancelButton.Text = Localization.Get(AddMember_CancelButton);
+            AddMember_AddExistingButton.Text = Program.Localization.Get(AddMember_AddExistingButton);
+            AddMember_NewPersonButton.Text = Program.Localization.Get(AddMember_NewPersonButton);
+            AddMember_NameLabel.Text = Program.Localization.Get(AddMember_NameLabel);
+            AddMember_AddressLabel.Text = Program.Localization.Get(AddMember_AddressLabel);
+            AddMember_BirthdayLabel.Text = Program.Localization.Get(AddMember_BirthdayLabel);
+            AddMember_EntryLabel.Text = Program.Localization.Get(AddMember_EntryLabel);
+            AddMember_AddButton.Text = Program.Localization.Get(AddMember_AddButton);
+            AddMember_CancelButton.Text = Program.Localization.Get(AddMember_CancelButton);
         }
 
         /// <summary>
