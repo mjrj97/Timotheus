@@ -1,10 +1,13 @@
 ﻿using System.IO;
-using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Timotheus.Cryptography;
 
 namespace Timotheus.Utility
 {
+    /// <summary>
+    /// Class that can load a list of value with corresponding names. Can be loaded from encrypted (using a password) and unencrypted files. The file's line separator can be specified (ie. NAME,VALUE where ',' is used).
+    /// </summary>
     public class Register
     {
         /// <summary>
@@ -25,7 +28,7 @@ namespace Timotheus.Utility
         public Register(string path, string password)
         {
             if (!File.Exists(path))
-                throw new Exception("Exception_LoadFailed");
+                throw new System.Exception("Exception_LoadFailed");
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
             string text = System.Text.Encoding.UTF8.GetString(data);
@@ -50,10 +53,11 @@ namespace Timotheus.Utility
         public Register(string path)
         {
             if (!File.Exists(path))
-                throw new Exception("Exception_LoadFailed");
+                throw new System.Exception("Exception_LoadFailed");
 
             string text = File.ReadAllText(path);
             keys = Load(text);
+            System.Diagnostics.Debug.WriteLine(ToString());
         }
 
         /// <summary>
@@ -93,6 +97,45 @@ namespace Timotheus.Utility
             }
 
             return keys;
+        }
+
+        /// <summary>
+        /// Returns the keys in the register in a random sequence, with each line formatted as NAME,VALUE where ',' is the separator.
+        /// </summary>
+        public override string ToString()
+        {
+            List<Key> list = new List<Key>();
+            for (int i = 0; i < keys.Length; i++)
+            {
+                list.Add(keys[i]);
+            }
+            Shuffle(list);
+            string formatted = "";
+            for (int i = 0; i < list.Count; i++)
+            {
+                formatted += list[i].name + separator + list[i].value;
+                if (i != list.Count - 1)
+                    formatted += "\n";
+            }
+            return formatted;
+        }
+
+        /// <summary>
+        /// Shuffles a list. Note it changes the lists sequence.
+        /// </summary>
+        /// <param name="list">The list to be shuffled.</param>
+        private static void Shuffle<T>(List<T> list)
+        {
+            System.Random rng = new System.Random();
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
 
         /// <summary>
