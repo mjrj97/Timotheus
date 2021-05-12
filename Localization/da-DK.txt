@@ -129,6 +129,7 @@ Exception_Saving,Kunne ikke gemme fil
 Exception_LoadFailed,Kunne ikke læse fil
 Exception_Sync,Kunne ikke synkronisere
 Exception_InvalidInput,Ugyldig input
+Exception_InvalidCalendar,Kalender er ikke formateret korrekt
 Exception_EmptyICS,ICS felt kan ikke være tom
 Exception_EmptyName,Navn må ikke være tom
 Exception_EmptyAddress,Adresse må ikke være tom

@@ -13,7 +13,7 @@
         /// <summary>
         /// Value of the key, could be a password.
         /// </summary>
-        public readonly string value;
+        public string value;
 
         /// <summary>
         /// Constructor to create a key with a name and value.

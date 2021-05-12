@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Timotheus.Utility;
 
 namespace Timotheus.Schedule
 {
@@ -20,30 +21,22 @@ namespace Timotheus.Schedule
         /// </summary>
         private string url;
         /// <summary>
+        /// A list of the calendars headers.
+        /// </summary>
+        private readonly Register headers = new Register(':');
+        /// <summary>
         /// A list of the events in the local calendar.
         /// </summary>
-        public readonly List<Event> events = new List<Event>();
+        public readonly List<Event> events;
         /// <summary>
         /// HTTP Client used to make HTTP requests.
         /// </summary>
         private readonly HttpClient client = new HttpClient();
 
         /// <summary>
-        /// Name of the calendar.
-        /// </summary>
-        private string name;
-        /// <summary>
         /// Calendar timezone.
         /// </summary>
         private string timezone;
-        /// <summary>
-        /// iCalendar version.
-        /// </summary>
-        private string version;
-        /// <summary>
-        /// Identifier for the product that created the iCalendar object.
-        /// </summary>
-        private string prodid;
 
         /// <summary>
         /// Creates a Calendar object and pulls calendar data from URL using specified credentials.
@@ -66,10 +59,12 @@ namespace Timotheus.Schedule
         public Calendar()
         {
             url = string.Empty;
+            events = new List<Event>();
             timezone = GenerateTimeZone();
-            version = "2.0";
-            prodid = "-//mjrj97//Timotheus//EN";
-            name = "Calendar";
+
+            headers.Add("VERSION", "2.0");
+            headers.Add("PRODID", "-//mjrj97//Timotheus//EN");
+            headers.Add("X-WR-CALNAME", "Calendar");
         }
 
         /// <summary>
@@ -80,8 +75,8 @@ namespace Timotheus.Schedule
         {
             string request =
             "BEGIN:VCALENDAR\n" +
-            "VERSION:" + version + "\n" +
-            "PRODID:" + prodid + "\n" +
+            "VERSION:" + headers.Get("VERSION") + "\n" +
+            "PRODID:" + headers.Get("PRODID") + "\n" +
             timezone + "\n" +
             ev.ToString() + "\n" +
             "END:VCALENDAR";
@@ -107,11 +102,7 @@ namespace Timotheus.Schedule
         /// <param name="lines">String array in iCal format.</param>
         public List<Event> LoadFromLines(string[] lines)
         {
-            string tempCalName = string.Empty;
             string tempTimeZone = string.Empty;
-            string tempVersion = string.Empty;
-            string tempProdID = string.Empty;
-
             DateTime tempStartTime = DateTime.Now;
             DateTime tempEndTime = DateTime.Now;
             DateTime tempCreated = DateTime.Now;
@@ -125,24 +116,20 @@ namespace Timotheus.Schedule
 
             List<Event> events = new List<Event>();
 
-            for (int i = 0; i < lines.Length; i++)
+            if (lines[0].Trim() != "BEGIN:VCALENDAR")
+                throw new Exception("Exception_InvalidCalendar");
+            for (int i = 1; i < lines.Length; i++)
             {
                 if (timeZoneStart == 0)
                 {
-                    //Read calendar name, version and ID
-                    if (lines[i].Contains("VERSION") && tempVersion.Length < 1)
-                        tempVersion = GetValue(lines[i]);
-                    if (lines[i].Contains("PRODID") && tempProdID.Length < 1)
-                        tempProdID = GetValue(lines[i]);
-                    if (lines[i].Contains("X-WR-CALNAME") && tempCalName.Length < 1)
-                        tempCalName = GetValue(lines[i]);
-
                     //Set up time zone
                     if (lines[i].Contains("BEGIN:VTIMEZONE"))
                     {
                         tempTimeZone += lines[i] + "\n";
                         timeZoneStart = i;
                     }
+                    else
+                        headers.Add(lines[i]);
                 }
                 else if (timeZoneEnd == 0)
                 {
@@ -187,9 +174,6 @@ namespace Timotheus.Schedule
                 timezone = GenerateTimeZone();
             else
                 timezone = tempTimeZone;
-            version = tempVersion;
-            prodid = tempProdID;
-            name = tempCalName;
 
             return events;
         }
@@ -268,24 +252,6 @@ namespace Timotheus.Schedule
         public void Sync()
         {
             Sync(DateTime.MinValue, DateTime.MaxValue);
-        }
-
-        /// <summary>
-        /// Returns a calendars iCal equivalent string.
-        /// </summary>
-        public override string ToString()
-        {
-            string ics = "BEGIN:VCALENDAR\nVERSION:" + version +
-            "\nMETHOD:PUBLISH\nPRODID:" + prodid +
-            "\nX-WR-CALNAME:" + name + "\n"
-            + timezone + "\n";
-            for (int i = 0; i < events.Count; i++)
-            {
-                if (!events[i].Deleted)
-                    ics += events[i].ToString() + "\n";
-            }
-            ics += "END:VCALENDAR";
-            return ics;
         }
 
         /// <summary>
@@ -376,6 +342,23 @@ namespace Timotheus.Schedule
         public bool IsSetup()
         {
             return url != string.Empty && credentials != null;
+        }
+
+        /// <summary>
+        /// Returns a calendars iCal equivalent string.
+        /// </summary>
+        public override string ToString()
+        {
+            string ics = "BEGIN:VCALENDAR\n";
+            ics += headers.ToString() + "\n"
+            + timezone + "\n";
+            for (int i = 0; i < events.Count; i++)
+            {
+                if (!events[i].Deleted)
+                    ics += events[i].ToString() + "\n";
+            }
+            ics += "END:VCALENDAR";
+            return ics;
         }
 
         /// <summary>

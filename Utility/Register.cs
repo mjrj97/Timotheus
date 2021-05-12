@@ -14,7 +14,7 @@ namespace Timotheus.Utility
         /// <summary>
         /// List of keys with a given name and value.
         /// </summary>
-        private readonly Key[] keys;
+        private readonly List<Key> keys;
 
         /// <summary>
         /// Character that is used to separate a keys name and value in the file.
@@ -25,6 +25,24 @@ namespace Timotheus.Utility
         /// Text encoding used to encode/decode text to/from a file.
         /// </summary>
         private readonly Encoding encoding = Encoding.UTF8;
+
+        /// <summary>
+        /// Creates an empty register with the char separator ','.
+        /// </summary>
+        public Register()
+        {
+            keys = new List<Key>();
+        }
+
+        /// <summary>
+        /// Creates a new empty register and defines a separator.
+        /// </summary>
+        /// <param name="separator">Define the character used to separate the name and value of a key.</param>
+        public Register(char separator)
+        {
+            this.separator = separator;
+            keys = new List<Key>();
+        }
 
         /// <summary>
         /// Constructor. Loads an encrypted file of keys using the given password.
@@ -63,7 +81,6 @@ namespace Timotheus.Utility
 
             string text = File.ReadAllText(path);
             keys = Load(text);
-            System.Diagnostics.Debug.WriteLine(ToString());
         }
 
         /// <summary>
@@ -77,14 +94,25 @@ namespace Timotheus.Utility
         }
 
         /// <summary>
+        /// Constructor. Create a register from lines of text with a given separator.
+        /// </summary>
+        /// <param name="separator">Define the character used to separate the name and value of a key.</param>
+        /// <param name="text">Lines of text containing the keys.</param>
+        public Register(char separator, string text)
+        {
+            this.separator = separator;
+            keys = Load(text);
+        }
+
+        /// <summary>
         /// Gets all keys found in the given text.
         /// </summary>
         /// <param name="text">Unencrypted text with keys.</param>
         /// <returns></returns>
-        private Key[] Load(string text)
+        private List<Key> Load(string text)
         {
             string[] lines = text.Split('\n');
-            Key[] keys = new Key[lines.Length];
+            List<Key> keys = new List<Key>();
 
             string name;
             string value; 
@@ -99,7 +127,7 @@ namespace Timotheus.Utility
                 name = lines[i].Substring(0, j);
                 value = lines[i].Substring(j + 1, lines[i].Length - j - 1).Trim();
 
-                keys[i] = new Key(name, value);
+                keys.Add(new Key(name, value));
             }
 
             return keys;
@@ -129,41 +157,52 @@ namespace Timotheus.Utility
         }
 
         /// <summary>
-        /// Returns the keys in the register in a random sequence, with each line formatted as NAME,VALUE where ',' is the separator.
+        /// Adds a key to the register with a name and value. Doesn't check if key already exists.
         /// </summary>
-        public override string ToString()
+        /// <param name="name">Name of the key.</param>
+        /// <param name="value">Value of the key.</param>
+        public void Add(string name, string value)
         {
-            List<Key> list = new List<Key>();
-            for (int i = 0; i < keys.Length; i++)
-            {
-                list.Add(keys[i]);
-            }
-            Shuffle(list);
-            string formatted = "";
-            for (int i = 0; i < list.Count; i++)
-            {
-                formatted += list[i].name + separator + list[i].value;
-                if (i != list.Count - 1)
-                    formatted += "\n";
-            }
-            return formatted;
+            keys.Add(new Key(name, value));
         }
 
         /// <summary>
-        /// Shuffles a list. Note it changes the lists sequence.
+        /// Adds a key to the register from a line. Uses the specified separator to get name and value. Doesn't check if key already exists.
         /// </summary>
-        /// <param name="list">The list to be shuffled.</param>
-        private static void Shuffle<T>(List<T> list)
+        /// <param name="line"></param>
+        public void Add(string line)
         {
-            System.Random rng = new System.Random();
-            int n = list.Count;
-            while (n > 1)
+            int i = 0;
+            while (i < line.Length && line[i] != separator)
             {
-                n--;
-                int k = rng.Next(n + 1);
-                T value = list[k];
-                list[k] = list[n];
-                list[n] = value;
+                i++;
+            }
+            string name = line.Substring(0, i);
+            string value = line.Substring(i + 1, line.Length - i - 1).Trim();
+            keys.Add(new Key(name, value));
+        }
+
+        /// <summary>
+        /// Finds the key with the given name and sets it value. If key is not in register, it creates a new key.
+        /// </summary>
+        /// <param name="name">Name of the key.</param>
+        /// <param name="value">Value of the key.</param>
+        public void Set(string name, string value)
+        {
+            int i = 0;
+            bool found = false;
+            while (!found && i < keys.Count)
+            {
+                if (keys[i].name == name)
+                {
+                    keys[i].value = value;
+                    found = true;
+                }
+                i++;
+            }
+            if (!found)
+            {
+                keys.Add(new Key(name, value));
             }
         }
 
@@ -177,7 +216,7 @@ namespace Timotheus.Utility
             int i = 0;
             bool found = false;
 
-            while (i < keys.Length && !found)
+            while (i < keys.Count && !found)
             {
                 if (keys[i].name == name)
                 {
@@ -224,6 +263,21 @@ namespace Timotheus.Utility
                 return column.HeaderText;
             else
                 return value;
+        }
+
+        /// <summary>
+        /// Returns the keys in the register in a random sequence, with each line formatted as NAME,VALUE where ',' is the separator.
+        /// </summary>
+        public override string ToString()
+        {
+            string formatted = "";
+            for (int i = 0; i < keys.Count; i++)
+            {
+                formatted += keys[i].name + separator + keys[i].value;
+                if (i != keys.Count - 1)
+                    formatted += "\n";
+            }
+            return formatted;
         }
     }
 }
