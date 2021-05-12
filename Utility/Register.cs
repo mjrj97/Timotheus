@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Text;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using Timotheus.Cryptography;
 
 namespace Timotheus.Utility
@@ -15,12 +14,10 @@ namespace Timotheus.Utility
         /// List of keys with a given name and value.
         /// </summary>
         private readonly List<Key> keys;
-
         /// <summary>
         /// Character that is used to separate a keys name and value in the file.
         /// </summary>
         private readonly char separator = ',';
-
         /// <summary>
         /// Text encoding used to encode/decode text to/from a file.
         /// </summary>
@@ -33,7 +30,27 @@ namespace Timotheus.Utility
         {
             keys = new List<Key>();
         }
+        /// <summary>
+        /// Constructor. Loads an unencrypted file of keys.
+        /// </summary>
+        /// <param name="path">Path to the file.</param>
+        public Register(string path)
+        {
+            if (!File.Exists(path))
+                throw new System.Exception("Exception_LoadFailed");
 
+            string text = File.ReadAllText(path);
+            keys = Load(text);
+        }
+        /// <summary>
+        /// Constructor. Loads an unencrypted file of keys, with a given separator character.
+        /// </summary>
+        /// <param name="path">Path to the file.</param>
+        /// <param name="separator">Define the character used to separate the name and value of a key.</param>
+        public Register(string path, char separator) : this(path)
+        {
+            this.separator = separator;
+        }
         /// <summary>
         /// Creates a new empty register and defines a separator.
         /// </summary>
@@ -43,7 +60,6 @@ namespace Timotheus.Utility
             this.separator = separator;
             keys = new List<Key>();
         }
-
         /// <summary>
         /// Constructor. Loads an encrypted file of keys using the given password.
         /// </summary>
@@ -58,7 +74,6 @@ namespace Timotheus.Utility
             string text = encoding.GetString(data);
             keys = Load(text);
         }
-
         /// <summary>
         /// Constructor. Loads an encrypted file of keys using the given password, with a given separator character.
         /// </summary>
@@ -68,40 +83,6 @@ namespace Timotheus.Utility
         public Register(string path, string password, char separator) : this(path, password)
         {
             this.separator = separator;
-        }
-
-        /// <summary>
-        /// Constructor. Loads an unencrypted file of keys.
-        /// </summary>
-        /// <param name="path">Path to the file.</param>
-        public Register(string path)
-        {
-            if (!File.Exists(path))
-                throw new System.Exception("Exception_LoadFailed");
-
-            string text = File.ReadAllText(path);
-            keys = Load(text);
-        }
-
-        /// <summary>
-        /// Constructor. Loads an unencrypted file of keys, with a given separator character.
-        /// </summary>
-        /// <param name="path">Path to the file.</param>
-        /// <param name="separator">Define the character used to separate the name and value of a key.</param>
-        public Register(string path, char separator) : this(path)
-        {
-            this.separator = separator;
-        }
-
-        /// <summary>
-        /// Constructor. Create a register from lines of text with a given separator.
-        /// </summary>
-        /// <param name="separator">Define the character used to separate the name and value of a key.</param>
-        /// <param name="text">Lines of text containing the keys.</param>
-        public Register(char separator, string text)
-        {
-            this.separator = separator;
-            keys = Load(text);
         }
 
         /// <summary>
@@ -134,6 +115,16 @@ namespace Timotheus.Utility
         }
 
         /// <summary>
+        /// Saves the register to the path as unencrypted text.
+        /// </summary>
+        /// <param name="path">Path where the register should be saved. Must include filename and extension.</param>
+        public void Save(string path)
+        {
+            string text = ToString();
+            byte[] data = encoding.GetBytes(text);
+            File.WriteAllBytes(path, data);
+        }
+        /// <summary>
         /// Saves the register to the path as encrypted file.
         /// </summary>
         /// <param name="path">Path where the register should be saved. Must include filename and extension.</param>
@@ -144,18 +135,7 @@ namespace Timotheus.Utility
             byte[] data = Cipher.Encrypt(encoding.GetBytes(text), password);
             File.WriteAllBytes(path, data);
         }
-
-        /// <summary>
-        /// Saves the register to the path as unencrypted text.
-        /// </summary>
-        /// <param name="path">Path where the register should be saved. Must include filename and extension.</param>
-        public void Save(string path)
-        {
-            string text = ToString();
-            byte[] data = encoding.GetBytes(text);
-            File.WriteAllBytes(path, data);
-        }
-
+        
         /// <summary>
         /// Adds a key to the register with a name and value. Doesn't check if key already exists.
         /// </summary>
@@ -165,7 +145,6 @@ namespace Timotheus.Utility
         {
             keys.Add(new Key(name, value));
         }
-
         /// <summary>
         /// Adds a key to the register from a line. Uses the specified separator to get name and value. Doesn't check if key already exists.
         /// </summary>
@@ -244,7 +223,7 @@ namespace Timotheus.Utility
         /// Finds the localization using control.Name.
         /// </summary>
         /// <param name="control">The control object that needs a language specific text.</param>
-        public string Get(Control control)
+        public string Get(System.Windows.Forms.Control control)
         {
             string value = Get(control.Name);
             if (value == string.Empty)
@@ -256,7 +235,7 @@ namespace Timotheus.Utility
         /// Finds the localization using column.Name.
         /// </summary>
         /// <param name="column">The column that needs a language specific header text.</param>
-        public string Get(DataGridViewColumn column)
+        public string Get(System.Windows.Forms.DataGridViewColumn column)
         {
             string value = Get(column.Name);
             if (value == string.Empty)

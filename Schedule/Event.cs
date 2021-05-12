@@ -89,15 +89,12 @@ namespace Timotheus.Schedule
         /// <param name="ev">Newer version of this (Must have the same UID).</param>
         public void Update(Event ev)
         {
-            if (UID == ev.UID)
-            {
-                Name = ev.Name;
-                Description = ev.Description;
-                Location = ev.Location;
-                StartTime = ev.StartTime;
-                EndTime = ev.EndTime;
-                Created = ev.Created;
-            }
+            Name = ev.Name;
+            Description = ev.Description;
+            Location = ev.Location;
+            StartTime = ev.StartTime;
+            EndTime = ev.EndTime;
+            Created = ev.Created;
         }
 
         /// <summary>
@@ -115,24 +112,23 @@ namespace Timotheus.Schedule
         /// </summary>
         public override string ToString()
         {
-            string evString = "BEGIN:VEVENT\n" +
-            "UID:" + UID + "\n";
+            string evString = "BEGIN:VEVENT\nUID:" + UID;
             if (StartTime.Hour == EndTime.Hour && StartTime.Minute == EndTime.Minute && StartTime.Second == EndTime.Second && StartTime.Hour == 0 && StartTime.Minute == 0 && StartTime.Second == 0)
             {
-                evString += "DTSTART;TZID=Europe/Copenhagen:" + Calendar.DateToString(StartTime) + "\n" +
-                "DTEND;TZID=Europe/Copenhagen:" + Calendar.DateToString(EndTime) + "\n";
+                evString += "\nDTSTART;TZID=Europe/Copenhagen:" + Calendar.DateToString(StartTime) +
+                "\nDTEND;TZID=Europe/Copenhagen:" + Calendar.DateToString(EndTime);
             }
             else
             {
-                evString += "DTSTART;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(StartTime) + "\n" +
-                "DTEND;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(EndTime) + "\n";
+                evString += "\nDTSTART;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(StartTime) +
+                "\nDTEND;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(EndTime);
             }
             if (Description != string.Empty)
-                evString += "DESCRIPTION:" + Calendar.ConvertToCALString(Description) + "\n";
-            evString += "DTSTAMP:" + Calendar.DateTimeToString(Created) + "Z\n";
+                evString += "\nDESCRIPTION:" + Calendar.ConvertToCALString(Description);
+            evString += "\nDTSTAMP:" + Calendar.DateTimeToString(Created) + "Z";
             if (Location != string.Empty)
-                evString += "LOCATION:" + Calendar.ConvertToCALString(Location) + "\n";
-            evString += "SUMMARY:" + Name + "\nEND:VEVENT";
+                evString += "\nLOCATION:" + Calendar.ConvertToCALString(Location);
+            evString += "\nSUMMARY:" + Name + "\nEND:VEVENT";
 
             return evString;
         }
