@@ -107,7 +107,34 @@ namespace Timotheus.Schedule
         /// <param name="b">End time of the interval.</param>
         public bool IsInPeriod(DateTime a, DateTime b)
         {
-            return (StartTime > a && StartTime < b) || (EndTime > a && EndTime < b);
+            return (StartTime >= a && StartTime <= b) || (EndTime >= a && EndTime <= b);
+        }
+
+        /// <summary>
+        /// Converts a Event into a iCal string.
+        /// </summary>
+        public override string ToString()
+        {
+            string evString = "BEGIN:VEVENT\n" +
+            "UID:" + UID + "\n";
+            if (StartTime.Hour == EndTime.Hour && StartTime.Minute == EndTime.Minute && StartTime.Second == EndTime.Second && StartTime.Hour == 0 && StartTime.Minute == 0 && StartTime.Second == 0)
+            {
+                evString += "DTSTART;TZID=Europe/Copenhagen:" + Calendar.DateToString(StartTime) + "\n" +
+                "DTEND;TZID=Europe/Copenhagen:" + Calendar.DateToString(EndTime) + "\n";
+            }
+            else
+            {
+                evString += "DTSTART;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(StartTime) + "\n" +
+                "DTEND;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(EndTime) + "\n";
+            }
+            if (Description != string.Empty)
+                evString += "DESCRIPTION:" + Calendar.ConvertToCALString(Description) + "\n";
+            evString += "DTSTAMP:" + Calendar.DateTimeToString(Created) + "Z\n";
+            if (Location != string.Empty)
+                evString += "LOCATION:" + Calendar.ConvertToCALString(Location) + "\n";
+            evString += "SUMMARY:" + Name + "\nEND:VEVENT";
+
+            return evString;
         }
 
         /// <summary>

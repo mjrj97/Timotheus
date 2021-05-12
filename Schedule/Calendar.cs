@@ -29,6 +29,10 @@ namespace Timotheus.Schedule
         private readonly HttpClient client = new HttpClient();
 
         /// <summary>
+        /// Name of the calendar.
+        /// </summary>
+        private string name;
+        /// <summary>
         /// Calendar timezone.
         /// </summary>
         private string timezone;
@@ -65,6 +69,7 @@ namespace Timotheus.Schedule
             timezone = GenerateTimeZone();
             version = "2.0";
             prodid = "-//mjrj97//Timotheus//EN";
+            name = "Calendar";
         }
 
         /// <summary>
@@ -78,7 +83,7 @@ namespace Timotheus.Schedule
             "VERSION:" + version + "\n" +
             "PRODID:" + prodid + "\n" +
             timezone + "\n" +
-            GetEventICS(ev) + "\n" +
+            ev.ToString() + "\n" +
             "END:VCALENDAR";
 
             HttpRequest(url + ev.UID + ".ics", credentials, "PUT", System.Text.Encoding.UTF8.GetBytes(request));
@@ -102,6 +107,7 @@ namespace Timotheus.Schedule
         /// <param name="lines">String array in iCal format.</param>
         public List<Event> LoadFromLines(string[] lines)
         {
+            string tempCalName = string.Empty;
             string tempTimeZone = string.Empty;
             string tempVersion = string.Empty;
             string tempProdID = string.Empty;
@@ -123,11 +129,13 @@ namespace Timotheus.Schedule
             {
                 if (timeZoneStart == 0)
                 {
-                    //Read calendar version and ID
+                    //Read calendar name, version and ID
                     if (lines[i].Contains("VERSION") && tempVersion.Length < 1)
                         tempVersion = GetValue(lines[i]);
                     if (lines[i].Contains("PRODID") && tempProdID.Length < 1)
                         tempProdID = GetValue(lines[i]);
+                    if (lines[i].Contains("X-WR-CALNAME") && tempCalName.Length < 1)
+                        tempCalName = GetValue(lines[i]);
 
                     //Set up time zone
                     if (lines[i].Contains("BEGIN:VTIMEZONE"))
@@ -181,6 +189,7 @@ namespace Timotheus.Schedule
                 timezone = tempTimeZone;
             version = tempVersion;
             prodid = tempProdID;
+            name = tempCalName;
 
             return events;
         }
@@ -264,8 +273,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Returns a calendars iCal equivalent string.
         /// </summary>
-        /// <param name="name">Name of the calendar.</param>
-        public string GetCalendarICS(string name)
+        public override string ToString()
         {
             string ics = "BEGIN:VCALENDAR\nVERSION:" + version +
             "\nMETHOD:PUBLISH\nPRODID:" + prodid +
@@ -274,38 +282,10 @@ namespace Timotheus.Schedule
             for (int i = 0; i < events.Count; i++)
             {
                 if (!events[i].Deleted)
-                    ics += GetEventICS(events[i]) + "\n";
+                    ics += events[i].ToString() + "\n";
             }
             ics += "END:VCALENDAR";
             return ics;
-        }
-
-        /// <summary>
-        /// Converts a Event into a iCal string.
-        /// </summary>
-        /// <param name="ev">Calendar event that should be converted.</param>
-        public static string GetEventICS(Event ev)
-        {
-            string evString = "BEGIN:VEVENT\n" +
-            "UID:" + ev.UID + "\n";
-            if (ev.StartTime.Hour == ev.EndTime.Hour && ev.StartTime.Minute == ev.EndTime.Minute && ev.StartTime.Second == ev.EndTime.Second && ev.StartTime.Hour == 0 && ev.StartTime.Minute == 0 && ev.StartTime.Second == 0)
-            {
-                evString += "DTSTART;TZID=Europe/Copenhagen:" + DateToString(ev.StartTime) + "\n" +
-                "DTEND;TZID=Europe/Copenhagen:" + DateToString(ev.EndTime) + "\n";
-            }
-            else
-            {
-                evString += "DTSTART;TZID=Europe/Copenhagen:" + DateTimeToString(ev.StartTime) + "\n" +
-                "DTEND;TZID=Europe/Copenhagen:" + DateTimeToString(ev.EndTime) + "\n";
-            }
-            if (ev.Description != string.Empty)
-                evString += "DESCRIPTION:" + ConvertToCALString(ev.Description) + "\n";
-            evString += "DTSTAMP:" + DateTimeToString(ev.Created) + "Z\n";
-            if (ev.Location != string.Empty)
-                evString += "LOCATION:" + ConvertToCALString(ev.Location) + "\n";
-            evString += "SUMMARY:" + ev.Name + "\nEND:VEVENT";
-
-            return evString;
         }
 
         /// <summary>

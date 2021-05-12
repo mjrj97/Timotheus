@@ -453,7 +453,7 @@ namespace Timotheus.Forms
             {
                 if ((stream = saveFileDialog.OpenFile()) != null)
                 {
-                    byte[] data = System.Text.Encoding.UTF8.GetBytes(calendar.GetCalendarICS(Path.GetFileNameWithoutExtension(saveFileDialog.FileName)));
+                    byte[] data = System.Text.Encoding.UTF8.GetBytes(calendar.ToString());
                     stream.Write(data);
                     stream.Close();
                 }

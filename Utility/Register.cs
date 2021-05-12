@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Timotheus.Cryptography;
@@ -21,6 +22,11 @@ namespace Timotheus.Utility
         private readonly char separator = ',';
 
         /// <summary>
+        /// Text encoding used to encode/decode text to/from a file.
+        /// </summary>
+        private readonly Encoding encoding = Encoding.UTF8;
+
+        /// <summary>
         /// Constructor. Loads an encrypted file of keys using the given password.
         /// </summary>
         /// <param name="path">Path to the file.</param>
@@ -31,7 +37,7 @@ namespace Timotheus.Utility
                 throw new System.Exception("Exception_LoadFailed");
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
-            string text = System.Text.Encoding.UTF8.GetString(data);
+            string text = encoding.GetString(data);
             keys = Load(text);
         }
 
@@ -97,6 +103,29 @@ namespace Timotheus.Utility
             }
 
             return keys;
+        }
+
+        /// <summary>
+        /// Saves the register to the path as encrypted file.
+        /// </summary>
+        /// <param name="path">Path where the register should be saved. Must include filename and extension.</param>
+        /// <param name="password">Password to encrypt the file.</param>
+        public void Save(string path, string password)
+        {
+            string text = ToString();
+            byte[] data = Cipher.Encrypt(encoding.GetBytes(text), password);
+            File.WriteAllBytes(path, data);
+        }
+
+        /// <summary>
+        /// Saves the register to the path as unencrypted text.
+        /// </summary>
+        /// <param name="path">Path where the register should be saved. Must include filename and extension.</param>
+        public void Save(string path)
+        {
+            string text = ToString();
+            byte[] data = encoding.GetBytes(text);
+            File.WriteAllBytes(path, data);
         }
 
         /// <summary>
