@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Timotheus.Cryptography;
 
@@ -92,23 +93,12 @@ namespace Timotheus.Utility
         /// <returns></returns>
         private List<Key> Load(string text)
         {
-            string[] lines = text.Split('\n');
+            string[] lines = Regex.Split(text, "\r\n|\r|\n");
             List<Key> keys = new List<Key>();
-
-            string name;
-            string value; 
 
             for (int i = 0; i < lines.Length; i++)
             {
-                int j = 0;
-                while (lines[i][j] != separator && j < lines[i].Length)
-                {
-                    j++;
-                }
-                name = lines[i].Substring(0, j);
-                value = lines[i].Substring(j + 1, lines[i].Length - j - 1).Trim();
-
-                keys.Add(new Key(name, value));
+                keys.Add(new Key(lines[i], separator));
             }
 
             return keys;
@@ -151,14 +141,7 @@ namespace Timotheus.Utility
         /// <param name="line"></param>
         public void Add(string line)
         {
-            int i = 0;
-            while (i < line.Length && line[i] != separator)
-            {
-                i++;
-            }
-            string name = line.Substring(0, i);
-            string value = line.Substring(i + 1, line.Length - i - 1).Trim();
-            keys.Add(new Key(name, value));
+            keys.Add(new Key(line, separator));
         }
 
         /// <summary>

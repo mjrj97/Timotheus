@@ -229,11 +229,11 @@ namespace Timotheus.Forms
             // 
             // Calendar_LocationColumn
             // 
+            this.Calendar_LocationColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Calendar_LocationColumn.DataPropertyName = "Location";
             this.Calendar_LocationColumn.HeaderText = "Location";
             this.Calendar_LocationColumn.MinimumWidth = 6;
             this.Calendar_LocationColumn.Name = "Calendar_LocationColumn";
-            this.Calendar_LocationColumn.Width = 125;
             // 
             // tabControl
             // 

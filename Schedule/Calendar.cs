@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using Timotheus.Utility;
 
 namespace Timotheus.Schedule
@@ -384,7 +385,8 @@ namespace Timotheus.Schedule
 
             WebResponse response = request.GetResponse();
             System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
-            string[] responseFromServer = reader.ReadToEnd().Replace("\r\n ", "").Split("\n");
+            string text = reader.ReadToEnd().Replace("\r\n ", "");
+            string[] responseFromServer = Regex.Split(text, "\r\n|\r|\n");
             response.Close();
             return responseFromServer;
         }
@@ -414,7 +416,7 @@ namespace Timotheus.Schedule
             {
                 i++;
             }
-            return line.Substring(i + 1, line.Length - i - 1).Trim();
+            return line.Substring(i + 1, line.Length - i - 1);
         }
 
         /// <summary>

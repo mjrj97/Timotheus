@@ -25,5 +25,21 @@
             this.name = name;
             this.value = value;
         }
+
+        /// <summary>
+        /// Constructor that creates a key from a string with a separator char (ie. NAME,VALUE)
+        /// </summary>
+        /// <param name="line">Line that contains of a name, separator and value.</param>
+        /// <param name="separator">The character used to separate the name and value.</param>
+        public Key(string line, char separator)
+        {
+            int i = 0;
+            while (line[i] != separator && i < line.Length)
+            {
+                i++;
+            }
+            name = line.Substring(0, i);
+            value = line.Substring(i + 1, line.Length - i - 1);
+        }
     }
 }
