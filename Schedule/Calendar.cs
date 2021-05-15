@@ -146,19 +146,19 @@ namespace Timotheus.Schedule
                 {
                     //Read events
                     if (lines[i].Contains("SUMMARY"))
-                        tempName = GetValue(lines[i]);
+                        tempName = Key.Value(lines[i], ':');
                     if (lines[i].Contains("DESCRIPTION"))
-                        tempDescription = ConvertFromCALString(GetValue(lines[i]));
+                        tempDescription = ConvertFromCALString(Key.Value(lines[i], ':'));
                     if (lines[i].Contains("LOCATION"))
-                        tempLocation = ConvertFromCALString(GetValue(lines[i]));
+                        tempLocation = ConvertFromCALString(Key.Value(lines[i], ':'));
                     if (lines[i].Contains("UID"))
-                        tempUID = GetValue(lines[i]);
+                        tempUID = Key.Value(lines[i], ':');
                     if (lines[i].Contains("DTSTART"))
-                        tempStartTime = StringToDate(GetValue(lines[i]));
+                        tempStartTime = StringToDate(Key.Value(lines[i], ':'));
                     if (lines[i].Contains("DTEND"))
-                        tempEndTime = StringToDate(GetValue(lines[i]));
+                        tempEndTime = StringToDate(Key.Value(lines[i], ':'));
                     if (lines[i].Contains("DTSTAMP"))
-                        tempCreated = StringToDate(GetValue(lines[i]));
+                        tempCreated = StringToDate(Key.Value(lines[i], ':'));
                     if (lines[i].Contains("END:VEVENT"))
                     {
                         events.Add(new Event(tempStartTime, tempEndTime, tempCreated, tempName, tempDescription, tempLocation, tempUID));
@@ -403,20 +403,6 @@ namespace Timotheus.Schedule
         public static string[] HttpRequest(string url, NetworkCredential credentials)
         {
             return HttpRequest(url, credentials, null, null);
-        }
-
-        /// <summary>
-        /// Returns text after the last colon in a string.
-        /// </summary>
-        /// <param name="line">Line from iCalendar with format PROPERTY:VALUE eg. VERSION:2.0</param>
-        private string GetValue(string line)
-        {
-            int i = 0;
-            while (i < line.Length && line[i] != ':')
-            {
-                i++;
-            }
-            return line.Substring(i + 1, line.Length - i - 1);
         }
 
         /// <summary>

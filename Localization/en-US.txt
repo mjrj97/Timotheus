@@ -67,8 +67,8 @@ Settings_AddressLabel,Address
 Settings_LogoLabel,Logo
 Settings_BrowseButton,Browse
 Settings_InfoBox,Association information
-Help_Page,Help
-Help_AuthorLabel,Author
+Help,Help
+Help_ContributorsLabel,Contributors
 Help_VersionLabel,Timotheus
 Help_LicenseLabel,License
 Help_EmailLabel,Email:

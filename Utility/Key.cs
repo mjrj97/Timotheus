@@ -41,5 +41,35 @@
             name = line.Substring(0, i);
             value = line.Substring(i + 1, line.Length - i - 1);
         }
+
+        /// <summary>
+        /// Returns the name from a line with format NAME,VALUE where ',' is the separator.
+        /// </summary>
+        /// <param name="line">Line that contains of a name, separator and value.</param>
+        /// <param name="separator">The character used to separate the name and value.</param>
+        public static string Name(string line, char separator)
+        {
+            int i = 0;
+            while (line[i] != separator && i < line.Length)
+            {
+                i++;
+            }
+            return line.Substring(0, i);
+        }
+
+        /// <summary>
+        /// Returns the value from a line with format NAME,VALUE where ',' is the separator.
+        /// </summary>
+        /// <param name="line">Line that contains of a name, separator and value.</param>
+        /// <param name="separator">The character used to separate the name and value.</param>
+        public static string Value(string line, char separator)
+        {
+            int i = 0;
+            while (line[i] != separator && i < line.Length)
+            {
+                i++;
+            }
+            return line.Substring(i + 1, line.Length - i - 1);
+        }
     }
 }
