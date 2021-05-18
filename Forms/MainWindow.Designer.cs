@@ -120,6 +120,7 @@ namespace Timotheus.Forms
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.ToolStrip_LoadKey = new System.Windows.Forms.ToolStripButton();
             this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -1148,6 +1149,7 @@ namespace Timotheus.Forms
             this.newToolStripButton,
             this.openToolStripButton,
             this.saveToolStripButton,
+            this.ToolStrip_LoadKey,
             this.printToolStripButton,
             this.toolStripSeparator,
             this.cutToolStripButton,
@@ -1188,6 +1190,16 @@ namespace Timotheus.Forms
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Size = new System.Drawing.Size(23, 20);
             this.saveToolStripButton.Text = "&Save";
+            // 
+            // ToolStrip_LoadKey
+            // 
+            this.ToolStrip_LoadKey.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStrip_LoadKey.Image = ((System.Drawing.Image)(resources.GetObject("ToolStrip_LoadKey.Image")));
+            this.ToolStrip_LoadKey.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStrip_LoadKey.Name = "ToolStrip_LoadKey";
+            this.ToolStrip_LoadKey.Size = new System.Drawing.Size(23, 20);
+            this.ToolStrip_LoadKey.Text = "Load key";
+            this.ToolStrip_LoadKey.Click += new System.EventHandler(this.LoadKey);
             // 
             // printToolStripButton
             // 
@@ -1394,5 +1406,6 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_DescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_LocationColumn;
+        private System.Windows.Forms.ToolStripButton ToolStrip_LoadKey;
     }
 }

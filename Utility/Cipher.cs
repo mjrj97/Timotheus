@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Security.Cryptography;
 
-namespace Timotheus.Cryptography
+namespace Timotheus.Utility
 {
     /// <summary>
     /// Class that contains methods to encrypt and decrypt byte arrays [<see href="https://stackoverflow.com/questions/42834063/decrypting-byte-array-with-symmetricalgorithm-and-cryptostream">Source</see>].

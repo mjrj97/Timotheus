@@ -2,9 +2,9 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using Timotheus.Cryptography;
+using Timotheus.Utility;
 
-namespace Timotheus.Utility
+namespace Timotheus.IO
 {
     /// <summary>
     /// Class that can load a list of value with corresponding names. Can be loaded from encrypted (using a password) and unencrypted files. The file's line separator can be specified (ie. NAME,VALUE where ',' is used).
@@ -48,9 +48,14 @@ namespace Timotheus.Utility
         /// </summary>
         /// <param name="path">Path to the file.</param>
         /// <param name="separator">Define the character used to separate the name and value of a key.</param>
-        public Register(string path, char separator) : this(path)
+        public Register(string path, char separator)
         {
             this.separator = separator;
+            if (!File.Exists(path))
+                throw new System.Exception("Exception_LoadFailed");
+
+            string text = File.ReadAllText(path);
+            keys = Load(text);
         }
         /// <summary>
         /// Creates a new empty register and defines a separator.

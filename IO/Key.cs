@@ -1,4 +1,4 @@
-﻿namespace Timotheus.Utility
+﻿namespace Timotheus.IO
 {
     /// <summary>
     /// A key is named and has a corresponding value. Can be used as holding a password ie. Password,12345 or localization etc.

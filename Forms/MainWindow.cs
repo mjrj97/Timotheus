@@ -2,10 +2,10 @@ using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.Persons;
 using Timotheus.Accounting;
+using Timotheus.IO;
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
@@ -19,6 +19,10 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class MainWindow : Form
     {
+        /// <summary>
+        /// Register containing all the keys loaded at startup.
+        /// </summary>
+        private Register keys;
         /// <summary>
         /// List of events in the period from StartPeriod to EndPeriod shown in the Calendar_View. Updated using UpdateTable().
         /// </summary>
@@ -96,35 +100,8 @@ namespace Timotheus.Forms
         {
             InitializeComponent();
             SetupUI();
-            
-            string fullName = Path.Combine(Application.StartupPath, "Data.txt");
-            if (File.Exists(fullName))
-            {
-                StreamReader steamReader = new StreamReader(fullName);
-                string[] content = steamReader.ReadToEnd().Split("\n");
-                steamReader.Close();
-
-                if (content.Length > 4)
-                    SFTP_UsernameBox.Text = content[4].Trim();
-                if (content.Length > 5)
-                    SFTP_PasswordBox.Text = content[5].Trim();
-                if (content.Length > 3)
-                    SFTP_HostBox.Text = content[3].Trim();
-                if (content.Length > 6)
-                    SFTP_RemoteDirectoryBox.Text = content[6].Trim();
-                if (content.Length > 7)
-                    SFTP_LocalDirectoryBox.Text = content[7].Trim();
-                if (content.Length > 8)
-                    Settings_NameBox.Text = content[8].Trim();
-                if (content.Length > 9)
-                    Settings_AddressBox.Text = content[9].Trim();
-                if (content.Length > 10)
-                {
-                    Settings_LogoBox.Text = content[10].Trim();
-                    if (File.Exists(content[10].Trim()))
-                        Settings_PictureBox.Image = Image.FromFile(content[10].Trim());
-                }
-            }
+            keys = new Register(Path.Combine(Application.StartupPath, "Data.txt"), ':');
+            InsertKeys();
         }
 
         /// <summary>
@@ -238,6 +215,22 @@ namespace Timotheus.Forms
             Settings_LogoLabel.Text = Program.Localization.Get(Settings_LogoLabel);
             Settings_BrowseButton.Text = Program.Localization.Get(Settings_BrowseButton);
             #endregion
+        }
+
+        /// <summary>
+        /// Inserts the keys into their respective fields.
+        /// </summary>
+        private void InsertKeys()
+        {
+            SFTP_UsernameBox.Text = keys.Get("SSH-Username");
+            SFTP_PasswordBox.Text = keys.Get("SSH-Password");
+            SFTP_HostBox.Text = keys.Get("SSH-URL");
+            SFTP_RemoteDirectoryBox.Text = keys.Get("SSH-RemoteDirectory");
+            SFTP_LocalDirectoryBox.Text = keys.Get("SSH-LocalDirectory");
+            Settings_NameBox.Text = keys.Get("Settings-Name");
+            Settings_AddressBox.Text = keys.Get("Settings-Address");
+            Settings_LogoBox.Text = keys.Get("Settings-Image");
+            Settings_PictureBox.Image = Image.FromFile(keys.Get("Settings-Image"));
         }
 
         #region Calendar
@@ -1029,6 +1022,29 @@ namespace Timotheus.Forms
         }
         #endregion
 
+        #region Toolstrip
+        /// <summary>
+        /// Opens a dialog so the user can select a file that has all the keys.
+        /// </summary>
+        private void LoadKey(object sender, EventArgs e)
+        {
+            // open file dialog   
+            OpenFileDialog open = new OpenFileDialog
+            {
+                // image filters  
+                Filter = "Key files (*.txt; *.tkey)|*.txt; *.tkey;"
+            };
+
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                keys = new Register(open.FileName, ':');
+                InsertKeys();
+            }
+        }
+
+        /// <summary>
+        /// Opens the help dialog where information about the software and its authors is located.
+        /// </summary>
         private void Help(object sender, EventArgs e)
         {
             Help help = new Help
@@ -1037,6 +1053,7 @@ namespace Timotheus.Forms
             };
             help.ShowDialog();
         }
+        #endregion
 
         /// <summary>
         /// Processes the hotkeys. Delete removes the selected item in a DataGridView.

@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using Timotheus.Forms;
-using Timotheus.Utility;
+using Timotheus.IO;
 
 namespace Timotheus
 {
