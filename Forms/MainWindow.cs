@@ -100,8 +100,22 @@ namespace Timotheus.Forms
         {
             InitializeComponent();
             SetupUI();
-            keys = new Register(Path.Combine(Application.StartupPath, "Data.txt"), ':');
-            InsertKeys();
+            try
+            {
+                string KeyPath = Program.Registry.Get("KeyPath");
+                if (KeyPath != string.Empty)
+                {
+                    keys = new Register(KeyPath, ':');
+                    InsertKeys();
+                }
+                else
+                    keys = new Register(':');
+            }
+            catch (Exception e)
+            {
+                Program.Error("Exception_LoadFailed", e.Message);
+                keys = new Register(':');
+            }
         }
 
         /// <summary>
@@ -1038,6 +1052,7 @@ namespace Timotheus.Forms
             if (open.ShowDialog() == DialogResult.OK)
             {
                 keys = new Register(open.FileName, ':');
+                Program.Registry.Set("KeyPath", open.FileName);
                 InsertKeys();
             }
         }

@@ -38,7 +38,7 @@ namespace Timotheus.IO
         public Register(string path)
         {
             if (!File.Exists(path))
-                throw new System.Exception("Exception_LoadFailed");
+                throw new System.Exception("Exception_NoKeys");
 
             string text = File.ReadAllText(path);
             keys = Load(text);
@@ -52,7 +52,7 @@ namespace Timotheus.IO
         {
             this.separator = separator;
             if (!File.Exists(path))
-                throw new System.Exception("Exception_LoadFailed");
+                throw new System.Exception("Exception_NoKeys");
 
             string text = File.ReadAllText(path);
             keys = Load(text);
@@ -74,7 +74,7 @@ namespace Timotheus.IO
         public Register(string path, string password)
         {
             if (!File.Exists(path))
-                throw new System.Exception("Exception_LoadFailed");
+                throw new System.Exception("Exception_NoKeys");
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
             string text = encoding.GetString(data);
@@ -86,9 +86,15 @@ namespace Timotheus.IO
         /// <param name="path">Path to the file.</param>
         /// <param name="password">Password to decrypt the file.</param>
         /// <param name="separator">Define the character used to separate the name and value of a key.</param>
-        public Register(string path, string password, char separator) : this(path, password)
+        public Register(string path, string password, char separator)
         {
             this.separator = separator;
+            if (!File.Exists(path))
+                throw new System.Exception("Exception_NoKeys");
+
+            byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
+            string text = encoding.GetString(data);
+            keys = Load(text);
         }
 
         /// <summary>
@@ -230,6 +236,14 @@ namespace Timotheus.IO
                 return column.HeaderText;
             else
                 return value;
+        }
+
+        /// <summary>
+        /// Returns a list of the keys in the register.
+        /// </summary>
+        public List<Key> Keys()
+        {
+            return keys;
         }
 
         /// <summary>

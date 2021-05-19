@@ -104,27 +104,20 @@ namespace Timotheus.Schedule
         public List<Event> LoadFromLines(string[] lines)
         {
             string tempTimeZone = string.Empty;
-            DateTime tempStartTime = DateTime.Now;
-            DateTime tempEndTime = DateTime.Now;
-            DateTime tempCreated = DateTime.Now;
-            string tempName = string.Empty;
-            string tempLocation = string.Empty;
-            string tempDescription = string.Empty;
-            string tempUID = string.Empty;
-
+            string eventText = string.Empty;
             int timeZoneStart = 0;
             int timeZoneEnd = 0;
 
             List<Event> events = new List<Event>();
 
-            if (lines[0].Trim() != "BEGIN:VCALENDAR")
+            if (lines[0] != "BEGIN:VCALENDAR")
                 throw new Exception("Exception_InvalidCalendar");
             for (int i = 1; i < lines.Length; i++)
             {
                 if (timeZoneStart == 0)
                 {
                     //Set up time zone
-                    if (lines[i].Contains("BEGIN:VTIMEZONE"))
+                    if (lines[i] == "BEGIN:VTIMEZONE")
                     {
                         tempTimeZone += lines[i] + "\n";
                         timeZoneStart = i;
@@ -134,7 +127,7 @@ namespace Timotheus.Schedule
                 }
                 else if (timeZoneEnd == 0)
                 {
-                    if (lines[i].Contains("END:VTIMEZONE"))
+                    if (lines[i] == "END:VTIMEZONE")
                     {
                         timeZoneEnd = i;
                         tempTimeZone += "END:VTIMEZONE";
@@ -144,29 +137,14 @@ namespace Timotheus.Schedule
                 }
                 else
                 {
-                    //Read events
-                    if (lines[i].Contains("SUMMARY"))
-                        tempName = Key.Value(lines[i], ':');
-                    if (lines[i].Contains("DESCRIPTION"))
-                        tempDescription = ConvertFromCALString(Key.Value(lines[i], ':'));
-                    if (lines[i].Contains("LOCATION"))
-                        tempLocation = ConvertFromCALString(Key.Value(lines[i], ':'));
-                    if (lines[i].Contains("UID"))
-                        tempUID = Key.Value(lines[i], ':');
-                    if (lines[i].Contains("DTSTART"))
-                        tempStartTime = StringToDate(Key.Value(lines[i], ':'));
-                    if (lines[i].Contains("DTEND"))
-                        tempEndTime = StringToDate(Key.Value(lines[i], ':'));
-                    if (lines[i].Contains("DTSTAMP"))
-                        tempCreated = StringToDate(Key.Value(lines[i], ':'));
-                    if (lines[i].Contains("END:VEVENT"))
+                    if (lines[i] == "BEGIN:VEVENT")
                     {
-                        events.Add(new Event(tempStartTime, tempEndTime, tempCreated, tempName, tempDescription, tempLocation, tempUID));
-
-                        tempName = string.Empty;
-                        tempDescription = string.Empty;
-                        tempLocation = string.Empty;
-                        tempUID = string.Empty;
+                        eventText = string.Empty;
+                    }
+                    eventText += lines[i] + "\n";
+                    if (lines[i] == "END:VEVENT")
+                    {
+                        events.Add(new Event(eventText));
                     }
                 }
             }

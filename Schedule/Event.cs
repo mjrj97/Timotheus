@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.RegularExpressions;
+using Timotheus.IO;
 
 namespace Timotheus.Schedule
 {
@@ -69,6 +71,28 @@ namespace Timotheus.Schedule
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string Location, string UID) : this(StartTime, EndTime, DateTime.Now, Name, Description, Location, UID) { }
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string UID) : this(StartTime, EndTime, DateTime.Now, Name, Description, null, UID) { }
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description) : this(StartTime, EndTime, DateTime.Now, Name, Description, null, null) { }
+        public Event(string text)
+        {
+            string[] lines = Regex.Split(text, "\r\n|\r|\n");
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (lines[i].Contains("SUMMARY"))
+                    Name = Key.Value(lines[i], ':');
+                if (lines[i].Contains("DESCRIPTION"))
+                    Description = Calendar.ConvertFromCALString(Key.Value(lines[i], ':'));
+                if (lines[i].Contains("LOCATION"))
+                    Location = Calendar.ConvertFromCALString(Key.Value(lines[i], ':'));
+                if (lines[i].Contains("UID"))
+                    UID = Key.Value(lines[i], ':');
+                if (lines[i].Contains("DTSTART"))
+                    StartTime = Calendar.StringToDate(Key.Value(lines[i], ':'));
+                if (lines[i].Contains("DTEND"))
+                    EndTime = Calendar.StringToDate(Key.Value(lines[i], ':'));
+                if (lines[i].Contains("DTSTAMP"))
+                    Created = Calendar.StringToDate(Key.Value(lines[i], ':'));
+            }
+        }
 
         /// <summary>
         /// Generates a UID to be used a unique identifier in the calendar.

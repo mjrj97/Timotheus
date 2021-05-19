@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using Timotheus.Forms;
 using Timotheus.IO;
 
@@ -26,6 +27,10 @@ namespace Timotheus
         /// A register containing all the localizations for the program.
         /// </summary>
         public static Register Localization;
+        /// <summary>
+        /// A register containing all values found in the Windows registry associated with Timotheus.
+        /// </summary>
+        public static Register Registry;
 
         /// <summary>
         /// Starting point of the program, and loads the main window.
@@ -57,6 +62,12 @@ namespace Timotheus
             //Initializes the loading of localization.
             Localization = new Register(directory + culture.Name + ".txt");
 
+            //Loads the values stored in Windows registry.
+            Registry = LoadRegistry();
+
+            //Defines the process exit event.
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
+
             //Defines the security protocol
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
@@ -71,6 +82,51 @@ namespace Timotheus
         }
 
         /// <summary>
+        /// Saves the registry to the Windows registry.
+        /// </summary>
+        private static void SaveRegistry()
+        {
+            Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus", true);
+
+            if (key == null)
+                key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus");
+
+            List<Key> keys = Registry.Keys();
+            for (int i = 0; i < keys.Count; i++)
+            {
+                key.SetValue(keys[i].name, keys[i].value);
+            }
+
+            key.Close();
+        }
+
+        /// <summary>
+        /// Loads the values stored in the Windows registry associated with Timotheus.
+        /// </summary>
+        private static Register LoadRegistry()
+        {
+            Register registry = new Register();
+
+            Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus");
+
+            if (key != null)
+            {
+                string[] names = key.GetValueNames();
+                for (int i = 0; i < names.Length; i++)
+                {
+                    string value = Convert.ToString(key.GetValue(names[i]));
+                    registry.Add(names[i], value);
+                }
+            }
+            else
+                key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus");
+
+            key.Close();
+
+            return registry;
+        }
+
+        /// <summary>
         /// Displays an error dialog to the user.
         /// </summary>
         /// <param name="name">Name of the exception to be found in Localization.</param>
@@ -80,6 +136,14 @@ namespace Timotheus
             string errorName = Localization.Get(name, name);
             string errorText = Localization.Get(text, text);
             MessageBox.Show(errorText, errorName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        /// <summary>
+        /// Handles operations to do before the program closes.
+        /// </summary>
+        private static void OnProcessExit(object sender, EventArgs e)
+        {
+            SaveRegistry();
         }
     }
 }
