@@ -1,7 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
 using Timotheus.Schedule;
+using Timotheus.IO;
 
 namespace Timotheus.Forms
 {
@@ -27,7 +27,7 @@ namespace Timotheus.Forms
         /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
         /// </summary>
-        public SyncCalendar(Calendar calendar, string period, DateTime a, DateTime b)
+        public SyncCalendar(Calendar calendar, string period, DateTime a, DateTime b, Register keys)
         {
             this.calendar = calendar;
             this.a = a;
@@ -35,21 +35,9 @@ namespace Timotheus.Forms
 
             InitializeComponent();
             SyncCalendar_PasswordBox.PasswordChar = '*';
-
-            string fullName = Path.Combine(Application.StartupPath, "Data.txt");
-            if (File.Exists(fullName))
-            {
-                StreamReader steamReader = new StreamReader(fullName);
-                string[] content = steamReader.ReadToEnd().Split("\n");
-                steamReader.Close();
-
-                if (content.Length > 0)
-                    SyncCalendar_UsernameBox.Text = content[0].Trim();
-                if (content.Length > 1)
-                    SyncCalendar_PasswordBox.Text = content[1].Trim();
-                if (content.Length > 2)
-                    SyncCalendar_CalDAVBox.Text = content[2].Trim();
-            }
+            SyncCalendar_UsernameBox.Text = keys.Get("Calendar-Email");
+            SyncCalendar_PasswordBox.Text = keys.Get("Calendar-Password");
+            SyncCalendar_CalDAVBox.Text = keys.Get("Calendar-URL");
 
             if (calendar.IsSetup())
             {
@@ -67,7 +55,7 @@ namespace Timotheus.Forms
                 SyncCalendar_PasswordBox.Enabled = true;
             }
 
-           Text = Program.Localization.Get(this);
+            Text = Program.Localization.Get(this);
             SyncCalendar_SyncButton.Text = Program.Localization.Get(SyncCalendar_SyncButton);
             SyncCalendar_CancelButton.Text = Program.Localization.Get(SyncCalendar_CancelButton);
             SyncCalendar_UseExistingButton.Text = Program.Localization.Get(SyncCalendar_UseExistingButton);

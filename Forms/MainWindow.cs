@@ -449,7 +449,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void OpenCalendar(object sender, EventArgs e)
         {
-            OpenCalendar open = new OpenCalendar
+            OpenCalendar open = new OpenCalendar(keys)
             {
                 Owner = this
             };
@@ -489,7 +489,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void SyncCalendar(object sender, EventArgs e)
         {
-            SyncCalendar sync = new SyncCalendar(calendar, Calendar_PeriodBox.Text, StartPeriod, EndPeriod)
+            SyncCalendar sync = new SyncCalendar(calendar, Calendar_PeriodBox.Text, StartPeriod, EndPeriod, keys)
             {
                 Owner = this
             };
