@@ -112,19 +112,22 @@ namespace Timotheus.Forms
             this.Settings_NameLabel = new System.Windows.Forms.Label();
             this.Settings_NameBox = new System.Windows.Forms.TextBox();
             this.Settings_PictureBox = new System.Windows.Forms.PictureBox();
-            this.Help_Page = new System.Windows.Forms.TabPage();
-            this.Help_EmailLink = new System.Windows.Forms.LinkLabel();
-            this.Help_EmailLabel = new System.Windows.Forms.Label();
-            this.Help_AuthorLabel = new System.Windows.Forms.Label();
-            this.Help_LicenseLabel = new System.Windows.Forms.Label();
-            this.Help_SourceLink = new System.Windows.Forms.LinkLabel();
-            this.Help_SourceLabel = new System.Windows.Forms.Label();
-            this.Help_VersionLabel = new System.Windows.Forms.Label();
-            this.Help_IconBox = new System.Windows.Forms.PictureBox();
             this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.TrayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TrayOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.MainWindow_ToolStrip = new System.Windows.Forms.ToolStrip();
+            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.ToolStrip_LoadKey = new System.Windows.Forms.ToolStripButton();
+            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStrip_Help = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.Calendar_View)).BeginInit();
             this.tabControl.SuspendLayout();
             this.Calendar_Page.SuspendLayout();
@@ -144,9 +147,8 @@ namespace Timotheus.Forms
             this.Settings_Page.SuspendLayout();
             this.Settings_InfoBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Settings_PictureBox)).BeginInit();
-            this.Help_Page.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Help_IconBox)).BeginInit();
             this.TrayContextMenu.SuspendLayout();
+            this.MainWindow_ToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // Calendar_View
@@ -175,53 +177,52 @@ namespace Timotheus.Forms
             this.Calendar_View.RowHeadersVisible = false;
             this.Calendar_View.RowHeadersWidth = 51;
             this.Calendar_View.RowTemplate.Height = 25;
-            this.Calendar_View.Size = new System.Drawing.Size(774, 331);
+            this.Calendar_View.Size = new System.Drawing.Size(774, 311);
             this.Calendar_View.TabIndex = 3;
             this.Calendar_View.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
             // 
             // Calendar_StartColumn
             // 
+            this.Calendar_StartColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Calendar_StartColumn.DataPropertyName = "StartTime";
-            this.Calendar_StartColumn.FillWeight = 39.11343F;
+            this.Calendar_StartColumn.FillWeight = 60F;
             this.Calendar_StartColumn.HeaderText = "Start";
             this.Calendar_StartColumn.MinimumWidth = 6;
             this.Calendar_StartColumn.Name = "Calendar_StartColumn";
-            this.Calendar_StartColumn.Width = 125;
             // 
             // Calendar_EndColumn
             // 
+            this.Calendar_EndColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Calendar_EndColumn.DataPropertyName = "EndTime";
-            this.Calendar_EndColumn.FillWeight = 44.62484F;
+            this.Calendar_EndColumn.FillWeight = 60F;
             this.Calendar_EndColumn.HeaderText = "End";
             this.Calendar_EndColumn.MinimumWidth = 6;
             this.Calendar_EndColumn.Name = "Calendar_EndColumn";
-            this.Calendar_EndColumn.Width = 125;
             // 
             // Calendar_NameColumn
             // 
+            this.Calendar_NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Calendar_NameColumn.DataPropertyName = "Name";
-            this.Calendar_NameColumn.FillWeight = 132.2595F;
             this.Calendar_NameColumn.HeaderText = "Name";
             this.Calendar_NameColumn.MinimumWidth = 6;
             this.Calendar_NameColumn.Name = "Calendar_NameColumn";
-            this.Calendar_NameColumn.Width = 253;
             // 
             // Calendar_DescriptionColumn
             // 
             this.Calendar_DescriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Calendar_DescriptionColumn.DataPropertyName = "Description";
-            this.Calendar_DescriptionColumn.FillWeight = 184.0022F;
             this.Calendar_DescriptionColumn.HeaderText = "Description";
             this.Calendar_DescriptionColumn.MinimumWidth = 6;
             this.Calendar_DescriptionColumn.Name = "Calendar_DescriptionColumn";
             // 
             // Calendar_LocationColumn
             // 
+            this.Calendar_LocationColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Calendar_LocationColumn.DataPropertyName = "Location";
+            this.Calendar_LocationColumn.FillWeight = 80F;
             this.Calendar_LocationColumn.HeaderText = "Location";
             this.Calendar_LocationColumn.MinimumWidth = 6;
             this.Calendar_LocationColumn.Name = "Calendar_LocationColumn";
-            this.Calendar_LocationColumn.Width = 125;
             // 
             // tabControl
             // 
@@ -234,11 +235,10 @@ namespace Timotheus.Forms
             this.tabControl.Controls.Add(this.ConsentForms_Page);
             this.tabControl.Controls.Add(this.Accounting_Page);
             this.tabControl.Controls.Add(this.Settings_Page);
-            this.tabControl.Controls.Add(this.Help_Page);
-            this.tabControl.Location = new System.Drawing.Point(2, 3);
+            this.tabControl.Location = new System.Drawing.Point(2, 23);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(802, 437);
+            this.tabControl.Size = new System.Drawing.Size(802, 417);
             this.tabControl.TabIndex = 0;
             // 
             // Calendar_Page
@@ -260,7 +260,7 @@ namespace Timotheus.Forms
             this.Calendar_Page.Location = new System.Drawing.Point(4, 24);
             this.Calendar_Page.Name = "Calendar_Page";
             this.Calendar_Page.Padding = new System.Windows.Forms.Padding(3);
-            this.Calendar_Page.Size = new System.Drawing.Size(794, 409);
+            this.Calendar_Page.Size = new System.Drawing.Size(794, 389);
             this.Calendar_Page.TabIndex = 0;
             this.Calendar_Page.Text = "Calendar";
             this.Calendar_Page.UseVisualStyleBackColor = true;
@@ -342,7 +342,7 @@ namespace Timotheus.Forms
             // Calendar_SyncButton
             // 
             this.Calendar_SyncButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Calendar_SyncButton.Location = new System.Drawing.Point(549, 378);
+            this.Calendar_SyncButton.Location = new System.Drawing.Point(549, 359);
             this.Calendar_SyncButton.Name = "Calendar_SyncButton";
             this.Calendar_SyncButton.Size = new System.Drawing.Size(125, 23);
             this.Calendar_SyncButton.TabIndex = 7;
@@ -353,7 +353,7 @@ namespace Timotheus.Forms
             // Calendar_ExportButton
             // 
             this.Calendar_ExportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Calendar_ExportButton.Location = new System.Drawing.Point(684, 378);
+            this.Calendar_ExportButton.Location = new System.Drawing.Point(684, 359);
             this.Calendar_ExportButton.Name = "Calendar_ExportButton";
             this.Calendar_ExportButton.Size = new System.Drawing.Size(100, 23);
             this.Calendar_ExportButton.TabIndex = 6;
@@ -364,7 +364,7 @@ namespace Timotheus.Forms
             // Calendar_RemoveButton
             // 
             this.Calendar_RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Calendar_RemoveButton.Location = new System.Drawing.Point(95, 378);
+            this.Calendar_RemoveButton.Location = new System.Drawing.Point(95, 359);
             this.Calendar_RemoveButton.Name = "Calendar_RemoveButton";
             this.Calendar_RemoveButton.Size = new System.Drawing.Size(75, 23);
             this.Calendar_RemoveButton.TabIndex = 5;
@@ -375,7 +375,7 @@ namespace Timotheus.Forms
             // Calendar_AddButton
             // 
             this.Calendar_AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Calendar_AddButton.Location = new System.Drawing.Point(10, 378);
+            this.Calendar_AddButton.Location = new System.Drawing.Point(10, 359);
             this.Calendar_AddButton.Name = "Calendar_AddButton";
             this.Calendar_AddButton.Size = new System.Drawing.Size(75, 23);
             this.Calendar_AddButton.TabIndex = 4;
@@ -434,7 +434,7 @@ namespace Timotheus.Forms
             this.SFTP_Page.Controls.Add(this.SFTP_HostBox);
             this.SFTP_Page.Location = new System.Drawing.Point(4, 24);
             this.SFTP_Page.Name = "SFTP_Page";
-            this.SFTP_Page.Size = new System.Drawing.Size(794, 409);
+            this.SFTP_Page.Size = new System.Drawing.Size(794, 389);
             this.SFTP_Page.TabIndex = 2;
             this.SFTP_Page.Text = "SFTP";
             this.SFTP_Page.UseVisualStyleBackColor = true;
@@ -483,7 +483,7 @@ namespace Timotheus.Forms
             this.SFTP_View.RowHeadersVisible = false;
             this.SFTP_View.RowHeadersWidth = 51;
             this.SFTP_View.RowTemplate.Height = 25;
-            this.SFTP_View.Size = new System.Drawing.Size(536, 332);
+            this.SFTP_View.Size = new System.Drawing.Size(536, 312);
             this.SFTP_View.TabIndex = 11;
             // 
             // SFTP_NameColumn
@@ -507,7 +507,7 @@ namespace Timotheus.Forms
             this.SFTP_BrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SFTP_BrowseButton.Location = new System.Drawing.Point(711, 10);
             this.SFTP_BrowseButton.Name = "SFTP_BrowseButton";
-            this.SFTP_BrowseButton.Size = new System.Drawing.Size(75, 20);
+            this.SFTP_BrowseButton.Size = new System.Drawing.Size(75, 24);
             this.SFTP_BrowseButton.TabIndex = 10;
             this.SFTP_BrowseButton.Text = "Browse";
             this.SFTP_BrowseButton.UseVisualStyleBackColor = true;
@@ -608,7 +608,7 @@ namespace Timotheus.Forms
             this.Members_Page.Controls.Add(this.Members_View);
             this.Members_Page.Location = new System.Drawing.Point(4, 24);
             this.Members_Page.Name = "Members_Page";
-            this.Members_Page.Size = new System.Drawing.Size(794, 409);
+            this.Members_Page.Size = new System.Drawing.Size(794, 389);
             this.Members_Page.TabIndex = 2;
             this.Members_Page.Text = "Members";
             this.Members_Page.UseVisualStyleBackColor = true;
@@ -649,7 +649,7 @@ namespace Timotheus.Forms
             // 
             this.Members_Under25Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.Members_Under25Label.AutoSize = true;
-            this.Members_Under25Label.Location = new System.Drawing.Point(636, 383);
+            this.Members_Under25Label.Location = new System.Drawing.Point(648, 363);
             this.Members_Under25Label.Name = "Members_Under25Label";
             this.Members_Under25Label.Size = new System.Drawing.Size(109, 15);
             this.Members_Under25Label.TabIndex = 3;
@@ -658,7 +658,7 @@ namespace Timotheus.Forms
             // Members_AddButton
             // 
             this.Members_AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Members_AddButton.Location = new System.Drawing.Point(10, 378);
+            this.Members_AddButton.Location = new System.Drawing.Point(10, 359);
             this.Members_AddButton.Name = "Members_AddButton";
             this.Members_AddButton.Size = new System.Drawing.Size(75, 23);
             this.Members_AddButton.TabIndex = 2;
@@ -669,7 +669,7 @@ namespace Timotheus.Forms
             // Members_RemoveButton
             // 
             this.Members_RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Members_RemoveButton.Location = new System.Drawing.Point(95, 378);
+            this.Members_RemoveButton.Location = new System.Drawing.Point(95, 359);
             this.Members_RemoveButton.Name = "Members_RemoveButton";
             this.Members_RemoveButton.Size = new System.Drawing.Size(75, 23);
             this.Members_RemoveButton.TabIndex = 1;
@@ -692,7 +692,7 @@ namespace Timotheus.Forms
             this.Members_View.Name = "Members_View";
             this.Members_View.RowHeadersVisible = false;
             this.Members_View.RowTemplate.Height = 25;
-            this.Members_View.Size = new System.Drawing.Size(774, 331);
+            this.Members_View.Size = new System.Drawing.Size(774, 311);
             this.Members_View.TabIndex = 0;
             this.Members_View.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.UpdateMemberTable);
             this.Members_View.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
@@ -736,7 +736,7 @@ namespace Timotheus.Forms
             this.ConsentForms_Page.Location = new System.Drawing.Point(4, 24);
             this.ConsentForms_Page.Name = "ConsentForms_Page";
             this.ConsentForms_Page.Padding = new System.Windows.Forms.Padding(3);
-            this.ConsentForms_Page.Size = new System.Drawing.Size(794, 409);
+            this.ConsentForms_Page.Size = new System.Drawing.Size(794, 389);
             this.ConsentForms_Page.TabIndex = 4;
             this.ConsentForms_Page.Text = "Consent forms";
             this.ConsentForms_Page.UseVisualStyleBackColor = true;
@@ -744,7 +744,7 @@ namespace Timotheus.Forms
             // ConsentForms_RemoveButton
             // 
             this.ConsentForms_RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ConsentForms_RemoveButton.Location = new System.Drawing.Point(95, 378);
+            this.ConsentForms_RemoveButton.Location = new System.Drawing.Point(95, 359);
             this.ConsentForms_RemoveButton.Name = "ConsentForms_RemoveButton";
             this.ConsentForms_RemoveButton.Size = new System.Drawing.Size(75, 23);
             this.ConsentForms_RemoveButton.TabIndex = 6;
@@ -755,7 +755,7 @@ namespace Timotheus.Forms
             // ConsentForms_AddButton
             // 
             this.ConsentForms_AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ConsentForms_AddButton.Location = new System.Drawing.Point(10, 378);
+            this.ConsentForms_AddButton.Location = new System.Drawing.Point(10, 359);
             this.ConsentForms_AddButton.Name = "ConsentForms_AddButton";
             this.ConsentForms_AddButton.Size = new System.Drawing.Size(75, 23);
             this.ConsentForms_AddButton.TabIndex = 5;
@@ -779,7 +779,7 @@ namespace Timotheus.Forms
             this.ConsentForms_View.RowHeadersVisible = false;
             this.ConsentForms_View.RowHeadersWidth = 51;
             this.ConsentForms_View.RowTemplate.Height = 25;
-            this.ConsentForms_View.Size = new System.Drawing.Size(774, 360);
+            this.ConsentForms_View.Size = new System.Drawing.Size(774, 340);
             this.ConsentForms_View.TabIndex = 0;
             this.ConsentForms_View.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
             // 
@@ -827,13 +827,16 @@ namespace Timotheus.Forms
             this.Accounting_Page.Location = new System.Drawing.Point(4, 24);
             this.Accounting_Page.Name = "Accounting_Page";
             this.Accounting_Page.Padding = new System.Windows.Forms.Padding(3);
-            this.Accounting_Page.Size = new System.Drawing.Size(794, 409);
+            this.Accounting_Page.Size = new System.Drawing.Size(794, 389);
             this.Accounting_Page.TabIndex = 5;
             this.Accounting_Page.Text = "Accounting";
             this.Accounting_Page.UseVisualStyleBackColor = true;
             // 
             // Account_SplitPanel
             // 
+            this.Account_SplitPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Account_SplitPanel.Location = new System.Drawing.Point(10, 39);
             this.Account_SplitPanel.Name = "Account_SplitPanel";
             this.Account_SplitPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -845,8 +848,8 @@ namespace Timotheus.Forms
             // Account_SplitPanel.Panel2
             // 
             this.Account_SplitPanel.Panel2.Controls.Add(this.Accounting_AccountsView);
-            this.Account_SplitPanel.Size = new System.Drawing.Size(774, 331);
-            this.Account_SplitPanel.SplitterDistance = 220;
+            this.Account_SplitPanel.Size = new System.Drawing.Size(774, 311);
+            this.Account_SplitPanel.SplitterDistance = 206;
             this.Account_SplitPanel.SplitterWidth = 5;
             this.Account_SplitPanel.TabIndex = 8;
             // 
@@ -866,7 +869,7 @@ namespace Timotheus.Forms
             this.Accounting_TransactionsView.Name = "Accounting_TransactionsView";
             this.Accounting_TransactionsView.RowHeadersVisible = false;
             this.Accounting_TransactionsView.RowTemplate.Height = 25;
-            this.Accounting_TransactionsView.Size = new System.Drawing.Size(774, 220);
+            this.Accounting_TransactionsView.Size = new System.Drawing.Size(774, 206);
             this.Accounting_TransactionsView.TabIndex = 0;
             this.Accounting_TransactionsView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.UpdateTransactionsTable);
             this.Accounting_TransactionsView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.HandleDateError);
@@ -930,7 +933,7 @@ namespace Timotheus.Forms
             this.Accounting_AccountsView.Name = "Accounting_AccountsView";
             this.Accounting_AccountsView.RowHeadersVisible = false;
             this.Accounting_AccountsView.RowTemplate.Height = 25;
-            this.Accounting_AccountsView.Size = new System.Drawing.Size(774, 106);
+            this.Accounting_AccountsView.Size = new System.Drawing.Size(774, 100);
             this.Accounting_AccountsView.TabIndex = 0;
             // 
             // Accounting_NameColumn
@@ -949,7 +952,7 @@ namespace Timotheus.Forms
             // Accounting_ExportButton
             // 
             this.Accounting_ExportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Accounting_ExportButton.Location = new System.Drawing.Point(684, 378);
+            this.Accounting_ExportButton.Location = new System.Drawing.Point(686, 359);
             this.Accounting_ExportButton.Name = "Accounting_ExportButton";
             this.Accounting_ExportButton.Size = new System.Drawing.Size(100, 23);
             this.Accounting_ExportButton.TabIndex = 6;
@@ -992,7 +995,7 @@ namespace Timotheus.Forms
             // Accounting_RemoveButton
             // 
             this.Accounting_RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Accounting_RemoveButton.Location = new System.Drawing.Point(95, 378);
+            this.Accounting_RemoveButton.Location = new System.Drawing.Point(95, 359);
             this.Accounting_RemoveButton.Name = "Accounting_RemoveButton";
             this.Accounting_RemoveButton.Size = new System.Drawing.Size(75, 23);
             this.Accounting_RemoveButton.TabIndex = 2;
@@ -1003,7 +1006,7 @@ namespace Timotheus.Forms
             // Accounting_AddButton
             // 
             this.Accounting_AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Accounting_AddButton.Location = new System.Drawing.Point(10, 378);
+            this.Accounting_AddButton.Location = new System.Drawing.Point(10, 359);
             this.Accounting_AddButton.Name = "Accounting_AddButton";
             this.Accounting_AddButton.Size = new System.Drawing.Size(75, 23);
             this.Accounting_AddButton.TabIndex = 1;
@@ -1017,7 +1020,7 @@ namespace Timotheus.Forms
             this.Settings_Page.Location = new System.Drawing.Point(4, 24);
             this.Settings_Page.Name = "Settings_Page";
             this.Settings_Page.Padding = new System.Windows.Forms.Padding(3);
-            this.Settings_Page.Size = new System.Drawing.Size(794, 409);
+            this.Settings_Page.Size = new System.Drawing.Size(794, 389);
             this.Settings_Page.TabIndex = 3;
             this.Settings_Page.Text = "Settings";
             this.Settings_Page.UseVisualStyleBackColor = true;
@@ -1060,7 +1063,7 @@ namespace Timotheus.Forms
             // 
             this.Settings_BrowseButton.Location = new System.Drawing.Point(460, 79);
             this.Settings_BrowseButton.Name = "Settings_BrowseButton";
-            this.Settings_BrowseButton.Size = new System.Drawing.Size(75, 20);
+            this.Settings_BrowseButton.Size = new System.Drawing.Size(75, 23);
             this.Settings_BrowseButton.TabIndex = 5;
             this.Settings_BrowseButton.Text = "Browse";
             this.Settings_BrowseButton.UseVisualStyleBackColor = true;
@@ -1095,7 +1098,7 @@ namespace Timotheus.Forms
             // 
             this.Settings_NameBox.Location = new System.Drawing.Point(229, 20);
             this.Settings_NameBox.Name = "Settings_NameBox";
-            this.Settings_NameBox.Size = new System.Drawing.Size(307, 23);
+            this.Settings_NameBox.Size = new System.Drawing.Size(306, 23);
             this.Settings_NameBox.TabIndex = 1;
             // 
             // Settings_PictureBox
@@ -1107,102 +1110,6 @@ namespace Timotheus.Forms
             this.Settings_PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Settings_PictureBox.TabIndex = 0;
             this.Settings_PictureBox.TabStop = false;
-            // 
-            // Help_Page
-            // 
-            this.Help_Page.Controls.Add(this.Help_EmailLink);
-            this.Help_Page.Controls.Add(this.Help_EmailLabel);
-            this.Help_Page.Controls.Add(this.Help_AuthorLabel);
-            this.Help_Page.Controls.Add(this.Help_LicenseLabel);
-            this.Help_Page.Controls.Add(this.Help_SourceLink);
-            this.Help_Page.Controls.Add(this.Help_SourceLabel);
-            this.Help_Page.Controls.Add(this.Help_VersionLabel);
-            this.Help_Page.Controls.Add(this.Help_IconBox);
-            this.Help_Page.Location = new System.Drawing.Point(4, 24);
-            this.Help_Page.Name = "Help_Page";
-            this.Help_Page.Padding = new System.Windows.Forms.Padding(3);
-            this.Help_Page.Size = new System.Drawing.Size(794, 409);
-            this.Help_Page.TabIndex = 1;
-            this.Help_Page.Text = "Help";
-            this.Help_Page.UseVisualStyleBackColor = true;
-            // 
-            // Help_EmailLink
-            // 
-            this.Help_EmailLink.AutoSize = true;
-            this.Help_EmailLink.Location = new System.Drawing.Point(48, 160);
-            this.Help_EmailLink.Name = "Help_EmailLink";
-            this.Help_EmailLink.Size = new System.Drawing.Size(185, 15);
-            this.Help_EmailLink.TabIndex = 7;
-            this.Help_EmailLink.TabStop = true;
-            this.Help_EmailLink.Text = "martin.jensen.1997@hotmail.com";
-            this.Help_EmailLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.EmailLink_LinkClicked);
-            // 
-            // Help_EmailLabel
-            // 
-            this.Help_EmailLabel.AutoSize = true;
-            this.Help_EmailLabel.Location = new System.Drawing.Point(10, 160);
-            this.Help_EmailLabel.Name = "Help_EmailLabel";
-            this.Help_EmailLabel.Size = new System.Drawing.Size(39, 15);
-            this.Help_EmailLabel.TabIndex = 6;
-            this.Help_EmailLabel.Text = "Email:";
-            // 
-            // Help_AuthorLabel
-            // 
-            this.Help_AuthorLabel.AutoSize = true;
-            this.Help_AuthorLabel.Location = new System.Drawing.Point(10, 145);
-            this.Help_AuthorLabel.Name = "Help_AuthorLabel";
-            this.Help_AuthorLabel.Size = new System.Drawing.Size(146, 15);
-            this.Help_AuthorLabel.TabIndex = 5;
-            this.Help_AuthorLabel.Text = "Author: Martin J. R. Jensen";
-            // 
-            // Help_LicenseLabel
-            // 
-            this.Help_LicenseLabel.AutoSize = true;
-            this.Help_LicenseLabel.Location = new System.Drawing.Point(10, 191);
-            this.Help_LicenseLabel.Name = "Help_LicenseLabel";
-            this.Help_LicenseLabel.Size = new System.Drawing.Size(112, 15);
-            this.Help_LicenseLabel.TabIndex = 4;
-            this.Help_LicenseLabel.Text = "License: Apache-2.0";
-            // 
-            // Help_SourceLink
-            // 
-            this.Help_SourceLink.AutoSize = true;
-            this.Help_SourceLink.Location = new System.Drawing.Point(55, 206);
-            this.Help_SourceLink.Name = "Help_SourceLink";
-            this.Help_SourceLink.Size = new System.Drawing.Size(199, 15);
-            this.Help_SourceLink.TabIndex = 3;
-            this.Help_SourceLink.TabStop = true;
-            this.Help_SourceLink.Text = "https://github.com/mjrj97/Manager";
-            this.Help_SourceLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SourceLink_LinkClicked);
-            // 
-            // Help_SourceLabel
-            // 
-            this.Help_SourceLabel.AutoSize = true;
-            this.Help_SourceLabel.Location = new System.Drawing.Point(10, 206);
-            this.Help_SourceLabel.Name = "Help_SourceLabel";
-            this.Help_SourceLabel.Size = new System.Drawing.Size(46, 15);
-            this.Help_SourceLabel.TabIndex = 2;
-            this.Help_SourceLabel.Text = "Source:";
-            // 
-            // Help_VersionLabel
-            // 
-            this.Help_VersionLabel.AutoSize = true;
-            this.Help_VersionLabel.Location = new System.Drawing.Point(10, 117);
-            this.Help_VersionLabel.Name = "Help_VersionLabel";
-            this.Help_VersionLabel.Size = new System.Drawing.Size(102, 15);
-            this.Help_VersionLabel.TabIndex = 1;
-            this.Help_VersionLabel.Text = "Timotheus v. 0.1.0";
-            // 
-            // Help_IconBox
-            // 
-            this.Help_IconBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.Help_IconBox.Image = ((System.Drawing.Image)(resources.GetObject("Help_IconBox.Image")));
-            this.Help_IconBox.Location = new System.Drawing.Point(10, 10);
-            this.Help_IconBox.Name = "Help_IconBox";
-            this.Help_IconBox.Size = new System.Drawing.Size(100, 100);
-            this.Help_IconBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.Help_IconBox.TabIndex = 0;
-            this.Help_IconBox.TabStop = false;
             // 
             // TrayIcon
             // 
@@ -1234,11 +1141,128 @@ namespace Timotheus.Forms
             this.TrayClose.Text = "Close";
             this.TrayClose.Click += new System.EventHandler(this.Exit);
             // 
+            // MainWindow_ToolStrip
+            // 
+            this.MainWindow_ToolStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.MainWindow_ToolStrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.MainWindow_ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripButton,
+            this.openToolStripButton,
+            this.saveToolStripButton,
+            this.ToolStrip_LoadKey,
+            this.printToolStripButton,
+            this.toolStripSeparator,
+            this.cutToolStripButton,
+            this.copyToolStripButton,
+            this.pasteToolStripButton,
+            this.toolStripSeparator1,
+            this.ToolStrip_Help});
+            this.MainWindow_ToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.MainWindow_ToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.MainWindow_ToolStrip.Name = "MainWindow_ToolStrip";
+            this.MainWindow_ToolStrip.Size = new System.Drawing.Size(804, 23);
+            this.MainWindow_ToolStrip.TabIndex = 1;
+            this.MainWindow_ToolStrip.Text = "ToolStrip";
+            // 
+            // newToolStripButton
+            // 
+            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
+            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newToolStripButton.Name = "newToolStripButton";
+            this.newToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.newToolStripButton.Text = "&New";
+            // 
+            // openToolStripButton
+            // 
+            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
+            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openToolStripButton.Name = "openToolStripButton";
+            this.openToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.openToolStripButton.Text = "&Open";
+            // 
+            // saveToolStripButton
+            // 
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.saveToolStripButton.Text = "&Save";
+            // 
+            // ToolStrip_LoadKey
+            // 
+            this.ToolStrip_LoadKey.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStrip_LoadKey.Image = ((System.Drawing.Image)(resources.GetObject("ToolStrip_LoadKey.Image")));
+            this.ToolStrip_LoadKey.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStrip_LoadKey.Name = "ToolStrip_LoadKey";
+            this.ToolStrip_LoadKey.Size = new System.Drawing.Size(23, 20);
+            this.ToolStrip_LoadKey.Text = "Load key";
+            this.ToolStrip_LoadKey.Click += new System.EventHandler(this.LoadKey);
+            // 
+            // printToolStripButton
+            // 
+            this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
+            this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.printToolStripButton.Name = "printToolStripButton";
+            this.printToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.printToolStripButton.Text = "&Print";
+            // 
+            // toolStripSeparator
+            // 
+            this.toolStripSeparator.Name = "toolStripSeparator";
+            this.toolStripSeparator.Size = new System.Drawing.Size(6, 23);
+            // 
+            // cutToolStripButton
+            // 
+            this.cutToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.cutToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripButton.Image")));
+            this.cutToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cutToolStripButton.Name = "cutToolStripButton";
+            this.cutToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.cutToolStripButton.Text = "C&ut";
+            // 
+            // copyToolStripButton
+            // 
+            this.copyToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.copyToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripButton.Image")));
+            this.copyToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.copyToolStripButton.Name = "copyToolStripButton";
+            this.copyToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.copyToolStripButton.Text = "&Copy";
+            // 
+            // pasteToolStripButton
+            // 
+            this.pasteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.pasteToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripButton.Image")));
+            this.pasteToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pasteToolStripButton.Name = "pasteToolStripButton";
+            this.pasteToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.pasteToolStripButton.Text = "&Paste";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+            // 
+            // ToolStrip_Help
+            // 
+            this.ToolStrip_Help.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStrip_Help.Image = ((System.Drawing.Image)(resources.GetObject("ToolStrip_Help.Image")));
+            this.ToolStrip_Help.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStrip_Help.Name = "ToolStrip_Help";
+            this.ToolStrip_Help.Size = new System.Drawing.Size(23, 20);
+            this.ToolStrip_Help.Text = "He&lp";
+            this.ToolStrip_Help.Click += new System.EventHandler(this.Help);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(804, 441);
+            this.Controls.Add(this.MainWindow_ToolStrip);
             this.Controls.Add(this.tabControl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(500, 248);
@@ -1269,11 +1293,11 @@ namespace Timotheus.Forms
             this.Settings_InfoBox.ResumeLayout(false);
             this.Settings_InfoBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Settings_PictureBox)).EndInit();
-            this.Help_Page.ResumeLayout(false);
-            this.Help_Page.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Help_IconBox)).EndInit();
             this.TrayContextMenu.ResumeLayout(false);
+            this.MainWindow_ToolStrip.ResumeLayout(false);
+            this.MainWindow_ToolStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1299,11 +1323,6 @@ namespace Timotheus.Forms
         private System.Windows.Forms.RadioButton Calendar_YearButton;
         private System.Windows.Forms.RadioButton Calendar_AllButton;
         private System.Windows.Forms.DataGridView Calendar_View;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_StartColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_EndColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_NameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_DescriptionColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_LocationColumn;
         private System.Windows.Forms.TabPage SFTP_Page;
         private System.Windows.Forms.Label SFTP_HostLabel;
         private System.Windows.Forms.TextBox SFTP_HostBox;
@@ -1348,15 +1367,6 @@ namespace Timotheus.Forms
         private System.Windows.Forms.Button Settings_BrowseButton;
         private System.Windows.Forms.PictureBox Settings_PictureBox;
         private System.Windows.Forms.GroupBox Settings_InfoBox;
-        private System.Windows.Forms.TabPage Help_Page;
-        private System.Windows.Forms.Label Help_AuthorLabel;
-        private System.Windows.Forms.Label Help_VersionLabel;
-        private System.Windows.Forms.Label Help_LicenseLabel;
-        private System.Windows.Forms.Label Help_EmailLabel;
-        private System.Windows.Forms.LinkLabel Help_EmailLink;
-        private System.Windows.Forms.Label Help_SourceLabel;
-        private System.Windows.Forms.LinkLabel Help_SourceLink;
-        private System.Windows.Forms.PictureBox Help_IconBox;
         private System.Windows.Forms.TabPage Accounting_Page;
         private System.Windows.Forms.DataGridView Accounting_TransactionsView;
         private System.Windows.Forms.DataGridView Accounting_AccountsView;
@@ -1380,5 +1390,22 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Members_AddressColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NetColumn;
+        private System.Windows.Forms.ToolStrip MainWindow_ToolStrip;
+        private System.Windows.Forms.ToolStripButton newToolStripButton;
+        private System.Windows.Forms.ToolStripButton openToolStripButton;
+        private System.Windows.Forms.ToolStripButton saveToolStripButton;
+        private System.Windows.Forms.ToolStripButton printToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
+        private System.Windows.Forms.ToolStripButton cutToolStripButton;
+        private System.Windows.Forms.ToolStripButton copyToolStripButton;
+        private System.Windows.Forms.ToolStripButton pasteToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton ToolStrip_Help;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_StartColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_EndColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_DescriptionColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_LocationColumn;
+        private System.Windows.Forms.ToolStripButton ToolStrip_LoadKey;
     }
 }

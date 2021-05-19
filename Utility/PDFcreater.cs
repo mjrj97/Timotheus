@@ -90,14 +90,14 @@ namespace Timotheus.Utility
             string musician = "Musician";
             string coffee = "Coffee";
 
-            welcome = Localization.Get("PDF_Welcome", welcome);
-            schedule = Localization.Get("PDF_Schedule", schedule);
-            date = Localization.Get("PDF_Date", date);
-            start = Localization.Get("PDF_Start", start);
-            activity = Localization.Get("PDF_Activity", activity);
-            leader = Localization.Get("PDF_Leader", leader);
-            musician = Localization.Get("PDF_Musician", musician);
-            coffee = Localization.Get("PDF_Coffee", coffee);
+            welcome = Program.Localization.Get("PDF_Welcome", welcome);
+            schedule = Program.Localization.Get("PDF_Schedule", schedule);
+            date = Program.Localization.Get("PDF_Date", date);
+            start = Program.Localization.Get("PDF_Start", start);
+            activity = Program.Localization.Get("PDF_Activity", activity);
+            leader = Program.Localization.Get("PDF_Leader", leader);
+            musician = Program.Localization.Get("PDF_Musician", musician);
+            coffee = Program.Localization.Get("PDF_Coffee", coffee);
             #endregion
 
             // Each MigraDoc document needs at least one section.

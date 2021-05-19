@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
+using Timotheus.IO;
 
 namespace Timotheus.Schedule
 {
@@ -20,9 +22,13 @@ namespace Timotheus.Schedule
         /// </summary>
         private string url;
         /// <summary>
+        /// A list of the calendars headers.
+        /// </summary>
+        private readonly Register headers = new Register(':');
+        /// <summary>
         /// A list of the events in the local calendar.
         /// </summary>
-        public readonly List<Event> events = new List<Event>();
+        public readonly List<Event> events;
         /// <summary>
         /// HTTP Client used to make HTTP requests.
         /// </summary>
@@ -32,14 +38,6 @@ namespace Timotheus.Schedule
         /// Calendar timezone.
         /// </summary>
         private string timezone;
-        /// <summary>
-        /// iCalendar version.
-        /// </summary>
-        private string version;
-        /// <summary>
-        /// Identifier for the product that created the iCalendar object.
-        /// </summary>
-        private string prodid;
 
         /// <summary>
         /// Creates a Calendar object and pulls calendar data from URL using specified credentials.
@@ -62,9 +60,12 @@ namespace Timotheus.Schedule
         public Calendar()
         {
             url = string.Empty;
+            events = new List<Event>();
             timezone = GenerateTimeZone();
-            version = "2.0";
-            prodid = "-//mjrj97//Timotheus//EN";
+
+            headers.Add("VERSION", "2.0");
+            headers.Add("PRODID", "-//mjrj97//Timotheus//EN");
+            headers.Add("X-WR-CALNAME", "Calendar");
         }
 
         /// <summary>
@@ -75,10 +76,10 @@ namespace Timotheus.Schedule
         {
             string request =
             "BEGIN:VCALENDAR\n" +
-            "VERSION:" + version + "\n" +
-            "PRODID:" + prodid + "\n" +
+            "VERSION:" + headers.Get("VERSION") + "\n" +
+            "PRODID:" + headers.Get("PRODID") + "\n" +
             timezone + "\n" +
-            GetEventICS(ev) + "\n" +
+            ev.ToString() + "\n" +
             "END:VCALENDAR";
 
             HttpRequest(url + ev.UID + ".ics", credentials, "PUT", System.Text.Encoding.UTF8.GetBytes(request));
@@ -103,42 +104,30 @@ namespace Timotheus.Schedule
         public List<Event> LoadFromLines(string[] lines)
         {
             string tempTimeZone = string.Empty;
-            string tempVersion = string.Empty;
-            string tempProdID = string.Empty;
-
-            DateTime tempStartTime = DateTime.Now;
-            DateTime tempEndTime = DateTime.Now;
-            DateTime tempCreated = DateTime.Now;
-            string tempName = string.Empty;
-            string tempLocation = string.Empty;
-            string tempDescription = string.Empty;
-            string tempUID = string.Empty;
-
+            string eventText = string.Empty;
             int timeZoneStart = 0;
             int timeZoneEnd = 0;
 
             List<Event> events = new List<Event>();
 
-            for (int i = 0; i < lines.Length; i++)
+            if (lines[0] != "BEGIN:VCALENDAR")
+                throw new Exception("Exception_InvalidCalendar");
+            for (int i = 1; i < lines.Length; i++)
             {
                 if (timeZoneStart == 0)
                 {
-                    //Read calendar version and ID
-                    if (lines[i].Contains("VERSION") && tempVersion.Length < 1)
-                        tempVersion = GetValue(lines[i]);
-                    if (lines[i].Contains("PRODID") && tempProdID.Length < 1)
-                        tempProdID = GetValue(lines[i]);
-
                     //Set up time zone
-                    if (lines[i].Contains("BEGIN:VTIMEZONE"))
+                    if (lines[i] == "BEGIN:VTIMEZONE")
                     {
                         tempTimeZone += lines[i] + "\n";
                         timeZoneStart = i;
                     }
+                    else
+                        headers.Add(lines[i]);
                 }
                 else if (timeZoneEnd == 0)
                 {
-                    if (lines[i].Contains("END:VTIMEZONE"))
+                    if (lines[i] == "END:VTIMEZONE")
                     {
                         timeZoneEnd = i;
                         tempTimeZone += "END:VTIMEZONE";
@@ -148,29 +137,14 @@ namespace Timotheus.Schedule
                 }
                 else
                 {
-                    //Read events
-                    if (lines[i].Contains("SUMMARY"))
-                        tempName = GetValue(lines[i]);
-                    if (lines[i].Contains("DESCRIPTION"))
-                        tempDescription = ConvertFromCALString(GetValue(lines[i]));
-                    if (lines[i].Contains("LOCATION"))
-                        tempLocation = ConvertFromCALString(GetValue(lines[i]));
-                    if (lines[i].Contains("UID"))
-                        tempUID = GetValue(lines[i]);
-                    if (lines[i].Contains("DTSTART"))
-                        tempStartTime = StringToDate(GetValue(lines[i]));
-                    if (lines[i].Contains("DTEND"))
-                        tempEndTime = StringToDate(GetValue(lines[i]));
-                    if (lines[i].Contains("DTSTAMP"))
-                        tempCreated = StringToDate(GetValue(lines[i]));
-                    if (lines[i].Contains("END:VEVENT"))
+                    if (lines[i] == "BEGIN:VEVENT")
                     {
-                        events.Add(new Event(tempStartTime, tempEndTime, tempCreated, tempName, tempDescription, tempLocation, tempUID));
-
-                        tempName = string.Empty;
-                        tempDescription = string.Empty;
-                        tempLocation = string.Empty;
-                        tempUID = string.Empty;
+                        eventText = string.Empty;
+                    }
+                    eventText += lines[i] + "\n";
+                    if (lines[i] == "END:VEVENT")
+                    {
+                        events.Add(new Event(eventText));
                     }
                 }
             }
@@ -179,8 +153,6 @@ namespace Timotheus.Schedule
                 timezone = GenerateTimeZone();
             else
                 timezone = tempTimeZone;
-            version = tempVersion;
-            prodid = tempProdID;
 
             return events;
         }
@@ -203,7 +175,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Syncs the events in the time interval from a to b with the remote calendar. (As long as either the start time or end time is in the interval)
         /// </summary>
-        public void Sync(DateTime a, DateTime b)
+        public void Sync(Period period)
         {
             List<Event> remoteEvents = LoadFromLines(HttpRequest(url, credentials));
             bool[] foundLocal = new bool[events.Count];
@@ -211,6 +183,8 @@ namespace Timotheus.Schedule
 
             for (int i = 0; i < events.Count; i++)
             {
+                if (events[i].Description == null)
+                    System.Diagnostics.Debug.WriteLine(events[i].Name);
                 for (int j = 0; j < remoteEvents.Count; j++)
                 {
                     if (events[i].UID == remoteEvents[j].UID)
@@ -218,7 +192,7 @@ namespace Timotheus.Schedule
                         foundLocal[i] = true;
                         foundRemote[j] = true;
 
-                        if (events[i].IsInPeriod(a,b))
+                        if (period.In(events[i]))
                         {
                             if (events[i].Deleted)
                                 DeleteEvent(events[i]);
@@ -238,7 +212,7 @@ namespace Timotheus.Schedule
             }
             for (int i = 0; i < events.Count; i++)
             {
-                if (events[i].IsInPeriod(a, b))
+                if (period.In(events[i]))
                 {
                     if (!foundLocal[i])
                         AddEvent(events[i]);
@@ -246,7 +220,7 @@ namespace Timotheus.Schedule
             }
             for (int i = 0; i < remoteEvents.Count; i++)
             {
-                if (remoteEvents[i].IsInPeriod(a, b))
+                if (period.In(events[i]))
                 {
                     if (!foundRemote[i])
                         events.Add(remoteEvents[i]);
@@ -258,54 +232,7 @@ namespace Timotheus.Schedule
         /// </summary>
         public void Sync()
         {
-            Sync(DateTime.MinValue, DateTime.MaxValue);
-        }
-
-        /// <summary>
-        /// Returns a calendars iCal equivalent string.
-        /// </summary>
-        /// <param name="name">Name of the calendar.</param>
-        public string GetCalendarICS(string name)
-        {
-            string ics = "BEGIN:VCALENDAR\nVERSION:" + version +
-            "\nMETHOD:PUBLISH\nPRODID:" + prodid +
-            "\nX-WR-CALNAME:" + name + "\n"
-            + timezone + "\n";
-            for (int i = 0; i < events.Count; i++)
-            {
-                if (!events[i].Deleted)
-                    ics += GetEventICS(events[i]) + "\n";
-            }
-            ics += "END:VCALENDAR";
-            return ics;
-        }
-
-        /// <summary>
-        /// Converts a Event into a iCal string.
-        /// </summary>
-        /// <param name="ev">Calendar event that should be converted.</param>
-        public static string GetEventICS(Event ev)
-        {
-            string evString = "BEGIN:VEVENT\n" +
-            "UID:" + ev.UID + "\n";
-            if (ev.StartTime.Hour == ev.EndTime.Hour && ev.StartTime.Minute == ev.EndTime.Minute && ev.StartTime.Second == ev.EndTime.Second && ev.StartTime.Hour == 0 && ev.StartTime.Minute == 0 && ev.StartTime.Second == 0)
-            {
-                evString += "DTSTART;TZID=Europe/Copenhagen:" + DateToString(ev.StartTime) + "\n" +
-                "DTEND;TZID=Europe/Copenhagen:" + DateToString(ev.EndTime) + "\n";
-            }
-            else
-            {
-                evString += "DTSTART;TZID=Europe/Copenhagen:" + DateTimeToString(ev.StartTime) + "\n" +
-                "DTEND;TZID=Europe/Copenhagen:" + DateTimeToString(ev.EndTime) + "\n";
-            }
-            if (ev.Description != string.Empty)
-                evString += "DESCRIPTION:" + ConvertToCALString(ev.Description) + "\n";
-            evString += "DTSTAMP:" + DateTimeToString(ev.Created) + "Z\n";
-            if (ev.Location != string.Empty)
-                evString += "LOCATION:" + ConvertToCALString(ev.Location) + "\n";
-            evString += "SUMMARY:" + ev.Name + "\nEND:VEVENT";
-
-            return evString;
+            Sync(new Period(DateTime.MinValue, DateTime.MaxValue));
         }
 
         /// <summary>
@@ -399,6 +326,23 @@ namespace Timotheus.Schedule
         }
 
         /// <summary>
+        /// Returns a calendars iCal equivalent string.
+        /// </summary>
+        public override string ToString()
+        {
+            string ics = "BEGIN:VCALENDAR\n";
+            ics += headers.ToString() + "\n"
+            + timezone + "\n";
+            for (int i = 0; i < events.Count; i++)
+            {
+                if (!events[i].Deleted)
+                    ics += events[i].ToString() + "\n";
+            }
+            ics += "END:VCALENDAR";
+            return ics;
+        }
+
+        /// <summary>
         /// Sends a HTTP request to a URL and returns the response as a string array.
         /// </summary>
         public static string[] HttpRequest(string url, NetworkCredential credentials, string method, byte[] data)
@@ -421,7 +365,8 @@ namespace Timotheus.Schedule
 
             WebResponse response = request.GetResponse();
             System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
-            string[] responseFromServer = reader.ReadToEnd().Replace("\r\n ", "").Split("\n");
+            string text = reader.ReadToEnd().Replace("\r\n ", "");
+            string[] responseFromServer = Regex.Split(text, "\r\n|\r|\n");
             response.Close();
             return responseFromServer;
         }
@@ -438,20 +383,6 @@ namespace Timotheus.Schedule
         public static string[] HttpRequest(string url, NetworkCredential credentials)
         {
             return HttpRequest(url, credentials, null, null);
-        }
-
-        /// <summary>
-        /// Returns text after the last colon in a string.
-        /// </summary>
-        /// <param name="line">Line from iCalendar with format PROPERTY:VALUE eg. VERSION:2.0</param>
-        private string GetValue(string line)
-        {
-            int i = 0;
-            while (i < line.Length && line[i] != ':')
-            {
-                i++;
-            }
-            return line.Substring(i + 1, line.Length - i - 1).Trim();
         }
 
         /// <summary>

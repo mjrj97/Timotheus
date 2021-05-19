@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Timotheus.Utility;
 using Timotheus.Persons;
 
 namespace Timotheus.Forms
@@ -19,13 +18,13 @@ namespace Timotheus.Forms
             InitializeComponent();
             AddConsentForm_ComboBox.DataSource = list;
 
-            Text = Localization.Get(this);
-            AddConsentForm_AddButton.Text = Localization.Get(AddConsentForm_AddButton);
-            AddConsentForm_CancelButton.Text = Localization.Get(AddConsentForm_CancelButton);
-            AddConsentForm_NameLabel.Text = Localization.Get(AddConsentForm_NameLabel);
-            AddConsentForm_SignedLabel.Text = Localization.Get(AddConsentForm_SignedLabel);
-            AddConsentForm_VersionLabel.Text = Localization.Get(AddConsentForm_VersionLabel);
-            AddConsentForm_CommentLabel.Text = Localization.Get(AddConsentForm_CommentLabel);
+            Text = Program.Localization.Get(this);
+            AddConsentForm_AddButton.Text = Program.Localization.Get(AddConsentForm_AddButton);
+            AddConsentForm_CancelButton.Text = Program.Localization.Get(AddConsentForm_CancelButton);
+            AddConsentForm_NameLabel.Text = Program.Localization.Get(AddConsentForm_NameLabel);
+            AddConsentForm_SignedLabel.Text = Program.Localization.Get(AddConsentForm_SignedLabel);
+            AddConsentForm_VersionLabel.Text = Program.Localization.Get(AddConsentForm_VersionLabel);
+            AddConsentForm_CommentLabel.Text = Program.Localization.Get(AddConsentForm_CommentLabel);
         }
 
         /// <summary>

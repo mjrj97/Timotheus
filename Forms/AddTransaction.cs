@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Timotheus.Utility;
 using Timotheus.Accounting;
 
 namespace Timotheus.Forms
@@ -24,16 +23,16 @@ namespace Timotheus.Forms
             decimalSeparator = Convert.ToChar(Program.culture.NumberFormat.NumberDecimalSeparator);
             AddTransaction_AccountPicker.DataSource = accounts;
 
-            Text = Localization.Get(this);
-            AddTransaction_AddButton.Text = Localization.Get(AddTransaction_AddButton);
-            AddTransaction_CancelButton.Text = Localization.Get(AddTransaction_CancelButton);
-            AddTransaction_AccountLabel.Text = Localization.Get(AddTransaction_AccountLabel);
-            AddTransaction_AppendixLabel.Text = Localization.Get(AddTransaction_AppendixLabel);
-            AddTransaction_Currency1.Text = Localization.Get("AddTransaction_Currency", "$");
-            AddTransaction_Currency2.Text = Localization.Get("AddTransaction_Currency", "$");
-            AddTransaction_DateLabel.Text = Localization.Get(AddTransaction_DateLabel);
-            AddTransaction_InLabel.Text = Localization.Get(AddTransaction_InLabel);
-            AddTransaction_OutLabel.Text = Localization.Get(AddTransaction_OutLabel);
+            Text = Program.Localization.Get(this);
+            AddTransaction_AddButton.Text = Program.Localization.Get(AddTransaction_AddButton);
+            AddTransaction_CancelButton.Text = Program.Localization.Get(AddTransaction_CancelButton);
+            AddTransaction_AccountLabel.Text = Program.Localization.Get(AddTransaction_AccountLabel);
+            AddTransaction_AppendixLabel.Text = Program.Localization.Get(AddTransaction_AppendixLabel);
+            AddTransaction_Currency1.Text = Program.Localization.Get("AddTransaction_Currency", "$");
+            AddTransaction_Currency2.Text = Program.Localization.Get("AddTransaction_Currency", "$");
+            AddTransaction_DateLabel.Text = Program.Localization.Get(AddTransaction_DateLabel);
+            AddTransaction_InLabel.Text = Program.Localization.Get(AddTransaction_InLabel);
+            AddTransaction_OutLabel.Text = Program.Localization.Get(AddTransaction_OutLabel);
         }
 
         /// <summary>

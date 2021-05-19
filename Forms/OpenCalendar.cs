@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using Timotheus.Schedule;
-using Timotheus.Utility;
+using Timotheus.IO;
 
 namespace Timotheus.Forms
 {
@@ -19,34 +19,22 @@ namespace Timotheus.Forms
         /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
         /// </summary>
-        public OpenCalendar()
+        public OpenCalendar(Register keys)
         {
             InitializeComponent();
             OpenCalendar_PasswordBox.PasswordChar = '*';
+            OpenCalendar_UsernameBox.Text = keys.Get("Calendar-Email");
+            OpenCalendar_PasswordBox.Text = keys.Get("Calendar-Password");
+            OpenCalendar_CalDAVBox.Text = keys.Get("Calendar-URL");
 
-            string fullName = Path.Combine(Application.StartupPath, "Data.txt");
-            if (File.Exists(fullName))
-            {
-                StreamReader steamReader = new StreamReader(fullName);
-                string[] content = steamReader.ReadToEnd().Split("\n");
-                steamReader.Close();
-
-                if (content.Length > 0)
-                    OpenCalendar_UsernameBox.Text = content[0].Trim();
-                if (content.Length > 1)
-                    OpenCalendar_PasswordBox.Text = content[1].Trim();
-                if (content.Length > 2)
-                    OpenCalendar_CalDAVBox.Text = content[2].Trim();
-            }
-
-            Text = Localization.Get(this);
-            OpenCalendar_OpenButton.Text = Localization.Get(OpenCalendar_OpenButton);
-            OpenCalendar_CancelButton.Text = Localization.Get(OpenCalendar_CancelButton);
-            OpenCalendar_ICSButton.Text = Localization.Get(OpenCalendar_ICSButton);
-            OpenCalendar_CalDAVButton.Text = Localization.Get(OpenCalendar_CalDAVButton);
-            OpenCalendar_BrowseButton.Text = Localization.Get(OpenCalendar_BrowseButton);
-            OpenCalendar_UsernameLabel.Text = Localization.Get(OpenCalendar_UsernameLabel);
-            OpenCalendar_PasswordLabel.Text = Localization.Get(OpenCalendar_PasswordLabel);
+            Text = Program.Localization.Get(this);
+            OpenCalendar_OpenButton.Text = Program.Localization.Get(OpenCalendar_OpenButton);
+            OpenCalendar_CancelButton.Text = Program.Localization.Get(OpenCalendar_CancelButton);
+            OpenCalendar_ICSButton.Text = Program.Localization.Get(OpenCalendar_ICSButton);
+            OpenCalendar_CalDAVButton.Text = Program.Localization.Get(OpenCalendar_CalDAVButton);
+            OpenCalendar_BrowseButton.Text = Program.Localization.Get(OpenCalendar_BrowseButton);
+            OpenCalendar_UsernameLabel.Text = Program.Localization.Get(OpenCalendar_UsernameLabel);
+            OpenCalendar_PasswordLabel.Text = Program.Localization.Get(OpenCalendar_PasswordLabel);
         }
 
         /// <summary>

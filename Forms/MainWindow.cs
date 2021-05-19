@@ -2,10 +2,10 @@ using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.Persons;
 using Timotheus.Accounting;
+using Timotheus.IO;
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
@@ -19,6 +19,10 @@ namespace Timotheus.Forms
     /// </summary>
     public partial class MainWindow : Form
     {
+        /// <summary>
+        /// Register containing all the keys loaded at startup.
+        /// </summary>
+        private Register keys;
         /// <summary>
         /// List of events in the period from StartPeriod to EndPeriod shown in the Calendar_View. Updated using UpdateTable().
         /// </summary>
@@ -48,31 +52,11 @@ namespace Timotheus.Forms
         /// Current calendar used by the program.
         /// </summary>
         public Calendar calendar = new Calendar();
-        /// <summary>
-        /// Name of the spring period.
-        /// </summary>
-        private string spring = "Spring";
-        /// <summary>
-        /// Name of the fall period.
-        /// </summary>
-        private string fall = "Fall";
-        /// <summary>
-        /// Name of the all period.
-        /// </summary>
-        private string all = "All";
 
-        /// <summary>
-        /// Start of the period in calanderwhich sorts the different lists.
-        /// </summary>
-        public DateTime StartPeriod = new DateTime(DateTime.Now.Year, 1, 1);
-        /// <summary>
-        /// End of the period in calander which sorts the different lists.
-        /// </summary>
-        public DateTime EndPeriod = new DateTime(DateTime.Now.Year + 1, 1, 1);
         /// <summary>
         /// Type of period used by Calendar_View.
         /// </summary>
-        private Period period = Period.Year;
+        private readonly Period calendarPeriod = new Period(new DateTime(DateTime.Now.Year, 1, 1), new DateTime(DateTime.Now.Year + 1, 1, 1));
 
         /// <summary>
         /// To save the Members under 25 in the correct language
@@ -96,34 +80,21 @@ namespace Timotheus.Forms
         {
             InitializeComponent();
             SetupUI();
-            
-            string fullName = Path.Combine(Application.StartupPath, "Data.txt");
-            if (File.Exists(fullName))
+            try
             {
-                StreamReader steamReader = new StreamReader(fullName);
-                string[] content = steamReader.ReadToEnd().Split("\n");
-                steamReader.Close();
-
-                if (content.Length > 4)
-                    SFTP_UsernameBox.Text = content[4].Trim();
-                if (content.Length > 5)
-                    SFTP_PasswordBox.Text = content[5].Trim();
-                if (content.Length > 3)
-                    SFTP_HostBox.Text = content[3].Trim();
-                if (content.Length > 6)
-                    SFTP_RemoteDirectoryBox.Text = content[6].Trim();
-                if (content.Length > 7)
-                    SFTP_LocalDirectoryBox.Text = content[7].Trim();
-                if (content.Length > 8)
-                    Settings_NameBox.Text = content[8].Trim();
-                if (content.Length > 9)
-                    Settings_AddressBox.Text = content[9].Trim();
-                if (content.Length > 10)
+                string KeyPath = Program.Registry.Get("KeyPath");
+                if (KeyPath != string.Empty)
                 {
-                    Settings_LogoBox.Text = content[10].Trim();
-                    if (File.Exists(content[10].Trim()))
-                        Settings_PictureBox.Image = Image.FromFile(content[10].Trim());
+                    keys = new Register(KeyPath, ':');
+                    InsertKeys();
                 }
+                else
+                    keys = new Register(':');
+            }
+            catch (Exception e)
+            {
+                Program.Error("Exception_LoadFailed", e.Message);
+                keys = new Register(':');
             }
         }
 
@@ -136,27 +107,23 @@ namespace Timotheus.Forms
             Calendar_View.AutoGenerateColumns = false;
             Calendar_View.DataSource = new BindingSource(events, null);
             
-            Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
-            Calendar_Page.Text = Localization.Get(Calendar_Page);
-            Calendar_StartColumn.HeaderText = Localization.Get(Calendar_StartColumn);
-            Calendar_EndColumn.HeaderText = Localization.Get(Calendar_EndColumn);
-            Calendar_NameColumn.HeaderText = Localization.Get(Calendar_NameColumn);
-            Calendar_DescriptionColumn.HeaderText = Localization.Get(Calendar_DescriptionColumn);
-            Calendar_LocationColumn.HeaderText = Localization.Get(Calendar_LocationColumn);
-            Calendar_MonthButton.Text = Localization.Get(Calendar_MonthButton);
-            Calendar_HalfYearButton.Text = Localization.Get(Calendar_HalfYearButton);
-            Calendar_YearButton.Text = Localization.Get(Calendar_YearButton);
-            Calendar_AllButton.Text = Localization.Get(Calendar_AllButton);
-            Calendar_SaveButton.Text = Localization.Get(Calendar_SaveButton);
-            Calendar_OpenButton.Text = Localization.Get(Calendar_OpenButton);
-            Calendar_SyncButton.Text = Localization.Get(Calendar_SyncButton);
-            Calendar_ExportButton.Text = Localization.Get(Calendar_ExportButton);
-            Calendar_RemoveButton.Text = Localization.Get(Calendar_RemoveButton);
-            Calendar_AddButton.Text = Localization.Get(Calendar_AddButton);
-
-            spring = Localization.Get("Calendar_Spring", spring);
-            fall = Localization.Get("Calendar_Fall", fall);
-            all = Localization.Get("Calendar_All", all);
+            Calendar_PeriodBox.Text = calendarPeriod.ToString();
+            Calendar_Page.Text = Program.Localization.Get(Calendar_Page);
+            Calendar_StartColumn.HeaderText = Program.Localization.Get(Calendar_StartColumn);
+            Calendar_EndColumn.HeaderText = Program.Localization.Get(Calendar_EndColumn);
+            Calendar_NameColumn.HeaderText = Program.Localization.Get(Calendar_NameColumn);
+            Calendar_DescriptionColumn.HeaderText = Program.Localization.Get(Calendar_DescriptionColumn);
+            Calendar_LocationColumn.HeaderText = Program.Localization.Get(Calendar_LocationColumn);
+            Calendar_MonthButton.Text = Program.Localization.Get(Calendar_MonthButton);
+            Calendar_HalfYearButton.Text = Program.Localization.Get(Calendar_HalfYearButton);
+            Calendar_YearButton.Text = Program.Localization.Get(Calendar_YearButton);
+            Calendar_AllButton.Text = Program.Localization.Get(Calendar_AllButton);
+            Calendar_SaveButton.Text = Program.Localization.Get(Calendar_SaveButton);
+            Calendar_OpenButton.Text = Program.Localization.Get(Calendar_OpenButton);
+            Calendar_SyncButton.Text = Program.Localization.Get(Calendar_SyncButton);
+            Calendar_ExportButton.Text = Program.Localization.Get(Calendar_ExportButton);
+            Calendar_RemoveButton.Text = Program.Localization.Get(Calendar_RemoveButton);
+            Calendar_AddButton.Text = Program.Localization.Get(Calendar_AddButton);
             #endregion
 
             #region SFTP
@@ -164,18 +131,18 @@ namespace Timotheus.Forms
             SFTP_View.DataSource = new BindingSource(shownFiles, null);
             SFTP_PasswordBox.PasswordChar = '*';
             
-            SFTP_Page.Text = Localization.Get(SFTP_Page);
-            SFTP_HostLabel.Text = Localization.Get(SFTP_HostLabel);
-            SFTP_UsernameLabel.Text = Localization.Get(SFTP_UsernameLabel);
-            SFTP_PasswordLabel.Text = Localization.Get(SFTP_PasswordLabel);
-            SFTP_RemoteDirectoryLabel.Text = Localization.Get(SFTP_RemoteDirectoryLabel);
-            SFTP_LocalDirectoryLabel.Text = Localization.Get(SFTP_LocalDirectoryLabel);
-            SFTP_BrowseButton.Text = Localization.Get(SFTP_BrowseButton);
-            SFTP_ShowDirectoryButton.Text = Localization.Get(SFTP_ShowDirectoryButton);
-            SFTP_DownloadButton.Text = Localization.Get(SFTP_DownloadButton);
-            SFTP_SyncButton.Text = Localization.Get(SFTP_SyncButton);
-            SFTP_NameColumn.HeaderText = Localization.Get(SFTP_NameColumn);
-            SFTP_SizeColumn.HeaderText = Localization.Get(SFTP_SizeColumn);
+            SFTP_Page.Text = Program.Localization.Get(SFTP_Page);
+            SFTP_HostLabel.Text = Program.Localization.Get(SFTP_HostLabel);
+            SFTP_UsernameLabel.Text = Program.Localization.Get(SFTP_UsernameLabel);
+            SFTP_PasswordLabel.Text = Program.Localization.Get(SFTP_PasswordLabel);
+            SFTP_RemoteDirectoryLabel.Text = Program.Localization.Get(SFTP_RemoteDirectoryLabel);
+            SFTP_LocalDirectoryLabel.Text = Program.Localization.Get(SFTP_LocalDirectoryLabel);
+            SFTP_BrowseButton.Text = Program.Localization.Get(SFTP_BrowseButton);
+            SFTP_ShowDirectoryButton.Text = Program.Localization.Get(SFTP_ShowDirectoryButton);
+            SFTP_DownloadButton.Text = Program.Localization.Get(SFTP_DownloadButton);
+            SFTP_SyncButton.Text = Program.Localization.Get(SFTP_SyncButton);
+            SFTP_NameColumn.HeaderText = Program.Localization.Get(SFTP_NameColumn);
+            SFTP_SizeColumn.HeaderText = Program.Localization.Get(SFTP_SizeColumn);
             #endregion
 
             #region Members
@@ -183,14 +150,14 @@ namespace Timotheus.Forms
             Members_View.DataSource = new BindingSource(members, null);
 
             Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
-            Members_Page.Text = Localization.Get(Members_Page);
-            Members_NameColumn.HeaderText = Localization.Get(Members_NameColumn);
-            Members_AddressColumn.HeaderText = Localization.Get(Members_AddressColumn);
-            Members_BirthdayColumn.HeaderText = Localization.Get(Members_BirthdayColumn);
-            Members_EntryColumn.HeaderText = Localization.Get(Members_EntryColumn);
-            Members_AddButton.Text = Localization.Get(Members_AddButton);
-            Members_RemoveButton.Text = Localization.Get(Members_RemoveButton);
-            MembersUnder25Text = Localization.Get(Members_Under25Label);
+            Members_Page.Text = Program.Localization.Get(Members_Page);
+            Members_NameColumn.HeaderText = Program.Localization.Get(Members_NameColumn);
+            Members_AddressColumn.HeaderText = Program.Localization.Get(Members_AddressColumn);
+            Members_BirthdayColumn.HeaderText = Program.Localization.Get(Members_BirthdayColumn);
+            Members_EntryColumn.HeaderText = Program.Localization.Get(Members_EntryColumn);
+            Members_AddButton.Text = Program.Localization.Get(Members_AddButton);
+            Members_RemoveButton.Text = Program.Localization.Get(Members_RemoveButton);
+            MembersUnder25Text = Program.Localization.Get(Members_Under25Label);
             UpdateMemberTable();
             #endregion
 
@@ -198,31 +165,31 @@ namespace Timotheus.Forms
             ConsentForms_View.AutoGenerateColumns = false;
             ConsentForms_View.DataSource = new BindingSource(consentForms, null);
             
-            ConsentForms_Page.Text = Localization.Get(ConsentForms_Page);
-            ConsentForms_AddButton.Text = Localization.Get(ConsentForms_AddButton);
-            ConsentForms_RemoveButton.Text = Localization.Get(ConsentForms_RemoveButton);
-            ConsentForms_NameColumn.HeaderText = Localization.Get(ConsentForms_NameColumn);
-            ConsentForms_DateColumn.HeaderText = Localization.Get(ConsentForms_DateColumn);
-            ConsentForms_VersionColumn.HeaderText = Localization.Get(ConsentForms_VersionColumn);
-            ConsentForms_CommentColumn.HeaderText = Localization.Get(ConsentForms_CommentColumn);
+            ConsentForms_Page.Text = Program.Localization.Get(ConsentForms_Page);
+            ConsentForms_AddButton.Text = Program.Localization.Get(ConsentForms_AddButton);
+            ConsentForms_RemoveButton.Text = Program.Localization.Get(ConsentForms_RemoveButton);
+            ConsentForms_NameColumn.HeaderText = Program.Localization.Get(ConsentForms_NameColumn);
+            ConsentForms_DateColumn.HeaderText = Program.Localization.Get(ConsentForms_DateColumn);
+            ConsentForms_VersionColumn.HeaderText = Program.Localization.Get(ConsentForms_VersionColumn);
+            ConsentForms_CommentColumn.HeaderText = Program.Localization.Get(ConsentForms_CommentColumn);
             #endregion
 
             #region Accounting
-            Accounting_YearBox.Text = StartPeriod.Year.ToString();
+            Accounting_YearBox.Text = calendarPeriod.ToString();
             Accounting_TransactionsView.AutoGenerateColumns = false;
             Accounting_TransactionsView.DataSource = new BindingSource(transactions, null);
             Accounting_AccountsView.AutoGenerateColumns = false;
             Accounting_AccountsView.DataSource = new BindingSource(accounts, null);
             Accounting_TransactionsView.Columns[5].DefaultCellStyle.ForeColor = Color.Red;
             
-            Accounting_Page.Text = Localization.Get(Accounting_Page);
-            Accounting_DateColumn.HeaderText = Localization.Get(Accounting_DateColumn);
-            Accounting_AppendixColumn.HeaderText = Localization.Get(Accounting_AppendixColumn);
-            Accounting_DescriptionColumn.HeaderText = Localization.Get(Accounting_DescriptionColumn);
-            Accounting_AccountNumberColumn.HeaderText = Localization.Get(Accounting_AccountNumberColumn);
-            Accounting_InColumn.HeaderText = Localization.Get(Accounting_InColumn);
-            Accounting_OutColumn.HeaderText = Localization.Get(Accounting_OutColumn);
-            Accounting_BalanceColumn.HeaderText = Localization.Get(Accounting_BalanceColumn);
+            Accounting_Page.Text = Program.Localization.Get(Accounting_Page);
+            Accounting_DateColumn.HeaderText = Program.Localization.Get(Accounting_DateColumn);
+            Accounting_AppendixColumn.HeaderText = Program.Localization.Get(Accounting_AppendixColumn);
+            Accounting_DescriptionColumn.HeaderText = Program.Localization.Get(Accounting_DescriptionColumn);
+            Accounting_AccountNumberColumn.HeaderText = Program.Localization.Get(Accounting_AccountNumberColumn);
+            Accounting_InColumn.HeaderText = Program.Localization.Get(Accounting_InColumn);
+            Accounting_OutColumn.HeaderText = Program.Localization.Get(Accounting_OutColumn);
+            Accounting_BalanceColumn.HeaderText = Program.Localization.Get(Accounting_BalanceColumn);
 
             //Only for testing
             accounts.Add(new Account(1, "Kontingent"));
@@ -231,22 +198,29 @@ namespace Timotheus.Forms
             #endregion
 
             #region Settings
-            Settings_Page.Text = Localization.Get(Settings_Page);
-            Settings_InfoBox.Text = Localization.Get(Settings_InfoBox);
-            Settings_NameLabel.Text = Localization.Get(Settings_NameLabel);
-            Settings_AddressLabel.Text = Localization.Get(Settings_AddressLabel);
-            Settings_LogoLabel.Text = Localization.Get(Settings_LogoLabel);
-            Settings_BrowseButton.Text = Localization.Get(Settings_BrowseButton);
+            Settings_Page.Text = Program.Localization.Get(Settings_Page);
+            Settings_InfoBox.Text = Program.Localization.Get(Settings_InfoBox);
+            Settings_NameLabel.Text = Program.Localization.Get(Settings_NameLabel);
+            Settings_AddressLabel.Text = Program.Localization.Get(Settings_AddressLabel);
+            Settings_LogoLabel.Text = Program.Localization.Get(Settings_LogoLabel);
+            Settings_BrowseButton.Text = Program.Localization.Get(Settings_BrowseButton);
             #endregion
+        }
 
-            #region Help
-            Help_Page.Text = Localization.Get(Help_Page);
-            Help_AuthorLabel.Text = Localization.Get(Help_AuthorLabel) + ": Martin J. R. Jensen";
-            Help_VersionLabel.Text = Localization.Get(Help_VersionLabel) + " v. 0.1.0";
-            Help_LicenseLabel.Text = Localization.Get(Help_LicenseLabel) + ": Apache-2.0";
-            Help_EmailLabel.Text = Localization.Get(Help_EmailLabel);
-            Help_SourceLabel.Text = Localization.Get(Help_SourceLabel);
-            #endregion
+        /// <summary>
+        /// Inserts the keys into their respective fields.
+        /// </summary>
+        private void InsertKeys()
+        {
+            SFTP_UsernameBox.Text = keys.Get("SSH-Username");
+            SFTP_PasswordBox.Text = keys.Get("SSH-Password");
+            SFTP_HostBox.Text = keys.Get("SSH-URL");
+            SFTP_RemoteDirectoryBox.Text = keys.Get("SSH-RemoteDirectory");
+            SFTP_LocalDirectoryBox.Text = keys.Get("SSH-LocalDirectory");
+            Settings_NameBox.Text = keys.Get("Settings-Name");
+            Settings_AddressBox.Text = keys.Get("Settings-Address");
+            Settings_LogoBox.Text = keys.Get("Settings-Image");
+            Settings_PictureBox.Image = Image.FromFile(keys.Get("Settings-Image"));
         }
 
         #region Calendar
@@ -258,7 +232,7 @@ namespace Timotheus.Forms
             events.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
             {
-                if (calendar.events[i].IsInPeriod(StartPeriod,EndPeriod) && !calendar.events[i].Deleted)
+                if (calendarPeriod.In(calendar.events[i]) && !calendar.events[i].Deleted)
                     events.Add(calendar.events[i]);
             }
             Calendar_View.Sort(Calendar_View.Columns[0], ListSortDirection.Ascending);
@@ -274,45 +248,15 @@ namespace Timotheus.Forms
                 Button button = (Button)sender;
                 if (button.Text == "+")
                 {
-                    if (period == Period.Year)
-                    {
-                        StartPeriod = StartPeriod.AddYears(1);
-                        EndPeriod = EndPeriod.AddYears(1); 
-                    }
-                    else if (period == Period.Halfyear)
-                    {
-                        StartPeriod = StartPeriod.AddMonths(6);
-                        EndPeriod = EndPeriod.AddMonths(6);  
-                    }
-                    else if (period == Period.Month)
-                    {
-                        StartPeriod = StartPeriod.AddMonths(1);
-                        EndPeriod = EndPeriod.AddMonths(1);                        
-                    }
+                    calendarPeriod.Add();
                 }
                 else if (button.Text == "-")
                 {
-                    if (period == Period.Year)
-                    {
-                        StartPeriod = StartPeriod.AddYears(-1);
-                        EndPeriod = EndPeriod.AddYears(-1);
-                    }
-                    else if (period == Period.Halfyear)
-                    {
-                        StartPeriod = StartPeriod.AddMonths(-6);
-                        EndPeriod = EndPeriod.AddMonths(-6);
-                    }
-                    else if (period == Period.Month)
-                    {
-                        StartPeriod = StartPeriod.AddMonths(-1);
-                        EndPeriod = EndPeriod.AddMonths(-1);
-                        
-                    }
+                    calendarPeriod.Subtract();
                 }
                 UpdatePeriodBox();
+                UpdateCalendarTable();
             }
-            
-            UpdateCalendarTable();
         }
 
         /// <summary>
@@ -320,86 +264,18 @@ namespace Timotheus.Forms
         /// </summary>
         private void PeriodChangedButton(object sender, EventArgs e)
         {
-            RadioButton button = (RadioButton)sender;
-            if (button.Checked)
-            {
-                ChangePeriod();
-            }
-        }
+            Calendar_AddYearButton.Enabled = !Calendar_AllButton.Checked;
+            Calendar_SubtractYearButton.Enabled = !Calendar_AllButton.Checked;
 
-        /// <summary>
-        /// Changes the period
-        /// </summary>
-        private void ChangePeriod()
-        {
             if (Calendar_AllButton.Checked)
-            {
-                Calendar_AddYearButton.Enabled = false;
-                Calendar_SubtractYearButton.Enabled = false;
+                calendarPeriod.SetType(PeriodType.All);
+            if (Calendar_YearButton.Checked)
+                calendarPeriod.SetType(PeriodType.Year);
+            else if (Calendar_HalfYearButton.Checked)
+                calendarPeriod.SetType(PeriodType.Halfyear);
+            else if (Calendar_MonthButton.Checked)
+                calendarPeriod.SetType(PeriodType.Month);
 
-                StartPeriod = DateTime.MinValue;
-                EndPeriod = DateTime.MaxValue;
-                period = Period.All;
-            }
-            else
-            {
-                if (Calendar_YearButton.Checked)
-                {
-                    if (period == Period.All)
-                    {
-                        StartPeriod = new DateTime(DateTime.Now.Year, 1, 1);
-                        EndPeriod = new DateTime(DateTime.Now.Year + 1, 1, 1);
-                    }
-                    else
-                    {
-                        StartPeriod = new DateTime(StartPeriod.Year, 1, 1);
-                        EndPeriod = new DateTime(StartPeriod.Year + 1, 1, 1);
-                    }
-
-                    period = Period.Year;
-                }
-                else if (Calendar_HalfYearButton.Checked)
-                {
-                    if (period == Period.All)
-                    {
-                        if (DateTime.Now.Month > 6)
-                        {
-                            StartPeriod = new DateTime(DateTime.Now.Year, 7, 1);
-                            EndPeriod = new DateTime(DateTime.Now.Year + 1, 1, 1);
-                        }
-                        else
-                        {
-                            StartPeriod = new DateTime(DateTime.Now.Year, 1, 1);
-                            EndPeriod = new DateTime(DateTime.Now.Year, 7, 1);
-                        }
-                    }
-                    else
-                    {
-                        if (StartPeriod.Month > 6)
-                        {
-                            StartPeriod = new DateTime(StartPeriod.Year, 7, 1);
-                            EndPeriod = new DateTime(StartPeriod.Year + 1, 1, 1);
-                        }
-                        else
-                        {
-                            StartPeriod = new DateTime(StartPeriod.Year, 1, 1);
-                            EndPeriod = new DateTime(StartPeriod.Year, 7, 1);
-                        }
-                    }
-
-                    period = Period.Halfyear;
-                }
-                else if (Calendar_MonthButton.Checked)
-                {
-                    StartPeriod = new DateTime(StartPeriod.Year, StartPeriod.Month, 1);
-                    EndPeriod = StartPeriod.AddMonths(1);
-
-                    period = Period.Month;
-                }
-
-                Calendar_AddYearButton.Enabled = true;
-                Calendar_SubtractYearButton.Enabled = true;
-            }
             UpdatePeriodBox();
             UpdateCalendarTable();
         }
@@ -453,7 +329,7 @@ namespace Timotheus.Forms
             {
                 if ((stream = saveFileDialog.OpenFile()) != null)
                 {
-                    byte[] data = System.Text.Encoding.UTF8.GetBytes(calendar.GetCalendarICS(Path.GetFileNameWithoutExtension(saveFileDialog.FileName)));
+                    byte[] data = System.Text.Encoding.UTF8.GetBytes(calendar.ToString());
                     stream.Write(data);
                     stream.Close();
                 }
@@ -465,7 +341,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void OpenCalendar(object sender, EventArgs e)
         {
-            OpenCalendar open = new OpenCalendar
+            OpenCalendar open = new OpenCalendar(keys)
             {
                 Owner = this
             };
@@ -505,7 +381,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void SyncCalendar(object sender, EventArgs e)
         {
-            SyncCalendar sync = new SyncCalendar(calendar, Calendar_PeriodBox.Text, StartPeriod, EndPeriod)
+            SyncCalendar sync = new SyncCalendar(calendar, calendarPeriod, keys)
             {
                 Owner = this
             };
@@ -521,79 +397,24 @@ namespace Timotheus.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                string inputText = Calendar_PeriodBox.Text;
-                string[] SpiltText = inputText.Split(" ");
+                calendarPeriod.SetPeriod(Calendar_PeriodBox.Text);
 
-                System.Globalization.DateTimeFormatInfo dtfi = System.Globalization.CultureInfo.GetCultureInfo(Program.culture.Name).DateTimeFormat;
-                List<string> MonthNames = new List<string>(dtfi.MonthNames);
-                MonthNames = MonthNames.ConvertAll(d => d.ToLower());
-
-                string text;
-
-                if (inputText.ToLower().Equals(all.ToLower()))
+                switch (calendarPeriod.Type)
                 {
-                    Calendar_AllButton.Checked = true;
-                }
-                else if (SpiltText.Length == 1 && int.TryParse(inputText, out int NewYear) && NewYear > 0 && NewYear < 10000)
-                {
-                    Calendar_YearButton.Checked = true;
-
-                    int change = NewYear - StartPeriod.Year;
-                    StartPeriod = StartPeriod.AddYears(change);
-                    EndPeriod = EndPeriod.AddYears(change);
-                }
-                else if (SpiltText.Length == 2)
-                {
-                    if (int.TryParse(SpiltText[0], out NewYear))
-                    {
-                        text = SpiltText[1].ToLower();
-                    }
-                    else if (int.TryParse(SpiltText[1], out NewYear))
-                    {
-                        text = SpiltText[0].ToLower();
-                    }
-                    else
-                    {
-                        text = null;
-                    }
-
-                    if (text != null)
-                    {
-                        //check if it is halfyear
-                        if (NewYear > 0 && NewYear < 10000 && (text.Equals(fall.ToLower()) | text.Equals(spring.ToLower())))
-                        {
-                            Calendar_HalfYearButton.Checked = true;
-                            
-                            if (text.Equals(fall.ToLower()))
-                            {
-                                StartPeriod = new DateTime(NewYear, 7, 1);
-                                EndPeriod = new DateTime(NewYear + 1, 1, 1);
-                            }
-                            else if (text.Equals(spring.ToLower()))
-                            {
-                                StartPeriod = new DateTime(NewYear, 1, 1);
-                                EndPeriod = new DateTime(NewYear, 7, 1);
-                            }
-                        }
-                        else if (MonthNames.Contains(text) && NewYear > 0 && NewYear < 10000)
-                        {
-                            Calendar_MonthButton.Checked = true;
-                            
-                            try
-                            {
-                                DateTime NewDateTime = DateTime.Parse(inputText, Program.culture);
-                                StartPeriod = new DateTime(NewDateTime.Year, NewDateTime.Month, 1);
-                                EndPeriod = StartPeriod.AddMonths(1);
-                            }
-                            catch (FormatException)
-                            {
-                                //Should there be mesage here?
-                            }
-                        }
-                    }
+                    case PeriodType.All:
+                        Calendar_AllButton.Checked = true;
+                        break;
+                    case PeriodType.Year:
+                        Calendar_YearButton.Checked = true;
+                        break;
+                    case PeriodType.Halfyear:
+                        Calendar_HalfYearButton.Checked = true;
+                        break;
+                    case PeriodType.Month:
+                        Calendar_MonthButton.Checked = true;
+                        break;
                 }
 
-                ChangePeriod();
                 UpdateCalendarTable();
                 e.Handled = true;
             }
@@ -604,25 +425,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void UpdatePeriodBox()
         {
-            switch (period)
-            {
-                case Period.All:
-                    Calendar_PeriodBox.Text = all;
-                    break;
-                case Period.Year:
-                    Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
-                    break;
-                case Period.Halfyear:
-                    if (StartPeriod.Month > 6)
-                        Calendar_PeriodBox.Text = StartPeriod.Year + " " + fall;
-                    else
-                        Calendar_PeriodBox.Text = StartPeriod.Year + " " + spring;
-                    break;
-                case Period.Month:
-                        Calendar_PeriodBox.Text = StartPeriod.ToString("MMMM", Program.culture) + " " + StartPeriod.Year;
-                    break;
-            }
-            
+            Calendar_PeriodBox.Text = calendarPeriod.ToString();
         }
         #endregion
 
@@ -1006,34 +809,6 @@ namespace Timotheus.Forms
         }
         #endregion
 
-        #region Help
-        /// <summary>
-        /// Opens link to the GitHub repository.
-        /// </summary>
-        private void SourceLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Help_SourceLink.LinkVisited = true;
-            Process p = new Process();
-            p.StartInfo.FileName = "cmd";
-            p.StartInfo.Arguments = "/c start https://www.github.com/mjrj97/Manager";
-            p.StartInfo.CreateNoWindow = true;
-            p.Start();
-        }
-
-        /// <summary>
-        /// Send email to the author.
-        /// </summary>
-        private void EmailLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Help_EmailLink.LinkVisited = true;
-            Process p = new Process();
-            p.StartInfo.FileName = "cmd";
-            p.StartInfo.Arguments = "/c start mailto:martin.jensen.1997@hotmail.com";
-            p.StartInfo.CreateNoWindow = true;
-            p.Start();
-        }
-        #endregion
-
         #region Tray icon
         /// <summary>
         /// Reopens the Timotheus window.
@@ -1063,6 +838,40 @@ namespace Timotheus.Forms
                 Hide();
                 TrayIcon.Visible = true;
             }
+        }
+        #endregion
+
+        #region Toolstrip
+        /// <summary>
+        /// Opens a dialog so the user can select a file that has all the keys.
+        /// </summary>
+        private void LoadKey(object sender, EventArgs e)
+        {
+            // open file dialog   
+            OpenFileDialog open = new OpenFileDialog
+            {
+                // image filters  
+                Filter = "Key files (*.txt; *.tkey)|*.txt; *.tkey;"
+            };
+
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                keys = new Register(open.FileName, ':');
+                Program.Registry.Set("KeyPath", open.FileName);
+                InsertKeys();
+            }
+        }
+
+        /// <summary>
+        /// Opens the help dialog where information about the software and its authors is located.
+        /// </summary>
+        private void Help(object sender, EventArgs e)
+        {
+            Help help = new Help
+            {
+                Owner = this
+            };
+            help.ShowDialog();
         }
         #endregion
 
@@ -1107,16 +916,5 @@ namespace Timotheus.Forms
             ((DataGridView)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].Value = DateTime.Now.Date;
             e.Cancel = true;
         }
-    }
- 
-    /// <summary>
-    /// Used to define the type of period used by a DataGridView.
-    /// </summary>
-    enum Period
-    {
-        All,
-        Year,
-        Halfyear,
-        Month
     }
 }

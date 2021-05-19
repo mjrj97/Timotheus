@@ -3,7 +3,7 @@ using Renci.SshNet.Sftp;
 using System.IO;
 using System.Collections.Generic;
 
-namespace Timotheus.Utility
+namespace Timotheus.IO
 {
     /// <summary>
     /// Class that contains SFTP related methods. Uses SSH.NET.

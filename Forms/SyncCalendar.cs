@@ -1,8 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
 using Timotheus.Schedule;
-using Timotheus.Utility;
+using Timotheus.IO;
 
 namespace Timotheus.Forms
 {
@@ -15,42 +14,24 @@ namespace Timotheus.Forms
         /// Calendar to sync. Is assigned by the constructor.
         /// </summary>
         private readonly Calendar calendar;
-
         /// <summary>
-        /// Start date of the standard sync period. Is assigned by the constructor.
+        /// The sync period specified by the MainWindow.
         /// </summary>
-        private readonly DateTime a;
-        /// <summary>
-        /// End date of the standard sync period. Is assigned by the constructor.
-        /// </summary>
-        private readonly DateTime b;
+        private readonly Period period;
 
         /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
         /// </summary>
-        public SyncCalendar(Calendar calendar, string period, DateTime a, DateTime b)
+        public SyncCalendar(Calendar calendar, Period period, Register keys)
         {
             this.calendar = calendar;
-            this.a = a;
-            this.b = b;
+            this.period = period;
 
             InitializeComponent();
             SyncCalendar_PasswordBox.PasswordChar = '*';
-
-            string fullName = Path.Combine(Application.StartupPath, "Data.txt");
-            if (File.Exists(fullName))
-            {
-                StreamReader steamReader = new StreamReader(fullName);
-                string[] content = steamReader.ReadToEnd().Split("\n");
-                steamReader.Close();
-
-                if (content.Length > 0)
-                    SyncCalendar_UsernameBox.Text = content[0].Trim();
-                if (content.Length > 1)
-                    SyncCalendar_PasswordBox.Text = content[1].Trim();
-                if (content.Length > 2)
-                    SyncCalendar_CalDAVBox.Text = content[2].Trim();
-            }
+            SyncCalendar_UsernameBox.Text = keys.Get("Calendar-Email");
+            SyncCalendar_PasswordBox.Text = keys.Get("Calendar-Password");
+            SyncCalendar_CalDAVBox.Text = keys.Get("Calendar-URL");
 
             if (calendar.IsSetup())
             {
@@ -68,17 +49,17 @@ namespace Timotheus.Forms
                 SyncCalendar_PasswordBox.Enabled = true;
             }
 
-           Text = Localization.Get(this);
-            SyncCalendar_SyncButton.Text = Localization.Get(SyncCalendar_SyncButton);
-            SyncCalendar_CancelButton.Text = Localization.Get(SyncCalendar_CancelButton);
-            SyncCalendar_UseExistingButton.Text = Localization.Get(SyncCalendar_UseExistingButton);
-            SyncCalendar_NewCalendarButton.Text = Localization.Get(SyncCalendar_NewCalendarButton);
-            SyncCalendar_PasswordLabel.Text = Localization.Get(SyncCalendar_PasswordLabel);
-            SyncCalendar_UsernameLabel.Text = Localization.Get(SyncCalendar_UsernameLabel);
-            SyncCalendar_CalDAVLabel.Text = Localization.Get(SyncCalendar_CalDAVLabel);
-            SyncCalendar_PeriodCalendarButton.Text = Localization.Get(SyncCalendar_PeriodCalendarButton) + ": " + period;
-            SyncCalendar_EntireCalendarButton.Text = Localization.Get(SyncCalendar_EntireCalendarButton);
-            SyncCalendar_CustomCalendarButton.Text = Localization.Get(SyncCalendar_CustomCalendarButton);
+            Text = Program.Localization.Get(this);
+            SyncCalendar_SyncButton.Text = Program.Localization.Get(SyncCalendar_SyncButton);
+            SyncCalendar_CancelButton.Text = Program.Localization.Get(SyncCalendar_CancelButton);
+            SyncCalendar_UseExistingButton.Text = Program.Localization.Get(SyncCalendar_UseExistingButton);
+            SyncCalendar_NewCalendarButton.Text = Program.Localization.Get(SyncCalendar_NewCalendarButton);
+            SyncCalendar_PasswordLabel.Text = Program.Localization.Get(SyncCalendar_PasswordLabel);
+            SyncCalendar_UsernameLabel.Text = Program.Localization.Get(SyncCalendar_UsernameLabel);
+            SyncCalendar_CalDAVLabel.Text = Program.Localization.Get(SyncCalendar_CalDAVLabel);
+            SyncCalendar_PeriodCalendarButton.Text = Program.Localization.Get(SyncCalendar_PeriodCalendarButton) + ": " + period.ToString();
+            SyncCalendar_EntireCalendarButton.Text = Program.Localization.Get(SyncCalendar_EntireCalendarButton);
+            SyncCalendar_CustomCalendarButton.Text = Program.Localization.Get(SyncCalendar_CustomCalendarButton);
         }
 
         /// <summary>
@@ -94,9 +75,9 @@ namespace Timotheus.Forms
                 if (SyncCalendar_EntireCalendarButton.Checked)
                     calendar.Sync();
                 else if (SyncCalendar_PeriodCalendarButton.Checked)
-                    calendar.Sync(a, b);
+                    calendar.Sync(period);
                 else if (SyncCalendar_CustomCalendarButton.Checked)
-                    calendar.Sync(SyncCalendar_aTimePicker.Value.Date, SyncCalendar_bTimePicker.Value.Date.AddDays(1));
+                    calendar.Sync(new Period(SyncCalendar_aTimePicker.Value.Date, SyncCalendar_bTimePicker.Value.Date.AddDays(1)));
 
                 DialogResult = DialogResult.OK;
             }

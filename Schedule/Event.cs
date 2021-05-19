@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.RegularExpressions;
+using Timotheus.IO;
 
 namespace Timotheus.Schedule
 {
@@ -8,9 +10,9 @@ namespace Timotheus.Schedule
     public class Event
     {
         //Hidden versions that holds the values of the public variables.
-        private string name;
-        private string description;
-        private string location;
+        private string name = string.Empty;
+        private string description = string.Empty;
+        private string location = string.Empty;
 
         /// <summary>
         /// Start time of the event.
@@ -69,6 +71,28 @@ namespace Timotheus.Schedule
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string Location, string UID) : this(StartTime, EndTime, DateTime.Now, Name, Description, Location, UID) { }
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string UID) : this(StartTime, EndTime, DateTime.Now, Name, Description, null, UID) { }
         public Event(DateTime StartTime, DateTime EndTime, string Name, string Description) : this(StartTime, EndTime, DateTime.Now, Name, Description, null, null) { }
+        public Event(string text)
+        {
+            string[] lines = Regex.Split(text, "\r\n|\r|\n");
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (lines[i].Contains("SUMMARY"))
+                    Name = Key.Value(lines[i], ':');
+                if (lines[i].Contains("DESCRIPTION"))
+                    Description = Calendar.ConvertFromCALString(Key.Value(lines[i], ':'));
+                if (lines[i].Contains("LOCATION"))
+                    Location = Calendar.ConvertFromCALString(Key.Value(lines[i], ':'));
+                if (lines[i].Contains("UID"))
+                    UID = Key.Value(lines[i], ':');
+                if (lines[i].Contains("DTSTART"))
+                    StartTime = Calendar.StringToDate(Key.Value(lines[i], ':'));
+                if (lines[i].Contains("DTEND"))
+                    EndTime = Calendar.StringToDate(Key.Value(lines[i], ':'));
+                if (lines[i].Contains("DTSTAMP"))
+                    Created = Calendar.StringToDate(Key.Value(lines[i], ':'));
+            }
+        }
 
         /// <summary>
         /// Generates a UID to be used a unique identifier in the calendar.
@@ -89,25 +113,38 @@ namespace Timotheus.Schedule
         /// <param name="ev">Newer version of this (Must have the same UID).</param>
         public void Update(Event ev)
         {
-            if (UID == ev.UID)
-            {
-                Name = ev.Name;
-                Description = ev.Description;
-                Location = ev.Location;
-                StartTime = ev.StartTime;
-                EndTime = ev.EndTime;
-                Created = ev.Created;
-            }
+            Name = ev.Name;
+            Description = ev.Description;
+            Location = ev.Location;
+            StartTime = ev.StartTime;
+            EndTime = ev.EndTime;
+            Created = ev.Created;
         }
 
         /// <summary>
-        /// Checks if the event is in a given period of time.
+        /// Converts a Event into a iCal string.
         /// </summary>
-        /// <param name="a">Start time of the interval.</param>
-        /// <param name="b">End time of the interval.</param>
-        public bool IsInPeriod(DateTime a, DateTime b)
+        public override string ToString()
         {
-            return (StartTime > a && StartTime < b) || (EndTime > a && EndTime < b);
+            string evString = "BEGIN:VEVENT\nUID:" + UID;
+            if (StartTime.Hour == EndTime.Hour && StartTime.Minute == EndTime.Minute && StartTime.Second == EndTime.Second && StartTime.Hour == 0 && StartTime.Minute == 0 && StartTime.Second == 0)
+            {
+                evString += "\nDTSTART;TZID=Europe/Copenhagen:" + Calendar.DateToString(StartTime) +
+                "\nDTEND;TZID=Europe/Copenhagen:" + Calendar.DateToString(EndTime);
+            }
+            else
+            {
+                evString += "\nDTSTART;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(StartTime) +
+                "\nDTEND;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(EndTime);
+            }
+            if (Description != string.Empty)
+                evString += "\nDESCRIPTION:" + Calendar.ConvertToCALString(Description);
+            evString += "\nDTSTAMP:" + Calendar.DateTimeToString(Created) + "Z";
+            if (Location != string.Empty)
+                evString += "\nLOCATION:" + Calendar.ConvertToCALString(Location);
+            evString += "\nSUMMARY:" + Name + "\nEND:VEVENT";
+
+            return evString;
         }
 
         /// <summary>
