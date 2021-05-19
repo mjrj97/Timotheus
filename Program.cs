@@ -28,9 +28,9 @@ namespace Timotheus
         /// </summary>
         public static Register Localization;
         /// <summary>
-        /// A register containing all values found in the Windows registry associated with Timotheus.
+        /// A register containing all values found in the Windows registry associated with Timotheus. Is loaded on start of program and saved on exit.
         /// </summary>
-        public static Register Registry;
+        public static Register Registry = new Register();
 
         /// <summary>
         /// Starting point of the program, and loads the main window.
@@ -63,7 +63,7 @@ namespace Timotheus
             Localization = new Register(directory + culture.Name + ".txt");
 
             //Loads the values stored in Windows registry.
-            Registry = LoadRegistry();
+            LoadRegistry();
 
             //Defines the process exit event.
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
@@ -103,10 +103,8 @@ namespace Timotheus
         /// <summary>
         /// Loads the values stored in the Windows registry associated with Timotheus.
         /// </summary>
-        private static Register LoadRegistry()
+        private static void LoadRegistry()
         {
-            Register registry = new Register();
-
             Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus");
 
             if (key != null)
@@ -115,15 +113,13 @@ namespace Timotheus
                 for (int i = 0; i < names.Length; i++)
                 {
                     string value = Convert.ToString(key.GetValue(names[i]));
-                    registry.Add(names[i], value);
+                    Registry.Add(names[i], value);
                 }
             }
             else
                 key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus");
 
             key.Close();
-
-            return registry;
         }
 
         /// <summary>

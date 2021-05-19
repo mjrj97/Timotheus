@@ -52,31 +52,11 @@ namespace Timotheus.Forms
         /// Current calendar used by the program.
         /// </summary>
         public Calendar calendar = new Calendar();
-        /// <summary>
-        /// Name of the spring period.
-        /// </summary>
-        private string spring = "Spring";
-        /// <summary>
-        /// Name of the fall period.
-        /// </summary>
-        private string fall = "Fall";
-        /// <summary>
-        /// Name of the all period.
-        /// </summary>
-        private string all = "All";
 
-        /// <summary>
-        /// Start of the period in calanderwhich sorts the different lists.
-        /// </summary>
-        public DateTime StartPeriod = new DateTime(DateTime.Now.Year, 1, 1);
-        /// <summary>
-        /// End of the period in calander which sorts the different lists.
-        /// </summary>
-        public DateTime EndPeriod = new DateTime(DateTime.Now.Year + 1, 1, 1);
         /// <summary>
         /// Type of period used by Calendar_View.
         /// </summary>
-        private Period period = Period.Year;
+        private readonly Period calendarPeriod = new Period(new DateTime(DateTime.Now.Year, 1, 1), new DateTime(DateTime.Now.Year + 1, 1, 1));
 
         /// <summary>
         /// To save the Members under 25 in the correct language
@@ -127,7 +107,7 @@ namespace Timotheus.Forms
             Calendar_View.AutoGenerateColumns = false;
             Calendar_View.DataSource = new BindingSource(events, null);
             
-            Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
+            Calendar_PeriodBox.Text = calendarPeriod.ToString();
             Calendar_Page.Text = Program.Localization.Get(Calendar_Page);
             Calendar_StartColumn.HeaderText = Program.Localization.Get(Calendar_StartColumn);
             Calendar_EndColumn.HeaderText = Program.Localization.Get(Calendar_EndColumn);
@@ -144,10 +124,6 @@ namespace Timotheus.Forms
             Calendar_ExportButton.Text = Program.Localization.Get(Calendar_ExportButton);
             Calendar_RemoveButton.Text = Program.Localization.Get(Calendar_RemoveButton);
             Calendar_AddButton.Text = Program.Localization.Get(Calendar_AddButton);
-
-            spring = Program.Localization.Get("Calendar_Spring", spring);
-            fall = Program.Localization.Get("Calendar_Fall", fall);
-            all = Program.Localization.Get("Calendar_All", all);
             #endregion
 
             #region SFTP
@@ -199,7 +175,7 @@ namespace Timotheus.Forms
             #endregion
 
             #region Accounting
-            Accounting_YearBox.Text = StartPeriod.Year.ToString();
+            Accounting_YearBox.Text = calendarPeriod.ToString();
             Accounting_TransactionsView.AutoGenerateColumns = false;
             Accounting_TransactionsView.DataSource = new BindingSource(transactions, null);
             Accounting_AccountsView.AutoGenerateColumns = false;
@@ -256,7 +232,7 @@ namespace Timotheus.Forms
             events.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
             {
-                if (calendar.events[i].IsInPeriod(StartPeriod,EndPeriod) && !calendar.events[i].Deleted)
+                if (calendarPeriod.In(calendar.events[i]) && !calendar.events[i].Deleted)
                     events.Add(calendar.events[i]);
             }
             Calendar_View.Sort(Calendar_View.Columns[0], ListSortDirection.Ascending);
@@ -272,45 +248,15 @@ namespace Timotheus.Forms
                 Button button = (Button)sender;
                 if (button.Text == "+")
                 {
-                    if (period == Period.Year)
-                    {
-                        StartPeriod = StartPeriod.AddYears(1);
-                        EndPeriod = EndPeriod.AddYears(1); 
-                    }
-                    else if (period == Period.Halfyear)
-                    {
-                        StartPeriod = StartPeriod.AddMonths(6);
-                        EndPeriod = EndPeriod.AddMonths(6);  
-                    }
-                    else if (period == Period.Month)
-                    {
-                        StartPeriod = StartPeriod.AddMonths(1);
-                        EndPeriod = EndPeriod.AddMonths(1);                        
-                    }
+                    calendarPeriod.Add();
                 }
                 else if (button.Text == "-")
                 {
-                    if (period == Period.Year)
-                    {
-                        StartPeriod = StartPeriod.AddYears(-1);
-                        EndPeriod = EndPeriod.AddYears(-1);
-                    }
-                    else if (period == Period.Halfyear)
-                    {
-                        StartPeriod = StartPeriod.AddMonths(-6);
-                        EndPeriod = EndPeriod.AddMonths(-6);
-                    }
-                    else if (period == Period.Month)
-                    {
-                        StartPeriod = StartPeriod.AddMonths(-1);
-                        EndPeriod = EndPeriod.AddMonths(-1);
-                        
-                    }
+                    calendarPeriod.Subtract();
                 }
                 UpdatePeriodBox();
+                UpdateCalendarTable();
             }
-            
-            UpdateCalendarTable();
         }
 
         /// <summary>
@@ -318,86 +264,18 @@ namespace Timotheus.Forms
         /// </summary>
         private void PeriodChangedButton(object sender, EventArgs e)
         {
-            RadioButton button = (RadioButton)sender;
-            if (button.Checked)
-            {
-                ChangePeriod();
-            }
-        }
+            Calendar_AddYearButton.Enabled = !Calendar_AllButton.Checked;
+            Calendar_SubtractYearButton.Enabled = !Calendar_AllButton.Checked;
 
-        /// <summary>
-        /// Changes the period
-        /// </summary>
-        private void ChangePeriod()
-        {
             if (Calendar_AllButton.Checked)
-            {
-                Calendar_AddYearButton.Enabled = false;
-                Calendar_SubtractYearButton.Enabled = false;
+                calendarPeriod.SetType(PeriodType.All);
+            if (Calendar_YearButton.Checked)
+                calendarPeriod.SetType(PeriodType.Year);
+            else if (Calendar_HalfYearButton.Checked)
+                calendarPeriod.SetType(PeriodType.Halfyear);
+            else if (Calendar_MonthButton.Checked)
+                calendarPeriod.SetType(PeriodType.Month);
 
-                StartPeriod = DateTime.MinValue;
-                EndPeriod = DateTime.MaxValue;
-                period = Period.All;
-            }
-            else
-            {
-                if (Calendar_YearButton.Checked)
-                {
-                    if (period == Period.All)
-                    {
-                        StartPeriod = new DateTime(DateTime.Now.Year, 1, 1);
-                        EndPeriod = new DateTime(DateTime.Now.Year + 1, 1, 1);
-                    }
-                    else
-                    {
-                        StartPeriod = new DateTime(StartPeriod.Year, 1, 1);
-                        EndPeriod = new DateTime(StartPeriod.Year + 1, 1, 1);
-                    }
-
-                    period = Period.Year;
-                }
-                else if (Calendar_HalfYearButton.Checked)
-                {
-                    if (period == Period.All)
-                    {
-                        if (DateTime.Now.Month > 6)
-                        {
-                            StartPeriod = new DateTime(DateTime.Now.Year, 7, 1);
-                            EndPeriod = new DateTime(DateTime.Now.Year + 1, 1, 1);
-                        }
-                        else
-                        {
-                            StartPeriod = new DateTime(DateTime.Now.Year, 1, 1);
-                            EndPeriod = new DateTime(DateTime.Now.Year, 7, 1);
-                        }
-                    }
-                    else
-                    {
-                        if (StartPeriod.Month > 6)
-                        {
-                            StartPeriod = new DateTime(StartPeriod.Year, 7, 1);
-                            EndPeriod = new DateTime(StartPeriod.Year + 1, 1, 1);
-                        }
-                        else
-                        {
-                            StartPeriod = new DateTime(StartPeriod.Year, 1, 1);
-                            EndPeriod = new DateTime(StartPeriod.Year, 7, 1);
-                        }
-                    }
-
-                    period = Period.Halfyear;
-                }
-                else if (Calendar_MonthButton.Checked)
-                {
-                    StartPeriod = new DateTime(StartPeriod.Year, StartPeriod.Month, 1);
-                    EndPeriod = StartPeriod.AddMonths(1);
-
-                    period = Period.Month;
-                }
-
-                Calendar_AddYearButton.Enabled = true;
-                Calendar_SubtractYearButton.Enabled = true;
-            }
             UpdatePeriodBox();
             UpdateCalendarTable();
         }
@@ -503,7 +381,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void SyncCalendar(object sender, EventArgs e)
         {
-            SyncCalendar sync = new SyncCalendar(calendar, Calendar_PeriodBox.Text, StartPeriod, EndPeriod, keys)
+            SyncCalendar sync = new SyncCalendar(calendar, calendarPeriod, keys)
             {
                 Owner = this
             };
@@ -519,79 +397,24 @@ namespace Timotheus.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                string inputText = Calendar_PeriodBox.Text;
-                string[] SpiltText = inputText.Split(" ");
+                calendarPeriod.SetPeriod(Calendar_PeriodBox.Text);
 
-                System.Globalization.DateTimeFormatInfo dtfi = System.Globalization.CultureInfo.GetCultureInfo(Program.culture.Name).DateTimeFormat;
-                List<string> MonthNames = new List<string>(dtfi.MonthNames);
-                MonthNames = MonthNames.ConvertAll(d => d.ToLower());
-
-                string text;
-
-                if (inputText.ToLower().Equals(all.ToLower()))
+                switch (calendarPeriod.Type)
                 {
-                    Calendar_AllButton.Checked = true;
-                }
-                else if (SpiltText.Length == 1 && int.TryParse(inputText, out int NewYear) && NewYear > 0 && NewYear < 10000)
-                {
-                    Calendar_YearButton.Checked = true;
-
-                    int change = NewYear - StartPeriod.Year;
-                    StartPeriod = StartPeriod.AddYears(change);
-                    EndPeriod = EndPeriod.AddYears(change);
-                }
-                else if (SpiltText.Length == 2)
-                {
-                    if (int.TryParse(SpiltText[0], out NewYear))
-                    {
-                        text = SpiltText[1].ToLower();
-                    }
-                    else if (int.TryParse(SpiltText[1], out NewYear))
-                    {
-                        text = SpiltText[0].ToLower();
-                    }
-                    else
-                    {
-                        text = null;
-                    }
-
-                    if (text != null)
-                    {
-                        //check if it is halfyear
-                        if (NewYear > 0 && NewYear < 10000 && (text.Equals(fall.ToLower()) | text.Equals(spring.ToLower())))
-                        {
-                            Calendar_HalfYearButton.Checked = true;
-                            
-                            if (text.Equals(fall.ToLower()))
-                            {
-                                StartPeriod = new DateTime(NewYear, 7, 1);
-                                EndPeriod = new DateTime(NewYear + 1, 1, 1);
-                            }
-                            else if (text.Equals(spring.ToLower()))
-                            {
-                                StartPeriod = new DateTime(NewYear, 1, 1);
-                                EndPeriod = new DateTime(NewYear, 7, 1);
-                            }
-                        }
-                        else if (MonthNames.Contains(text) && NewYear > 0 && NewYear < 10000)
-                        {
-                            Calendar_MonthButton.Checked = true;
-                            
-                            try
-                            {
-                                DateTime NewDateTime = DateTime.Parse(inputText, Program.culture);
-                                StartPeriod = new DateTime(NewDateTime.Year, NewDateTime.Month, 1);
-                                EndPeriod = StartPeriod.AddMonths(1);
-                            }
-                            catch (FormatException)
-                            {
-                                //Should there be mesage here?
-                            }
-                        }
-                    }
+                    case PeriodType.All:
+                        Calendar_AllButton.Checked = true;
+                        break;
+                    case PeriodType.Year:
+                        Calendar_YearButton.Checked = true;
+                        break;
+                    case PeriodType.Halfyear:
+                        Calendar_HalfYearButton.Checked = true;
+                        break;
+                    case PeriodType.Month:
+                        Calendar_MonthButton.Checked = true;
+                        break;
                 }
 
-                ChangePeriod();
                 UpdateCalendarTable();
                 e.Handled = true;
             }
@@ -602,25 +425,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void UpdatePeriodBox()
         {
-            switch (period)
-            {
-                case Period.All:
-                    Calendar_PeriodBox.Text = all;
-                    break;
-                case Period.Year:
-                    Calendar_PeriodBox.Text = StartPeriod.Year.ToString();
-                    break;
-                case Period.Halfyear:
-                    if (StartPeriod.Month > 6)
-                        Calendar_PeriodBox.Text = StartPeriod.Year + " " + fall;
-                    else
-                        Calendar_PeriodBox.Text = StartPeriod.Year + " " + spring;
-                    break;
-                case Period.Month:
-                        Calendar_PeriodBox.Text = StartPeriod.ToString("MMMM", Program.culture) + " " + StartPeriod.Year;
-                    break;
-            }
-            
+            Calendar_PeriodBox.Text = calendarPeriod.ToString();
         }
         #endregion
 
@@ -1111,16 +916,5 @@ namespace Timotheus.Forms
             ((DataGridView)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].Value = DateTime.Now.Date;
             e.Cancel = true;
         }
-    }
- 
-    /// <summary>
-    /// Used to define the type of period used by a DataGridView.
-    /// </summary>
-    enum Period
-    {
-        All,
-        Year,
-        Halfyear,
-        Month
     }
 }

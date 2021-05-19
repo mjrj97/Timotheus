@@ -175,7 +175,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Syncs the events in the time interval from a to b with the remote calendar. (As long as either the start time or end time is in the interval)
         /// </summary>
-        public void Sync(DateTime a, DateTime b)
+        public void Sync(Period period)
         {
             List<Event> remoteEvents = LoadFromLines(HttpRequest(url, credentials));
             bool[] foundLocal = new bool[events.Count];
@@ -183,6 +183,8 @@ namespace Timotheus.Schedule
 
             for (int i = 0; i < events.Count; i++)
             {
+                if (events[i].Description == null)
+                    System.Diagnostics.Debug.WriteLine(events[i].Name);
                 for (int j = 0; j < remoteEvents.Count; j++)
                 {
                     if (events[i].UID == remoteEvents[j].UID)
@@ -190,7 +192,7 @@ namespace Timotheus.Schedule
                         foundLocal[i] = true;
                         foundRemote[j] = true;
 
-                        if (events[i].IsInPeriod(a,b))
+                        if (period.In(events[i]))
                         {
                             if (events[i].Deleted)
                                 DeleteEvent(events[i]);
@@ -210,7 +212,7 @@ namespace Timotheus.Schedule
             }
             for (int i = 0; i < events.Count; i++)
             {
-                if (events[i].IsInPeriod(a, b))
+                if (period.In(events[i]))
                 {
                     if (!foundLocal[i])
                         AddEvent(events[i]);
@@ -218,7 +220,7 @@ namespace Timotheus.Schedule
             }
             for (int i = 0; i < remoteEvents.Count; i++)
             {
-                if (remoteEvents[i].IsInPeriod(a, b))
+                if (period.In(events[i]))
                 {
                     if (!foundRemote[i])
                         events.Add(remoteEvents[i]);
@@ -230,7 +232,7 @@ namespace Timotheus.Schedule
         /// </summary>
         public void Sync()
         {
-            Sync(DateTime.MinValue, DateTime.MaxValue);
+            Sync(new Period(DateTime.MinValue, DateTime.MaxValue));
         }
 
         /// <summary>

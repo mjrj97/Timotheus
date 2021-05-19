@@ -10,9 +10,9 @@ namespace Timotheus.Schedule
     public class Event
     {
         //Hidden versions that holds the values of the public variables.
-        private string name;
-        private string description;
-        private string location;
+        private string name = string.Empty;
+        private string description = string.Empty;
+        private string location = string.Empty;
 
         /// <summary>
         /// Start time of the event.
@@ -119,16 +119,6 @@ namespace Timotheus.Schedule
             StartTime = ev.StartTime;
             EndTime = ev.EndTime;
             Created = ev.Created;
-        }
-
-        /// <summary>
-        /// Checks if the event is in a given period of time.
-        /// </summary>
-        /// <param name="a">Start time of the interval.</param>
-        /// <param name="b">End time of the interval.</param>
-        public bool IsInPeriod(DateTime a, DateTime b)
-        {
-            return (StartTime >= a && StartTime <= b) || (EndTime >= a && EndTime <= b);
         }
 
         /// <summary>
