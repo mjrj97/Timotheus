@@ -56,22 +56,15 @@ namespace Timotheus.Forms
         /// <summary>
         /// Type of period used by Calendar_View.
         /// </summary>
-        private readonly Period calendarPeriod = new Period(new DateTime(DateTime.Now.Year, 1, 1), new DateTime(DateTime.Now.Year + 1, 1, 1));
-
+        private readonly Period calendarPeriod = new Period(new DateTime(DateTime.Now.Year, 1, 1), PeriodType.Year);
         /// <summary>
-        /// To save the Members under 25 in the correct language
+        /// Type of period used by Members_View.
         /// </summary>
-        private string MembersUnder25Text;
-
+        private readonly Period memberPeriod = new Period(new DateTime(DateTime.Now.Year, 1, 1), PeriodType.Year);
         /// <summary>
-        /// Start of the period in Member sorts the different lists.
+        /// Start of the period in Accounting_TransactionsView.
         /// </summary>
-        private DateTime MemberlistYear = new DateTime(DateTime.Now.Year, 1, 1);
-
-        /// <summary>
-        /// Start of the period in acunting sorts the different lists.
-        /// </summary>
-        private DateTime AccountingYear = new DateTime(DateTime.Now.Year, 1, 1);
+        private readonly Period accountingPeriod = new Period(new DateTime(DateTime.Now.Year, 1, 1), PeriodType.Year);
 
         /// <summary>
         /// Constructor. Loads initial data and localization.
@@ -149,7 +142,7 @@ namespace Timotheus.Forms
             Members_View.AutoGenerateColumns = false;
             Members_View.DataSource = new BindingSource(members, null);
 
-            Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
+            Members_PeriodeBox.Text = memberPeriod.ToString();
             Members_Page.Text = Program.Localization.Get(Members_Page);
             Members_NameColumn.HeaderText = Program.Localization.Get(Members_NameColumn);
             Members_AddressColumn.HeaderText = Program.Localization.Get(Members_AddressColumn);
@@ -157,7 +150,6 @@ namespace Timotheus.Forms
             Members_EntryColumn.HeaderText = Program.Localization.Get(Members_EntryColumn);
             Members_AddButton.Text = Program.Localization.Get(Members_AddButton);
             Members_RemoveButton.Text = Program.Localization.Get(Members_RemoveButton);
-            MembersUnder25Text = Program.Localization.Get(Members_Under25Label);
             UpdateMemberTable();
             #endregion
 
@@ -175,7 +167,7 @@ namespace Timotheus.Forms
             #endregion
 
             #region Accounting
-            Accounting_YearBox.Text = calendarPeriod.ToString();
+            Accounting_YearBox.Text = accountingPeriod.ToString();
             Accounting_TransactionsView.AutoGenerateColumns = false;
             Accounting_TransactionsView.DataSource = new BindingSource(transactions, null);
             Accounting_AccountsView.AutoGenerateColumns = false;
@@ -236,6 +228,7 @@ namespace Timotheus.Forms
                     events.Add(calendar.events[i]);
             }
             Calendar_View.Sort(Calendar_View.Columns[0], ListSortDirection.Ascending);
+            Calendar_PeriodBox.Text = calendarPeriod.ToString();
         }
 
         /// <summary>
@@ -254,7 +247,6 @@ namespace Timotheus.Forms
                 {
                     calendarPeriod.Subtract();
                 }
-                UpdatePeriodBox();
                 UpdateCalendarTable();
             }
         }
@@ -276,8 +268,37 @@ namespace Timotheus.Forms
             else if (Calendar_MonthButton.Checked)
                 calendarPeriod.SetType(PeriodType.Month);
 
-            UpdatePeriodBox();
             UpdateCalendarTable();
+        }
+
+        /// <summary>
+        /// Updates the period if the user manually changes the period in the text box.
+        /// </summary>
+        private void Calendar_PeriodBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                calendarPeriod.SetPeriod(Calendar_PeriodBox.Text);
+
+                switch (calendarPeriod.Type)
+                {
+                    case PeriodType.All:
+                        Calendar_AllButton.Checked = true;
+                        break;
+                    case PeriodType.Year:
+                        Calendar_YearButton.Checked = true;
+                        break;
+                    case PeriodType.Halfyear:
+                        Calendar_HalfYearButton.Checked = true;
+                        break;
+                    case PeriodType.Month:
+                        Calendar_MonthButton.Checked = true;
+                        break;
+                }
+
+                UpdateCalendarTable();
+                e.Handled = true;
+            }
         }
 
         /// <summary>
@@ -389,44 +410,6 @@ namespace Timotheus.Forms
             if (result == DialogResult.OK)
                 UpdateCalendarTable();
         }
-
-        /// <summary>
-        /// Updates the period if the user manually changes the period in the text box.
-        /// </summary>
-        private void Calendar_PeriodBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                calendarPeriod.SetPeriod(Calendar_PeriodBox.Text);
-
-                switch (calendarPeriod.Type)
-                {
-                    case PeriodType.All:
-                        Calendar_AllButton.Checked = true;
-                        break;
-                    case PeriodType.Year:
-                        Calendar_YearButton.Checked = true;
-                        break;
-                    case PeriodType.Halfyear:
-                        Calendar_HalfYearButton.Checked = true;
-                        break;
-                    case PeriodType.Month:
-                        Calendar_MonthButton.Checked = true;
-                        break;
-                }
-
-                UpdateCalendarTable();
-                e.Handled = true;
-            }
-        }
-
-        /// <summary>
-        /// Updates the text in the period box.
-        /// </summary>
-        private void UpdatePeriodBox()
-        {
-            Calendar_PeriodBox.Text = calendarPeriod.ToString();
-        }
         #endregion
 
         #region SFTP
@@ -509,7 +492,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void AddMember(object sender, EventArgs e)
         {
-            AddMember addMember = new AddMember(Person.list, MemberlistYear.Year)
+            AddMember addMember = new AddMember(Person.list, memberPeriod.Start.Year)
             {
                 Owner = this
             };
@@ -540,14 +523,11 @@ namespace Timotheus.Forms
                 Button button = (Button)sender;
                 if (button.Text == "+")
                 {
-                    MemberlistYear = MemberlistYear.AddYears(1);
-                    Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
+                    memberPeriod.Add();
                 }
                 else if (button.Text == "-")
                 {
-
-                    MemberlistYear = MemberlistYear.AddYears(-1);
-                    Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
+                    memberPeriod.Subtract();
                 }
                 UpdateMemberTable();
             }
@@ -563,14 +543,15 @@ namespace Timotheus.Forms
             members.Clear();
             for (int i = 0; i < Person.list.Count; i++)
             {
-                if (Person.list[i].Entry.Year == MemberlistYear.Year)
+                if (Person.list[i].Entry.Year == memberPeriod.Start.Year)
                 {
                     members.Add(Person.list[i]);
                     if (Person.list[i].CalculateAge() < 25)
                         MembersUnder25++;
                 }
             }
-            Members_Under25Label.Text = MembersUnder25Text + " " + MembersUnder25;
+            Members_Under25Label.Text = Program.Localization.Get(Members_Under25Label) + " " + MembersUnder25;
+            Members_PeriodeBox.Text = memberPeriod.ToString();
         }
         public void UpdateMemberTable()
         {
@@ -584,17 +565,8 @@ namespace Timotheus.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (int.TryParse(Members_PeriodeBox.Text, out int NewYear) && NewYear > 0 && NewYear < 10000)
-                {
-                    int change = NewYear - MemberlistYear.Year;                   
-                    MemberlistYear = MemberlistYear.AddYears(change);
-                    Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
-                    UpdateMemberTable();
-                }
-                else
-                {
-                    Members_PeriodeBox.Text = MemberlistYear.Year.ToString();
-                }
+                memberPeriod.SetPeriod(Members_PeriodeBox.Text);
+                UpdateMemberTable();
                 e.Handled = true;
             }
         }
@@ -652,13 +624,11 @@ namespace Timotheus.Forms
                 Button button = (Button)sender;
                 if (button.Text == "+")
                 {
-                    AccountingYear = AccountingYear.AddYears(1);
-                    Accounting_YearBox.Text = AccountingYear.Year.ToString();
+                    accountingPeriod.Add();
                 }
                 else if (button.Text == "-")
                 {
-                    AccountingYear = AccountingYear.AddYears(-1);
-                    Accounting_YearBox.Text = AccountingYear.Year.ToString();
+                    accountingPeriod.Subtract();
                 }
                 UpdateTransactionsTable();
             }
@@ -669,14 +639,14 @@ namespace Timotheus.Forms
         /// </summary>
         public void UpdateTransactionsTable(object sender, DataGridViewCellEventArgs e)
         {
-            int year = AccountingYear.Year;
+            int year = accountingPeriod.Start.Year;
             transactions.Clear();
             for (int i = 0; i < Transaction.list.Count; i++)
             {
                 if (year == Transaction.list[i].Date.Year)
                     transactions.Add(Transaction.list[i]);
             }
-
+            Accounting_YearBox.Text = accountingPeriod.ToString();
             UpdateAccountsTable();
         }
         public void UpdateTransactionsTable()
@@ -689,7 +659,7 @@ namespace Timotheus.Forms
         /// </summary>
         public void UpdateAccountsTable()
         {
-            int year = AccountingYear.Year;
+            int year = accountingPeriod.Start.Year;
             double[] balances = new double[accounts.Count];
             for (int i = 0; i < transactions.Count; i++)
             {
@@ -751,16 +721,8 @@ namespace Timotheus.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (int.TryParse(Accounting_YearBox.Text, out int NewYear) && NewYear > 0 && NewYear < 10000)
-                {
-                    AccountingYear = AccountingYear.AddYears(NewYear - AccountingYear.Year);
-                    Accounting_YearBox.Text = AccountingYear.Year.ToString();
-                    UpdateTransactionsTable();                    
-                }
-                else
-                {
-                    Accounting_YearBox.Text = AccountingYear.Year.ToString();
-                }
+                accountingPeriod.SetPeriod(Accounting_YearBox.Text);
+                UpdateTransactionsTable();
                 e.Handled = true;
             }
         }

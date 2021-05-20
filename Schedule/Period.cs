@@ -77,6 +77,35 @@ namespace Timotheus.Schedule
             else
                 Type = PeriodType.None;
         }
+        /// <summary>
+        /// Define a periods by its start date and derives the end by the type.
+        /// </summary>
+        /// <param name="Start">Start date of the period.</param>
+        /// <param name="Type">Type of period. ie. Month</param>
+        public Period(DateTime Start, PeriodType Type) : this()
+        {
+            this.Start = Start;
+            this.Type = Type;
+
+            switch (Type)
+            {
+                case PeriodType.All:
+                    this.Start = DateTime.MinValue;
+                    End = DateTime.MaxValue;
+                    break;
+                case PeriodType.Year:
+                    End = Start.AddYears(1);
+                    break;
+                case PeriodType.Halfyear:
+                    End = Start.AddMonths(6);
+                    break;
+                case PeriodType.Month:
+                    End = Start.AddMonths(1);
+                    break;
+                default:
+                    break;
+            }
+        }
 
         /// <summary>
         /// Sets the period according to a string.
@@ -84,65 +113,59 @@ namespace Timotheus.Schedule
         /// <param name="inputText">Text to be converted to a period ie. April 2021</param>
         public void SetPeriod(string inputText)
         {
-            string[] SpiltText = inputText.Split(" ");
-            string text;
-
-            if (inputText.ToLower().Equals(all.ToLower()))
+            string text = inputText.Trim();
+            
+            if (text.ToLower() == all.ToLower())
             {
                 Type = PeriodType.All;
+                Start = DateTime.MinValue;
+                End = DateTime.MaxValue;
             }
-            else if (SpiltText.Length == 1 && int.TryParse(inputText, out int NewYear) && NewYear > 0 && NewYear < 10000)
+            else
             {
-                int change = NewYear - End.Year;
-                Start = Start.AddYears(change);
-                End = End.AddYears(change);
-                Type = PeriodType.Year;
-            }
-            else if (SpiltText.Length == 2)
-            {
-                if (int.TryParse(SpiltText[0], out NewYear))
-                {
-                    text = SpiltText[1].ToLower();
-                }
-                else if (int.TryParse(SpiltText[1], out NewYear))
-                {
-                    text = SpiltText[0].ToLower();
-                }
-                else
-                {
-                    text = null;
-                }
+                string[] words = text.Split(' ');
 
-                if (text != null)
+                if (words.Length == 1)
                 {
-                    //check if it is halfyear
-                    if (NewYear > 0 && NewYear < 10000 && (text.Equals(fall.ToLower()) | text.Equals(spring.ToLower())))
+                    int year = int.Parse(words[0]);
+                    Start = new DateTime(year, 1, 1);
+                    End = Start.AddYears(1);
+                    Type = PeriodType.Year;
+                }
+                else if (words.Length == 2)
+                {
+                    //Find word with year.
+                    int i = 1;
+                    int.TryParse(words[0], out int year);
+                    if (year == 0)
                     {
-                        if (text.Equals(fall.ToLower()))
-                        {
-                            Start = new DateTime(NewYear, 7, 1);
-                            End = new DateTime(NewYear + 1, 1, 1);
-                        }
-                        else if (text.Equals(spring.ToLower()))
-                        {
-                            Start = new DateTime(NewYear, 1, 1);
-                            End = new DateTime(NewYear, 7, 1);
-                        }
+                        i = 0;
+                        int.TryParse(words[1], out year);
+                    }
+
+                    //Find out what the other word means.
+                    if (words[i].Trim().ToLower() == fall.ToLower())
+                    {
+                        Start = new DateTime(year, 7, 1);
+                        End = Start.AddMonths(6);
                         Type = PeriodType.Halfyear;
                     }
-                    else if (months.Contains(text) && NewYear > 0 && NewYear < 10000)
+                    else if (words[i].Trim().ToLower() == spring.ToLower())
                     {
-                        try
+                        Start = new DateTime(year, 1, 1);
+                        End = Start.AddMonths(6);
+                        Type = PeriodType.Halfyear;
+                    }
+                    else
+                    {
+                        int j = 0;
+                        while (j < months.Count - 1 && words[i].ToLower() != months[j].ToLower())
                         {
-                            DateTime NewDateTime = DateTime.Parse(inputText, Program.culture);
-                            Start = new DateTime(NewDateTime.Year, NewDateTime.Month, 1);
-                            End = Start.AddMonths(1);
-                            Type = PeriodType.Month;
+                            j++;
                         }
-                        catch (FormatException)
-                        {
-                            //Should there be mesage here?
-                        }
+                        Start = new DateTime(year, j+1, 1);
+                        End = Start.AddMonths(1);
+                        Type = PeriodType.Month;
                     }
                 }
             }
