@@ -6,6 +6,7 @@ using Timotheus.IO;
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
@@ -73,16 +74,10 @@ namespace Timotheus.Forms
         {
             InitializeComponent();
             SetupUI();
+            string KeyPath = Program.Registry.Get("KeyPath");
             try
             {
-                string KeyPath = Program.Registry.Get("KeyPath");
-                if (KeyPath != string.Empty)
-                {
-                    keys = new Register(KeyPath, ':');
-                    InsertKeys();
-                }
-                else
-                    keys = new Register(':');
+                InsertKey(KeyPath, false);
             }
             catch (Exception e)
             {
@@ -202,17 +197,65 @@ namespace Timotheus.Forms
         /// <summary>
         /// Inserts the keys into their respective fields.
         /// </summary>
-        private void InsertKeys()
+        private void InsertKey(string path, bool requirePasswordDialog)
         {
-            SFTP_UsernameBox.Text = keys.Get("SSH-Username");
-            SFTP_PasswordBox.Text = keys.Get("SSH-Password");
-            SFTP_HostBox.Text = keys.Get("SSH-URL");
-            SFTP_RemoteDirectoryBox.Text = keys.Get("SSH-RemoteDirectory");
-            SFTP_LocalDirectoryBox.Text = keys.Get("SSH-LocalDirectory");
-            Settings_NameBox.Text = keys.Get("Settings-Name");
-            Settings_AddressBox.Text = keys.Get("Settings-Address");
-            Settings_LogoBox.Text = keys.Get("Settings-Image");
-            Settings_PictureBox.Image = Image.FromFile(keys.Get("Settings-Image"));
+            if (path != string.Empty)
+            {
+                string extension = Path.GetExtension(path);
+                if (extension == ".tkey")
+                {
+                    string encodedPassword = requirePasswordDialog ? string.Empty : Program.Registry.Get("KeyPassword");
+                    byte[] encodedBytes = Program.encoding.GetBytes(encodedPassword);
+                    
+                    if (encodedPassword != string.Empty)
+                    {
+                        byte[] decodedBytes = Cipher.Decrypt(encodedBytes, Cipher.defkey);
+                        string password = Program.encoding.GetString(decodedBytes);
+
+                        keys = new Register(path, password, ':');
+                    }
+                    else
+                    {
+                        PasswordDialog passwordDialog = new PasswordDialog()
+                        {
+                            Owner = this
+                        };
+                        DialogResult result = passwordDialog.ShowDialog();
+                        if (result == DialogResult.OK)
+                        {
+                            keys = new Register(path, passwordDialog.Password, ':');
+                            if (passwordDialog.Check)
+                            {
+                                byte[] decodedBytes = Program.encoding.GetBytes(passwordDialog.Password);
+                                encodedBytes = Cipher.Encrypt(decodedBytes, Cipher.defkey);
+                                encodedPassword = Program.encoding.GetString(encodedBytes);
+                                Program.Registry.Set("KeyPassword", encodedPassword);
+                            }
+                        }
+                        else
+                        {
+                            keys = new Register(':');
+                        }
+                    }
+                }
+                else if (extension == ".txt")
+                {
+                    keys = new Register(path, ':');
+                }
+
+                Program.Registry.Set("KeyPath", path);
+                SFTP_UsernameBox.Text = keys.Get("SSH-Username");
+                SFTP_PasswordBox.Text = keys.Get("SSH-Password");
+                SFTP_HostBox.Text = keys.Get("SSH-URL");
+                SFTP_RemoteDirectoryBox.Text = keys.Get("SSH-RemoteDirectory");
+                SFTP_LocalDirectoryBox.Text = keys.Get("SSH-LocalDirectory");
+                Settings_NameBox.Text = keys.Get("Settings-Name");
+                Settings_AddressBox.Text = keys.Get("Settings-Address");
+                Settings_LogoBox.Text = keys.Get("Settings-Image");
+                Settings_PictureBox.Image = Image.FromFile(keys.Get("Settings-Image"));
+            }
+            else
+                keys = new Register(':');
         }
 
         #region Calendar
@@ -807,7 +850,7 @@ namespace Timotheus.Forms
         /// <summary>
         /// Opens a dialog so the user can select a file that has all the keys.
         /// </summary>
-        private void LoadKey(object sender, EventArgs e)
+        private void OpenKey(object sender, EventArgs e)
         {
             // open file dialog   
             OpenFileDialog open = new OpenFileDialog
@@ -818,9 +861,7 @@ namespace Timotheus.Forms
 
             if (open.ShowDialog() == DialogResult.OK)
             {
-                keys = new Register(open.FileName, ':');
-                Program.Registry.Set("KeyPath", open.FileName);
-                InsertKeys();
+                InsertKey(open.FileName, true);
             }
         }
 

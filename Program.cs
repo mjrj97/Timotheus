@@ -31,6 +31,10 @@ namespace Timotheus
         /// A register containing all values found in the Windows registry associated with Timotheus. Is loaded on start of program and saved on exit.
         /// </summary>
         public static Register Registry = new Register();
+        /// <summary>
+        /// Text encoding used by the program. Is essential to decode the text from Windows Registry.
+        /// </summary>
+        public static Encoding encoding = Encoding.BigEndianUnicode;
 
         /// <summary>
         /// Starting point of the program, and loads the main window.
@@ -64,6 +68,21 @@ namespace Timotheus
 
             //Loads the values stored in Windows registry.
             LoadRegistry();
+
+            Encoding encoding = Encoding.BigEndianUnicode;
+
+            /*string password = "cjjms10022021";
+            byte[] passwordByte = encoding.GetBytes(password);
+            System.Diagnostics.Debug.WriteLine(password);
+            byte[] encodedPasswordBytes = Utility.Cipher.Encrypt(passwordByte, Utility.Cipher.defkey);
+            string encodedPassword = encoding.GetString(encodedPasswordBytes);
+            Registry.Set("KeyPassword", encodedPassword);*/
+
+            string test = Registry.Get("KeyPassword");
+            byte[] testBytes = encoding.GetBytes(test);
+            byte[] decodedPasswordBytes = Utility.Cipher.Decrypt(testBytes, Utility.Cipher.defkey);
+            string decodedPassword = encoding.GetString(decodedPasswordBytes);
+            System.Diagnostics.Debug.WriteLine(decodedPassword);
 
             //Defines the process exit event.
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);

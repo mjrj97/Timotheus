@@ -116,6 +116,11 @@ AddConsentForm_NameLabel,Navn
 AddConsentForm_SignedLabel,Underskrevet
 AddConsentForm_VersionLabel,Version
 AddConsentForm_CommentLabel,Kommentar
+PasswordDialog,Adgangskode nødvendig
+PasswordDialog_Label,Adgangskode
+PasswordDialog_SaveBox,Gem adgangskode (Ikke anbefalet)
+PasswordDialog_OKButton,Ok
+PasswordDialog_CancelButton,Annullér
 PDF_Welcome,Velkommen i
 PDF_Schedule,Program for
 PDF_Date,Dato

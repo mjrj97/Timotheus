@@ -116,6 +116,11 @@ AddConsentForm_NameLabel,Name
 AddConsentForm_SignedLabel,Signed
 AddConsentForm_VersionLabel,Version
 AddConsentForm_CommentLabel,Comment
+PasswordDialog,Password required
+PasswordDialog_Label,Password
+PasswordDialog_SaveBox,Save password (Not recommended)
+PasswordDialog_OKButton,Ok
+PasswordDialog_CancelButton,Cancel
 PDF_Welcome,Welcome to
 PDF_Schedule,Schedule for
 PDF_Date,Date
@@ -133,4 +138,4 @@ Exception_InvalidCalendar,Calendar isn't formatted correctly
 Exception_EmptyICS,ICS field cannot be empty
 Exception_EmptyName,Name cannot be empty
 Exception_EmptyAddress,Address cannot be empty
-Exception_NoKeys, Key file could not be loaded
+Exception_NoKeys,Key file could not be loaded

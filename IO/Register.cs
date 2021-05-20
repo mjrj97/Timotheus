@@ -19,10 +19,6 @@ namespace Timotheus.IO
         /// Character that is used to separate a keys name and value in the file.
         /// </summary>
         private readonly char separator = ',';
-        /// <summary>
-        /// Text encoding used to encode/decode text to/from a file.
-        /// </summary>
-        private readonly Encoding encoding = Encoding.UTF8;
 
         /// <summary>
         /// Creates an empty register with the char separator ','.
@@ -77,7 +73,7 @@ namespace Timotheus.IO
                 throw new System.Exception("Exception_NoKeys");
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
-            string text = encoding.GetString(data);
+            string text = Program.encoding.GetString(data);
             keys = Load(text);
         }
         /// <summary>
@@ -93,7 +89,7 @@ namespace Timotheus.IO
                 throw new System.Exception("Exception_NoKeys");
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
-            string text = encoding.GetString(data);
+            string text = Program.encoding.GetString(data);
             keys = Load(text);
         }
 
@@ -109,7 +105,8 @@ namespace Timotheus.IO
 
             for (int i = 0; i < lines.Length; i++)
             {
-                keys.Add(new Key(lines[i], separator));
+                if (lines[i].Contains(separator))
+                    keys.Add(new Key(lines[i], separator));
             }
 
             return keys;
@@ -122,7 +119,7 @@ namespace Timotheus.IO
         public void Save(string path)
         {
             string text = ToString();
-            byte[] data = encoding.GetBytes(text);
+            byte[] data = Program.encoding.GetBytes(text);
             File.WriteAllBytes(path, data);
         }
         /// <summary>
@@ -133,7 +130,7 @@ namespace Timotheus.IO
         public void Save(string path, string password)
         {
             string text = ToString();
-            byte[] data = Cipher.Encrypt(encoding.GetBytes(text), password);
+            byte[] data = Cipher.Encrypt(Program.encoding.GetBytes(text), password);
             File.WriteAllBytes(path, data);
         }
         

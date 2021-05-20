@@ -1199,7 +1199,7 @@ namespace Timotheus.Forms
             this.ToolStrip_LoadKey.Name = "ToolStrip_LoadKey";
             this.ToolStrip_LoadKey.Size = new System.Drawing.Size(23, 20);
             this.ToolStrip_LoadKey.Text = "Load key";
-            this.ToolStrip_LoadKey.Click += new System.EventHandler(this.LoadKey);
+            this.ToolStrip_LoadKey.Click += new System.EventHandler(this.OpenKey);
             // 
             // printToolStripButton
             // 

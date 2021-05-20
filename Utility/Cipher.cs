@@ -9,6 +9,11 @@ namespace Timotheus.Utility
     public static class Cipher
     {
         /// <summary>
+        /// A default key that can be used to encrypt low-risk strings.
+        /// </summary>
+        public static string defkey = "9z9veMhA0Uq3p95diAuKZ9N4uB7xY5iL";
+
+        /// <summary>
         /// Method that encrypts a byte array using a key.
         /// </summary>
         /// <param name="password">Password/key used to encrypt the data.</param>
@@ -50,7 +55,7 @@ namespace Timotheus.Utility
 
             using (Rfc2898DeriveBytes rdb = new Rfc2898DeriveBytes(password, salt))
             {
-                algorithm.Padding = PaddingMode.ISO10126;
+                algorithm.Padding = PaddingMode.PKCS7;
                 algorithm.Key = rdb.GetBytes(32);
                 algorithm.IV = rdb.GetBytes(16);
             }
