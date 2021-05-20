@@ -173,7 +173,7 @@ namespace Timotheus.Utility
             {
                 string name = events[i].Name;
                 //string description = events[i].Description;
-                DateTime time = events[i].StartTime;
+                DateTime time = events[i].Start;
 
                 row = table.AddRow();
 

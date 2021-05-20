@@ -232,7 +232,7 @@ namespace Timotheus.Forms
             events.Clear();
             for (int i = 0; i < calendar.events.Count; i++)
             {
-                if (calendarPeriod.In(calendar.events[i]) && !calendar.events[i].Deleted)
+                if (calendar.events[i].In(calendarPeriod) && !calendar.events[i].Deleted)
                     events.Add(calendar.events[i]);
             }
             Calendar_View.Sort(Calendar_View.Columns[0], ListSortDirection.Ascending);

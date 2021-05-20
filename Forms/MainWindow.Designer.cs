@@ -184,7 +184,7 @@ namespace Timotheus.Forms
             // Calendar_StartColumn
             // 
             this.Calendar_StartColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Calendar_StartColumn.DataPropertyName = "StartTime";
+            this.Calendar_StartColumn.DataPropertyName = "Start";
             this.Calendar_StartColumn.FillWeight = 60F;
             this.Calendar_StartColumn.HeaderText = "Start";
             this.Calendar_StartColumn.MinimumWidth = 6;
@@ -193,7 +193,7 @@ namespace Timotheus.Forms
             // Calendar_EndColumn
             // 
             this.Calendar_EndColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Calendar_EndColumn.DataPropertyName = "EndTime";
+            this.Calendar_EndColumn.DataPropertyName = "End";
             this.Calendar_EndColumn.FillWeight = 60F;
             this.Calendar_EndColumn.HeaderText = "End";
             this.Calendar_EndColumn.MinimumWidth = 6;
@@ -1401,11 +1401,11 @@ namespace Timotheus.Forms
         private System.Windows.Forms.ToolStripButton pasteToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton ToolStrip_Help;
+        private System.Windows.Forms.ToolStripButton ToolStrip_LoadKey;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_StartColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_EndColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_DescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_LocationColumn;
-        private System.Windows.Forms.ToolStripButton ToolStrip_LoadKey;
     }
 }

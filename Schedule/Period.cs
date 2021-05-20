@@ -11,11 +11,11 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Start date of the period.
         /// </summary>
-        public DateTime Start;
+        public DateTime Start { get; set; }
         /// <summary>
         /// End date of the period.
         /// </summary>
-        public DateTime End;
+        public DateTime End { get; set; }
         /// <summary>
         /// The type of period.
         /// </summary>
@@ -38,13 +38,15 @@ namespace Timotheus.Schedule
         /// </summary>
         private static List<string> months;
 
-        public Period(DateTime Start, DateTime End)
+        public Period()
+        {
+            if (months == null)
+                Initialize();
+        }
+        public Period(DateTime Start, DateTime End) : this()
         {
             this.Start = Start;
             this.End = End;
-
-            if (months == null)
-                Initialize();
         }
 
         private void Initialize()
@@ -231,9 +233,6 @@ namespace Timotheus.Schedule
         public bool In(Period period)
         {
             return In(period.Start, period.End);
-        }
-        public bool In(Event ev) {
-            return (ev.StartTime >= Start && ev.StartTime <= End) || (ev.EndTime >= Start && ev.EndTime <= End);
         }
         public bool In(DateTime a, DateTime b)
         {

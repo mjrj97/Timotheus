@@ -7,21 +7,13 @@ namespace Timotheus.Schedule
     /// <summary>
     /// A class that conforms to the iCal definition of a calendar event.
     /// </summary>
-    public class Event
+    public class Event : Period
     {
         //Hidden versions that holds the values of the public variables.
         private string name = string.Empty;
         private string description = string.Empty;
         private string location = string.Empty;
 
-        /// <summary>
-        /// Start time of the event.
-        /// </summary>
-        public DateTime StartTime { get; set; }
-        /// <summary>
-        /// End time of the event.
-        /// </summary>
-        public DateTime EndTime { get; set; }
         /// <summary>
         /// Last time that the event was changed.
         /// </summary>
@@ -53,10 +45,10 @@ namespace Timotheus.Schedule
         public bool Deleted;
 
         //Constructors
-        public Event(DateTime StartTime, DateTime EndTime, DateTime Created, string Name, string Description, string Location, string UID)
+        public Event(DateTime Start, DateTime End, DateTime Created, string Name, string Description, string Location, string UID)
         {
-            this.StartTime = StartTime;
-            this.EndTime = EndTime;
+            this.Start = Start;
+            this.End = End;
             this.Created = Created;
             this.Name = Name;
             this.Location = Location;
@@ -68,9 +60,9 @@ namespace Timotheus.Schedule
             else
                 this.UID = UID;
         }
-        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string Location, string UID) : this(StartTime, EndTime, DateTime.Now, Name, Description, Location, UID) { }
-        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description, string UID) : this(StartTime, EndTime, DateTime.Now, Name, Description, null, UID) { }
-        public Event(DateTime StartTime, DateTime EndTime, string Name, string Description) : this(StartTime, EndTime, DateTime.Now, Name, Description, null, null) { }
+        public Event(DateTime Start, DateTime End, string Name, string Description, string Location, string UID) : this(Start, End, DateTime.Now, Name, Description, Location, UID) { }
+        public Event(DateTime Start, DateTime End, string Name, string Description, string UID) : this(Start, End, DateTime.Now, Name, Description, null, UID) { }
+        public Event(DateTime Start, DateTime End, string Name, string Description) : this(Start, End, DateTime.Now, Name, Description, null, null) { }
         public Event(string text)
         {
             string[] lines = Regex.Split(text, "\r\n|\r|\n");
@@ -86,12 +78,14 @@ namespace Timotheus.Schedule
                 if (lines[i].Contains("UID"))
                     UID = Key.Value(lines[i], ':');
                 if (lines[i].Contains("DTSTART"))
-                    StartTime = Calendar.StringToDate(Key.Value(lines[i], ':'));
+                    Start = Calendar.StringToDate(Key.Value(lines[i], ':'));
                 if (lines[i].Contains("DTEND"))
-                    EndTime = Calendar.StringToDate(Key.Value(lines[i], ':'));
+                    End = Calendar.StringToDate(Key.Value(lines[i], ':'));
                 if (lines[i].Contains("DTSTAMP"))
                     Created = Calendar.StringToDate(Key.Value(lines[i], ':'));
             }
+
+            Changed = Created;
         }
 
         /// <summary>
@@ -116,8 +110,8 @@ namespace Timotheus.Schedule
             Name = ev.Name;
             Description = ev.Description;
             Location = ev.Location;
-            StartTime = ev.StartTime;
-            EndTime = ev.EndTime;
+            Start = ev.Start;
+            End = ev.End;
             Created = ev.Created;
         }
 
@@ -127,19 +121,19 @@ namespace Timotheus.Schedule
         public override string ToString()
         {
             string evString = "BEGIN:VEVENT\nUID:" + UID;
-            if (StartTime.Hour == EndTime.Hour && StartTime.Minute == EndTime.Minute && StartTime.Second == EndTime.Second && StartTime.Hour == 0 && StartTime.Minute == 0 && StartTime.Second == 0)
+            if (Start.Hour == End.Hour && Start.Minute == End.Minute && Start.Second == End.Second && Start.Hour == 0 && Start.Minute == 0 && Start.Second == 0)
             {
-                evString += "\nDTSTART;TZID=Europe/Copenhagen:" + Calendar.DateToString(StartTime) +
-                "\nDTEND;TZID=Europe/Copenhagen:" + Calendar.DateToString(EndTime);
+                evString += "\nDTSTART;TZID=Europe/Copenhagen:" + Calendar.DateToString(Start) +
+                "\nDTEND;TZID=Europe/Copenhagen:" + Calendar.DateToString(End);
             }
             else
             {
-                evString += "\nDTSTART;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(StartTime) +
-                "\nDTEND;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(EndTime);
+                evString += "\nDTSTART;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(Start) +
+                "\nDTEND;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(End);
             }
             if (Description != string.Empty)
                 evString += "\nDESCRIPTION:" + Calendar.ConvertToCALString(Description);
-            evString += "\nDTSTAMP:" + Calendar.DateTimeToString(Created) + "Z";
+            evString += "\nDTSTAMP:" + Calendar.DateTimeToString(Changed) + "Z";
             if (Location != string.Empty)
                 evString += "\nLOCATION:" + Calendar.ConvertToCALString(Location);
             evString += "\nSUMMARY:" + Name + "\nEND:VEVENT";
@@ -156,7 +150,7 @@ namespace Timotheus.Schedule
             if (obj != null && obj is Event @event)
             {
                 Event ev = @event;
-                equals = StartTime.Equals(ev.StartTime) && EndTime.Equals(ev.EndTime) && Created.Equals(ev.Created) && Name.Equals(ev.Name) && Description.Equals(ev.Description) && Location.Equals(ev.Location) && UID == ev.UID;
+                equals = Start.Equals(ev.Start) && End.Equals(ev.End) && Created.Equals(ev.Created) && Name.Equals(ev.Name) && Description.Equals(ev.Description) && Location.Equals(ev.Location) && UID == ev.UID;
             }
             return equals;
         }

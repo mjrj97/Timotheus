@@ -183,8 +183,6 @@ namespace Timotheus.Schedule
 
             for (int i = 0; i < events.Count; i++)
             {
-                if (events[i].Description == null)
-                    System.Diagnostics.Debug.WriteLine(events[i].Name);
                 for (int j = 0; j < remoteEvents.Count; j++)
                 {
                     if (events[i].UID == remoteEvents[j].UID)
@@ -192,7 +190,7 @@ namespace Timotheus.Schedule
                         foundLocal[i] = true;
                         foundRemote[j] = true;
 
-                        if (period.In(events[i]))
+                        if (events[i].In(period))
                         {
                             if (events[i].Deleted)
                                 DeleteEvent(events[i]);
@@ -212,7 +210,7 @@ namespace Timotheus.Schedule
             }
             for (int i = 0; i < events.Count; i++)
             {
-                if (period.In(events[i]))
+                if (events[i].In(period))
                 {
                     if (!foundLocal[i])
                         AddEvent(events[i]);
@@ -220,7 +218,7 @@ namespace Timotheus.Schedule
             }
             for (int i = 0; i < remoteEvents.Count; i++)
             {
-                if (period.In(events[i]))
+                if (events[i].In(period))
                 {
                     if (!foundRemote[i])
                         events.Add(remoteEvents[i]);
