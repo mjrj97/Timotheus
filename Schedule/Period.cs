@@ -19,7 +19,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// The type of period.
         /// </summary>
-        public PeriodType Type = PeriodType.Year;
+        public PeriodType Type;
 
         /// <summary>
         /// Name of the spring period.
@@ -38,28 +38,50 @@ namespace Timotheus.Schedule
         /// </summary>
         private static List<string> months;
 
+        /// <summary>
+        /// Base constructor. Leaves all values as null.
+        /// </summary>
         public Period()
         {
             if (months == null)
-                Initialize();
+            {
+                System.Globalization.DateTimeFormatInfo dtfi = System.Globalization.CultureInfo.GetCultureInfo(Program.culture.Name).DateTimeFormat;
+                months = new List<string>(dtfi.MonthNames);
+                months = months.ConvertAll(d => d.ToLower());
+
+                spring = Program.Localization.Get("Calendar_Spring", "Spring");
+                fall = Program.Localization.Get("Calendar_Fall", "Fall");
+                all = Program.Localization.Get("Calendar_All", "All");
+            }
         }
+        /// <summary>
+        /// Define a periods start and end date.
+        /// </summary>
+        /// <param name="Start">Start date of the period.</param>
+        /// <param name="End">End date of the period.</param>
         public Period(DateTime Start, DateTime End) : this()
         {
             this.Start = Start;
             this.End = End;
+
+            TimeSpan difference = End - Start;
+
+            if (difference.Days > 400)
+                Type = PeriodType.All;
+            else if (difference.Days <= 400 && difference.Days > 200)
+                Type = PeriodType.Year;
+            else if (difference.Days <= 200 && difference.Days > 100)
+                Type = PeriodType.Halfyear;
+            else if (difference.Days <= 100 || difference.Days > 25)
+                Type = PeriodType.Month;
+            else
+                Type = PeriodType.None;
         }
 
-        private void Initialize()
-        {
-            System.Globalization.DateTimeFormatInfo dtfi = System.Globalization.CultureInfo.GetCultureInfo(Program.culture.Name).DateTimeFormat;
-            months = new List<string>(dtfi.MonthNames);
-            months = months.ConvertAll(d => d.ToLower());
-
-            spring = Program.Localization.Get("Calendar_Spring", "Spring");
-            fall = Program.Localization.Get("Calendar_Fall", "Fall");
-            all = Program.Localization.Get("Calendar_All", "All");
-        }
-
+        /// <summary>
+        /// Sets the period according to a string.
+        /// </summary>
+        /// <param name="inputText">Text to be converted to a period ie. April 2021</param>
         public void SetPeriod(string inputText)
         {
             string[] SpiltText = inputText.Split(" ");
@@ -126,6 +148,10 @@ namespace Timotheus.Schedule
             }
         }
 
+        /// <summary>
+        /// Set the periods type.
+        /// </summary>
+        /// <param name="type">Could be year, month etc.</param>
         public void SetType(PeriodType type)
         {
             if (type == PeriodType.All)
@@ -178,8 +204,16 @@ namespace Timotheus.Schedule
                     }
                     break;
                 case PeriodType.Month:
-                    Start = new DateTime(Start.Year, Start.Month, 1);
-                    End = Start.AddMonths(1);
+                    if (Type == PeriodType.All)
+                    {
+                        Start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                        End = Start.AddMonths(1);
+                    }
+                    else
+                    {
+                        Start = new DateTime(Start.Year, Start.Month, 1);
+                        End = Start.AddMonths(1);
+                    }
                     break;
                 default:
                     break;
@@ -188,6 +222,9 @@ namespace Timotheus.Schedule
             Type = type;
         }
 
+        /// <summary>
+        /// Moves the period forward in time according to the type set. If Type == PeriodType.Year, the start and end is moved 1 year.
+        /// </summary>
         public void Add()
         {
             switch (Type)
@@ -209,6 +246,9 @@ namespace Timotheus.Schedule
             }
         }
 
+        /// <summary>
+        /// Moves the period backwards in time according to the type set. If Type == PeriodType.Year, the start and end is moved -1 year.
+        /// </summary>
         public void Subtract()
         {
             switch (Type)
@@ -230,15 +270,27 @@ namespace Timotheus.Schedule
             }
         }
 
+        /// <summary>
+        /// Check if period is in another period.
+        /// </summary>
+        /// <param name="period">The time interval to be checked against.</param>
         public bool In(Period period)
         {
             return In(period.Start, period.End);
         }
-        public bool In(DateTime a, DateTime b)
+        /// <summary>
+        /// Check if period is in between two dates.
+        /// </summary>
+        /// <param name="Start">First date of the interval.</param>
+        /// <param name="End">Last date of the interval.</param>
+        public bool In(DateTime Start, DateTime End)
         {
-            return (Start >= a && End <= b) || (Start >= a && End <= b);
+            return (this.Start >= Start && this.Start <= End) || (this.End >= Start && this.End <= End);
         }
 
+        /// <summary>
+        /// Returns the period as a string (ie. April 2021)
+        /// </summary>
         public override string ToString()
         {
             string text = string.Empty;
@@ -266,11 +318,15 @@ namespace Timotheus.Schedule
         }
     }
 
+    /// <summary>
+    /// Used to define the type of period.
+    /// </summary>
     public enum PeriodType
     {
         All,
         Year,
         Halfyear,
-        Month
+        Month,
+        None
     }
 }
