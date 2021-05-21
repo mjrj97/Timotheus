@@ -121,6 +121,10 @@ PasswordDialog_Label,Password
 PasswordDialog_SaveBox,Save password (Not recommended)
 PasswordDialog_OKButton,Ok
 PasswordDialog_CancelButton,Cancel
+EditKeyDialog,Edit
+EditKeyDialog_AddStdButton,Add standard keys
+EditKeyDialog_OKButton,Ok
+EditKeyDialog_CancelButton,Cancel
 PDF_Welcome,Welcome to
 PDF_Schedule,Schedule for
 PDF_Date,Date

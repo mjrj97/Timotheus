@@ -53,6 +53,16 @@ namespace Timotheus.IO
             keys = Load(text);
         }
         /// <summary>
+        /// Constructor. Uses a string and a defined separator to load a register.
+        /// </summary>
+        /// <param name="text">Text to be converted into a register.</param>
+        /// <param name="separator">Define the character used to separate the name and value of a key.</param>
+        public Register(char separator, string text)
+        {
+            this.separator = separator;
+            keys = Load(text);
+        }
+        /// <summary>
         /// Creates a new empty register and defines a separator.
         /// </summary>
         /// <param name="separator">Define the character used to separate the name and value of a key.</param>

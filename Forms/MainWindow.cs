@@ -76,7 +76,7 @@ namespace Timotheus.Forms
             string KeyPath = Program.Registry.Get("KeyPath");
             try
             {
-                InsertKey(KeyPath, false);
+                LoadKey(KeyPath, false);
             }
             catch (Exception e)
             {
@@ -194,11 +194,11 @@ namespace Timotheus.Forms
         }
 
         /// <summary>
-        /// Inserts the keys into their respective fields.
+        /// Loads the key from the path and inserts the keys.
         /// </summary>
         /// <param name="path">Path to the key file.</param>
         /// <param name="requirePasswordDialog">Whether a password dialog should be required. If false it tries to get the password stored in the Windows Registry.</param>
-        private void InsertKey(string path, bool requirePasswordDialog)
+        private void LoadKey(string path, bool requirePasswordDialog)
         {
             if (path != string.Empty)
             {
@@ -263,19 +263,27 @@ namespace Timotheus.Forms
                     Program.Registry.Set("KeyPath", path);
                 }
 
-                SFTP_UsernameBox.Text = keys.Get("SSH-Username");
-                SFTP_PasswordBox.Text = keys.Get("SSH-Password");
-                SFTP_HostBox.Text = keys.Get("SSH-URL");
-                SFTP_RemoteDirectoryBox.Text = keys.Get("SSH-RemoteDirectory");
-                SFTP_LocalDirectoryBox.Text = keys.Get("SSH-LocalDirectory");
-                Settings_NameBox.Text = keys.Get("Settings-Name");
-                Settings_AddressBox.Text = keys.Get("Settings-Address");
-                Settings_LogoBox.Text = keys.Get("Settings-Image");
-                if (keys.Get("Settings-Image") != string.Empty)
-                    Settings_PictureBox.Image = Image.FromFile(keys.Get("Settings-Image"));
+                InsertKeys();
             }
             else
                 keys = new Register(':');
+        }
+
+        /// <summary>
+        /// Inserts the keys into their respective fields.
+        /// </summary>
+        private void InsertKeys()
+        {
+            SFTP_UsernameBox.Text = keys.Get("SSH-Username");
+            SFTP_PasswordBox.Text = keys.Get("SSH-Password");
+            SFTP_HostBox.Text = keys.Get("SSH-URL");
+            SFTP_RemoteDirectoryBox.Text = keys.Get("SSH-RemoteDirectory");
+            SFTP_LocalDirectoryBox.Text = keys.Get("SSH-LocalDirectory");
+            Settings_NameBox.Text = keys.Get("Settings-Name");
+            Settings_AddressBox.Text = keys.Get("Settings-Address");
+            Settings_LogoBox.Text = keys.Get("Settings-Image");
+            if (keys.Get("Settings-Image") != string.Empty)
+                Settings_PictureBox.Image = Image.FromFile(keys.Get("Settings-Image"));
         }
 
         #region Calendar
@@ -880,7 +888,16 @@ namespace Timotheus.Forms
         /// </summary>
         private void EditKey(object sender, EventArgs e)
         {
-            
+            EditKeyDialog editkey = new EditKeyDialog(keys.ToString())
+            {
+                Owner = this
+            };
+            DialogResult result = editkey.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                keys = new Register(':', editkey.text);
+                InsertKeys();
+            }
         }
 
         /// <summary>
@@ -897,7 +914,7 @@ namespace Timotheus.Forms
 
             if (open.ShowDialog() == DialogResult.OK)
             {
-                InsertKey(open.FileName, true);
+                LoadKey(open.FileName, true);
             }
         }
 

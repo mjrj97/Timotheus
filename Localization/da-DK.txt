@@ -121,6 +121,10 @@ PasswordDialog_Label,Adgangskode
 PasswordDialog_SaveBox,Gem adgangskode (Ikke anbefalet)
 PasswordDialog_OKButton,Ok
 PasswordDialog_CancelButton,Annullér
+EditKeyDialog,Redigér
+EditKeyDialog_AddStdButton,Tilføj standard nøgler
+EditKeyDialog_OKButton,Ok
+EditKeyDialog_CancelButton,Annullér
 PDF_Welcome,Velkommen i
 PDF_Schedule,Program for
 PDF_Date,Dato
