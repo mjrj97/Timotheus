@@ -139,3 +139,4 @@ Exception_EmptyICS,ICS felt kan ikke være tom
 Exception_EmptyName,Navn må ikke være tom
 Exception_EmptyAddress,Adresse må ikke være tom
 Exception_NoKeys,Nøglefil kunne ikke læses
+Exception_WrongPassword,Forkert adgangskode

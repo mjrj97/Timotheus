@@ -120,13 +120,16 @@ namespace Timotheus.Forms
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.ToolStrip_LoadKey = new System.Windows.Forms.ToolStripButton();
             this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStrip_SaveKey = new System.Windows.Forms.ToolStripButton();
+            this.ToolStrip_EditKey = new System.Windows.Forms.ToolStripButton();
+            this.ToolStrip_LoadKey = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStrip_Help = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.Calendar_View)).BeginInit();
             this.tabControl.SuspendLayout();
@@ -1149,13 +1152,16 @@ namespace Timotheus.Forms
             this.newToolStripButton,
             this.openToolStripButton,
             this.saveToolStripButton,
-            this.ToolStrip_LoadKey,
             this.printToolStripButton,
             this.toolStripSeparator,
             this.cutToolStripButton,
             this.copyToolStripButton,
             this.pasteToolStripButton,
             this.toolStripSeparator1,
+            this.ToolStrip_SaveKey,
+            this.ToolStrip_EditKey,
+            this.ToolStrip_LoadKey,
+            this.toolStripSeparator2,
             this.ToolStrip_Help});
             this.MainWindow_ToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.MainWindow_ToolStrip.Location = new System.Drawing.Point(0, 0);
@@ -1190,16 +1196,6 @@ namespace Timotheus.Forms
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Size = new System.Drawing.Size(23, 20);
             this.saveToolStripButton.Text = "&Save";
-            // 
-            // ToolStrip_LoadKey
-            // 
-            this.ToolStrip_LoadKey.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolStrip_LoadKey.Image = ((System.Drawing.Image)(resources.GetObject("ToolStrip_LoadKey.Image")));
-            this.ToolStrip_LoadKey.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStrip_LoadKey.Name = "ToolStrip_LoadKey";
-            this.ToolStrip_LoadKey.Size = new System.Drawing.Size(23, 20);
-            this.ToolStrip_LoadKey.Text = "Load key";
-            this.ToolStrip_LoadKey.Click += new System.EventHandler(this.OpenKey);
             // 
             // printToolStripButton
             // 
@@ -1246,6 +1242,41 @@ namespace Timotheus.Forms
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+            // 
+            // ToolStrip_SaveKey
+            // 
+            this.ToolStrip_SaveKey.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStrip_SaveKey.Image = ((System.Drawing.Image)(resources.GetObject("ToolStrip_SaveKey.Image")));
+            this.ToolStrip_SaveKey.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStrip_SaveKey.Name = "ToolStrip_SaveKey";
+            this.ToolStrip_SaveKey.Size = new System.Drawing.Size(23, 20);
+            this.ToolStrip_SaveKey.Text = "Save key";
+            this.ToolStrip_SaveKey.Click += new System.EventHandler(this.SaveKey);
+            // 
+            // ToolStrip_EditKey
+            // 
+            this.ToolStrip_EditKey.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStrip_EditKey.Image = ((System.Drawing.Image)(resources.GetObject("ToolStrip_EditKey.Image")));
+            this.ToolStrip_EditKey.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStrip_EditKey.Name = "ToolStrip_EditKey";
+            this.ToolStrip_EditKey.Size = new System.Drawing.Size(23, 20);
+            this.ToolStrip_EditKey.Text = "Edit key";
+            this.ToolStrip_EditKey.Click += new System.EventHandler(this.EditKey);
+            // 
+            // ToolStrip_LoadKey
+            // 
+            this.ToolStrip_LoadKey.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStrip_LoadKey.Image = ((System.Drawing.Image)(resources.GetObject("ToolStrip_LoadKey.Image")));
+            this.ToolStrip_LoadKey.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStrip_LoadKey.Name = "ToolStrip_LoadKey";
+            this.ToolStrip_LoadKey.Size = new System.Drawing.Size(23, 20);
+            this.ToolStrip_LoadKey.Text = "Load key";
+            this.ToolStrip_LoadKey.Click += new System.EventHandler(this.OpenKey);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
             // 
             // ToolStrip_Help
             // 
@@ -1407,5 +1438,8 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_DescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Calendar_LocationColumn;
+        private System.Windows.Forms.ToolStripButton ToolStrip_SaveKey;
+        private System.Windows.Forms.ToolStripButton ToolStrip_EditKey;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }

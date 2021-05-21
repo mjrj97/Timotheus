@@ -69,21 +69,6 @@ namespace Timotheus
             //Loads the values stored in Windows registry.
             LoadRegistry();
 
-            Encoding encoding = Encoding.BigEndianUnicode;
-
-            /*string password = "cjjms10022021";
-            byte[] passwordByte = encoding.GetBytes(password);
-            System.Diagnostics.Debug.WriteLine(password);
-            byte[] encodedPasswordBytes = Utility.Cipher.Encrypt(passwordByte, Utility.Cipher.defkey);
-            string encodedPassword = encoding.GetString(encodedPasswordBytes);
-            Registry.Set("KeyPassword", encodedPassword);*/
-
-            string test = Registry.Get("KeyPassword");
-            byte[] testBytes = encoding.GetBytes(test);
-            byte[] decodedPasswordBytes = Utility.Cipher.Decrypt(testBytes, Utility.Cipher.defkey);
-            string decodedPassword = encoding.GetString(decodedPasswordBytes);
-            System.Diagnostics.Debug.WriteLine(decodedPassword);
-
             //Defines the process exit event.
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
 
@@ -135,8 +120,6 @@ namespace Timotheus
                     Registry.Add(names[i], value);
                 }
             }
-            else
-                key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus");
 
             key.Close();
         }

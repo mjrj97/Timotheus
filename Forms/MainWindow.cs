@@ -6,7 +6,6 @@ using Timotheus.IO;
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
@@ -21,7 +20,7 @@ namespace Timotheus.Forms
     public partial class MainWindow : Form
     {
         /// <summary>
-        /// Register containing all the keys loaded at startup.
+        /// Register containing all the keys loaded at startup or manually from a key file (.tkey or .txt)
         /// </summary>
         private Register keys;
         /// <summary>
@@ -197,6 +196,8 @@ namespace Timotheus.Forms
         /// <summary>
         /// Inserts the keys into their respective fields.
         /// </summary>
+        /// <param name="path">Path to the key file.</param>
+        /// <param name="requirePasswordDialog">Whether a password dialog should be required. If false it tries to get the password stored in the Windows Registry.</param>
         private void InsertKey(string path, bool requirePasswordDialog)
         {
             if (path != string.Empty)
@@ -209,31 +210,49 @@ namespace Timotheus.Forms
                     
                     if (encodedPassword != string.Empty)
                     {
-                        byte[] decodedBytes = Cipher.Decrypt(encodedBytes, Cipher.defkey);
-                        string password = Program.encoding.GetString(decodedBytes);
+                        try
+                        {
+                            byte[] decodedBytes = Cipher.Decrypt(encodedBytes, Cipher.defkey);
+                            string password = Program.encoding.GetString(decodedBytes);
 
-                        keys = new Register(path, password, ':');
+                            keys = new Register(path, password, ':');
+                            Program.Registry.Set("KeyPath", path);
+                        }
+                        catch (System.Security.Cryptography.CryptographicException e)
+                        {
+                            Program.Error("Exception_WrongPassword", e.Message);
+                            keys = new Register(':');
+                        }
                     }
                     else
                     {
-                        PasswordDialog passwordDialog = new PasswordDialog()
+                        try
                         {
-                            Owner = this
-                        };
-                        DialogResult result = passwordDialog.ShowDialog();
-                        if (result == DialogResult.OK)
-                        {
-                            keys = new Register(path, passwordDialog.Password, ':');
-                            if (passwordDialog.Check)
+                            PasswordDialog passwordDialog = new PasswordDialog()
                             {
-                                byte[] decodedBytes = Program.encoding.GetBytes(passwordDialog.Password);
-                                encodedBytes = Cipher.Encrypt(decodedBytes, Cipher.defkey);
-                                encodedPassword = Program.encoding.GetString(encodedBytes);
-                                Program.Registry.Set("KeyPassword", encodedPassword);
+                                Owner = this
+                            };
+                            DialogResult result = passwordDialog.ShowDialog();
+                            if (result == DialogResult.OK)
+                            {
+                                keys = new Register(path, passwordDialog.Password, ':');
+                                if (passwordDialog.Check)
+                                {
+                                    byte[] decodedBytes = Program.encoding.GetBytes(passwordDialog.Password);
+                                    encodedBytes = Cipher.Encrypt(decodedBytes, Cipher.defkey);
+                                    encodedPassword = Program.encoding.GetString(encodedBytes);
+                                    Program.Registry.Set("KeyPassword", encodedPassword);
+                                }
+                                Program.Registry.Set("KeyPath", path);
+                            }
+                            else
+                            {
+                                keys = new Register(':');
                             }
                         }
-                        else
+                        catch (System.Security.Cryptography.CryptographicException e)
                         {
+                            Program.Error("Exception_WrongPassword", e.Message);
                             keys = new Register(':');
                         }
                     }
@@ -241,9 +260,9 @@ namespace Timotheus.Forms
                 else if (extension == ".txt")
                 {
                     keys = new Register(path, ':');
+                    Program.Registry.Set("KeyPath", path);
                 }
 
-                Program.Registry.Set("KeyPath", path);
                 SFTP_UsernameBox.Text = keys.Get("SSH-Username");
                 SFTP_PasswordBox.Text = keys.Get("SSH-Password");
                 SFTP_HostBox.Text = keys.Get("SSH-URL");
@@ -252,7 +271,8 @@ namespace Timotheus.Forms
                 Settings_NameBox.Text = keys.Get("Settings-Name");
                 Settings_AddressBox.Text = keys.Get("Settings-Address");
                 Settings_LogoBox.Text = keys.Get("Settings-Image");
-                Settings_PictureBox.Image = Image.FromFile(keys.Get("Settings-Image"));
+                if (keys.Get("Settings-Image") != string.Empty)
+                    Settings_PictureBox.Image = Image.FromFile(keys.Get("Settings-Image"));
             }
             else
                 keys = new Register(':');
@@ -847,6 +867,22 @@ namespace Timotheus.Forms
         #endregion
 
         #region Toolstrip
+        /// <summary>
+        /// Opens a dialog so the user can save the current loaded keys to a file.
+        /// </summary>
+        private void SaveKey(object sender, EventArgs e)
+        {
+            
+        }
+
+        /// <summary>
+        /// Opens a dialog so the user can edit the list of keys.
+        /// </summary>
+        private void EditKey(object sender, EventArgs e)
+        {
+            
+        }
+
         /// <summary>
         /// Opens a dialog so the user can select a file that has all the keys.
         /// </summary>

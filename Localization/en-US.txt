@@ -139,3 +139,4 @@ Exception_EmptyICS,ICS field cannot be empty
 Exception_EmptyName,Name cannot be empty
 Exception_EmptyAddress,Address cannot be empty
 Exception_NoKeys,Key file could not be loaded
+Exception_WrongPassword,Wrong password
