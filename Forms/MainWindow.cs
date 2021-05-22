@@ -381,8 +381,7 @@ namespace Timotheus.Forms
             {
                 Owner = this
             };
-            DialogResult result = addEvent.ShowDialog();
-            if (result == DialogResult.OK)
+            if (addEvent.ShowDialog() == DialogResult.OK)
                 UpdateCalendarTable();
         }
 
@@ -437,8 +436,7 @@ namespace Timotheus.Forms
             {
                 Owner = this
             };
-            DialogResult result = open.ShowDialog();
-            if (result == DialogResult.OK)
+            if (open.ShowDialog() == DialogResult.OK)
             {
                 calendar = open.calendar;
                 UpdateCalendarTable();
@@ -459,7 +457,7 @@ namespace Timotheus.Forms
                 try
                 {
                     FileInfo file = new FileInfo(saveFileDialog.FileName);
-                    PDFCreater.ExportCalendar(events, file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text, Calendar_PeriodBox.Text);
+                    PDF.ExportCalendar(events, file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text, Calendar_PeriodBox.Text);
                 }
                 catch (Exception ex)
                 {
@@ -477,8 +475,7 @@ namespace Timotheus.Forms
             {
                 Owner = this
             };
-            DialogResult result = sync.ShowDialog();
-            if (result == DialogResult.OK)
+            if (sync.ShowDialog() == DialogResult.OK)
                 UpdateCalendarTable();
         }
         #endregion
@@ -567,8 +564,7 @@ namespace Timotheus.Forms
             {
                 Owner = this
             };
-            DialogResult result = addMember.ShowDialog();
-            if (result == DialogResult.OK)
+            if (addMember.ShowDialog() == DialogResult.OK)
                 UpdateMemberTable();
         }
 
@@ -653,8 +649,7 @@ namespace Timotheus.Forms
             {
                 Owner = this
             };
-            DialogResult result = addConsentForm.ShowDialog();
-            if (result == DialogResult.OK)
+            if (addConsentForm.ShowDialog() == DialogResult.OK)
                 UpdateConsentFormsTable();
         }
 
@@ -759,8 +754,7 @@ namespace Timotheus.Forms
             {
                 Owner = this
             };
-            DialogResult result = addTransaction.ShowDialog();
-            if (result == DialogResult.OK)
+            if (addTransaction.ShowDialog() == DialogResult.OK)
                 UpdateTransactionsTable();
         }
 
@@ -846,7 +840,7 @@ namespace Timotheus.Forms
         /// <summary>
         /// Reopens the Timotheus window.
         /// </summary>
-        private void Open(object sender, EventArgs e)
+        public void Open(object sender, EventArgs e)
         {
             Show();
             WindowState = FormWindowState.Normal;
@@ -901,6 +895,13 @@ namespace Timotheus.Forms
                         if (dialog.ShowDialog() == DialogResult.OK)
                         {
                             keys.Save(save.FileName, dialog.Password);
+                            if (dialog.Check)
+                            {
+                                byte[] decodedBytes = Program.encoding.GetBytes(dialog.Password);
+                                byte[] encodedBytes = Cipher.Encrypt(decodedBytes, Cipher.defkey);
+                                string encodedPassword = Program.encoding.GetString(encodedBytes);
+                                Program.Registry.Set("KeyPassword", encodedPassword);
+                            }
                         }
                         break;
                 }
@@ -916,8 +917,7 @@ namespace Timotheus.Forms
             {
                 Owner = this
             };
-            DialogResult result = editkey.ShowDialog();
-            if (result == DialogResult.OK)
+            if (editkey.ShowDialog() == DialogResult.OK)
             {
                 keys = new Register(':', editkey.text);
                 InsertKeys();

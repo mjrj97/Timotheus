@@ -144,3 +144,4 @@ Exception_EmptyName,Name cannot be empty
 Exception_EmptyAddress,Address cannot be empty
 Exception_NoKeys,Key file could not be loaded
 Exception_WrongPassword,Wrong password
+Exception_AlreadyRunning,The program is already running. If you can't see it, check the system tray or task manager.

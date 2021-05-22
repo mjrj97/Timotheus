@@ -3,6 +3,8 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Timotheus.Forms;
@@ -63,6 +65,8 @@ namespace Timotheus
             if (!foundLocalization)
                 culture = CultureInfo.GetCultureInfo("en-US");
 
+            culture = CultureInfo.GetCultureInfo("da-DK"); //FOR DEBUG ONLY
+
             //Initializes the loading of localization.
             Localization = new Register(directory + culture.Name + ".txt");
 
@@ -78,11 +82,27 @@ namespace Timotheus
             //Defines encoding 1252
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            //Open the MainWindow
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            //Open the MainWindow and makes sure there is only one instance.
+            using Mutex mutex = new Mutex(true, "Timotheus", out bool createdNew);
+            if (createdNew)
+            {
+                Application.SetHighDpiMode(HighDpiMode.SystemAware);
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainWindow());
+            }
+            else
+            {
+                Process current = Process.GetCurrentProcess();
+                foreach (Process process in Process.GetProcessesByName(current.ProcessName))
+                {
+                    if (process.Id != current.Id)
+                    {
+                        Error("Exception_Name", "Exception_AlreadyRunning");
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>

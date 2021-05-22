@@ -11,7 +11,7 @@ namespace Timotheus.Utility
     /// <summary>
     /// Class containing methods to export data suchs as the calendar, memberlist and accounts.
     /// </summary>
-    public class PDFCreater
+    public class PDF
     {
         //Primary colors
         private readonly static Color White = new Color(255, 255, 255);
@@ -32,7 +32,7 @@ namespace Timotheus.Utility
             // Create a new style called Table based on style Normal.
             style = document.Styles.AddStyle("Table", "Normal");
             style.Font.Name = "Arvo";
-            style.Font.Size = 11;
+            style.Font.Size = 10;
 
             style = document.Styles[StyleNames.Header];
             style.ParagraphFormat.AddTabStop("16cm", TabAlignment.Right);
@@ -82,23 +82,14 @@ namespace Timotheus.Utility
             DefineStyles(document);
 
             #region Localization
-            string welcome = "Welcome to";
-            string schedule = "Schedule for";
-            string date = "Date";
-            string start = "Start";
-            string activity = "Activity";
-            string leader = "Leader";
-            string musician = "Musician";
-            string coffee = "Coffee";
-
-            welcome = Program.Localization.Get("PDF_Welcome", welcome);
-            schedule = Program.Localization.Get("PDF_Schedule", schedule);
-            date = Program.Localization.Get("PDF_Date", date);
-            start = Program.Localization.Get("PDF_Start", start);
-            activity = Program.Localization.Get("PDF_Activity", activity);
-            leader = Program.Localization.Get("PDF_Leader", leader);
-            musician = Program.Localization.Get("PDF_Musician", musician);
-            coffee = Program.Localization.Get("PDF_Coffee", coffee);
+            string welcome = Program.Localization.Get("PDF_Welcome", "Welcome to");
+            string schedule = Program.Localization.Get("PDF_Schedule", "Schedule for");
+            string date = Program.Localization.Get("PDF_Date", "Date");
+            string start = Program.Localization.Get("PDF_Start", "Start");
+            string activity = Program.Localization.Get("PDF_Activity", "Activity");
+            string leader = Program.Localization.Get("PDF_Leader", "Leader");
+            string musician = Program.Localization.Get("PDF_Musician", "Musician");
+            string coffee = Program.Localization.Get("PDF_Coffee", "Coffee");
             #endregion
 
             // Each MigraDoc document needs at least one section.
@@ -136,12 +127,12 @@ namespace Timotheus.Utility
             table.Rows.LeftIndent = 0;
 
             // Define the columns
-            table.AddColumn("3.3cm");
-            table.AddColumn("2.2cm");
-            table.AddColumn("12.5cm");
             table.AddColumn("3cm");
-            table.AddColumn("3cm");
-            table.AddColumn("7cm");
+            table.AddColumn("2cm");
+            table.AddColumn("10.5cm");
+            table.AddColumn("2.8cm");
+            table.AddColumn("2.8cm");
+            table.AddColumn("7.5cm");
 
             // Add the header text of the columns.
             Row row = table.AddRow();

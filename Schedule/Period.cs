@@ -328,9 +328,9 @@ namespace Timotheus.Schedule
                     break;
                 case PeriodType.Halfyear:
                     if (Start.Month > 6)
-                        text = Start.Year + " " + fall;
+                        text = fall + " " + Start.Year;
                     else
-                        text = Start.Year + " " + spring;
+                        text = spring + " " + Start.Year;
                     break;
                 case PeriodType.Month:
                     text = Start.ToString("MMMM", Program.culture) + " " + Start.Year;
