@@ -203,64 +203,64 @@ namespace Timotheus.Forms
             if (path != string.Empty)
             {
                 string extension = Path.GetExtension(path);
-                if (extension == ".tkey")
+                switch (extension)
                 {
-                    string encodedPassword = requirePasswordDialog ? string.Empty : Program.Registry.Get("KeyPassword");
-                    byte[] encodedBytes = Program.encoding.GetBytes(encodedPassword);
-                    
-                    if (encodedPassword != string.Empty)
-                    {
-                        try
-                        {
-                            byte[] decodedBytes = Cipher.Decrypt(encodedBytes, Cipher.defkey);
-                            string password = Program.encoding.GetString(decodedBytes);
+                    case ".tkey":
+                        string encodedPassword = requirePasswordDialog ? string.Empty : Program.Registry.Get("KeyPassword");
+                        byte[] encodedBytes = Program.encoding.GetBytes(encodedPassword);
 
-                            keys = new Register(path, password, ':');
-                            Program.Registry.Set("KeyPath", path);
-                        }
-                        catch (System.Security.Cryptography.CryptographicException e)
+                        if (encodedPassword != string.Empty)
                         {
-                            Program.Error("Exception_WrongPassword", e.Message);
-                            keys = new Register(':');
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            PasswordDialog passwordDialog = new PasswordDialog()
+                            try
                             {
-                                Owner = this
-                            };
-                            DialogResult result = passwordDialog.ShowDialog();
-                            if (result == DialogResult.OK)
-                            {
-                                keys = new Register(path, passwordDialog.Password, ':');
-                                if (passwordDialog.Check)
-                                {
-                                    byte[] decodedBytes = Program.encoding.GetBytes(passwordDialog.Password);
-                                    encodedBytes = Cipher.Encrypt(decodedBytes, Cipher.defkey);
-                                    encodedPassword = Program.encoding.GetString(encodedBytes);
-                                    Program.Registry.Set("KeyPassword", encodedPassword);
-                                }
+                                byte[] decodedBytes = Cipher.Decrypt(encodedBytes, Cipher.defkey);
+                                string password = Program.encoding.GetString(decodedBytes);
+
+                                keys = new Register(path, password, ':');
                                 Program.Registry.Set("KeyPath", path);
                             }
-                            else
+                            catch (System.Security.Cryptography.CryptographicException e)
                             {
+                                Program.Error("Exception_WrongPassword", e.Message);
                                 keys = new Register(':');
                             }
                         }
-                        catch (System.Security.Cryptography.CryptographicException e)
+                        else
                         {
-                            Program.Error("Exception_WrongPassword", e.Message);
-                            keys = new Register(':');
+                            try
+                            {
+                                PasswordDialog passwordDialog = new PasswordDialog()
+                                {
+                                    Owner = this
+                                };
+                                if (passwordDialog.ShowDialog() == DialogResult.OK)
+                                {
+                                    keys = new Register(path, passwordDialog.Password, ':');
+                                    if (passwordDialog.Check)
+                                    {
+                                        byte[] decodedBytes = Program.encoding.GetBytes(passwordDialog.Password);
+                                        encodedBytes = Cipher.Encrypt(decodedBytes, Cipher.defkey);
+                                        encodedPassword = Program.encoding.GetString(encodedBytes);
+                                        Program.Registry.Set("KeyPassword", encodedPassword);
+                                    }
+                                    Program.Registry.Set("KeyPath", path);
+                                }
+                                else
+                                {
+                                    keys = new Register(':');
+                                }
+                            }
+                            catch (System.Security.Cryptography.CryptographicException e)
+                            {
+                                Program.Error("Exception_WrongPassword", e.Message);
+                                keys = new Register(':');
+                            }
                         }
-                    }
-                }
-                else if (extension == ".txt")
-                {
-                    keys = new Register(path, ':');
-                    Program.Registry.Set("KeyPath", path);
+                        break;
+                    case ".txt":
+                        keys = new Register(path, ':');
+                        Program.Registry.Set("KeyPath", path);
+                        break;
                 }
 
                 InsertKeys();
@@ -880,7 +880,31 @@ namespace Timotheus.Forms
         /// </summary>
         private void SaveKey(object sender, EventArgs e)
         {
-            
+            SaveFileDialog save = new SaveFileDialog
+            {
+                Filter = "Encrypted key (*.tkey)|*.tkey|Text file (*.txt)|*.txt"
+            };
+            if (save.ShowDialog() == DialogResult.OK)
+            {
+                string extension = Path.GetExtension(save.FileName);
+                switch (extension)
+                {
+                    case ".txt":
+                        keys.Save(save.FileName);
+                        break;
+                    case ".tkey":
+                        PasswordDialog dialog = new PasswordDialog
+                        {
+                            Owner = this
+                        };
+
+                        if (dialog.ShowDialog() == DialogResult.OK)
+                        {
+                            keys.Save(save.FileName, dialog.Password);
+                        }
+                        break;
+                }
+            }
         }
 
         /// <summary>

@@ -127,9 +127,7 @@ namespace Timotheus.IO
         /// <param name="path">Path where the register should be saved. Must include filename and extension.</param>
         public void Save(string path)
         {
-            string text = ToString();
-            byte[] data = Program.encoding.GetBytes(text);
-            File.WriteAllBytes(path, data);
+            File.WriteAllText(path, ToString());
         }
         /// <summary>
         /// Saves the register to the path as encrypted file.
