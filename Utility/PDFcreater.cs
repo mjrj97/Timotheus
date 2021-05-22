@@ -4,6 +4,7 @@ using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.DocumentObjectModel.Shapes;
 using Timotheus.Schedule;
+using Timotheus.IO;
 
 namespace Timotheus.Utility
 {
@@ -172,8 +173,12 @@ namespace Timotheus.Utility
             for (int i = 0; i < events.Count; i++)
             {
                 string name = events[i].Name;
-                //string description = events[i].Description;
+                Register values = new Register(':', events[i].Description);
                 DateTime time = events[i].Start;
+
+                string eventLeader = values.Get(leader);
+                string eventMusician = values.Get(musician);
+                string eventCoffee = values.Get(coffee);
 
                 row = table.AddRow();
 
@@ -185,9 +190,9 @@ namespace Timotheus.Utility
                     row.Cells[1].AddParagraph(time.ToString("t", Program.culture));
 
                 row.Cells[2].AddParagraph(name);
-                row.Cells[3].AddParagraph("");
-                row.Cells[4].AddParagraph("");
-                row.Cells[5].AddParagraph("");
+                row.Cells[3].AddParagraph(eventLeader);
+                row.Cells[4].AddParagraph(eventMusician);
+                row.Cells[5].AddParagraph(eventCoffee);
             }
 
             // Create a renderer for PDF that uses Unicode font encoding.

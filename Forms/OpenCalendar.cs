@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using Timotheus.Schedule;
 using Timotheus.IO;
+using System.Text.RegularExpressions;
 
 namespace Timotheus.Forms
 {
@@ -70,7 +71,8 @@ namespace Timotheus.Forms
                     calendar = new Calendar(OpenCalendar_UsernameBox.Text, OpenCalendar_PasswordBox.Text, OpenCalendar_CalDAVBox.Text);
                 else
                 {
-                    string[] lines = File.ReadAllText(OpenCalendar_ICSBox.Text).Replace("\r\n ", "").Split("\n");
+                    string text = File.ReadAllText(OpenCalendar_ICSBox.Text).Replace("\r\n ", "");
+                    string[] lines = Regex.Split(text, "\r\n|\r|\n");
                     calendar = new Calendar(lines);
                 }
 

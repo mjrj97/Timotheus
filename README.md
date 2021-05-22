@@ -8,6 +8,7 @@ The purpose of this project is to create software that can manage a small associ
 - [X] Syncing calendars using the CalDAV protocol
 - [X] Managing GDPR consent forms and member directory
 - [X] SFTP-based storage
+- [X] Password manager
 - [ ] Encryption of stored data
 - [ ] Accounting
 - [ ] Small Group Management
@@ -31,6 +32,7 @@ Formålet med dette projekt er at udvikle software, der kan behandle en lille fo
 - [X] Kalender synkronisering med CalDAV protokollen
 - [X] Administration af GDPR samtykkeerklæringer og medlemslister
 - [X] SFTP baseret dataopbevaring
+- [X] Adgangskode opbevaring
 - [ ] Kryptering af lagret data
 - [ ] Regnskabsførelse
 - [ ] Administration af smågrupper

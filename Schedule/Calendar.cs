@@ -110,6 +110,7 @@ namespace Timotheus.Schedule
 
             List<Event> events = new List<Event>();
 
+            System.Diagnostics.Debug.WriteLine(lines[0]);
             if (lines[0] != "BEGIN:VCALENDAR")
                 throw new Exception("Exception_InvalidCalendar");
             for (int i = 1; i < lines.Length; i++)
