@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -328,16 +329,21 @@ namespace Timotheus.Schedule
         /// </summary>
         public override string ToString()
         {
-            string ics = "BEGIN:VCALENDAR\n";
-            ics += headers.ToString() + "\n"
-            + timezone + "\n";
+            StringBuilder builder = new StringBuilder("BEGIN:VCALENDAR\n");
+            builder.Append(headers.ToString());
+            builder.Append('\n');
+            builder.Append(timezone);
+            builder.Append('\n');
             for (int i = 0; i < events.Count; i++)
             {
                 if (!events[i].Deleted)
-                    ics += events[i].ToString() + "\n";
+                {
+                    builder.Append(events[i].ToString());
+                    builder.Append('\n');
+                }
             }
-            ics += "END:VCALENDAR";
-            return ics;
+            builder.Append("END:VCALENDAR");
+            return builder.ToString();
         }
 
         /// <summary>

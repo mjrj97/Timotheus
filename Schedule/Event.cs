@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Text.RegularExpressions;
 using Timotheus.IO;
 
@@ -56,7 +57,7 @@ namespace Timotheus.Schedule
             Changed = Created;
             Deleted = false;
             if (UID == null)
-                this.UID = GenerateUID();
+                this.UID = Guid.NewGuid().ToString().ToUpper();
             else
                 this.UID = UID;
         }
@@ -89,19 +90,6 @@ namespace Timotheus.Schedule
         }
 
         /// <summary>
-        /// Generates a UID to be used a unique identifier in the calendar.
-        /// </summary>
-        public static string GenerateUID()
-        {
-            byte[] data = new byte[16];
-            Random rnd = new Random();
-            rnd.NextBytes(data);
-            string tempUID = BitConverter.ToString(data).Replace("-", "");
-            string UID = tempUID.Substring(0,8) + "-" + tempUID.Substring(8,4) + "-" + tempUID.Substring(12, 4) + "-" + tempUID.Substring(16, 4) + "-" + tempUID.Substring(20, 12);
-            return UID;
-        }
-
-        /// <summary>
         /// Updates the variables of this event with the variables of a separate event ev.
         /// </summary>
         /// <param name="ev">Newer version of this (Must have the same UID).</param>
@@ -120,25 +108,40 @@ namespace Timotheus.Schedule
         /// </summary>
         public override string ToString()
         {
-            string evString = "BEGIN:VEVENT\nUID:" + UID;
+            StringBuilder builder = new StringBuilder("BEGIN:VEVENT\nUID:");
+            builder.Append(UID);
             if (Start.Hour == End.Hour && Start.Minute == End.Minute && Start.Second == End.Second && Start.Hour == 0 && Start.Minute == 0 && Start.Second == 0)
             {
-                evString += "\nDTSTART;TZID=Europe/Copenhagen:" + Calendar.DateToString(Start) +
-                "\nDTEND;TZID=Europe/Copenhagen:" + Calendar.DateToString(End);
+                builder.Append("\nDTSTART;TZID=Europe/Copenhagen:");
+                builder.Append(Calendar.DateToString(Start));
+                builder.Append("\nDTEND;TZID=Europe/Copenhagen:");
+                builder.Append(Calendar.DateToString(End));
             }
             else
             {
-                evString += "\nDTSTART;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(Start) +
-                "\nDTEND;TZID=Europe/Copenhagen:" + Calendar.DateTimeToString(End);
+                builder.Append("\nDTSTART;TZID=Europe/Copenhagen:");
+                builder.Append(Calendar.DateTimeToString(Start));
+                builder.Append("\nDTEND;TZID=Europe/Copenhagen:");
+                builder.Append(Calendar.DateTimeToString(End));
             }
             if (Description != string.Empty)
-                evString += "\nDESCRIPTION:" + Calendar.ConvertToCALString(Description);
-            evString += "\nDTSTAMP:" + Calendar.DateTimeToString(Changed) + "Z";
+            {
+                builder.Append("\nDESCRIPTION:");
+                builder.Append(Calendar.ConvertToCALString(Description));
+            }
+            builder.Append("\nDTSTAMP:");
+            builder.Append(Calendar.DateTimeToString(Changed));
+            builder.Append('Z');
             if (Location != string.Empty)
-                evString += "\nLOCATION:" + Calendar.ConvertToCALString(Location);
-            evString += "\nSUMMARY:" + Name + "\nEND:VEVENT";
+            {
+                builder.Append("\nLOCATION:");
+                builder.Append(Calendar.ConvertToCALString(Location));
+            }
+            builder.Append("\nSUMMARY:");
+            builder.Append(Name);
+            builder.Append("\nEND:VEVENT");
 
-            return evString;
+            return builder.ToString();
         }
 
         /// <summary>

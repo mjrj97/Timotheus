@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Timotheus.Utility;
@@ -255,14 +256,16 @@ namespace Timotheus.IO
         /// </summary>
         public override string ToString()
         {
-            string formatted = "";
+            StringBuilder builder = new StringBuilder();
             for (int i = 0; i < keys.Count; i++)
             {
-                formatted += keys[i].name + separator + keys[i].value;
+                builder.Append(keys[i].name);
+                builder.Append(':');
+                builder.Append(keys[i].value);
                 if (i != keys.Count - 1)
-                    formatted += "\n";
+                    builder.Append('\n');
             }
-            return formatted;
+            return builder.ToString();
         }
     }
 }
