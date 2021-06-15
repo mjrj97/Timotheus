@@ -14,7 +14,8 @@ namespace Timotheus.Utility
     public class PDF
     {
         //Primary colors
-        private readonly static Color White = new Color(255, 255, 255);
+        private readonly static Color White = new Color(255);
+        private readonly static Color Black = new Color(0);
         private readonly static Color HeadingColor = new Color(5, 105, 115);
 
         /// <summary>
@@ -78,6 +79,7 @@ namespace Timotheus.Utility
             document.Info.Author = associationName;
             document.DefaultPageSetup.Orientation = Orientation.Landscape;
             document.UseCmykColor = false;
+            document.DefaultPageSetup.PageFormat = PageFormat.A4;
 
             DefineStyles(document);
 
@@ -185,6 +187,116 @@ namespace Timotheus.Utility
                 row.Cells[4].AddParagraph(eventMusician);
                 row.Cells[5].AddParagraph(eventCoffee);
             }
+
+            // Create a renderer for PDF that uses Unicode font encoding.
+            PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(true)
+            {
+                Document = document
+            };
+
+            // Create the PDF document.
+            pdfRenderer.RenderDocument();
+            pdfRenderer.Save(fileName);
+        }
+
+        /// <summary>
+        /// Exports a calendar as a PDF.
+        /// </summary>
+        /// <param name="filePath">Path the PDF should be saved at.</param>
+        /// <param name="title">Name of the PDF file.</param>
+        /// <param name="associationName">Name of the association.</param>
+        /// <param name="associationAddress">Address of the association.</param>
+        /// <param name="logoPath">Path to the associations logo.</param>
+        /// <param name="periodName">Name of the time period. i.e. fall 2021</param>
+        public static void ExportCalendarNew(SortableBindingList<Event> events, string filePath, string title, string associationName, string associationAddress, string logoPath, string periodName)
+        {
+            string fileName = $"{filePath}\\{title}";
+
+            // Create the document using MigraDoc.
+            Document document = new Document();
+            document.Info.Title = fileName;
+            document.Info.Author = associationName;
+            document.DefaultPageSetup.Orientation = Orientation.Landscape;
+            document.UseCmykColor = false;
+
+            DefineStyles(document);
+
+            #region Localization
+            string welcome = Program.Localization.Get("PDF_Welcome", "Welcome to");
+            string schedule = Program.Localization.Get("PDF_Schedule", "Schedule for");
+            string date = Program.Localization.Get("PDF_Date", "Date");
+            string start = Program.Localization.Get("PDF_Start", "Start");
+            string activity = Program.Localization.Get("PDF_Activity", "Activity");
+            string leader = Program.Localization.Get("PDF_Leader", "Leader");
+            string musician = Program.Localization.Get("PDF_Musician", "Musician");
+            string coffee = Program.Localization.Get("PDF_Coffee", "Coffee");
+            #endregion
+
+            // Each MigraDoc document needs at least one section.
+            Section section = document.AddSection();
+
+            section.PageSetup = document.DefaultPageSetup.Clone();
+            section.PageSetup.TopMargin = "1cm";
+            section.PageSetup.LeftMargin = "1cm";
+            section.PageSetup.RightMargin = "1cm";
+
+            //Add logo if defined.
+            if (logoPath != string.Empty && logoPath != null)
+            {
+                Image image = section.Headers.Primary.AddImage(logoPath);
+                image.Height = "3cm";
+                image.LockAspectRatio = true;
+            }
+
+            // Create the text frame for the address
+            TextFrame addressFrame = section.AddTextFrame();
+            addressFrame.Height = "3.0cm";
+            addressFrame.Width = "15.0cm";
+            addressFrame.Left = "4.0cm";
+            addressFrame.RelativeHorizontal = RelativeHorizontal.Margin;
+            addressFrame.Top = "2.0cm";
+            addressFrame.RelativeVertical = RelativeVertical.Page;
+
+            // Put sender in address frame            
+
+            addressFrame.AddParagraph(welcome + " " + associationName).Style = "Heading1";
+            addressFrame.AddParagraph(schedule + " " + periodName.ToLower()).Style = "Heading2";
+
+            // extra Paragraph to add space
+            section.AddParagraph();
+
+
+            // Create the item table.
+            Table table = section.AddTable();
+            table.Style = "Table";
+            table.Borders.Color = Black;// should be withe
+            table.Borders.Width = 0.25;
+            table.Borders.Left.Width = 0.5;
+            table.Borders.Right.Width = 0.5;
+            table.Rows.LeftIndent = 0;
+            table.TopPadding = "3cm";
+
+            int sectionWidth = (int)document.DefaultPageSetup.PageWidth - (int)document.DefaultPageSetup.LeftMargin - (int)document.DefaultPageSetup.RightMargin;
+
+            float columnWidth = sectionWidth / 3;
+
+            // Define the columns
+            table.AddColumn().Width = columnWidth;
+            table.AddColumn().Width = columnWidth;
+            table.AddColumn().Width = columnWidth;
+            
+
+            // Add the header text of the columns.
+            Row row = table.AddRow();
+            row.HeadingFormat = true;
+            row.Format.Font.Bold = true;
+            row.Shading.Color = White;
+            row.Cells[0].AddParagraph("Januar");
+            row.Cells[1].AddParagraph("Januar");
+            row.Cells[2].AddParagraph("Januar");
+
+
+           // misssing fotter
 
             // Create a renderer for PDF that uses Unicode font encoding.
             PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(true)

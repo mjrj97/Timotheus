@@ -283,7 +283,16 @@ namespace Timotheus.Forms
             Settings_AddressBox.Text = keys.Get("Settings-Address");
             Settings_LogoBox.Text = keys.Get("Settings-Image");
             if (keys.Get("Settings-Image") != string.Empty)
-                Settings_PictureBox.Image = Image.FromFile(keys.Get("Settings-Image"));
+                try
+                {
+                    Settings_PictureBox.Image = Image.FromFile(keys.Get("Settings-Image"));
+                }
+                catch
+                {
+                    
+                }
+
+                
         }
 
         #region Calendar
@@ -457,7 +466,7 @@ namespace Timotheus.Forms
                 try
                 {
                     FileInfo file = new FileInfo(saveFileDialog.FileName);
-                    PDF.ExportCalendar(events, file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text, Calendar_PeriodBox.Text);
+                    PDF.ExportCalendarNew(events, file.DirectoryName, file.Name, Settings_NameBox.Text, Settings_AddressBox.Text, Settings_LogoBox.Text, Calendar_PeriodBox.Text);
                 }
                 catch (Exception ex)
                 {
