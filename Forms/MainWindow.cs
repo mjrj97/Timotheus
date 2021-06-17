@@ -208,6 +208,8 @@ namespace Timotheus.Forms
                     case ".tkey":
                         string encodedPassword = requirePasswordDialog ? string.Empty : Program.Registry.Get("KeyPassword");
                         byte[] encodedBytes = Program.encoding.GetBytes(encodedPassword);
+                        if (requirePasswordDialog)
+                            Program.Registry.Remove("KeyPassword");
 
                         if (encodedPassword != string.Empty)
                         {
@@ -812,6 +814,7 @@ namespace Timotheus.Forms
                 Settings_PictureBox.Image = Image.FromFile(open.FileName);
                 // image file path  
                 Settings_LogoBox.Text = open.FileName;
+                Program.Registry.Set("Settings-Image", Settings_LogoBox.Text);
             }
         }
 
@@ -825,6 +828,7 @@ namespace Timotheus.Forms
                 try
                 {
                     Settings_PictureBox.Image = Image.FromFile(Settings_LogoBox.Text);
+                    Program.Registry.Set("Settings-Image", Settings_LogoBox.Text);
                 }
                 catch (Exception ex)
                 {
@@ -913,7 +917,7 @@ namespace Timotheus.Forms
         /// </summary>
         private void EditKey(object sender, EventArgs e)
         {
-            EditKeyDialog editkey = new EditKeyDialog(keys.ToString())
+            EditKeyDialog editkey = new EditKeyDialog(keys)
             {
                 Owner = this
             };

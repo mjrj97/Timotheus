@@ -60,6 +60,7 @@ namespace Timotheus.Forms
             // 
             // EditKeyDialog_OKButton
             // 
+            this.EditKeyDialog_OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.EditKeyDialog_OKButton.Location = new System.Drawing.Point(431, 343);
             this.EditKeyDialog_OKButton.Name = "EditKeyDialog_OKButton";
             this.EditKeyDialog_OKButton.Size = new System.Drawing.Size(75, 23);
@@ -91,6 +92,7 @@ namespace Timotheus.Forms
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(400, 200);
             this.Name = "EditKeyDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit";

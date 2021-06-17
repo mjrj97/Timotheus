@@ -12,6 +12,10 @@ namespace Timotheus.IO
     public class Register
     {
         /// <summary>
+        /// Name of the register.
+        /// </summary>
+        public string Name = "Register";
+        /// <summary>
         /// List of keys with a given name and value.
         /// </summary>
         private readonly List<Key> keys;
@@ -35,6 +39,7 @@ namespace Timotheus.IO
         {
             if (!File.Exists(path))
                 throw new System.Exception("Exception_NoKeys");
+            Name = Path.GetFileName(path);
 
             string text = File.ReadAllText(path);
             keys = Load(text);
@@ -49,6 +54,7 @@ namespace Timotheus.IO
             this.separator = separator;
             if (!File.Exists(path))
                 throw new System.Exception("Exception_NoKeys");
+            Name = Path.GetFileName(path);
 
             string text = File.ReadAllText(path);
             keys = Load(text);
@@ -81,6 +87,7 @@ namespace Timotheus.IO
         {
             if (!File.Exists(path))
                 throw new System.Exception("Exception_NoKeys");
+            Name = Path.GetFileName(path);
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
             string text = Program.encoding.GetString(data);
@@ -97,6 +104,7 @@ namespace Timotheus.IO
             this.separator = separator;
             if (!File.Exists(path))
                 throw new System.Exception("Exception_NoKeys");
+            Name = Path.GetFileName(path);
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
             string text = Program.encoding.GetString(data);
@@ -181,6 +189,25 @@ namespace Timotheus.IO
             if (!found)
             {
                 keys.Add(new Key(name, value));
+            }
+        }
+
+        /// <summary>
+        /// Removes a key with the given name.
+        /// </summary>
+        /// <param name="name">Name of the key</param>
+        public void Remove(string name)
+        {
+            int i = 0;
+            bool found = false;
+            while (!found && i < keys.Count)
+            {
+                if (keys[i].name == name)
+                {
+                    keys.Remove(keys[i]);
+                    found = true;
+                }
+                i++;
             }
         }
 

@@ -11,7 +11,7 @@ namespace Timotheus.Forms
     public partial class EditKeyDialog : Form
     {
         /// <summary>
-        /// The text in the text box. Only updated on Continue/DialogResult.OK.
+        /// The register as text in the text box. Only updated on Continue/DialogResult.OK.
         /// </summary>
         public string text;
 
@@ -35,14 +35,14 @@ namespace Timotheus.Forms
         /// <summary>
         /// Opens the edit key dialog.
         /// </summary>
-        /// <param name="text">The text from the register.</param>
-        public EditKeyDialog(string text)
+        /// <param name="register">The register to be changed.</param>
+        public EditKeyDialog(Register register)
         {
             InitializeComponent();
-            this.text = text;
+            text = register.ToString();
             EditKeyDialog_TextBox.Text = text;
 
-            Text = Program.Localization.Get(this);
+            Text = Program.Localization.Get(this) + " (" + register.Name + ")";
             EditKeyDialog_AddStdButton.Text = Program.Localization.Get(EditKeyDialog_AddStdButton);
             EditKeyDialog_OKButton.Text = Program.Localization.Get(EditKeyDialog_OKButton);
             EditKeyDialog_CancelButton.Text = Program.Localization.Get(EditKeyDialog_CancelButton);

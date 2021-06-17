@@ -219,7 +219,7 @@ namespace Timotheus.Schedule
             }
             for (int i = 0; i < remoteEvents.Count; i++)
             {
-                if (events[i].In(period))
+                if (remoteEvents[i].In(period))
                 {
                     if (!foundRemote[i])
                         events.Add(remoteEvents[i]);
