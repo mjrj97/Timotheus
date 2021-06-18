@@ -39,9 +39,9 @@ namespace Timotheus.Forms
             // 
             // PasswordDialog_Field
             // 
-            this.PasswordDialog_Field.Location = new System.Drawing.Point(91, 12);
+            this.PasswordDialog_Field.Location = new System.Drawing.Point(97, 12);
             this.PasswordDialog_Field.Name = "PasswordDialog_Field";
-            this.PasswordDialog_Field.Size = new System.Drawing.Size(181, 23);
+            this.PasswordDialog_Field.Size = new System.Drawing.Size(175, 23);
             this.PasswordDialog_Field.TabIndex = 0;
             // 
             // PasswordDialog_Label

@@ -55,9 +55,9 @@ namespace Timotheus.Forms
             // 
             this.SyncCalendar_SyncButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SyncCalendar_SyncButton.Location = new System.Drawing.Point(186, 310);
+            this.SyncCalendar_SyncButton.Location = new System.Drawing.Point(154, 310);
             this.SyncCalendar_SyncButton.Name = "SyncCalendar_SyncButton";
-            this.SyncCalendar_SyncButton.Size = new System.Drawing.Size(75, 23);
+            this.SyncCalendar_SyncButton.Size = new System.Drawing.Size(90, 23);
             this.SyncCalendar_SyncButton.TabIndex = 0;
             this.SyncCalendar_SyncButton.Text = "Sync";
             this.SyncCalendar_SyncButton.UseVisualStyleBackColor = true;
@@ -164,9 +164,9 @@ namespace Timotheus.Forms
             // 
             this.SyncCalendar_CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SyncCalendar_CancelButton.Location = new System.Drawing.Point(266, 310);
+            this.SyncCalendar_CancelButton.Location = new System.Drawing.Point(250, 310);
             this.SyncCalendar_CancelButton.Name = "SyncCalendar_CancelButton";
-            this.SyncCalendar_CancelButton.Size = new System.Drawing.Size(75, 23);
+            this.SyncCalendar_CancelButton.Size = new System.Drawing.Size(90, 23);
             this.SyncCalendar_CancelButton.TabIndex = 3;
             this.SyncCalendar_CancelButton.Text = "Cancel";
             this.SyncCalendar_CancelButton.UseVisualStyleBackColor = true;

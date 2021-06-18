@@ -93,6 +93,7 @@ namespace Timotheus.Schedule
         private void DeleteEvent(Event ev)
         {
             HttpRequest(url + ev.UID + ".ics", credentials, "DELETE");
+            events.Remove(ev);
         }
 
         /// <summary>
@@ -123,7 +124,7 @@ namespace Timotheus.Schedule
                         tempTimeZone += lines[i] + "\n";
                         timeZoneStart = i;
                     }
-                    else
+                    else if (lines[i].Trim() != string.Empty)
                         headers.Add(lines[i]);
                 }
                 else if (timeZoneEnd == 0)
@@ -191,6 +192,7 @@ namespace Timotheus.Schedule
                         foundLocal[i] = true;
                         foundRemote[j] = true;
 
+                        System.Diagnostics.Debug.WriteLine(events[i].Name);
                         if (events[i].In(period))
                         {
                             if (events[i].Deleted)
@@ -213,6 +215,12 @@ namespace Timotheus.Schedule
             {
                 if (events[i].In(period))
                 {
+                    if (events[i].Name.Trim() == "Sankthansaften")
+                    {
+                        System.Diagnostics.Debug.WriteLine(events[i].ToString());
+                    }
+                    else
+                        System.Diagnostics.Debug.WriteLine(events[i].Name);
                     if (!foundLocal[i])
                         AddEvent(events[i]);
                 }
@@ -221,6 +229,7 @@ namespace Timotheus.Schedule
             {
                 if (remoteEvents[i].In(period))
                 {
+                    System.Diagnostics.Debug.WriteLine(remoteEvents[i].Name);
                     if (!foundRemote[i])
                         events.Add(remoteEvents[i]);
                 }

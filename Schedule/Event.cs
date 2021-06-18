@@ -112,9 +112,9 @@ namespace Timotheus.Schedule
             builder.Append(UID);
             if (Start.Hour == End.Hour && Start.Minute == End.Minute && Start.Second == End.Second && Start.Hour == 0 && Start.Minute == 0 && Start.Second == 0)
             {
-                builder.Append("\nDTSTART;TZID=Europe/Copenhagen:");
+                builder.Append("\nDTSTART;VALUE=DATE:");
                 builder.Append(Calendar.DateToString(Start));
-                builder.Append("\nDTEND;TZID=Europe/Copenhagen:");
+                builder.Append("\nDTEND;VALUE=DATE:");
                 builder.Append(Calendar.DateToString(End));
             }
             else
