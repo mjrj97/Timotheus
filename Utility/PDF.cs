@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MigraDoc.Rendering;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
@@ -249,7 +250,7 @@ namespace Timotheus.Utility
             }
 
             // Create the text frame for the address
-            TextFrame addressFrame = section.AddTextFrame();
+            TextFrame addressFrame = section.Headers.Primary.AddTextFrame();
             addressFrame.Height = "3.0cm";
             addressFrame.Width = "15.0cm";
             addressFrame.Left = "4.0cm";
@@ -266,37 +267,115 @@ namespace Timotheus.Utility
             section.AddParagraph();
 
 
-            // Create the item table.
-            Table table = section.AddTable();
-            table.Style = "Table";
-            table.Borders.Color = Black;// should be withe
-            table.Borders.Width = 0.25;
-            table.Borders.Left.Width = 0.5;
-            table.Borders.Right.Width = 0.5;
-            table.Rows.LeftIndent = 0;
-            table.TopPadding = "3cm";
-
-            int sectionWidth = (int)document.DefaultPageSetup.PageWidth - (int)document.DefaultPageSetup.LeftMargin - (int)document.DefaultPageSetup.RightMargin;
+            int sectionWidth = (int)(document.DefaultPageSetup.PageHeight - document.DefaultPageSetup.LeftMargin - document.DefaultPageSetup.RightMargin);
 
             float columnWidth = sectionWidth / 3;
 
-            // Define the columns
-            table.AddColumn().Width = columnWidth;
-            table.AddColumn().Width = columnWidth;
-            table.AddColumn().Width = columnWidth;
-            
+            List<DateTime> monthes = new List<DateTime>();
+                
 
-            // Add the header text of the columns.
-            Row row = table.AddRow();
-            row.HeadingFormat = true;
-            row.Format.Font.Bold = true;
-            row.Shading.Color = White;
-            row.Cells[0].AddParagraph("Januar");
-            row.Cells[1].AddParagraph("Januar");
-            row.Cells[2].AddParagraph("Januar");
+            foreach (Event i in events)
+            {
+                if (!monthes.Exists(x => x.Month == i.Start.Month))
+                {
+                    monthes.Add(i.Start);
+                }
+            }
+
+            int numbersOfPages = monthes.Count/3;// det her virker ikke godt
 
 
-           // misssing fotter
+            Event[,] Data = new Event[monthes.Count, 5]; // hardcode 5 because that the desing max
+
+            int u = 0;
+
+            int lastindex = 0;
+
+            foreach (Event i in events)
+            {
+                
+                int monthindex = monthes.FindIndex(0, monthes.Count, x => x.Month == i.Start.Month);
+
+                if(monthindex != lastindex)
+                {
+                    u = 0;
+                }
+                
+                if (u < 5)
+                {
+                    Data[monthindex, u] = i; // undgå fejl droppe hvis der flere en 5 per månend
+                }
+               
+
+                lastindex = monthindex;
+                u++;
+            }
+
+
+            // det her virker ikke godt
+            for (int i = 0; i < numbersOfPages; i++)
+            {
+
+                // Create the item table.
+                Table table = section.AddTable();
+                table.Style = "Table";
+                table.Borders.Color = Black;// should be withe
+                table.Borders.Width = 0.25;
+                table.Borders.Left.Width = 0.5;
+                table.Borders.Right.Width = 0.5;
+                table.Rows.LeftIndent = 0;
+                table.TopPadding = "3cm";
+
+
+
+                // Define the columns
+                Column column = table.AddColumn();
+                column.Width = columnWidth;
+                column = table.AddColumn();
+                column.Width = columnWidth;
+                column = table.AddColumn();
+                column.Width = columnWidth;
+
+
+
+                // Add the header text of the columns.
+                Row row = table.AddRow();
+                row.HeadingFormat = true;
+                row.Format.Font.Bold = true;
+                row.Format.Alignment = ParagraphAlignment.Center;
+                row.Shading.Color = White;
+                row.Format.Font.Size = 28;
+                row.Cells[0].AddParagraph(monthes[i*3].Month.ToString(Program.culture));
+                row.Cells[1].AddParagraph(monthes[i*3+1].Month.ToString(Program.culture));
+                row.Cells[2].AddParagraph(monthes[i * 3+2].Month.ToString(Program.culture));
+
+
+
+                for (int rowId = 0; rowId < 5; rowId++)
+                {
+                    // Add the header text of the columns.
+                    row = table.AddRow();
+                    
+                    row.Cells[0].AddParagraph(Data[i * 3, rowId].Name);
+                    row.Cells[1].AddParagraph(Data[i * 3 + 1, rowId].Name);
+                    row.Cells[2].AddParagraph(Data[i * 3 + 2, rowId].Name);
+                }
+
+
+
+
+
+
+
+
+
+            }
+            // page break comand
+            //document.LastSection.AddPageBreak();
+
+
+
+            // misssing fotter
 
             // Create a renderer for PDF that uses Unicode font encoding.
             PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(true)
