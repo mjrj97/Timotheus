@@ -1811,7 +1811,7 @@
         wGgAACcYuZjJw4fhNwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="openToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="ToolStrip_OpenFile.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFUSURBVDhPlZK9SgNBFIXnCcQnkLyA4CPkHayFdBY22mqj
@@ -1823,7 +1823,7 @@
         +/48Y4x9AwxhsnXBwZZBAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="saveToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="ToolStrip_SaveFile.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABzSURBVDhPY/j69WvDt2/f/pODQXoZQIyYCfv+MwTPIQmD
@@ -1904,21 +1904,21 @@
   <data name="ToolStrip_LoadKey.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAMtSURBVFhH7dZNSFRRFAfw47dRVqRFQSHUzFgmRK2KpGxT
-        tIgWFkVFBNGioCiTSgiyr0WQEvRlRFJJi5ZJVJijlekicZIKAiOUUPtQQiizsZl3+p837053xuvDxSgR
-        /eGHzzvvvXPu+7gz9K/HA+mRzYnPXOiGZ5AtAxOZLHgJ7GiFJJiQpMBDUMXFTyiGCclV0IsrIdgH45oj
-        oBetgvdxY6dgXG7HJrBAFfoF62A26M+DuAIJzQr4AXoREYSdMA38zpg0uR0SlvnwBVTRDujU/peCx0DW
-        g7twCBKWGfAWVLE+8MEcCDhjynlI6L2XGT0FVWAICkFlKtSBfCZXYQskLDKTGlDFpcBWiE32uSyaeWGA
-        0haddEYSltOgiosyGBmPlUG+8FlaEOylPN7sjI4py+EWdEEYvkEzlMBe0F+36zAyeVYWLbQKyGdtpLxw
-        DfmY0Yw07hq5r9dAn52bR5AGCCeRl3eRJ/yAvMGP5B36Sr5QO4reh4tQB9WRfc1JhntgKmTyBuT9jsQb
-        riRPqAmXvZjyWRafP8nndPIOd+Gzpc6IMQdBLyCX/hO0gSynsqjon8tX7RT2Uzk3EBcUveb220tYtuP1
-        1eZwRdlhexvHGJMB+mIixS5DLshtmQ57QN9HlNgNdJbzjlLmihvsHpcG1oI6qTxgtTAZ9MjX7H6QNV7t
-        26IaePGKObeIOTjsFDPFpYFSUCeV2W8DU+ZBL6h9B1UDkspq5s/99qY5Lg2cAHVSWdE2gCmzQP96tfQG
-        7LzDvQ7gUsRYzdy20m4g1EDNIT+1WA10FMdHsxvUSeXhOwPyVsRnFXwHte+HmAYGnqNICnNjKshfJRnj
-        IvJQBirJshrthz4a+fWqTip6YA3IfZdlV8jlV2u7cifagBVmbl0WU8gkUEFWsJ56rRaahONjEn9yeeIv
-        gVyd4yDvvb4CisJoA91VKOBeXAT8FLbqY2evkg+DoBdwcxPIbqDjAHNTjrFgvGE/9Zhmr7IextKE/OrN
-        hEgDTzKNxUxGm72exfAYTIX7QX54poIduwFDodG4zT4+XpD7L6+oFJWrY89aDzdSkd3EGDmH/c/fEqLf
-        BN3Ok/waW5QAAAAASUVORK5CYII=
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAMuSURBVFhH7dZNSFRRFAfw47dRVqRFQSHUzFgmRK2KpGxT
+        tIgWFkVFBNGioCiTSgi0r0WQEvRlRFJJi5ZJVJijU6aLRJMKAiOUUPtQQiizsZl3+p83c6c74/XhYhwi
+        +sMPn3fee+fc93Fn6F+PC9JDm4nPfOiFZ5AtA4lMFrwEDmuDJEhIUuARqOLiJxRDQnIN9OJKAA7ApOYY
+        6EWr4X3M2GmYlNuxBSxQhX7BBpgL+vMgrkJcswp+gF5E+GE3zABveEya3Alxy0L4AqpoF3Rr/0vBEyDr
+        wT04AnHLLHgLqtgAeGAedITHlAsQ13svM3oKqsAIFILKdKgH+UyuwjaIW2QmtaCKS4HtEJ3s81k0++IQ
+        pS05FR6JW86AKi7KYGxcVgZ5gudokb+f8nhreHRCWQm3oQeC8A1aoAT2g/663YCxybOyaLFVQB5rM+UF
+        a8nDjGakccfIfb0O+uycPIY0QDiJ3LyHXMGH5PZ/JPfIV/IEOlH0AVyCeqgJ7WtOMtwHUyGTNyDvdyju
+        YBW5As247MWUz7L4/Ek+p5N7tAefLQ+PGHMY9AJy6T9BO8hyKouK/rl81U5jL1VwI3FB0WvuvLOMZTvW
+        QF0OV5YdtbdxjDEZoC8mUuwK5ILclpmwD/R9RIndQHcF7yplrrzJznFoYD2ok8oDVgdTQY98zR4EWePV
+        vq2qgRevmHOLmP2j4WKmODRQCuqkMvsdYMoC6Ae177BqQFJVw/x50N40x6GBclAnlRVtE5gyB/SvV0tv
+        wM473OsOXIooa5nbV9sNBBqpJeClVquRjuP4SPaCOqk8fGdB3orYrIHvoPb9ENXA0HMUSWFuSgX5qyRj
+        XIQeSl8FWVaT/dBHIr9e1UlFH6wDue+y7Aq5/GptV+5GGrCCzG0rogqZ+MrJ8jdQv9VKU3B8VGJPLk/8
+        ZZCrcxLkvddXQFEYaaC3GgWciwufl4JWQ/TsVfJhGPQCTm4B2Q10HWJuzjEWjDXqpT7T7FU2wkSakF+9
+        mRBqwJdpLGYy3uz1LIUnYCo8CPLDMxXs2A0YCo3HafaxcYPcf3lFpahcHXvWeriJiuwmJih82P/8LSH6
+        Dd+tzk3fsyrMAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="ToolStrip_Help.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">

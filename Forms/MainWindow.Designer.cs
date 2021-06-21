@@ -36,8 +36,6 @@ namespace Timotheus.Forms
             this.Calendar_HalfYearButton = new System.Windows.Forms.RadioButton();
             this.Calendar_YearButton = new System.Windows.Forms.RadioButton();
             this.Calendar_AllButton = new System.Windows.Forms.RadioButton();
-            this.Calendar_SaveButton = new System.Windows.Forms.Button();
-            this.Calendar_OpenButton = new System.Windows.Forms.Button();
             this.Calendar_SyncButton = new System.Windows.Forms.Button();
             this.Calendar_ExportButton = new System.Windows.Forms.Button();
             this.Calendar_RemoveButton = new System.Windows.Forms.Button();
@@ -118,8 +116,8 @@ namespace Timotheus.Forms
             this.TrayClose = new System.Windows.Forms.ToolStripMenuItem();
             this.MainWindow_ToolStrip = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.ToolStrip_OpenFile = new System.Windows.Forms.ToolStripButton();
+            this.ToolStrip_SaveFile = new System.Windows.Forms.ToolStripButton();
             this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -250,8 +248,6 @@ namespace Timotheus.Forms
             this.Calendar_Page.Controls.Add(this.Calendar_HalfYearButton);
             this.Calendar_Page.Controls.Add(this.Calendar_YearButton);
             this.Calendar_Page.Controls.Add(this.Calendar_AllButton);
-            this.Calendar_Page.Controls.Add(this.Calendar_SaveButton);
-            this.Calendar_Page.Controls.Add(this.Calendar_OpenButton);
             this.Calendar_Page.Controls.Add(this.Calendar_SyncButton);
             this.Calendar_Page.Controls.Add(this.Calendar_ExportButton);
             this.Calendar_Page.Controls.Add(this.Calendar_RemoveButton);
@@ -319,28 +315,6 @@ namespace Timotheus.Forms
             this.Calendar_AllButton.Text = "All";
             this.Calendar_AllButton.UseVisualStyleBackColor = true;
             this.Calendar_AllButton.CheckedChanged += new System.EventHandler(this.PeriodChangedButton);
-            // 
-            // Calendar_SaveButton
-            // 
-            this.Calendar_SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Calendar_SaveButton.Location = new System.Drawing.Point(674, 10);
-            this.Calendar_SaveButton.Name = "Calendar_SaveButton";
-            this.Calendar_SaveButton.Size = new System.Drawing.Size(50, 23);
-            this.Calendar_SaveButton.TabIndex = 9;
-            this.Calendar_SaveButton.Text = "Save";
-            this.Calendar_SaveButton.UseVisualStyleBackColor = true;
-            this.Calendar_SaveButton.Click += new System.EventHandler(this.SaveCalendar);
-            // 
-            // Calendar_OpenButton
-            // 
-            this.Calendar_OpenButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Calendar_OpenButton.Location = new System.Drawing.Point(734, 10);
-            this.Calendar_OpenButton.Name = "Calendar_OpenButton";
-            this.Calendar_OpenButton.Size = new System.Drawing.Size(50, 23);
-            this.Calendar_OpenButton.TabIndex = 8;
-            this.Calendar_OpenButton.Text = "Open";
-            this.Calendar_OpenButton.UseVisualStyleBackColor = true;
-            this.Calendar_OpenButton.Click += new System.EventHandler(this.OpenCalendar);
             // 
             // Calendar_SyncButton
             // 
@@ -1150,8 +1124,8 @@ namespace Timotheus.Forms
             this.MainWindow_ToolStrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.MainWindow_ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripButton,
-            this.openToolStripButton,
-            this.saveToolStripButton,
+            this.ToolStrip_OpenFile,
+            this.ToolStrip_SaveFile,
             this.printToolStripButton,
             this.toolStripSeparator,
             this.cutToolStripButton,
@@ -1179,23 +1153,25 @@ namespace Timotheus.Forms
             this.newToolStripButton.Size = new System.Drawing.Size(23, 20);
             this.newToolStripButton.Text = "&New";
             // 
-            // openToolStripButton
+            // ToolStrip_OpenFile
             // 
-            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
-            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openToolStripButton.Name = "openToolStripButton";
-            this.openToolStripButton.Size = new System.Drawing.Size(23, 20);
-            this.openToolStripButton.Text = "&Open";
+            this.ToolStrip_OpenFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStrip_OpenFile.Image = ((System.Drawing.Image)(resources.GetObject("ToolStrip_OpenFile.Image")));
+            this.ToolStrip_OpenFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStrip_OpenFile.Name = "ToolStrip_OpenFile";
+            this.ToolStrip_OpenFile.Size = new System.Drawing.Size(23, 20);
+            this.ToolStrip_OpenFile.Text = "Open";
+            this.ToolStrip_OpenFile.Click += new System.EventHandler(this.OpenFile);
             // 
-            // saveToolStripButton
+            // ToolStrip_SaveFile
             // 
-            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
-            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(23, 20);
-            this.saveToolStripButton.Text = "&Save";
+            this.ToolStrip_SaveFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStrip_SaveFile.Image = ((System.Drawing.Image)(resources.GetObject("ToolStrip_SaveFile.Image")));
+            this.ToolStrip_SaveFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStrip_SaveFile.Name = "ToolStrip_SaveFile";
+            this.ToolStrip_SaveFile.Size = new System.Drawing.Size(23, 20);
+            this.ToolStrip_SaveFile.Text = "Save";
+            this.ToolStrip_SaveFile.Click += new System.EventHandler(this.SaveFile);
             // 
             // printToolStripButton
             // 
@@ -1340,8 +1316,6 @@ namespace Timotheus.Forms
         private System.Windows.Forms.ToolStripMenuItem TrayOpen;
         private System.Windows.Forms.ToolStripMenuItem TrayClose;
         private System.Windows.Forms.TabPage Calendar_Page;
-        private System.Windows.Forms.Button Calendar_SaveButton;
-        private System.Windows.Forms.Button Calendar_OpenButton;
         private System.Windows.Forms.Button Calendar_ExportButton;
         private System.Windows.Forms.Button Calendar_RemoveButton;
         private System.Windows.Forms.Button Calendar_AddButton;
@@ -1423,8 +1397,7 @@ namespace Timotheus.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Accounting_NetColumn;
         private System.Windows.Forms.ToolStrip MainWindow_ToolStrip;
         private System.Windows.Forms.ToolStripButton newToolStripButton;
-        private System.Windows.Forms.ToolStripButton openToolStripButton;
-        private System.Windows.Forms.ToolStripButton saveToolStripButton;
+        private System.Windows.Forms.ToolStripButton ToolStrip_SaveFile;
         private System.Windows.Forms.ToolStripButton printToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private System.Windows.Forms.ToolStripButton cutToolStripButton;
@@ -1441,5 +1414,6 @@ namespace Timotheus.Forms
         private System.Windows.Forms.ToolStripButton ToolStrip_SaveKey;
         private System.Windows.Forms.ToolStripButton ToolStrip_EditKey;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton ToolStrip_OpenFile;
     }
 }

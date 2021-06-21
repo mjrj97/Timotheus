@@ -105,8 +105,6 @@ namespace Timotheus.Forms
             Calendar_HalfYearButton.Text = Program.Localization.Get(Calendar_HalfYearButton);
             Calendar_YearButton.Text = Program.Localization.Get(Calendar_YearButton);
             Calendar_AllButton.Text = Program.Localization.Get(Calendar_AllButton);
-            Calendar_SaveButton.Text = Program.Localization.Get(Calendar_SaveButton);
-            Calendar_OpenButton.Text = Program.Localization.Get(Calendar_OpenButton);
             Calendar_SyncButton.Text = Program.Localization.Get(Calendar_SyncButton);
             Calendar_ExportButton.Text = Program.Localization.Get(Calendar_ExportButton);
             Calendar_RemoveButton.Text = Program.Localization.Get(Calendar_RemoveButton);
@@ -190,6 +188,17 @@ namespace Timotheus.Forms
             Settings_AddressLabel.Text = Program.Localization.Get(Settings_AddressLabel);
             Settings_LogoLabel.Text = Program.Localization.Get(Settings_LogoLabel);
             Settings_BrowseButton.Text = Program.Localization.Get(Settings_BrowseButton);
+            #endregion
+
+            #region Toolstrip
+            ToolStrip_SaveFile.ToolTipText = Program.Localization.Get(ToolStrip_SaveFile);
+            ToolStrip_OpenFile.ToolTipText = Program.Localization.Get(ToolStrip_OpenFile);
+
+            ToolStrip_SaveKey.ToolTipText = Program.Localization.Get(ToolStrip_SaveKey);
+            ToolStrip_EditKey.ToolTipText = Program.Localization.Get(ToolStrip_EditKey);
+            ToolStrip_LoadKey.ToolTipText = Program.Localization.Get(ToolStrip_LoadKey);
+
+            ToolStrip_Help.ToolTipText = Program.Localization.Get(ToolStrip_Help);
             #endregion
         }
 
@@ -402,45 +411,6 @@ namespace Timotheus.Forms
                         index = i;
                 }
                 calendar.events[index].Deleted = true;
-                UpdateCalendarTable();
-            }
-        }
-
-        /// <summary>
-        /// Opens dialog and saves the current calendar as .ics.
-        /// </summary>
-        private void SaveCalendar(object sender, EventArgs e)
-        {
-            Stream stream;
-
-            SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = "iCalendar files (*.ics)|*.ics"
-            };
-
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                if ((stream = saveFileDialog.OpenFile()) != null)
-                {
-                    byte[] data = System.Text.Encoding.UTF8.GetBytes(calendar.ToString());
-                    stream.Write(data);
-                    stream.Close();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Opens dialog where the user can open the calendar from a .ics file or CalDAV link.
-        /// </summary>
-        private void OpenCalendar(object sender, EventArgs e)
-        {
-            OpenCalendar open = new OpenCalendar(keys)
-            {
-                Owner = this
-            };
-            if (open.ShowDialog() == DialogResult.OK)
-            {
-                calendar = open.calendar;
                 UpdateCalendarTable();
             }
         }
@@ -872,7 +842,54 @@ namespace Timotheus.Forms
         }
         #endregion
 
-        #region Toolstrip
+        #region ToolStrip
+        /// <summary>
+        /// Opens a save dialog appropriate to the selected tab. ie. if clicked on Calendar tab, it opens a dialog to save the calendar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveFile(object sender, EventArgs e)
+        {
+            if (tabControl.SelectedIndex == tabControl.TabPages.IndexOf(Calendar_Page))
+            {
+                Stream stream;
+
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "iCalendar files (*.ics)|*.ics"
+                };
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if ((stream = saveFileDialog.OpenFile()) != null)
+                    {
+                        byte[] data = System.Text.Encoding.UTF8.GetBytes(calendar.ToString());
+                        stream.Write(data);
+                        stream.Close();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Opens a dialog appropriate to the selected tab. ie. if clicked on Calendar tab, it opens the OpenCalendar dialog.
+        /// </summary>
+        private void OpenFile(object sender, EventArgs e)
+        {
+            if (tabControl.SelectedIndex == tabControl.TabPages.IndexOf(Calendar_Page))
+            {
+                OpenCalendar open = new OpenCalendar(keys)
+                {
+                    Owner = this
+                };
+                if (open.ShowDialog() == DialogResult.OK)
+                {
+                    calendar = open.calendar;
+                    UpdateCalendarTable();
+                }
+            }
+        }
+
         /// <summary>
         /// Opens a dialog so the user can save the current loaded keys to a file.
         /// </summary>

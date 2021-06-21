@@ -67,6 +67,18 @@ namespace Timotheus.Persons
 
             list.Add(this);
         }
+        public Person(string Name, string Address, string Comment, DateTime Birthday, DateTime Entry, DateTime Signed, DateTime Version)
+        {
+            this.Name = Name;
+            this.Address = Address;
+            this.Comment = Comment;
+            this.Birthday = Birthday;
+            this.Entry = Entry;
+            this.Signed = Signed;
+            this.Version = Version;
+
+            list.Add(this);
+        }
 
         public int CalculateAge()
         {

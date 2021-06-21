@@ -269,6 +269,18 @@ namespace Timotheus.IO
             else
                 return value;
         }
+        /// <summary>
+        /// Finds the localization using button.Name.
+        /// </summary>
+        /// <param name="button">The toolstrip button</param>
+        public string Get(System.Windows.Forms.ToolStripButton button)
+        {
+            string value = Get(button.Name);
+            if (value == string.Empty)
+                return button.Text;
+            else
+                return value;
+        }
 
         /// <summary>
         /// Returns a list of the keys in the register.

@@ -8,8 +8,6 @@ Calendar_MonthButton,Måned
 Calendar_HalfYearButton,Halvår
 Calendar_YearButton,År
 Calendar_AllButton,Alle
-Calendar_SaveButton,Gem
-Calendar_OpenButton,Åben
 Calendar_SyncButton,Synkronisér
 Calendar_ExportButton,Eksport PDF
 Calendar_RemoveButton,Slet
@@ -125,6 +123,12 @@ EditKeyDialog,Redigér
 EditKeyDialog_AddStdButton,Tilføj standard nøgler
 EditKeyDialog_OKButton,Ok
 EditKeyDialog_CancelButton,Annullér
+ToolStrip_SaveFile,Gem
+ToolStrip_OpenFile,Åben
+ToolStrip_SaveKey,Gem nøgle
+ToolStrip_EditKey,Ændr nøgle
+ToolStrip_LoadKey,Læs nøgle
+ToolStrip_Help,Hjælp
 PDF_Welcome,Velkommen i
 PDF_Schedule,Program for
 PDF_Date,Dato

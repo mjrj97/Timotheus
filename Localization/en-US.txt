@@ -8,8 +8,6 @@ Calendar_MonthButton,Month
 Calendar_HalfYearButton,Half-year
 Calendar_YearButton,Year
 Calendar_AllButton,All
-Calendar_SaveButton,Save
-Calendar_OpenButton,Open
 Calendar_SyncButton,Sync calendar
 Calendar_ExportButton,Export PDF
 Calendar_RemoveButton,Remove
@@ -125,6 +123,12 @@ EditKeyDialog,Edit
 EditKeyDialog_AddStdButton,Add standard keys
 EditKeyDialog_OKButton,Ok
 EditKeyDialog_CancelButton,Cancel
+ToolStrip_SaveFile,Save
+ToolStrip_OpenFile,Open
+ToolStrip_SaveKey,Save key
+ToolStrip_EditKey,Edit key
+ToolStrip_LoadKey,Load key
+ToolStrip_Help,Help
 PDF_Welcome,Welcome to
 PDF_Schedule,Schedule for
 PDF_Date,Date
