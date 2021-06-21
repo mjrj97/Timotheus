@@ -75,6 +75,7 @@
             this.AddEvent_StartPicker.Name = "AddEvent_StartPicker";
             this.AddEvent_StartPicker.Size = new System.Drawing.Size(158, 23);
             this.AddEvent_StartPicker.TabIndex = 2;
+            this.AddEvent_StartPicker.ValueChanged += new System.EventHandler(this.StartValueChanged);
             // 
             // AddEvent_EndBox
             // 
@@ -89,6 +90,7 @@
             this.AddEvent_EndPicker.Name = "AddEvent_EndPicker";
             this.AddEvent_EndPicker.Size = new System.Drawing.Size(158, 23);
             this.AddEvent_EndPicker.TabIndex = 4;
+            this.AddEvent_EndPicker.ValueChanged += new System.EventHandler(this.EndValueChanged);
             // 
             // AddEvent_StartLabel
             // 

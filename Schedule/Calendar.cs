@@ -93,7 +93,6 @@ namespace Timotheus.Schedule
         private void DeleteEvent(Event ev)
         {
             HttpRequest(url + ev.UID + ".ics", credentials, "DELETE");
-            events.Remove(ev);
         }
 
         /// <summary>
@@ -192,11 +191,13 @@ namespace Timotheus.Schedule
                         foundLocal[i] = true;
                         foundRemote[j] = true;
 
-                        System.Diagnostics.Debug.WriteLine(events[i].Name);
                         if (events[i].In(period))
                         {
                             if (events[i].Deleted)
+                            {
                                 DeleteEvent(events[i]);
+                                events.Remove(events[i]);
+                            }
                             else if (!events[i].Equals(remoteEvents[j]))
                             {
                                 if (events[i].Changed >= remoteEvents[j].Changed)
@@ -215,12 +216,6 @@ namespace Timotheus.Schedule
             {
                 if (events[i].In(period))
                 {
-                    if (events[i].Name.Trim() == "Sankthansaften")
-                    {
-                        System.Diagnostics.Debug.WriteLine(events[i].ToString());
-                    }
-                    else
-                        System.Diagnostics.Debug.WriteLine(events[i].Name);
                     if (!foundLocal[i])
                         AddEvent(events[i]);
                 }
@@ -229,7 +224,6 @@ namespace Timotheus.Schedule
             {
                 if (remoteEvents[i].In(period))
                 {
-                    System.Diagnostics.Debug.WriteLine(remoteEvents[i].Name);
                     if (!foundRemote[i])
                         events.Add(remoteEvents[i]);
                 }

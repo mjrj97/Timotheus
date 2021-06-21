@@ -15,6 +15,11 @@ namespace Timotheus.Forms
         private readonly Calendar calendar;
 
         /// <summary>
+        /// The duration between the two dates. Is updated when the pickers are changed.
+        /// </summary>
+        private TimeSpan span;
+
+        /// <summary>
         /// Constructor. Loads initial data and loads localization based on culture and directory set by MainWindow.
         /// </summary>
         public AddEvent(Calendar calendar, string Address)
@@ -22,10 +27,12 @@ namespace Timotheus.Forms
             this.calendar = calendar;
             InitializeComponent();
 
-            Add_StartBox.Text = DateTime.Now.Hour.ToString("00") + ":" + DateTime.Now.Minute.ToString("00");
-            AddEvent_EndBox.Text = DateTime.Now.AddMinutes(30).Hour.ToString("00") + ":" + DateTime.Now.AddMinutes(30).Minute.ToString("00");
-            AddEvent_StartPicker.Value = DateTime.Now;
-            AddEvent_EndPicker.Value = DateTime.Now.AddMinutes(30);
+            DateTime Start = new DateTime(2021, 8, 18, 19, 00, 00);
+
+            Add_StartBox.Text = Start.Hour.ToString("00") + ":" + Start.Minute.ToString("00");
+            AddEvent_EndBox.Text = Start.AddMinutes(90).Hour.ToString("00") + ":" + Start.AddMinutes(90).Minute.ToString("00");
+            AddEvent_StartPicker.Value = Start;
+            AddEvent_EndPicker.Value = Start.AddMinutes(90);
             AddEvent_LocationBox.Text = Address;
 
             Text = Program.Localization.Get(this);
@@ -86,6 +93,22 @@ namespace Timotheus.Forms
         private void Close(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+        }
+
+        /// <summary>
+        /// Called if the start date of the event is changed. It changes the end date to correspond to the new start date.
+        /// </summary>
+        private void StartValueChanged(object sender, EventArgs e)
+        {
+            AddEvent_EndPicker.Value = AddEvent_StartPicker.Value + span;
+        }
+
+        /// <summary>
+        /// Is called if the end date picker is changed. Updates the span value.
+        /// </summary>
+        private void EndValueChanged(object sender, EventArgs e)
+        {
+            span = AddEvent_EndPicker.Value - AddEvent_StartPicker.Value;
         }
 
         /// <summary>
