@@ -1,6 +1,7 @@
 ﻿using Renci.SshNet;
 using Renci.SshNet.Sftp;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Timotheus.IO
@@ -92,7 +93,28 @@ namespace Timotheus.IO
         /// <param name="localPath">Path of the directory on the local machine.</param>
         public static void Synchronize(SftpClient client, string remotePath, string localPath)
         {
-            client.SynchronizeDirectories(localPath, remotePath, "");
+            //List all files in the first directory
+            List<SftpFile> files = client.ListDirectory(remotePath).ToList();
+
+            //Remove the '.' and '..' directories.
+            files.RemoveAt(0);
+            files.RemoveAt(0);
+
+            //Go from the top and add files from subdirectories
+            int i = 0;
+            while (i < files.Count && i < 50)
+            {
+                if (files[i].IsDirectory)
+                {
+                    List<SftpFile> next = client.ListDirectory(files[i].FullName).ToList();
+                    for (int j = 0; j < next.Count; j++)
+                    {
+                        if (next[j].Name != "." && next[j].Name != "..")
+                            files.Add(next[j]);
+                    }
+                }
+                i++;
+            }
         }
     }
 }
