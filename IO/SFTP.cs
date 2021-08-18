@@ -16,9 +16,11 @@ namespace Timotheus.IO
         /// </summary>
         /// <param name="client">The Sftp client used to connect to the remote directory.</param>
         /// <param name="remoteDirectory">Path of the directory on the server.</param>
-        public static IEnumerable<SftpFile> GetListOfFiles(SftpClient client, string remoteDirectory)
+        public static List<SftpFile> GetListOfFiles(SftpClient client, string remoteDirectory)
         {
-            IEnumerable<SftpFile> files = client.ListDirectory(remoteDirectory);
+            List<SftpFile> files = client.ListDirectory(remoteDirectory).ToList();
+            files.RemoveAt(0); //Remove the '.' and '..' directories.
+            files.RemoveAt(0);
             return files;
         }
 
@@ -95,9 +97,7 @@ namespace Timotheus.IO
         {
             #region List all files in local and remote directory
             //Files in remote directory
-            List<SftpFile> remote = client.ListDirectory(remotePath).ToList();
-            remote.RemoveAt(0); //Remove the '.' and '..' directories.
-            remote.RemoveAt(0);
+            List<SftpFile> remote = GetListOfFiles(client, remotePath);
 
             List<SftpFile> remoteFiles = new List<SftpFile>();
             List<SftpFile> remoteDirectories = new List<SftpFile>();
@@ -130,6 +130,60 @@ namespace Timotheus.IO
             #endregion
 
             #region Sync the files
+            int[] indices = new int[remoteFiles.Count];
+            bool[] localFound = new bool[localFiles.Count];
+            for (int i = 0; i < remoteFiles.Count; i++)
+            {
+                bool found = false;
+                int j = 0;
+                while (!found && j < localFiles.Count)
+                {
+                    System.Diagnostics.Debug.WriteLine("Remote: " + remoteFiles[i].Name);
+                    System.Diagnostics.Debug.WriteLine("Local: " + localFiles[j].Name);
+                    if (!localFound[j] && remoteFiles[i].Name == localFiles[j].Name)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Found!");
+                        found = true;
+                        localFound[j] = true;
+                        indices[i] = j;
+                    }
+                    j++;
+                }
+
+                if (!found)
+                    indices[i] = -1; //Set index to -1 if not found locally
+            }
+
+            for (int i = 0; i < remoteFiles.Count; i++)
+            {
+                if (indices[i] == -1)
+                {
+                    //Download file!
+                }
+                else
+                {
+                    if (remoteFiles[i].LastWriteTimeUtc > localFiles[indices[i]].LastWriteTimeUtc)
+                    {
+                        //Download file!
+                    }
+                    else if(remoteFiles[i].LastWriteTimeUtc < localFiles[indices[i]].LastWriteTimeUtc)
+                    {
+                        //Upload file!
+                    }
+                    else
+                    {
+                        //They should be the same, so don't do anything
+                    }
+                }
+            }
+
+            for (int i = 0; i < localFiles.Count; i++)
+            {
+                if (!localFound[i])
+                {
+                    //Upload file!
+                }
+            }
 
             #endregion
 
