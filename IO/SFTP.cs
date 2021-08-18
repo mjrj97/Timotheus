@@ -93,47 +93,49 @@ namespace Timotheus.IO
         /// <param name="localPath">Path of the directory on the local machine.</param>
         public static void Synchronize(SftpClient client, string remotePath, string localPath)
         {
-            //List all files in the remote directory
-            List<SftpFile> remoteFiles = client.ListDirectory(remotePath).ToList();
+            #region List all files in local and remote directory
+            //Files in remote directory
+            List<SftpFile> remote = client.ListDirectory(remotePath).ToList();
+            remote.RemoveAt(0); //Remove the '.' and '..' directories.
+            remote.RemoveAt(0);
 
-            //Remove the '.' and '..' directories.
-            remoteFiles.RemoveAt(0);
-            remoteFiles.RemoveAt(0);
-
-            //Go from the top and add files from subdirectories
-            int i = 0;
-            while (i < remoteFiles.Count && i < 50)
+            List<SftpFile> remoteFiles = new List<SftpFile>();
+            List<SftpFile> remoteDirectories = new List<SftpFile>();
+            for (int i = 0; i < remote.Count; i++)
             {
-                if (remoteFiles[i].IsDirectory)
-                {
-                    List<SftpFile> next = client.ListDirectory(remoteFiles[i].FullName).ToList();
-                    for (int j = 0; j < next.Count; j++)
-                    {
-                        if (next[j].Name != "." && next[j].Name != "..")
-                            remoteFiles.Add(next[j]);
-                    }
-                }
-                i++;
+                if (remote[i].IsDirectory)
+                    remoteDirectories.Add(remote[i]);
+                else
+                    remoteFiles.Add(remote[i]);
             }
-
-            //List all files in the local directory
-            string[] localFilePaths = Directory.GetFiles(localPath, "*.*", SearchOption.AllDirectories);
-            string[] localDirectoryPaths = Directory.GetDirectories(localPath, "*.*", SearchOption.AllDirectories);
+            
+            //Files in local directory
+            string[] localFilePaths = Directory.GetFiles(localPath);
+            string[] localDirectoryPaths = Directory.GetDirectories(localPath);
 
             List<FileInfo> localFiles = new List<FileInfo>();
             List<DirectoryInfo> localDirectories = new List<DirectoryInfo>();
 
-            //Get file info for all local files
-            for (i = 0; i < localFilePaths.Length; i++)
+            for (int i = 0; i < localFilePaths.Length; i++)
             {
+                //Get file info for all local files
                 localFiles.Add(new FileInfo(localFilePaths[i]));
             }
 
-            //Get directory info for all directories
-            for (i = 0; i < localDirectoryPaths.Length; i++)
+            for (int i = 0; i < localDirectoryPaths.Length; i++)
             {
+                //Get directory info for all directories
                 localDirectories.Add(new DirectoryInfo(localDirectoryPaths[i]));
             }
+            #endregion
+
+            #region Sync the files
+
+            #endregion
+
+            #region Sync the folders
+
+            #endregion
         }
     }
 }
