@@ -474,7 +474,7 @@ namespace Timotheus.Forms
             {
                 using SftpClient sftp = new SftpClient(SFTP_HostBox.Text, SFTP_UsernameBox.Text, SFTP_PasswordBox.Text);
                 sftp.Connect();
-                IEnumerable<SftpFile> files = SFTP.GetListOfFiles(sftp, SFTP_RemoteDirectoryBox.Text);
+                IEnumerable<SftpFile> files = SFTP.ListDirectory(sftp, SFTP_RemoteDirectoryBox.Text);
                 sftp.Disconnect();
                 shownFiles.Clear();
                 foreach (SftpFile file in files)

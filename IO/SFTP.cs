@@ -3,6 +3,7 @@ using Renci.SshNet.Sftp;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace Timotheus.IO
 {
@@ -16,7 +17,7 @@ namespace Timotheus.IO
         /// </summary>
         /// <param name="client">The Sftp client used to connect to the remote directory.</param>
         /// <param name="remoteDirectory">Path of the directory on the server.</param>
-        public static List<SftpFile> GetListOfFiles(SftpClient client, string remoteDirectory)
+        public static List<SftpFile> ListDirectory(SftpClient client, string remoteDirectory)
         {
             List<SftpFile> files = client.ListDirectory(remoteDirectory).ToList();
             files.RemoveAt(0); //Remove the '.' and '..' directories.
@@ -45,8 +46,9 @@ namespace Timotheus.IO
         /// <param name="localFile">Path of the file on the local machine.</param>
         public static void UploadFile(SftpClient client, string remotePath, string localFile)
         {
-            using Stream fileStream = File.OpenWrite(localFile);
-            client.UploadFile(fileStream, remotePath);
+            string path = remotePath + '/' + Path.GetFileName(localFile);
+            using var fs = File.OpenRead(localFile);
+            client.UploadFile(fs, path, true);
         }
 
         /// <summary>
@@ -67,19 +69,15 @@ namespace Timotheus.IO
         /// <param name="localPath">Path of the directory on the local machine.</param>
         public static void DownloadDirectory(SftpClient client, string remotePath, string localPath)
         {
-            IEnumerable<SftpFile> files = client.ListDirectory(remotePath);
+            List<SftpFile> files = ListDirectory(client, remotePath);
 
             foreach (SftpFile file in files)
             {
                 if (!file.IsDirectory && !file.IsSymbolicLink)
-                {
                     DownloadFile(client, file, localPath);
-                }
                 else if (file.IsSymbolicLink)
-                {
                     System.Diagnostics.Debug.WriteLine("Symbolic link ignore: " + file.FullName);
-                }
-                else if (file.Name != "." && file.Name != "..")
+                else
                 {
                     DirectoryInfo dir = Directory.CreateDirectory(Path.Combine(localPath, file.Name));
                     DownloadDirectory(client, file.FullName, dir.FullName);
@@ -97,7 +95,7 @@ namespace Timotheus.IO
         {
             #region List all files in local and remote directory
             //Files in remote directory
-            List<SftpFile> remote = GetListOfFiles(client, remotePath);
+            List<SftpFile> remote = ListDirectory(client, remotePath);
 
             List<SftpFile> remoteFiles = new List<SftpFile>();
             List<SftpFile> remoteDirectories = new List<SftpFile>();
@@ -138,11 +136,8 @@ namespace Timotheus.IO
                 int j = 0;
                 while (!found && j < localFiles.Count)
                 {
-                    System.Diagnostics.Debug.WriteLine("Remote: " + remoteFiles[i].Name);
-                    System.Diagnostics.Debug.WriteLine("Local: " + localFiles[j].Name);
                     if (!localFound[j] && remoteFiles[i].Name == localFiles[j].Name)
                     {
-                        System.Diagnostics.Debug.WriteLine("Found!");
                         found = true;
                         localFound[j] = true;
                         indices[i] = j;
@@ -157,32 +152,20 @@ namespace Timotheus.IO
             for (int i = 0; i < remoteFiles.Count; i++)
             {
                 if (indices[i] == -1)
-                {
-                    //Download file!
-                }
+                    DownloadFile(client, remoteFiles[i], localPath);
                 else
                 {
                     if (remoteFiles[i].LastWriteTimeUtc > localFiles[indices[i]].LastWriteTimeUtc)
-                    {
-                        //Download file!
-                    }
-                    else if(remoteFiles[i].LastWriteTimeUtc < localFiles[indices[i]].LastWriteTimeUtc)
-                    {
-                        //Upload file!
-                    }
-                    else
-                    {
-                        //They should be the same, so don't do anything
-                    }
+                        DownloadFile(client, remoteFiles[i], localPath);
+                    else if (remoteFiles[i].LastWriteTimeUtc < localFiles[indices[i]].LastWriteTimeUtc)
+                        UploadFile(client, remotePath, localFiles[indices[i]].FullName);
                 }
             }
 
             for (int i = 0; i < localFiles.Count; i++)
             {
                 if (!localFound[i])
-                {
-                    //Upload file!
-                }
+                    UploadFile(client, remotePath, localFiles[i].FullName);
             }
 
             #endregion
