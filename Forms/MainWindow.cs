@@ -9,8 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
-using Renci.SshNet.Sftp;
-using Renci.SshNet;
 
 namespace Timotheus.Forms
 {
@@ -30,7 +28,7 @@ namespace Timotheus.Forms
         /// <summary>
         /// List of files in the SFTP remote directory. Updated using ShowDirectory().
         /// </summary>
-        public SortableBindingList<SftpFile> shownFiles = new SortableBindingList<SftpFile>();
+        public SortableBindingList<Renci.SshNet.Sftp.SftpFile> shownFiles = new SortableBindingList<Renci.SshNet.Sftp.SftpFile>();
         /// <summary>
         /// List of Members in the defined period.
         /// </summary>
@@ -66,6 +64,9 @@ namespace Timotheus.Forms
         /// </summary>
         private readonly Period accountingPeriod = new Period(new DateTime(DateTime.Now.Year, 1, 1), PeriodType.Year);
 
+        //Testing
+        private readonly DirectoryManager directoryManager;
+
         /// <summary>
         /// Constructor. Loads initial data and localization.
         /// </summary>
@@ -77,6 +78,8 @@ namespace Timotheus.Forms
             try
             {
                 LoadKey(KeyPath, false);
+                //Testing
+                directoryManager = new DirectoryManager(keys.Get("SSH-LocalDirectory"), keys.Get("SSH-RemoteDirectory"), keys.Get("SSH-URL"), keys.Get("SSH-Username"), keys.Get("SSH-Password"));
             }
             catch (Exception e)
             {
@@ -124,7 +127,6 @@ namespace Timotheus.Forms
             SFTP_LocalDirectoryLabel.Text = Program.Localization.Get(SFTP_LocalDirectoryLabel);
             SFTP_BrowseButton.Text = Program.Localization.Get(SFTP_BrowseButton);
             SFTP_ShowDirectoryButton.Text = Program.Localization.Get(SFTP_ShowDirectoryButton);
-            SFTP_DownloadButton.Text = Program.Localization.Get(SFTP_DownloadButton);
             SFTP_SyncButton.Text = Program.Localization.Get(SFTP_SyncButton);
             SFTP_NameColumn.HeaderText = Program.Localization.Get(SFTP_NameColumn);
             SFTP_SizeColumn.HeaderText = Program.Localization.Get(SFTP_SizeColumn);
@@ -472,34 +474,13 @@ namespace Timotheus.Forms
         {
             try
             {
-                using SftpClient sftp = new SftpClient(SFTP_HostBox.Text, SFTP_UsernameBox.Text, SFTP_PasswordBox.Text);
-                sftp.Connect();
-                IEnumerable<SftpFile> files = SFTP.ListDirectory(sftp, SFTP_RemoteDirectoryBox.Text);
-                sftp.Disconnect();
+                IEnumerable<Renci.SshNet.Sftp.SftpFile> files = directoryManager.ListDirectory(SFTP_RemoteDirectoryBox.Text);
                 shownFiles.Clear();
-                foreach (SftpFile file in files)
+                foreach (Renci.SshNet.Sftp.SftpFile file in files)
                 {
                     if (file.Name != "." && file.Name != "..")
                         shownFiles.Add(file);
                 }
-            }
-            catch (Exception ex)
-            {
-                Program.Error("Exception_InvalidInput", ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Downloads all files in remote directory and subfolders to local directory.
-        /// </summary>
-        private void DownloadAll(object sender, EventArgs e)
-        {
-            try
-            {
-                using SftpClient sftp = new SftpClient(SFTP_HostBox.Text, SFTP_UsernameBox.Text, SFTP_PasswordBox.Text);
-                sftp.Connect();
-                SFTP.DownloadDirectory(sftp, SFTP_RemoteDirectoryBox.Text, SFTP_LocalDirectoryBox.Text);
-                sftp.Disconnect();
             }
             catch (Exception ex)
             {
@@ -514,10 +495,7 @@ namespace Timotheus.Forms
         {
             try
             {
-                using SftpClient sftp = new SftpClient(SFTP_HostBox.Text, SFTP_UsernameBox.Text, SFTP_PasswordBox.Text);
-                sftp.Connect();
-                SFTP.Synchronize(sftp, SFTP_RemoteDirectoryBox.Text, SFTP_LocalDirectoryBox.Text);
-                sftp.Disconnect();
+                directoryManager.Synchronize();
             }
             catch (Exception ex)
             {

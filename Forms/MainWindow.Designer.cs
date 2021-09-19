@@ -45,7 +45,6 @@ namespace Timotheus.Forms
             this.Calendar_SubtractYearButton = new System.Windows.Forms.Button();
             this.SFTP_Page = new System.Windows.Forms.TabPage();
             this.SFTP_SyncButton = new System.Windows.Forms.Button();
-            this.SFTP_DownloadButton = new System.Windows.Forms.Button();
             this.SFTP_ShowDirectoryButton = new System.Windows.Forms.Button();
             this.SFTP_View = new System.Windows.Forms.DataGridView();
             this.SFTP_NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -395,7 +394,6 @@ namespace Timotheus.Forms
             // SFTP_Page
             // 
             this.SFTP_Page.Controls.Add(this.SFTP_SyncButton);
-            this.SFTP_Page.Controls.Add(this.SFTP_DownloadButton);
             this.SFTP_Page.Controls.Add(this.SFTP_ShowDirectoryButton);
             this.SFTP_Page.Controls.Add(this.SFTP_View);
             this.SFTP_Page.Controls.Add(this.SFTP_BrowseButton);
@@ -418,23 +416,13 @@ namespace Timotheus.Forms
             // 
             // SFTP_SyncButton
             // 
-            this.SFTP_SyncButton.Location = new System.Drawing.Point(10, 198);
+            this.SFTP_SyncButton.Location = new System.Drawing.Point(10, 154);
             this.SFTP_SyncButton.Name = "SFTP_SyncButton";
             this.SFTP_SyncButton.Size = new System.Drawing.Size(220, 38);
             this.SFTP_SyncButton.TabIndex = 14;
             this.SFTP_SyncButton.Text = "Synchronize";
             this.SFTP_SyncButton.UseVisualStyleBackColor = true;
             this.SFTP_SyncButton.Click += new System.EventHandler(this.SyncDirectories);
-            // 
-            // SFTP_DownloadButton
-            // 
-            this.SFTP_DownloadButton.Location = new System.Drawing.Point(10, 154);
-            this.SFTP_DownloadButton.Name = "SFTP_DownloadButton";
-            this.SFTP_DownloadButton.Size = new System.Drawing.Size(220, 38);
-            this.SFTP_DownloadButton.TabIndex = 13;
-            this.SFTP_DownloadButton.Text = "Download all files";
-            this.SFTP_DownloadButton.UseVisualStyleBackColor = true;
-            this.SFTP_DownloadButton.Click += new System.EventHandler(this.DownloadAll);
             // 
             // SFTP_ShowDirectoryButton
             // 
@@ -1341,7 +1329,6 @@ namespace Timotheus.Forms
         private System.Windows.Forms.TextBox SFTP_LocalDirectoryBox;
         private System.Windows.Forms.Button SFTP_BrowseButton;
         private System.Windows.Forms.Button SFTP_ShowDirectoryButton;
-        private System.Windows.Forms.Button SFTP_DownloadButton;
         private System.Windows.Forms.Button SFTP_SyncButton;
         private System.Windows.Forms.DataGridView SFTP_View;
         private System.Windows.Forms.DataGridViewTextBoxColumn SFTP_NameColumn;

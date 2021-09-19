@@ -23,7 +23,6 @@ SFTP_RemoteDirectoryLabel,Fjern mappe
 SFTP_LocalDirectoryLabel,Lokal mappe
 SFTP_BrowseButton,Gennemse
 SFTP_ShowDirectoryButton,Vis mappe
-SFTP_DownloadButton,Download all files
 SFTP_SyncButton,Synkronisér
 SFTP_NameColumn,Filnavn
 SFTP_SizeColumn,Filstørrelse
@@ -149,3 +148,4 @@ Exception_EmptyAddress,Adresse må ikke være tom
 Exception_NoKeys,Nøglefil kunne ikke læses
 Exception_WrongPassword,Forkert adgangskode
 Exception_AlreadyRunning,Programmet kører allerede, hvis du ikke kan se det, tjek systembakken eller joblisten.
+Exception_SFTPInvalidPath,Filen er ikke i mappen

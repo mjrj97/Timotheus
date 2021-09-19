@@ -23,7 +23,6 @@ SFTP_RemoteDirectoryLabel,Remote directory
 SFTP_LocalDirectoryLabel,Local directory
 SFTP_BrowseButton,Browse
 SFTP_ShowDirectoryButton,Show directory
-SFTP_DownloadButton,Download all files
 SFTP_SyncButton,Synchronise
 SFTP_NameColumn,File name
 SFTP_SizeColumn,File size
@@ -149,3 +148,4 @@ Exception_EmptyAddress,Address cannot be empty
 Exception_NoKeys,Key file could not be loaded
 Exception_WrongPassword,Wrong password
 Exception_AlreadyRunning,The program is already running. If you can't see it, check the system tray or task manager.
+Exception_SFTPInvalidPath,The file is not in the directory
