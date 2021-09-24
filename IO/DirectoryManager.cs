@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using System.Text.RegularExpressions;
 
 namespace Timotheus.IO
 {
@@ -21,6 +22,11 @@ namespace Timotheus.IO
         /// Throws events if changes happen to the local directory.
         /// </summary>
         private readonly FileSystemWatcher watcher;
+
+        /// <summary>
+        /// A log of file deletions and last sync time
+        /// </summary>
+        private readonly DirectoryLog directoryLog;
 
         /// <summary>
         /// The path of the local directory to be watched and synced with.
@@ -62,9 +68,12 @@ namespace Timotheus.IO
             watcher.IncludeSubdirectories = true;
             watcher.EnableRaisingEvents = true;
 
-            this.localPath = localPath.Replace('/','\\');
+            this.localPath = localPath.Replace('/', '\\');
             this.remotePath = remotePath.Replace('\\', '/');
             client = new SftpClient(host, username, password);
+
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Log.txt";
+            directoryLog = new DirectoryLog(path);
         }
 
         /// <summary>
@@ -92,7 +101,10 @@ namespace Timotheus.IO
             {
                 string value = $"Created: {e.FullPath}";
                 System.Diagnostics.Debug.WriteLine(value);
-                UploadFile(ConvertPath(Path.GetDirectoryName(e.FullPath)), e.FullPath);
+                if (File.GetAttributes(e.FullPath) == FileAttributes.Directory)
+                    UploadDirectory(ConvertPath(Path.GetDirectoryName(e.FullPath)), e.FullPath);
+                else
+                    UploadFile(ConvertPath(Path.GetDirectoryName(e.FullPath)), e.FullPath);
             }
         }
 
@@ -201,8 +213,9 @@ namespace Timotheus.IO
             }
 
             string path = remotePath + '/' + Path.GetFileName(localFile);
-            using var fs = File.OpenRead(localFile);
+            FileStream fs = File.OpenRead(localFile);
             client.UploadFile(fs, path, true);
+            fs.Close();
 
             if (!isPreconnected)
             {
@@ -248,7 +261,9 @@ namespace Timotheus.IO
 
             try
             {
-                client.DeleteFile(path);
+                System.Diagnostics.Debug.WriteLine(path);
+                client.Delete(path);
+                directoryLog.AddItem(DateTime.Now, path);
             }
             catch (SftpPathNotFoundException e)
             {
@@ -313,6 +328,10 @@ namespace Timotheus.IO
                 client.Connect();
             }
 
+            string convertedPath = ConvertPath(localPath);
+            if (!client.Exists(convertedPath))
+                client.CreateDirectory(convertedPath);
+
             //Files in local directory
             string[] localFilePaths = Directory.GetFiles(localPath);
             string[] localDirectoryPaths = Directory.GetDirectories(localPath);
@@ -320,14 +339,14 @@ namespace Timotheus.IO
             for (int i = 0; i < localFilePaths.Length; i++)
             {
                 System.Diagnostics.Debug.WriteLine("Upload: " + localFilePaths[i]);
-                //UploadFile(client, remotePath, localFilePaths[i]);
+                UploadFile(remotePath, localFilePaths[i]);
             }
 
             for (int i = 0; i < localDirectoryPaths.Length; i++)
             {
                 string path = remotePath + '/' + Path.GetDirectoryName(localDirectoryPaths[i]);
                 System.Diagnostics.Debug.WriteLine("Create: " + path);
-                //client.CreateDirectory(path);
+                client.CreateDirectory(path);
                 UploadDirectory(path, localFilePaths[i]);
             }
 
@@ -365,7 +384,7 @@ namespace Timotheus.IO
                 else
                     remoteFiles.Add(remote[i]);
             }
-            
+
             //Files in local directory
             string[] localFilePaths = Directory.GetFiles(localPath);
             string[] localDirectoryPaths = Directory.GetDirectories(localPath);
@@ -459,7 +478,7 @@ namespace Timotheus.IO
                     Synchronize(remoteDirectories[i].FullName, localDirectories[indices[i]].FullName);
             }
 
-            for (int i = 0; i < localFiles.Count; i++)
+            for (int i = 0; i < localDirectories.Count; i++)
             {
                 if (!localFound[i])
                     UploadDirectory(remotePath, localDirectories[i].FullName);
@@ -501,6 +520,51 @@ namespace Timotheus.IO
             else
                 throw new Exception("Exception_SFTPInvalidPath");
             return newPath;
+        }
+    }
+
+    public class DirectoryLog
+    {
+        public DateTime LastChanged;
+        public string Path;
+        private readonly List<LogItem> Items = new List<LogItem>();
+
+        public DirectoryLog(string Path)
+        {
+            this.Path = Path;
+            string text = File.ReadAllText(Path);
+            string[] lines = Regex.Split(text, "\r\n|\r|\n");
+            LastChanged = DateTime.Parse(lines[0]);
+            for (int i = 1; i < lines.Length; i++)
+            {
+                if (lines[i].Length > 19)
+                {
+                    DateTime dateTime = DateTime.Parse(lines[i].Substring(0, 19));
+                    string path = lines[i][20..];
+                    System.Diagnostics.Debug.WriteLine(dateTime);
+                    System.Diagnostics.Debug.WriteLine(path);
+                    LogItem logItem = new LogItem(dateTime, path);
+                    Items.Add(logItem);
+                }
+            }
+        }
+
+        public void AddItem(DateTime dateTime, string text)
+        {
+            Items.Add(new LogItem(dateTime, text));
+            File.AppendAllText(Path, dateTime.ToString() + " " + text + "\n");
+        }
+    }
+
+    public class LogItem
+    {
+        public DateTime Date;
+        public string Path;
+
+        public LogItem(DateTime Date, string Path)
+        {
+            this.Date = Date;
+            this.Path = Path;
         }
     }
 }
