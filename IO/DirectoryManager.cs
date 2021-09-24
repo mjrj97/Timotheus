@@ -62,7 +62,7 @@ namespace Timotheus.IO
             watcher.EnableRaisingEvents = true;
 
             this.localPath = localPath.Replace('/','\\');
-            this.remotePath = remotePath.Replace('/', '\\');
+            this.remotePath = remotePath.Replace('\\', '/');
             client = new SftpClient(host, username, password);
         }
 
@@ -71,11 +71,14 @@ namespace Timotheus.IO
         /// </summary>
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
-            if (e.ChangeType != WatcherChangeTypes.Changed)
+            if (!client.IsConnected && Path.GetExtension(e.Name) != ".tmp")
             {
-                return;
+                if (e.ChangeType != WatcherChangeTypes.Changed)
+                {
+                    return;
+                }
+                System.Diagnostics.Debug.WriteLine($"Changed: {e.FullPath}" + " Type: " + e.Name);
             }
-            System.Diagnostics.Debug.WriteLine($"Changed: {e.FullPath}");
         }
 
         /// <summary>
@@ -83,8 +86,11 @@ namespace Timotheus.IO
         /// </summary>
         private void OnCreated(object sender, FileSystemEventArgs e)
         {
-            string value = $"Created: {e.FullPath}";
-            System.Diagnostics.Debug.WriteLine(value);
+            if (!client.IsConnected && Path.GetExtension(e.Name) != ".tmp")
+            {
+                string value = $"Created: {e.FullPath}";
+                System.Diagnostics.Debug.WriteLine(value);
+            }
         }
 
         /// <summary>
@@ -92,8 +98,11 @@ namespace Timotheus.IO
         /// </summary>
         private void OnDeleted(object sender, FileSystemEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine($"Deleted: {e.FullPath}");
-            DeleteFile(ConvertPath(e.FullPath));
+            if (!client.IsConnected && Path.GetExtension(e.Name) != ".tmp")
+            {
+                System.Diagnostics.Debug.WriteLine($"Deleted: {e.FullPath}");
+                //DeleteFile(ConvertPath(e.FullPath));
+            }
         }
 
         /// <summary>
@@ -101,9 +110,12 @@ namespace Timotheus.IO
         /// </summary>
         private void OnRenamed(object sender, RenamedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine($"Renamed:");
-            System.Diagnostics.Debug.WriteLine($"    Old: {e.OldFullPath}");
-            System.Diagnostics.Debug.WriteLine($"    New: {e.FullPath}");
+            if (!client.IsConnected && Path.GetExtension(e.Name) != ".tmp" && Path.GetExtension(e.OldFullPath) != ".tmp")
+            {
+                System.Diagnostics.Debug.WriteLine($"Renamed:");
+                System.Diagnostics.Debug.WriteLine($"    Old: {e.OldFullPath}");
+                System.Diagnostics.Debug.WriteLine($"    New: {e.FullPath}");
+            }
         }
 
         /// <summary>
@@ -460,14 +472,16 @@ namespace Timotheus.IO
         /// <param name="path">Path to be converted.</param>
         private string ConvertPath(string path)
         {
-            string newPath = path.Replace('/', '\\');
-            if (newPath.StartsWith(localPath))
+            string newPath;
+            if (path.StartsWith(localPath))
             {
                 newPath = remotePath + path[localPath.Length..];
+                newPath = newPath.Replace('\\', '/');
             }
-            else if (newPath.StartsWith(remotePath))
+            else if (path.StartsWith(remotePath))
             {
                 newPath = localPath + path[remotePath.Length..];
+                newPath = newPath.Replace('/', '\\');
             }
             else
                 throw new Exception("Exception_SFTPInvalidPath");
