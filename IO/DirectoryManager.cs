@@ -1,5 +1,6 @@
 ﻿using Renci.SshNet;
 using Renci.SshNet.Sftp;
+using Renci.SshNet.Common;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -71,13 +72,14 @@ namespace Timotheus.IO
         /// </summary>
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
-            if (!client.IsConnected && Path.GetExtension(e.Name) != ".tmp")
+            if (Path.GetExtension(e.Name) != ".tmp" && File.GetAttributes(e.FullPath) != FileAttributes.Directory)
             {
                 if (e.ChangeType != WatcherChangeTypes.Changed)
                 {
                     return;
                 }
-                System.Diagnostics.Debug.WriteLine($"Changed: {e.FullPath}" + " Type: " + e.Name);
+                System.Diagnostics.Debug.WriteLine($"Changed: {e.FullPath}");
+                UploadFile(ConvertPath(Path.GetDirectoryName(e.FullPath)), e.FullPath);
             }
         }
 
@@ -86,10 +88,11 @@ namespace Timotheus.IO
         /// </summary>
         private void OnCreated(object sender, FileSystemEventArgs e)
         {
-            if (!client.IsConnected && Path.GetExtension(e.Name) != ".tmp")
+            if (Path.GetExtension(e.Name) != ".tmp")
             {
                 string value = $"Created: {e.FullPath}";
                 System.Diagnostics.Debug.WriteLine(value);
+                UploadFile(ConvertPath(Path.GetDirectoryName(e.FullPath)), e.FullPath);
             }
         }
 
@@ -98,10 +101,10 @@ namespace Timotheus.IO
         /// </summary>
         private void OnDeleted(object sender, FileSystemEventArgs e)
         {
-            if (!client.IsConnected && Path.GetExtension(e.Name) != ".tmp")
+            if (Path.GetExtension(e.Name) != ".tmp")
             {
                 System.Diagnostics.Debug.WriteLine($"Deleted: {e.FullPath}");
-                //DeleteFile(ConvertPath(e.FullPath));
+                DeleteFile(ConvertPath(e.FullPath));
             }
         }
 
@@ -110,11 +113,15 @@ namespace Timotheus.IO
         /// </summary>
         private void OnRenamed(object sender, RenamedEventArgs e)
         {
-            if (!client.IsConnected && Path.GetExtension(e.Name) != ".tmp" && Path.GetExtension(e.OldFullPath) != ".tmp")
+            if (Path.GetExtension(e.Name) != ".tmp" && Path.GetExtension(e.OldFullPath) != ".tmp")
             {
                 System.Diagnostics.Debug.WriteLine($"Renamed:");
                 System.Diagnostics.Debug.WriteLine($"    Old: {e.OldFullPath}");
                 System.Diagnostics.Debug.WriteLine($"    New: {e.FullPath}");
+
+                client.Connect();
+                client.RenameFile(ConvertPath(e.OldFullPath), ConvertPath(e.FullPath));
+                client.Disconnect();
             }
         }
 
@@ -239,7 +246,15 @@ namespace Timotheus.IO
                 client.Connect();
             }
 
-            client.DeleteFile(path);
+            try
+            {
+                client.DeleteFile(path);
+            }
+            catch (SftpPathNotFoundException e)
+            {
+                //Do something when file is not found
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
 
             if (!isPreconnected)
             {
