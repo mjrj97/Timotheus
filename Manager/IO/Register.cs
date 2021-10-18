@@ -245,42 +245,6 @@ namespace Timotheus.IO
             else
                 return value;
         }
-        /// <summary>
-        /// Finds the localization using control.Name.
-        /// </summary>
-        /// <param name="control">The control object that needs a language specific text.</param>
-        public string Get(System.Windows.Forms.Control control)
-        {
-            string value = Get(control.Name);
-            if (value == string.Empty)
-                return control.Text;
-            else
-                return value;
-        }
-        /// <summary>
-        /// Finds the localization using column.Name.
-        /// </summary>
-        /// <param name="column">The column that needs a language specific header text.</param>
-        public string Get(System.Windows.Forms.DataGridViewColumn column)
-        {
-            string value = Get(column.Name);
-            if (value == string.Empty)
-                return column.HeaderText;
-            else
-                return value;
-        }
-        /// <summary>
-        /// Finds the localization using button.Name.
-        /// </summary>
-        /// <param name="button">The toolstrip button</param>
-        public string Get(System.Windows.Forms.ToolStripButton button)
-        {
-            string value = Get(button.Name);
-            if (value == string.Empty)
-                return button.Text;
-            else
-                return value;
-        }
 
         /// <summary>
         /// Returns a list of the keys in the register.

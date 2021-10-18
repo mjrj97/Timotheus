@@ -1,0 +1,128 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Timotheus.MainWindow"
+        Title="Timotheus" FontFamily="Arvo">
+  <Window.Styles>
+    <Style Selector="TabControl">
+      <Setter Property="Background" Value="#f0f0f0"/>
+      <Setter Property="Padding" Value="20"/>
+    </Style>
+    <Style Selector="TabControl WrapPanel">
+      <Setter Property="Background" Value="#076973"/>
+    </Style>
+    <Style Selector="TextBox">
+      <Setter Property="Background" Value="#ffffff"/>
+    </Style>
+    <Style Selector="TabItem">
+      <Setter Property="FontSize" Value="24"/>
+      <Setter Property="Height" Value="64"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="Background" Value="#076973"/>
+      <Setter Property="Foreground" Value="#F0F0F0"/>
+      <Setter Property="Margin" Value="0 0 0 0"/>
+      <Setter Property="Padding" Value="20 0 20 0"/>
+    </Style>
+    <Style Selector="TabItem:selected">
+      <Setter Property="Background" Value="#15808B"/>
+      <Setter Property="Foreground" Value="#F0F0F0"/>
+    </Style>
+    <Style Selector="DataGrid">
+      <Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
+    </Style>
+    <Style Selector="DataGridCell">
+      <Setter Property="VerticalContentAlignment" Value="Top"/>
+    </Style>
+    <Style Selector="Button">
+      <Setter Property="Background" Value="#999999"/>
+      <Setter Property="Foreground" Value="#FFFFFF"/>
+    </Style>
+    <Style Selector="Button:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#696969"/>
+    </Style>
+    <Style Selector="Button:pointerover">
+      <Setter Property="Foreground" Value="#FFFFFF"/>
+    </Style>
+  </Window.Styles>
+
+  <DockPanel>
+    <DockPanel DockPanel.Dock="Top">
+      <Menu DockPanel.Dock="Top">
+        <MenuItem Header="_File">
+          <MenuItem Header="_Open..."/>
+          <Separator/>
+          <MenuItem Header="_Exit"/>
+        </MenuItem>
+        <MenuItem Header="_Edit">
+          <MenuItem Header="Copy"/>
+          <MenuItem Header="Paste"/>
+        </MenuItem>
+      </Menu>
+    </DockPanel>
+    <TabControl>
+      <TabItem Header="Calendar">
+        <DockPanel>
+          <DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
+            <Button Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">←</Button>
+            <TextBox Width="150" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Fall 2021</TextBox>
+            <Button Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 30 0">→</Button>
+            <ComboBox SelectedIndex="0">
+              <ComboBoxItem>All</ComboBoxItem>
+              <ComboBoxItem>Year</ComboBoxItem>
+              <ComboBoxItem>Half-year</ComboBoxItem>
+              <ComboBoxItem>Month</ComboBoxItem>
+            </ComboBox>
+          </DockPanel>
+          <DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch">
+            <Button DockPanel.Dock="Right">Export PDF</Button>
+            <Button DockPanel.Dock="Right" Margin="0 0 10 0">Synchronize</Button>
+            <Button DockPanel.Dock="Left">Add event</Button>
+          </DockPanel>
+          <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
+            <DataGrid Name="MyDataGrid" Items="{Binding People}">
+              <DataGrid.Columns>
+                <DataGridTextColumn Header="Start" Width="130" Binding="{Binding Start}"/>
+                <DataGridTextColumn Header="End" Width="130" Binding="{Binding End}" />
+                <DataGridTextColumn Header="Name" Width="300" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Description}" />
+                <DataGridTextColumn Header="Address" Width="230" Binding="{Binding Address}" />
+                
+                <DataGridTemplateColumn>
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <Button Click="Remove_Click">X</Button>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+              </DataGrid.Columns>
+            </DataGrid>
+          </Border>
+        </DockPanel>
+      </TabItem>
+      <TabItem Header="Files">
+        <StackPanel>
+          <TextBlock Text="I am in the triangle page ! I'll put a button to show you that each page contains what you want." HorizontalAlignment="Left" VerticalAlignment="Center"/>
+          <Button>A button in the triangle page !</Button>
+          <TextBlock Text="I am in the circle page !" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+          <Button Width="160" HorizontalContentAlignment="Center" Click="Button_Click">Open file</Button>
+          <TextBlock Text="{Binding Caption}"/>
+          <ComboBox SelectedIndex="0">
+            <ComboBoxItem>Inline Items</ComboBoxItem>
+            <ComboBoxItem>Inline Item 2</ComboBoxItem>
+            <ComboBoxItem>Inline Item 3</ComboBoxItem>
+            <ComboBoxItem>Inline Item 4</ComboBoxItem>
+          </ComboBox>
+          <Button Width="160" HorizontalContentAlignment="Center" Click="OpenWindow_Click" DockPanel.Dock="Bottom">Open window</Button>
+        </StackPanel>
+      </TabItem>
+      <TabItem Header="Members">
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Text="Square : " HorizontalAlignment="Left" VerticalAlignment="Center"/>
+          <Rectangle Fill="Blue" Width="63" Height="41"/>
+        </StackPanel>
+      </TabItem>
+    </TabControl>
+  </DockPanel>
+</Window>
