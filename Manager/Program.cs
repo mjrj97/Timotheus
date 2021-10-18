@@ -2,9 +2,6 @@
 using System.Globalization;
 using System.Text;
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Interactivity;
 using Timotheus.IO;
 
 namespace Timotheus

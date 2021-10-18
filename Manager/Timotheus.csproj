@@ -21,7 +21,7 @@
     <!-- Will be copied from output directory -->
     <NSPrincipalClass>NSApplication</NSPrincipalClass>
     <NSHighResolutionCapable>true</NSHighResolutionCapable>
-    <ApplicationIcon></ApplicationIcon>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
@@ -45,5 +45,8 @@
     <Compile Update="NewPage.axaml.cs">
       <DependentUpon>NewPage.axaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Resources\**"/>
   </ItemGroup>
 </Project>
