@@ -1,114 +1,88 @@
-﻿using ReactiveUI;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
+using Timotheus.Schedule;
+using ReactiveUI;
 
 namespace Timotheus
 {
     public class Data : ReactiveObject
     {
-        private string _Caption = "500";
+        private string _Caption = "";
         public string Caption
         {
             get => _Caption;
             set => this.RaiseAndSetIfChanged(ref _Caption, value);
         }
 
-        private ObservableCollection<Person> _People = new ObservableCollection<Person>();
-        public ObservableCollection<Person> People
+        /// <summary>
+        /// Current calendar used by the program.
+        /// </summary>
+        public Calendar _Calendar = new();
+        public Calendar Calendar
         {
-            get => _People;
-            set => this.RaiseAndSetIfChanged(ref _People, value);
+            get
+            {
+                return _Calendar;
+            }
+            set
+            {
+                _Calendar = value;
+                UpdateCalendarTable();
+            }
+        }
+
+        /// <summary>
+        /// Type of period used by Calendar_View.
+        /// </summary>
+        public Period calendarPeriod = new(new DateTime(DateTime.Now.Year, 1, 1), PeriodType.Year);
+
+        private string _PeriodText = string.Empty;
+        public string PeriodText
+        {
+            get => _PeriodText;
+            set => this.RaiseAndSetIfChanged(ref _PeriodText, value);
+        }
+
+        private ObservableCollection<Event> _Events = new ObservableCollection<Event>();
+        public ObservableCollection<Event> Events
+        {
+            get => _Events;
+            set => this.RaiseAndSetIfChanged(ref _Events, value);
         }
 
         public Data() {
-            People.Add(new Person("13/01/2021 19.00", "13/01/2021 20.30", "Opstartsaften med forlænget andagt", "Mødeleder: Martin JRJ\nMusiker: Lillian MW\nKaffehold:Randi MJ, Casper TN, Clara CW", "Vesterbro 9B, 5000 Odense C"));
+            PeriodText = calendarPeriod.ToString();
             Caption = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         }
 
-        public void Add(Person person)
+        /// <summary>
+        /// Updates the contents of the event table.
+        /// </summary>
+        public void UpdateCalendarTable()
         {
-            People.Add(person);
+            Events.Clear();
+            for (int i = 0; i < Calendar.events.Count; i++)
+            {
+                if (Calendar.events[i].In(calendarPeriod) && !Calendar.events[i].Deleted)
+                    Events.Add(Calendar.events[i]);
+            }
+            PeriodText = calendarPeriod.ToString();
         }
 
-        public void Remove(Person i)
+        /// <summary>
+        /// Changes the selected year and calls UpdateTable.
+        /// </summary>
+        public void UpdatePeriod(bool add)
         {
-            People.Remove(i);
-        }
-    }
-
-    public class Person {
-        private string _Start = "";
-        public string Start
-        {
-            get
-            {
-                return _Start;
-            }
-            set 
-            {
-                _Start = value;
-            }
+            if (add)
+                calendarPeriod.Add();
+            else
+                calendarPeriod.Subtract();
+            UpdateCalendarTable();
         }
 
-        private string _End = "";
-        public string End
-        {
-            get
-            {
-                return _End;
-            }
-            set
-            {
-                _End = value;
-            }
-        }
-
-        private string _Name = "";
-        public string Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                _Name = value;
-            }
-        }
-
-        private string _Description = "";
-        public string Description
-        {
-            get
-            {
-                return _Description;
-            }
-            set
-            {
-                _Description = value;
-            }
-        }
-
-        private string _Address = "";
-        public string Address
-        {
-            get
-            {
-                return _Address;
-            }
-            set
-            {
-                _Address = value;
-            }
-        }
-
-        public Person(string Start, string End, string Name, string Description, string Address)
-        {
-            this.Start = Start;
-            this.End = End;
-            this.Name = Name;
-            this.Description = Description;
-            this.Address = Address;
+        public void Remove(Event ev) {
+            Events.Remove(ev);
         }
     }
 }

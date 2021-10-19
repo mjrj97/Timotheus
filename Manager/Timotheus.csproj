@@ -5,7 +5,6 @@
     <UseAppHost>true</UseAppHost>
     <Nullable>enable</Nullable>
     <RuntimeIdentifiers>win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
-    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
   <PropertyGroup>
     <CFBundleName>Timotheus</CFBundleName>
@@ -45,8 +44,21 @@
     <Compile Update="NewPage.axaml.cs">
       <DependentUpon>NewPage.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Pages\OpenCalendar.axaml.cs">
+      <DependentUpon>OpenCalendar.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Localization\Localization.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Localization.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Include="Resources\**"/>
+    <AvaloniaResource Include="Resources\**" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Localization\Localization.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+    </EmbeddedResource>  </ItemGroup>
 </Project>

@@ -10,11 +10,6 @@ namespace Timotheus.Schedule
     /// </summary>
     public class Event : Period
     {
-        //Hidden versions that holds the values of the public variables.
-        private string name = string.Empty;
-        private string description = string.Empty;
-        private string location = string.Empty;
-
         /// <summary>
         /// Last time that the event was changed.
         /// </summary>
@@ -24,26 +19,54 @@ namespace Timotheus.Schedule
         /// </summary>
         public DateTime Created;
 
+        public string StartText
+        {
+            get
+            {
+                return Start.ToString("g");
+            }
+            set
+            {
+                Start = DateTime.Parse(value);
+            }
+        }
+
+        public string EndText
+        {
+            get
+            {
+                return End.ToString("g");
+            }
+            set
+            {
+                End = DateTime.Parse(value);
+            }
+        }
+
         /// <summary>
         /// Name of the event. Cannot be multiple lines.
         /// </summary>
-        public string Name { get { return name;  } set { name = value.Replace("\r\n", ""); Changed = DateTime.Now; } }
+        private string _Name = string.Empty;
+        public string Name { get { return _Name;  } set { _Name = value.Replace("\r\n", ""); Changed = DateTime.Now; } }
         /// <summary>
         /// Description of the event.
         /// </summary>
-        public string Description { get { return description; } set { description = value; Changed = DateTime.Now; } }
+        private string _Description = string.Empty;
+        public string Description { get { return _Description; } set { _Description = value; Changed = DateTime.Now; } }
         /// <summary>
         /// Location of the event. Is often an address. Cannot be multiple lines.
         /// </summary>
-        public string Location { get { return location; } set { location = value.Replace("\r\n", ""); Changed = DateTime.Now; } }
+        private string _Location = string.Empty;
+        public string Location { get { return _Location; } set { _Location = value.Replace("\r\n", ""); Changed = DateTime.Now; } }
         /// <summary>
         /// Unique identifier of the event. Cannot be changed.
         /// </summary>
-        public readonly string UID;
+        private string _UID = string.Empty;
+        public string UID { get { return _UID; } set { _UID = _UID == string.Empty ? Guid.NewGuid().ToString().ToUpper() : UID; } }
         /// <summary>
         /// Is true of the event is marked for deletion. Is used instead of just deleting the event, so the calendar knows which event was deleted locally when syncing.
         /// </summary>
-        public bool Deleted;
+        public bool Deleted = false;
 
         //Constructors
         public Event(DateTime Start, DateTime End, DateTime Created, string Name, string Description, string Location, string UID)
@@ -54,16 +77,12 @@ namespace Timotheus.Schedule
             this.Name = Name;
             this.Location = Location;
             this.Description = Description;
+            this.UID = UID;
             Changed = Created;
-            Deleted = false;
-            if (UID == null)
-                this.UID = Guid.NewGuid().ToString().ToUpper();
-            else
-                this.UID = UID;
         }
         public Event(DateTime Start, DateTime End, string Name, string Description, string Location, string UID) : this(Start, End, DateTime.Now, Name, Description, Location, UID) { }
-        public Event(DateTime Start, DateTime End, string Name, string Description, string UID) : this(Start, End, DateTime.Now, Name, Description, null, UID) { }
-        public Event(DateTime Start, DateTime End, string Name, string Description) : this(Start, End, DateTime.Now, Name, Description, null, null) { }
+        public Event(DateTime Start, DateTime End, string Name, string Description, string UID) : this(Start, End, DateTime.Now, Name, Description, string.Empty, UID) { }
+        public Event(DateTime Start, DateTime End, string Name, string Description) : this(Start, End, DateTime.Now, Name, Description, string.Empty, string.Empty) { }
         public Event(string text)
         {
             string[] lines = Regex.Split(text, "\r\n|\r|\n");
@@ -147,7 +166,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Checks if another object has the same values as this.
         /// </summary>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             bool equals = false;
             if (obj != null && obj is Event @event)

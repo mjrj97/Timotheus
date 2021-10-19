@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i18n="clr-namespace:Timotheus"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Timotheus.MainWindow"
         Title="Timotheus" FontFamily="Arvo" Icon="/Resources/Icon.ico">
@@ -51,7 +52,7 @@
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
         <MenuItem Header="_File">
-          <MenuItem Header="_Open..."/>
+          <MenuItem Header="_Open..." Click="OpenCalendar_Click"/>
           <Separator/>
           <MenuItem Header="_Exit"/>
         </MenuItem>
@@ -62,37 +63,37 @@
       </Menu>
     </DockPanel>
     <TabControl>
-      <TabItem Header="Calendar">
+      <TabItem Header="{x:Static i18n:Localization.Calendar_Page}">
         <DockPanel>
           <DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-            <Button Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">←</Button>
-            <TextBox Width="150" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Fall 2021</TextBox>
-            <Button Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 30 0">→</Button>
+            <Button Name="+" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">←</Button>
+            <TextBox Width="150" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding PeriodText}" KeyDown="PeriodBox_KeyDown"/>
+            <Button Name="-" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 30 0">→</Button>
             <ComboBox SelectedIndex="0">
-              <ComboBoxItem>All</ComboBoxItem>
-              <ComboBoxItem>Year</ComboBoxItem>
-              <ComboBoxItem>Half-year</ComboBoxItem>
-              <ComboBoxItem>Month</ComboBoxItem>
+              <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_AllButton}"/>
+              <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_YearButton}"/>
+              <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_HalfYearButton}"/>
+              <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_MonthButton}"/>
             </ComboBox>
           </DockPanel>
           <DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch">
-            <Button DockPanel.Dock="Right">Export PDF</Button>
-            <Button DockPanel.Dock="Right" Margin="0 0 10 0">Synchronize</Button>
-            <Button DockPanel.Dock="Left">Add event</Button>
+            <Button Content="{x:Static i18n:Localization.Calendar_ExportButton}" DockPanel.Dock="Right"/>
+            <Button Content="{x:Static i18n:Localization.Calendar_SyncButton}" DockPanel.Dock="Right" Margin="0 0 10 0"/>
+            <Button Content="{x:Static i18n:Localization.Calendar_AddButton}" DockPanel.Dock="Left"/>
           </DockPanel>
           <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
-            <DataGrid Name="MyDataGrid" Items="{Binding People}">
+            <DataGrid Name="MyDataGrid" Items="{Binding Events}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible">
               <DataGrid.Columns>
-                <DataGridTextColumn Header="Start" Width="130" Binding="{Binding Start}"/>
-                <DataGridTextColumn Header="End" Width="130" Binding="{Binding End}" />
-                <DataGridTextColumn Header="Name" Width="300" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Description" Width="300" Binding="{Binding Description}" />
-                <DataGridTextColumn Header="Address" Width="230" Binding="{Binding Address}" />
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_StartColumn}" Width="130" Binding="{Binding StartText}"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_EndColumn}" Width="130" Binding="{Binding EndText}"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_NameColumn}" Width="300" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_DescriptionColumn}" Binding="{Binding Description}"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_LocationColumn}" Width="230" Binding="{Binding Location}"/>
                 
                 <DataGridTemplateColumn>
                   <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                      <Button Click="Remove_Click">X</Button>
+                      <Button Click="Remove_Click" Margin="5">X</Button>
                     </DataTemplate>
                   </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -101,7 +102,7 @@
           </Border>
         </DockPanel>
       </TabItem>
-      <TabItem Header="Files">
+      <TabItem Header="{x:Static i18n:Localization.SFTP_Page}">
         <StackPanel>
           <TextBlock Text="I am in the triangle page ! I'll put a button to show you that each page contains what you want." HorizontalAlignment="Left" VerticalAlignment="Center"/>
           <Button>A button in the triangle page !</Button>

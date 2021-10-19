@@ -90,7 +90,7 @@ namespace Timotheus.IO
             Name = Path.GetFileName(path);
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
-            string text = Program.encoding.GetString(data);
+            string text = Encoding.BigEndianUnicode.GetString(data);
             keys = Load(text);
         }
         /// <summary>
@@ -107,7 +107,7 @@ namespace Timotheus.IO
             Name = Path.GetFileName(path);
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
-            string text = Program.encoding.GetString(data);
+            string text = Encoding.BigEndianUnicode.GetString(data);
             keys = Load(text);
         }
 
@@ -146,7 +146,7 @@ namespace Timotheus.IO
         public void Save(string path, string password)
         {
             string text = ToString();
-            byte[] data = Cipher.Encrypt(Program.encoding.GetBytes(text), password);
+            byte[] data = Cipher.Encrypt(Encoding.BigEndianUnicode.GetBytes(text), password);
             File.WriteAllBytes(path, data);
         }
         

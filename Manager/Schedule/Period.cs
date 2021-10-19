@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Timotheus.Schedule
 {
@@ -24,15 +25,15 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Name of the spring period.
         /// </summary>
-        private static string spring;
+        private static string spring = "Spring";
         /// <summary>
         /// Name of the fall period.
         /// </summary>
-        private static string fall;
+        private static string fall = "Fall";
         /// <summary>
         /// Name of the all period.
         /// </summary>
-        private static string all;
+        private static string all = "All";
         /// <summary>
         /// List of the names of the months.
         /// </summary>
@@ -45,13 +46,13 @@ namespace Timotheus.Schedule
         {
             if (months == null)
             {
-                System.Globalization.DateTimeFormatInfo dtfi = System.Globalization.CultureInfo.GetCultureInfo(Program.culture.Name).DateTimeFormat;
+                DateTimeFormatInfo dtfi = CultureInfo.CurrentUICulture.DateTimeFormat;
                 months = new List<string>(dtfi.MonthNames);
                 months = months.ConvertAll(d => d.ToLower());
 
-                spring = Program.Localization.Get("Calendar_Spring", "Spring");
-                fall = Program.Localization.Get("Calendar_Fall", "Fall");
-                all = Program.Localization.Get("Calendar_All", "All");
+                //FIX spring = Program.Localization.Get("Calendar_Spring", "Spring");
+                //FIX fall = Program.Localization.Get("Calendar_Fall", "Fall");
+                //FIX all = Program.Localization.Get("Calendar_All", "All");
             }
         }
         /// <summary>
@@ -333,7 +334,7 @@ namespace Timotheus.Schedule
                         text = spring + " " + Start.Year;
                     break;
                 case PeriodType.Month:
-                    text = Start.ToString("MMMM", Program.culture) + " " + Start.Year;
+                    text = Start.ToString("MMMM", CultureInfo.CurrentUICulture) + " " + Start.Year;
                     break;
             }
 
