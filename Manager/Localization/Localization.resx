@@ -117,6 +117,132 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Accounting_AccountNumberColumn" xml:space="preserve">
+    <value>a/c</value>
+  </data>
+  <data name="Accounting_AppendixColumn" xml:space="preserve">
+    <value>Appendix</value>
+  </data>
+  <data name="Accounting_BalanceColumn" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="Accounting_DateColumn" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Accounting_DescriptionColumn" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Accounting_InColumn" xml:space="preserve">
+    <value>In</value>
+  </data>
+  <data name="Accounting_OutColumn" xml:space="preserve">
+    <value>Out</value>
+  </data>
+  <data name="Accounting_Page" xml:space="preserve">
+    <value>Accounting</value>
+  </data>
+  <data name="AddConsentForm" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddConsentForm_AddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddConsentForm_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AddConsentForm_CommentLabel" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="AddConsentForm_NameLabel" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="AddConsentForm_SignedLabel" xml:space="preserve">
+    <value>Signed</value>
+  </data>
+  <data name="AddConsentForm_VersionLabel" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="AddEvent" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddEvent_AddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddEvent_AllDayBox" xml:space="preserve">
+    <value>All day event</value>
+  </data>
+  <data name="AddEvent_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AddEvent_DescriptionLabel" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="AddEvent_EndLabel" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="AddEvent_LocationLabel" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="AddEvent_NameLabel" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="AddEvent_StartLabel" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="AddMember" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddMember_AddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddMember_AddExistingButton" xml:space="preserve">
+    <value>From list</value>
+  </data>
+  <data name="AddMember_AddressLabel" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="AddMember_BirthdayLabel" xml:space="preserve">
+    <value>Birthday</value>
+  </data>
+  <data name="AddMember_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AddMember_EntryLabel" xml:space="preserve">
+    <value>Entry</value>
+  </data>
+  <data name="AddMember_NameLabel" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="AddMember_NewPersonButton" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="AddTransaction" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddTransaction_AccountLabel" xml:space="preserve">
+    <value>a/c</value>
+  </data>
+  <data name="AddTransaction_AddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddTransaction_AppendixLabel" xml:space="preserve">
+    <value>Appendix</value>
+  </data>
+  <data name="AddTransaction_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AddTransaction_Currency" xml:space="preserve">
+    <value>$</value>
+  </data>
+  <data name="AddTransaction_DateLabel" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="AddTransaction_InLabel" xml:space="preserve">
+    <value>Income</value>
+  </data>
+  <data name="AddTransaction_OutLabel" xml:space="preserve">
+    <value>Expense</value>
+  </data>
   <data name="Calendar_AddButton" xml:space="preserve">
     <value>Add Event</value>
   </data>
@@ -165,7 +291,280 @@
   <data name="Calendar_YearButton" xml:space="preserve">
     <value>Year</value>
   </data>
+  <data name="ConsentForms_AddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="ConsentForms_CommentColumn" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="ConsentForms_DateColumn" xml:space="preserve">
+    <value>Signed</value>
+  </data>
+  <data name="ConsentForms_NameColumn" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ConsentForms_Page" xml:space="preserve">
+    <value>Consent forms</value>
+  </data>
+  <data name="ConsentForms_RemoveButton" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="ConsentForms_VersionColumn" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="EditKeyDialog" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditKeyDialog_AddStdButton" xml:space="preserve">
+    <value>Add standard keys</value>
+  </data>
+  <data name="EditKeyDialog_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="EditKeyDialog_OKButton" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Exception_AlreadyRunning" xml:space="preserve">
+    <value>The program is already running. If you can't see it, check the system tray or task manager</value>
+  </data>
+  <data name="Exception_EmptyAddress" xml:space="preserve">
+    <value>Address cannot be empty</value>
+  </data>
+  <data name="Exception_EmptyICS" xml:space="preserve">
+    <value>ICS field cannot be empty</value>
+  </data>
+  <data name="Exception_EmptyName" xml:space="preserve">
+    <value>Name cannot be empty</value>
+  </data>
+  <data name="Exception_InvalidCalendar" xml:space="preserve">
+    <value>Calendar isn't formatted correctly</value>
+  </data>
+  <data name="Exception_InvalidInput" xml:space="preserve">
+    <value>Invalid input</value>
+  </data>
+  <data name="Exception_LoadFailed" xml:space="preserve">
+    <value>Couldn't load file</value>
+  </data>
+  <data name="Exception_Name" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Exception_NoKeys" xml:space="preserve">
+    <value>Key file could not be loaded</value>
+  </data>
+  <data name="Exception_Saving" xml:space="preserve">
+    <value>Couldn't save file</value>
+  </data>
+  <data name="Exception_SFTPInvalidPath" xml:space="preserve">
+    <value>The file is not in the directory</value>
+  </data>
+  <data name="Exception_Sync" xml:space="preserve">
+    <value>Couldn't sync the calendar</value>
+  </data>
+  <data name="Exception_WrongPassword" xml:space="preserve">
+    <value>Wrong password</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Help_ContributorsLabel" xml:space="preserve">
+    <value>Contributors</value>
+  </data>
+  <data name="Help_EmailLabel" xml:space="preserve">
+    <value>Email:</value>
+  </data>
+  <data name="Help_LicenseLabel" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="Help_SourceLabel" xml:space="preserve">
+    <value>Source:</value>
+  </data>
+  <data name="Help_VersionLabel" xml:space="preserve">
+    <value>Timotheus</value>
+  </data>
+  <data name="Members_AddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Members_AddressColumn" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Members_BirthdayColumn" xml:space="preserve">
+    <value>Birthday</value>
+  </data>
+  <data name="Members_EntryColumn" xml:space="preserve">
+    <value>Entry</value>
+  </data>
+  <data name="Members_NameColumn" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Members_Page" xml:space="preserve">
+    <value>Members</value>
+  </data>
+  <data name="Members_RemoveButton" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="OpenCalendar" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OpenCalendar_BrowseButton" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="OpenCalendar_CalDAVButton" xml:space="preserve">
+    <value>Remote</value>
+  </data>
+  <data name="OpenCalendar_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="OpenCalendar_ICSButton" xml:space="preserve">
+    <value>Local</value>
+  </data>
+  <data name="OpenCalendar_OpenButton" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OpenCalendar_PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="OpenCalendar_UsernameLabel" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="PasswordDialog" xml:space="preserve">
+    <value>Password required</value>
+  </data>
+  <data name="PasswordDialog_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="PasswordDialog_Label" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordDialog_OKButton" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="PasswordDialog_SaveBox" xml:space="preserve">
+    <value>Save password (Not recommended)</value>
+  </data>
+  <data name="PDF_Activity" xml:space="preserve">
+    <value>Activity</value>
+  </data>
+  <data name="PDF_Coffee" xml:space="preserve">
+    <value>Coffee</value>
+  </data>
+  <data name="PDF_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="PDF_Leader" xml:space="preserve">
+    <value>Leader</value>
+  </data>
+  <data name="PDF_Musician" xml:space="preserve">
+    <value>Musician</value>
+  </data>
+  <data name="PDF_Schedule" xml:space="preserve">
+    <value>Schedule for</value>
+  </data>
+  <data name="PDF_Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="PDF_Welcome" xml:space="preserve">
+    <value>Welcome to</value>
+  </data>
+  <data name="Settings_AddressLabel" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Settings_BrowseButton" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="Settings_LogoLabel" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="Settings_NameLabel" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Settings_Page" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settins_InfoBox" xml:space="preserve">
+    <value>Association information</value>
+  </data>
+  <data name="SFTP_BrowseButton" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="SFTP_HostLabel" xml:space="preserve">
+    <value>Host</value>
+  </data>
+  <data name="SFTP_LocalDirectoryLabel" xml:space="preserve">
+    <value>Local directory</value>
+  </data>
+  <data name="SFTP_NameColumn" xml:space="preserve">
+    <value>File name</value>
+  </data>
   <data name="SFTP_Page" xml:space="preserve">
     <value>Files</value>
+  </data>
+  <data name="SFTP_PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SFTP_RemoteDirectoryLabel" xml:space="preserve">
+    <value>Remote directory</value>
+  </data>
+  <data name="SFTP_ShowDirectoryButton" xml:space="preserve">
+    <value>Show directory</value>
+  </data>
+  <data name="SFTP_SizeColumn" xml:space="preserve">
+    <value>File size</value>
+  </data>
+  <data name="SFTP_SyncButton" xml:space="preserve">
+    <value>Synchronize</value>
+  </data>
+  <data name="SFTP_UsernameLabel" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="SyncCalendar" xml:space="preserve">
+    <value>Synchronize</value>
+  </data>
+  <data name="SyncCalendar_CalDAVLabel" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="SyncCalendar_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SyncCalendar_CustomCalendarButton" xml:space="preserve">
+    <value>Sync custom period</value>
+  </data>
+  <data name="SyncCalendar_EntireCalendarButton" xml:space="preserve">
+    <value>Sync the entire calendar</value>
+  </data>
+  <data name="SyncCalendar_NewCalendarButton" xml:space="preserve">
+    <value>Another calendar</value>
+  </data>
+  <data name="SyncCalendar_PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SyncCalendar_PeriodCalendarButton" xml:space="preserve">
+    <value>Sync the period</value>
+  </data>
+  <data name="SyncCalendar_SyncButton" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="SyncCalendar_UseExistingButton" xml:space="preserve">
+    <value>Current calendar</value>
+  </data>
+  <data name="SyncCalendar_UsernameLabel" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="ToolStrip_EditKey" xml:space="preserve">
+    <value>Edit key</value>
+  </data>
+  <data name="ToolStrip_Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="ToolStrip_LoadKey" xml:space="preserve">
+    <value>Load key</value>
+  </data>
+  <data name="ToolStrip_OpenFile" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="ToolStrip_SaveFile" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ToolStrip_SaveKey" xml:space="preserve">
+    <value>Save key</value>
   </data>
 </root>

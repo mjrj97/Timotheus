@@ -3,8 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using System.Globalization;
-using System.Threading;
 using Timotheus.Schedule;
 
 namespace Timotheus
@@ -16,7 +14,6 @@ namespace Timotheus
 
         public MainWindow()
         {
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("da-DK");
             InitializeComponent();
             #if DEBUG
             this.AttachDevTools();
