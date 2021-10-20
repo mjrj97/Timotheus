@@ -417,11 +417,17 @@
   <data name="OpenCalendar_ICSButton" xml:space="preserve">
     <value>Lokal</value>
   </data>
+  <data name="OpenCalendar_ICSLabel" xml:space="preserve">
+    <value>Fil</value>
+  </data>
   <data name="OpenCalendar_OpenButton" xml:space="preserve">
     <value>Åben</value>
   </data>
   <data name="OpenCalendar_PasswordLabel" xml:space="preserve">
     <value>Adgangskode</value>
+  </data>
+  <data name="OpenCalendar_URLLabel" xml:space="preserve">
+    <value>URL</value>
   </data>
   <data name="OpenCalendar_UsernameLabel" xml:space="preserve">
     <value>Brugernavn</value>
@@ -549,14 +555,32 @@
   <data name="SyncCalendar_UsernameLabel" xml:space="preserve">
     <value>Brugernavn</value>
   </data>
+  <data name="ToolStrip_Edit" xml:space="preserve">
+    <value>Redigér</value>
+  </data>
+  <data name="ToolStrip_EditCopy" xml:space="preserve">
+    <value>Kopiér</value>
+  </data>
   <data name="ToolStrip_EditKey" xml:space="preserve">
     <value>Redigér nøgle</value>
+  </data>
+  <data name="ToolStrip_EditPaste" xml:space="preserve">
+    <value>Indsæt</value>
+  </data>
+  <data name="ToolStrip_Exit" xml:space="preserve">
+    <value>Luk</value>
+  </data>
+  <data name="ToolStrip_File" xml:space="preserve">
+    <value>Filer</value>
   </data>
   <data name="ToolStrip_Help" xml:space="preserve">
     <value>Hjælp</value>
   </data>
   <data name="ToolStrip_LoadKey" xml:space="preserve">
     <value>Indlæs nøgle</value>
+  </data>
+  <data name="ToolStrip_NewFile" xml:space="preserve">
+    <value>Ny</value>
   </data>
   <data name="ToolStrip_OpenFile" xml:space="preserve">
     <value>Åben</value>

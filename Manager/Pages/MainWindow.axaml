@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i18n="clr-namespace:Timotheus"
+        xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Timotheus.MainWindow"
         Title="Timotheus" FontFamily="Arvo" Icon="/Resources/Icon.ico">
@@ -51,14 +51,17 @@
   <DockPanel>
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
-        <MenuItem Header="_File">
-          <MenuItem Header="_Open..." Click="OpenCalendar_Click"/>
+        <MenuItem Header="{x:Static i18n:Localization.ToolStrip_File}">
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_NewFile}"/>
           <Separator/>
-          <MenuItem Header="_Exit"/>
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}"/>
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_OpenFile}" Click="OpenCalendar_Click"/>
+          <Separator/>
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Exit}"/>
         </MenuItem>
-        <MenuItem Header="_Edit">
-          <MenuItem Header="Copy"/>
-          <MenuItem Header="Paste"/>
+        <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Edit}">
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditCopy}"/>
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditPaste}"/>
         </MenuItem>
       </Menu>
     </DockPanel>
@@ -118,7 +121,7 @@
           <Button Width="160" HorizontalContentAlignment="Center" Click="OpenWindow_Click" DockPanel.Dock="Bottom">Open window</Button>
         </StackPanel>
       </TabItem>
-      <TabItem Header="Members">
+      <TabItem Header="{x:Static i18n:Localization.Members_Page}">
         <StackPanel Orientation="Horizontal">
           <TextBlock Text="Square : " HorizontalAlignment="Left" VerticalAlignment="Center"/>
           <Rectangle Fill="Blue" Width="63" Height="41"/>

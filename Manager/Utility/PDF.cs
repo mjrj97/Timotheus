@@ -83,14 +83,14 @@ namespace Timotheus.Utility
             DefineStyles(document);
 
             #region Localization
-            /* //FIX string welcome = Program.Localization.Get("PDF_Welcome", "Welcome to");
-            string schedule = Program.Localization.Get("PDF_Schedule", "Schedule for");
-            string date = Program.Localization.Get("PDF_Date", "Date");
-            string start = Program.Localization.Get("PDF_Start", "Start");
-            string activity = Program.Localization.Get("PDF_Activity", "Activity");
-            string leader = Program.Localization.Get("PDF_Leader", "Leader");
-            string musician = Program.Localization.Get("PDF_Musician", "Musician");
-            string coffee = Program.Localization.Get("PDF_Coffee", "Coffee");*/
+            string welcome = Localization.Localization.PDF_Welcome;
+            string schedule = Localization.Localization.PDF_Schedule;
+            string date = Localization.Localization.PDF_Date;
+            string start = Localization.Localization.PDF_Start;
+            string activity = Localization.Localization.PDF_Activity;
+            string leader = Localization.Localization.PDF_Leader;
+            string musician = Localization.Localization.PDF_Musician;
+            string coffee = Localization.Localization.PDF_Coffee;
             #endregion
 
             // Each MigraDoc document needs at least one section.
@@ -112,8 +112,8 @@ namespace Timotheus.Utility
             section.AddParagraph();
 
             // add headings
-            //FIX section.AddParagraph(welcome + " " + associationName, "Heading1");
-            //FIX section.AddParagraph(schedule + " " + periodName.ToLower(), "Heading2");
+            section.AddParagraph(welcome + " " + associationName, "Heading1");
+            section.AddParagraph(schedule + " " + periodName.ToLower(), "Heading2");
 
             // extra Paragraph to add space
             section.AddParagraph();
@@ -140,12 +140,12 @@ namespace Timotheus.Utility
             row.HeadingFormat = true;
             row.Format.Font.Bold = true;
             row.Shading.Color = White;
-            /* //FIX row.Cells[0].AddParagraph(date);
+            row.Cells[0].AddParagraph(date);
             row.Cells[1].AddParagraph(start);
             row.Cells[2].AddParagraph(activity);
             row.Cells[3].AddParagraph(leader);
             row.Cells[4].AddParagraph(musician);
-            row.Cells[5].AddParagraph(coffee);*/
+            row.Cells[5].AddParagraph(coffee);
 
             // Create a the footer containing the page number and assocaition address.
             Paragraph paragraph = new Paragraph();
@@ -168,9 +168,9 @@ namespace Timotheus.Utility
                 Register values = new Register(':', events[i].Description);
                 DateTime time = events[i].Start;
 
-                //FIX string eventLeader = values.Get(leader);
-                //FIX string eventMusician = values.Get(musician);
-                //FIX string eventCoffee = values.Get(coffee);
+                string eventLeader = values.Get(leader);
+                string eventMusician = values.Get(musician);
+                string eventCoffee = values.Get(coffee);
 
                 row = table.AddRow();
 
@@ -182,9 +182,9 @@ namespace Timotheus.Utility
                     row.Cells[1].AddParagraph(time.ToString("t", CultureInfo.CurrentUICulture));
 
                 row.Cells[2].AddParagraph(name);
-                //FIX row.Cells[3].AddParagraph(eventLeader);
-                //FIX row.Cells[4].AddParagraph(eventMusician);
-                //FIX row.Cells[5].AddParagraph(eventCoffee);
+                row.Cells[3].AddParagraph(eventLeader);
+                row.Cells[4].AddParagraph(eventMusician);
+                row.Cells[5].AddParagraph(eventCoffee);
             }
 
             // Create a renderer for PDF that uses Unicode font encoding.

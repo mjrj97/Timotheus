@@ -417,11 +417,17 @@
   <data name="OpenCalendar_ICSButton" xml:space="preserve">
     <value>Local</value>
   </data>
+  <data name="OpenCalendar_ICSLabel" xml:space="preserve">
+    <value>Path</value>
+  </data>
   <data name="OpenCalendar_OpenButton" xml:space="preserve">
     <value>Open</value>
   </data>
   <data name="OpenCalendar_PasswordLabel" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="OpenCalendar_URLLabel" xml:space="preserve">
+    <value>URL</value>
   </data>
   <data name="OpenCalendar_UsernameLabel" xml:space="preserve">
     <value>Username</value>
@@ -549,14 +555,32 @@
   <data name="SyncCalendar_UsernameLabel" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="ToolStrip_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ToolStrip_EditCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
   <data name="ToolStrip_EditKey" xml:space="preserve">
     <value>Edit key</value>
+  </data>
+  <data name="ToolStrip_EditPaste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="ToolStrip_Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="ToolStrip_File" xml:space="preserve">
+    <value>File</value>
   </data>
   <data name="ToolStrip_Help" xml:space="preserve">
     <value>Help</value>
   </data>
   <data name="ToolStrip_LoadKey" xml:space="preserve">
     <value>Load key</value>
+  </data>
+  <data name="ToolStrip_NewFile" xml:space="preserve">
+    <value>New</value>
   </data>
   <data name="ToolStrip_OpenFile" xml:space="preserve">
     <value>Open</value>

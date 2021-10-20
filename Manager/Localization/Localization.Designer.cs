@@ -961,6 +961,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Path.
+        /// </summary>
+        public static string OpenCalendar_ICSLabel {
+            get {
+                return ResourceManager.GetString("OpenCalendar_ICSLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open.
         /// </summary>
         public static string OpenCalendar_OpenButton {
@@ -975,6 +984,15 @@ namespace Timotheus.Localization {
         public static string OpenCalendar_PasswordLabel {
             get {
                 return ResourceManager.GetString("OpenCalendar_PasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL.
+        /// </summary>
+        public static string OpenCalendar_URLLabel {
+            get {
+                return ResourceManager.GetString("OpenCalendar_URLLabel", resourceCulture);
             }
         }
         
@@ -1357,11 +1375,56 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string ToolStrip_Edit {
+            get {
+                return ResourceManager.GetString("ToolStrip_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        public static string ToolStrip_EditCopy {
+            get {
+                return ResourceManager.GetString("ToolStrip_EditCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit key.
         /// </summary>
         public static string ToolStrip_EditKey {
             get {
                 return ResourceManager.GetString("ToolStrip_EditKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste.
+        /// </summary>
+        public static string ToolStrip_EditPaste {
+            get {
+                return ResourceManager.GetString("ToolStrip_EditPaste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        public static string ToolStrip_Exit {
+            get {
+                return ResourceManager.GetString("ToolStrip_Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string ToolStrip_File {
+            get {
+                return ResourceManager.GetString("ToolStrip_File", resourceCulture);
             }
         }
         
@@ -1380,6 +1443,15 @@ namespace Timotheus.Localization {
         public static string ToolStrip_LoadKey {
             get {
                 return ResourceManager.GetString("ToolStrip_LoadKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string ToolStrip_NewFile {
+            get {
+                return ResourceManager.GetString("ToolStrip_NewFile", resourceCulture);
             }
         }
         
