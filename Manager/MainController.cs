@@ -5,7 +5,7 @@ using ReactiveUI;
 
 namespace Timotheus
 {
-    public class Data : ReactiveObject
+    public class MainController : ReactiveObject
     {
         private string _Caption = "";
         public string Caption
@@ -50,7 +50,8 @@ namespace Timotheus
             set => this.RaiseAndSetIfChanged(ref _Events, value);
         }
 
-        public Data() {
+        public MainController() {
+            Calendar = new("formand@odenselmu.dk", "02022018LMUOdense", "https://caldav.one.com/calendars/users/formand@odenselmu.dk/calendar/");
             PeriodText = calendarPeriod.ToString();
             Caption = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         }

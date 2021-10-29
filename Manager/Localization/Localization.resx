@@ -175,19 +175,19 @@
     <value>Cancel</value>
   </data>
   <data name="AddEvent_DescriptionLabel" xml:space="preserve">
-    <value>Description</value>
+    <value>Descrip.</value>
   </data>
   <data name="AddEvent_EndLabel" xml:space="preserve">
-    <value>End</value>
+    <value>End*</value>
   </data>
   <data name="AddEvent_LocationLabel" xml:space="preserve">
     <value>Location</value>
   </data>
   <data name="AddEvent_NameLabel" xml:space="preserve">
-    <value>Name</value>
+    <value>Name*</value>
   </data>
   <data name="AddEvent_StartLabel" xml:space="preserve">
-    <value>Start</value>
+    <value>Start*</value>
   </data>
   <data name="AddMember" xml:space="preserve">
     <value>Add</value>

@@ -25,15 +25,15 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Name of the spring period.
         /// </summary>
-        private static string spring = "Spring";
+        private static string spring = Localization.Localization.Calendar_Spring;
         /// <summary>
         /// Name of the fall period.
         /// </summary>
-        private static string fall = "Fall";
+        private static string fall = Localization.Localization.Calendar_Fall;
         /// <summary>
         /// Name of the all period.
         /// </summary>
-        private static string all = "All";
+        private static string all = Localization.Localization.Calendar_All;
         /// <summary>
         /// List of the names of the months.
         /// </summary>
@@ -49,10 +49,6 @@ namespace Timotheus.Schedule
                 DateTimeFormatInfo dtfi = CultureInfo.CurrentUICulture.DateTimeFormat;
                 months = new List<string>(dtfi.MonthNames);
                 months = months.ConvertAll(d => d.ToLower());
-
-                //FIX spring = Program.Localization.Get("Calendar_Spring", "Spring");
-                //FIX fall = Program.Localization.Get("Calendar_Fall", "Fall");
-                //FIX all = Program.Localization.Get("Calendar_All", "All");
             }
         }
         /// <summary>

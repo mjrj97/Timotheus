@@ -8,17 +8,11 @@ namespace Timotheus
 {
     public partial class MainWindow : Window
     {
-        public Data data = new();
-        DataGrid dataGrid;
+        public MainController data = new();
 
         public MainWindow()
         {
             InitializeComponent();
-            #if DEBUG
-            this.AttachDevTools();
-            #endif
-
-            dataGrid = this.Find<DataGrid>("MyDataGrid");
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -60,6 +54,26 @@ namespace Timotheus
                 data.Calendar = calendar;
         }
 
+        private async void AddEvent_Click(object sender, RoutedEventArgs e)
+        {
+            Event? ev = await AddEvent.Show(this);
+            if (ev != null)
+            {
+                data.Calendar.events.Add(ev);
+                data.UpdateCalendarTable();
+            }
+        }
+
+        private void RemoveEvent_Click(object sender, RoutedEventArgs e)
+        {
+            Event ev = (Event)((Button)e.Source).DataContext;
+            if (ev != null)
+            {
+                ev.Deleted = true;
+                data.UpdateCalendarTable();
+            }
+        }
+
         private void PeriodBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -70,11 +84,6 @@ namespace Timotheus
         {
             NewPage newPage = new NewPage();
             await newPage.ShowDialog<string>(this);
-        }
-
-        private void Remove_Click(object sender, RoutedEventArgs e)
-        {
-            data.Remove((Event)((Button)e.Source).DataContext);
         }
 
         private void InitializeComponent()

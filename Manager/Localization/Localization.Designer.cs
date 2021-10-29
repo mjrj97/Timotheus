@@ -232,7 +232,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Description.
+        ///   Looks up a localized string similar to Descrip..
         /// </summary>
         public static string AddEvent_DescriptionLabel {
             get {
@@ -241,7 +241,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to End.
+        ///   Looks up a localized string similar to End*.
         /// </summary>
         public static string AddEvent_EndLabel {
             get {
@@ -259,7 +259,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name.
+        ///   Looks up a localized string similar to Name*.
         /// </summary>
         public static string AddEvent_NameLabel {
             get {
@@ -268,7 +268,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start.
+        ///   Looks up a localized string similar to Start*.
         /// </summary>
         public static string AddEvent_StartLabel {
             get {

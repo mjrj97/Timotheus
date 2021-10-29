@@ -83,6 +83,7 @@ namespace Timotheus.Schedule
         public Event(DateTime Start, DateTime End, string Name, string Description, string Location, string UID) : this(Start, End, DateTime.Now, Name, Description, Location, UID) { }
         public Event(DateTime Start, DateTime End, string Name, string Description, string UID) : this(Start, End, DateTime.Now, Name, Description, string.Empty, UID) { }
         public Event(DateTime Start, DateTime End, string Name, string Description) : this(Start, End, DateTime.Now, Name, Description, string.Empty, string.Empty) { }
+        public Event() : this(DateTime.Now, DateTime.Now, string.Empty, string.Empty) { }
         public Event(string text)
         {
             string[] lines = Regex.Split(text, "\r\n|\r|\n");

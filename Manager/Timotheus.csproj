@@ -44,6 +44,9 @@
     <Compile Update="NewPage.axaml.cs">
       <DependentUpon>NewPage.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Pages\AddEvent.axaml.cs">
+      <DependentUpon>AddEvent.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\OpenCalendar.axaml.cs">
       <DependentUpon>OpenCalendar.axaml</DependentUpon>
     </Compile>

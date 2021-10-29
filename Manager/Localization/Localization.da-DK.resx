@@ -175,19 +175,19 @@
     <value>Annullér</value>
   </data>
   <data name="AddEvent_DescriptionLabel" xml:space="preserve">
-    <value>Beskrivelse</value>
+    <value>Beskriv.</value>
   </data>
   <data name="AddEvent_EndLabel" xml:space="preserve">
-    <value>Slut</value>
+    <value>Slut*</value>
   </data>
   <data name="AddEvent_LocationLabel" xml:space="preserve">
     <value>Adresse</value>
   </data>
   <data name="AddEvent_NameLabel" xml:space="preserve">
-    <value>Navn</value>
+    <value>Navn*</value>
   </data>
   <data name="AddEvent_StartLabel" xml:space="preserve">
-    <value>Start</value>
+    <value>Start*</value>
   </data>
   <data name="AddMember" xml:space="preserve">
     <value>Tilføj</value>
