@@ -52,9 +52,7 @@
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
         <MenuItem Header="{x:Static i18n:Localization.ToolStrip_File}">
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_NewFile}"/>
-          <Separator/>
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}"/>
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}" Click="SaveCalendar_Click"/>
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_OpenFile}" Click="OpenCalendar_Click"/>
           <Separator/>
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Exit}"/>
@@ -69,10 +67,10 @@
       <TabItem Header="{x:Static i18n:Localization.Calendar_Page}">
         <DockPanel>
           <DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-            <Button Name="+" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">←</Button>
+            <Button Name="-" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">←</Button>
             <TextBox Width="150" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding PeriodText}" KeyDown="PeriodBox_KeyDown"/>
-            <Button Name="-" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 30 0">→</Button>
-            <ComboBox SelectedIndex="1">
+            <Button Name="+" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 30 0">→</Button>
+            <ComboBox SelectedIndex="{Binding SelectedPeriod}">
               <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_AllButton}"/>
               <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_YearButton}"/>
               <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_HalfYearButton}"/>
@@ -80,15 +78,15 @@
             </ComboBox>
           </DockPanel>
           <DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch">
-            <Button Content="{x:Static i18n:Localization.Calendar_ExportButton}" DockPanel.Dock="Right"/>
-            <Button Content="{x:Static i18n:Localization.Calendar_SyncButton}" DockPanel.Dock="Right" Margin="0 0 10 0"/>
+            <Button Content="{x:Static i18n:Localization.Calendar_ExportButton}" Click="ExportPDF_Click" DockPanel.Dock="Right"/>
+            <Button Content="{x:Static i18n:Localization.Calendar_SyncButton}" Click="SyncCalendar_Click" DockPanel.Dock="Right" Margin="0 0 10 0"/>
             <Button Content="{x:Static i18n:Localization.Calendar_AddButton}" Click="AddEvent_Click" DockPanel.Dock="Left"/>
           </DockPanel>
           <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
             <DataGrid Name="MyDataGrid" Items="{Binding Events}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible">
               <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding StartText}" CanUserResize="True"/>
-                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding EndText}" CanUserResize="True"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding Start, StringFormat={}{0:g}}" CanUserResize="True"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding End, StringFormat={}{0:g}}" CanUserResize="True"/>
                 <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_NameColumn}" Width="*" Binding="{Binding Name}" CanUserResize="True"/>
                 <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_DescriptionColumn}" Width="*" Binding="{Binding Description}" CanUserResize="True"/>
                 <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_LocationColumn}" Width="*" MaxWidth="230" Binding="{Binding Location}" CanUserResize="True"/>
@@ -111,7 +109,6 @@
           <Button>A button in the triangle page !</Button>
           <TextBlock Text="I am in the circle page !" HorizontalAlignment="Left" VerticalAlignment="Center"/>
           <Button Width="160" HorizontalContentAlignment="Center" Click="Button_Click">Open file</Button>
-          <TextBlock Text="{Binding Caption}"/>
           <ComboBox SelectedIndex="0">
             <ComboBoxItem>Inline Items</ComboBoxItem>
             <ComboBoxItem>Inline Item 2</ComboBoxItem>
@@ -119,12 +116,6 @@
             <ComboBoxItem>Inline Item 4</ComboBoxItem>
           </ComboBox>
           <Button Width="160" HorizontalContentAlignment="Center" Click="OpenWindow_Click" DockPanel.Dock="Bottom">Open window</Button>
-        </StackPanel>
-      </TabItem>
-      <TabItem Header="{x:Static i18n:Localization.Members_Page}">
-        <StackPanel Orientation="Horizontal">
-          <TextBlock Text="Square : " HorizontalAlignment="Left" VerticalAlignment="Center"/>
-          <Rectangle Fill="Blue" Width="63" Height="41"/>
         </StackPanel>
       </TabItem>
     </TabControl>

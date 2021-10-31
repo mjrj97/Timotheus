@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MigraDoc.Rendering;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
@@ -69,13 +70,13 @@ namespace Timotheus.Utility
         /// <param name="associationAddress">Address of the association.</param>
         /// <param name="logoPath">Path to the associations logo.</param>
         /// <param name="periodName">Name of the time period. i.e. fall 2021</param>
-        public static void ExportCalendar(SortableBindingList<Event> events, string filePath, string title, string associationName, string associationAddress, string logoPath, string periodName)
+        public static void ExportCalendar(IList<Event> events, string filePath, string title, string associationName, string associationAddress, string logoPath, string periodName)
         {
             string fileName = $"{filePath}\\{title}";
 
             // Create the document using MigraDoc.
             Document document = new Document();
-            document.Info.Title = fileName;
+            document.Info.Title = title;
             document.Info.Author = associationName;
             document.DefaultPageSetup.Orientation = Orientation.Landscape;
             document.UseCmykColor = false;

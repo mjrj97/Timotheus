@@ -47,6 +47,9 @@
     <Compile Update="Pages\AddEvent.axaml.cs">
       <DependentUpon>AddEvent.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Pages\SyncCalendar.axaml.cs">
+      <DependentUpon>SyncCalendar.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\OpenCalendar.axaml.cs">
       <DependentUpon>OpenCalendar.axaml</DependentUpon>
     </Compile>

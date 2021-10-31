@@ -16,13 +16,8 @@ namespace Timotheus
         public OpenCalendar()
         {
             data = new CalendarData();
-            InitializeComponent();
-            DataContext = data;
-        }
-
-        private void InitializeComponent()
-        {
             AvaloniaXamlLoader.Load(this);
+            DataContext = data;
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)

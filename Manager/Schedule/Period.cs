@@ -343,10 +343,10 @@ namespace Timotheus.Schedule
     /// </summary>
     public enum PeriodType
     {
-        All,
-        Year,
-        Halfyear,
-        Month,
-        None
+        All = 0,
+        Year = 1,
+        Halfyear = 2,
+        Month = 3,
+        None = 4
     }
 }

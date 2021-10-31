@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using Timotheus.IO;
+using Timotheus.Utility;
 using Timotheus.Schedule;
 using ReactiveUI;
 
@@ -7,12 +10,10 @@ namespace Timotheus
 {
     public class MainController : ReactiveObject
     {
-        private string _Caption = "";
-        public string Caption
-        {
-            get => _Caption;
-            set => this.RaiseAndSetIfChanged(ref _Caption, value);
-        }
+        /// <summary>
+        /// Register containing all the keys loaded at startup or manually from a key file (.tkey or .txt)
+        /// </summary>
+        public Register keys;
 
         /// <summary>
         /// Current calendar used by the program.
@@ -34,7 +35,17 @@ namespace Timotheus
         /// <summary>
         /// Type of period used by Calendar_View.
         /// </summary>
-        public Period calendarPeriod = new(new DateTime(DateTime.Now.Year, 1, 1), PeriodType.Year);
+        public Period calendarPeriod = new(DateTime.Now.Date, PeriodType.Year);
+
+        public int SelectedPeriod
+        {
+            get { return (int)calendarPeriod.Type; }
+            set
+            {
+                calendarPeriod.SetType((PeriodType)value);
+                UpdateCalendarTable();
+            }
+        }
 
         private string _PeriodText = string.Empty;
         public string PeriodText
@@ -51,9 +62,11 @@ namespace Timotheus
         }
 
         public MainController() {
-            Calendar = new("formand@odenselmu.dk", "02022018LMUOdense", "https://caldav.one.com/calendars/users/formand@odenselmu.dk/calendar/");
+            string KeyPath = Program.Registry.Get("KeyPath");
+            keys = LoadKey(KeyPath, false);
+
+            Calendar = new(keys.Get("Calendar-Email"), keys.Get("Calendar-Password"), keys.Get("Calendar-URL"));
             PeriodText = calendarPeriod.ToString();
-            Caption = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         }
 
         /// <summary>
@@ -82,8 +95,93 @@ namespace Timotheus
             UpdateCalendarTable();
         }
 
+        /// <summary>
+        /// Removes the event from list.
+        /// </summary>
         public void Remove(Event ev) {
-            Events.Remove(ev);
+            ev.Deleted = true;
+            UpdateCalendarTable();
+        }
+
+        /// <summary>
+        /// Loads and returns the key from the path.
+        /// </summary>
+        /// <param name="path">Path to the key file.</param>
+        /// <param name="requirePasswordDialog">Whether a password dialog should be required. If false it tries to get the password stored in the Progarm.Registry.</param>
+        private static Register LoadKey(string path, bool requirePasswordDialog)
+        {
+            Register keys = null;
+            if (path != string.Empty)
+            {
+                string extension = Path.GetExtension(path);
+                switch (extension)
+                {
+                    case ".tkey":
+                        string encodedPassword = requirePasswordDialog ? string.Empty : Program.Registry.Get("KeyPassword");
+                        byte[] encodedBytes = Program.encoding.GetBytes(encodedPassword);
+                        if (requirePasswordDialog)
+                            Program.Registry.Remove("KeyPassword");
+
+                        if (encodedPassword != string.Empty)
+                        {
+                            try
+                            {
+                                byte[] decodedBytes = Cipher.Decrypt(encodedBytes, Cipher.defkey);
+                                string password = Program.encoding.GetString(decodedBytes);
+
+                                keys = new Register(path, password, ':');
+                                Program.Registry.Set("KeyPath", path);
+                            }
+                            catch (System.Security.Cryptography.CryptographicException e)
+                            {
+                                //Program.Error("Exception_WrongPassword", e.Message);
+                                keys = new Register(':');
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                /*PasswordDialog passwordDialog = new PasswordDialog()
+                                {
+                                    Owner = this
+                                };
+                                if (passwordDialog.ShowDialog() == DialogResult.OK)
+                                {
+                                    keys = new Register(path, passwordDialog.Password, ':');
+                                    if (passwordDialog.Check)
+                                    {
+                                        byte[] decodedBytes = Program.encoding.GetBytes(passwordDialog.Password);
+                                        encodedBytes = Cipher.Encrypt(decodedBytes, Cipher.defkey);
+                                        encodedPassword = Program.encoding.GetString(encodedBytes);
+                                        Program.Registry.Set("KeyPassword", encodedPassword);
+                                    }
+                                    Program.Registry.Set("KeyPath", path);
+                                }
+                                else*/
+                                {
+                                    keys = new Register(':');
+                                }
+                            }
+                            catch (System.Security.Cryptography.CryptographicException e)
+                            {
+                                //Program.Error("Exception_WrongPassword", e.Message);
+                                keys = new Register(':');
+                            }
+                        }
+                        break;
+                    case ".txt":
+                        keys = new Register(path, ':');
+                        Program.Registry.Set("KeyPath", path);
+                        break;
+                }
+
+                //InsertKeys();
+            }
+            else
+                keys = new Register(':');
+
+            return keys;
         }
     }
 }

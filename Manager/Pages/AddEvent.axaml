@@ -18,18 +18,18 @@
         <TextBox Width="60" Watermark="00:00" Text="{Binding StartTime}"/>
         <TextBox Margin="10 0 0 0" Watermark="1" Text="{Binding StartDay}"/>
         <ComboBox Width="125" SelectedIndex="{Binding StartMonth}">
-          <ComboBoxItem Content="January"/>
-          <ComboBoxItem Content="February"/>
-          <ComboBoxItem Content="March"/>
-          <ComboBoxItem Content="April"/>
-          <ComboBoxItem Content="May"/>
-          <ComboBoxItem Content="June"/>
-          <ComboBoxItem Content="July"/>
-          <ComboBoxItem Content="August"/>
-          <ComboBoxItem Content="September"/>
-          <ComboBoxItem Content="October"/>
-          <ComboBoxItem Content="November"/>
-          <ComboBoxItem Content="December"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_January}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_February}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_March}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_April}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_May}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_June}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_July}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_August}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_September}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_October}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_November}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_December}"/>
         </ComboBox>
         <TextBox Watermark="2021" Text="{Binding StartYear}"/>
       </DockPanel>
@@ -38,18 +38,18 @@
         <TextBox Width="60" Watermark="00:00" Text="{Binding EndTime}"/>
         <TextBox Margin="10 0 0 0" Watermark="1" Text="{Binding EndDay}"/>
         <ComboBox Width="125" SelectedIndex="{Binding EndMonth}">
-          <ComboBoxItem Content="January"/>
-          <ComboBoxItem Content="February"/>
-          <ComboBoxItem Content="March"/>
-          <ComboBoxItem Content="April"/>
-          <ComboBoxItem Content="May"/>
-          <ComboBoxItem Content="June"/>
-          <ComboBoxItem Content="July"/>
-          <ComboBoxItem Content="August"/>
-          <ComboBoxItem Content="September"/>
-          <ComboBoxItem Content="October"/>
-          <ComboBoxItem Content="November"/>
-          <ComboBoxItem Content="December"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_January}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_February}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_March}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_April}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_May}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_June}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_July}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_August}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_September}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_October}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_November}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_December}"/>
         </ComboBox>
         <TextBox Watermark="2021" Text="{Binding EndYear}"/>
       </DockPanel>

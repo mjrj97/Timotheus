@@ -19,30 +19,6 @@ namespace Timotheus.Schedule
         /// </summary>
         public DateTime Created;
 
-        public string StartText
-        {
-            get
-            {
-                return Start.ToString("g");
-            }
-            set
-            {
-                Start = DateTime.Parse(value);
-            }
-        }
-
-        public string EndText
-        {
-            get
-            {
-                return End.ToString("g");
-            }
-            set
-            {
-                End = DateTime.Parse(value);
-            }
-        }
-
         /// <summary>
         /// Name of the event. Cannot be multiple lines.
         /// </summary>
@@ -62,7 +38,7 @@ namespace Timotheus.Schedule
         /// Unique identifier of the event. Cannot be changed.
         /// </summary>
         private string _UID = string.Empty;
-        public string UID { get { return _UID; } set { _UID = _UID == string.Empty ? Guid.NewGuid().ToString().ToUpper() : UID; } }
+        public string UID { get { return _UID; } set { _UID = (value == string.Empty) ? Guid.NewGuid().ToString().ToUpper() : value; } }
         /// <summary>
         /// Is true of the event is marked for deletion. Is used instead of just deleting the event, so the calendar knows which event was deleted locally when syncing.
         /// </summary>

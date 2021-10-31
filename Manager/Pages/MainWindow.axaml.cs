@@ -2,7 +2,10 @@
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using System;
+using System.IO;
 using Timotheus.Schedule;
+using Timotheus.Utility;
 
 namespace Timotheus
 {
@@ -12,7 +15,8 @@ namespace Timotheus
 
         public MainWindow()
         {
-            InitializeComponent();
+            AvaloniaXamlLoader.Load(this);
+            DataContext = data;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -26,7 +30,6 @@ namespace Timotheus
                 {
                     Message += text + "\n";
                 }
-                data.Caption = Message;
             }
 
             await MessageBox.Show(this, "Oh shit der er gået noget galt med dit program!", "Test title", MessageBox.MessageBoxButtons.YesNoCancel);
@@ -54,6 +57,37 @@ namespace Timotheus
                 data.Calendar = calendar;
         }
 
+        private async void SaveCalendar_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            FileDialogFilter filter = new FileDialogFilter();
+            filter.Extensions.Add("ics");
+            filter.Name = "Calendar (.ics)";
+
+            saveFileDialog.Filters = new System.Collections.Generic.List<FileDialogFilter>();
+            saveFileDialog.Filters.Add(filter);
+
+            string result = await saveFileDialog.ShowAsync(this);
+            if (result != null)
+            {
+                try
+                {
+                    byte[] d = System.Text.Encoding.UTF8.GetBytes(data.Calendar.ToString());
+                    File.WriteAllBytes(result, d);
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                }
+            }
+        }
+
+        private async void SyncCalendar_Click(object sender, RoutedEventArgs e)
+        {
+            SyncCalendar.Show(this, data.Calendar, data.calendarPeriod);
+            data.UpdateCalendarTable();
+        }
+
         private async void AddEvent_Click(object sender, RoutedEventArgs e)
         {
             Event? ev = await AddEvent.Show(this);
@@ -69,15 +103,8 @@ namespace Timotheus
             Event ev = (Event)((Button)e.Source).DataContext;
             if (ev != null)
             {
-                ev.Deleted = true;
-                data.UpdateCalendarTable();
+                data.Remove(ev);
             }
-        }
-
-        private void PeriodBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-                data.calendarPeriod.SetPeriod(((TextBox)sender).Text);
         }
 
         private async void OpenWindow_Click(object sender, RoutedEventArgs e)
@@ -86,10 +113,38 @@ namespace Timotheus
             await newPage.ShowDialog<string>(this);
         }
 
-        private void InitializeComponent()
+        private async void ExportPDF_Click(object sender, RoutedEventArgs e)
         {
-            AvaloniaXamlLoader.Load(this);
-            DataContext = data;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            FileDialogFilter filter = new FileDialogFilter();
+            filter.Extensions.Add("pdf");
+            filter.Name = "PDF Files (.pdf)";
+
+            saveFileDialog.Filters = new System.Collections.Generic.List<FileDialogFilter>();
+            saveFileDialog.Filters.Add(filter);
+
+            string result = await saveFileDialog.ShowAsync(this);
+            if (result != null)
+            {
+                try
+                {
+                    FileInfo file = new FileInfo(result);
+                    PDF.ExportCalendar(data.Events, file.DirectoryName, file.Name, data.keys.Get("Settings-Name"), data.keys.Get("Settings-Address"), data.keys.Get("Settings-Image"), data.PeriodText);
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                }
+            }
+        }
+
+        private void PeriodBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                data.calendarPeriod.SetPeriod(((TextBox)sender).Text);
+                data.UpdateCalendarTable();
+            }
         }
     }
 }

@@ -16,13 +16,8 @@ namespace Timotheus
         {
             ev = null;
             eventData = new EventData();
-            InitializeComponent();
-            DataContext = eventData;
-        }
-
-        private void InitializeComponent()
-        {
             AvaloniaXamlLoader.Load(this);
+            DataContext = eventData;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
