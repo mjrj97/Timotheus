@@ -8,15 +8,13 @@ namespace Timotheus
 {
     public partial class SyncCalendar : Window
     {
-        private readonly SyncData data;
+        private SyncData data;
         internal Schedule.Calendar? calendar;
         private Schedule.Period period;
 
         public SyncCalendar()
         {
-            data = new SyncData();
             AvaloniaXamlLoader.Load(this);
-            DataContext = data;
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)
@@ -50,6 +48,8 @@ namespace Timotheus
         {
             SyncCalendar dialog = new();
             dialog.calendar = calendar;
+            dialog.data = new SyncData(calendar.IsSetup());
+            dialog.DataContext = dialog.data;
             dialog.data.Period = period.ToString();
             dialog.period = period;
 
@@ -68,8 +68,15 @@ namespace Timotheus
             set => this.RaiseAndSetIfChanged(ref _Period, value);
         }
 
-        private bool _UseCurrent = true;
+        private bool _UseCurrent = false;
         public bool UseCurrent
+        {
+            get => _UseCurrent;
+            set => this.RaiseAndSetIfChanged(ref _UseCurrent, value);
+        }
+
+        private bool _CanUseCurrent = false;
+        public bool CanUseCurrent
         {
             get => _UseCurrent;
             set => this.RaiseAndSetIfChanged(ref _UseCurrent, value);
@@ -129,6 +136,12 @@ namespace Timotheus
         {
             get => _Error;
             set => this.RaiseAndSetIfChanged(ref _Error, value);
+        }
+
+        public SyncData(bool UseCurrent)
+        {
+            this.CanUseCurrent = UseCurrent;
+            this.UseCurrent = UseCurrent;
         }
     }
 }

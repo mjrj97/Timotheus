@@ -1294,6 +1294,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Go back.
+        /// </summary>
+        public static string SFTP_GoUpButton {
+            get {
+                return ResourceManager.GetString("SFTP_GoUpButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Host.
         /// </summary>
         public static string SFTP_HostLabel {
@@ -1344,6 +1353,15 @@ namespace Timotheus.Localization {
         public static string SFTP_RemoteDirectoryLabel {
             get {
                 return ResourceManager.GetString("SFTP_RemoteDirectoryLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setup.
+        /// </summary>
+        public static string SFTP_SetupButton {
+            get {
+                return ResourceManager.GetString("SFTP_SetupButton", resourceCulture);
             }
         }
         

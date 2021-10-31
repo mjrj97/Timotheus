@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
 
 namespace Timotheus.IO
 {
@@ -73,7 +74,7 @@ namespace Timotheus.IO
             client = new SftpClient(host, username, password);
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Log.txt";
-            directoryLog = new DirectoryLog(path);
+            //directoryLog = new DirectoryLog(path);
         }
 
         /// <summary>
@@ -151,7 +152,7 @@ namespace Timotheus.IO
         /// Returns a list of files in the remote directory
         /// </summary>
         /// <param name="remoteDirectory">Path of the directory on the server.</param>
-        public List<SftpFile> ListDirectory(string remoteDirectory)
+        private List<SftpFile> ListDirectory(string remoteDirectory)
         {
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
@@ -171,6 +172,21 @@ namespace Timotheus.IO
             }
 
             return files;
+        }
+
+        /// <summary>
+        /// Returns a list of files in the remote directory
+        /// </summary>
+        /// <param name="remoteDirectory">Path of the directory on the server.</param>
+        public ObservableCollection<SftpFile> GetFilesList(string remoteDirectory)
+        {
+            List<SftpFile> files = ListDirectory(remoteDirectory);
+            ObservableCollection<SftpFile> listOfFiles = new ObservableCollection<SftpFile>();
+            foreach (SftpFile file in files)
+            {
+                listOfFiles.Add(file);
+            }
+            return listOfFiles;
         }
 
         /// <summary>
@@ -292,7 +308,7 @@ namespace Timotheus.IO
                 client.Connect();
             }
 
-            List<SftpFile> files = ListDirectory(remotePath);
+            IList<SftpFile> files = ListDirectory(remotePath);
 
             foreach (SftpFile file in files)
             {
@@ -373,7 +389,7 @@ namespace Timotheus.IO
 
             #region List all files in local and remote directory
             //Files in remote directory
-            List<SftpFile> remote = ListDirectory(remotePath);
+            IList<SftpFile> remote = ListDirectory(remotePath);
 
             List<SftpFile> remoteFiles = new List<SftpFile>();
             List<SftpFile> remoteDirectories = new List<SftpFile>();

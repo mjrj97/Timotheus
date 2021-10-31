@@ -5,6 +5,7 @@ using Timotheus.IO;
 using Timotheus.Utility;
 using Timotheus.Schedule;
 using ReactiveUI;
+using Renci.SshNet.Sftp;
 
 namespace Timotheus
 {
@@ -61,10 +62,22 @@ namespace Timotheus
             set => this.RaiseAndSetIfChanged(ref _Events, value);
         }
 
+        private ObservableCollection<SftpFile> _Files = new ObservableCollection<SftpFile>();
+        public ObservableCollection<SftpFile> Files
+        {
+            get => _Files;
+            set => this.RaiseAndSetIfChanged(ref _Files, value);
+        }
+
+        private readonly DirectoryManager directoryManager;
+        private string currentDirectory = string.Empty;
+
         public MainController() {
             string KeyPath = Program.Registry.Get("KeyPath");
             keys = LoadKey(KeyPath, false);
 
+            directoryManager = new DirectoryManager(keys.Get("SSH-LocalDirectory"), keys.Get("SSH-RemoteDirectory"), keys.Get("SSH-URL"), keys.Get("SSH-Username"), keys.Get("SSH-Password"));
+            GoToDirectory(keys.Get("SSH-RemoteDirectory"));
             Calendar = new(keys.Get("Calendar-Email"), keys.Get("Calendar-Password"), keys.Get("Calendar-URL"));
             PeriodText = calendarPeriod.ToString();
         }
@@ -101,6 +114,24 @@ namespace Timotheus
         public void Remove(Event ev) {
             ev.Deleted = true;
             UpdateCalendarTable();
+        }
+
+        public void GoUpDirectory()
+        {
+            GoToDirectory(Path.GetDirectoryName(currentDirectory) + "/");
+        }
+
+        public void GoToDirectory(int i)
+        {
+            if (Files[i].IsDirectory)
+            {
+                GoToDirectory(Files[i].FullName);
+            }
+        }
+        public void GoToDirectory(string path)
+        {
+            currentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));
+            Files = directoryManager.GetFilesList(currentDirectory);
         }
 
         /// <summary>

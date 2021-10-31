@@ -2,8 +2,10 @@
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.VisualTree;
 using System;
 using System.IO;
+using System.Linq;
 using Timotheus.Schedule;
 using Timotheus.Utility;
 
@@ -17,6 +19,29 @@ namespace Timotheus
         {
             AvaloniaXamlLoader.Load(this);
             DataContext = data;
+            DataGrid filesGrid = this.Find<DataGrid>("Files");
+            filesGrid.AddHandler(
+                PointerPressedEvent,
+                (s, e) =>
+                {
+                    if (e.MouseButton == MouseButton.Left)
+                    {
+                        if (e.ClickCount == 2)
+                        {
+                            var row = ((IControl)e.Source).GetSelfAndVisualAncestors()
+                                .OfType<DataGridRow>()
+                                .FirstOrDefault();
+
+                            data.GoToDirectory(row.GetIndex());
+                        }
+                    }
+                },
+                handledEventsToo: true);
+        }
+
+        private async void OpenMessageBox(string words)
+        {
+            await MessageBox.Show(this, words, "Test title", MessageBox.MessageBoxButtons.YesNoCancel);
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -145,6 +170,11 @@ namespace Timotheus
                 data.calendarPeriod.SetPeriod(((TextBox)sender).Text);
                 data.UpdateCalendarTable();
             }
+        }
+
+        private void UpDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            data.GoUpDirectory();
         }
     }
 }

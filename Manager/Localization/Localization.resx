@@ -528,6 +528,9 @@
   <data name="SFTP_BrowseButton" xml:space="preserve">
     <value>Browse</value>
   </data>
+  <data name="SFTP_GoUpButton" xml:space="preserve">
+    <value>Go back</value>
+  </data>
   <data name="SFTP_HostLabel" xml:space="preserve">
     <value>Host</value>
   </data>
@@ -545,6 +548,9 @@
   </data>
   <data name="SFTP_RemoteDirectoryLabel" xml:space="preserve">
     <value>Remote directory</value>
+  </data>
+  <data name="SFTP_SetupButton" xml:space="preserve">
+    <value>Setup</value>
   </data>
   <data name="SFTP_ShowDirectoryButton" xml:space="preserve">
     <value>Show directory</value>

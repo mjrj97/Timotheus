@@ -23,7 +23,7 @@ namespace Timotheus
         [STAThread]
         public static void Main(string[] args)
         {
-            Registry.Set("KeyPath", "Key.txt");
+            Registry.Set("KeyPath", System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Key.txt"));
 
             //Defines the security protocol
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;

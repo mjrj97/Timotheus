@@ -17,11 +17,11 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Username and password used to gain access to remote calendar.
         /// </summary>
-        private NetworkCredential credentials;
+        private NetworkCredential? credentials;
         /// <summary>
         /// This is the CalDAV url/link to the remote calendar.
         /// </summary>
-        private string url;
+        private string url = string.Empty;
         /// <summary>
         /// A list of the calendars headers.
         /// </summary>
@@ -38,7 +38,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Calendar timezone.
         /// </summary>
-        private string timezone;
+        private string timezone = string.Empty;
 
         /// <summary>
         /// Creates a Calendar object and pulls calendar data from URL using specified credentials.

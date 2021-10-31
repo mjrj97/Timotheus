@@ -14,10 +14,10 @@
           <TextBlock Text="{x:Static i18n:Localization.SyncCalendar_Destination}"/>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-          <RadioButton Content="{x:Static i18n:Localization.SyncCalendar_UseExistingButton}" GroupName="SyncType" IsChecked="{Binding UseCurrent}"/>
+          <RadioButton Content="{x:Static i18n:Localization.SyncCalendar_UseExistingButton}" GroupName="SyncType" IsChecked="{Binding UseCurrent}" IsEnabled="{Binding CanUseCurrent}"/>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-          <RadioButton Content="{x:Static i18n:Localization.SyncCalendar_NewCalendarButton}" GroupName="SyncType"/>
+          <RadioButton Content="{x:Static i18n:Localization.SyncCalendar_NewCalendarButton}" GroupName="SyncType" IsChecked="{Binding !UseCurrent}"/>
         </DockPanel>
         <DockPanel IsEnabled="{Binding IsRemote}">
           <DockPanel DockPanel.Dock="Top">
