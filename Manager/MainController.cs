@@ -36,7 +36,7 @@ namespace Timotheus
         /// <summary>
         /// Type of period used by Calendar_View.
         /// </summary>
-        public Period calendarPeriod = new(DateTime.Now.Date, PeriodType.Year);
+        public Period calendarPeriod = new(new DateTime(DateTime.Now.Year, 1, 1), PeriodType.Year);
 
         public int SelectedPeriod
         {
@@ -69,14 +69,14 @@ namespace Timotheus
             set => this.RaiseAndSetIfChanged(ref _Files, value);
         }
 
-        private readonly DirectoryManager directoryManager;
+        public readonly DirectoryManager Directory;
         private string currentDirectory = string.Empty;
 
         public MainController() {
-            string KeyPath = Program.Registry.Get("KeyPath");
+            string KeyPath = Timotheus.Registry.Get("KeyPath");
             keys = LoadKey(KeyPath, false);
 
-            directoryManager = new DirectoryManager(keys.Get("SSH-LocalDirectory"), keys.Get("SSH-RemoteDirectory"), keys.Get("SSH-URL"), keys.Get("SSH-Username"), keys.Get("SSH-Password"));
+            Directory = new DirectoryManager(keys.Get("SSH-LocalDirectory"), keys.Get("SSH-RemoteDirectory"), keys.Get("SSH-URL"), keys.Get("SSH-Username"), keys.Get("SSH-Password"));
             GoToDirectory(keys.Get("SSH-RemoteDirectory"));
             Calendar = new(keys.Get("Calendar-Email"), keys.Get("Calendar-Password"), keys.Get("Calendar-URL"));
             PeriodText = calendarPeriod.ToString();
@@ -131,7 +131,7 @@ namespace Timotheus
         public void GoToDirectory(string path)
         {
             currentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));
-            Files = directoryManager.GetFilesList(currentDirectory);
+            Files = Directory.GetFilesList(currentDirectory);
         }
 
         /// <summary>
@@ -148,20 +148,20 @@ namespace Timotheus
                 switch (extension)
                 {
                     case ".tkey":
-                        string encodedPassword = requirePasswordDialog ? string.Empty : Program.Registry.Get("KeyPassword");
-                        byte[] encodedBytes = Program.encoding.GetBytes(encodedPassword);
+                        string encodedPassword = requirePasswordDialog ? string.Empty : Timotheus.Registry.Get("KeyPassword");
+                        byte[] encodedBytes = Timotheus.encoding.GetBytes(encodedPassword);
                         if (requirePasswordDialog)
-                            Program.Registry.Remove("KeyPassword");
+                            Timotheus.Registry.Remove("KeyPassword");
 
                         if (encodedPassword != string.Empty)
                         {
                             try
                             {
                                 byte[] decodedBytes = Cipher.Decrypt(encodedBytes, Cipher.defkey);
-                                string password = Program.encoding.GetString(decodedBytes);
+                                string password = Timotheus.encoding.GetString(decodedBytes);
 
                                 keys = new Register(path, password, ':');
-                                Program.Registry.Set("KeyPath", path);
+                                Timotheus.Registry.Set("KeyPath", path);
                             }
                             catch (System.Security.Cryptography.CryptographicException e)
                             {
@@ -203,7 +203,7 @@ namespace Timotheus
                         break;
                     case ".txt":
                         keys = new Register(path, ':');
-                        Program.Registry.Set("KeyPath", path);
+                        Timotheus.Registry.Set("KeyPath", path);
                         break;
                 }
 

@@ -127,8 +127,8 @@ namespace Timotheus
         private bool _AllDayEvent = false;
         public bool AllDayEvent
         {
-            get { return _AllDayEvent; }
-            set { _AllDayEvent = value; }
+            get => _AllDayEvent;
+            set => this.RaiseAndSetIfChanged(ref _AllDayEvent, value);
         }
 
         private string _Location = string.Empty;

@@ -603,17 +603,8 @@
   <data name="SyncCalendar_UsernameLabel" xml:space="preserve">
     <value>Brugernavn</value>
   </data>
-  <data name="ToolStrip_Edit" xml:space="preserve">
-    <value>Redigér</value>
-  </data>
-  <data name="ToolStrip_EditCopy" xml:space="preserve">
-    <value>Kopiér</value>
-  </data>
   <data name="ToolStrip_EditKey" xml:space="preserve">
     <value>Redigér nøgle</value>
-  </data>
-  <data name="ToolStrip_EditPaste" xml:space="preserve">
-    <value>Indsæt</value>
   </data>
   <data name="ToolStrip_Exit" xml:space="preserve">
     <value>Luk</value>
@@ -624,8 +615,11 @@
   <data name="ToolStrip_Help" xml:space="preserve">
     <value>Hjælp</value>
   </data>
+  <data name="ToolStrip_Key" xml:space="preserve">
+    <value>Nøgle</value>
+  </data>
   <data name="ToolStrip_LoadKey" xml:space="preserve">
-    <value>Indlæs nøgle</value>
+    <value>Åben nøgle</value>
   </data>
   <data name="ToolStrip_NewFile" xml:space="preserve">
     <value>Ny</value>

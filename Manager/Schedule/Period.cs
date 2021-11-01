@@ -46,7 +46,7 @@ namespace Timotheus.Schedule
         {
             if (months == null)
             {
-                DateTimeFormatInfo dtfi = CultureInfo.CurrentUICulture.DateTimeFormat;
+                DateTimeFormatInfo dtfi = Timotheus.Culture.DateTimeFormat;
                 months = new List<string>(dtfi.MonthNames);
                 months = months.ConvertAll(d => d.ToLower());
             }
@@ -330,7 +330,7 @@ namespace Timotheus.Schedule
                         text = spring + " " + Start.Year;
                     break;
                 case PeriodType.Month:
-                    text = Start.ToString("MMMM", CultureInfo.CurrentUICulture) + " " + Start.Year;
+                    text = Start.ToString("MMMM", Timotheus.Culture) + " " + Start.Year;
                     break;
             }
 

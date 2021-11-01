@@ -3,10 +3,10 @@
 The purpose of this project is to create software that can manage a small association's calendar, data storage, consent forms etc. in a GDPR compliant fashion (or atleast to its best ability). The project is primarily aimed towards small associations e.g. the Danish LM, IM, that handle sensitive data (names, ages, addresses etc.).
 
 ## Planned features
-- [X] Platform-Independent (Windows, Mac OS X, Linux)
+- [X] Platform-Independent (Windows, macOS, Linux)
 - [X] Calendar/Schedule editor
 - [X] Syncing calendars using the CalDAV protocol
-- [X] Managing GDPR consent forms and member directory
+- [ ] Managing GDPR consent forms and member directory
 - [X] SFTP-based storage
 - [X] Password manager
 - [ ] Encryption of stored data
@@ -28,7 +28,7 @@ Contact Martin for further information.
 Formålet med dette projekt er at udvikle software, der kan behandle en lille forenings kalender, data opbevaring, samtykkeerklæringer osv. på en GDPR venlig måde (Til bedste evne). Projektet er primært beregnet til foreninger såsom Luthersk Mission eller Indre Mission, der behandler personfølsomme oplysninger (navne, aldre, adresser osv.).
 
 ## Planlagte funktioner
-- [X] Platformsuafhængighed (Windows, Mac OS X, Linux)
+- [X] Platformsuafhængighed (Windows, macOS, Linux)
 - [X] Kalender/tidsplan redigeringsværktøj
 - [X] Kalender synkronisering med CalDAV protokollen
 - [X] Administration af GDPR samtykkeerklæringer og medlemslister

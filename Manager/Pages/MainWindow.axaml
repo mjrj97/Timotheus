@@ -57,9 +57,10 @@
           <Separator/>
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Exit}"/>
         </MenuItem>
-        <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Edit}">
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditCopy}"/>
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditPaste}"/>
+        <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Key}">
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveKey}"/>
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_LoadKey}"/>
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditKey}"/>
         </MenuItem>
       </Menu>
     </DockPanel>
@@ -106,8 +107,8 @@
       <TabItem Header="{x:Static i18n:Localization.SFTP_Page}">
         <DockPanel>
           <DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch">
-            <Button Content="{x:Static i18n:Localization.SFTP_SetupButton}" DockPanel.Dock="Right"/>
-            <Button Content="{x:Static i18n:Localization.SFTP_SyncButton}" DockPanel.Dock="Right" Margin="0 0 10 0"/>
+            <Button Content="{x:Static i18n:Localization.SFTP_SetupButton}" Click="SetupFiles_Click" DockPanel.Dock="Right"/>
+            <Button Content="{x:Static i18n:Localization.SFTP_SyncButton}" Click="SyncFiles_Click" DockPanel.Dock="Right" Margin="0 0 10 0"/>
             <Button Content="{x:Static i18n:Localization.SFTP_GoUpButton}" Click="UpDirectory_Click" DockPanel.Dock="Left"/>
           </DockPanel>
           <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">

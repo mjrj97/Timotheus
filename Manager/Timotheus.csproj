@@ -15,12 +15,12 @@
     <CFBundlePackageType>APPL</CFBundlePackageType>
     <CFBundleSignature>????</CFBundleSignature>
     <CFBundleExecutable>Timotheus</CFBundleExecutable>
-    <CFBundleIconFile>Hjerte.icns</CFBundleIconFile>
+    <CFBundleIconFile>Icon.icns</CFBundleIconFile>
     <CFBundleShortVersionString>Test</CFBundleShortVersionString>
     <!-- Will be copied from output directory -->
     <NSPrincipalClass>NSApplication</NSPrincipalClass>
     <NSHighResolutionCapable>true</NSHighResolutionCapable>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />

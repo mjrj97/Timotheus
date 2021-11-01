@@ -7,6 +7,7 @@ using MigraDoc.DocumentObjectModel.Shapes;
 using Timotheus.Schedule;
 using Timotheus.IO;
 using System.Globalization;
+using System.Linq;
 
 namespace Timotheus.Utility
 {
@@ -70,8 +71,9 @@ namespace Timotheus.Utility
         /// <param name="associationAddress">Address of the association.</param>
         /// <param name="logoPath">Path to the associations logo.</param>
         /// <param name="periodName">Name of the time period. i.e. fall 2021</param>
-        public static void ExportCalendar(IList<Event> events, string filePath, string title, string associationName, string associationAddress, string logoPath, string periodName)
+        public static void ExportCalendar(List<Event> events, string filePath, string title, string associationName, string associationAddress, string logoPath, string periodName)
         {
+            List<Event> SortedList = events.OrderBy(o => o.Start).ToList();
             string fileName = $"{filePath}\\{title}";
 
             // Create the document using MigraDoc.
@@ -163,11 +165,11 @@ namespace Timotheus.Utility
             section.Footers.EvenPage.Add(paragraph.Clone());
 
             // Creates the dynamic parts of the PDF.
-            for (int i = 0; i < events.Count; i++)
+            for (int i = 0; i < SortedList.Count; i++)
             {
-                string name = events[i].Name;
-                Register values = new Register(':', events[i].Description);
-                DateTime time = events[i].Start;
+                string name = SortedList[i].Name;
+                Register values = new Register(':', SortedList[i].Description);
+                DateTime time = SortedList[i].Start;
 
                 string eventLeader = values.Get(leader);
                 string eventMusician = values.Get(musician);
@@ -175,12 +177,12 @@ namespace Timotheus.Utility
 
                 row = table.AddRow();
 
-                row.Cells[0].AddParagraph(time.ToString("ddd. d. MMM.", CultureInfo.CurrentUICulture));
+                row.Cells[0].AddParagraph(time.ToString("ddd. d. MMM", Timotheus.Culture));
 
                 if (time.Minute == 0 && time.Hour == 0)
                     row.Cells[1].AddParagraph("");
                 else
-                    row.Cells[1].AddParagraph(time.ToString("t", CultureInfo.CurrentUICulture));
+                    row.Cells[1].AddParagraph(time.ToString("t", Timotheus.Culture));
 
                 row.Cells[2].AddParagraph(name);
                 row.Cells[3].AddParagraph(eventLeader);

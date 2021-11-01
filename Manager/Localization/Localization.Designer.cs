@@ -1519,38 +1519,11 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit.
-        /// </summary>
-        public static string ToolStrip_Edit {
-            get {
-                return ResourceManager.GetString("ToolStrip_Edit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Copy.
-        /// </summary>
-        public static string ToolStrip_EditCopy {
-            get {
-                return ResourceManager.GetString("ToolStrip_EditCopy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Edit key.
         /// </summary>
         public static string ToolStrip_EditKey {
             get {
                 return ResourceManager.GetString("ToolStrip_EditKey", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Paste.
-        /// </summary>
-        public static string ToolStrip_EditPaste {
-            get {
-                return ResourceManager.GetString("ToolStrip_EditPaste", resourceCulture);
             }
         }
         
@@ -1582,7 +1555,16 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Load key.
+        ///   Looks up a localized string similar to Key.
+        /// </summary>
+        public static string ToolStrip_Key {
+            get {
+                return ResourceManager.GetString("ToolStrip_Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open key.
         /// </summary>
         public static string ToolStrip_LoadKey {
             get {

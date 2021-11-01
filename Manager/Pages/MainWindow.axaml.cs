@@ -6,6 +6,7 @@ using Avalonia.VisualTree;
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 using Timotheus.Schedule;
 using Timotheus.Utility;
 
@@ -37,27 +38,6 @@ namespace Timotheus
                     }
                 },
                 handledEventsToo: true);
-        }
-
-        private async void OpenMessageBox(string words)
-        {
-            await MessageBox.Show(this, words, "Test title", MessageBox.MessageBoxButtons.YesNoCancel);
-        }
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            string[] result = await openFileDialog.ShowAsync(this);
-            if (result != null)
-            {
-                string Message = "";
-                foreach (string text in result)
-                {
-                    Message += text + "\n";
-                }
-            }
-
-            await MessageBox.Show(this, "Oh shit der er gået noget galt med dit program!", "Test title", MessageBox.MessageBoxButtons.YesNoCancel);
         }
 
         /// <summary>
@@ -107,7 +87,7 @@ namespace Timotheus
             }
         }
 
-        private async void SyncCalendar_Click(object sender, RoutedEventArgs e)
+        private void SyncCalendar_Click(object sender, RoutedEventArgs e)
         {
             SyncCalendar.Show(this, data.Calendar, data.calendarPeriod);
             data.UpdateCalendarTable();
@@ -132,12 +112,6 @@ namespace Timotheus
             }
         }
 
-        private async void OpenWindow_Click(object sender, RoutedEventArgs e)
-        {
-            NewPage newPage = new NewPage();
-            await newPage.ShowDialog<string>(this);
-        }
-
         private async void ExportPDF_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -145,7 +119,7 @@ namespace Timotheus
             filter.Extensions.Add("pdf");
             filter.Name = "PDF Files (.pdf)";
 
-            saveFileDialog.Filters = new System.Collections.Generic.List<FileDialogFilter>();
+            saveFileDialog.Filters = new List<FileDialogFilter>();
             saveFileDialog.Filters.Add(filter);
 
             string result = await saveFileDialog.ShowAsync(this);
@@ -154,7 +128,12 @@ namespace Timotheus
                 try
                 {
                     FileInfo file = new FileInfo(result);
-                    PDF.ExportCalendar(data.Events, file.DirectoryName, file.Name, data.keys.Get("Settings-Name"), data.keys.Get("Settings-Address"), data.keys.Get("Settings-Image"), data.PeriodText);
+                    List<Event> events = new List<Event>();
+                    for (int i = 0; i < data.Events.Count; i++)
+                    {
+                        events.Add(data.Events[i]);
+                    }
+                    PDF.ExportCalendar(events, file.DirectoryName, file.Name, data.keys.Get("Settings-Name"), data.keys.Get("Settings-Address"), data.keys.Get("Settings-Image"), data.PeriodText);
                 }
                 catch (Exception ex)
                 {
@@ -175,6 +154,16 @@ namespace Timotheus
         private void UpDirectory_Click(object sender, RoutedEventArgs e)
         {
             data.GoUpDirectory();
+        }
+
+        private void SyncFiles_Click(object sender, RoutedEventArgs e)
+        {
+            data.Directory.Synchronize();
+        }
+
+        private void SetupFiles_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

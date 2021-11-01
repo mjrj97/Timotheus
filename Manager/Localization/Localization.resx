@@ -603,17 +603,8 @@
   <data name="SyncCalendar_UsernameLabel" xml:space="preserve">
     <value>Username</value>
   </data>
-  <data name="ToolStrip_Edit" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="ToolStrip_EditCopy" xml:space="preserve">
-    <value>Copy</value>
-  </data>
   <data name="ToolStrip_EditKey" xml:space="preserve">
     <value>Edit key</value>
-  </data>
-  <data name="ToolStrip_EditPaste" xml:space="preserve">
-    <value>Paste</value>
   </data>
   <data name="ToolStrip_Exit" xml:space="preserve">
     <value>Exit</value>
@@ -624,8 +615,11 @@
   <data name="ToolStrip_Help" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="ToolStrip_Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
   <data name="ToolStrip_LoadKey" xml:space="preserve">
-    <value>Load key</value>
+    <value>Open key</value>
   </data>
   <data name="ToolStrip_NewFile" xml:space="preserve">
     <value>New</value>
