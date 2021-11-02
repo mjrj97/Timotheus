@@ -69,7 +69,7 @@ namespace Timotheus
             filter.Extensions.Add("ics");
             filter.Name = "Calendar (.ics)";
 
-            saveFileDialog.Filters = new System.Collections.Generic.List<FileDialogFilter>();
+            saveFileDialog.Filters = new List<FileDialogFilter>();
             saveFileDialog.Filters.Add(filter);
 
             string result = await saveFileDialog.ShowAsync(this);
@@ -164,6 +164,71 @@ namespace Timotheus
         private void SetupFiles_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private async void SaveKey_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new();
+            
+            FileDialogFilter txtFilter = new();
+            txtFilter.Extensions.Add("txt");
+            txtFilter.Name = "Text files (.txt)";
+
+            FileDialogFilter tkeyFilter = new();
+            tkeyFilter.Extensions.Add("tkey");
+            tkeyFilter.Name = "Encrypted key (.tkey)";
+
+            saveFileDialog.Filters = new();
+            saveFileDialog.Filters.Add(txtFilter);
+            saveFileDialog.Filters.Add(tkeyFilter);
+
+            string result = await saveFileDialog.ShowAsync(this);
+            if (result != null)
+            {
+                try
+                {
+                    data.SaveKey(result);
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                }
+            }
+        }
+
+        private async void OpenKey_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new();
+
+            FileDialogFilter txtFilter = new();
+            txtFilter.Extensions.Add("txt");
+            txtFilter.Name = "Text files (.txt)";
+
+            FileDialogFilter tkeyFilter = new();
+            tkeyFilter.Extensions.Add("tkey");
+            tkeyFilter.Name = "Encrypted key (.tkey)";
+
+            openFileDialog.Filters = new();
+            openFileDialog.Filters.Add(txtFilter);
+            openFileDialog.Filters.Add(tkeyFilter);
+
+            string[] result = await openFileDialog.ShowAsync(this);
+            if (result != null)
+            {
+                try
+                {
+                    data.OpenKey(result[0]);
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                }
+            }
+        }
+
+        private void EditKey_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System;
-using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
 
 namespace Timotheus.IO
@@ -23,11 +22,6 @@ namespace Timotheus.IO
         /// Throws events if changes happen to the local directory.
         /// </summary>
         private readonly FileSystemWatcher watcher;
-
-        /// <summary>
-        /// A log of file deletions and last sync time
-        /// </summary>
-        private readonly DirectoryLog directoryLog;
 
         /// <summary>
         /// The path of the local directory to be watched and synced with.
@@ -72,9 +66,6 @@ namespace Timotheus.IO
             this.localPath = localPath.Replace('/', '\\');
             this.remotePath = remotePath.Replace('\\', '/');
             client = new SftpClient(host, username, password);
-
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Log.txt";
-            //directoryLog = new DirectoryLog(path);
         }
 
         /// <summary>
@@ -181,7 +172,7 @@ namespace Timotheus.IO
         public ObservableCollection<SftpFile> GetFilesList(string remoteDirectory)
         {
             List<SftpFile> files = ListDirectory(remoteDirectory);
-            ObservableCollection<SftpFile> listOfFiles = new ObservableCollection<SftpFile>();
+            ObservableCollection<SftpFile> listOfFiles = new();
             foreach (SftpFile file in files)
             {
                 listOfFiles.Add(file);
@@ -279,7 +270,6 @@ namespace Timotheus.IO
             {
                 System.Diagnostics.Debug.WriteLine(path);
                 client.Delete(path);
-                directoryLog.AddItem(DateTime.Now, path);
             }
             catch (SftpPathNotFoundException e)
             {
@@ -391,8 +381,8 @@ namespace Timotheus.IO
             //Files in remote directory
             IList<SftpFile> remote = ListDirectory(remotePath);
 
-            List<SftpFile> remoteFiles = new List<SftpFile>();
-            List<SftpFile> remoteDirectories = new List<SftpFile>();
+            List<SftpFile> remoteFiles = new();
+            List<SftpFile> remoteDirectories = new();
             for (int i = 0; i < remote.Count; i++)
             {
                 if (remote[i].IsDirectory)
@@ -405,8 +395,8 @@ namespace Timotheus.IO
             string[] localFilePaths = Directory.GetFiles(localPath);
             string[] localDirectoryPaths = Directory.GetDirectories(localPath);
 
-            List<FileInfo> localFiles = new List<FileInfo>();
-            List<DirectoryInfo> localDirectories = new List<DirectoryInfo>();
+            List<FileInfo> localFiles = new();
+            List<DirectoryInfo> localDirectories = new();
 
             for (int i = 0; i < localFilePaths.Length; i++)
             {
@@ -536,51 +526,6 @@ namespace Timotheus.IO
             else
                 throw new Exception("Exception_SFTPInvalidPath");
             return newPath;
-        }
-    }
-
-    public class DirectoryLog
-    {
-        public DateTime LastChanged;
-        public string Path;
-        private readonly List<LogItem> Items = new List<LogItem>();
-
-        public DirectoryLog(string Path)
-        {
-            this.Path = Path;
-            string text = File.ReadAllText(Path);
-            string[] lines = Regex.Split(text, "\r\n|\r|\n");
-            LastChanged = DateTime.Parse(lines[0]);
-            for (int i = 1; i < lines.Length; i++)
-            {
-                if (lines[i].Length > 19)
-                {
-                    DateTime dateTime = DateTime.Parse(lines[i].Substring(0, 19));
-                    string path = lines[i][20..];
-                    System.Diagnostics.Debug.WriteLine(dateTime);
-                    System.Diagnostics.Debug.WriteLine(path);
-                    LogItem logItem = new LogItem(dateTime, path);
-                    Items.Add(logItem);
-                }
-            }
-        }
-
-        public void AddItem(DateTime dateTime, string text)
-        {
-            Items.Add(new LogItem(dateTime, text));
-            File.AppendAllText(Path, dateTime.ToString() + " " + text + "\n");
-        }
-    }
-
-    public class LogItem
-    {
-        public DateTime Date;
-        public string Path;
-
-        public LogItem(DateTime Date, string Path)
-        {
-            this.Date = Date;
-            this.Path = Path;
         }
     }
 }

@@ -58,9 +58,9 @@
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Exit}"/>
         </MenuItem>
         <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Key}">
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveKey}"/>
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_LoadKey}"/>
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditKey}"/>
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveKey}" Click="SaveKey_Click"/>
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_LoadKey}" Click="OpenKey_Click"/>
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditKey}" Click="EditKey_Click"/>
         </MenuItem>
       </Menu>
     </DockPanel>

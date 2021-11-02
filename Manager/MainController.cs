@@ -55,14 +55,14 @@ namespace Timotheus
             set => this.RaiseAndSetIfChanged(ref _PeriodText, value);
         }
 
-        private ObservableCollection<Event> _Events = new ObservableCollection<Event>();
+        private ObservableCollection<Event> _Events = new();
         public ObservableCollection<Event> Events
         {
             get => _Events;
             set => this.RaiseAndSetIfChanged(ref _Events, value);
         }
 
-        private ObservableCollection<SftpFile> _Files = new ObservableCollection<SftpFile>();
+        private ObservableCollection<SftpFile> _Files = new();
         public ObservableCollection<SftpFile> Files
         {
             get => _Files;
@@ -76,9 +76,25 @@ namespace Timotheus
             string KeyPath = Timotheus.Registry.Get("KeyPath");
             keys = LoadKey(KeyPath, false);
 
-            Directory = new DirectoryManager(keys.Get("SSH-LocalDirectory"), keys.Get("SSH-RemoteDirectory"), keys.Get("SSH-URL"), keys.Get("SSH-Username"), keys.Get("SSH-Password"));
-            GoToDirectory(keys.Get("SSH-RemoteDirectory"));
-            Calendar = new(keys.Get("Calendar-Email"), keys.Get("Calendar-Password"), keys.Get("Calendar-URL"));
+            try
+            {
+                Directory = new DirectoryManager(keys.Get("SSH-LocalDirectory"), keys.Get("SSH-RemoteDirectory"), keys.Get("SSH-URL"), keys.Get("SSH-Username"), keys.Get("SSH-Password"));
+                GoToDirectory(keys.Get("SSH-RemoteDirectory"));
+            }
+            catch (Exception)
+            {
+
+            }
+
+            try
+            {
+                Calendar = new(keys.Get("Calendar-Email"), keys.Get("Calendar-Password"), keys.Get("Calendar-URL"));
+            }
+            catch (Exception)
+            {
+                
+            }
+
             PeriodText = calendarPeriod.ToString();
         }
 
@@ -149,7 +165,7 @@ namespace Timotheus
                 {
                     case ".tkey":
                         string encodedPassword = requirePasswordDialog ? string.Empty : Timotheus.Registry.Get("KeyPassword");
-                        byte[] encodedBytes = Timotheus.encoding.GetBytes(encodedPassword);
+                        byte[] encodedBytes = Timotheus.Encoding.GetBytes(encodedPassword);
                         if (requirePasswordDialog)
                             Timotheus.Registry.Remove("KeyPassword");
 
@@ -158,7 +174,7 @@ namespace Timotheus
                             try
                             {
                                 byte[] decodedBytes = Cipher.Decrypt(encodedBytes, Cipher.defkey);
-                                string password = Timotheus.encoding.GetString(decodedBytes);
+                                string password = Timotheus.Encoding.GetString(decodedBytes);
 
                                 keys = new Register(path, password, ':');
                                 Timotheus.Registry.Set("KeyPath", path);
@@ -213,6 +229,46 @@ namespace Timotheus
                 keys = new Register(':');
 
             return keys;
+        }
+
+        /// <summary>
+        /// Opens a dialog so the user can save the current loaded keys to a file.
+        /// </summary>
+        public void SaveKey(string path)
+        {
+            string extension = Path.GetExtension(path);
+            switch (extension)
+            {
+                case ".txt":
+                    keys.Save(path);
+                    break;
+                /*case ".tkey":
+                    PasswordDialog dialog = new PasswordDialog
+                    {
+                        Owner = this
+                    };
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        keys.Save(path, dialog.Password);
+                        if (dialog.Check)
+                        {
+                            byte[] decodedBytes = Timotheus.Encoding.GetBytes(dialog.Password);
+                            byte[] encodedBytes = Cipher.Encrypt(decodedBytes, Cipher.defkey);
+                            string encodedPassword = Timotheus.Encoding.GetString(encodedBytes);
+                            Timotheus.Registry.Set("KeyPassword", encodedPassword);
+                        }
+                    }
+                    break;*/
+            }
+        }
+
+        /// <summary>
+        /// Opens a dialog so the user can select a file that has all the keys.
+        /// </summary>
+        public void OpenKey(string path)
+        {
+            keys = LoadKey(path, true);
         }
     }
 }

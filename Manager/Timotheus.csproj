@@ -2,15 +2,15 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
     <UseAppHost>true</UseAppHost>
-    <Nullable>enable</Nullable>
     <RuntimeIdentifiers>win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup>
     <CFBundleName>Timotheus</CFBundleName>
     <!-- Also defines .app file name -->
     <CFBundleDisplayName>Timotheus</CFBundleDisplayName>
-    <CFBundleIdentifier>com.MyCompany.Timotheus</CFBundleIdentifier>
+    <CFBundleIdentifier>com.mjrj97.Timotheus</CFBundleIdentifier>
     <CFBundleVersion>1.0.0</CFBundleVersion>
     <CFBundlePackageType>APPL</CFBundlePackageType>
     <CFBundleSignature>????</CFBundleSignature>
@@ -20,7 +20,6 @@
     <!-- Will be copied from output directory -->
     <NSPrincipalClass>NSApplication</NSPrincipalClass>
     <NSHighResolutionCapable>true</NSHighResolutionCapable>
-    <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
@@ -29,13 +28,12 @@
     <PackageReference Include="Avalonia" Version="0.10.8" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.8" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.8" />
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.8" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.8" />
     <PackageReference Include="Dotnet.Bundle" Version="0.9.13" />
     <PackageReference Include="PDFsharp-MigraDoc" Version="1.50.5147" />
     <PackageReference Include="SSH.NET" Version="2020.0.1" />
     <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.4.0" />
    </ItemGroup>
   <ItemGroup>
     <Compile Update="MessageBox.axaml.cs">
@@ -66,5 +64,6 @@
     <EmbeddedResource Update="Localization\Localization.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
-    </EmbeddedResource>  </ItemGroup>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

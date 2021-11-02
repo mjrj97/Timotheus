@@ -10,7 +10,7 @@ namespace Timotheus
     public partial class AddEvent : Window
     {
         private readonly EventData eventData;
-        public Schedule.Event? ev;
+        public Schedule.Event ev;
 
         public AddEvent()
         {

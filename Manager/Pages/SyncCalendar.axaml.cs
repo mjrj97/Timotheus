@@ -9,7 +9,7 @@ namespace Timotheus
     public partial class SyncCalendar : Window
     {
         private SyncData data;
-        internal Schedule.Calendar? calendar;
+        internal Schedule.Calendar calendar;
         private Schedule.Period period;
 
         public SyncCalendar()
@@ -78,8 +78,8 @@ namespace Timotheus
         private bool _CanUseCurrent = false;
         public bool CanUseCurrent
         {
-            get => _UseCurrent;
-            set => this.RaiseAndSetIfChanged(ref _UseCurrent, value);
+            get => _CanUseCurrent;
+            set => this.RaiseAndSetIfChanged(ref _CanUseCurrent, value);
         }
 
         private bool _SyncAll = true;
