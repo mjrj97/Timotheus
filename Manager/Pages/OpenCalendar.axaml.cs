@@ -10,7 +10,7 @@ namespace Timotheus
 {
     public partial class OpenCalendar : Window
     {
-        private CalendarData data;
+        private readonly CalendarData data;
         internal Schedule.Calendar calendar = null;
 
         public OpenCalendar()
@@ -47,9 +47,9 @@ namespace Timotheus
 
         private async void Browse_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            OpenFileDialog openFileDialog = new();
             string[] result = await openFileDialog.ShowAsync(this);
-            if (result != null)
+            if (result != null && result.Length > 0)
             {
                 TextBox textBox = this.Find<TextBox>("BrowseField");
                 textBox.Text = result[0];

@@ -163,7 +163,7 @@ namespace Timotheus
 
         private void SetupFiles_Click(object sender, RoutedEventArgs e)
         {
-            
+            SetupSFTP.Show(this);
         }
 
         private async void SaveKey_Click(object sender, RoutedEventArgs e)
@@ -213,7 +213,7 @@ namespace Timotheus
             openFileDialog.Filters.Add(tkeyFilter);
 
             string[] result = await openFileDialog.ShowAsync(this);
-            if (result != null)
+            if (result != null && result.Length > 0)
             {
                 try
                 {
@@ -228,7 +228,7 @@ namespace Timotheus
 
         private void EditKey_Click(object sender, RoutedEventArgs e)
         {
-
+            EditKey.Show(this, data.keys.ToString());
         }
     }
 }

@@ -45,6 +45,15 @@
     <Compile Update="Pages\AddEvent.axaml.cs">
       <DependentUpon>AddEvent.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Pages\PasswordDialog.axaml.cs">
+      <DependentUpon>PasswordDialog.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\SetupSFTP.axaml.cs">
+      <DependentUpon>SetupSFTP.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\EditKey.axaml.cs">
+      <DependentUpon>EditKey.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\SyncCalendar.axaml.cs">
       <DependentUpon>SyncCalendar.axaml</DependentUpon>
     </Compile>

@@ -117,51 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Accounting_AccountNumberColumn" xml:space="preserve">
-    <value>a/c</value>
-  </data>
-  <data name="Accounting_AppendixColumn" xml:space="preserve">
-    <value>Appendix</value>
-  </data>
-  <data name="Accounting_BalanceColumn" xml:space="preserve">
-    <value>Balance</value>
-  </data>
-  <data name="Accounting_DateColumn" xml:space="preserve">
-    <value>Date</value>
-  </data>
-  <data name="Accounting_DescriptionColumn" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="Accounting_InColumn" xml:space="preserve">
-    <value>In</value>
-  </data>
-  <data name="Accounting_OutColumn" xml:space="preserve">
-    <value>Out</value>
-  </data>
-  <data name="Accounting_Page" xml:space="preserve">
-    <value>Accounting</value>
-  </data>
-  <data name="AddConsentForm" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="AddConsentForm_AddButton" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="AddConsentForm_CancelButton" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="AddConsentForm_CommentLabel" xml:space="preserve">
-    <value>Comment</value>
-  </data>
-  <data name="AddConsentForm_NameLabel" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="AddConsentForm_SignedLabel" xml:space="preserve">
-    <value>Signed</value>
-  </data>
-  <data name="AddConsentForm_VersionLabel" xml:space="preserve">
-    <value>Version</value>
-  </data>
   <data name="AddEvent" xml:space="preserve">
     <value>Add</value>
   </data>
@@ -188,60 +143,6 @@
   </data>
   <data name="AddEvent_StartLabel" xml:space="preserve">
     <value>Start*</value>
-  </data>
-  <data name="AddMember" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="AddMember_AddButton" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="AddMember_AddExistingButton" xml:space="preserve">
-    <value>From list</value>
-  </data>
-  <data name="AddMember_AddressLabel" xml:space="preserve">
-    <value>Address</value>
-  </data>
-  <data name="AddMember_BirthdayLabel" xml:space="preserve">
-    <value>Birthday</value>
-  </data>
-  <data name="AddMember_CancelButton" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="AddMember_EntryLabel" xml:space="preserve">
-    <value>Entry</value>
-  </data>
-  <data name="AddMember_NameLabel" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="AddMember_NewPersonButton" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="AddTransaction" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="AddTransaction_AccountLabel" xml:space="preserve">
-    <value>a/c</value>
-  </data>
-  <data name="AddTransaction_AddButton" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="AddTransaction_AppendixLabel" xml:space="preserve">
-    <value>Appendix</value>
-  </data>
-  <data name="AddTransaction_CancelButton" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="AddTransaction_Currency" xml:space="preserve">
-    <value>$</value>
-  </data>
-  <data name="AddTransaction_DateLabel" xml:space="preserve">
-    <value>Date</value>
-  </data>
-  <data name="AddTransaction_InLabel" xml:space="preserve">
-    <value>Income</value>
-  </data>
-  <data name="AddTransaction_OutLabel" xml:space="preserve">
-    <value>Expense</value>
   </data>
   <data name="Calendar_AddButton" xml:space="preserve">
     <value>Add Event</value>
@@ -327,27 +228,6 @@
   <data name="Calendar_YearButton" xml:space="preserve">
     <value>Year</value>
   </data>
-  <data name="ConsentForms_AddButton" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="ConsentForms_CommentColumn" xml:space="preserve">
-    <value>Comment</value>
-  </data>
-  <data name="ConsentForms_DateColumn" xml:space="preserve">
-    <value>Signed</value>
-  </data>
-  <data name="ConsentForms_NameColumn" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="ConsentForms_Page" xml:space="preserve">
-    <value>Consent forms</value>
-  </data>
-  <data name="ConsentForms_RemoveButton" xml:space="preserve">
-    <value>Remove</value>
-  </data>
-  <data name="ConsentForms_VersionColumn" xml:space="preserve">
-    <value>Version</value>
-  </data>
   <data name="EditKeyDialog" xml:space="preserve">
     <value>Edit</value>
   </data>
@@ -416,27 +296,6 @@
   </data>
   <data name="Help_VersionLabel" xml:space="preserve">
     <value>Timotheus</value>
-  </data>
-  <data name="Members_AddButton" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="Members_AddressColumn" xml:space="preserve">
-    <value>Address</value>
-  </data>
-  <data name="Members_BirthdayColumn" xml:space="preserve">
-    <value>Birthday</value>
-  </data>
-  <data name="Members_EntryColumn" xml:space="preserve">
-    <value>Entry</value>
-  </data>
-  <data name="Members_NameColumn" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="Members_Page" xml:space="preserve">
-    <value>Members</value>
-  </data>
-  <data name="Members_RemoveButton" xml:space="preserve">
-    <value>Remove</value>
   </data>
   <data name="OpenCalendar" xml:space="preserve">
     <value>Open</value>
@@ -525,17 +384,35 @@
   <data name="Settins_InfoBox" xml:space="preserve">
     <value>Association information</value>
   </data>
-  <data name="SFTP_BrowseButton" xml:space="preserve">
+  <data name="SFTPSetup" xml:space="preserve">
+    <value>Setup</value>
+  </data>
+  <data name="SFTPSetup_BrowseButton" xml:space="preserve">
     <value>Browse</value>
+  </data>
+  <data name="SFTPSetup_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SFTPSetup_HostLabel" xml:space="preserve">
+    <value>Host</value>
+  </data>
+  <data name="SFTPSetup_LocalDirectoryLabel" xml:space="preserve">
+    <value>Local</value>
+  </data>
+  <data name="SFTPSetup_PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SFTPSetup_RemoteDirectoryLabel" xml:space="preserve">
+    <value>Remote</value>
+  </data>
+  <data name="SFTPSetup_SetupButton" xml:space="preserve">
+    <value>Setup</value>
+  </data>
+  <data name="SFTPSetup_UsernameLabel" xml:space="preserve">
+    <value>Username</value>
   </data>
   <data name="SFTP_GoUpButton" xml:space="preserve">
     <value>Go back</value>
-  </data>
-  <data name="SFTP_HostLabel" xml:space="preserve">
-    <value>Host</value>
-  </data>
-  <data name="SFTP_LocalDirectoryLabel" xml:space="preserve">
-    <value>Local directory</value>
   </data>
   <data name="SFTP_NameColumn" xml:space="preserve">
     <value>File name</value>
@@ -543,26 +420,14 @@
   <data name="SFTP_Page" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SFTP_PasswordLabel" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="SFTP_RemoteDirectoryLabel" xml:space="preserve">
-    <value>Remote directory</value>
-  </data>
   <data name="SFTP_SetupButton" xml:space="preserve">
     <value>Setup</value>
-  </data>
-  <data name="SFTP_ShowDirectoryButton" xml:space="preserve">
-    <value>Show directory</value>
   </data>
   <data name="SFTP_SizeColumn" xml:space="preserve">
     <value>File size</value>
   </data>
   <data name="SFTP_SyncButton" xml:space="preserve">
     <value>Synchronize</value>
-  </data>
-  <data name="SFTP_UsernameLabel" xml:space="preserve">
-    <value>Username</value>
   </data>
   <data name="SyncCalendar" xml:space="preserve">
     <value>Synchronize</value>

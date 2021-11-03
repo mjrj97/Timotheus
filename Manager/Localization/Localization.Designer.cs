@@ -61,141 +61,6 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to a/c.
-        /// </summary>
-        public static string Accounting_AccountNumberColumn {
-            get {
-                return ResourceManager.GetString("Accounting_AccountNumberColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Appendix.
-        /// </summary>
-        public static string Accounting_AppendixColumn {
-            get {
-                return ResourceManager.GetString("Accounting_AppendixColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Balance.
-        /// </summary>
-        public static string Accounting_BalanceColumn {
-            get {
-                return ResourceManager.GetString("Accounting_BalanceColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Date.
-        /// </summary>
-        public static string Accounting_DateColumn {
-            get {
-                return ResourceManager.GetString("Accounting_DateColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Description.
-        /// </summary>
-        public static string Accounting_DescriptionColumn {
-            get {
-                return ResourceManager.GetString("Accounting_DescriptionColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to In.
-        /// </summary>
-        public static string Accounting_InColumn {
-            get {
-                return ResourceManager.GetString("Accounting_InColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Out.
-        /// </summary>
-        public static string Accounting_OutColumn {
-            get {
-                return ResourceManager.GetString("Accounting_OutColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Accounting.
-        /// </summary>
-        public static string Accounting_Page {
-            get {
-                return ResourceManager.GetString("Accounting_Page", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add.
-        /// </summary>
-        public static string AddConsentForm {
-            get {
-                return ResourceManager.GetString("AddConsentForm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add.
-        /// </summary>
-        public static string AddConsentForm_AddButton {
-            get {
-                return ResourceManager.GetString("AddConsentForm_AddButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        public static string AddConsentForm_CancelButton {
-            get {
-                return ResourceManager.GetString("AddConsentForm_CancelButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Comment.
-        /// </summary>
-        public static string AddConsentForm_CommentLabel {
-            get {
-                return ResourceManager.GetString("AddConsentForm_CommentLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Name.
-        /// </summary>
-        public static string AddConsentForm_NameLabel {
-            get {
-                return ResourceManager.GetString("AddConsentForm_NameLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Signed.
-        /// </summary>
-        public static string AddConsentForm_SignedLabel {
-            get {
-                return ResourceManager.GetString("AddConsentForm_SignedLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Version.
-        /// </summary>
-        public static string AddConsentForm_VersionLabel {
-            get {
-                return ResourceManager.GetString("AddConsentForm_VersionLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string AddEvent {
@@ -273,168 +138,6 @@ namespace Timotheus.Localization {
         public static string AddEvent_StartLabel {
             get {
                 return ResourceManager.GetString("AddEvent_StartLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add.
-        /// </summary>
-        public static string AddMember {
-            get {
-                return ResourceManager.GetString("AddMember", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add.
-        /// </summary>
-        public static string AddMember_AddButton {
-            get {
-                return ResourceManager.GetString("AddMember_AddButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to From list.
-        /// </summary>
-        public static string AddMember_AddExistingButton {
-            get {
-                return ResourceManager.GetString("AddMember_AddExistingButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Address.
-        /// </summary>
-        public static string AddMember_AddressLabel {
-            get {
-                return ResourceManager.GetString("AddMember_AddressLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Birthday.
-        /// </summary>
-        public static string AddMember_BirthdayLabel {
-            get {
-                return ResourceManager.GetString("AddMember_BirthdayLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        public static string AddMember_CancelButton {
-            get {
-                return ResourceManager.GetString("AddMember_CancelButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Entry.
-        /// </summary>
-        public static string AddMember_EntryLabel {
-            get {
-                return ResourceManager.GetString("AddMember_EntryLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Name.
-        /// </summary>
-        public static string AddMember_NameLabel {
-            get {
-                return ResourceManager.GetString("AddMember_NameLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New.
-        /// </summary>
-        public static string AddMember_NewPersonButton {
-            get {
-                return ResourceManager.GetString("AddMember_NewPersonButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add.
-        /// </summary>
-        public static string AddTransaction {
-            get {
-                return ResourceManager.GetString("AddTransaction", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to a/c.
-        /// </summary>
-        public static string AddTransaction_AccountLabel {
-            get {
-                return ResourceManager.GetString("AddTransaction_AccountLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add.
-        /// </summary>
-        public static string AddTransaction_AddButton {
-            get {
-                return ResourceManager.GetString("AddTransaction_AddButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Appendix.
-        /// </summary>
-        public static string AddTransaction_AppendixLabel {
-            get {
-                return ResourceManager.GetString("AddTransaction_AppendixLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        public static string AddTransaction_CancelButton {
-            get {
-                return ResourceManager.GetString("AddTransaction_CancelButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to $.
-        /// </summary>
-        public static string AddTransaction_Currency {
-            get {
-                return ResourceManager.GetString("AddTransaction_Currency", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Date.
-        /// </summary>
-        public static string AddTransaction_DateLabel {
-            get {
-                return ResourceManager.GetString("AddTransaction_DateLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Income.
-        /// </summary>
-        public static string AddTransaction_InLabel {
-            get {
-                return ResourceManager.GetString("AddTransaction_InLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expense.
-        /// </summary>
-        public static string AddTransaction_OutLabel {
-            get {
-                return ResourceManager.GetString("AddTransaction_OutLabel", resourceCulture);
             }
         }
         
@@ -691,69 +394,6 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add.
-        /// </summary>
-        public static string ConsentForms_AddButton {
-            get {
-                return ResourceManager.GetString("ConsentForms_AddButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Comment.
-        /// </summary>
-        public static string ConsentForms_CommentColumn {
-            get {
-                return ResourceManager.GetString("ConsentForms_CommentColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Signed.
-        /// </summary>
-        public static string ConsentForms_DateColumn {
-            get {
-                return ResourceManager.GetString("ConsentForms_DateColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Name.
-        /// </summary>
-        public static string ConsentForms_NameColumn {
-            get {
-                return ResourceManager.GetString("ConsentForms_NameColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Consent forms.
-        /// </summary>
-        public static string ConsentForms_Page {
-            get {
-                return ResourceManager.GetString("ConsentForms_Page", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove.
-        /// </summary>
-        public static string ConsentForms_RemoveButton {
-            get {
-                return ResourceManager.GetString("ConsentForms_RemoveButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Version.
-        /// </summary>
-        public static string ConsentForms_VersionColumn {
-            get {
-                return ResourceManager.GetString("ConsentForms_VersionColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string EditKeyDialog {
@@ -957,69 +597,6 @@ namespace Timotheus.Localization {
         public static string Help_VersionLabel {
             get {
                 return ResourceManager.GetString("Help_VersionLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add.
-        /// </summary>
-        public static string Members_AddButton {
-            get {
-                return ResourceManager.GetString("Members_AddButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Address.
-        /// </summary>
-        public static string Members_AddressColumn {
-            get {
-                return ResourceManager.GetString("Members_AddressColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Birthday.
-        /// </summary>
-        public static string Members_BirthdayColumn {
-            get {
-                return ResourceManager.GetString("Members_BirthdayColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Entry.
-        /// </summary>
-        public static string Members_EntryColumn {
-            get {
-                return ResourceManager.GetString("Members_EntryColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Name.
-        /// </summary>
-        public static string Members_NameColumn {
-            get {
-                return ResourceManager.GetString("Members_NameColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Members.
-        /// </summary>
-        public static string Members_Page {
-            get {
-                return ResourceManager.GetString("Members_Page", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove.
-        /// </summary>
-        public static string Members_RemoveButton {
-            get {
-                return ResourceManager.GetString("Members_RemoveButton", resourceCulture);
             }
         }
         
@@ -1285,38 +862,11 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Browse.
-        /// </summary>
-        public static string SFTP_BrowseButton {
-            get {
-                return ResourceManager.GetString("SFTP_BrowseButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Go back.
         /// </summary>
         public static string SFTP_GoUpButton {
             get {
                 return ResourceManager.GetString("SFTP_GoUpButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Host.
-        /// </summary>
-        public static string SFTP_HostLabel {
-            get {
-                return ResourceManager.GetString("SFTP_HostLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Local directory.
-        /// </summary>
-        public static string SFTP_LocalDirectoryLabel {
-            get {
-                return ResourceManager.GetString("SFTP_LocalDirectoryLabel", resourceCulture);
             }
         }
         
@@ -1339,38 +889,11 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password.
-        /// </summary>
-        public static string SFTP_PasswordLabel {
-            get {
-                return ResourceManager.GetString("SFTP_PasswordLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remote directory.
-        /// </summary>
-        public static string SFTP_RemoteDirectoryLabel {
-            get {
-                return ResourceManager.GetString("SFTP_RemoteDirectoryLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Setup.
         /// </summary>
         public static string SFTP_SetupButton {
             get {
                 return ResourceManager.GetString("SFTP_SetupButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show directory.
-        /// </summary>
-        public static string SFTP_ShowDirectoryButton {
-            get {
-                return ResourceManager.GetString("SFTP_ShowDirectoryButton", resourceCulture);
             }
         }
         
@@ -1393,11 +916,83 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Setup.
+        /// </summary>
+        public static string SFTPSetup {
+            get {
+                return ResourceManager.GetString("SFTPSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse.
+        /// </summary>
+        public static string SFTPSetup_BrowseButton {
+            get {
+                return ResourceManager.GetString("SFTPSetup_BrowseButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string SFTPSetup_CancelButton {
+            get {
+                return ResourceManager.GetString("SFTPSetup_CancelButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Host.
+        /// </summary>
+        public static string SFTPSetup_HostLabel {
+            get {
+                return ResourceManager.GetString("SFTPSetup_HostLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local.
+        /// </summary>
+        public static string SFTPSetup_LocalDirectoryLabel {
+            get {
+                return ResourceManager.GetString("SFTPSetup_LocalDirectoryLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string SFTPSetup_PasswordLabel {
+            get {
+                return ResourceManager.GetString("SFTPSetup_PasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remote.
+        /// </summary>
+        public static string SFTPSetup_RemoteDirectoryLabel {
+            get {
+                return ResourceManager.GetString("SFTPSetup_RemoteDirectoryLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setup.
+        /// </summary>
+        public static string SFTPSetup_SetupButton {
+            get {
+                return ResourceManager.GetString("SFTPSetup_SetupButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
-        public static string SFTP_UsernameLabel {
+        public static string SFTPSetup_UsernameLabel {
             get {
-                return ResourceManager.GetString("SFTP_UsernameLabel", resourceCulture);
+                return ResourceManager.GetString("SFTPSetup_UsernameLabel", resourceCulture);
             }
         }
         
