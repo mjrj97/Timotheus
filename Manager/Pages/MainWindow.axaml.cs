@@ -226,9 +226,9 @@ namespace Timotheus
             }
         }
 
-        private void EditKey_Click(object sender, RoutedEventArgs e)
+        private async void EditKey_Click(object sender, RoutedEventArgs e)
         {
-            EditKey.Show(this, data.keys.ToString());
+            data.keys = await EditKey.Show(this, data.keys.ToString());
         }
     }
 }
