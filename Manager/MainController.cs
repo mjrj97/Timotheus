@@ -69,7 +69,20 @@ namespace Timotheus
             set => this.RaiseAndSetIfChanged(ref _Files, value);
         }
 
-        public readonly DirectoryManager Directory;
+        private DirectoryManager _Directory;
+        public DirectoryManager Directory
+        {
+            get
+            {
+                return _Directory;
+            }
+            set
+            {
+                _Directory = value;
+                GoToDirectory(_Directory.RemotePath);
+            }
+        }
+
         private string currentDirectory = string.Empty;
 
         public MainController() {
@@ -79,7 +92,6 @@ namespace Timotheus
             try
             {
                 Directory = new DirectoryManager(keys.Get("SSH-LocalDirectory"), keys.Get("SSH-RemoteDirectory"), keys.Get("SSH-URL"), keys.Get("SSH-Username"), keys.Get("SSH-Password"));
-                GoToDirectory(keys.Get("SSH-RemoteDirectory"));
             }
             catch (Exception)
             {

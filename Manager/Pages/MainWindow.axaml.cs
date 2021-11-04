@@ -161,9 +161,9 @@ namespace Timotheus
             data.Directory.Synchronize();
         }
 
-        private void SetupFiles_Click(object sender, RoutedEventArgs e)
+        private async void SetupFiles_Click(object sender, RoutedEventArgs e)
         {
-            SetupSFTP.Show(this);
+            data.Directory = await SetupSFTP.Show(this);
         }
 
         private async void SaveKey_Click(object sender, RoutedEventArgs e)

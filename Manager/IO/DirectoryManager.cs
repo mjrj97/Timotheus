@@ -26,11 +26,11 @@ namespace Timotheus.IO
         /// <summary>
         /// The path of the local directory to be watched and synced with.
         /// </summary>
-        private readonly string localPath;
+        public readonly string LocalPath;
         /// <summary>
         /// The path of the remote directory to be watched and synced with.
         /// </summary>
-        private readonly string remotePath;
+        public readonly string RemotePath;
 
         /// <summary>
         /// Constructor. Is an object that is tasked with keeping a local and remote directory synced.
@@ -63,8 +63,8 @@ namespace Timotheus.IO
             watcher.IncludeSubdirectories = true;
             watcher.EnableRaisingEvents = true;
 
-            this.localPath = localPath.Replace('/', '\\');
-            this.remotePath = remotePath.Replace('\\', '/');
+            LocalPath = localPath.Replace('/', '\\');
+            RemotePath = remotePath.Replace('\\', '/');
             client = new SftpClient(host, username, password);
         }
 
@@ -503,7 +503,7 @@ namespace Timotheus.IO
         /// </summary>
         public void Synchronize()
         {
-            Synchronize(remotePath, localPath);
+            Synchronize(RemotePath, LocalPath);
         }
 
         /// <summary>
@@ -513,14 +513,14 @@ namespace Timotheus.IO
         private string ConvertPath(string path)
         {
             string newPath;
-            if (path.StartsWith(localPath))
+            if (path.StartsWith(LocalPath))
             {
-                newPath = remotePath + path[localPath.Length..];
+                newPath = RemotePath + path[LocalPath.Length..];
                 newPath = newPath.Replace('\\', '/');
             }
-            else if (path.StartsWith(remotePath))
+            else if (path.StartsWith(RemotePath))
             {
-                newPath = localPath + path[remotePath.Length..];
+                newPath = LocalPath + path[RemotePath.Length..];
                 newPath = newPath.Replace('/', '\\');
             }
             else

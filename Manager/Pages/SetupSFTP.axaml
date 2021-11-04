@@ -31,12 +31,12 @@
         <DockPanel>
           <DockPanel DockPanel.Dock="Top">
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_LocalDirectoryLabel}" Width="100" VerticalAlignment="Center"/>
-            <TextBox Watermark="C:/..." Text="{Binding Host}" Width="187"/>
-            <Button Content="{x:Static i18n:Localization.SFTPSetup_BrowseButton}" Width="90" Click="Ok_Click" Margin="10 0 0 0" HorizontalContentAlignment="Center"/>
+            <TextBox Watermark="C:/..." Text="{Binding Local}" Width="187"/>
+            <Button Content="{x:Static i18n:Localization.SFTPSetup_BrowseButton}" Width="90" Click="Browse_Click" Margin="10 0 0 0" HorizontalContentAlignment="Center"/>
           </DockPanel>
           <DockPanel DockPanel.Dock="Top" Margin="0 10 0 0">
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_RemoteDirectoryLabel}" Width="100" VerticalAlignment="Center"/>
-            <TextBox Watermark="/..." Text="{Binding Username}"/>
+            <TextBox Watermark="/..." Text="{Binding Remote}"/>
           </DockPanel>
         </DockPanel>
       </Border>
