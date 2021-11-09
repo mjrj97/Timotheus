@@ -13,10 +13,32 @@ namespace Timotheus.Schedule
         /// Start date of the period.
         /// </summary>
         public DateTime Start { get; set; }
+        public string StartString
+        {
+            get
+            {
+                return Start.ToString("g");
+            }
+            set
+            {
+                Start = DateTime.Parse(value);
+            }
+        }
         /// <summary>
         /// End date of the period.
         /// </summary>
         public DateTime End { get; set; }
+        public string EndString
+        {
+            get
+            {
+                return End.ToString("g");
+            }
+            set
+            {
+                End = DateTime.Parse(value);
+            }
+        }
         /// <summary>
         /// The type of period.
         /// </summary>
@@ -25,15 +47,15 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Name of the spring period.
         /// </summary>
-        private static string spring = Localization.Localization.Calendar_Spring;
+        private static readonly string spring = Localization.Localization.Calendar_Spring;
         /// <summary>
         /// Name of the fall period.
         /// </summary>
-        private static string fall = Localization.Localization.Calendar_Fall;
+        private static readonly string fall = Localization.Localization.Calendar_Fall;
         /// <summary>
         /// Name of the all period.
         /// </summary>
-        private static string all = Localization.Localization.Calendar_All;
+        private static readonly string all = Localization.Localization.Calendar_All;
         /// <summary>
         /// List of the names of the months.
         /// </summary>
@@ -133,11 +155,11 @@ namespace Timotheus.Schedule
                 {
                     //Find word with year.
                     int i = 1;
-                    int.TryParse(words[0], out int year);
+                    _ = int.TryParse(words[0], out int year);
                     if (year == 0)
                     {
                         i = 0;
-                        int.TryParse(words[1], out year);
+                        _= int.TryParse(words[1], out year);
                     }
 
                     //Find out what the other word means.

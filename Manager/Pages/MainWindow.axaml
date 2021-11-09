@@ -92,10 +92,18 @@
           <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
             <DataGrid Items="{Binding Events}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible">
               <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding Start, StringFormat={}{0:g}}" CanUserResize="True"/>
-                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding End, StringFormat={}{0:g}}" CanUserResize="True"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding StartString}" SortMemberPath="Start" CanUserSort="True" CanUserResize="True"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding EndString}" SortMemberPath="End" CanUserSort="True" CanUserResize="True"/>
                 <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_NameColumn}" Width="*" Binding="{Binding Name}" CanUserResize="True"/>
-                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_DescriptionColumn}" Width="*" Binding="{Binding Description}" CanUserResize="True"/>
+
+                <DataGridTemplateColumn Header="{x:Static i18n:Localization.Calendar_DescriptionColumn}" Width="*" CanUserResize="True">
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <TextBox Text="{Binding Description}" AcceptsReturn="True" Background="Transparent" BorderThickness="0"/>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_LocationColumn}" Width="*" MaxWidth="230" Binding="{Binding Location}" CanUserResize="True"/>
                 
                 <DataGridTemplateColumn>

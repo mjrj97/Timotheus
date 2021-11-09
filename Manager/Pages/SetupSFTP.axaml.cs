@@ -20,7 +20,7 @@ namespace Timotheus
 
         private async void Browse_Click(object sender, RoutedEventArgs e)
         {
-            OpenFolderDialog openFolder = new OpenFolderDialog();
+            OpenFolderDialog openFolder = new();
             data.Local = await openFolder.ShowAsync(this);
         }
 

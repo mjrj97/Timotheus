@@ -104,7 +104,7 @@ namespace Timotheus.Schedule
         /// </summary>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder("BEGIN:VEVENT\nUID:");
+            StringBuilder builder = new("BEGIN:VEVENT\nUID:");
             builder.Append(UID);
             if (Start.Hour == End.Hour && Start.Minute == End.Minute && Start.Second == End.Second && Start.Hour == 0 && Start.Minute == 0 && Start.Second == 0)
             {

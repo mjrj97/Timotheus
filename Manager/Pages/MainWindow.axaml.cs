@@ -25,7 +25,7 @@ namespace Timotheus
                 PointerPressedEvent,
                 (s, e) =>
                 {
-                    if (e.MouseButton == MouseButton.Left)
+                    if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
                     {
                         if (e.ClickCount == 2)
                         {
@@ -64,12 +64,12 @@ namespace Timotheus
 
         private async void SaveCalendar_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            FileDialogFilter filter = new FileDialogFilter();
+            SaveFileDialog saveFileDialog = new();
+            FileDialogFilter filter = new();
             filter.Extensions.Add("ics");
             filter.Name = "Calendar (.ics)";
 
-            saveFileDialog.Filters = new List<FileDialogFilter>();
+            saveFileDialog.Filters = new();
             saveFileDialog.Filters.Add(filter);
 
             string result = await saveFileDialog.ShowAsync(this);
@@ -95,7 +95,7 @@ namespace Timotheus
 
         private async void AddEvent_Click(object sender, RoutedEventArgs e)
         {
-            Event? ev = await AddEvent.Show(this);
+            Event ev = await AddEvent.Show(this);
             if (ev != null)
             {
                 data.Calendar.events.Add(ev);
@@ -114,12 +114,12 @@ namespace Timotheus
 
         private async void ExportPDF_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            FileDialogFilter filter = new FileDialogFilter();
+            SaveFileDialog saveFileDialog = new();
+            FileDialogFilter filter = new();
             filter.Extensions.Add("pdf");
             filter.Name = "PDF Files (.pdf)";
 
-            saveFileDialog.Filters = new List<FileDialogFilter>();
+            saveFileDialog.Filters = new();
             saveFileDialog.Filters.Add(filter);
 
             string result = await saveFileDialog.ShowAsync(this);
@@ -127,8 +127,8 @@ namespace Timotheus
             {
                 try
                 {
-                    FileInfo file = new FileInfo(result);
-                    List<Event> events = new List<Event>();
+                    FileInfo file = new(result);
+                    List<Event> events = new();
                     for (int i = 0; i < data.Events.Count; i++)
                     {
                         events.Add(data.Events[i]);

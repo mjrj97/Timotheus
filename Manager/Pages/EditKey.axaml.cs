@@ -58,7 +58,7 @@ namespace Timotheus
         /// </summary>
         private void AddStdKeys_Click(object sender, RoutedEventArgs e)
         {
-            Register register = new Register(':', data.Text);
+            Register register = new(':', data.Text);
             List<Key> keys = register.Keys();
 
             bool firstAdded = false;

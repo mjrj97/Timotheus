@@ -17,8 +17,8 @@ namespace Timotheus.Utility
     public class PDF
     {
         //Primary colors
-        private readonly static Color White = new Color(255, 255, 255);
-        private readonly static Color HeadingColor = new Color(5, 105, 115);
+        private readonly static Color White = new(255, 255, 255);
+        private readonly static Color HeadingColor = new(5, 105, 115);
 
         /// <summary>
         /// Defines the styles used to format the MigraDoc document.
@@ -77,7 +77,7 @@ namespace Timotheus.Utility
             string fileName = $"{filePath}\\{title}";
 
             // Create the document using MigraDoc.
-            Document document = new Document();
+            Document document = new();
             document.Info.Title = title;
             document.Info.Author = associationName;
             document.DefaultPageSetup.Orientation = Orientation.Landscape;
@@ -151,7 +151,7 @@ namespace Timotheus.Utility
             row.Cells[5].AddParagraph(coffee);
 
             // Create a the footer containing the page number and assocaition address.
-            Paragraph paragraph = new Paragraph();
+            Paragraph paragraph = new();
             paragraph.AddPageField();
             paragraph.AddText(" / ");
             paragraph.AddNumPagesField();
@@ -168,7 +168,7 @@ namespace Timotheus.Utility
             for (int i = 0; i < SortedList.Count; i++)
             {
                 string name = SortedList[i].Name;
-                Register values = new Register(':', SortedList[i].Description);
+                Register values = new(':', SortedList[i].Description);
                 DateTime time = SortedList[i].Start;
 
                 string eventLeader = values.Get(leader);
@@ -191,7 +191,7 @@ namespace Timotheus.Utility
             }
 
             // Create a renderer for PDF that uses Unicode font encoding.
-            PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(true)
+            PdfDocumentRenderer pdfRenderer = new(true)
             {
                 Document = document
             };
