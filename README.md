@@ -3,10 +3,10 @@
 The purpose of this project is to create software that can manage a small association's calendar, data storage, consent forms etc. in a GDPR compliant fashion (or atleast to its best ability). The project is primarily aimed towards small associations e.g. the Danish LM, IM, that handle sensitive data (names, ages, addresses etc.).
 
 ## Planned features
-- [ ] Platform-Independent (Windows, Mac OS X, Linux)
+- [X] Platform-Independent (Windows, macOS, Linux)
 - [X] Calendar/Schedule editor
 - [X] Syncing calendars using the CalDAV protocol
-- [X] Managing GDPR consent forms and member directory
+- [ ] Managing GDPR consent forms and member directory
 - [X] SFTP-based storage
 - [X] Password manager
 - [ ] Encryption of stored data
@@ -14,6 +14,7 @@ The purpose of this project is to create software that can manage a small associ
 - [ ] Small Group Management
 
 ## Libraries
+Avalonia 0.10.8</br>
 PDFsharp-MigraDoc 1.50.5147</br>
 SSH.NET 2020.0.1
 
@@ -27,7 +28,7 @@ Contact Martin for further information.
 Formålet med dette projekt er at udvikle software, der kan behandle en lille forenings kalender, data opbevaring, samtykkeerklæringer osv. på en GDPR venlig måde (Til bedste evne). Projektet er primært beregnet til foreninger såsom Luthersk Mission eller Indre Mission, der behandler personfølsomme oplysninger (navne, aldre, adresser osv.).
 
 ## Planlagte funktioner
-- [ ] Platformsuafhængighed (Windows, Mac OS X, Linux)
+- [X] Platformsuafhængighed (Windows, macOS, Linux)
 - [X] Kalender/tidsplan redigeringsværktøj
 - [X] Kalender synkronisering med CalDAV protokollen
 - [X] Administration af GDPR samtykkeerklæringer og medlemslister
@@ -38,6 +39,7 @@ Formålet med dette projekt er at udvikle software, der kan behandle en lille fo
 - [ ] Administration af smågrupper
 
 ## Biblioteker
+Avalonia 0.10.8</br>
 PDFsharp-MigraDoc 1.50.5147</br>
 SSH.NET 2020.0.1
 

@@ -1,0 +1,74 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i18n="clr-namespace:Timotheus.Localization"
+        mc:Ignorable="d" Width="440" SizeToContent="Height"
+        x:Class="Timotheus.AddEvent"
+        Title="{x:Static i18n:Localization.AddEvent}" CanResize="False" WindowStartupLocation="CenterOwner">
+
+  <DockPanel Margin="20">
+    <DockPanel Name="RemotePanel" DockPanel.Dock="Top" Margin="0 0 0 15">
+      <DockPanel DockPanel.Dock="Top">
+        <TextBlock Text="{x:Static i18n:Localization.AddEvent_NameLabel}" Width="70" VerticalAlignment="Center"/>
+        <TextBox Watermark="This is an event" Text="{Binding EventName}"/>
+      </DockPanel>
+      <DockPanel Margin="0 10" DockPanel.Dock="Top">
+        <TextBlock Text="{x:Static i18n:Localization.AddEvent_StartLabel}" Width="70" VerticalAlignment="Center"/>
+        <TextBox Width="60" Watermark="00:00" Text="{Binding StartTime}" IsEnabled="{Binding !AllDayEvent}"/>
+        <TextBox Margin="10 0 0 0" Watermark="1" Text="{Binding StartDay}"/>
+        <ComboBox Width="125" SelectedIndex="{Binding StartMonth}">
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_January}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_February}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_March}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_April}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_May}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_June}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_July}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_August}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_September}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_October}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_November}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_December}"/>
+        </ComboBox>
+        <TextBox Watermark="2021" Text="{Binding StartYear}"/>
+      </DockPanel>
+      <DockPanel DockPanel.Dock="Top">
+        <TextBlock Text="{x:Static i18n:Localization.AddEvent_EndLabel}" Width="70" VerticalAlignment="Center"/>
+        <TextBox Width="60" Watermark="00:00" Text="{Binding EndTime}" IsEnabled="{Binding !AllDayEvent}"/>
+        <TextBox Margin="10 0 0 0" Watermark="1" Text="{Binding EndDay}"/>
+        <ComboBox Width="125" SelectedIndex="{Binding EndMonth}">
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_January}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_February}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_March}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_April}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_May}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_June}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_July}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_August}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_September}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_October}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_November}"/>
+          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_December}"/>
+        </ComboBox>
+        <TextBox Watermark="2021" Text="{Binding EndYear}"/>
+      </DockPanel>
+      <DockPanel DockPanel.Dock="Top">
+        <CheckBox Margin="70 10 0 10" Content="All day event" IsChecked="{Binding AllDayEvent}"/>
+      </DockPanel>
+      <DockPanel DockPanel.Dock="Top">
+        <TextBlock Text="{x:Static i18n:Localization.AddEvent_LocationLabel}" Width="70" VerticalAlignment="Center"/>
+        <TextBox Text="{Binding Location}"/>
+      </DockPanel>
+      <DockPanel Margin="0 10 0 0" DockPanel.Dock="Top">
+        <TextBlock Text="{x:Static i18n:Localization.AddEvent_DescriptionLabel}" Width="70" VerticalAlignment="Top" Padding="0 7 0 0"/>
+        <TextBox Height="100" Text="{Binding Description}" AcceptsReturn="True"/>
+      </DockPanel>
+    </DockPanel>
+    <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+      <TextBlock Name="Error" Foreground="Red" VerticalAlignment="Center" Text="{Binding Error}"/>
+      <Button Content="{x:Static i18n:Localization.AddEvent_AddButton}" Click="Add_Click" Margin="10 0"/>
+      <Button Content="{x:Static i18n:Localization.AddEvent_CancelButton}" Click="Cancel_Click"/>
+    </DockPanel>
+  </DockPanel>
+</Window>
