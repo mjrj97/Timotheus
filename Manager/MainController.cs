@@ -19,7 +19,7 @@ namespace Timotheus
         /// <summary>
         /// Current calendar used by the program.
         /// </summary>
-        public Calendar _Calendar;
+        private Calendar _Calendar;
         public Calendar Calendar
         {
             get
@@ -95,10 +95,10 @@ namespace Timotheus
         public void UpdateCalendarTable()
         {
             Events.Clear();
-            for (int i = 0; i < Calendar.events.Count; i++)
+            for (int i = 0; i < Calendar.Events.Count; i++)
             {
-                if (Calendar.events[i].In(calendarPeriod) && !Calendar.events[i].Deleted)
-                    Events.Add(Calendar.events[i]);
+                if (Calendar.Events[i].In(calendarPeriod) && !Calendar.Events[i].Deleted)
+                    Events.Add(Calendar.Events[i]);
             }
             PeriodText = calendarPeriod.ToString();
         }
@@ -167,7 +167,7 @@ namespace Timotheus
             Timotheus.Registry.Set("KeyPath", path);
             InsertKey();
 
-            string encodedPassword = Cipher.EncryptString(password);
+            string encodedPassword = Cipher.Encrypt(password);
             Timotheus.Registry.Set("KeyPassword", encodedPassword);
         }
         /// <summary>

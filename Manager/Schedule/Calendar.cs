@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
+using System.IO;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 using Timotheus.IO;
 
 namespace Timotheus.Schedule
@@ -17,28 +16,24 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Username and password used to gain access to remote calendar.
         /// </summary>
-        private NetworkCredential? credentials;
+        private NetworkCredential credentials;
         /// <summary>
         /// This is the CalDAV url/link to the remote calendar.
         /// </summary>
         private string url = string.Empty;
+
         /// <summary>
         /// A list of the calendars headers.
         /// </summary>
         private readonly Register headers = new(':');
         /// <summary>
-        /// A list of the events in the local calendar.
-        /// </summary>
-        public readonly List<Event> events;
-        /// <summary>
-        /// HTTP Client used to make HTTP requests.
-        /// </summary>
-        private readonly HttpClient client = new();
-
-        /// <summary>
         /// Calendar timezone.
         /// </summary>
         private string timezone = string.Empty;
+        /// <summary>
+        /// A list of the events in the local calendar.
+        /// </summary>
+        public readonly List<Event> Events;
 
         /// <summary>
         /// Creates a Calendar object and pulls calendar data from URL using specified credentials.
@@ -46,14 +41,15 @@ namespace Timotheus.Schedule
         public Calendar(string username, string password, string url)
         {
             SetupSync(username, password, url);
-            events = LoadFromLines(HttpRequest(url, credentials));
+            Events = LoadFromLines(HttpRequest(url, credentials));
         }
         /// <summary>
         /// Creates a Calendar object and loads event data from .ics file.
         /// </summary>
-        public Calendar(string[] lines)
+        public Calendar(string path)
         {
-            events = LoadFromLines(lines);
+            string[] lines = File.ReadAllLines(path);
+            Events = LoadFromLines(lines);
         }
         /// <summary>
         /// Creates an empty Calendar object.
@@ -61,7 +57,7 @@ namespace Timotheus.Schedule
         public Calendar()
         {
             url = string.Empty;
-            events = new List<Event>();
+            Events = new List<Event>();
             timezone = GenerateTimeZone();
 
             headers.Add("VERSION", "2.0");
@@ -98,11 +94,9 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Loads events from a calendar ics string.
         /// </summary>
-        /// <returns>
-        /// A list Events found in string array.
-        /// </returns>
         /// <param name="lines">String array in iCal format.</param>
-        public List<Event> LoadFromLines(string[] lines)
+        /// <returns> A list of events found in string array.</returns>
+        private List<Event> LoadFromLines(string[] lines)
         {
             string tempTimeZone = string.Empty;
             string eventText = string.Empty;
@@ -168,9 +162,22 @@ namespace Timotheus.Schedule
         {
             this.url = url;
             credentials = new NetworkCredential(username, password);
-            client.BaseAddress = new Uri(url);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(username + ":" + password)));
-            client.DefaultRequestHeaders.Add("Accept-charset", "UTF-8");
+        }
+        /// <summary>
+        /// Checks if the calendar is connected a remote server (Has URL and credentials).
+        /// </summary>
+        public bool IsSetup()
+        {
+            return url != string.Empty && credentials != null;
+        }
+
+        /// <summary>
+        /// Saves the calendar to the path in an iCal format (.ics)
+        /// </summary>
+        public void Save(string path)
+        {
+            byte[] data = Encoding.UTF8.GetBytes(ToString());
+            File.WriteAllBytes(path, data);
         }
 
         /// <summary>
@@ -179,45 +186,45 @@ namespace Timotheus.Schedule
         public void Sync(Period period)
         {
             List<Event> remoteEvents = LoadFromLines(HttpRequest(url, credentials));
-            bool[] foundLocal = new bool[events.Count];
+            bool[] foundLocal = new bool[Events.Count];
             bool[] foundRemote = new bool[remoteEvents.Count];
 
-            for (int i = 0; i < events.Count; i++)
+            for (int i = 0; i < Events.Count; i++)
             {
                 for (int j = 0; j < remoteEvents.Count; j++)
                 {
-                    if (events[i].UID == remoteEvents[j].UID)
+                    if (Events[i].UID == remoteEvents[j].UID)
                     {
                         foundLocal[i] = true;
                         foundRemote[j] = true;
 
-                        if (events[i].In(period))
+                        if (Events[i].In(period))
                         {
-                            if (events[i].Deleted)
+                            if (Events[i].Deleted)
                             {
-                                DeleteEvent(events[i]);
-                                events.Remove(events[i]);
+                                DeleteEvent(Events[i]);
+                                Events.Remove(Events[i]);
                             }
-                            else if (!events[i].Equals(remoteEvents[j]))
+                            else if (!Events[i].Equals(remoteEvents[j]))
                             {
-                                if (events[i].Changed >= remoteEvents[j].Changed)
+                                if (Events[i].Changed >= remoteEvents[j].Changed)
                                 {
-                                    DeleteEvent(events[i]);
-                                    AddEvent(events[i]);
+                                    DeleteEvent(Events[i]);
+                                    AddEvent(Events[i]);
                                 }
                                 else
-                                    events[i].Update(remoteEvents[j]);
+                                    Events[i].Update(remoteEvents[j]);
                             }
                         }
                     }
                 }
             }
-            for (int i = 0; i < events.Count; i++)
+            for (int i = 0; i < Events.Count; i++)
             {
-                if (events[i].In(period))
+                if (Events[i].In(period))
                 {
                     if (!foundLocal[i])
-                        AddEvent(events[i]);
+                        AddEvent(Events[i]);
                 }
             }
             for (int i = 0; i < remoteEvents.Count; i++)
@@ -225,7 +232,7 @@ namespace Timotheus.Schedule
                 if (remoteEvents[i].In(period))
                 {
                     if (!foundRemote[i])
-                        events.Add(remoteEvents[i]);
+                        Events.Add(remoteEvents[i]);
                 }
             }
         }
@@ -240,7 +247,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Returns a iCal timezone based in Europe/Copenhagen.
         /// </summary>
-        public string GenerateTimeZone()
+        private static string GenerateTimeZone()
         {
             return "BEGIN:VTIMEZONE\n" +
             "TZID:Europe/Copenhagen\n" +
@@ -318,15 +325,7 @@ namespace Timotheus.Schedule
             "END:STANDARD\n" +
             "END:VTIMEZONE";
         }
-
-        /// <summary>
-        /// Checks if the calendar is connected a remote server (Has URL and credentials).
-        /// </summary>
-        public bool IsSetup()
-        {
-            return url != string.Empty && credentials != null;
-        }
-
+        
         /// <summary>
         /// Returns a calendars iCal equivalent string.
         /// </summary>
@@ -337,11 +336,11 @@ namespace Timotheus.Schedule
             builder.Append('\n');
             builder.Append(timezone);
             builder.Append('\n');
-            for (int i = 0; i < events.Count; i++)
+            for (int i = 0; i < Events.Count; i++)
             {
-                if (!events[i].Deleted)
+                if (!Events[i].Deleted)
                 {
-                    builder.Append(events[i].ToString());
+                    builder.Append(Events[i].ToString());
                     builder.Append('\n');
                 }
             }
@@ -352,7 +351,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Sends a HTTP request to a URL and returns the response as a string array.
         /// </summary>
-        public static string[] HttpRequest(string url, NetworkCredential credentials, string method, byte[] data)
+        public static string[] HttpRequest(string url, NetworkCredential credentials, string method = null, byte[] data = null)
         {
             WebRequest request = WebRequest.Create(url);
             request.Credentials = credentials;
@@ -371,25 +370,11 @@ namespace Timotheus.Schedule
             }
 
             WebResponse response = request.GetResponse();
-            System.IO.StreamReader reader = new(response.GetResponseStream());
+            StreamReader reader = new(response.GetResponseStream());
             string text = reader.ReadToEnd().Replace("\r\n ", "");
             string[] responseFromServer = Regex.Split(text, "\r\n|\r|\n");
             response.Close();
             return responseFromServer;
-        }
-        /// <summary>
-        /// Sends a HTTP request to a URL and returns the response as a string array.
-        /// </summary>
-        public static string[] HttpRequest(string url, NetworkCredential credentials, string method)
-        {
-            return HttpRequest(url, credentials, method, null);
-        }
-        /// <summary>
-        /// Sends a HTTP request to a URL and returns the response as a string array.
-        /// </summary>
-        public static string[] HttpRequest(string url, NetworkCredential credentials)
-        {
-            return HttpRequest(url, credentials, null, null);
         }
 
         /// <summary>

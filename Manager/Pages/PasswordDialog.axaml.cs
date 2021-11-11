@@ -26,8 +26,8 @@ namespace Timotheus
         {
             try
             {
-                string encrypted = Cipher.EncryptString(Password);
-                string decrypted = Cipher.DecryptString(encrypted);
+                string encrypted = Cipher.Encrypt(Password);
+                string decrypted = Cipher.Decrypt(encrypted);
                 Close();
             }
             catch (Exception)

@@ -22,20 +22,15 @@ namespace Timotheus
             AvaloniaXamlLoader.Load(this);
             DataContext = data;
             this.Find<DataGrid>("Files").AddHandler(
-                PointerPressedEvent,
+                DoubleTappedEvent,
                 (s, e) =>
                 {
-                    if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
-                    {
-                        if (e.ClickCount == 2)
-                        {
-                            var row = ((IControl)e.Source).GetSelfAndVisualAncestors()
+                    var row = ((IControl)e.Source).GetSelfAndVisualAncestors()
                                 .OfType<DataGridRow>()
                                 .FirstOrDefault();
 
-                            data.GoToDirectory(row.GetIndex());
-                        }
-                    }
+                    if (row != null)
+                        data.GoToDirectory(row.GetIndex());
                 },
                 handledEventsToo: true);
         }
@@ -53,10 +48,9 @@ namespace Timotheus
                 {
                     case ".tkey":
                         string encodedPassword = Timotheus.Registry.Get("KeyPassword");
-                        System.Diagnostics.Debug.WriteLine(encodedPassword);
                         string password;
                         if (encodedPassword != string.Empty)
-                            password = Cipher.DecryptString(encodedPassword);
+                            password = Cipher.Decrypt(encodedPassword);
                         else
                             password = await PasswordDialog.Show(this);
                         data.LoadKey(keyPath, password);
@@ -115,8 +109,7 @@ namespace Timotheus
             {
                 try
                 {
-                    byte[] d = System.Text.Encoding.UTF8.GetBytes(data.Calendar.ToString());
-                    File.WriteAllBytes(result, d);
+                    data.Calendar.Save(result);
                 }
                 catch (Exception ex)
                 {
@@ -136,7 +129,7 @@ namespace Timotheus
             Event ev = await AddEvent.Show(this);
             if (ev != null)
             {
-                data.Calendar.events.Add(ev);
+                data.Calendar.Events.Add(ev);
                 data.UpdateCalendarTable();
             }
         }

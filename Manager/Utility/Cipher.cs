@@ -45,14 +45,20 @@ namespace Timotheus.Utility
             return ms.ToArray();
         }
 
-        public static string EncryptString(string text)
+        /// <summary>
+        /// Encrypts a string using the standard encryption key.
+        /// </summary>
+        public static string Encrypt(string text)
         {
             byte[] decodedBytes = Timotheus.Encoding.GetBytes(text);
             byte[] encodedBytes = Encrypt(decodedBytes, defkey);
             return Timotheus.Encoding.GetString(encodedBytes);
         }
 
-        public static string DecryptString(string text)
+        /// <summary>
+        /// Decrypts a string using the standard encryption key.
+        /// </summary>
+        public static string Decrypt(string text)
         {
             byte[] encodedBytes = Timotheus.Encoding.GetBytes(text);
             byte[] decodedBytes = Decrypt(encodedBytes, "9z9veMhA0Uq3p95diAuKZ9N4uB7xY5iL");

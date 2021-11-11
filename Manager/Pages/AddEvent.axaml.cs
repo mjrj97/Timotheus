@@ -38,11 +38,11 @@ namespace Timotheus
             Close();
         }
 
-        public new static Task<Schedule.Event?> Show(Window parent)
+        public new static Task<Schedule.Event> Show(Window parent)
         {
             AddEvent dialog = new();
 
-            TaskCompletionSource<Schedule.Event?> tcs = new();
+            TaskCompletionSource<Schedule.Event> tcs = new();
             dialog.Closed += delegate
             {
                 tcs.TrySetResult(dialog.ev);
@@ -157,8 +157,8 @@ namespace Timotheus
             if (EventName.Trim() == string.Empty)
                 throw new Exception(Localization.Localization.Exception_EmptyName);
 
-            DateTime Start = new DateTime(int.Parse(StartYear), StartMonth + 1, int.Parse(StartDay));
-            DateTime End = new DateTime(int.Parse(EndYear), EndMonth + 1, int.Parse(EndDay));
+            DateTime Start = new(int.Parse(StartYear), StartMonth + 1, int.Parse(StartDay));
+            DateTime End = new(int.Parse(EndYear), EndMonth + 1, int.Parse(EndDay));
 
             if (!AllDayEvent)
             {

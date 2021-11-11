@@ -31,8 +31,8 @@ Formålet med dette projekt er at udvikle software, der kan behandle en lille fo
 - [X] Platformsuafhængighed (Windows, macOS, Linux)
 - [X] Kalender/tidsplan redigeringsværktøj
 - [X] Kalender synkronisering med CalDAV protokollen
-- [X] Administration af GDPR samtykkeerklæringer og medlemslister
-- [X] SFTP baseret dataopbevaring
+- [ ] Administration af GDPR samtykkeerklæringer og medlemslister
+- [X] SFTP baseret fildeling/filopbevaring
 - [X] Adgangskode opbevaring
 - [ ] Kryptering af lagret data
 - [ ] Regnskabsførelse

@@ -307,7 +307,7 @@
     <value>Gennemse</value>
   </data>
   <data name="OpenCalendar_CalDAVButton" xml:space="preserve">
-    <value>Fjern</value>
+    <value>Online</value>
   </data>
   <data name="OpenCalendar_CancelButton" xml:space="preserve">
     <value>Annullér</value>

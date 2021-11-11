@@ -143,7 +143,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Checks if another object has the same values as this.
         /// </summary>
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
             bool equals = false;
             if (obj != null && obj is Event @event)

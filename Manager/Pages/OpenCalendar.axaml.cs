@@ -2,7 +2,6 @@
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using ReactiveUI;
 
@@ -28,8 +27,7 @@ namespace Timotheus
                     calendar = new(data.Username, data.Password, data.URL);
                 else
                 {
-                    string[] lines = File.ReadAllLines(data.Path);
-                    calendar = new(lines);
+                    calendar = new(data.Path);
                 }
                 Close();
             }

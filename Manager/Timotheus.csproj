@@ -32,8 +32,6 @@
     <PackageReference Include="Dotnet.Bundle" Version="0.9.13" />
     <PackageReference Include="PDFsharp-MigraDoc" Version="1.50.5147" />
     <PackageReference Include="SSH.NET" Version="2020.0.1" />
-    <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.4.0" />
    </ItemGroup>
   <ItemGroup>
     <Compile Update="MessageBox.axaml.cs">
