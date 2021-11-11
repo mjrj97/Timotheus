@@ -291,6 +291,8 @@ namespace Timotheus.IO
         /// <param name="localPath">Path of the directory on the local machine.</param>
         private void DownloadDirectory(string remotePath, string localPath)
         {
+            if (!Directory.Exists(localPath))
+                Directory.CreateDirectory(localPath);
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
@@ -350,10 +352,10 @@ namespace Timotheus.IO
 
             for (int i = 0; i < localDirectoryPaths.Length; i++)
             {
-                string path = remotePath + '/' + Path.GetDirectoryName(localDirectoryPaths[i]);
+                string path = ConvertPath(localDirectoryPaths[i]);
                 System.Diagnostics.Debug.WriteLine("Create: " + path);
                 client.CreateDirectory(path);
-                UploadDirectory(path, localFilePaths[i]);
+                UploadDirectory(path, localDirectoryPaths[i]);
             }
 
             if (!isPreconnected)
@@ -479,7 +481,7 @@ namespace Timotheus.IO
             for (int i = 0; i < remoteDirectories.Count; i++)
             {
                 if (indices[i] == -1)
-                    DownloadDirectory(remoteDirectories[i].FullName, localPath);
+                    DownloadDirectory(remoteDirectories[i].FullName, ConvertPath(remoteDirectories[i].FullName));
                 else
                     Synchronize(remoteDirectories[i].FullName, localDirectories[indices[i]].FullName);
             }

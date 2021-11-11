@@ -15,7 +15,7 @@ namespace Timotheus
     public partial class MainWindow : Window
     {
         public MainController data;
-
+        
         public MainWindow()
         {
             data = new();
@@ -69,8 +69,14 @@ namespace Timotheus
         public override void Show()
         {
             base.Show();
-            StartUpKey();
+            if (!isShown)
+            {
+                StartUpKey();
+                isShown = true;
+                File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Test.txt", "Test");
+            }
         }
+        private static bool isShown = false;
 
         /// <summary>
         /// Changes the selected year and calls UpdateTable.
