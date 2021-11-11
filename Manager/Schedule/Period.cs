@@ -68,8 +68,7 @@ namespace Timotheus.Schedule
         {
             if (months == null)
             {
-                DateTimeFormatInfo dtfi = Timotheus.Culture.DateTimeFormat;
-                months = new List<string>(dtfi.MonthNames);
+                months = new List<string>(Timotheus.Culture.DateTimeFormat.MonthNames);
                 months = months.ConvertAll(d => d.ToLower());
             }
         }

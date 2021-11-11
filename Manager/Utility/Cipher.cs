@@ -11,7 +11,7 @@ namespace Timotheus.Utility
         /// <summary>
         /// A default key that can be used to encrypt low-risk strings.
         /// </summary>
-        public static string defkey = "9z9veMhA0Uq3p95diAuKZ9N4uB7xY5iL";
+        private const string defkey = "9z9veMhA0Uq3p95diAuKZ9N4uB7xY5iL";
 
         /// <summary>
         /// Method that encrypts a byte array using a key.
@@ -22,8 +22,8 @@ namespace Timotheus.Utility
         {
             using SymmetricAlgorithm algorithm = GetAlgorithm(password);
             using ICryptoTransform encryptor = algorithm.CreateEncryptor();
-            using MemoryStream ms = new MemoryStream();
-            using CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
+            using MemoryStream ms = new();
+            using CryptoStream cs = new(ms, encryptor, CryptoStreamMode.Write);
             cs.Write(data, 0, data.Length);
             cs.FlushFinalBlock();
             return ms.ToArray();
@@ -38,11 +38,25 @@ namespace Timotheus.Utility
         {
             using SymmetricAlgorithm algorithm = GetAlgorithm(password);
             using ICryptoTransform decryptor = algorithm.CreateDecryptor();
-            using MemoryStream ms = new MemoryStream();
-            using CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Write);
+            using MemoryStream ms = new();
+            using CryptoStream cs = new(ms, decryptor, CryptoStreamMode.Write);
             cs.Write(data, 0, data.Length);
             cs.FlushFinalBlock();
             return ms.ToArray();
+        }
+
+        public static string EncryptString(string text)
+        {
+            byte[] decodedBytes = Timotheus.Encoding.GetBytes(text);
+            byte[] encodedBytes = Encrypt(decodedBytes, defkey);
+            return Timotheus.Encoding.GetString(encodedBytes);
+        }
+
+        public static string DecryptString(string text)
+        {
+            byte[] encodedBytes = Timotheus.Encoding.GetBytes(text);
+            byte[] decodedBytes = Decrypt(encodedBytes, "9z9veMhA0Uq3p95diAuKZ9N4uB7xY5iL");
+            return Timotheus.Encoding.GetString(decodedBytes);
         }
 
         /// <summary>
@@ -53,7 +67,7 @@ namespace Timotheus.Utility
             Rijndael algorithm = Rijndael.Create();
             byte[] salt = { 0x53, 0x6f, 0x64, 0x69, 0x75, 0x6d, 0x20, 0x43, 0x68, 0x6c, 0x6f, 0x72, 0x69, 0x64, 0x65 };
 
-            using (Rfc2898DeriveBytes rdb = new Rfc2898DeriveBytes(password, salt))
+            using (Rfc2898DeriveBytes rdb = new(password, salt))
             {
                 algorithm.Padding = PaddingMode.PKCS7;
                 algorithm.Key = rdb.GetBytes(32);

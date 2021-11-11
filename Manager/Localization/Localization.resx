@@ -258,6 +258,9 @@
   <data name="Exception_InvalidInput" xml:space="preserve">
     <value>Invalid input</value>
   </data>
+  <data name="Exception_InvalidPassword" xml:space="preserve">
+    <value>This is an invalid password. Try another...</value>
+  </data>
   <data name="Exception_LoadFailed" xml:space="preserve">
     <value>Couldn't load file</value>
   </data>

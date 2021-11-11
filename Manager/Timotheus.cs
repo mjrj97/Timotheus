@@ -1,10 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Globalization;
-using System.Runtime.InteropServices;
 using Timotheus.IO;
-using System.Collections.Generic;
 
 namespace Timotheus
 {
@@ -13,7 +12,7 @@ namespace Timotheus
         /// <summary>
         /// A register containing all values found in the (Windows registry/macOS .plist/Linux etc folder) associated with Timotheus. Is loaded on start of program and saved on exit.
         /// </summary>
-        public static Register Registry = new();
+        public static Register Registry;
         /// <summary>
         /// Text encoding used by the program. Is essential to decode the text from Windows Registry.
         /// </summary>
@@ -37,7 +36,6 @@ namespace Timotheus
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             CultureInfo.CurrentUICulture = Culture;
-            Registry.Set("KeyPath", System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Key.txt"));
 
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
         }
@@ -55,29 +53,7 @@ namespace Timotheus
         /// </summary>
         private static void SaveRegistry()
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus", true);
-
-                if (key == null)
-                    key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus");
-
-                List<Key> keys = Registry.Keys();
-                for (int i = 0; i < keys.Count; i++)
-                {
-                    key.SetValue(keys[i].name, keys[i].value);
-                }
-
-                key.Close();
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-
-            }
+            Registry.Save(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus/Registry.ini");
         }
 
         /// <summary>
@@ -85,30 +61,12 @@ namespace Timotheus
         /// </summary>
         private static void LoadRegistry()
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus");
-
-                if (key != null)
-                {
-                    string[] names = key.GetValueNames();
-                    for (int i = 0; i < names.Length; i++)
-                    {
-                        string value = Convert.ToString(key.GetValue(names[i]));
-                        Registry.Add(names[i], value);
-                    }
-
-                    key.Close();
-                }
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                
-            }
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            if (!File.Exists(path + "/Registry.ini"))
+                File.Create(path + "/Registry.ini").Close();
+            Registry = new Register(path + "/Registry.ini", ':');
         }
     }
 }

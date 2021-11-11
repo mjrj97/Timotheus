@@ -14,14 +14,14 @@ namespace Timotheus
 {
     public partial class MainWindow : Window
     {
-        public MainController data = new();
+        public MainController data;
 
         public MainWindow()
         {
+            data = new();
             AvaloniaXamlLoader.Load(this);
             DataContext = data;
-            DataGrid filesGrid = this.Find<DataGrid>("Files");
-            filesGrid.AddHandler(
+            this.Find<DataGrid>("Files").AddHandler(
                 PointerPressedEvent,
                 (s, e) =>
                 {
@@ -38,6 +38,44 @@ namespace Timotheus
                     }
                 },
                 handledEventsToo: true);
+        }
+
+        private async void StartUpKey()
+        {
+            try
+            {
+                string keyPath = Timotheus.Registry.Get("KeyPath");
+                if (!File.Exists(keyPath))
+                {
+                    Timotheus.Registry.Remove("KeyPath");
+                }
+                switch (Path.GetExtension(keyPath))
+                {
+                    case ".tkey":
+                        string encodedPassword = Timotheus.Registry.Get("KeyPassword");
+                        System.Diagnostics.Debug.WriteLine(encodedPassword);
+                        string password;
+                        if (encodedPassword != string.Empty)
+                            password = Cipher.DecryptString(encodedPassword);
+                        else
+                            password = await PasswordDialog.Show(this);
+                        data.LoadKey(keyPath, password);
+                        break;
+                    case ".txt":
+                        data.LoadKey(keyPath);
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                await MessageBox.Show(this, e.Message, Localization.Localization.Exception_NoKeys, MessageBox.MessageBoxButtons.OkCancel);
+            }
+        }
+
+        public override void Show()
+        {
+            base.Show();
+            StartUpKey();
         }
 
         /// <summary>
@@ -185,13 +223,29 @@ namespace Timotheus
             string result = await saveFileDialog.ShowAsync(this);
             if (result != null)
             {
-                try
+                switch (Path.GetExtension(result))
                 {
-                    data.SaveKey(result);
-                }
-                catch (Exception ex)
-                {
-                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                    case ".tkey":
+                        string password = await PasswordDialog.Show(this);
+                        try
+                        {
+                            data.SaveKey(result, password);
+                        }
+                        catch (Exception ex)
+                        {
+                            await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                        }
+                        break;
+                    case ".txt":
+                        try
+                        {
+                            data.SaveKey(result);
+                        }
+                        catch (Exception ex)
+                        {
+                            await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                        }
+                        break;
                 }
             }
         }
@@ -202,26 +256,38 @@ namespace Timotheus
 
             FileDialogFilter txtFilter = new();
             txtFilter.Extensions.Add("txt");
-            txtFilter.Name = "Text files (.txt)";
-
-            FileDialogFilter tkeyFilter = new();
-            tkeyFilter.Extensions.Add("tkey");
-            tkeyFilter.Name = "Encrypted key (.tkey)";
+            txtFilter.Extensions.Add("tkey");
+            txtFilter.Name = "Key files (.txt, .tkey)";
 
             openFileDialog.Filters = new();
             openFileDialog.Filters.Add(txtFilter);
-            openFileDialog.Filters.Add(tkeyFilter);
 
             string[] result = await openFileDialog.ShowAsync(this);
             if (result != null && result.Length > 0)
             {
-                try
+                switch (Path.GetExtension(result[0]))
                 {
-                    data.OpenKey(result[0]);
-                }
-                catch (Exception ex)
-                {
-                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                    case ".tkey":
+                        string password = await PasswordDialog.Show(this);
+                        try
+                        {
+                            data.LoadKey(result[0], password);
+                        }
+                        catch (Exception ex)
+                        {
+                            await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_LoadFailed, MessageBox.MessageBoxButtons.OkCancel);
+                        }
+                        break;
+                    case ".txt":
+                        try
+                        {
+                            data.LoadKey(result[0]);
+                        }
+                        catch (Exception ex)
+                        {
+                            await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_LoadFailed, MessageBox.MessageBoxButtons.OkCancel);
+                        }
+                        break;
                 }
             }
         }

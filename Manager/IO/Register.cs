@@ -90,7 +90,7 @@ namespace Timotheus.IO
             Name = Path.GetFileName(path);
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
-            string text = Encoding.BigEndianUnicode.GetString(data);
+            string text = Timotheus.Encoding.GetString(data);
             keys = Load(text);
         }
         /// <summary>
@@ -107,7 +107,7 @@ namespace Timotheus.IO
             Name = Path.GetFileName(path);
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
-            string text = Encoding.BigEndianUnicode.GetString(data);
+            string text = Timotheus.Encoding.GetString(data);
             keys = Load(text);
         }
 
@@ -119,7 +119,7 @@ namespace Timotheus.IO
         private List<Key> Load(string text)
         {
             string[] lines = Regex.Split(text, "\r\n|\r|\n");
-            List<Key> keys = new List<Key>();
+            List<Key> keys = new();
 
             for (int i = 0; i < lines.Length; i++)
             {
@@ -136,7 +136,7 @@ namespace Timotheus.IO
         /// <param name="path">Path where the register should be saved. Must include filename and extension.</param>
         public void Save(string path)
         {
-            File.WriteAllText(path, ToString());
+            File.WriteAllText(path, ToString(), Timotheus.Encoding);
         }
         /// <summary>
         /// Saves the register to the path as encrypted file.
@@ -146,7 +146,7 @@ namespace Timotheus.IO
         public void Save(string path, string password)
         {
             string text = ToString();
-            byte[] data = Cipher.Encrypt(Encoding.BigEndianUnicode.GetBytes(text), password);
+            byte[] data = Cipher.Encrypt(Timotheus.Encoding.GetBytes(text), password);
             File.WriteAllBytes(path, data);
         }
         
@@ -259,7 +259,7 @@ namespace Timotheus.IO
         /// </summary>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new();
             for (int i = 0; i < keys.Count; i++)
             {
                 builder.Append(keys[i].name);

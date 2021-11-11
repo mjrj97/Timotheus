@@ -124,10 +124,6 @@ namespace Timotheus.Utility
             // Create the item table.
             Table table = section.AddTable();
             table.Style = "Table";
-            table.Borders.Color = White;
-            table.Borders.Width = 0.25;
-            table.Borders.Left.Width = 0.5;
-            table.Borders.Right.Width = 0.5;
             table.Rows.LeftIndent = 0;
 
             // Define the columns
@@ -176,6 +172,7 @@ namespace Timotheus.Utility
                 string eventCoffee = values.Get(coffee);
 
                 row = table.AddRow();
+                row.Shading.Color = (i % 2 == 1) ? Color.FromRgb(255, 255, 255) : Color.FromRgb(245, 245, 245);
 
                 row.Cells[0].AddParagraph(time.ToString("ddd. d. MMM", Timotheus.Culture));
 

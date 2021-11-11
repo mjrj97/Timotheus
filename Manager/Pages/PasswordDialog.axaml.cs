@@ -1,7 +1,9 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System.Threading.Tasks;
+using Timotheus.Utility;
 
 namespace Timotheus
 {
@@ -17,11 +19,21 @@ namespace Timotheus
         public PasswordDialog()
         {
             AvaloniaXamlLoader.Load(this);
+            DataContext = this;
         }
 
-        private void Ok_Click(object sender, RoutedEventArgs e)
+        private async void Ok_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            try
+            {
+                string encrypted = Cipher.EncryptString(Password);
+                string decrypted = Cipher.DecryptString(encrypted);
+                Close();
+            }
+            catch (Exception)
+            {
+                await MessageBox.Show(this, Localization.Localization.Exception_InvalidPassword, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+            }
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)

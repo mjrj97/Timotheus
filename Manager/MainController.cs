@@ -14,12 +14,12 @@ namespace Timotheus
         /// <summary>
         /// Register containing all the keys loaded at startup or manually from a key file (.tkey or .txt)
         /// </summary>
-        public Register keys;
+        public Register keys = new();
 
         /// <summary>
         /// Current calendar used by the program.
         /// </summary>
-        public Calendar _Calendar = new();
+        public Calendar _Calendar;
         public Calendar Calendar
         {
             get
@@ -86,27 +86,6 @@ namespace Timotheus
         private string currentDirectory = string.Empty;
 
         public MainController() {
-            string KeyPath = Timotheus.Registry.Get("KeyPath");
-            keys = LoadKey(KeyPath, false);
-
-            try
-            {
-                Directory = new DirectoryManager(keys.Get("SSH-LocalDirectory"), keys.Get("SSH-RemoteDirectory"), keys.Get("SSH-URL"), keys.Get("SSH-Username"), keys.Get("SSH-Password"));
-            }
-            catch (Exception)
-            {
-
-            }
-
-            try
-            {
-                Calendar = new(keys.Get("Calendar-Email"), keys.Get("Calendar-Password"), keys.Get("Calendar-URL"));
-            }
-            catch (Exception)
-            {
-                
-            }
-
             PeriodText = calendarPeriod.ToString();
         }
 
@@ -162,125 +141,60 @@ namespace Timotheus
             Files = Directory.GetFilesList(currentDirectory);
         }
 
-        /// <summary>
-        /// Loads and returns the key from the path.
-        /// </summary>
-        /// <param name="path">Path to the key file.</param>
-        /// <param name="requirePasswordDialog">Whether a password dialog should be required. If false it tries to get the password stored in the Progarm.Registry.</param>
-        private static Register LoadKey(string path, bool requirePasswordDialog)
+        private void InsertKey()
         {
-            Register keys = null;
-            if (path != string.Empty)
+            try
             {
-                string extension = Path.GetExtension(path);
-                switch (extension)
-                {
-                    case ".tkey":
-                        string encodedPassword = requirePasswordDialog ? string.Empty : Timotheus.Registry.Get("KeyPassword");
-                        byte[] encodedBytes = Timotheus.Encoding.GetBytes(encodedPassword);
-                        if (requirePasswordDialog)
-                            Timotheus.Registry.Remove("KeyPassword");
-
-                        if (encodedPassword != string.Empty)
-                        {
-                            try
-                            {
-                                byte[] decodedBytes = Cipher.Decrypt(encodedBytes, Cipher.defkey);
-                                string password = Timotheus.Encoding.GetString(decodedBytes);
-
-                                keys = new Register(path, password, ':');
-                                Timotheus.Registry.Set("KeyPath", path);
-                            }
-                            catch (System.Security.Cryptography.CryptographicException e)
-                            {
-                                //Program.Error("Exception_WrongPassword", e.Message);
-                                keys = new Register(':');
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                /*PasswordDialog passwordDialog = new PasswordDialog()
-                                {
-                                    Owner = this
-                                };
-                                if (passwordDialog.ShowDialog() == DialogResult.OK)
-                                {
-                                    keys = new Register(path, passwordDialog.Password, ':');
-                                    if (passwordDialog.Check)
-                                    {
-                                        byte[] decodedBytes = Program.encoding.GetBytes(passwordDialog.Password);
-                                        encodedBytes = Cipher.Encrypt(decodedBytes, Cipher.defkey);
-                                        encodedPassword = Program.encoding.GetString(encodedBytes);
-                                        Program.Registry.Set("KeyPassword", encodedPassword);
-                                    }
-                                    Program.Registry.Set("KeyPath", path);
-                                }
-                                else*/
-                                {
-                                    keys = new Register(':');
-                                }
-                            }
-                            catch (System.Security.Cryptography.CryptographicException e)
-                            {
-                                //Program.Error("Exception_WrongPassword", e.Message);
-                                keys = new Register(':');
-                            }
-                        }
-                        break;
-                    case ".txt":
-                        keys = new Register(path, ':');
-                        Timotheus.Registry.Set("KeyPath", path);
-                        break;
-                }
-
-                //InsertKeys();
+                Directory = new DirectoryManager(keys.Get("SSH-LocalDirectory"), keys.Get("SSH-RemoteDirectory"), keys.Get("SSH-URL"), keys.Get("SSH-Username"), keys.Get("SSH-Password"));
             }
-            else
-                keys = new Register(':');
+            catch (Exception) { }
 
-            return keys;
+            try
+            {
+                Calendar = new(keys.Get("Calendar-Email"), keys.Get("Calendar-Password"), keys.Get("Calendar-URL"));
+            }
+            catch (Exception) { Calendar = new(); }
         }
 
         /// <summary>
-        /// Opens a dialog so the user can save the current loaded keys to a file.
+        /// Loads the key from the path. Saves the path and password to the registry.
+        /// </summary>
+        /// <param name="path">Path to the key file.</param>
+        /// <param name="password">The password used to decrypt the key.</param>
+        public void LoadKey(string path, string password)
+        {
+            keys = new Register(path, password, ':');
+            Timotheus.Registry.Set("KeyPath", path);
+            InsertKey();
+
+            string encodedPassword = Cipher.EncryptString(password);
+            Timotheus.Registry.Set("KeyPassword", encodedPassword);
+        }
+        /// <summary>
+        /// Loads the key from the path.
+        /// </summary>
+        /// <param name="path">Path to the key file.</param>
+        public void LoadKey(string path)
+        {
+            keys = new Register(path, ':');
+            Timotheus.Registry.Set("KeyPath", path);
+            Timotheus.Registry.Remove("KeyPassword");
+            InsertKey();
+        }
+
+        /// <summary>
+        /// Save the key to the path.
         /// </summary>
         public void SaveKey(string path)
         {
-            string extension = Path.GetExtension(path);
-            switch (extension)
-            {
-                case ".txt":
-                    keys.Save(path);
-                    break;
-                /*case ".tkey":
-                    PasswordDialog dialog = new PasswordDialog
-                    {
-                        Owner = this
-                    };
-
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        keys.Save(path, dialog.Password);
-                        if (dialog.Check)
-                        {
-                            byte[] decodedBytes = Timotheus.Encoding.GetBytes(dialog.Password);
-                            byte[] encodedBytes = Cipher.Encrypt(decodedBytes, Cipher.defkey);
-                            string encodedPassword = Timotheus.Encoding.GetString(encodedBytes);
-                            Timotheus.Registry.Set("KeyPassword", encodedPassword);
-                        }
-                    }
-                    break;*/
-            }
+            keys.Save(path);
         }
-
         /// <summary>
-        /// Opens a dialog so the user can select a file that has all the keys.
+        /// Save the encrypted key to the path.
         /// </summary>
-        public void OpenKey(string path)
+        public void SaveKey(string path, string password)
         {
-            keys = LoadKey(path, true);
+            keys.Save(path, password);
         }
     }
 }

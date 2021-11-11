@@ -484,6 +484,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is an invalid password. Try another....
+        /// </summary>
+        public static string Exception_InvalidPassword {
+            get {
+                return ResourceManager.GetString("Exception_InvalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t load file.
         /// </summary>
         public static string Exception_LoadFailed {

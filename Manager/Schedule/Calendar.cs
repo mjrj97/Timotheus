@@ -25,7 +25,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// A list of the calendars headers.
         /// </summary>
-        private readonly Register headers = new Register(':');
+        private readonly Register headers = new(':');
         /// <summary>
         /// A list of the events in the local calendar.
         /// </summary>
@@ -33,7 +33,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// HTTP Client used to make HTTP requests.
         /// </summary>
-        private readonly HttpClient client = new HttpClient();
+        private readonly HttpClient client = new();
 
         /// <summary>
         /// Calendar timezone.
@@ -83,7 +83,7 @@ namespace Timotheus.Schedule
             ev.ToString() + "\n" +
             "END:VCALENDAR";
 
-            HttpRequest(url + ev.UID + ".ics", credentials, "PUT", System.Text.Encoding.UTF8.GetBytes(request));
+            HttpRequest(url + ev.UID + ".ics", credentials, "PUT", Encoding.UTF8.GetBytes(request));
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Timotheus.Schedule
             int timeZoneStart = 0;
             int timeZoneEnd = 0;
 
-            List<Event> events = new List<Event>();
+            List<Event> events = new();
 
             if (lines[0] != "BEGIN:VCALENDAR")
                 throw new Exception("Exception_InvalidCalendar");
@@ -169,7 +169,7 @@ namespace Timotheus.Schedule
             this.url = url;
             credentials = new NetworkCredential(username, password);
             client.BaseAddress = new Uri(url);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(username + ":" + password)));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(username + ":" + password)));
             client.DefaultRequestHeaders.Add("Accept-charset", "UTF-8");
         }
 
@@ -332,7 +332,7 @@ namespace Timotheus.Schedule
         /// </summary>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder("BEGIN:VCALENDAR\n");
+            StringBuilder builder = new("BEGIN:VCALENDAR\n");
             builder.Append(headers.ToString());
             builder.Append('\n');
             builder.Append(timezone);
@@ -371,7 +371,7 @@ namespace Timotheus.Schedule
             }
 
             WebResponse response = request.GetResponse();
-            System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
+            System.IO.StreamReader reader = new(response.GetResponseStream());
             string text = reader.ReadToEnd().Replace("\r\n ", "");
             string[] responseFromServer = Regex.Split(text, "\r\n|\r|\n");
             response.Close();

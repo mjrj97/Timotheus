@@ -71,5 +71,13 @@
             }
             return line.Substring(i + 1, line.Length - i - 1);
         }
+
+        /// <summary>
+        /// Returns the key in the format name:value.
+        /// </summary>
+        public override string ToString()
+        {
+            return name + ":" + value;
+        }
     }
 }
