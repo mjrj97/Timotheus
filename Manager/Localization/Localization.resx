@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddEvent" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddEvent_AddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddEvent_AllDayBox" xml:space="preserve">
+    <value>All day event</value>
+  </data>
+  <data name="AddEvent_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AddEvent_DescriptionLabel" xml:space="preserve">
+    <value>Descrip.</value>
+  </data>
+  <data name="AddEvent_EndLabel" xml:space="preserve">
+    <value>End*</value>
+  </data>
+  <data name="AddEvent_LocationLabel" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="AddEvent_NameLabel" xml:space="preserve">
+    <value>Name*</value>
+  </data>
+  <data name="AddEvent_StartLabel" xml:space="preserve">
+    <value>Start*</value>
+  </data>
+  <data name="Calendar_AddButton" xml:space="preserve">
+    <value>Add Event</value>
+  </data>
+  <data name="Calendar_All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Calendar_AllButton" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Calendar_April" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="Calendar_August" xml:space="preserve">
+    <value>August</value>
+  </data>
+  <data name="Calendar_December" xml:space="preserve">
+    <value>December</value>
+  </data>
+  <data name="Calendar_DescriptionColumn" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Calendar_EndColumn" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="Calendar_ExportButton" xml:space="preserve">
+    <value>Export PDF</value>
+  </data>
+  <data name="Calendar_Fall" xml:space="preserve">
+    <value>Fall</value>
+  </data>
+  <data name="Calendar_February" xml:space="preserve">
+    <value>February</value>
+  </data>
+  <data name="Calendar_HalfYearButton" xml:space="preserve">
+    <value>Half-year</value>
+  </data>
+  <data name="Calendar_January" xml:space="preserve">
+    <value>January</value>
+  </data>
+  <data name="Calendar_July" xml:space="preserve">
+    <value>July</value>
+  </data>
+  <data name="Calendar_June" xml:space="preserve">
+    <value>June</value>
+  </data>
+  <data name="Calendar_LocationColumn" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Calendar_March" xml:space="preserve">
+    <value>March</value>
+  </data>
+  <data name="Calendar_May" xml:space="preserve">
+    <value>May</value>
+  </data>
+  <data name="Calendar_MonthButton" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="Calendar_NameColumn" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Calendar_November" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="Calendar_October" xml:space="preserve">
+    <value>October</value>
+  </data>
+  <data name="Calendar_Page" xml:space="preserve">
+    <value>Calendar</value>
+  </data>
+  <data name="Calendar_September" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="Calendar_Spring" xml:space="preserve">
+    <value>Spring</value>
+  </data>
+  <data name="Calendar_StartColumn" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Calendar_SyncButton" xml:space="preserve">
+    <value>Synchronize</value>
+  </data>
+  <data name="Calendar_YearButton" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="EditKeyDialog" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditKeyDialog_AddStdButton" xml:space="preserve">
+    <value>Add standard keys</value>
+  </data>
+  <data name="EditKeyDialog_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="EditKeyDialog_OKButton" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Exception_AlreadyRunning" xml:space="preserve">
+    <value>The program is already running. If you can't see it, check the system tray or task manager</value>
+  </data>
+  <data name="Exception_EmptyAddress" xml:space="preserve">
+    <value>Address cannot be empty</value>
+  </data>
+  <data name="Exception_EmptyICS" xml:space="preserve">
+    <value>ICS field cannot be empty</value>
+  </data>
+  <data name="Exception_EmptyName" xml:space="preserve">
+    <value>Name cannot be empty</value>
+  </data>
+  <data name="Exception_InvalidCalendar" xml:space="preserve">
+    <value>Calendar isn't formatted correctly</value>
+  </data>
+  <data name="Exception_InvalidInput" xml:space="preserve">
+    <value>Invalid input</value>
+  </data>
+  <data name="Exception_InvalidPassword" xml:space="preserve">
+    <value>This is an invalid password. Try another...</value>
+  </data>
+  <data name="Exception_LoadFailed" xml:space="preserve">
+    <value>Couldn't load file</value>
+  </data>
+  <data name="Exception_Name" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Exception_NoKeys" xml:space="preserve">
+    <value>Key file could not be loaded</value>
+  </data>
+  <data name="Exception_Saving" xml:space="preserve">
+    <value>Couldn't save file</value>
+  </data>
+  <data name="Exception_SFTPInvalidPath" xml:space="preserve">
+    <value>The file is not in the directory</value>
+  </data>
+  <data name="Exception_Sync" xml:space="preserve">
+    <value>Couldn't sync the calendar</value>
+  </data>
+  <data name="Exception_WrongPassword" xml:space="preserve">
+    <value>Wrong password</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Help_ContributorsLabel" xml:space="preserve">
+    <value>Contributors</value>
+  </data>
+  <data name="Help_EmailLabel" xml:space="preserve">
+    <value>Email:</value>
+  </data>
+  <data name="Help_LicenseLabel" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="Help_SourceLabel" xml:space="preserve">
+    <value>Source:</value>
+  </data>
+  <data name="Help_VersionLabel" xml:space="preserve">
+    <value>Timotheus</value>
+  </data>
+  <data name="OpenCalendar" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OpenCalendar_BrowseButton" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="OpenCalendar_CalDAVButton" xml:space="preserve">
+    <value>Remote</value>
+  </data>
+  <data name="OpenCalendar_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="OpenCalendar_ICSButton" xml:space="preserve">
+    <value>Local</value>
+  </data>
+  <data name="OpenCalendar_ICSLabel" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="OpenCalendar_OpenButton" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OpenCalendar_PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="OpenCalendar_URLLabel" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="OpenCalendar_UsernameLabel" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="PasswordDialog" xml:space="preserve">
+    <value>Password required</value>
+  </data>
+  <data name="PasswordDialog_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="PasswordDialog_Label" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordDialog_OKButton" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="PasswordDialog_SaveBox" xml:space="preserve">
+    <value>Save password (Not recommended)</value>
+  </data>
+  <data name="PDF_Activity" xml:space="preserve">
+    <value>Activity</value>
+  </data>
+  <data name="PDF_Coffee" xml:space="preserve">
+    <value>Coffee</value>
+  </data>
+  <data name="PDF_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="PDF_Leader" xml:space="preserve">
+    <value>Leader</value>
+  </data>
+  <data name="PDF_Musician" xml:space="preserve">
+    <value>Musician</value>
+  </data>
+  <data name="PDF_Schedule" xml:space="preserve">
+    <value>Schedule for</value>
+  </data>
+  <data name="PDF_Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="PDF_Welcome" xml:space="preserve">
+    <value>Welcome to</value>
+  </data>
+  <data name="Settings_AddressLabel" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Settings_BrowseButton" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="Settings_LogoLabel" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="Settings_NameLabel" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Settings_Page" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settins_InfoBox" xml:space="preserve">
+    <value>Association information</value>
+  </data>
+  <data name="SFTPSetup" xml:space="preserve">
+    <value>Setup</value>
+  </data>
+  <data name="SFTPSetup_BrowseButton" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="SFTPSetup_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SFTPSetup_HostLabel" xml:space="preserve">
+    <value>Host</value>
+  </data>
+  <data name="SFTPSetup_LocalDirectoryLabel" xml:space="preserve">
+    <value>Local</value>
+  </data>
+  <data name="SFTPSetup_PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SFTPSetup_RemoteDirectoryLabel" xml:space="preserve">
+    <value>Remote</value>
+  </data>
+  <data name="SFTPSetup_SetupButton" xml:space="preserve">
+    <value>Setup</value>
+  </data>
+  <data name="SFTPSetup_UsernameLabel" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="SFTP_GoUpButton" xml:space="preserve">
+    <value>Go back</value>
+  </data>
+  <data name="SFTP_NameColumn" xml:space="preserve">
+    <value>File name</value>
+  </data>
+  <data name="SFTP_Page" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="SFTP_SetupButton" xml:space="preserve">
+    <value>Setup</value>
+  </data>
+  <data name="SFTP_SizeColumn" xml:space="preserve">
+    <value>File size</value>
+  </data>
+  <data name="SFTP_SyncButton" xml:space="preserve">
+    <value>Synchronize</value>
+  </data>
+  <data name="SyncCalendar" xml:space="preserve">
+    <value>Synchronize</value>
+  </data>
+  <data name="SyncCalendar_CalDAVLabel" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="SyncCalendar_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SyncCalendar_CustomCalendarButton" xml:space="preserve">
+    <value>Sync custom period</value>
+  </data>
+  <data name="SyncCalendar_Destination" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="SyncCalendar_EntireCalendarButton" xml:space="preserve">
+    <value>Sync the entire calendar</value>
+  </data>
+  <data name="SyncCalendar_NewCalendarButton" xml:space="preserve">
+    <value>Another calendar</value>
+  </data>
+  <data name="SyncCalendar_PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SyncCalendar_PeriodCalendarButton" xml:space="preserve">
+    <value>Sync the period</value>
+  </data>
+  <data name="SyncCalendar_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SyncCalendar_SyncButton" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="SyncCalendar_UseExistingButton" xml:space="preserve">
+    <value>Current calendar</value>
+  </data>
+  <data name="SyncCalendar_UsernameLabel" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="ToolStrip_EditKey" xml:space="preserve">
+    <value>Edit key</value>
+  </data>
+  <data name="ToolStrip_Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="ToolStrip_File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="ToolStrip_Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="ToolStrip_Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="ToolStrip_LoadKey" xml:space="preserve">
+    <value>Open key</value>
+  </data>
+  <data name="ToolStrip_NewFile" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="ToolStrip_OpenFile" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="ToolStrip_SaveFile" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ToolStrip_SaveKey" xml:space="preserve">
+    <value>Save key</value>
+  </data>
+</root>

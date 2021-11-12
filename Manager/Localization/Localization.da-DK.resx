@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddEvent" xml:space="preserve">
+    <value>Tilføj</value>
+  </data>
+  <data name="AddEvent_AddButton" xml:space="preserve">
+    <value>Tilføj</value>
+  </data>
+  <data name="AddEvent_AllDayBox" xml:space="preserve">
+    <value>Heldagsbegivenhed</value>
+  </data>
+  <data name="AddEvent_CancelButton" xml:space="preserve">
+    <value>Annullér</value>
+  </data>
+  <data name="AddEvent_DescriptionLabel" xml:space="preserve">
+    <value>Beskriv.</value>
+  </data>
+  <data name="AddEvent_EndLabel" xml:space="preserve">
+    <value>Slut*</value>
+  </data>
+  <data name="AddEvent_LocationLabel" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="AddEvent_NameLabel" xml:space="preserve">
+    <value>Navn*</value>
+  </data>
+  <data name="AddEvent_StartLabel" xml:space="preserve">
+    <value>Start*</value>
+  </data>
+  <data name="Calendar_AddButton" xml:space="preserve">
+    <value>Tilføj</value>
+  </data>
+  <data name="Calendar_All" xml:space="preserve">
+    <value>Alle</value>
+  </data>
+  <data name="Calendar_AllButton" xml:space="preserve">
+    <value>Alle</value>
+  </data>
+  <data name="Calendar_April" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="Calendar_August" xml:space="preserve">
+    <value>August</value>
+  </data>
+  <data name="Calendar_December" xml:space="preserve">
+    <value>December</value>
+  </data>
+  <data name="Calendar_DescriptionColumn" xml:space="preserve">
+    <value>Beskrivelse</value>
+  </data>
+  <data name="Calendar_EndColumn" xml:space="preserve">
+    <value>Slut</value>
+  </data>
+  <data name="Calendar_ExportButton" xml:space="preserve">
+    <value>Eksport PDF</value>
+  </data>
+  <data name="Calendar_Fall" xml:space="preserve">
+    <value>Efteråret</value>
+  </data>
+  <data name="Calendar_February" xml:space="preserve">
+    <value>Februar</value>
+  </data>
+  <data name="Calendar_HalfYearButton" xml:space="preserve">
+    <value>Halvår</value>
+  </data>
+  <data name="Calendar_January" xml:space="preserve">
+    <value>Januar</value>
+  </data>
+  <data name="Calendar_July" xml:space="preserve">
+    <value>Juli</value>
+  </data>
+  <data name="Calendar_June" xml:space="preserve">
+    <value>Juni</value>
+  </data>
+  <data name="Calendar_LocationColumn" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="Calendar_March" xml:space="preserve">
+    <value>Marts</value>
+  </data>
+  <data name="Calendar_May" xml:space="preserve">
+    <value>Maj</value>
+  </data>
+  <data name="Calendar_MonthButton" xml:space="preserve">
+    <value>Måned</value>
+  </data>
+  <data name="Calendar_NameColumn" xml:space="preserve">
+    <value>Navn</value>
+  </data>
+  <data name="Calendar_November" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="Calendar_October" xml:space="preserve">
+    <value>Oktober</value>
+  </data>
+  <data name="Calendar_Page" xml:space="preserve">
+    <value>Kalender</value>
+  </data>
+  <data name="Calendar_September" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="Calendar_Spring" xml:space="preserve">
+    <value>Foråret</value>
+  </data>
+  <data name="Calendar_StartColumn" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Calendar_SyncButton" xml:space="preserve">
+    <value>Synkronisér</value>
+  </data>
+  <data name="Calendar_YearButton" xml:space="preserve">
+    <value>År</value>
+  </data>
+  <data name="EditKeyDialog" xml:space="preserve">
+    <value>Redigér</value>
+  </data>
+  <data name="EditKeyDialog_AddStdButton" xml:space="preserve">
+    <value>Tilføj standard nøgler</value>
+  </data>
+  <data name="EditKeyDialog_CancelButton" xml:space="preserve">
+    <value>Annullér</value>
+  </data>
+  <data name="EditKeyDialog_OKButton" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Exception_AlreadyRunning" xml:space="preserve">
+    <value>Programmet kører allerede, hvis du ikke kan se det, tjek systembakken eller joblisten</value>
+  </data>
+  <data name="Exception_EmptyAddress" xml:space="preserve">
+    <value>Adresse må ikke være tom</value>
+  </data>
+  <data name="Exception_EmptyICS" xml:space="preserve">
+    <value>URL felt må ikke være tom</value>
+  </data>
+  <data name="Exception_EmptyName" xml:space="preserve">
+    <value>Navn må ikke være tom</value>
+  </data>
+  <data name="Exception_InvalidCalendar" xml:space="preserve">
+    <value>Kalender er ikke formateret korrekt</value>
+  </data>
+  <data name="Exception_InvalidInput" xml:space="preserve">
+    <value>Ugyldig input</value>
+  </data>
+  <data name="Exception_InvalidPassword" xml:space="preserve">
+    <value>Dette er ikke en brugbar password. Prøv en anden...</value>
+  </data>
+  <data name="Exception_LoadFailed" xml:space="preserve">
+    <value>Kunne ikke læse fil</value>
+  </data>
+  <data name="Exception_Name" xml:space="preserve">
+    <value>Fejl</value>
+  </data>
+  <data name="Exception_NoKeys" xml:space="preserve">
+    <value>Nøglefil kunne ikke læses</value>
+  </data>
+  <data name="Exception_Saving" xml:space="preserve">
+    <value>Kunne ikke gemme fil</value>
+  </data>
+  <data name="Exception_SFTPInvalidPath" xml:space="preserve">
+    <value>Filen er ikke i mappen</value>
+  </data>
+  <data name="Exception_Sync" xml:space="preserve">
+    <value>Kunne ikke synkronisere</value>
+  </data>
+  <data name="Exception_WrongPassword" xml:space="preserve">
+    <value>Forkert adgangskode</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Hjælp</value>
+  </data>
+  <data name="Help_ContributorsLabel" xml:space="preserve">
+    <value>Forfattere</value>
+  </data>
+  <data name="Help_EmailLabel" xml:space="preserve">
+    <value>Email:</value>
+  </data>
+  <data name="Help_LicenseLabel" xml:space="preserve">
+    <value>Licens</value>
+  </data>
+  <data name="Help_SourceLabel" xml:space="preserve">
+    <value>Kilde:</value>
+  </data>
+  <data name="Help_VersionLabel" xml:space="preserve">
+    <value>Timotheus</value>
+  </data>
+  <data name="OpenCalendar" xml:space="preserve">
+    <value>Åben</value>
+  </data>
+  <data name="OpenCalendar_BrowseButton" xml:space="preserve">
+    <value>Gennemse</value>
+  </data>
+  <data name="OpenCalendar_CalDAVButton" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="OpenCalendar_CancelButton" xml:space="preserve">
+    <value>Annullér</value>
+  </data>
+  <data name="OpenCalendar_ICSButton" xml:space="preserve">
+    <value>Lokal</value>
+  </data>
+  <data name="OpenCalendar_ICSLabel" xml:space="preserve">
+    <value>Fil</value>
+  </data>
+  <data name="OpenCalendar_OpenButton" xml:space="preserve">
+    <value>Åben</value>
+  </data>
+  <data name="OpenCalendar_PasswordLabel" xml:space="preserve">
+    <value>Adgangskode</value>
+  </data>
+  <data name="OpenCalendar_URLLabel" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="OpenCalendar_UsernameLabel" xml:space="preserve">
+    <value>Brugernavn</value>
+  </data>
+  <data name="PasswordDialog" xml:space="preserve">
+    <value>Adgangskode nødvendig</value>
+  </data>
+  <data name="PasswordDialog_CancelButton" xml:space="preserve">
+    <value>Annullér</value>
+  </data>
+  <data name="PasswordDialog_Label" xml:space="preserve">
+    <value>Adgangskode</value>
+  </data>
+  <data name="PasswordDialog_OKButton" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="PasswordDialog_SaveBox" xml:space="preserve">
+    <value>Gem adgangskode (Ikke anbefalet)</value>
+  </data>
+  <data name="PDF_Activity" xml:space="preserve">
+    <value>Aktivitet</value>
+  </data>
+  <data name="PDF_Coffee" xml:space="preserve">
+    <value>Kaffehold</value>
+  </data>
+  <data name="PDF_Date" xml:space="preserve">
+    <value>Dato</value>
+  </data>
+  <data name="PDF_Leader" xml:space="preserve">
+    <value>Mødeleder</value>
+  </data>
+  <data name="PDF_Musician" xml:space="preserve">
+    <value>Musiker</value>
+  </data>
+  <data name="PDF_Schedule" xml:space="preserve">
+    <value>Program for</value>
+  </data>
+  <data name="PDF_Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="PDF_Welcome" xml:space="preserve">
+    <value>Velkommen i</value>
+  </data>
+  <data name="Settings_AddressLabel" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="Settings_BrowseButton" xml:space="preserve">
+    <value>Gennemse</value>
+  </data>
+  <data name="Settings_LogoLabel" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="Settings_NameLabel" xml:space="preserve">
+    <value>Navn</value>
+  </data>
+  <data name="Settings_Page" xml:space="preserve">
+    <value>Indstillinger</value>
+  </data>
+  <data name="Settins_InfoBox" xml:space="preserve">
+    <value>Foreningens information</value>
+  </data>
+  <data name="SFTPSetup" xml:space="preserve">
+    <value>Opsætning</value>
+  </data>
+  <data name="SFTPSetup_BrowseButton" xml:space="preserve">
+    <value>Gennemsé</value>
+  </data>
+  <data name="SFTPSetup_CancelButton" xml:space="preserve">
+    <value>Annullér</value>
+  </data>
+  <data name="SFTPSetup_HostLabel" xml:space="preserve">
+    <value>Host</value>
+  </data>
+  <data name="SFTPSetup_LocalDirectoryLabel" xml:space="preserve">
+    <value>Lokal</value>
+  </data>
+  <data name="SFTPSetup_PasswordLabel" xml:space="preserve">
+    <value>Adgangskode</value>
+  </data>
+  <data name="SFTPSetup_RemoteDirectoryLabel" xml:space="preserve">
+    <value>Fjern</value>
+  </data>
+  <data name="SFTPSetup_SetupButton" xml:space="preserve">
+    <value>Opsæt</value>
+  </data>
+  <data name="SFTPSetup_UsernameLabel" xml:space="preserve">
+    <value>Brugernavn</value>
+  </data>
+  <data name="SFTP_GoUpButton" xml:space="preserve">
+    <value>Gå tilbage</value>
+  </data>
+  <data name="SFTP_NameColumn" xml:space="preserve">
+    <value>Filnavn</value>
+  </data>
+  <data name="SFTP_Page" xml:space="preserve">
+    <value>Filer</value>
+  </data>
+  <data name="SFTP_SetupButton" xml:space="preserve">
+    <value>Opsætning</value>
+  </data>
+  <data name="SFTP_SizeColumn" xml:space="preserve">
+    <value>Filstørrelse</value>
+  </data>
+  <data name="SFTP_SyncButton" xml:space="preserve">
+    <value>Synkronisér</value>
+  </data>
+  <data name="SyncCalendar" xml:space="preserve">
+    <value>Synkronisér</value>
+  </data>
+  <data name="SyncCalendar_CalDAVLabel" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="SyncCalendar_CancelButton" xml:space="preserve">
+    <value>Annullér</value>
+  </data>
+  <data name="SyncCalendar_CustomCalendarButton" xml:space="preserve">
+    <value>Synkronisér brugerdefineret periode</value>
+  </data>
+  <data name="SyncCalendar_Destination" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="SyncCalendar_EntireCalendarButton" xml:space="preserve">
+    <value>Synkronisér hele kalenderen</value>
+  </data>
+  <data name="SyncCalendar_NewCalendarButton" xml:space="preserve">
+    <value>En anden kalender</value>
+  </data>
+  <data name="SyncCalendar_PasswordLabel" xml:space="preserve">
+    <value>Adgangskode</value>
+  </data>
+  <data name="SyncCalendar_PeriodCalendarButton" xml:space="preserve">
+    <value>Synkronisér denne periode</value>
+  </data>
+  <data name="SyncCalendar_Settings" xml:space="preserve">
+    <value>Indstillinger</value>
+  </data>
+  <data name="SyncCalendar_SyncButton" xml:space="preserve">
+    <value>Synkronisér</value>
+  </data>
+  <data name="SyncCalendar_UseExistingButton" xml:space="preserve">
+    <value>Nuværende kalender</value>
+  </data>
+  <data name="SyncCalendar_UsernameLabel" xml:space="preserve">
+    <value>Brugernavn</value>
+  </data>
+  <data name="ToolStrip_EditKey" xml:space="preserve">
+    <value>Redigér nøgle</value>
+  </data>
+  <data name="ToolStrip_Exit" xml:space="preserve">
+    <value>Luk</value>
+  </data>
+  <data name="ToolStrip_File" xml:space="preserve">
+    <value>Filer</value>
+  </data>
+  <data name="ToolStrip_Help" xml:space="preserve">
+    <value>Hjælp</value>
+  </data>
+  <data name="ToolStrip_Key" xml:space="preserve">
+    <value>Nøgle</value>
+  </data>
+  <data name="ToolStrip_LoadKey" xml:space="preserve">
+    <value>Åben nøgle</value>
+  </data>
+  <data name="ToolStrip_NewFile" xml:space="preserve">
+    <value>Ny</value>
+  </data>
+  <data name="ToolStrip_OpenFile" xml:space="preserve">
+    <value>Åben</value>
+  </data>
+  <data name="ToolStrip_SaveFile" xml:space="preserve">
+    <value>Gem</value>
+  </data>
+  <data name="ToolStrip_SaveKey" xml:space="preserve">
+    <value>Gem nøgle</value>
+  </data>
+</root>
