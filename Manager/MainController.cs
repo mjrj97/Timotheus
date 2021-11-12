@@ -141,6 +141,9 @@ namespace Timotheus
             Files = Directory.GetFilesList(currentDirectory);
         }
 
+        /// <summary>
+        /// "Inserts" the current key, and tries to open the Calendar and Filsharing system.
+        /// </summary>
         private void InsertKey()
         {
             try

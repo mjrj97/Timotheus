@@ -75,7 +75,7 @@
         <DockPanel>
           <DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
             <Button Name="-" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">←</Button>
-            <TextBox Width="150" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding PeriodText}" KeyDown="PeriodBox_KeyDown"/>
+            <TextBox Width="150" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding PeriodText}" KeyDown="Period_KeyDown"/>
             <Button Name="+" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 30 0">→</Button>
             <ComboBox SelectedIndex="{Binding SelectedPeriod}">
               <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_AllButton}"/>
@@ -132,7 +132,7 @@
             <Button Content="{x:Static i18n:Localization.SFTP_GoUpButton}" Click="UpDirectory_Click" DockPanel.Dock="Left"/>
           </DockPanel>
           <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
-            <DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible">
+            <DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="GoToDirectory_Click">
               <DataGrid.Columns>
                 <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True">
                   <DataGridTemplateColumn.CellTemplate>

@@ -12,29 +12,29 @@ using Timotheus.Utility;
 
 namespace Timotheus
 {
+    /// <summary>
+    /// MainWindow of the Timotheus app. Contains Calendar and Filesharing tabs.
+    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainController data;
-        
+        /// <summary>
+        /// Data Context of the MainWindow.
+        /// </summary>
+        private readonly MainController data;
+
+        /// <summary>
+        /// Constructor. Creates datacontext and loads XAML.
+        /// </summary>
         public MainWindow()
         {
             data = new();
             AvaloniaXamlLoader.Load(this);
             DataContext = data;
-            this.Find<DataGrid>("Files").AddHandler(
-                DoubleTappedEvent,
-                (s, e) =>
-                {
-                    var row = ((IControl)e.Source).GetSelfAndVisualAncestors()
-                                .OfType<DataGridRow>()
-                                .FirstOrDefault();
-
-                    if (row != null)
-                        data.GoToDirectory(row.GetIndex());
-                },
-                handledEventsToo: true);
         }
 
+        /// <summary>
+        /// Loads the key last used.
+        /// </summary>
         private async void StartUpKey()
         {
             try
@@ -66,6 +66,9 @@ namespace Timotheus
             }
         }
 
+        /// <summary>
+        /// Opens the window and retrieves last used key.
+        /// </summary>
         public override void Show()
         {
             base.Show();
@@ -78,6 +81,7 @@ namespace Timotheus
         }
         private static bool isShown = false;
 
+        #region Calendar
         /// <summary>
         /// Changes the selected year and calls UpdateTable.
         /// </summary>
@@ -93,6 +97,21 @@ namespace Timotheus
             }
         }
 
+        /// <summary>
+        /// Updates the period according to the textbox.
+        /// </summary>
+        private void Period_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                data.calendarPeriod.SetPeriod(((TextBox)sender).Text);
+                data.UpdateCalendarTable();
+            }
+        }
+
+        /// <summary>
+        /// Opens a OpenCalendar dialog
+        /// </summary>
         private async void OpenCalendar_Click(object sender, RoutedEventArgs e)
         {
             Schedule.Calendar calendar = await OpenCalendar.Show(this);
@@ -100,6 +119,9 @@ namespace Timotheus
                 data.Calendar = calendar;
         }
 
+        /// <summary>
+        /// Opens a SaveFileDialog to save the current Calendar.
+        /// </summary>
         private async void SaveCalendar_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new();
@@ -124,12 +146,18 @@ namespace Timotheus
             }
         }
 
+        /// <summary>
+        /// Opens a SyncCalendar dialog to sync the current calendar.
+        /// </summary>
         private void SyncCalendar_Click(object sender, RoutedEventArgs e)
         {
             SyncCalendar.Show(this, data.Calendar, data.calendarPeriod);
             data.UpdateCalendarTable();
         }
 
+        /// <summary>
+        /// Opens a AddEvent dialog, and adds the result to the current calendar.
+        /// </summary>
         private async void AddEvent_Click(object sender, RoutedEventArgs e)
         {
             Event ev = await AddEvent.Show(this);
@@ -140,6 +168,9 @@ namespace Timotheus
             }
         }
 
+        /// <summary>
+        /// Marks the selected event for deletion.
+        /// </summary>
         private void RemoveEvent_Click(object sender, RoutedEventArgs e)
         {
             Event ev = (Event)((Button)e.Source).DataContext;
@@ -149,6 +180,9 @@ namespace Timotheus
             }
         }
 
+        /// <summary>
+        /// Opens a SaveFileDialog to export the current Calendar (in the given period) as a PDF.
+        /// </summary>
         private async void ExportPDF_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new();
@@ -178,31 +212,51 @@ namespace Timotheus
                 }
             }
         }
+        #endregion
 
-        private void PeriodBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                data.calendarPeriod.SetPeriod(((TextBox)sender).Text);
-                data.UpdateCalendarTable();
-            }
-        }
-
+        #region Files
+        /// <summary>
+        /// Goes one level up from the currently visible directory.
+        /// </summary>
         private void UpDirectory_Click(object sender, RoutedEventArgs e)
         {
             data.GoUpDirectory();
         }
 
+        /// <summary>
+        /// Synchronizes the files in the local and remote directory.
+        /// </summary>
         private void SyncFiles_Click(object sender, RoutedEventArgs e)
         {
             data.Directory.Synchronize();
         }
 
+        /// <summary>
+        /// Opens a SetupSFTP dialog to define the SFTP parameters.
+        /// </summary>
         private async void SetupFiles_Click(object sender, RoutedEventArgs e)
         {
             data.Directory = await SetupSFTP.Show(this);
         }
 
+        /// <summary>
+        /// Goes one level down into the selected directory.
+        /// </summary>
+        private void GoToDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            var row = ((IControl)e.Source).GetSelfAndVisualAncestors()
+                                .OfType<DataGridRow>()
+                                .FirstOrDefault();
+
+            if (row != null)
+                data.GoToDirectory(row.GetIndex());
+        }
+        #endregion
+
+        #region Toolstrip
+        /// <summary>
+        /// Opens a SaveFileDialog so the user can save the current key as a file.
+        /// </summary>
         private async void SaveKey_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new();
@@ -249,6 +303,9 @@ namespace Timotheus
             }
         }
 
+        /// <summary>
+        /// Opens an OpenFileDialog so the user can open a key file.
+        /// </summary>
         private async void OpenKey_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new();
@@ -291,9 +348,13 @@ namespace Timotheus
             }
         }
 
+        /// <summary>
+        /// Opens an EditKey dialog where the user can change the values of the key.
+        /// </summary>
         private async void EditKey_Click(object sender, RoutedEventArgs e)
         {
             data.keys = await EditKey.Show(this, data.keys.ToString());
         }
+        #endregion
     }
 }
