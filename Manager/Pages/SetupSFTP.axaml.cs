@@ -9,7 +9,7 @@ namespace Timotheus
     public partial class SetupSFTP : Window
     {
         private bool ok = false;
-        private readonly SetupData data;
+        public readonly SetupData data;
 
         public SetupSFTP()
         {
@@ -35,20 +35,17 @@ namespace Timotheus
             Close();
         }
 
-        public new static Task<IO.DirectoryManager> Show(Window parent)
+        public new Task<bool> Show(Window parent)
         {
-            SetupSFTP dialog = new();
-
-            TaskCompletionSource<IO.DirectoryManager> tcs = new();
-            dialog.Closed += delegate
+            TaskCompletionSource<bool> tcs = new();
+            Closed += delegate
             {
-                if (dialog.ok)
-                    tcs.TrySetResult(new IO.DirectoryManager(dialog.data.Local, dialog.data.Remote, dialog.data.Host, dialog.data.Username, dialog.data.Password));
+                tcs.TrySetResult(ok);
             };
 
             if (parent != null)
-                dialog.ShowDialog(parent);
-            else dialog.Show();
+                ShowDialog(parent);
+            else Show();
 
             return tcs.Task;
         }

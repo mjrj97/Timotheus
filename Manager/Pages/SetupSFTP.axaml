@@ -5,7 +5,7 @@
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" Width="450" SizeToContent="Height"
         x:Class="Timotheus.SetupSFTP"
-        Title="{x:Static i18n:Localization.SFTPSetup}" CanResize="False" WindowStartupLocation="CenterOwner">
+        Title="{x:Static i18n:Localization.SFTPSetup}" CanResize="False" WindowStartupLocation="CenterOwner" FontFamily="Arvo" Icon="/Resources/Icon.ico">
 
   <DockPanel Margin="20">
     <DockPanel DockPanel.Dock="Top">
@@ -31,8 +31,8 @@
         <DockPanel>
           <DockPanel DockPanel.Dock="Top">
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_LocalDirectoryLabel}" Width="100" VerticalAlignment="Center"/>
-            <TextBox Watermark="C:/..." Text="{Binding Local}" Width="187"/>
-            <Button Content="{x:Static i18n:Localization.SFTPSetup_BrowseButton}" Width="90" Click="Browse_Click" Margin="10 0 0 0" HorizontalContentAlignment="Center"/>
+            <TextBox Watermark="C:/..." Text="{Binding Local}" Width="182"/>
+            <Button Content="{x:Static i18n:Localization.SFTPSetup_BrowseButton}" Width="95" Click="Browse_Click" Margin="10 0 0 0" HorizontalContentAlignment="Center"/>
           </DockPanel>
           <DockPanel DockPanel.Dock="Top" Margin="0 10 0 0">
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_RemoteDirectoryLabel}" Width="100" VerticalAlignment="Center"/>

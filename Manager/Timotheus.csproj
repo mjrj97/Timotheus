@@ -34,40 +34,14 @@
     <PackageReference Include="SSH.NET" Version="2020.0.1" />
    </ItemGroup>
   <ItemGroup>
-    <Compile Update="MessageBox.axaml.cs">
-      <DependentUpon>MessageBox.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="NewPage.axaml.cs">
-      <DependentUpon>NewPage.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\AddEvent.axaml.cs">
-      <DependentUpon>AddEvent.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\PasswordDialog.axaml.cs">
-      <DependentUpon>PasswordDialog.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\SetupSFTP.axaml.cs">
-      <DependentUpon>SetupSFTP.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\EditKey.axaml.cs">
-      <DependentUpon>EditKey.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\SyncCalendar.axaml.cs">
-      <DependentUpon>SyncCalendar.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Pages\OpenCalendar.axaml.cs">
-      <DependentUpon>OpenCalendar.axaml</DependentUpon>
-    </Compile>
+    <AvaloniaResource Include="Resources\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="Localization\Localization.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <AvaloniaResource Include="Resources\**" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Update="Localization\Localization.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>

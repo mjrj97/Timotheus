@@ -64,6 +64,7 @@
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_LoadKey}" Click="OpenKey_Click"/>
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditKey}" Click="EditKey_Click"/>
         </MenuItem>
+        <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Help}" Click="Help_Click"/>
       </Menu>
     </DockPanel>
     <TabControl>

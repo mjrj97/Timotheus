@@ -250,7 +250,17 @@ namespace Timotheus
         /// </summary>
         private async void SetupFiles_Click(object sender, RoutedEventArgs e)
         {
-            data.Directory = await SetupSFTP.Show(this);
+            SetupSFTP dialog = new();
+            bool result = await dialog.Show(this);
+            if (result)
+            {
+                data.Directory = new IO.DirectoryManager(dialog.data.Local, dialog.data.Remote, dialog.data.Host, dialog.data.Username, dialog.data.Password);
+                data.Keys.Set("SSH-LocalDirectory", dialog.data.Local);
+                data.Keys.Set("SSH-RemoteDirectory", dialog.data.Remote);
+                data.Keys.Set("SSH-URL", dialog.data.Host);
+                data.Keys.Set("SSH-Username", dialog.data.Username);
+                data.Keys.Set("SSH-Password", dialog.data.Password);
+            }
         }
 
         /// <summary>
@@ -399,6 +409,12 @@ namespace Timotheus
         private async void EditKey_Click(object sender, RoutedEventArgs e)
         {
             data.Keys = await EditKey.Show(this, data.Keys.ToString());
+        }
+
+        private void Help_Click(object sender, RoutedEventArgs e)
+        {
+            Help dialog = new();
+            dialog.Show(this);
         }
         #endregion
     }

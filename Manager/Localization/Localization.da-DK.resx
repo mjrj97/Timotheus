@@ -288,20 +288,23 @@
   <data name="Help" xml:space="preserve">
     <value>Hjælp</value>
   </data>
+  <data name="Help_Close" xml:space="preserve">
+    <value>Luk</value>
+  </data>
   <data name="Help_ContributorsLabel" xml:space="preserve">
-    <value>Forfattere</value>
+    <value>Forfattere:</value>
   </data>
   <data name="Help_EmailLabel" xml:space="preserve">
     <value>Email:</value>
   </data>
   <data name="Help_LicenseLabel" xml:space="preserve">
-    <value>Licens</value>
+    <value>Licens:</value>
   </data>
   <data name="Help_SourceLabel" xml:space="preserve">
     <value>Kilde:</value>
   </data>
   <data name="Help_VersionLabel" xml:space="preserve">
-    <value>Timotheus</value>
+    <value>Version:</value>
   </data>
   <data name="OpenCalendar" xml:space="preserve">
     <value>Åben</value>

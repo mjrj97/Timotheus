@@ -574,7 +574,16 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contributors.
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Help_Close {
+            get {
+                return ResourceManager.GetString("Help_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contributors:.
         /// </summary>
         public static string Help_ContributorsLabel {
             get {
@@ -592,7 +601,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to License.
+        ///   Looks up a localized string similar to License:.
         /// </summary>
         public static string Help_LicenseLabel {
             get {
@@ -610,7 +619,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Timotheus.
+        ///   Looks up a localized string similar to Version:.
         /// </summary>
         public static string Help_VersionLabel {
             get {

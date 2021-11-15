@@ -3,9 +3,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i18n="clr-namespace:Timotheus.Localization"
-        mc:Ignorable="d" Width="720" Height="350"
+        mc:Ignorable="d" Width="750" Height="350"
         x:Class="Timotheus.EditKey"
-        Title="{x:Static i18n:Localization.EditKeyDialog}" CanResize="True" WindowStartupLocation="CenterOwner">
+        Title="{x:Static i18n:Localization.EditKeyDialog}" CanResize="True" WindowStartupLocation="CenterOwner" FontFamily="Arvo" Icon="/Resources/Icon.ico">
 
   <DockPanel Margin="20">
     <DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">

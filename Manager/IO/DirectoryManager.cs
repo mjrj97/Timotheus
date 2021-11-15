@@ -68,7 +68,7 @@ namespace Timotheus.IO
 
             LocalPath = localPath.Replace('/', '\\');
             RemotePath = remotePath.Replace('\\', '/');
-            LoadLastSync();
+            //LoadLastSync();
             client = new SftpClient(host, username, password);
         }
         public DirectoryManager()
@@ -536,7 +536,7 @@ namespace Timotheus.IO
             {
                 client.Disconnect();
                 //watcher.EnableRaisingEvents = true;
-                SaveLastSync();
+                //SaveLastSync();
             }
             #endregion
         }
