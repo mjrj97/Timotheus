@@ -14,7 +14,19 @@ namespace Timotheus
         /// <summary>
         /// Register containing all the keys loaded at startup or manually from a key file (.tkey or .txt)
         /// </summary>
-        public Register keys = new();
+        private Register _Keys = new();
+        public Register Keys
+        {
+            get
+            {
+                return _Keys;
+            }
+            set
+            {
+                _Keys = value;
+                InsertKey();
+            }
+        }
 
         /// <summary>
         /// Current calendar used by the program.
@@ -69,7 +81,7 @@ namespace Timotheus
             set => this.RaiseAndSetIfChanged(ref _Files, value);
         }
 
-        private DirectoryManager _Directory;
+        private DirectoryManager _Directory = new();
         public DirectoryManager Directory
         {
             get
@@ -131,9 +143,7 @@ namespace Timotheus
         public void GoToDirectory(int i)
         {
             if (Files[i].IsDirectory)
-            {
                 GoToDirectory(Files[i].FullName);
-            }
         }
         public void GoToDirectory(string path)
         {
@@ -148,13 +158,13 @@ namespace Timotheus
         {
             try
             {
-                Directory = new DirectoryManager(keys.Get("SSH-LocalDirectory"), keys.Get("SSH-RemoteDirectory"), keys.Get("SSH-URL"), keys.Get("SSH-Username"), keys.Get("SSH-Password"));
+                Directory = new DirectoryManager(Keys.Get("SSH-LocalDirectory"), Keys.Get("SSH-RemoteDirectory"), Keys.Get("SSH-URL"), Keys.Get("SSH-Username"), Keys.Get("SSH-Password"));
             }
-            catch (Exception) { }
+            catch (Exception) { Directory = new(); }
 
             try
             {
-                Calendar = new(keys.Get("Calendar-Email"), keys.Get("Calendar-Password"), keys.Get("Calendar-URL"));
+                Calendar = new(Keys.Get("Calendar-Email"), Keys.Get("Calendar-Password"), Keys.Get("Calendar-URL"));
             }
             catch (Exception) { Calendar = new(); }
         }
@@ -166,9 +176,8 @@ namespace Timotheus
         /// <param name="password">The password used to decrypt the key.</param>
         public void LoadKey(string path, string password)
         {
-            keys = new Register(path, password, ':');
+            Keys = new Register(path, password, ':');
             Timotheus.Registry.Set("KeyPath", path);
-            InsertKey();
 
             string encodedPassword = Cipher.Encrypt(password);
             Timotheus.Registry.Set("KeyPassword", encodedPassword);
@@ -179,10 +188,9 @@ namespace Timotheus
         /// <param name="path">Path to the key file.</param>
         public void LoadKey(string path)
         {
-            keys = new Register(path, ':');
+            Keys = new Register(path, ':');
             Timotheus.Registry.Set("KeyPath", path);
             Timotheus.Registry.Remove("KeyPassword");
-            InsertKey();
         }
 
         /// <summary>
@@ -190,14 +198,14 @@ namespace Timotheus
         /// </summary>
         public void SaveKey(string path)
         {
-            keys.Save(path);
+            Keys.Save(path);
         }
         /// <summary>
         /// Save the encrypted key to the path.
         /// </summary>
         public void SaveKey(string path, string password)
         {
-            keys.Save(path, password);
+            Keys.Save(path, password);
         }
     }
 }

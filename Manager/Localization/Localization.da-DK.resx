@@ -279,6 +279,9 @@
   <data name="Exception_Sync" xml:space="preserve">
     <value>Kunne ikke synkronisere</value>
   </data>
+  <data name="Exception_SyncSFTP" xml:space="preserve">
+    <value>Kunne ikke synkronisere filerne</value>
+  </data>
   <data name="Exception_WrongPassword" xml:space="preserve">
     <value>Forkert adgangskode</value>
   </data>
@@ -491,6 +494,9 @@
   </data>
   <data name="ToolStrip_NewFile" xml:space="preserve">
     <value>Ny</value>
+  </data>
+  <data name="ToolStrip_NewSecure" xml:space="preserve">
+    <value>Er du sikker på at du vil lave et nyt projekt? Ikke gemt data vil blive slettet.</value>
   </data>
   <data name="ToolStrip_OpenFile" xml:space="preserve">
     <value>Åben</value>

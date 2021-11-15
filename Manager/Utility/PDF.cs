@@ -6,7 +6,6 @@ using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.DocumentObjectModel.Shapes;
 using Timotheus.Schedule;
 using Timotheus.IO;
-using System.Globalization;
 using System.Linq;
 
 namespace Timotheus.Utility

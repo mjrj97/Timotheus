@@ -60,9 +60,9 @@ namespace Timotheus
                         break;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                await MessageBox.Show(this, e.Message, Localization.Localization.Exception_NoKeys, MessageBox.MessageBoxButtons.OkCancel);
+                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_NoKeys, MessageBox.MessageBoxButtons.OkCancel);
             }
         }
 
@@ -76,7 +76,6 @@ namespace Timotheus
             {
                 StartUpKey();
                 isShown = true;
-                File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Test.txt", "Test");
             }
         }
         private static bool isShown = false;
@@ -204,7 +203,7 @@ namespace Timotheus
                     {
                         events.Add(data.Events[i]);
                     }
-                    PDF.ExportCalendar(events, file.DirectoryName, file.Name, data.keys.Get("Settings-Name"), data.keys.Get("Settings-Address"), data.keys.Get("Settings-Image"), data.PeriodText);
+                    PDF.ExportCalendar(events, file.DirectoryName, file.Name, data.Keys.Get("Settings-Name"), data.Keys.Get("Settings-Address"), data.Keys.Get("Settings-Image"), data.PeriodText);
                 }
                 catch (Exception ex)
                 {
@@ -254,6 +253,20 @@ namespace Timotheus
         #endregion
 
         #region Toolstrip
+        /// <summary>
+        /// Clears the Calendar and Directory.
+        /// </summary>
+        private async void NewProject_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = await MessageBox.Show(this, Localization.Localization.ToolStrip_NewSecure, Localization.Localization.ToolStrip_NewFile, MessageBox.MessageBoxButtons.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                Timotheus.Registry.Remove("KeyPath");
+                Timotheus.Registry.Remove("KeyPassword");
+                data.Keys = new(':');
+            }
+        }
+
         /// <summary>
         /// Opens a SaveFileDialog so the user can save the current key as a file.
         /// </summary>
@@ -353,7 +366,7 @@ namespace Timotheus
         /// </summary>
         private async void EditKey_Click(object sender, RoutedEventArgs e)
         {
-            data.keys = await EditKey.Show(this, data.keys.ToString());
+            data.Keys = await EditKey.Show(this, data.Keys.ToString());
         }
         #endregion
     }

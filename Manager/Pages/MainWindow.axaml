@@ -52,6 +52,8 @@
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
         <MenuItem Header="{x:Static i18n:Localization.ToolStrip_File}">
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_NewFile}" Click="NewProject_Click"/>
+          <Separator/>
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}" Click="SaveCalendar_Click"/>
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_OpenFile}" Click="OpenCalendar_Click"/>
           <Separator/>

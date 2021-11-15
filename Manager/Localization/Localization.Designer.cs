@@ -547,6 +547,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t sync the files.
+        /// </summary>
+        public static string Exception_SyncSFTP {
+            get {
+                return ResourceManager.GetString("Exception_SyncSFTP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrong password.
         /// </summary>
         public static string Exception_WrongPassword {
@@ -1182,6 +1191,15 @@ namespace Timotheus.Localization {
         public static string ToolStrip_NewFile {
             get {
                 return ResourceManager.GetString("ToolStrip_NewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to create a new project? Unsaved progress will be lost..
+        /// </summary>
+        public static string ToolStrip_NewSecure {
+            get {
+                return ResourceManager.GetString("ToolStrip_NewSecure", resourceCulture);
             }
         }
         

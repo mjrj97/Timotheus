@@ -279,6 +279,9 @@
   <data name="Exception_Sync" xml:space="preserve">
     <value>Couldn't sync the calendar</value>
   </data>
+  <data name="Exception_SyncSFTP" xml:space="preserve">
+    <value>Couldn't sync the files</value>
+  </data>
   <data name="Exception_WrongPassword" xml:space="preserve">
     <value>Wrong password</value>
   </data>
@@ -491,6 +494,9 @@
   </data>
   <data name="ToolStrip_NewFile" xml:space="preserve">
     <value>New</value>
+  </data>
+  <data name="ToolStrip_NewSecure" xml:space="preserve">
+    <value>Are you sure you want to create a new project? Unsaved progress will be lost.</value>
   </data>
   <data name="ToolStrip_OpenFile" xml:space="preserve">
     <value>Open</value>
