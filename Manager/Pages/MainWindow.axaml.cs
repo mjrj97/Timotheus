@@ -48,12 +48,27 @@ namespace Timotheus
                 {
                     case ".tkey":
                         string encodedPassword = Timotheus.Registry.Get("KeyPassword");
-                        string password;
+                        string password = string.Empty;
                         if (encodedPassword != string.Empty)
+                        {
                             password = Cipher.Decrypt(encodedPassword);
+                            data.LoadKey(keyPath, password);
+                        }
                         else
-                            password = await PasswordDialog.Show(this);
-                        data.LoadKey(keyPath, password);
+                        {
+                            PasswordDialog dialog = new();
+                            bool result = await dialog.Show(this);
+                            if (result)
+                            {
+                                password = dialog.Password;
+                                data.LoadKey(keyPath, password);
+                                if (dialog.Save)
+                                {
+                                    encodedPassword = Cipher.Encrypt(password);
+                                    Timotheus.Registry.Set("KeyPassword", encodedPassword);
+                                }
+                            }
+                        }
                         break;
                     case ".txt":
                         data.LoadKey(keyPath);
@@ -292,14 +307,19 @@ namespace Timotheus
                 switch (Path.GetExtension(result))
                 {
                     case ".tkey":
-                        string password = await PasswordDialog.Show(this);
-                        try
+                        PasswordDialog dialog = new();
+                        bool p = await dialog.Show(this);
+                        if (p)
                         {
-                            data.SaveKey(result, password);
-                        }
-                        catch (Exception ex)
-                        {
-                            await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                            string password = dialog.Password;
+                            try
+                            {
+                                data.SaveKey(result, password);
+                            }
+                            catch (Exception ex)
+                            {
+                                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                            }
                         }
                         break;
                     case ".txt":
@@ -337,14 +357,26 @@ namespace Timotheus
                 switch (Path.GetExtension(result[0]))
                 {
                     case ".tkey":
-                        string password = await PasswordDialog.Show(this);
-                        try
+                        PasswordDialog dialog = new();
+                        bool p = await dialog.Show(this);
+                        if (p)
                         {
-                            data.LoadKey(result[0], password);
-                        }
-                        catch (Exception ex)
-                        {
-                            await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_LoadFailed, MessageBox.MessageBoxButtons.OkCancel);
+                            string password = dialog.Password;
+                            if (dialog.Save)
+                            {
+                                string encodedPassword = Cipher.Encrypt(password);
+                                Timotheus.Registry.Set("KeyPassword", encodedPassword);
+                            }
+                            else
+                                Timotheus.Registry.Remove("KeyPassword");
+                            try
+                            {
+                                data.LoadKey(result[0], password);
+                            }
+                            catch (Exception ex)
+                            {
+                                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_LoadFailed, MessageBox.MessageBoxButtons.OkCancel);
+                            }
                         }
                         break;
                     case ".txt":

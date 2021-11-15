@@ -178,9 +178,6 @@ namespace Timotheus
         {
             Keys = new Register(path, password, ':');
             Timotheus.Registry.Set("KeyPath", path);
-
-            string encodedPassword = Cipher.Encrypt(password);
-            Timotheus.Registry.Set("KeyPassword", encodedPassword);
         }
         /// <summary>
         /// Loads the key from the path.

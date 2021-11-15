@@ -745,7 +745,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save password (Not recommended).
+        ///   Looks up a localized string similar to Save password.
         /// </summary>
         public static string PasswordDialog_SaveBox {
             get {

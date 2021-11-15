@@ -346,7 +346,7 @@
     <value>Ok</value>
   </data>
   <data name="PasswordDialog_SaveBox" xml:space="preserve">
-    <value>Save password (Not recommended)</value>
+    <value>Save password</value>
   </data>
   <data name="PDF_Activity" xml:space="preserve">
     <value>Activity</value>
