@@ -255,6 +255,9 @@
   <data name="Exception_InvalidCalendar" xml:space="preserve">
     <value>Calendar isn't formatted correctly</value>
   </data>
+  <data name="Exception_InvalidEvent" xml:space="preserve">
+    <value>This was not a valid event.</value>
+  </data>
   <data name="Exception_InvalidInput" xml:space="preserve">
     <value>Invalid input</value>
   </data>

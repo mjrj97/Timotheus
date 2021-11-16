@@ -1,91 +1,119 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using ReactiveUI;
-using System.Threading.Tasks;
+using Timotheus.Utility;
 
 namespace Timotheus
 {
-    public partial class SetupSFTP : Window
-    {
-        private bool ok = false;
-        public readonly SetupData data;
-
-        public SetupSFTP()
-        {
-            data = new SetupData();
-            AvaloniaXamlLoader.Load(this);
-            DataContext = data;
-        }
-
-        private async void Browse_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFolderDialog openFolder = new();
-            data.Local = await openFolder.ShowAsync(this);
-        }
-
-        private void Ok_Click(object sender, RoutedEventArgs e)
-        {
-            ok = true;
-            Close();
-        }
-
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        public new Task<bool> Show(Window parent)
-        {
-            TaskCompletionSource<bool> tcs = new();
-            Closed += delegate
-            {
-                tcs.TrySetResult(ok);
-            };
-
-            if (parent != null)
-                ShowDialog(parent);
-            else Show();
-
-            return tcs.Task;
-        }
-    }
-
-    public class SetupData : ReactiveObject
+    /// <summary>
+    /// A dialog where the user can setup SFTP.
+    /// </summary>
+    public partial class SetupSFTP : Dialog
     {
         private string _Host = string.Empty;
+        /// <summary>
+        /// Host string for SFTP.
+        /// </summary>
         public string Host
         {
             get => _Host;
-            set => this.RaiseAndSetIfChanged(ref _Host, value);
+            set 
+            {
+                _Host = value;
+                NotifyPropertyChanged(nameof(Host));
+            }
         }
 
         private string _Username = string.Empty;
+        /// <summary>
+        /// Username on the SFTP Server.
+        /// </summary>
         public string Username
         {
             get => _Username;
-            set => this.RaiseAndSetIfChanged(ref _Username, value);
+            set
+            {
+                _Username = value;
+                NotifyPropertyChanged(nameof(Username));
+            }
         }
 
         private string _Password = string.Empty;
+        /// <summary>
+        /// Password to the SFTP Server.
+        /// </summary>
         public string Password
         {
             get => _Password;
-            set => this.RaiseAndSetIfChanged(ref _Password, value);
+            set
+            {
+                _Password = value;
+                NotifyPropertyChanged(nameof(Host));
+            }
         }
 
         private string _Remote = string.Empty;
+        /// <summary>
+        /// Remote path to sync with.
+        /// </summary>
         public string Remote
         {
             get => _Remote;
-            set => this.RaiseAndSetIfChanged(ref _Remote, value);
+            set
+            {
+                _Remote = value;
+                NotifyPropertyChanged(nameof(Remote));
+            }
         }
 
         private string _Local = string.Empty;
+        /// <summary>
+        /// Local path to sync with.
+        /// </summary>
         public string Local
         {
             get => _Local;
-            set => this.RaiseAndSetIfChanged(ref _Local, value);
+            set
+            {
+                _Local = value;
+                NotifyPropertyChanged(nameof(Local));
+            }
+        }
+
+        /// <summary>
+        /// Loads the XAML and sets the DataContext.
+        /// </summary>
+        public SetupSFTP()
+        {
+            AvaloniaXamlLoader.Load(this);
+            DataContext = this;
+        }
+
+        /// <summary>
+        /// A OpenFolderDialog where the user can specify which local folder to sync the remote folder with.
+        /// </summary>
+        private async void Browse_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFolderDialog openFolder = new();
+            Local = await openFolder.ShowAsync(this);
+        }
+
+        /// <summary>
+        /// Closes the dialog and sets the DialogResult to OK.
+        /// </summary>
+        private void Ok_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        /// <summary>
+        /// Closes the dialog and sets the DialogResult to Cancel.
+        /// </summary>
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }

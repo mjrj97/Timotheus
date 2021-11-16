@@ -129,15 +129,33 @@ namespace Timotheus
         private async void OpenCalendar_Click(object sender, RoutedEventArgs e)
         {
             OpenCalendar dialog = new();
+            dialog.Username = data.Keys.Get("Calendar-Email");
+            dialog.Password = data.Keys.Get("Calendar-Password");
+            dialog.URL = data.Keys.Get("Calendar-URL");
+            dialog.Path = data.Keys.Get("Calendar-Path");
+
             await dialog.ShowDialog(this);
 
             if (dialog.DialogResult == DialogResult.OK)
             {
-                if (dialog.IsRemote)
-                    data.Calendar = new(dialog.Username, dialog.Password, dialog.URL);
-                else
+                try
                 {
-                    data.Calendar = new(dialog.Path);
+                    if (dialog.IsRemote)
+                    {
+                        data.Calendar = new(dialog.Username, dialog.Password, dialog.URL);
+                        data.Keys.Set("Calendar-Email", dialog.Username);
+                        data.Keys.Set("Calendar-Password", dialog.Password);
+                        data.Keys.Set("Calendar-URL", dialog.URL);
+                    }
+                    else
+                    {
+                        data.Calendar = new(dialog.Path);
+                        data.Keys.Set("Calendar-Path", dialog.Path);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_InvalidCalendar, MessageBox.MessageBoxButtons.OkCancel);
                 }
             }
         }
@@ -172,10 +190,41 @@ namespace Timotheus
         /// <summary>
         /// Opens a SyncCalendar dialog to sync the current calendar.
         /// </summary>
-        private void SyncCalendar_Click(object sender, RoutedEventArgs e)
+        private async void SyncCalendar_Click(object sender, RoutedEventArgs e)
         {
-            SyncCalendar.Show(this, data.Calendar, data.calendarPeriod);
-            data.UpdateCalendarTable();
+            SyncCalendar dialog = new();
+            dialog.Period = data.calendarPeriod.ToString();
+            dialog.UseCurrent = data.Calendar.IsSetup();
+            dialog.CanUseCurrent = data.Calendar.IsSetup();
+
+            await dialog.ShowDialog(this);
+
+            if (dialog.DialogResult == DialogResult.OK)
+            {
+                try
+                {
+                    if (!dialog.UseCurrent)
+                    {
+                        data.Calendar.SetupSync(dialog.Username, dialog.Password, dialog.URL);
+                        data.Keys.Set("Calendar-Email", dialog.Username);
+                        data.Keys.Set("Calendar-Password", dialog.Password);
+                        data.Keys.Set("Calendar-URL", dialog.URL);
+                    }
+
+                    if (dialog.SyncAll)
+                        data.Calendar.Sync();
+                    else if (dialog.SyncPeriod)
+                        data.Calendar.Sync(data.calendarPeriod);
+                    else
+                        data.Calendar.Sync(new Period(dialog.Start, dialog.End.AddDays(1)));
+
+                    data.UpdateCalendarTable();
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Sync, MessageBox.MessageBoxButtons.OkCancel);
+                }
+            }
         }
 
         /// <summary>
@@ -183,11 +232,36 @@ namespace Timotheus
         /// </summary>
         private async void AddEvent_Click(object sender, RoutedEventArgs e)
         {
-            Event ev = await AddEvent.Show(this);
-            if (ev != null)
+            AddEvent dialog = new();
+            await dialog.ShowDialog(this);
+
+            if (dialog.DialogResult == DialogResult.OK)
             {
-                data.Calendar.Events.Add(ev);
-                data.UpdateCalendarTable();
+                try
+                {
+                    DateTime Start = new(int.Parse(dialog.StartYear), dialog.StartMonth + 1, int.Parse(dialog.StartDay));
+                    DateTime End = new(int.Parse(dialog.EndYear), dialog.EndMonth + 1, int.Parse(dialog.EndDay));
+
+                    if (!dialog.AllDayEvent)
+                    {
+                        int hour, minute;
+
+                        hour = int.Parse(dialog.StartTime.Substring(0, -3 + dialog.StartTime.Length));
+                        minute = int.Parse(dialog.StartTime.Substring(-2 + dialog.StartTime.Length, 2));
+                        Start = Start.AddMinutes(minute + hour * 60);
+
+                        hour = int.Parse(dialog.EndTime.Substring(0, -3 + dialog.EndTime.Length));
+                        minute = int.Parse(dialog.EndTime.Substring(-2 + dialog.EndTime.Length, 2));
+                        End = End.AddMinutes(minute + hour * 60);
+                    }
+
+                    data.Calendar.Events.Add(new Event(Start, End, dialog.EventName, dialog.Description, dialog.Location, string.Empty));
+                    data.UpdateCalendarTable();
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_InvalidEvent, MessageBox.MessageBoxButtons.OkCancel);
+                }
             }
         }
 
@@ -252,6 +326,7 @@ namespace Timotheus
         private void SyncFiles_Click(object sender, RoutedEventArgs e)
         {
             data.Directory.Synchronize();
+            data.GoToDirectory(data.Directory.RemotePath);
         }
 
         /// <summary>
@@ -260,15 +335,21 @@ namespace Timotheus
         private async void SetupFiles_Click(object sender, RoutedEventArgs e)
         {
             SetupSFTP dialog = new();
-            bool result = await dialog.Show(this);
-            if (result)
+            dialog.Local = data.Keys.Get("SSH-LocalDirectory");
+            dialog.Remote = data.Keys.Get("SSH-RemoteDirectory");
+            dialog.Host = data.Keys.Get("SSH-URL");
+            dialog.Username = data.Keys.Get("SSH-Username");
+            dialog.Password = data.Keys.Get("SSH-Password");
+
+            await dialog.ShowDialog(this);
+            if (dialog.DialogResult == DialogResult.OK)
             {
-                data.Directory = new IO.DirectoryManager(dialog.data.Local, dialog.data.Remote, dialog.data.Host, dialog.data.Username, dialog.data.Password);
-                data.Keys.Set("SSH-LocalDirectory", dialog.data.Local);
-                data.Keys.Set("SSH-RemoteDirectory", dialog.data.Remote);
-                data.Keys.Set("SSH-URL", dialog.data.Host);
-                data.Keys.Set("SSH-Username", dialog.data.Username);
-                data.Keys.Set("SSH-Password", dialog.data.Password);
+                data.Directory = new IO.DirectoryManager(dialog.Local, dialog.Remote, dialog.Host, dialog.Username, dialog.Password);
+                data.Keys.Set("SSH-LocalDirectory", dialog.Local);
+                data.Keys.Set("SSH-RemoteDirectory", dialog.Remote);
+                data.Keys.Set("SSH-URL", dialog.Host);
+                data.Keys.Set("SSH-Username", dialog.Username);
+                data.Keys.Set("SSH-Password", dialog.Password);
             }
         }
 
@@ -417,9 +498,16 @@ namespace Timotheus
         /// </summary>
         private async void EditKey_Click(object sender, RoutedEventArgs e)
         {
-            data.Keys = await EditKey.Show(this, data.Keys.ToString());
+            EditKey dialog = new();
+            dialog.Text = data.Keys.ToString();
+            await dialog.ShowDialog(this);
+            if (dialog.DialogResult == DialogResult.OK)
+                data.Keys = new IO.Register(':', dialog.Text);
         }
 
+        /// <summary>
+        /// Opens a Help dialog.
+        /// </summary>
         private void Help_Click(object sender, RoutedEventArgs e)
         {
             Help dialog = new();

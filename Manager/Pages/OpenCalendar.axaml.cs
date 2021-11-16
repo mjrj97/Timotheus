@@ -5,32 +5,57 @@ using Timotheus.Utility;
 
 namespace Timotheus
 {
+    /// <summary>
+    /// Dialog where the user can input info to open a calendar on a remote server or by a local file.
+    /// </summary>
     public partial class OpenCalendar : Dialog
     {
-        internal Schedule.Calendar calendar = null;
-
         private string _Username = string.Empty;
+        /// <summary>
+        /// [Remote] The username used to connect to the calendar server.
+        /// </summary>
         public string Username
         {
             get { return _Username; }
-            set { _Username = value; }
+            set
+            {
+                _Username = value;
+                NotifyPropertyChanged(nameof(Username));
+            }
         }
 
         private string _Password = string.Empty;
+        /// <summary>
+        /// [Remote] The password used to connect to the calendar server.
+        /// </summary>
         public string Password
         {
             get { return _Password; }
-            set { _Password = value; }
+            set
+            {
+                _Password = value;
+                NotifyPropertyChanged(nameof(Password));
+            }
         }
 
         private string _URL = string.Empty;
+        /// <summary>
+        /// [Remote] CalDAV url used to connect to the calendar server.
+        /// </summary>
         public string URL
         {
             get { return _URL; }
-            set { _URL = value; }
+            set
+            {
+                _URL = value;
+                NotifyPropertyChanged(nameof(URL));
+            }
         }
 
         private string _Path = string.Empty;
+        /// <summary>
+        /// [Local] Path to the .ics calendar file.
+        /// </summary>
         public string Path
         {
             get { return _Path; }
@@ -42,6 +67,9 @@ namespace Timotheus
         }
 
         private bool _IsRemote = true;
+        /// <summary>
+        /// Whether the [Remote] or [Local] variables should be used. 
+        /// </summary>
         public bool IsRemote
         {
             get => _IsRemote;
@@ -52,24 +80,36 @@ namespace Timotheus
             }
         }
 
+        /// <summary>
+        /// Initializes the XAML and assigns the DataContext.
+        /// </summary>
         public OpenCalendar()
         {
             AvaloniaXamlLoader.Load(this);
             DataContext = this;
         }
 
+        /// <summary>
+        /// Closes the dialog and sets the DialogResult to OK.
+        /// </summary>
         private void Open_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = DialogResult.OK;
             Close();
         }
 
+        /// <summary>
+        /// Closes the dialog and sets the DialogResult to Cancel.
+        /// </summary>
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
         }
 
+        /// <summary>
+        /// Opens a dialog where the user can specify a local .ics file.
+        /// </summary>
         private async void Browse_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new();

@@ -60,7 +60,6 @@
       </DockPanel>
     </Border>
     <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-      <TextBlock Name="Error" Text="{Binding Error}" Foreground="Red" VerticalAlignment="Center"/>
       <Button Content="{x:Static i18n:Localization.SyncCalendar_SyncButton}" Click="Open_Click" Margin="10 0"/>
       <Button Content="{x:Static i18n:Localization.SyncCalendar_CancelButton}" Click="Close_Click"/>
     </DockPanel>
