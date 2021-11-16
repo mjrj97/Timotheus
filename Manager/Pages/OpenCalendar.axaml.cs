@@ -1,78 +1,14 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using System;
-using System.Threading.Tasks;
-using ReactiveUI;
+using Timotheus.Utility;
 
 namespace Timotheus
 {
-    public partial class OpenCalendar : Window
+    public partial class OpenCalendar : Dialog
     {
-        private readonly CalendarData data;
         internal Schedule.Calendar calendar = null;
 
-        public OpenCalendar()
-        {
-            data = new CalendarData();
-            AvaloniaXamlLoader.Load(this);
-            DataContext = data;
-        }
-
-        private void Open_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (data.IsRemote)
-                    calendar = new(data.Username, data.Password, data.URL);
-                else
-                {
-                    calendar = new(data.Path);
-                }
-                Close();
-            }
-            catch (Exception ex)
-            {
-                TextBlock error = this.Find<TextBlock>("Error");
-                error.Text = ex.Message;
-            }
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private async void Browse_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new();
-            string[] result = await openFileDialog.ShowAsync(this);
-            if (result != null && result.Length > 0)
-            {
-                TextBox textBox = this.Find<TextBox>("BrowseField");
-                textBox.Text = result[0];
-            }
-        }
-
-        public new static Task<Schedule.Calendar> Show(Window parent)
-        {
-            OpenCalendar dialog = new();
-
-            TaskCompletionSource<Schedule.Calendar> tcs = new();
-            dialog.Closed += delegate
-            {
-                tcs.TrySetResult(dialog.calendar);
-            };
-            if (parent != null)
-                dialog.ShowDialog(parent);
-            else dialog.Show();
-
-            return tcs.Task;
-        }
-    }
-
-    internal class CalendarData : ReactiveObject
-    {
         private string _Username = string.Empty;
         public string Username
         {
@@ -98,14 +34,58 @@ namespace Timotheus
         public string Path
         {
             get { return _Path; }
-            set { _Path = value; }
+            set
+            { 
+                _Path = value;
+                NotifyPropertyChanged(nameof(Path));
+            }
         }
 
         private bool _IsRemote = true;
         public bool IsRemote
         {
             get => _IsRemote;
-            set => this.RaiseAndSetIfChanged(ref _IsRemote, value);
+            set
+            {
+                _IsRemote = value;
+                NotifyPropertyChanged(nameof(IsRemote));
+            }
+        }
+
+        public OpenCalendar()
+        {
+            AvaloniaXamlLoader.Load(this);
+            DataContext = this;
+        }
+
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
+
+        private async void Browse_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new();
+
+            FileDialogFilter txtFilter = new();
+            txtFilter.Extensions.Add("ics");
+            txtFilter.Name = "Calendar files (.ics)";
+
+            openFileDialog.Filters = new();
+            openFileDialog.Filters.Add(txtFilter);
+
+            string[] result = await openFileDialog.ShowAsync(this);
+            if (result != null && result.Length > 0)
+            {
+                Path = result[0];
+            }
         }
     }
 }

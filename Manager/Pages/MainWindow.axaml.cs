@@ -128,9 +128,18 @@ namespace Timotheus
         /// </summary>
         private async void OpenCalendar_Click(object sender, RoutedEventArgs e)
         {
-            Schedule.Calendar calendar = await OpenCalendar.Show(this);
-            if (calendar != null)
-                data.Calendar = calendar;
+            OpenCalendar dialog = new();
+            await dialog.ShowDialog(this);
+
+            if (dialog.DialogResult == DialogResult.OK)
+            {
+                if (dialog.IsRemote)
+                    data.Calendar = new(dialog.Username, dialog.Password, dialog.URL);
+                else
+                {
+                    data.Calendar = new(dialog.Path);
+                }
+            }
         }
 
         /// <summary>

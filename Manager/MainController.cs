@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using Timotheus.IO;
-using Timotheus.Utility;
 using Timotheus.Schedule;
 using ReactiveUI;
 using Renci.SshNet.Sftp;

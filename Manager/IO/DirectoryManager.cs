@@ -66,6 +66,8 @@ namespace Timotheus.IO
             watcher.IncludeSubdirectories = true;
             watcher.EnableRaisingEvents = true;*/
 
+            if (!Directory.Exists(localPath))
+                throw new Exception();
             LocalPath = localPath.Replace('/', '\\');
             RemotePath = remotePath.Replace('\\', '/');
             //LoadLastSync();
@@ -408,6 +410,25 @@ namespace Timotheus.IO
         /// <param name="localPath">Path of the directory on the local machine.</param>
         private void Synchronize(string remotePath, string localPath)
         {
+            //Get list of prev sync files
+            //Get list of prev sync directories
+
+            //Get list of local files
+            //Get list of local directories
+
+            //Get list of remote files
+            //Get list of remote directories
+
+            //Loop through prev sync files
+            //If file can be found previously & locally & remotely => Find the one with the lastest changes (ADD TO LIST)
+            //If file can be found previously & locally & !remotely => Upload??? What if something deleted it on the other end. Probably Delete local (REMOVE FROM LIST)
+            //If file can be found previously & !locally & remotely => Delete remote (REMOVE FROM LIST)
+            //If file can be found previously & !locally & !remotely => Nothing
+            //If file can be found !previously & locally & remotely => Find the one with the latest changes (ADD TO LIST)
+            //If file can be found !previously & locally & !remotely => Upload (ADD TO LIST)
+            //If file can be found !previously & !locally & remotely => Download (ADD TO LIST)
+            //If file can be found !previously & !locally & !remotely => Nothing
+
             #region CONNECTION
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
