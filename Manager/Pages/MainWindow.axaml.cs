@@ -315,18 +315,32 @@ namespace Timotheus
         /// <summary>
         /// Goes one level up from the currently visible directory.
         /// </summary>
-        private void UpDirectory_Click(object sender, RoutedEventArgs e)
+        private async void UpDirectory_Click(object sender, RoutedEventArgs e)
         {
-            data.GoUpDirectory();
+            try
+            {
+                data.GoUpDirectory();
+            }
+            catch (Exception ex)
+            {
+                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+            }
         }
 
         /// <summary>
         /// Synchronizes the files in the local and remote directory.
         /// </summary>
-        private void SyncFiles_Click(object sender, RoutedEventArgs e)
+        private async void SyncFiles_Click(object sender, RoutedEventArgs e)
         {
-            data.Directory.Synchronize();
-            data.GoToDirectory(data.Directory.RemotePath);
+            try
+            {
+                data.Directory.Synchronize();
+                data.GoToDirectory(data.Directory.RemotePath);
+            }
+            catch (Exception ex)
+            {
+                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+            }
         }
 
         /// <summary>
@@ -344,26 +358,40 @@ namespace Timotheus
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
             {
-                data.Directory = new IO.DirectoryManager(dialog.Local, dialog.Remote, dialog.Host, dialog.Username, dialog.Password);
-                data.Keys.Set("SSH-LocalDirectory", dialog.Local);
-                data.Keys.Set("SSH-RemoteDirectory", dialog.Remote);
-                data.Keys.Set("SSH-URL", dialog.Host);
-                data.Keys.Set("SSH-Username", dialog.Username);
-                data.Keys.Set("SSH-Password", dialog.Password);
+                try
+                {
+                    data.Directory = new IO.DirectoryManager(dialog.Local, dialog.Remote, dialog.Host, dialog.Username, dialog.Password);
+                    data.Keys.Set("SSH-LocalDirectory", dialog.Local);
+                    data.Keys.Set("SSH-RemoteDirectory", dialog.Remote);
+                    data.Keys.Set("SSH-URL", dialog.Host);
+                    data.Keys.Set("SSH-Username", dialog.Username);
+                    data.Keys.Set("SSH-Password", dialog.Password);
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+                }
             }
         }
 
         /// <summary>
         /// Goes one level down into the selected directory.
         /// </summary>
-        private void GoToDirectory_Click(object sender, RoutedEventArgs e)
+        private async void GoToDirectory_Click(object sender, RoutedEventArgs e)
         {
-            var row = ((IControl)e.Source).GetSelfAndVisualAncestors()
+            try
+            {
+                var row = ((IControl)e.Source).GetSelfAndVisualAncestors()
                                 .OfType<DataGridRow>()
                                 .FirstOrDefault();
 
-            if (row != null)
-                data.GoToDirectory(row.GetIndex());
+                if (row != null)
+                    data.GoToDirectory(row.GetIndex());
+            }
+            catch (Exception ex)
+            {
+                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+            }
         }
         #endregion
 
@@ -502,7 +530,16 @@ namespace Timotheus
             dialog.Text = data.Keys.ToString();
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
-                data.Keys = new IO.Register(':', dialog.Text);
+            {
+                try
+                {
+                    data.Keys = new IO.Register(':', dialog.Text);
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+                }
+            }
         }
 
         /// <summary>

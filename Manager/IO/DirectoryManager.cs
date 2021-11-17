@@ -69,6 +69,8 @@ namespace Timotheus.IO
             if (!Directory.Exists(localPath))
                 throw new Exception();
             LocalPath = localPath.Replace('/', '\\');
+            if (LocalPath[^1] != '\\')
+                LocalPath += '\\';
             RemotePath = remotePath.Replace('\\', '/');
             //LoadLastSync();
             client = new SftpClient(host, username, password);
