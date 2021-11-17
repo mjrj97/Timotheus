@@ -16,6 +16,15 @@ namespace Timotheus
             set { _Password = value; }
         }
 
+        private bool _Save = false;
+        public bool Save
+        {
+            get { return _Save; }
+            set { _Save = value; }
+        }
+
+        private bool OK = false;
+
         public PasswordDialog()
         {
             AvaloniaXamlLoader.Load(this);
@@ -28,6 +37,7 @@ namespace Timotheus
             {
                 string encrypted = Cipher.Encrypt(Password);
                 string decrypted = Cipher.Decrypt(encrypted);
+                OK = true;
                 Close();
             }
             catch (Exception)
@@ -39,21 +49,20 @@ namespace Timotheus
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             Password = string.Empty;
+            OK = false;
             Close();
         }
 
-        public new static Task<string> Show(Window parent)
+        public new Task<bool> Show(Window parent)
         {
-            PasswordDialog dialog = new();
-
-            TaskCompletionSource<string> tcs = new();
-            dialog.Closed += delegate
+            TaskCompletionSource<bool> tcs = new();
+            Closed += delegate
             {
-                tcs.TrySetResult(dialog.Password);
+                tcs.TrySetResult(OK);
             };
             if (parent != null)
-                dialog.ShowDialog(parent);
-            else dialog.Show();
+                ShowDialog(parent);
+            else Show();
 
             return tcs.Task;
         }

@@ -255,6 +255,9 @@
   <data name="Exception_InvalidCalendar" xml:space="preserve">
     <value>Calendar isn't formatted correctly</value>
   </data>
+  <data name="Exception_InvalidEvent" xml:space="preserve">
+    <value>This was not a valid event.</value>
+  </data>
   <data name="Exception_InvalidInput" xml:space="preserve">
     <value>Invalid input</value>
   </data>
@@ -279,26 +282,32 @@
   <data name="Exception_Sync" xml:space="preserve">
     <value>Couldn't sync the calendar</value>
   </data>
+  <data name="Exception_SyncSFTP" xml:space="preserve">
+    <value>Couldn't sync the files</value>
+  </data>
   <data name="Exception_WrongPassword" xml:space="preserve">
     <value>Wrong password</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="Help_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="Help_ContributorsLabel" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Contributors:</value>
   </data>
   <data name="Help_EmailLabel" xml:space="preserve">
     <value>Email:</value>
   </data>
   <data name="Help_LicenseLabel" xml:space="preserve">
-    <value>License</value>
+    <value>License:</value>
   </data>
   <data name="Help_SourceLabel" xml:space="preserve">
     <value>Source:</value>
   </data>
   <data name="Help_VersionLabel" xml:space="preserve">
-    <value>Timotheus</value>
+    <value>Version:</value>
   </data>
   <data name="OpenCalendar" xml:space="preserve">
     <value>Open</value>
@@ -343,7 +352,7 @@
     <value>Ok</value>
   </data>
   <data name="PasswordDialog_SaveBox" xml:space="preserve">
-    <value>Save password (Not recommended)</value>
+    <value>Save password</value>
   </data>
   <data name="PDF_Activity" xml:space="preserve">
     <value>Activity</value>
@@ -491,6 +500,9 @@
   </data>
   <data name="ToolStrip_NewFile" xml:space="preserve">
     <value>New</value>
+  </data>
+  <data name="ToolStrip_NewSecure" xml:space="preserve">
+    <value>Are you sure you want to create a new project? Unsaved progress will be lost.</value>
   </data>
   <data name="ToolStrip_OpenFile" xml:space="preserve">
     <value>Open</value>

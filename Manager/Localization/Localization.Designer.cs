@@ -19,7 +19,7 @@ namespace Timotheus.Localization {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Localization {
@@ -475,6 +475,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This was not a valid event..
+        /// </summary>
+        public static string Exception_InvalidEvent {
+            get {
+                return ResourceManager.GetString("Exception_InvalidEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid input.
         /// </summary>
         public static string Exception_InvalidInput {
@@ -547,6 +556,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t sync the files.
+        /// </summary>
+        public static string Exception_SyncSFTP {
+            get {
+                return ResourceManager.GetString("Exception_SyncSFTP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrong password.
         /// </summary>
         public static string Exception_WrongPassword {
@@ -565,7 +583,16 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contributors.
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Help_Close {
+            get {
+                return ResourceManager.GetString("Help_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contributors:.
         /// </summary>
         public static string Help_ContributorsLabel {
             get {
@@ -583,7 +610,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to License.
+        ///   Looks up a localized string similar to License:.
         /// </summary>
         public static string Help_LicenseLabel {
             get {
@@ -601,7 +628,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Timotheus.
+        ///   Looks up a localized string similar to Version:.
         /// </summary>
         public static string Help_VersionLabel {
             get {
@@ -736,7 +763,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save password (Not recommended).
+        ///   Looks up a localized string similar to Save password.
         /// </summary>
         public static string PasswordDialog_SaveBox {
             get {
@@ -1182,6 +1209,15 @@ namespace Timotheus.Localization {
         public static string ToolStrip_NewFile {
             get {
                 return ResourceManager.GetString("ToolStrip_NewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to create a new project? Unsaved progress will be lost..
+        /// </summary>
+        public static string ToolStrip_NewSecure {
+            get {
+                return ResourceManager.GetString("ToolStrip_NewSecure", resourceCulture);
             }
         }
         

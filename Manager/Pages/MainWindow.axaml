@@ -52,16 +52,17 @@
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
         <MenuItem Header="{x:Static i18n:Localization.ToolStrip_File}">
+          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_NewFile}" Click="NewProject_Click"/>
+          <Separator/>
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}" Click="SaveCalendar_Click"/>
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_OpenFile}" Click="OpenCalendar_Click"/>
-          <Separator/>
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Exit}"/>
         </MenuItem>
         <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Key}">
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveKey}" Click="SaveKey_Click"/>
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_LoadKey}" Click="OpenKey_Click"/>
           <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditKey}" Click="EditKey_Click"/>
         </MenuItem>
+        <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Help}" Click="Help_Click"/>
       </Menu>
     </DockPanel>
     <TabControl>
@@ -75,7 +76,7 @@
         <DockPanel>
           <DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
             <Button Name="-" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">←</Button>
-            <TextBox Width="150" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding PeriodText}" KeyDown="PeriodBox_KeyDown"/>
+            <TextBox Width="150" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding PeriodText}" KeyDown="Period_KeyDown"/>
             <Button Name="+" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 30 0">→</Button>
             <ComboBox SelectedIndex="{Binding SelectedPeriod}">
               <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_AllButton}"/>
@@ -132,7 +133,7 @@
             <Button Content="{x:Static i18n:Localization.SFTP_GoUpButton}" Click="UpDirectory_Click" DockPanel.Dock="Left"/>
           </DockPanel>
           <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
-            <DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible">
+            <DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="GoToDirectory_Click">
               <DataGrid.Columns>
                 <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True">
                   <DataGridTemplateColumn.CellTemplate>

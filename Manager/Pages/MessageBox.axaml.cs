@@ -14,14 +14,6 @@ namespace Timotheus
             YesNoCancel
         }
 
-        public enum MessageBoxResult
-        {
-            Ok,
-            Cancel,
-            Yes,
-            No
-        }
-
         public MessageBox()
         {
             AvaloniaXamlLoader.Load(this);
@@ -68,5 +60,13 @@ namespace Timotheus
             else msgbox.Show();
             return tcs.Task;
         }
+    }
+
+    public enum MessageBoxResult
+    {
+        Ok,
+        Cancel,
+        Yes,
+        No
     }
 }

@@ -12,29 +12,29 @@ using Timotheus.Utility;
 
 namespace Timotheus
 {
+    /// <summary>
+    /// MainWindow of the Timotheus app. Contains Calendar and Filesharing tabs.
+    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainController data;
-        
+        /// <summary>
+        /// Data Context of the MainWindow.
+        /// </summary>
+        private readonly MainController data;
+
+        /// <summary>
+        /// Constructor. Creates datacontext and loads XAML.
+        /// </summary>
         public MainWindow()
         {
             data = new();
             AvaloniaXamlLoader.Load(this);
             DataContext = data;
-            this.Find<DataGrid>("Files").AddHandler(
-                DoubleTappedEvent,
-                (s, e) =>
-                {
-                    var row = ((IControl)e.Source).GetSelfAndVisualAncestors()
-                                .OfType<DataGridRow>()
-                                .FirstOrDefault();
-
-                    if (row != null)
-                        data.GoToDirectory(row.GetIndex());
-                },
-                handledEventsToo: true);
         }
 
+        /// <summary>
+        /// Loads the key last used.
+        /// </summary>
         private async void StartUpKey()
         {
             try
@@ -48,24 +48,42 @@ namespace Timotheus
                 {
                     case ".tkey":
                         string encodedPassword = Timotheus.Registry.Get("KeyPassword");
-                        string password;
+                        string password = string.Empty;
                         if (encodedPassword != string.Empty)
+                        {
                             password = Cipher.Decrypt(encodedPassword);
+                            data.LoadKey(keyPath, password);
+                        }
                         else
-                            password = await PasswordDialog.Show(this);
-                        data.LoadKey(keyPath, password);
+                        {
+                            PasswordDialog dialog = new();
+                            bool result = await dialog.Show(this);
+                            if (result)
+                            {
+                                password = dialog.Password;
+                                data.LoadKey(keyPath, password);
+                                if (dialog.Save)
+                                {
+                                    encodedPassword = Cipher.Encrypt(password);
+                                    Timotheus.Registry.Set("KeyPassword", encodedPassword);
+                                }
+                            }
+                        }
                         break;
                     case ".txt":
                         data.LoadKey(keyPath);
                         break;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                await MessageBox.Show(this, e.Message, Localization.Localization.Exception_NoKeys, MessageBox.MessageBoxButtons.OkCancel);
+                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_NoKeys, MessageBox.MessageBoxButtons.OkCancel);
             }
         }
 
+        /// <summary>
+        /// Opens the window and retrieves last used key.
+        /// </summary>
         public override void Show()
         {
             base.Show();
@@ -73,11 +91,11 @@ namespace Timotheus
             {
                 StartUpKey();
                 isShown = true;
-                File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Test.txt", "Test");
             }
         }
         private static bool isShown = false;
 
+        #region Calendar
         /// <summary>
         /// Changes the selected year and calls UpdateTable.
         /// </summary>
@@ -93,13 +111,58 @@ namespace Timotheus
             }
         }
 
-        private async void OpenCalendar_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Updates the period according to the textbox.
+        /// </summary>
+        private void Period_KeyDown(object sender, KeyEventArgs e)
         {
-            Schedule.Calendar calendar = await OpenCalendar.Show(this);
-            if (calendar != null)
-                data.Calendar = calendar;
+            if (e.Key == Key.Enter)
+            {
+                data.calendarPeriod.SetPeriod(((TextBox)sender).Text);
+                data.UpdateCalendarTable();
+            }
         }
 
+        /// <summary>
+        /// Opens a OpenCalendar dialog
+        /// </summary>
+        private async void OpenCalendar_Click(object sender, RoutedEventArgs e)
+        {
+            OpenCalendar dialog = new();
+            dialog.Username = data.Keys.Get("Calendar-Email");
+            dialog.Password = data.Keys.Get("Calendar-Password");
+            dialog.URL = data.Keys.Get("Calendar-URL");
+            dialog.Path = data.Keys.Get("Calendar-Path");
+
+            await dialog.ShowDialog(this);
+
+            if (dialog.DialogResult == DialogResult.OK)
+            {
+                try
+                {
+                    if (dialog.IsRemote)
+                    {
+                        data.Calendar = new(dialog.Username, dialog.Password, dialog.URL);
+                        data.Keys.Set("Calendar-Email", dialog.Username);
+                        data.Keys.Set("Calendar-Password", dialog.Password);
+                        data.Keys.Set("Calendar-URL", dialog.URL);
+                    }
+                    else
+                    {
+                        data.Calendar = new(dialog.Path);
+                        data.Keys.Set("Calendar-Path", dialog.Path);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_InvalidCalendar, MessageBox.MessageBoxButtons.OkCancel);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Opens a SaveFileDialog to save the current Calendar.
+        /// </summary>
         private async void SaveCalendar_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new();
@@ -124,22 +187,87 @@ namespace Timotheus
             }
         }
 
-        private void SyncCalendar_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Opens a SyncCalendar dialog to sync the current calendar.
+        /// </summary>
+        private async void SyncCalendar_Click(object sender, RoutedEventArgs e)
         {
-            SyncCalendar.Show(this, data.Calendar, data.calendarPeriod);
-            data.UpdateCalendarTable();
-        }
+            SyncCalendar dialog = new();
+            dialog.Period = data.calendarPeriod.ToString();
+            dialog.UseCurrent = data.Calendar.IsSetup();
+            dialog.CanUseCurrent = data.Calendar.IsSetup();
 
-        private async void AddEvent_Click(object sender, RoutedEventArgs e)
-        {
-            Event ev = await AddEvent.Show(this);
-            if (ev != null)
+            await dialog.ShowDialog(this);
+
+            if (dialog.DialogResult == DialogResult.OK)
             {
-                data.Calendar.Events.Add(ev);
-                data.UpdateCalendarTable();
+                try
+                {
+                    if (!dialog.UseCurrent)
+                    {
+                        data.Calendar.SetupSync(dialog.Username, dialog.Password, dialog.URL);
+                        data.Keys.Set("Calendar-Email", dialog.Username);
+                        data.Keys.Set("Calendar-Password", dialog.Password);
+                        data.Keys.Set("Calendar-URL", dialog.URL);
+                    }
+
+                    if (dialog.SyncAll)
+                        data.Calendar.Sync();
+                    else if (dialog.SyncPeriod)
+                        data.Calendar.Sync(data.calendarPeriod);
+                    else
+                        data.Calendar.Sync(new Period(dialog.Start, dialog.End.AddDays(1)));
+
+                    data.UpdateCalendarTable();
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Sync, MessageBox.MessageBoxButtons.OkCancel);
+                }
             }
         }
 
+        /// <summary>
+        /// Opens a AddEvent dialog, and adds the result to the current calendar.
+        /// </summary>
+        private async void AddEvent_Click(object sender, RoutedEventArgs e)
+        {
+            AddEvent dialog = new();
+            await dialog.ShowDialog(this);
+
+            if (dialog.DialogResult == DialogResult.OK)
+            {
+                try
+                {
+                    DateTime Start = new(int.Parse(dialog.StartYear), dialog.StartMonth + 1, int.Parse(dialog.StartDay));
+                    DateTime End = new(int.Parse(dialog.EndYear), dialog.EndMonth + 1, int.Parse(dialog.EndDay));
+
+                    if (!dialog.AllDayEvent)
+                    {
+                        int hour, minute;
+
+                        hour = int.Parse(dialog.StartTime.Substring(0, -3 + dialog.StartTime.Length));
+                        minute = int.Parse(dialog.StartTime.Substring(-2 + dialog.StartTime.Length, 2));
+                        Start = Start.AddMinutes(minute + hour * 60);
+
+                        hour = int.Parse(dialog.EndTime.Substring(0, -3 + dialog.EndTime.Length));
+                        minute = int.Parse(dialog.EndTime.Substring(-2 + dialog.EndTime.Length, 2));
+                        End = End.AddMinutes(minute + hour * 60);
+                    }
+
+                    data.Calendar.Events.Add(new Event(Start, End, dialog.EventName, dialog.Description, dialog.Location, string.Empty));
+                    data.UpdateCalendarTable();
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_InvalidEvent, MessageBox.MessageBoxButtons.OkCancel);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Marks the selected event for deletion.
+        /// </summary>
         private void RemoveEvent_Click(object sender, RoutedEventArgs e)
         {
             Event ev = (Event)((Button)e.Source).DataContext;
@@ -149,6 +277,9 @@ namespace Timotheus
             }
         }
 
+        /// <summary>
+        /// Opens a SaveFileDialog to export the current Calendar (in the given period) as a PDF.
+        /// </summary>
         private async void ExportPDF_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new();
@@ -170,7 +301,7 @@ namespace Timotheus
                     {
                         events.Add(data.Events[i]);
                     }
-                    PDF.ExportCalendar(events, file.DirectoryName, file.Name, data.keys.Get("Settings-Name"), data.keys.Get("Settings-Address"), data.keys.Get("Settings-Image"), data.PeriodText);
+                    PDF.ExportCalendar(events, file.DirectoryName, file.Name, data.Keys.Get("Settings-Name"), data.Keys.Get("Settings-Address"), data.Keys.Get("Settings-Image"), data.PeriodText);
                 }
                 catch (Exception ex)
                 {
@@ -178,31 +309,110 @@ namespace Timotheus
                 }
             }
         }
+        #endregion
 
-        private void PeriodBox_KeyDown(object sender, KeyEventArgs e)
+        #region Files
+        /// <summary>
+        /// Goes one level up from the currently visible directory.
+        /// </summary>
+        private async void UpDirectory_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            try
             {
-                data.calendarPeriod.SetPeriod(((TextBox)sender).Text);
-                data.UpdateCalendarTable();
+                data.GoUpDirectory();
+            }
+            catch (Exception ex)
+            {
+                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
             }
         }
 
-        private void UpDirectory_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Synchronizes the files in the local and remote directory.
+        /// </summary>
+        private async void SyncFiles_Click(object sender, RoutedEventArgs e)
         {
-            data.GoUpDirectory();
+            try
+            {
+                data.Directory.Synchronize();
+                data.GoToDirectory(data.Directory.RemotePath);
+            }
+            catch (Exception ex)
+            {
+                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+            }
         }
 
-        private void SyncFiles_Click(object sender, RoutedEventArgs e)
-        {
-            data.Directory.Synchronize();
-        }
-
+        /// <summary>
+        /// Opens a SetupSFTP dialog to define the SFTP parameters.
+        /// </summary>
         private async void SetupFiles_Click(object sender, RoutedEventArgs e)
         {
-            data.Directory = await SetupSFTP.Show(this);
+            SetupSFTP dialog = new();
+            dialog.Local = data.Keys.Get("SSH-LocalDirectory");
+            dialog.Remote = data.Keys.Get("SSH-RemoteDirectory");
+            dialog.Host = data.Keys.Get("SSH-URL");
+            dialog.Username = data.Keys.Get("SSH-Username");
+            dialog.Password = data.Keys.Get("SSH-Password");
+
+            await dialog.ShowDialog(this);
+            if (dialog.DialogResult == DialogResult.OK)
+            {
+                try
+                {
+                    data.Directory = new IO.DirectoryManager(dialog.Local, dialog.Remote, dialog.Host, dialog.Username, dialog.Password);
+                    data.Keys.Set("SSH-LocalDirectory", dialog.Local);
+                    data.Keys.Set("SSH-RemoteDirectory", dialog.Remote);
+                    data.Keys.Set("SSH-URL", dialog.Host);
+                    data.Keys.Set("SSH-Username", dialog.Username);
+                    data.Keys.Set("SSH-Password", dialog.Password);
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+                }
+            }
         }
 
+        /// <summary>
+        /// Goes one level down into the selected directory.
+        /// </summary>
+        private async void GoToDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var row = ((IControl)e.Source).GetSelfAndVisualAncestors()
+                                .OfType<DataGridRow>()
+                                .FirstOrDefault();
+
+                if (row != null)
+                    data.GoToDirectory(row.GetIndex());
+            }
+            catch (Exception ex)
+            {
+                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+            }
+        }
+        #endregion
+
+        #region Toolstrip
+        /// <summary>
+        /// Clears the Calendar and Directory.
+        /// </summary>
+        private async void NewProject_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = await MessageBox.Show(this, Localization.Localization.ToolStrip_NewSecure, Localization.Localization.ToolStrip_NewFile, MessageBox.MessageBoxButtons.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                Timotheus.Registry.Remove("KeyPath");
+                Timotheus.Registry.Remove("KeyPassword");
+                data.Keys = new(':');
+            }
+        }
+
+        /// <summary>
+        /// Opens a SaveFileDialog so the user can save the current key as a file.
+        /// </summary>
         private async void SaveKey_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new();
@@ -225,14 +435,19 @@ namespace Timotheus
                 switch (Path.GetExtension(result))
                 {
                     case ".tkey":
-                        string password = await PasswordDialog.Show(this);
-                        try
+                        PasswordDialog dialog = new();
+                        bool p = await dialog.Show(this);
+                        if (p)
                         {
-                            data.SaveKey(result, password);
-                        }
-                        catch (Exception ex)
-                        {
-                            await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                            string password = dialog.Password;
+                            try
+                            {
+                                data.SaveKey(result, password);
+                            }
+                            catch (Exception ex)
+                            {
+                                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                            }
                         }
                         break;
                     case ".txt":
@@ -249,6 +464,9 @@ namespace Timotheus
             }
         }
 
+        /// <summary>
+        /// Opens an OpenFileDialog so the user can open a key file.
+        /// </summary>
         private async void OpenKey_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new();
@@ -267,14 +485,26 @@ namespace Timotheus
                 switch (Path.GetExtension(result[0]))
                 {
                     case ".tkey":
-                        string password = await PasswordDialog.Show(this);
-                        try
+                        PasswordDialog dialog = new();
+                        bool p = await dialog.Show(this);
+                        if (p)
                         {
-                            data.LoadKey(result[0], password);
-                        }
-                        catch (Exception ex)
-                        {
-                            await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_LoadFailed, MessageBox.MessageBoxButtons.OkCancel);
+                            string password = dialog.Password;
+                            if (dialog.Save)
+                            {
+                                string encodedPassword = Cipher.Encrypt(password);
+                                Timotheus.Registry.Set("KeyPassword", encodedPassword);
+                            }
+                            else
+                                Timotheus.Registry.Remove("KeyPassword");
+                            try
+                            {
+                                data.LoadKey(result[0], password);
+                            }
+                            catch (Exception ex)
+                            {
+                                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_LoadFailed, MessageBox.MessageBoxButtons.OkCancel);
+                            }
                         }
                         break;
                     case ".txt":
@@ -291,9 +521,35 @@ namespace Timotheus
             }
         }
 
+        /// <summary>
+        /// Opens an EditKey dialog where the user can change the values of the key.
+        /// </summary>
         private async void EditKey_Click(object sender, RoutedEventArgs e)
         {
-            data.keys = await EditKey.Show(this, data.keys.ToString());
+            EditKey dialog = new();
+            dialog.Text = data.Keys.ToString();
+            await dialog.ShowDialog(this);
+            if (dialog.DialogResult == DialogResult.OK)
+            {
+                try
+                {
+                    data.Keys = new IO.Register(':', dialog.Text);
+                }
+                catch (Exception ex)
+                {
+                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+                }
+            }
         }
+
+        /// <summary>
+        /// Opens a Help dialog.
+        /// </summary>
+        private void Help_Click(object sender, RoutedEventArgs e)
+        {
+            Help dialog = new();
+            dialog.Show(this);
+        }
+        #endregion
     }
 }

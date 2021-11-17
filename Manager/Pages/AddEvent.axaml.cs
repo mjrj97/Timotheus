@@ -1,63 +1,16 @@
-﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
+﻿using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
-using System.Threading.Tasks;
-using ReactiveUI;
+using Timotheus.Utility;
 
 namespace Timotheus
 {
-    public partial class AddEvent : Window
-    {
-        private readonly EventData eventData;
-        public Schedule.Event ev;
-
-        public AddEvent()
-        {
-            ev = null;
-            eventData = new EventData();
-            AvaloniaXamlLoader.Load(this);
-            DataContext = eventData;
-        }
-
-        private void Add_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                ev = eventData.ToEvent();
-                Close();
-            }
-            catch (Exception ex)
-            {
-                eventData.Error = ex.Message;
-            }
-        }
-
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        public new static Task<Schedule.Event> Show(Window parent)
-        {
-            AddEvent dialog = new();
-
-            TaskCompletionSource<Schedule.Event> tcs = new();
-            dialog.Closed += delegate
-            {
-                tcs.TrySetResult(dialog.ev);
-            };
-            if (parent != null)
-                dialog.ShowDialog(parent);
-            else dialog.Show();
-
-            return tcs.Task;
-        }
-    }
-
-    internal class EventData : ReactiveObject
+    public partial class AddEvent : Dialog
     {
         private string _EventName = string.Empty;
+        /// <summary>
+        /// The title/name of the event. Should not be empty.
+        /// </summary>
         public string EventName
         {
             get { return _EventName; }
@@ -66,6 +19,9 @@ namespace Timotheus
 
         #region Start
         private string _StartTime = DateTime.Now.ToString("t");
+        /// <summary>
+        /// Start time of the event. Has the format HH:mm.
+        /// </summary>
         public string StartTime
         {
             get { return _StartTime; }
@@ -73,6 +29,9 @@ namespace Timotheus
         }
 
         private string _StartDay = DateTime.Now.Day.ToString();
+        /// <summary>
+        /// Start day of the event.
+        /// </summary>
         public string StartDay
         {
             get { return _StartDay; }
@@ -80,6 +39,9 @@ namespace Timotheus
         }
 
         private int _StartMonth = DateTime.Now.Month - 1;
+        /// <summary>
+        /// Start month of the event.
+        /// </summary>
         public int StartMonth
         {
             get { return _StartMonth; }
@@ -87,6 +49,9 @@ namespace Timotheus
         }
 
         private string _StartYear = DateTime.Now.Year.ToString();
+        /// <summary>
+        /// Start year of the event.
+        /// </summary>
         public string StartYear
         {
             get { return _StartYear; }
@@ -96,6 +61,9 @@ namespace Timotheus
 
         #region End
         private string _EndTime = DateTime.Now.AddMinutes(90).ToString("t");
+        /// <summary>
+        /// End time of the event. Has the format HH:mm.
+        /// </summary>
         public string EndTime
         {
             get { return _EndTime; }
@@ -103,6 +71,9 @@ namespace Timotheus
         }
 
         private string _EndDay = DateTime.Now.AddMinutes(90).Day.ToString();
+        /// <summary>
+        /// End day of the event.
+        /// </summary>
         public string EndDay
         {
             get { return _EndDay; }
@@ -110,6 +81,9 @@ namespace Timotheus
         }
 
         private int _EndMonth = DateTime.Now.AddMinutes(90).Month - 1;
+        /// <summary>
+        /// End month of the event.
+        /// </summary>
         public int EndMonth
         {
             get { return _EndMonth; }
@@ -117,6 +91,9 @@ namespace Timotheus
         }
 
         private string _EndYear = DateTime.Now.AddMinutes(90).Year.ToString();
+        /// <summary>
+        /// End year of the event.
+        /// </summary>
         public string EndYear
         {
             get { return _EndYear; }
@@ -125,13 +102,23 @@ namespace Timotheus
         #endregion
 
         private bool _AllDayEvent = false;
+        /// <summary>
+        /// Designates whether the Event is an all day event.
+        /// </summary>
         public bool AllDayEvent
         {
             get => _AllDayEvent;
-            set => this.RaiseAndSetIfChanged(ref _AllDayEvent, value);
+            set
+            {
+                _AllDayEvent = value;
+                NotifyPropertyChanged(nameof(AllDayEvent));
+            }
         }
 
         private string _Location = string.Empty;
+        /// <summary>
+        /// The Event's location.
+        /// </summary>
         public string Location
         {
             get { return _Location; }
@@ -139,6 +126,9 @@ namespace Timotheus
         }
 
         private string _Description = string.Empty;
+        /// <summary>
+        /// The Event's description.
+        /// </summary>
         public string Description
         {
             get { return _Description; }
@@ -146,34 +136,54 @@ namespace Timotheus
         }
 
         private string _Error = string.Empty;
+        /// <summary>
+        /// Error message shown on the buttom.
+        /// </summary>
         public string Error
         {
             get => _Error;
-            set => this.RaiseAndSetIfChanged(ref _Error, value);
+            set
+            {
+                _Error = value;
+                NotifyPropertyChanged(nameof(Error));
+            }
         }
 
-        public Schedule.Event ToEvent()
+        /// <summary>
+        /// Loads the XAML and assigns the DataContext.
+        /// </summary>
+        public AddEvent()
         {
-            if (EventName.Trim() == string.Empty)
-                throw new Exception(Localization.Localization.Exception_EmptyName);
+            AvaloniaXamlLoader.Load(this);
+            DataContext = this;
+        }
 
-            DateTime Start = new(int.Parse(StartYear), StartMonth + 1, int.Parse(StartDay));
-            DateTime End = new(int.Parse(EndYear), EndMonth + 1, int.Parse(EndDay));
-
-            if (!AllDayEvent)
+        /// <summary>
+        /// Closes the dialog and sets the DialogResult to OK.
+        /// </summary>
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            try
             {
-                int hour, minute;
-                
-                hour = int.Parse(StartTime.Substring(0, -3 + StartTime.Length));
-                minute = int.Parse(StartTime.Substring(-2 + StartTime.Length, 2));
-                Start = Start.AddMinutes(minute + hour * 60);
+                if (EventName.Trim() == string.Empty)
+                    throw new Exception(Localization.Localization.Exception_EmptyName);
 
-                hour = int.Parse(EndTime.Substring(0, -3 + EndTime.Length));
-                minute = int.Parse(EndTime.Substring(-2 + EndTime.Length, 2));
-                End = End.AddMinutes(minute + hour * 60);
+                DialogResult = DialogResult.OK;
+                Close();
             }
+            catch (Exception ex)
+            {
+                Error = ex.Message;
+            }
+        }
 
-            return new Schedule.Event(Start, End, EventName, Description, Location, string.Empty);
+        /// <summary>
+        /// Closes the dialog and sets the DialogResult to Cancel.
+        /// </summary>
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }

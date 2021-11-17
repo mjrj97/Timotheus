@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 
 namespace Timotheus.IO
 {
@@ -21,16 +22,18 @@ namespace Timotheus.IO
         /// <summary>
         /// Throws events if changes happen to the local directory.
         /// </summary>
-        private readonly FileSystemWatcher watcher;
+        //private readonly FileSystemWatcher watcher;
 
         /// <summary>
         /// The path of the local directory to be watched and synced with.
         /// </summary>
-        public readonly string LocalPath;
+        public readonly string LocalPath = string.Empty;
         /// <summary>
         /// The path of the remote directory to be watched and synced with.
         /// </summary>
-        public readonly string RemotePath;
+        public readonly string RemotePath = string.Empty;
+
+        private List<string> LastSync;
 
         /// <summary>
         /// Constructor. Is an object that is tasked with keeping a local and remote directory synced.
@@ -42,7 +45,7 @@ namespace Timotheus.IO
         /// <param name="password">Password to the SFTP connection</param>
         public DirectoryManager(string localPath, string remotePath, string host, string username, string password)
         {
-            watcher = new FileSystemWatcher(localPath)
+            /*watcher = new FileSystemWatcher(localPath)
             {
                 NotifyFilter = NotifyFilters.Attributes
                                  | NotifyFilters.CreationTime
@@ -54,6 +57,7 @@ namespace Timotheus.IO
                                  | NotifyFilters.Size
             };
 
+            //ARE ALL MISSING LASTSYNC REFERENCES
             watcher.Changed += OnChanged;
             watcher.Created += OnCreated;
             watcher.Deleted += OnDeleted;
@@ -61,11 +65,65 @@ namespace Timotheus.IO
             watcher.Error += OnError;
 
             watcher.IncludeSubdirectories = true;
-            watcher.EnableRaisingEvents = true;
+            watcher.EnableRaisingEvents = true;*/
 
-            LocalPath = localPath.Replace('/', '\\');
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                LocalPath = localPath.Replace('/', '\\');
+                if (LocalPath[^1] != '\\')
+                    LocalPath += '\\';
+            }
+            else
+            {
+                LocalPath = localPath;
+                if (LocalPath[^1] != '/')
+                    LocalPath += '/';
+            }
             RemotePath = remotePath.Replace('\\', '/');
+
+            if (!Directory.Exists(LocalPath))
+                throw new Exception();
+
+            //LoadLastSync();
             client = new SftpClient(host, username, password);
+        }
+        public DirectoryManager()
+        {
+
+        }
+
+        private void LoadLastSync()
+        {
+            string path = LocalPath + "\\.LastSync.tsy";
+            if (!File.Exists(path))
+            {
+                File.Create(path).Close();
+            }
+            else
+            {
+                LastSync = new List<string>();
+                using StreamReader reader = new(path);
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    LastSync.Add(line);
+                }
+            }
+        }
+
+        private void SaveLastSync()
+        {
+            if (LastSync != null)
+            {
+                string path = LocalPath + "\\.LastSync.tsy";
+                if (!File.Exists(path))
+                    File.Create(path).Close();
+                using StreamWriter writer = new(path);
+                for (int i = 0; i < LastSync.Count; i++)
+                {
+                    writer.WriteLine(LastSync[i]);
+                }
+            }
         }
 
         /// <summary>
@@ -148,7 +206,7 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                watcher.EnableRaisingEvents = false;
+                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
 
@@ -159,7 +217,7 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                watcher.EnableRaisingEvents = true;
+                //watcher.EnableRaisingEvents = true;
             }
 
             return files;
@@ -171,13 +229,20 @@ namespace Timotheus.IO
         /// <param name="remoteDirectory">Path of the directory on the server.</param>
         public ObservableCollection<SftpFile> GetFilesList(string remoteDirectory)
         {
-            List<SftpFile> files = ListDirectory(remoteDirectory);
-            ObservableCollection<SftpFile> listOfFiles = new();
-            foreach (SftpFile file in files)
+            if (client != null)
             {
-                listOfFiles.Add(file);
+                List<SftpFile> files = ListDirectory(remoteDirectory);
+                ObservableCollection<SftpFile> listOfFiles = new();
+                foreach (SftpFile file in files)
+                {
+                    listOfFiles.Add(file);
+                }
+                return listOfFiles;
             }
-            return listOfFiles;
+            else
+            {
+                return new ObservableCollection<SftpFile>();
+            }
         }
 
         /// <summary>
@@ -190,7 +255,7 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                watcher.EnableRaisingEvents = false;
+                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
 
@@ -201,7 +266,7 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                watcher.EnableRaisingEvents = true;
+                //watcher.EnableRaisingEvents = true;
             }
         }
 
@@ -215,7 +280,7 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                watcher.EnableRaisingEvents = false;
+                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
 
@@ -227,7 +292,7 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                watcher.EnableRaisingEvents = true;
+                //watcher.EnableRaisingEvents = true;
             }
         }
 
@@ -237,20 +302,7 @@ namespace Timotheus.IO
         /// <param name="remoteFile">SFTP File that needs to be deleted.</param>
         private void DeleteFile(SftpFile remoteFile)
         {
-            bool isPreconnected = client.IsConnected;
-            if (!isPreconnected)
-            {
-                watcher.EnableRaisingEvents = false;
-                client.Connect();
-            }
-
             client.DeleteFile(remoteFile.FullName);
-
-            if (!isPreconnected)
-            {
-                client.Disconnect();
-                watcher.EnableRaisingEvents = true;
-            }
         }
 
         /// <summary>
@@ -262,7 +314,7 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                watcher.EnableRaisingEvents = false;
+                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
 
@@ -280,7 +332,7 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                watcher.EnableRaisingEvents = true;
+                //watcher.EnableRaisingEvents = true;
             }
         }
 
@@ -296,7 +348,7 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                watcher.EnableRaisingEvents = false;
+                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
 
@@ -318,7 +370,7 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                watcher.EnableRaisingEvents = true;
+                //watcher.EnableRaisingEvents = true;
             }
         }
 
@@ -332,7 +384,7 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                watcher.EnableRaisingEvents = false;
+                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
 
@@ -361,7 +413,7 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                watcher.EnableRaisingEvents = true;
+                //watcher.EnableRaisingEvents = true;
             }
         }
 
@@ -372,12 +424,33 @@ namespace Timotheus.IO
         /// <param name="localPath">Path of the directory on the local machine.</param>
         private void Synchronize(string remotePath, string localPath)
         {
+            //Get list of prev sync files
+            //Get list of prev sync directories
+
+            //Get list of local files
+            //Get list of local directories
+
+            //Get list of remote files
+            //Get list of remote directories
+
+            //Loop through prev sync files
+            //If file can be found previously & locally & remotely => Find the one with the lastest changes (ADD TO LIST)
+            //If file can be found previously & locally & !remotely => Upload??? What if something deleted it on the other end. Probably Delete local (REMOVE FROM LIST)
+            //If file can be found previously & !locally & remotely => Delete remote (REMOVE FROM LIST)
+            //If file can be found previously & !locally & !remotely => Nothing
+            //If file can be found !previously & locally & remotely => Find the one with the latest changes (ADD TO LIST)
+            //If file can be found !previously & locally & !remotely => Upload (ADD TO LIST)
+            //If file can be found !previously & !locally & remotely => Download (ADD TO LIST)
+            //If file can be found !previously & !locally & !remotely => Nothing
+
+            #region CONNECTION
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                watcher.EnableRaisingEvents = false;
+                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
+            #endregion
 
             #region List all files in local and remote directory
             //Files in remote directory
@@ -493,11 +566,14 @@ namespace Timotheus.IO
             }
             #endregion
 
+            #region DISCONNECTION
             if (!isPreconnected)
             {
                 client.Disconnect();
-                watcher.EnableRaisingEvents = true;
+                //watcher.EnableRaisingEvents = true;
+                //SaveLastSync();
             }
+            #endregion
         }
 
         /// <summary>
@@ -505,7 +581,8 @@ namespace Timotheus.IO
         /// </summary>
         public void Synchronize()
         {
-            Synchronize(RemotePath, LocalPath);
+            if (client != null)
+                Synchronize(RemotePath, LocalPath);
         }
 
         /// <summary>

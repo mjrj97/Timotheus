@@ -58,7 +58,23 @@ namespace Timotheus
         /// </summary>
         private static void SaveRegistry()
         {
-            Registry.Save(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus/Registry.ini");
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+            string fileName = "Registry.ini";
+            SecureFile(directory, fileName);
+            Registry.Save(directory + "/" + fileName);
+        }
+
+        /// <summary>
+        /// Checks if the directory and file exists. If not both are created.
+        /// </summary>
+        /// <param name="directory">Path to directory</param>
+        /// <param name="fileName">File name (without path)</param>
+        private static void SecureFile(string directory, string fileName)
+        {
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+            if (!File.Exists(directory + "/" + fileName))
+                File.Create(directory + "/" + fileName).Close();
         }
 
         /// <summary>
@@ -66,12 +82,10 @@ namespace Timotheus
         /// </summary>
         private static void LoadRegistry()
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-            if (!File.Exists(path + "/Registry.ini"))
-                File.Create(path + "/Registry.ini").Close();
-            Registry = new Register(path + "/Registry.ini", ':');
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+            string fileName = "Registry.ini";
+            SecureFile(directory, fileName);
+            Registry = new Register(directory + "/" + fileName, ':');
         }
     }
 }

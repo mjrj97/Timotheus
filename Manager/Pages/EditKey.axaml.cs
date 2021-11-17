@@ -1,14 +1,12 @@
-﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
+﻿using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using ReactiveUI;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Timotheus.IO;
+using Timotheus.Utility;
 
 namespace Timotheus
 {
-    public partial class EditKey : Window
+    public partial class EditKey : Dialog
     {
         /// <summary>
         /// The keys usually expected in a key file.
@@ -17,6 +15,7 @@ namespace Timotheus
             "Calendar-Email",
             "Calendar-Password",
             "Calendar-URL",
+            "Calendar-Path",
             "SSH-URL",
             "SSH-Username",
             "SSH-Password",
@@ -27,22 +26,19 @@ namespace Timotheus
             "Settings-Image"
         };
 
-        internal class EditKeyData : ReactiveObject
+        private string _Text;
+        /// <summary>
+        /// The text in the Text box. It represents the current Key in Text format.
+        /// </summary>
+        public string Text
         {
-            private string _Text;
-            public string Text
+            get => _Text;
+            set
             {
-                get => _Text;
-                set => this.RaiseAndSetIfChanged(ref _Text, value);
+                _Text = value;
+                NotifyPropertyChanged(nameof(Text));
             }
         }
-
-        /// <summary>
-        /// The data context of the window.
-        /// </summary>
-        internal EditKeyData data = new();
-
-        bool ok = false;
 
         /// <summary>
         /// Constructor. Loads the XAML and assigns data context.
@@ -50,7 +46,7 @@ namespace Timotheus
         public EditKey()
         {
             AvaloniaXamlLoader.Load(this);
-            DataContext = data;
+            DataContext = this;
         }
 
         /// <summary>
@@ -58,10 +54,10 @@ namespace Timotheus
         /// </summary>
         private void AddStdKeys_Click(object sender, RoutedEventArgs e)
         {
-            Register register = new(':', data.Text);
+            Register register = new(':', Text);
             List<Key> keys = register.Keys();
 
-            bool firstAdded = false;
+            bool firstAdded = Text.Trim() != string.Empty;
             for (int i = 0; i < std.Length; i++)
             {
                 bool found = false;
@@ -77,10 +73,10 @@ namespace Timotheus
                 if (!found)
                 {
                     if (firstAdded)
-                        data.Text += '\n' + std[i] + ':';
+                        Text += '\n' + std[i] + ':';
                     else
                     {
-                        data.Text += std[i] + ':';
+                        Text += std[i] + ':';
                         firstAdded = true;
                     }
                 }
@@ -92,7 +88,7 @@ namespace Timotheus
         /// </summary>
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
-            ok = true;
+            DialogResult = DialogResult.OK;
             Close();
         }
 
@@ -101,29 +97,8 @@ namespace Timotheus
         /// </summary>
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
-        }
-
-        /// <summary>
-        /// Opens the edit key dialog.
-        /// </summary>
-        public static Task<Register> Show(Window parent, string text)
-        {
-            EditKey dialog = new();
-            dialog.data.Text = text;
-
-            TaskCompletionSource<Register> tcs = new();
-            dialog.Closed += delegate
-            {
-                if (dialog.ok)
-                    tcs.TrySetResult(new Register(':', dialog.data.Text));
-            };
-
-            if (parent != null)
-                dialog.ShowDialog(parent);
-            else dialog.Show();
-
-            return tcs.Task;
         }
     }
 }
