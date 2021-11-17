@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 
 namespace Timotheus.IO
 {
@@ -66,12 +67,23 @@ namespace Timotheus.IO
             watcher.IncludeSubdirectories = true;
             watcher.EnableRaisingEvents = true;*/
 
-            if (!Directory.Exists(localPath))
-                throw new Exception();
-            LocalPath = localPath.Replace('/', '\\');
-            if (LocalPath[^1] != '\\')
-                LocalPath += '\\';
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                LocalPath = localPath.Replace('/', '\\');
+                if (LocalPath[^1] != '\\')
+                    LocalPath += '\\';
+            }
+            else
+            {
+                LocalPath = localPath;
+                if (LocalPath[^1] != '/')
+                    LocalPath += '/';
+            }
             RemotePath = remotePath.Replace('\\', '/');
+
+            if (!Directory.Exists(LocalPath))
+                throw new Exception();
+
             //LoadLastSync();
             client = new SftpClient(host, username, password);
         }
