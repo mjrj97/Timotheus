@@ -13,32 +13,10 @@ namespace Timotheus.Schedule
         /// Start date of the period.
         /// </summary>
         public DateTime Start { get; set; }
-        public string StartString
-        {
-            get
-            {
-                return Start.ToString("g");
-            }
-            set
-            {
-                Start = DateTime.Parse(value);
-            }
-        }
         /// <summary>
         /// End date of the period.
         /// </summary>
         public DateTime End { get; set; }
-        public string EndString
-        {
-            get
-            {
-                return End.ToString("g");
-            }
-            set
-            {
-                End = DateTime.Parse(value);
-            }
-        }
         /// <summary>
         /// The type of period.
         /// </summary>

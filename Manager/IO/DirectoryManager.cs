@@ -1,12 +1,12 @@
 ﻿using Renci.SshNet;
 using Renci.SshNet.Sftp;
 using Renci.SshNet.Common;
+using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-using System;
-using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Timotheus.IO
 {
@@ -201,48 +201,30 @@ namespace Timotheus.IO
         /// Returns a list of files in the remote directory
         /// </summary>
         /// <param name="remoteDirectory">Path of the directory on the server.</param>
-        private List<SftpFile> ListDirectory(string remoteDirectory)
-        {
-            bool isPreconnected = client.IsConnected;
-            if (!isPreconnected)
-            {
-                //watcher.EnableRaisingEvents = false;
-                client.Connect();
-            }
-
-            List<SftpFile> files = client.ListDirectory(remoteDirectory).ToList();
-            files.RemoveAt(0); //Remove the '.' and '..' directories.
-            files.RemoveAt(0);
-
-            if (!isPreconnected)
-            {
-                client.Disconnect();
-                //watcher.EnableRaisingEvents = true;
-            }
-
-            return files;
-        }
-
-        /// <summary>
-        /// Returns a list of files in the remote directory
-        /// </summary>
-        /// <param name="remoteDirectory">Path of the directory on the server.</param>
-        public ObservableCollection<SftpFile> GetFilesList(string remoteDirectory)
+        public List<SftpFile> ListDirectory(string remoteDirectory)
         {
             if (client != null)
             {
-                List<SftpFile> files = ListDirectory(remoteDirectory);
-                ObservableCollection<SftpFile> listOfFiles = new();
-                foreach (SftpFile file in files)
+                bool isPreconnected = client.IsConnected;
+                if (!isPreconnected)
                 {
-                    listOfFiles.Add(file);
+                    //watcher.EnableRaisingEvents = false;
+                    client.Connect();
                 }
-                return listOfFiles;
+
+                List<SftpFile> files = client.ListDirectory(remoteDirectory).ToList();
+                files.RemoveAt(0); //Remove the '.' and '..' directories.
+                files.RemoveAt(0);
+
+                if (!isPreconnected)
+                {
+                    client.Disconnect();
+                    //watcher.EnableRaisingEvents = true;
+                }
+
+                return files;
             }
-            else
-            {
-                return new ObservableCollection<SftpFile>();
-            }
+            else return new List<SftpFile>();
         }
 
         /// <summary>
@@ -334,6 +316,11 @@ namespace Timotheus.IO
                 client.Disconnect();
                 //watcher.EnableRaisingEvents = true;
             }
+        }
+
+        public static void DeleteLocalFile(string path)
+        {
+            FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
         }
 
         /// <summary>
@@ -443,6 +430,9 @@ namespace Timotheus.IO
             //If file can be found !previously & !locally & remotely => Download (ADD TO LIST)
             //If file can be found !previously & !locally & !remotely => Nothing
 
+            //Optimize so it only uploads/downloads if enough timespan has occured or the file size changed.
+            //Ignore dot files (.gitignore)
+
             #region CONNECTION
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
@@ -514,6 +504,7 @@ namespace Timotheus.IO
                     DownloadFile(remoteFiles[i], localPath);
                 else
                 {
+                    //Optimize so it only uploads/downloads if enough timespan has occured or the file size changed.
                     if (remoteFiles[i].LastWriteTimeUtc > localFiles[indices[i]].LastWriteTimeUtc)
                         DownloadFile(remoteFiles[i], localPath);
                     else if (remoteFiles[i].LastWriteTimeUtc < localFiles[indices[i]].LastWriteTimeUtc)

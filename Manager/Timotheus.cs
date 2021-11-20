@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Reflection;
 using System.Globalization;
 using Timotheus.IO;
 
@@ -26,6 +27,7 @@ namespace Timotheus
         /// Text encoding used by the program. Is essential to decode the text from Windows Registry.
         /// </summary>
         public readonly static CultureInfo Culture = CultureInfo.GetCultureInfo("da-DK");
+        public static string Version = "1.0.0";
 
         /// <summary>
         /// Initializes the static variables and loads the Registry.
@@ -43,6 +45,9 @@ namespace Timotheus
             CultureInfo.CurrentUICulture = Culture;
 
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
+
+            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Version = version[0..^2];
         }
 
         /// <summary>

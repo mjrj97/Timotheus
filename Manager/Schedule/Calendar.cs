@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Timotheus.IO;
+using Timotheus.Utility;
 
 namespace Timotheus.Schedule
 {
@@ -326,6 +327,26 @@ namespace Timotheus.Schedule
             "END:VTIMEZONE";
         }
         
+        /// <summary>
+        /// Exports the Calendar as a PDF.
+        /// </summary>
+        /// <param name="name">Name of the PDF</param>
+        /// <param name="path">Path where to save the PDF</param>
+        /// <param name="orgName">Name of the organisation</param>
+        /// <param name="orgAddress">Address of the organisation</param>
+        /// <param name="orgImagePath">Path to the organisations image</param>
+        /// <param name="period">The period of events that should be included</param>
+        public void Export(string name, string path, string orgName, string orgAddress, string orgImagePath, Period period)
+        {
+            List<Event> exportEvents = new List<Event>();
+            for (int i = 0; i < Events.Count; i++)
+            {
+                if (Events[i].In(period))
+                    exportEvents.Add(Events[i]);
+            }
+            PDF.ExportCalendar(exportEvents, path, name, orgName, orgAddress, orgImagePath, period.ToString());
+        }
+
         /// <summary>
         /// Returns a calendars iCal equivalent string.
         /// </summary>
