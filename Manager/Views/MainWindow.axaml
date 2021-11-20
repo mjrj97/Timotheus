@@ -93,8 +93,8 @@
           <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
             <DataGrid Items="{Binding Events}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible">
               <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding Start}" SortMemberPath="Start" CanUserSort="True" CanUserResize="True"/>
-                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding End}" SortMemberPath="End" CanUserSort="True" CanUserResize="True"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding Start}" SortMemberPath="StartSort" CanUserSort="True" CanUserResize="True"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding End}" SortMemberPath="EndSort" CanUserSort="True" CanUserResize="True"/>
                 <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_NameColumn}" Width="*" Binding="{Binding Name}" CanUserResize="True"/>
 
                 <DataGridTemplateColumn Header="{x:Static i18n:Localization.Calendar_DescriptionColumn}" Width="*" CanUserResize="True">
