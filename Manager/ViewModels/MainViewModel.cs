@@ -11,10 +11,10 @@ namespace Timotheus.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        private Register _Keys = new();
         /// <summary>
         /// Register containing all the keys loaded at startup or manually from a key file (.tkey or .txt)
         /// </summary>
-        private Register _Keys = new();
         public Register Keys
         {
             get
@@ -28,10 +28,10 @@ namespace Timotheus.ViewModels
             }
         }
 
+        private Calendar _Calendar;
         /// <summary>
         /// Current calendar used by the program.
         /// </summary>
-        private Calendar _Calendar;
         public Calendar Calendar
         {
             get
@@ -48,8 +48,11 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// Type of period used by Calendar_View.
         /// </summary>
-        public Period calendarPeriod = new(new DateTime(DateTime.Now.Year, 1, 1), PeriodType.Year);
+        private readonly Period calendarPeriod;
 
+        /// <summary>
+        /// The index of the current period type.
+        /// </summary>
         public int SelectedPeriod
         {
             get { return (int)calendarPeriod.Type; }
@@ -61,6 +64,9 @@ namespace Timotheus.ViewModels
         }
 
         private string _PeriodText = string.Empty;
+        /// <summary>
+        /// The text showing the current period.
+        /// </summary>
         public string PeriodText
         {
             get => _PeriodText;
@@ -72,6 +78,9 @@ namespace Timotheus.ViewModels
         }
 
         private ObservableCollection<EventViewModel> _Events = new();
+        /// <summary>
+        /// A list of the events in the current period.
+        /// </summary>
         public ObservableCollection<EventViewModel> Events
         {
             get => _Events;
@@ -83,6 +92,9 @@ namespace Timotheus.ViewModels
         }
 
         private ObservableCollection<FileViewModel> _Files = new();
+        /// <summary>
+        /// A list of files in the current directory.
+        /// </summary>
         public ObservableCollection<FileViewModel> Files
         {
             get => _Files;
@@ -94,6 +106,9 @@ namespace Timotheus.ViewModels
         }
 
         private DirectoryManager _Directory = new();
+        /// <summary>
+        /// A SFTP object connecting a local and remote directory.
+        /// </summary>
         public DirectoryManager Directory
         {
             get
@@ -107,9 +122,13 @@ namespace Timotheus.ViewModels
             }
         }
 
+        /// <summary>
+        /// The directory currently being shown.
+        /// </summary>
         private string currentDirectory = string.Empty;
 
         public MainViewModel() {
+            calendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
             PeriodText = calendarPeriod.ToString();
         }
 
@@ -138,6 +157,11 @@ namespace Timotheus.ViewModels
                 calendarPeriod.Subtract();
             UpdateCalendarTable();
         }
+        public void UpdatePeriod(string text)
+        {
+            calendarPeriod.SetPeriod(text);
+            NotifyPropertyChanged(nameof(SelectedPeriod));
+        }
 
         /// <summary>
         /// Exports the current Calendar in the selected period as a PDF.
@@ -157,6 +181,9 @@ namespace Timotheus.ViewModels
             UpdateCalendarTable();
         }
 
+        /// <summary>
+        /// Go up a level in the directory.
+        /// </summary>
         public void GoUpDirectory()
         {
             GoToDirectory(Path.GetDirectoryName(currentDirectory) + "/");

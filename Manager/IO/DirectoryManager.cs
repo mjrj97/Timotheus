@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using Microsoft.VisualBasic.FileIO;
 
 namespace Timotheus.IO
 {
@@ -85,7 +84,11 @@ namespace Timotheus.IO
                 throw new Exception();
 
             //LoadLastSync();
-            client = new SftpClient(host, username, password);
+            PasswordAuthenticationMethod auth = new(username, password);
+            ConnectionInfo connectionInfo = new(host, 22, username, auth);
+            connectionInfo.Encoding = System.Text.Encoding.UTF8;
+
+            client = new SftpClient(connectionInfo);
         }
         public DirectoryManager()
         {
@@ -318,11 +321,6 @@ namespace Timotheus.IO
             }
         }
 
-        public static void DeleteLocalFile(string path)
-        {
-            FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
-        }
-
         /// <summary>
         /// Downloads the entire remote directory and every file under each subfolder to the local directory.
         /// </summary>
@@ -385,14 +383,12 @@ namespace Timotheus.IO
 
             for (int i = 0; i < localFilePaths.Length; i++)
             {
-                System.Diagnostics.Debug.WriteLine("Upload: " + localFilePaths[i]);
                 UploadFile(remotePath, localFilePaths[i]);
             }
 
             for (int i = 0; i < localDirectoryPaths.Length; i++)
             {
                 string path = ConvertPath(localDirectoryPaths[i]);
-                System.Diagnostics.Debug.WriteLine("Create: " + path);
                 client.CreateDirectory(path);
                 UploadDirectory(path, localDirectoryPaths[i]);
             }
@@ -411,18 +407,11 @@ namespace Timotheus.IO
         /// <param name="localPath">Path of the directory on the local machine.</param>
         private void Synchronize(string remotePath, string localPath)
         {
-            //Get list of prev sync files
-            //Get list of prev sync directories
-
-            //Get list of local files
-            //Get list of local directories
-
-            //Get list of remote files
-            //Get list of remote directories
-
             //Loop through prev sync files
+            //The Last sync list needs to save the lastwritetime of the deleted file. Otherwise if I delete a file, and then someone else writes in it, their work will be lost.
+
             //If file can be found previously & locally & remotely => Find the one with the lastest changes (ADD TO LIST)
-            //If file can be found previously & locally & !remotely => Upload??? What if something deleted it on the other end. Probably Delete local (REMOVE FROM LIST)
+            //If file can be found previously & locally & !remotely => Delete local (REMOVE FROM LIST)
             //If file can be found previously & !locally & remotely => Delete remote (REMOVE FROM LIST)
             //If file can be found previously & !locally & !remotely => Nothing
             //If file can be found !previously & locally & remotely => Find the one with the latest changes (ADD TO LIST)
@@ -432,6 +421,7 @@ namespace Timotheus.IO
 
             //Optimize so it only uploads/downloads if enough timespan has occured or the file size changed.
             //Ignore dot files (.gitignore)
+            //Check if files have the same name
 
             #region CONNECTION
             bool isPreconnected = client.IsConnected;
@@ -504,6 +494,7 @@ namespace Timotheus.IO
                     DownloadFile(remoteFiles[i], localPath);
                 else
                 {
+                    //Only do it if file is available (ie. isn't open in another program)
                     //Optimize so it only uploads/downloads if enough timespan has occured or the file size changed.
                     if (remoteFiles[i].LastWriteTimeUtc > localFiles[indices[i]].LastWriteTimeUtc)
                         DownloadFile(remoteFiles[i], localPath);
@@ -553,7 +544,7 @@ namespace Timotheus.IO
             for (int i = 0; i < localDirectories.Count; i++)
             {
                 if (!localFound[i])
-                    UploadDirectory(remotePath, localDirectories[i].FullName);
+                    UploadDirectory(ConvertPath(localDirectories[i].FullName), localDirectories[i].FullName);
             }
             #endregion
 
@@ -573,7 +564,77 @@ namespace Timotheus.IO
         public void Synchronize()
         {
             if (client != null)
-                Synchronize(RemotePath, LocalPath);
+                NewSynchronize(RemotePath, LocalPath);
+        }
+
+        public void NewSynchronize(string remotePath, string localPath)
+        {
+            #region CONNECTION
+            bool isPreconnected = client.IsConnected;
+            if (!isPreconnected)
+            {
+                //watcher.EnableRaisingEvents = false;
+                client.Connect();
+            }
+            #endregion
+
+            List<DirectoryFile> files = GetFiles(remotePath, localPath);
+
+            for (int i = 0; i < files.Count; i++)
+            {
+                System.Diagnostics.Debug.WriteLine(files[i].IsDirectory + ": " + files[i].Name);
+            }
+
+            #region DISCONNECTION
+            if (!isPreconnected)
+            {
+                client.Disconnect();
+                //watcher.EnableRaisingEvents = true;
+                //SaveLastSync();
+            }
+            #endregion
+        }
+
+        private List<DirectoryFile> GetFiles(string remotePath, string localPath)
+        {
+            DirectoryInfo dirInfo = new(localPath);
+            FileSystemInfo[] localFiles = dirInfo.GetFileSystemInfos("*", SearchOption.TopDirectoryOnly);
+            List<SftpFile> remoteFiles = ListDirectory(remotePath);
+
+            List<DirectoryFile> files = new();
+            DirectoryLog directoryLog = new(localPath);
+            directoryLog.Save();
+
+            //Find pairs
+            for (int i = 0; i < localFiles.Length; i++)
+            {
+                if (localFiles[i].Name[0] == '.')
+                    continue;
+
+                bool found = false;
+                int j = 0;
+                while (!found && j < remoteFiles.Count)
+                {
+                    if (localFiles[i].Name == remoteFiles[j].Name)
+                    {
+                        files.Add(new DirectoryFile(localFiles[i], remoteFiles[j]));
+                        remoteFiles.RemoveAt(j); //Remove so the remaining remoteFiles are only remote
+                        found = true;
+                    }
+                    else
+                        j++;
+                }
+                if (!found)
+                    files.Add(new DirectoryFile(localFiles[i], null));
+            }
+
+            //Add only remote files
+            for (int i = 0; i < remoteFiles.Count; i++)
+            {
+                files.Add(new DirectoryFile(null, remoteFiles[i]));
+            }
+
+            return files;
         }
 
         /// <summary>
@@ -597,5 +658,65 @@ namespace Timotheus.IO
                 throw new Exception("Exception_SFTPInvalidPath");
             return newPath;
         }
+
+        /* https://stackoverflow.com/questions/52392766/downloading-a-directory-using-ssh-net-sftp-in-c-sharp
+        public static void DownloadDirectory(SftpClient sftpClient, string sourceRemotePath, string destLocalPath)
+        {
+            Directory.CreateDirectory(destLocalPath);
+            IEnumerable<SftpFile> files = sftpClient.ListDirectory(sourceRemotePath);
+            foreach (SftpFile file in files)
+            {
+                if ((file.Name != ".") && (file.Name != ".."))
+                {
+                    string sourceFilePath = sourceRemotePath + "/" + file.Name;
+                    string destFilePath = Path.Combine(destLocalPath, file.Name);
+                    if (file.IsDirectory)
+                    {
+                        DownloadDirectory(sftpClient, sourceFilePath, destFilePath);
+                    }
+                    else
+                    {
+                        using (Stream fileStream = File.Create(destFilePath))
+                        {
+                            sftpClient.DownloadFile(sourceFilePath, fileStream);
+                        }
+                    }
+                }
+            }
+        }
+         */
+
+        /* https://stackoverflow.com/questions/39397746/ssh-net-upload-whole-folder
+        void UploadDirectory(SftpClient client, string localPath, string remotePath)
+        {
+            Console.WriteLine("Uploading directory {0} to {1}", localPath, remotePath);
+
+            IEnumerable<FileSystemInfo> infos =
+                new DirectoryInfo(localPath).EnumerateFileSystemInfos();
+            foreach (FileSystemInfo info in infos)
+            {
+                if (info.Attributes.HasFlag(FileAttributes.Directory))
+                {
+                    string subPath = remotePath + "/" + info.Name;
+                    if (!client.Exists(subPath))
+                    {
+                        client.CreateDirectory(subPath);
+                    }
+                    UploadDirectory(client, info.FullName, remotePath + "/" + info.Name);
+                }
+                else
+                {
+                    using (var fileStream = new FileStream(info.FullName, FileMode.Open))
+                    {
+                        Console.WriteLine(
+                            "Uploading {0} ({1:N0} bytes)",
+                            info.FullName, ((FileInfo)info).Length);
+
+                        client.UploadFile(fileStream, remotePath + "/" + info.Name);
+                    }
+                }
+            }
+        }
+        */
     }
 }

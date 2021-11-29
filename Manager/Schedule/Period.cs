@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace Timotheus.Schedule
 {
@@ -102,6 +101,10 @@ namespace Timotheus.Schedule
                     break;
             }
         }
+        public Period(string text)
+        {
+            SetPeriod(text);
+        }
 
         /// <summary>
         /// Sets the period according to a string.
@@ -159,9 +162,18 @@ namespace Timotheus.Schedule
                         {
                             j++;
                         }
-                        Start = new DateTime(year, j+1, 1);
-                        End = Start.AddMonths(1);
-                        Type = PeriodType.Month;
+                        if (j < 12)
+                        {
+                            Start = new DateTime(year, j + 1, 1);
+                            End = Start.AddMonths(1);
+                            Type = PeriodType.Month;
+                        }
+                        else
+                        {
+                            Start = new DateTime(year, 1, 1);
+                            End = Start.AddYears(1);
+                            Type = PeriodType.Year;
+                        }
                     }
                 }
             }

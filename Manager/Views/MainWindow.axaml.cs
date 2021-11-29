@@ -118,7 +118,7 @@ namespace Timotheus
         {
             if (e.Key == Key.Enter)
             {
-                mvm.calendarPeriod.SetPeriod(((TextBox)sender).Text);
+                mvm.UpdatePeriod(((TextBox)sender).Text);
                 mvm.UpdateCalendarTable();
             }
         }
@@ -193,7 +193,7 @@ namespace Timotheus
         private async void SyncCalendar_Click(object sender, RoutedEventArgs e)
         {
             SyncCalendar dialog = new();
-            dialog.Period = mvm.calendarPeriod.ToString();
+            dialog.Period = mvm.PeriodText;
             dialog.UseCurrent = mvm.Calendar.IsSetup();
             dialog.CanUseCurrent = mvm.Calendar.IsSetup();
 
@@ -214,7 +214,7 @@ namespace Timotheus
                     if (dialog.SyncAll)
                         mvm.Calendar.Sync();
                     else if (dialog.SyncPeriod)
-                        mvm.Calendar.Sync(mvm.calendarPeriod);
+                        mvm.Calendar.Sync(new Period(mvm.PeriodText));
                     else
                         mvm.Calendar.Sync(new Period(dialog.Start, dialog.End.AddDays(1)));
 
