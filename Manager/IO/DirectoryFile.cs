@@ -5,29 +5,29 @@ namespace Timotheus.IO
 {
     public struct DirectoryFile
     {
-        public readonly FileSystemInfo localFile;
-        public readonly SftpFile remoteFile;
-        public readonly bool WasInLastSync;
-        public readonly bool IsDirectory;
-        public readonly string Name;
+        public FileSystemInfo LocalFile;
+        public SftpFile RemoteFile;
+        public DirectoryLogItem LogItem;
+        public bool IsDirectory;
+        public string Name;
 
-        public DirectoryFile(FileSystemInfo localFile, SftpFile remoteFile, bool WasInLastSync = false)
+        public DirectoryFile(FileSystemInfo LocalFile, SftpFile RemoteFile, DirectoryLogItem LogItem)
         {
-            if (localFile == null)
+            if (LocalFile == null)
             {
-                Name = remoteFile.Name;
-                IsDirectory = remoteFile.IsDirectory;
+                Name = RemoteFile.Name;
+                IsDirectory = RemoteFile.IsDirectory;
             }
             else
             {
-                Name = localFile.Name;
-                FileAttributes attr = File.GetAttributes(localFile.FullName);
+                Name = LocalFile.Name;
+                FileAttributes attr = File.GetAttributes(LocalFile.FullName);
                 IsDirectory = attr.HasFlag(FileAttributes.Directory);
             }
 
-            this.WasInLastSync = WasInLastSync;
-            this.localFile = localFile;
-            this.remoteFile = remoteFile;
+            this.LogItem = LogItem;
+            this.LocalFile = LocalFile;
+            this.RemoteFile = RemoteFile;
         }
     }
 }

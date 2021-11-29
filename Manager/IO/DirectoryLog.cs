@@ -5,61 +5,53 @@ namespace Timotheus.IO
 {
     public class DirectoryLog
     {
-        public List<DirectoryLogItem> List { get; protected set; }
-        private readonly string path;
-
-        public DirectoryLog(string path)
+        public static List<DirectoryLogItem> Load(string path)
         {
-            this.path = Path.Combine(path, ".tfilelog");
-            Load();
-        }
-
-        public void Add(DirectoryLogItem dli)
-        {
-            List.Add(dli);
-        }
-
-        public void Remove(DirectoryLogItem dli)
-        {
-            List.Remove(dli);
-        }
-
-        private void Load()
-        {
-            Secure();
+            path = Path.Combine(path, ".tfilelog");
+            Secure(path);
             using StreamReader reader = new(path);
-            List = new();
+            List<DirectoryLogItem> List = new();
 
             string line;
             while ((line = reader.ReadLine()) != null)
             {
                 List.Add(new DirectoryLogItem(line));
             }
+
+            return List;
         }
 
-        private void Secure()
+        public static void Save(string path)
+        {
+            List<DirectoryLogItem> logItems = new();
+            DirectoryInfo dirInfo = new(path);
+            FileSystemInfo[] localFiles = dirInfo.GetFileSystemInfos("*", SearchOption.TopDirectoryOnly);
+            for (int i = 0; i < localFiles.Length; i++)
+            {
+                bool IsDirectory = File.GetAttributes(localFiles[i].FullName).HasFlag(FileAttributes.Directory);
+                logItems.Add(new DirectoryLogItem(IsDirectory, localFiles[i].Name, localFiles[i].LastWriteTimeUtc));
+            }
+
+            path = Path.Combine(path, ".tfilelog");
+            Secure(path);
+            using FileStream fs = new(path, FileMode.Open);
+            using (TextWriter tw = new StreamWriter(fs, Timotheus.Encoding, -1, true))
+            {
+                for (int i = 0; i < logItems.Count; i++)
+                {
+                    tw.WriteLine(logItems[i]);
+                }
+            }
+            fs.SetLength(fs.Position);
+        }
+
+        private static void Secure(string path)
         {
             if (!File.Exists(path))
             {
                 FileStream stream = File.Create(path);
                 File.SetAttributes(path, FileAttributes.Hidden);
                 stream.Close();
-            }
-        }
-
-        public void Save()
-        {
-            Secure();
-            using (FileStream fs = new(path, FileMode.Open))
-            {
-                using (TextWriter tw = new StreamWriter(fs, Timotheus.Encoding, -1, true))
-                {
-                    for (int i = 0; i < List.Count; i++)
-                    {
-                        tw.WriteLine(List[i]);
-                    }
-                }
-                fs.SetLength(fs.Position);
             }
         }
     }

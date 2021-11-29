@@ -306,7 +306,53 @@ namespace Timotheus.IO
             try
             {
                 System.Diagnostics.Debug.WriteLine(path);
-                client.Delete(path);
+                client.DeleteFile(path);
+            }
+            catch (SftpPathNotFoundException e)
+            {
+                //Do something when file is not found
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+
+            if (!isPreconnected)
+            {
+                client.Disconnect();
+                //watcher.EnableRaisingEvents = true;
+            }
+        }
+
+        /// <summary>
+        /// Deletes directory on the remote directory.
+        /// </summary>
+        /// <param name="path">Path of the directory on the server.</param>
+        private void DeleteDirectory(string path)
+        {
+            bool isPreconnected = client.IsConnected;
+            if (!isPreconnected)
+            {
+                //watcher.EnableRaisingEvents = false;
+                client.Connect();
+            }
+
+            try
+            {
+                System.Diagnostics.Debug.WriteLine(path);
+                foreach (SftpFile file in client.ListDirectory(path))
+                {
+                    if ((file.Name != ".") && (file.Name != ".."))
+                    {
+                        if (file.IsDirectory)
+                        {
+                            DeleteDirectory(file.FullName);
+                        }
+                        else
+                        {
+                            client.DeleteFile(file.FullName);
+                        }
+                    }
+                }
+
+                client.DeleteDirectory(path);
             }
             catch (SftpPathNotFoundException e)
             {
@@ -413,7 +459,7 @@ namespace Timotheus.IO
             //If file can be found previously & locally & remotely => Find the one with the lastest changes (ADD TO LIST)
             //If file can be found previously & locally & !remotely => Delete local (REMOVE FROM LIST)
             //If file can be found previously & !locally & remotely => Delete remote (REMOVE FROM LIST)
-            //If file can be found previously & !locally & !remotely => Nothing
+            //If file can be found previously & !locally & !remotely => Nothing (REMOVE FROM LIST)
             //If file can be found !previously & locally & remotely => Find the one with the latest changes (ADD TO LIST)
             //If file can be found !previously & locally & !remotely => Upload (ADD TO LIST)
             //If file can be found !previously & !locally & remotely => Download (ADD TO LIST)
@@ -582,8 +628,78 @@ namespace Timotheus.IO
 
             for (int i = 0; i < files.Count; i++)
             {
-                System.Diagnostics.Debug.WriteLine(files[i].IsDirectory + ": " + files[i].Name);
+                DirectoryFile file = files[i];
+                if (file.LocalFile != null && file.RemoteFile != null)
+                {
+                    //If file can be found (!)previously & locally & remotely => Find the one with the lastest changes
+                    if (file.IsDirectory)
+                        NewSynchronize(file.RemoteFile.FullName, file.LocalFile.FullName);
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine(file.Name + ": I need to sync!");
+                    }
+                }
+                else if (file.LogItem.Equals(DirectoryLogItem.Empty))
+                {
+                    if (file.LocalFile != null && file.RemoteFile == null)
+                    {
+                        //If file can be found !previously & locally & !remotely => Upload
+                        if (file.IsDirectory)
+                            UploadDirectory(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
+                        else
+                            UploadFile(remotePath, file.LocalFile.FullName);
+                    }
+                    else if (file.LocalFile == null && file.RemoteFile != null)
+                    {
+                        //If file can be found !previously & !locally & remotely => Download
+                        if (file.IsDirectory)
+                            DownloadDirectory(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
+                        else
+                            DownloadFile(file.RemoteFile, localPath);
+                    }
+                }
+                else
+                {
+                    if (file.LocalFile != null && file.RemoteFile == null)
+                    {
+                        //If file can be found previously & locally & !remotely => Delete local (If local & previously LastWriteTime is the same, otherwise upload)
+                        if (!(file.LocalFile.LastWriteTimeUtc > file.LogItem.LastWriteTimeUtc))
+                        {
+                            if (file.IsDirectory)
+                                Directory.Delete(file.LocalFile.FullName);
+                            else
+                                File.Delete(file.LocalFile.FullName);
+                        }
+                        else
+                        {
+                            if (file.IsDirectory)
+                                UploadDirectory(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
+                            else
+                                UploadFile(remotePath, file.LocalFile.FullName);
+                        }
+                    }
+                    else if (file.LocalFile == null && file.RemoteFile != null)
+                    {
+                        //If file can be found previously & !locally & remotely => Delete remote (If remote & previously LastWriteTime is the same, otherwise download)
+                        if (!(file.RemoteFile.LastWriteTimeUtc > file.LogItem.LastWriteTimeUtc))
+                        {
+                            if (file.IsDirectory)
+                                DeleteDirectory(file.RemoteFile.FullName);
+                            else
+                                DeleteFile(file.RemoteFile.FullName);
+                        }
+                        else
+                        {
+                            if (file.IsDirectory)
+                                DownloadDirectory(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
+                            else
+                                DownloadFile(file.RemoteFile, localPath);
+                        }
+                    }
+                }
             }
+
+            DirectoryLog.Save(localPath);
 
             #region DISCONNECTION
             if (!isPreconnected)
@@ -602,22 +718,37 @@ namespace Timotheus.IO
             List<SftpFile> remoteFiles = ListDirectory(remotePath);
 
             List<DirectoryFile> files = new();
-            DirectoryLog directoryLog = new(localPath);
-            directoryLog.Save();
+            List<DirectoryLogItem> logList = DirectoryLog.Load(localPath);
 
             //Find pairs
             for (int i = 0; i < localFiles.Length; i++)
             {
-                if (localFiles[i].Name[0] == '.')
+                if (localFiles[i].Name[0] == '.') // Also ignore tkeys
                     continue;
+
+                DirectoryLogItem dli = DirectoryLogItem.Empty;
 
                 bool found = false;
                 int j = 0;
+                while (!found && j < logList.Count)
+                {
+                    if (logList[j].Name == localFiles[i].Name)
+                    {
+                        dli = logList[j];
+                        logList.RemoveAt(j);
+                        found = true;
+                    }
+                    else
+                        j++;
+                }
+
+                found = false;
+                j = 0;
                 while (!found && j < remoteFiles.Count)
                 {
                     if (localFiles[i].Name == remoteFiles[j].Name)
                     {
-                        files.Add(new DirectoryFile(localFiles[i], remoteFiles[j]));
+                        files.Add(new DirectoryFile(localFiles[i], remoteFiles[j], dli));
                         remoteFiles.RemoveAt(j); //Remove so the remaining remoteFiles are only remote
                         found = true;
                     }
@@ -625,13 +756,29 @@ namespace Timotheus.IO
                         j++;
                 }
                 if (!found)
-                    files.Add(new DirectoryFile(localFiles[i], null));
+                    files.Add(new DirectoryFile(localFiles[i], null, dli));
             }
 
             //Add only remote files
             for (int i = 0; i < remoteFiles.Count; i++)
             {
-                files.Add(new DirectoryFile(null, remoteFiles[i]));
+                DirectoryLogItem dli = DirectoryLogItem.Empty;
+
+                bool found = false;
+                int j = 0;
+                while (!found && j < logList.Count)
+                {
+                    if (logList[j].Name == localFiles[i].Name)
+                    {
+                        dli = logList[j];
+                        logList.RemoveAt(j);
+                        found = true;
+                    }
+                    else
+                        j++;
+                }
+
+                files.Add(new DirectoryFile(null, remoteFiles[i], dli));
             }
 
             return files;
