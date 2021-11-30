@@ -327,10 +327,7 @@ namespace Timotheus
         /// </summary>
         private async void SyncFiles_Click(object sender, RoutedEventArgs e)
         {
-            mvm.Directory.Synchronize();
-            mvm.GoToDirectory(mvm.Directory.RemotePath);
-
-            /*try
+            try
             {
                 mvm.Directory.Synchronize();
                 mvm.GoToDirectory(mvm.Directory.RemotePath);
@@ -338,7 +335,7 @@ namespace Timotheus
             catch (Exception ex)
             {
                 await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
-            }*/
+            }
         }
 
         /// <summary>

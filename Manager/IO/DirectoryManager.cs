@@ -447,173 +447,20 @@ namespace Timotheus.IO
         }
 
         /// <summary>
-        /// Synchronizes custom remote and local directories.
-        /// </summary>
-        /// <param name="remotePath">Path of the directory on the server.</param>
-        /// <param name="localPath">Path of the directory on the local machine.</param>
-        private void Synchronize(string remotePath, string localPath)
-        {
-            //Loop through prev sync files
-            //The Last sync list needs to save the lastwritetime of the deleted file. Otherwise if I delete a file, and then someone else writes in it, their work will be lost.
-
-            //If file can be found previously & locally & remotely => Find the one with the lastest changes (ADD TO LIST)
-            //If file can be found previously & locally & !remotely => Delete local (REMOVE FROM LIST)
-            //If file can be found previously & !locally & remotely => Delete remote (REMOVE FROM LIST)
-            //If file can be found previously & !locally & !remotely => Nothing (REMOVE FROM LIST)
-            //If file can be found !previously & locally & remotely => Find the one with the latest changes (ADD TO LIST)
-            //If file can be found !previously & locally & !remotely => Upload (ADD TO LIST)
-            //If file can be found !previously & !locally & remotely => Download (ADD TO LIST)
-            //If file can be found !previously & !locally & !remotely => Nothing
-
-            //Optimize so it only uploads/downloads if enough timespan has occured or the file size changed.
-            //Ignore dot files (.gitignore)
-            //Check if files have the same name
-
-            #region CONNECTION
-            bool isPreconnected = client.IsConnected;
-            if (!isPreconnected)
-            {
-                //watcher.EnableRaisingEvents = false;
-                client.Connect();
-            }
-            #endregion
-
-            #region List all files in local and remote directory
-            //Files in remote directory
-            IList<SftpFile> remote = ListDirectory(remotePath);
-
-            List<SftpFile> remoteFiles = new();
-            List<SftpFile> remoteDirectories = new();
-            for (int i = 0; i < remote.Count; i++)
-            {
-                if (remote[i].IsDirectory)
-                    remoteDirectories.Add(remote[i]);
-                else
-                    remoteFiles.Add(remote[i]);
-            }
-
-            //Files in local directory
-            string[] localFilePaths = Directory.GetFiles(localPath);
-            string[] localDirectoryPaths = Directory.GetDirectories(localPath);
-
-            List<FileInfo> localFiles = new();
-            List<DirectoryInfo> localDirectories = new();
-
-            for (int i = 0; i < localFilePaths.Length; i++)
-            {
-                //Get file info for all local files
-                localFiles.Add(new FileInfo(localFilePaths[i]));
-            }
-
-            for (int i = 0; i < localDirectoryPaths.Length; i++)
-            {
-                //Get directory info for all directories
-                localDirectories.Add(new DirectoryInfo(localDirectoryPaths[i]));
-            }
-            #endregion
-
-            #region Sync the files
-            int[] indices = new int[remoteFiles.Count];
-            bool[] localFound = new bool[localFiles.Count];
-            for (int i = 0; i < remoteFiles.Count; i++)
-            {
-                bool found = false;
-                int j = 0;
-                while (!found && j < localFiles.Count)
-                {
-                    if (!localFound[j] && remoteFiles[i].Name == localFiles[j].Name)
-                    {
-                        found = true;
-                        localFound[j] = true;
-                        indices[i] = j;
-                    }
-                    j++;
-                }
-
-                if (!found)
-                    indices[i] = -1; //Set index to -1 if not found locally
-            }
-
-            for (int i = 0; i < remoteFiles.Count; i++)
-            {
-                if (indices[i] == -1)
-                    DownloadFile(remoteFiles[i], localPath);
-                else
-                {
-                    //Only do it if file is available (ie. isn't open in another program)
-                    //Optimize so it only uploads/downloads if enough timespan has occured or the file size changed.
-                    if (remoteFiles[i].LastWriteTimeUtc > localFiles[indices[i]].LastWriteTimeUtc)
-                        DownloadFile(remoteFiles[i], localPath);
-                    else if (remoteFiles[i].LastWriteTimeUtc < localFiles[indices[i]].LastWriteTimeUtc)
-                        UploadFile(remotePath, localFiles[indices[i]].FullName);
-                }
-            }
-
-            for (int i = 0; i < localFiles.Count; i++)
-            {
-                if (!localFound[i])
-                    UploadFile(remotePath, localFiles[i].FullName);
-            }
-
-            #endregion
-
-            #region Sync the folders
-            indices = new int[remoteDirectories.Count];
-            localFound = new bool[localDirectories.Count];
-            for (int i = 0; i < remoteDirectories.Count; i++)
-            {
-                bool found = false;
-                int j = 0;
-                while (!found && j < localDirectories.Count)
-                {
-                    if (!localFound[j] && remoteDirectories[i].Name == localDirectories[j].Name)
-                    {
-                        found = true;
-                        localFound[j] = true;
-                        indices[i] = j;
-                    }
-                    j++;
-                }
-
-                if (!found)
-                    indices[i] = -1; //Set index to -1 if not found locally
-            }
-
-            for (int i = 0; i < remoteDirectories.Count; i++)
-            {
-                if (indices[i] == -1)
-                    DownloadDirectory(remoteDirectories[i].FullName, ConvertPath(remoteDirectories[i].FullName));
-                else
-                    Synchronize(remoteDirectories[i].FullName, localDirectories[indices[i]].FullName);
-            }
-
-            for (int i = 0; i < localDirectories.Count; i++)
-            {
-                if (!localFound[i])
-                    UploadDirectory(ConvertPath(localDirectories[i].FullName), localDirectories[i].FullName);
-            }
-            #endregion
-
-            #region DISCONNECTION
-            if (!isPreconnected)
-            {
-                client.Disconnect();
-                //watcher.EnableRaisingEvents = true;
-                //SaveLastSync();
-            }
-            #endregion
-        }
-
-        /// <summary>
         /// Synchronize the defined remote and local directories.
         /// </summary>
         public void Synchronize()
         {
             if (client != null)
-                NewSynchronize(RemotePath, LocalPath);
+                Synchronize(RemotePath, LocalPath);
         }
 
-        public void NewSynchronize(string remotePath, string localPath)
+        /// <summary>
+        /// Synchronizes custom remote and local directories.
+        /// </summary>
+        /// <param name="remotePath">Path of the directory on the server.</param>
+        /// <param name="localPath">Path of the directory on the local machine.</param>
+        private void Synchronize(string remotePath, string localPath)
         {
             #region CONNECTION
             bool isPreconnected = client.IsConnected;
@@ -633,10 +480,33 @@ namespace Timotheus.IO
                 {
                     //If file can be found (!)previously & locally & remotely => Find the one with the lastest changes
                     if (file.IsDirectory)
-                        NewSynchronize(file.RemoteFile.FullName, file.LocalFile.FullName);
+                        Synchronize(file.RemoteFile.FullName, file.LocalFile.FullName);
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine(file.Name + ": I need to sync!");
+                        //Synchronize
+                        if (file.LocalFile.LastWriteTimeUtc.Ticks == file.LogItem.LocalTicks && file.RemoteFile.LastWriteTimeUtc.Ticks != file.LogItem.RemoteTicks)
+                        {
+                            //Download
+                            DownloadFile(file.RemoteFile, localPath);
+                        }
+                        else if (file.LocalFile.LastWriteTimeUtc.Ticks != file.LogItem.LocalTicks && file.RemoteFile.LastWriteTimeUtc.Ticks == file.LogItem.RemoteTicks)
+                        {
+                            //Upload
+                            UploadFile(remotePath, file.LocalFile.FullName);
+                        }
+                        else if (file.LocalFile.LastWriteTimeUtc.Ticks != file.LogItem.LocalTicks && file.RemoteFile.LastWriteTimeUtc.Ticks != file.LogItem.RemoteTicks)
+                        {
+                            if (file.LocalFile.LastWriteTimeUtc.Ticks < file.RemoteFile.LastWriteTimeUtc.Ticks)
+                            {
+                                //Download
+                                DownloadFile(file.RemoteFile, localPath);
+                            }
+                            else if (file.LocalFile.LastWriteTimeUtc.Ticks > file.RemoteFile.LastWriteTimeUtc.Ticks)
+                            {
+                                //Upload
+                                UploadFile(remotePath, file.LocalFile.FullName);
+                            }
+                        }
                     }
                 }
                 else if (file.LogItem.Equals(DirectoryLogItem.Empty))
@@ -663,7 +533,7 @@ namespace Timotheus.IO
                     if (file.LocalFile != null && file.RemoteFile == null)
                     {
                         //If file can be found previously & locally & !remotely => Delete local (If local & previously LastWriteTime is the same, otherwise upload)
-                        if (!(file.LocalFile.LastWriteTimeUtc > file.LogItem.LastWriteTimeUtc))
+                        if (file.LocalFile.LastWriteTimeUtc.Ticks == file.LogItem.LocalTicks)
                         {
                             if (file.IsDirectory)
                                 Directory.Delete(file.LocalFile.FullName);
@@ -681,7 +551,7 @@ namespace Timotheus.IO
                     else if (file.LocalFile == null && file.RemoteFile != null)
                     {
                         //If file can be found previously & !locally & remotely => Delete remote (If remote & previously LastWriteTime is the same, otherwise download)
-                        if (!(file.RemoteFile.LastWriteTimeUtc > file.LogItem.LastWriteTimeUtc))
+                        if (file.RemoteFile.LastWriteTimeUtc.Ticks == file.LogItem.RemoteTicks)
                         {
                             if (file.IsDirectory)
                                 DeleteDirectory(file.RemoteFile.FullName);
@@ -699,7 +569,7 @@ namespace Timotheus.IO
                 }
             }
 
-            DirectoryLog.Save(localPath);
+            DirectoryLog.Save(localPath, ListDirectory(remotePath));
 
             #region DISCONNECTION
             if (!isPreconnected)
@@ -711,6 +581,12 @@ namespace Timotheus.IO
             #endregion
         }
 
+        /// <summary>
+        /// Make a list of all the files in the directories. Trying to match the files according to their name.
+        /// </summary>
+        /// <param name="remotePath"></param>
+        /// <param name="localPath"></param>
+        /// <returns></returns>
         private List<DirectoryFile> GetFiles(string remotePath, string localPath)
         {
             DirectoryInfo dirInfo = new(localPath);
@@ -723,16 +599,19 @@ namespace Timotheus.IO
             //Find pairs
             for (int i = 0; i < localFiles.Length; i++)
             {
-                if (localFiles[i].Name[0] == '.') // Also ignore tkeys
+                if (localFiles[i].Name[0] == '.' || Path.GetExtension(localFiles[i].Name) == ".tkey") // Also ignore tkeys
                     continue;
 
                 DirectoryLogItem dli = DirectoryLogItem.Empty;
+
+                FileAttributes attr = File.GetAttributes(localFiles[i].FullName);
+                bool IsDirectory = attr.HasFlag(FileAttributes.Directory);
 
                 bool found = false;
                 int j = 0;
                 while (!found && j < logList.Count)
                 {
-                    if (logList[j].Name == localFiles[i].Name)
+                    if (logList[j].Name == localFiles[i].Name && IsDirectory == logList[j].IsDirectory)
                     {
                         dli = logList[j];
                         logList.RemoveAt(j);
@@ -746,7 +625,7 @@ namespace Timotheus.IO
                 j = 0;
                 while (!found && j < remoteFiles.Count)
                 {
-                    if (localFiles[i].Name == remoteFiles[j].Name)
+                    if (localFiles[i].Name == remoteFiles[j].Name && IsDirectory == remoteFiles[j].IsDirectory)
                     {
                         files.Add(new DirectoryFile(localFiles[i], remoteFiles[j], dli));
                         remoteFiles.RemoveAt(j); //Remove so the remaining remoteFiles are only remote
@@ -768,7 +647,7 @@ namespace Timotheus.IO
                 int j = 0;
                 while (!found && j < logList.Count)
                 {
-                    if (logList[j].Name == localFiles[i].Name)
+                    if (logList[j].Name == remoteFiles[i].Name && logList[j].IsDirectory == remoteFiles[i].IsDirectory)
                     {
                         dli = logList[j];
                         logList.RemoveAt(j);

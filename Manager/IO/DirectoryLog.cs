@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Collections.Generic;
+using Renci.SshNet.Sftp;
 
 namespace Timotheus.IO
 {
@@ -21,7 +22,7 @@ namespace Timotheus.IO
             return List;
         }
 
-        public static void Save(string path)
+        public static void Save(string path, List<SftpFile> remoteFiles)
         {
             List<DirectoryLogItem> logItems = new();
             DirectoryInfo dirInfo = new(path);
@@ -29,7 +30,20 @@ namespace Timotheus.IO
             for (int i = 0; i < localFiles.Length; i++)
             {
                 bool IsDirectory = File.GetAttributes(localFiles[i].FullName).HasFlag(FileAttributes.Directory);
-                logItems.Add(new DirectoryLogItem(IsDirectory, localFiles[i].Name, localFiles[i].LastWriteTimeUtc));
+
+                int j = 0;
+                bool found = false;
+                while (!found && j < remoteFiles.Count)
+                {
+                    if (remoteFiles[j].Name == localFiles[i].Name && remoteFiles[j].IsDirectory == IsDirectory)
+                    {
+                        found = true;
+                    }
+                    else
+                        j++;
+                }
+
+                logItems.Add(new DirectoryLogItem(IsDirectory, localFiles[i].Name, localFiles[i].LastWriteTimeUtc.Ticks, found ? remoteFiles[j].LastWriteTimeUtc.Ticks : 0));
             }
 
             path = Path.Combine(path, ".tfilelog");
@@ -39,7 +53,8 @@ namespace Timotheus.IO
             {
                 for (int i = 0; i < logItems.Count; i++)
                 {
-                    tw.WriteLine(logItems[i]);
+                    if (logItems[i].Name[0] != '.' && Path.GetExtension(localFiles[i].Name) != ".tkey")
+                        tw.WriteLine(logItems[i]);
                 }
             }
             fs.SetLength(fs.Position);

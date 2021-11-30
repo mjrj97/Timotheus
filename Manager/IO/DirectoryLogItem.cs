@@ -1,28 +1,29 @@
-﻿using System;
-
-namespace Timotheus.IO
+﻿namespace Timotheus.IO
 {
     public struct DirectoryLogItem
     {
         public bool IsDirectory;
         public string Name;
-        public DateTime LastWriteTimeUtc;
+        public long LocalTicks;
+        public long RemoteTicks;
 
         public readonly static DirectoryLogItem Empty = new();
 
         public DirectoryLogItem(string line)
         {
             string[] data = line.Split(';');
-            IsDirectory = (data[0] == "D");
+            IsDirectory = data[0] == "D";
             Name = data[1];
-            LastWriteTimeUtc = DateTime.Parse(data[2]);
+            LocalTicks = long.Parse(data[2]);
+            RemoteTicks = long.Parse(data[3]);
         }
 
-        public DirectoryLogItem(bool IsDirectory, string Name, DateTime LastWriteTimeUtc)
+        public DirectoryLogItem(bool IsDirectory, string Name, long LocalTicks, long RemoteTicks)
         {
             this.IsDirectory = IsDirectory;
             this.Name = Name;
-            this.LastWriteTimeUtc = LastWriteTimeUtc;
+            this.LocalTicks = LocalTicks;
+            this.RemoteTicks = RemoteTicks;
         }
 
         public override string ToString()
@@ -31,7 +32,8 @@ namespace Timotheus.IO
 
             text += IsDirectory ? "D" : "F";
             text += ";" + Name + ";";
-            text += LastWriteTimeUtc.ToString();
+            text += LocalTicks.ToString();
+            text += ";" + RemoteTicks.ToString();
 
             return text;
         }
