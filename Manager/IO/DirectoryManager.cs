@@ -18,10 +18,6 @@ namespace Timotheus.IO
         /// Client that is connected to the remote directory.
         /// </summary>
         private readonly SftpClient client;
-        /// <summary>
-        /// Throws events if changes happen to the local directory.
-        /// </summary>
-        //private readonly FileSystemWatcher watcher;
 
         /// <summary>
         /// The path of the local directory to be watched and synced with.
@@ -31,8 +27,6 @@ namespace Timotheus.IO
         /// The path of the remote directory to be watched and synced with.
         /// </summary>
         public readonly string RemotePath = string.Empty;
-
-        private List<string> LastSync;
 
         /// <summary>
         /// Constructor. Is an object that is tasked with keeping a local and remote directory synced.
@@ -44,28 +38,6 @@ namespace Timotheus.IO
         /// <param name="password">Password to the SFTP connection</param>
         public DirectoryManager(string localPath, string remotePath, string host, string username, string password)
         {
-            /*watcher = new FileSystemWatcher(localPath)
-            {
-                NotifyFilter = NotifyFilters.Attributes
-                                 | NotifyFilters.CreationTime
-                                 | NotifyFilters.DirectoryName
-                                 | NotifyFilters.FileName
-                                 | NotifyFilters.LastAccess
-                                 | NotifyFilters.LastWrite
-                                 | NotifyFilters.Security
-                                 | NotifyFilters.Size
-            };
-
-            //ARE ALL MISSING LASTSYNC REFERENCES
-            watcher.Changed += OnChanged;
-            watcher.Created += OnCreated;
-            watcher.Deleted += OnDeleted;
-            watcher.Renamed += OnRenamed;
-            watcher.Error += OnError;
-
-            watcher.IncludeSubdirectories = true;
-            watcher.EnableRaisingEvents = true;*/
-
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 LocalPath = localPath.Replace('/', '\\');
@@ -95,111 +67,6 @@ namespace Timotheus.IO
 
         }
 
-        private void LoadLastSync()
-        {
-            string path = LocalPath + "\\.LastSync.tsy";
-            if (!File.Exists(path))
-            {
-                File.Create(path).Close();
-            }
-            else
-            {
-                LastSync = new List<string>();
-                using StreamReader reader = new(path);
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    LastSync.Add(line);
-                }
-            }
-        }
-
-        private void SaveLastSync()
-        {
-            if (LastSync != null)
-            {
-                string path = LocalPath + "\\.LastSync.tsy";
-                if (!File.Exists(path))
-                    File.Create(path).Close();
-                using StreamWriter writer = new(path);
-                for (int i = 0; i < LastSync.Count; i++)
-                {
-                    writer.WriteLine(LastSync[i]);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Handles changes in the local directory and its subdirectories.
-        /// </summary>
-        private void OnChanged(object sender, FileSystemEventArgs e)
-        {
-            if (Path.GetExtension(e.Name) != ".tmp" && File.GetAttributes(e.FullPath) != FileAttributes.Directory)
-            {
-                if (e.ChangeType != WatcherChangeTypes.Changed)
-                {
-                    return;
-                }
-                System.Diagnostics.Debug.WriteLine($"Changed: {e.FullPath}");
-                UploadFile(ConvertPath(Path.GetDirectoryName(e.FullPath)), e.FullPath);
-            }
-        }
-
-        /// <summary>
-        /// Handles file/folder creation in the local directory and its subdirectories.
-        /// </summary>
-        private void OnCreated(object sender, FileSystemEventArgs e)
-        {
-            if (Path.GetExtension(e.Name) != ".tmp")
-            {
-                string value = $"Created: {e.FullPath}";
-                System.Diagnostics.Debug.WriteLine(value);
-                if (File.GetAttributes(e.FullPath) == FileAttributes.Directory)
-                    UploadDirectory(ConvertPath(Path.GetDirectoryName(e.FullPath)), e.FullPath);
-                else
-                    UploadFile(ConvertPath(Path.GetDirectoryName(e.FullPath)), e.FullPath);
-            }
-        }
-
-        /// <summary>
-        /// Handles deletions in the local directory and its subdirectories.
-        /// </summary>
-        private void OnDeleted(object sender, FileSystemEventArgs e)
-        {
-            if (Path.GetExtension(e.Name) != ".tmp")
-            {
-                System.Diagnostics.Debug.WriteLine($"Deleted: {e.FullPath}");
-                DeleteFile(ConvertPath(e.FullPath));
-            }
-        }
-
-        /// <summary>
-        /// Handles renaming in the local directory and its subdirectories.
-        /// </summary>
-        private void OnRenamed(object sender, RenamedEventArgs e)
-        {
-            if (Path.GetExtension(e.Name) != ".tmp" && Path.GetExtension(e.OldFullPath) != ".tmp")
-            {
-                System.Diagnostics.Debug.WriteLine($"Renamed:");
-                System.Diagnostics.Debug.WriteLine($"    Old: {e.OldFullPath}");
-                System.Diagnostics.Debug.WriteLine($"    New: {e.FullPath}");
-
-                client.Connect();
-                client.RenameFile(ConvertPath(e.OldFullPath), ConvertPath(e.FullPath));
-                client.Disconnect();
-            }
-        }
-
-        /// <summary>
-        /// Handles errors with the FileSystemWatcher.
-        /// </summary>
-        private void OnError(object sender, ErrorEventArgs e)
-        {
-            Exception ex = e.GetException();
-            if (ex != null)
-                System.Diagnostics.Debug.WriteLine($"Message: {ex.Message}");
-        }
-
         /// <summary>
         /// Returns a list of files in the remote directory
         /// </summary>
@@ -211,7 +78,6 @@ namespace Timotheus.IO
                 bool isPreconnected = client.IsConnected;
                 if (!isPreconnected)
                 {
-                    //watcher.EnableRaisingEvents = false;
                     client.Connect();
                 }
 
@@ -222,7 +88,6 @@ namespace Timotheus.IO
                 if (!isPreconnected)
                 {
                     client.Disconnect();
-                    //watcher.EnableRaisingEvents = true;
                 }
 
                 return files;
@@ -240,7 +105,6 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
 
@@ -251,7 +115,6 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                //watcher.EnableRaisingEvents = true;
             }
         }
 
@@ -265,7 +128,6 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
 
@@ -277,7 +139,6 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                //watcher.EnableRaisingEvents = true;
             }
         }
 
@@ -299,7 +160,6 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
 
@@ -317,7 +177,6 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                //watcher.EnableRaisingEvents = true;
             }
         }
 
@@ -330,7 +189,6 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
 
@@ -363,7 +221,6 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                //watcher.EnableRaisingEvents = true;
             }
         }
 
@@ -379,7 +236,6 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
 
@@ -401,7 +257,6 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                //watcher.EnableRaisingEvents = true;
             }
         }
 
@@ -415,7 +270,6 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
 
@@ -442,7 +296,6 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                //watcher.EnableRaisingEvents = true;
             }
         }
 
@@ -466,7 +319,6 @@ namespace Timotheus.IO
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
             {
-                //watcher.EnableRaisingEvents = false;
                 client.Connect();
             }
             #endregion
@@ -575,8 +427,6 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 client.Disconnect();
-                //watcher.EnableRaisingEvents = true;
-                //SaveLastSync();
             }
             #endregion
         }
@@ -678,71 +528,12 @@ namespace Timotheus.IO
             else if (path.StartsWith(RemotePath))
             {
                 newPath = LocalPath + path[RemotePath.Length..];
-                newPath = newPath.Replace('/', '\\');
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    newPath = newPath.Replace('/', '\\');
             }
             else
                 throw new Exception("Exception_SFTPInvalidPath");
             return newPath;
         }
-
-        /* https://stackoverflow.com/questions/52392766/downloading-a-directory-using-ssh-net-sftp-in-c-sharp
-        public static void DownloadDirectory(SftpClient sftpClient, string sourceRemotePath, string destLocalPath)
-        {
-            Directory.CreateDirectory(destLocalPath);
-            IEnumerable<SftpFile> files = sftpClient.ListDirectory(sourceRemotePath);
-            foreach (SftpFile file in files)
-            {
-                if ((file.Name != ".") && (file.Name != ".."))
-                {
-                    string sourceFilePath = sourceRemotePath + "/" + file.Name;
-                    string destFilePath = Path.Combine(destLocalPath, file.Name);
-                    if (file.IsDirectory)
-                    {
-                        DownloadDirectory(sftpClient, sourceFilePath, destFilePath);
-                    }
-                    else
-                    {
-                        using (Stream fileStream = File.Create(destFilePath))
-                        {
-                            sftpClient.DownloadFile(sourceFilePath, fileStream);
-                        }
-                    }
-                }
-            }
-        }
-         */
-
-        /* https://stackoverflow.com/questions/39397746/ssh-net-upload-whole-folder
-        void UploadDirectory(SftpClient client, string localPath, string remotePath)
-        {
-            Console.WriteLine("Uploading directory {0} to {1}", localPath, remotePath);
-
-            IEnumerable<FileSystemInfo> infos =
-                new DirectoryInfo(localPath).EnumerateFileSystemInfos();
-            foreach (FileSystemInfo info in infos)
-            {
-                if (info.Attributes.HasFlag(FileAttributes.Directory))
-                {
-                    string subPath = remotePath + "/" + info.Name;
-                    if (!client.Exists(subPath))
-                    {
-                        client.CreateDirectory(subPath);
-                    }
-                    UploadDirectory(client, info.FullName, remotePath + "/" + info.Name);
-                }
-                else
-                {
-                    using (var fileStream = new FileStream(info.FullName, FileMode.Open))
-                    {
-                        Console.WriteLine(
-                            "Uploading {0} ({1:N0} bytes)",
-                            info.FullName, ((FileInfo)info).Length);
-
-                        client.UploadFile(fileStream, remotePath + "/" + info.Name);
-                    }
-                }
-            }
-        }
-        */
     }
 }

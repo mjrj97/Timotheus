@@ -26,8 +26,8 @@ ECHO ***Building Windows application***
 dotnet publish -c Release --runtime win-x64 --self-contained true --output %userprofile%\desktop\Timotheus\Windows\Application\
 
 ECHO ***Building Windows installer***
-"C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\AdvancedInstaller.com" /edit ../Installer/Windows/Installer.aip /SetVersion %VERSION%
-"C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\AdvancedInstaller.com" /build ../Installer/Windows/Installer.aip
+"C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\AdvancedInstaller.com" /edit %userprofile%/OneDrive/Dokumenter/GitHub/Timotheus/Installer/Windows/Installer.aip /SetVersion %VERSION%
+"C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\AdvancedInstaller.com" /build %userprofile%/OneDrive/Dokumenter/GitHub/Timotheus/Installer/Windows/Installer.aip
 xcopy ..\Installer\Windows\Installer-SetupFiles\Installer*.msi %userprofile%\desktop\Timotheus\Windows\Installer\ /Y
 move %userprofile%\desktop\Timotheus\Windows\Installer\Installer.msi %userprofile%\desktop\Timotheus\Windows\Installer\Installer-%VERSION%.msi
 dotnet restore -r win-x64
