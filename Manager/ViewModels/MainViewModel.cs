@@ -28,7 +28,7 @@ namespace Timotheus.ViewModels
             }
         }
 
-        private Calendar _Calendar;
+        private Calendar _Calendar = new();
         /// <summary>
         /// Current calendar used by the program.
         /// </summary>

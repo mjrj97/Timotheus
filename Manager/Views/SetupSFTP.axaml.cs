@@ -3,7 +3,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Timotheus.Utility;
 
-namespace Timotheus
+namespace Timotheus.Views
 {
     /// <summary>
     /// A dialog where the user can setup SFTP.

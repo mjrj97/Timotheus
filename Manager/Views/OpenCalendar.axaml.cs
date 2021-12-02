@@ -3,7 +3,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Timotheus.Utility;
 
-namespace Timotheus
+namespace Timotheus.Views
 {
     /// <summary>
     /// Dialog where the user can input info to open a calendar on a remote server or by a local file.

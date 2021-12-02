@@ -145,15 +145,6 @@ namespace Timotheus.IO
         /// <summary>
         /// Deletes file on the remote directory.
         /// </summary>
-        /// <param name="remoteFile">SFTP File that needs to be deleted.</param>
-        private void DeleteFile(SftpFile remoteFile)
-        {
-            client.DeleteFile(remoteFile.FullName);
-        }
-
-        /// <summary>
-        /// Deletes file on the remote directory.
-        /// </summary>
         /// <param name="path">Path of the file on the server.</param>
         private void DeleteFile(string path)
         {

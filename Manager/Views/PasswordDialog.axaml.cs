@@ -5,7 +5,7 @@ using Avalonia.Markup.Xaml;
 using System.Threading.Tasks;
 using Timotheus.Utility;
 
-namespace Timotheus
+namespace Timotheus.Views
 {
     public partial class PasswordDialog : Window
     {

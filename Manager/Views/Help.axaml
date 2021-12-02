@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d"
-        x:Class="Timotheus.Help"
+        x:Class="Timotheus.Views.Help"
         Title="{x:Static i18n:Localization.Help}" Width="400" SizeToContent="Height" CanResize="False" WindowStartupLocation="CenterOwner" FontFamily="Arvo" Icon="/Resources/Icon.ico">
   <StackPanel Margin="10">
     <Image Source="/Resources/Icon.ico" Width="100" Height="100" HorizontalAlignment="Left"/>

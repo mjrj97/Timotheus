@@ -4,8 +4,15 @@ using Renci.SshNet.Sftp;
 
 namespace Timotheus.IO
 {
-    public class DirectoryLog
+    /// <summary>
+    /// Class that handles the loading of directory log files.
+    /// </summary>
+    public static class DirectoryLog
     {
+        /// <summary>
+        /// Loads a log file from a directory. Creates the log if not present.
+        /// </summary>
+        /// <param name="path">Directory path</param>
         public static List<DirectoryLogItem> Load(string path)
         {
             path = Path.Combine(path, ".tfilelog");
@@ -22,6 +29,11 @@ namespace Timotheus.IO
             return List;
         }
 
+        /// <summary>
+        /// Saves a log file to a directory. Creates the log if not present.
+        /// </summary>
+        /// <param name="path">Directory path</param>
+        /// <param name="remoteFiles">The files on the remote</param>
         public static void Save(string path, List<SftpFile> remoteFiles)
         {
             List<DirectoryLogItem> logItems = new();
@@ -60,6 +72,10 @@ namespace Timotheus.IO
             fs.SetLength(fs.Position);
         }
 
+        /// <summary>
+        /// Checks if the log file exists and makes it hidden.
+        /// </summary>
+        /// <param name="path"></param>
         private static void Secure(string path)
         {
             if (!File.Exists(path))

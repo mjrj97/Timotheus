@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 using System;
 using Timotheus.Utility;
 
-namespace Timotheus
+namespace Timotheus.Views
 {
     public partial class AddEvent : Dialog
     {

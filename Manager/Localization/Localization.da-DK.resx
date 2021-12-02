@@ -378,11 +378,17 @@
   <data name="PDF_Welcome" xml:space="preserve">
     <value>Velkommen i</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Indstillinger</value>
+  </data>
   <data name="Settings_AddressLabel" xml:space="preserve">
     <value>Adresse</value>
   </data>
   <data name="Settings_BrowseButton" xml:space="preserve">
     <value>Gennemse</value>
+  </data>
+  <data name="Settings_InfoBox" xml:space="preserve">
+    <value>Foreningens information</value>
   </data>
   <data name="Settings_LogoLabel" xml:space="preserve">
     <value>Logo</value>
@@ -390,11 +396,8 @@
   <data name="Settings_NameLabel" xml:space="preserve">
     <value>Navn</value>
   </data>
-  <data name="Settings_Page" xml:space="preserve">
-    <value>Indstillinger</value>
-  </data>
-  <data name="Settins_InfoBox" xml:space="preserve">
-    <value>Foreningens information</value>
+  <data name="Settings_Program" xml:space="preserve">
+    <value>Program indstillinger</value>
   </data>
   <data name="SFTPSetup" xml:space="preserve">
     <value>Opsætning</value>

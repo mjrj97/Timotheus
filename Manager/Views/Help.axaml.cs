@@ -2,7 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
-namespace Timotheus
+namespace Timotheus.Views
 {
     public partial class Help : Window
     {

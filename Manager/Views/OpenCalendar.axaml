@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" Width="400" SizeToContent="Height"
-        x:Class="Timotheus.OpenCalendar"
+        x:Class="Timotheus.Views.OpenCalendar"
         Title="{x:Static i18n:Localization.OpenCalendar}" CanResize="False" WindowStartupLocation="CenterOwner" FontFamily="Arvo" Icon="/Resources/Icon.ico">
 
   <DockPanel Margin="20">

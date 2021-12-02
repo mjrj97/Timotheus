@@ -2,7 +2,7 @@
 using Avalonia.Markup.Xaml;
 using System.Threading.Tasks;
 
-namespace Timotheus
+namespace Timotheus.Views
 {
     public partial class MessageBox : Window
     {

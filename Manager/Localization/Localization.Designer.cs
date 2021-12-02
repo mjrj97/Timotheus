@@ -19,7 +19,7 @@ namespace Timotheus.Localization {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Localization {
@@ -844,6 +844,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Settings_AddressLabel {
@@ -858,6 +867,15 @@ namespace Timotheus.Localization {
         public static string Settings_BrowseButton {
             get {
                 return ResourceManager.GetString("Settings_BrowseButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Association information.
+        /// </summary>
+        public static string Settings_InfoBox {
+            get {
+                return ResourceManager.GetString("Settings_InfoBox", resourceCulture);
             }
         }
         
@@ -880,20 +898,11 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Settings.
+        ///   Looks up a localized string similar to Program settings.
         /// </summary>
-        public static string Settings_Page {
+        public static string Settings_Program {
             get {
-                return ResourceManager.GetString("Settings_Page", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Association information.
-        /// </summary>
-        public static string Settins_InfoBox {
-            get {
-                return ResourceManager.GetString("Settins_InfoBox", resourceCulture);
+                return ResourceManager.GetString("Settings_Program", resourceCulture);
             }
         }
         

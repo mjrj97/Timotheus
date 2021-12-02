@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Timotheus.MainWindow"
+        x:Class="Timotheus.Views.MainWindow"
         Title="Timotheus" FontFamily="Arvo" Icon="/Resources/Icon.ico">
   <Window.Styles>
     <Style Selector="TabControl">
@@ -51,18 +51,45 @@
   <DockPanel>
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
-        <MenuItem Header="{x:Static i18n:Localization.ToolStrip_File}">
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_NewFile}" Click="NewProject_Click"/>
-          <Separator/>
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}" Click="SaveCalendar_Click"/>
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_OpenFile}" Click="OpenCalendar_Click"/>
+        <MenuItem>
+			<MenuItem.Header>
+				<DockPanel>
+					<Image Source="/Resources/File.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
+					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_File}" VerticalAlignment="Center"/>
+				</DockPanel>
+			</MenuItem.Header>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_NewFile}" Click="NewProject_Click"/>
+            <Separator/>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}" Click="SaveCalendar_Click"/>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_OpenFile}" Click="OpenCalendar_Click"/>
         </MenuItem>
-        <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Key}">
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveKey}" Click="SaveKey_Click"/>
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_LoadKey}" Click="OpenKey_Click"/>
-          <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditKey}" Click="EditKey_Click"/>
+        <MenuItem>
+			<MenuItem.Header>
+				<DockPanel>
+					<Image Source="/Resources/Key.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
+					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_Key}" VerticalAlignment="Center"/>
+				</DockPanel>
+			</MenuItem.Header>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveKey}" Click="SaveKey_Click"/>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_LoadKey}" Click="OpenKey_Click"/>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditKey}" Click="EditKey_Click"/>
         </MenuItem>
-        <MenuItem Header="{x:Static i18n:Localization.ToolStrip_Help}" Click="Help_Click"/>
+		<MenuItem Click="Settings_Click">
+			<MenuItem.Header>
+				<DockPanel>
+					<Image Source="/Resources/Settings.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
+					<TextBlock Text="{x:Static i18n:Localization.Settings}" VerticalAlignment="Center"/>
+				</DockPanel>
+			</MenuItem.Header>
+		</MenuItem>
+        <MenuItem Click="Help_Click">
+			<MenuItem.Header>
+				<DockPanel>
+					<Image Source="/Resources/Help.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
+					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_Help}" VerticalAlignment="Center"/>
+				</DockPanel>
+			</MenuItem.Header>
+	    </MenuItem>
       </Menu>
     </DockPanel>
     <TabControl>

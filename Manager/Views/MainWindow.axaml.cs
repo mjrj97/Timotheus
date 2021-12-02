@@ -10,7 +10,7 @@ using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
 
-namespace Timotheus
+namespace Timotheus.Views
 {
     /// <summary>
     /// MainWindow of the Timotheus app. Contains Calendar and Filesharing tabs.
@@ -543,6 +543,26 @@ namespace Timotheus
         {
             Help dialog = new();
             dialog.Show(this);
+        }
+
+        /// <summary>
+        /// Opens a Settings dialog.
+        /// </summary>
+        private async void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            Settings dialog = new();
+
+            dialog.AssociationName = mvm.Keys.Get("Settings-Name");
+            dialog.AssociationAddress = mvm.Keys.Get("Settings-Address");
+            dialog.ImagePath = mvm.Keys.Get("Settings-Image");
+
+            await dialog.ShowDialog(this);
+            if (dialog.DialogResult == DialogResult.OK)
+            {
+                mvm.Keys.Set("Settings-Name", dialog.AssociationName);
+                mvm.Keys.Set("Settings-Address", dialog.AssociationAddress);
+                mvm.Keys.Set("Settings-Image", dialog.ImagePath);
+            }
         }
         #endregion
     }

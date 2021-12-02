@@ -58,6 +58,7 @@ artifacts/
 
 # Installer
 Installer-cache/
+Installer-SetupFiles/
 
 # StyleCop
 StyleCopReport.xml

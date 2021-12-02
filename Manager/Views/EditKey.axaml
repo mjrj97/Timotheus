@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" Width="750" Height="350"
-        x:Class="Timotheus.EditKey"
+        x:Class="Timotheus.Views.EditKey"
         Title="{x:Static i18n:Localization.EditKeyDialog}" CanResize="True" WindowStartupLocation="CenterOwner" FontFamily="Arvo" Icon="/Resources/Icon.ico">
 
   <DockPanel Margin="20">
