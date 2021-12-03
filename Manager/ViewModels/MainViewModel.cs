@@ -197,7 +197,7 @@ namespace Timotheus.ViewModels
         public void GoToDirectory(string path)
         {
             currentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));
-            List<SftpFile> files = Directory.ListDirectory(currentDirectory);
+            List<DirectoryFile> files = Directory.GetFiles(currentDirectory);
             List<FileViewModel> viewFiles = new();
             for (int i = 0; i < files.Count; i++)
             {

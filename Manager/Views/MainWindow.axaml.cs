@@ -2,10 +2,12 @@
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using Avalonia.VisualTree;
 using System;
 using System.IO;
 using System.Linq;
+using Timotheus.IO;
 using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -116,7 +118,7 @@ namespace Timotheus.Views
         /// </summary>
         private void Period_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Avalonia.Input.Key.Enter)
             {
                 mvm.UpdatePeriod(((TextBox)sender).Text);
                 mvm.UpdateCalendarTable();
@@ -386,6 +388,69 @@ namespace Timotheus.Views
             catch (Exception ex)
             {
                 Error(Localization.Localization.Exception_Name, ex.Message);
+            }
+        }
+
+        #region Colors
+        readonly IBrush NewLight = new SolidColorBrush(Color.FromRgb(230, 255, 230));
+        readonly IBrush NewDark = new SolidColorBrush(Color.FromRgb(210, 255, 210));
+
+        readonly IBrush UpdateLight = new SolidColorBrush(Color.FromRgb(255, 255, 230));
+        readonly IBrush UpdateDark = new SolidColorBrush(Color.FromRgb(255, 255, 200));
+
+        readonly IBrush DeleteLight = new SolidColorBrush(Color.FromRgb(255, 230, 230));
+        readonly IBrush DeleteDark = new SolidColorBrush(Color.FromRgb(255, 210, 210));
+
+        readonly IBrush StdLight = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+        readonly IBrush StdDark = new SolidColorBrush(Color.FromRgb(230, 230, 230));
+        #endregion
+
+        private void Files_RowLoading(object sender, DataGridRowEventArgs e)
+        {
+            if (e.Row.DataContext is FileViewModel file)
+            {
+                if (e.Row.GetIndex() % 2 == 1)
+                {
+                    switch (file.Handle)
+                    {
+                        case FileHandle.NewDownload:
+                        case FileHandle.NewUpload:
+                            e.Row.Background = NewDark;
+                            break;
+                        case FileHandle.Download:
+                        case FileHandle.Upload:
+                            e.Row.Background = UpdateDark;
+                            break;
+                        case FileHandle.DeleteLocal:
+                        case FileHandle.DeleteRemote:
+                            e.Row.Background = DeleteDark;
+                            break;
+                        default:
+                            e.Row.Background = StdDark;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (file.Handle)
+                    {
+                        case FileHandle.NewDownload:
+                        case FileHandle.NewUpload:
+                            e.Row.Background = NewLight;
+                            break;
+                        case FileHandle.Download:
+                        case FileHandle.Upload:
+                            e.Row.Background = UpdateLight;
+                            break;
+                        case FileHandle.DeleteLocal:
+                        case FileHandle.DeleteRemote:
+                            e.Row.Background = DeleteLight;
+                            break;
+                        default:
+                            e.Row.Background = StdLight;
+                            break;
+                    }
+                }
             }
         }
         #endregion

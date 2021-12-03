@@ -1,0 +1,64 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+	<Style Selector="Window">
+		<Setter Property="FontFamily" Value="Arvo"/>
+		<Setter Property="Icon" Value="/Resources/Icon.ico"/>
+		<Setter Property="CanResize" Value="False"/>
+		<Setter Property="WindowStartupLocation" Value="CenterOwner"/>
+		<Setter Property="Background" Value="#f0f0f0"/>
+	</Style>
+	<Style Selector="TabControl">
+		<Setter Property="Background" Value="#f0f0f0"/>
+		<Setter Property="Padding" Value="20"/>
+	</Style>
+	<Style Selector="TabControl WrapPanel">
+		<Setter Property="Background" Value="#076973"/>
+	</Style>
+	<Style Selector="TextBox">
+		<Setter Property="Background" Value="#ffffff"/>
+	</Style>
+	<Style Selector="TabItem">
+		<Setter Property="FontSize" Value="24"/>
+		<Setter Property="Height" Value="64"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="Background" Value="#076973"/>
+		<Setter Property="Foreground" Value="#F0F0F0"/>
+		<Setter Property="Margin" Value="0 0 0 0"/>
+		<Setter Property="Padding" Value="15 0 15 0"/>
+	</Style>
+	<Style Selector="TabItem:selected">
+		<Setter Property="Background" Value="#15808B"/>
+		<Setter Property="Foreground" Value="#F0F0F0"/>
+	</Style>
+	<Style Selector="DataGrid">
+		<Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
+	</Style>
+	<Style Selector="DataGridCell">
+		<Setter Property="VerticalContentAlignment" Value="Top"/>
+	</Style>
+	<Style Selector="Button">
+		<Setter Property="Background" Value="#999999"/>
+		<Setter Property="Foreground" Value="#FFFFFF"/>
+	</Style>
+	<Style Selector="Button:pointerover /template/ ContentPresenter">
+		<Setter Property="Background" Value="#696969"/>
+	</Style>
+	<Style Selector="Button:pointerover">
+		<Setter Property="Foreground" Value="#FFFFFF"/>
+	</Style>
+	<Style Selector="Border.t1">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="BorderBrush" Value="Black"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="CornerRadius" Value="4"/>
+	</Style>
+	<Style Selector="ComboBox">
+		<Setter Property="Background" Value="White"/>
+	</Style>
+</Styles>

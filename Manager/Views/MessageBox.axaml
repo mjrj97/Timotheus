@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         x:Class="Timotheus.Views.MessageBox"
-		Title="{Binding DialogTitle}" SizeToContent="WidthAndHeight" CanResize="False" WindowStartupLocation="CenterOwner" FontFamily="Arvo" Icon="/Resources/Icon.ico">
+		Title="{Binding DialogTitle}" SizeToContent="WidthAndHeight">
 	<StackPanel HorizontalAlignment="Center" Margin="10">
 		<TextBlock HorizontalAlignment="Center" Text="{Binding DialogText}" Margin="10"/>
 		<DockPanel HorizontalAlignment="Right">

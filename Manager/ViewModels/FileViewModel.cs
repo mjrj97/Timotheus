@@ -1,5 +1,5 @@
-﻿using Renci.SshNet.Sftp;
-using System;
+﻿using System;
+using Timotheus.IO;
 
 namespace Timotheus.ViewModels
 {
@@ -8,7 +8,7 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// File which the view model uses.
         /// </summary>
-        private readonly SftpFile file;
+        private readonly DirectoryFile file;
 
         /// <summary>
         /// Whether the file is an directory.
@@ -50,7 +50,10 @@ namespace Timotheus.ViewModels
         {
             get
             {
-                return file.FullName;
+                if (file.RemoteFile != null)
+                    return file.RemoteFile.FullName;
+                else
+                    return string.Empty;
             }
         }
 
@@ -61,10 +64,41 @@ namespace Timotheus.ViewModels
         {
             get
             {
-                if (IsDirectory)
-                    return string.Empty;
+                if (!IsDirectory)
+                    return FormatSize(file.Size);
                 else
-                    return FormatSize(file.Length);
+                    return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Variable that tells the software how to handle this file on sync.
+        /// </summary>
+        public FileHandle Handle
+        {
+            get
+            {
+                return file.Handle;
+            }
+        }
+
+        /// <summary>
+        /// Used in the UI to tell the user what the program will do with the file.
+        /// </summary>
+        public string HandleText
+        {
+            get
+            {
+                return file.Handle switch
+                {
+                    FileHandle.NewDownload => "New remote",
+                    FileHandle.Download => "Changed remotely",
+                    FileHandle.NewUpload => "New local",
+                    FileHandle.Upload => "Changed locally",
+                    FileHandle.DeleteLocal => "Deleted remotely",
+                    FileHandle.DeleteRemote => "Deleted locally",
+                    _ => string.Empty,
+                };
             }
         }
 
@@ -76,7 +110,7 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// Converts a SftpFile into the FileViewModel.
         /// </summary>
-        public FileViewModel(SftpFile file)
+        public FileViewModel(DirectoryFile file)
         {
             this.file = file;
         }

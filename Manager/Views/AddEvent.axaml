@@ -5,7 +5,7 @@
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" Width="440" SizeToContent="Height"
         x:Class="Timotheus.Views.AddEvent"
-        Title="{x:Static i18n:Localization.AddEvent}" CanResize="False" WindowStartupLocation="CenterOwner" FontFamily="Arvo" Icon="/Resources/Icon.ico">
+        Title="{x:Static i18n:Localization.AddEvent}">
 
   <DockPanel Margin="20">
     <DockPanel Name="RemotePanel" DockPanel.Dock="Top" Margin="0 0 0 15">

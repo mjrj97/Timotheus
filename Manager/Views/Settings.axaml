@@ -3,20 +3,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:i18n="clr-namespace:Timotheus.Localization"
-        mc:Ignorable="d" Width="500" Height="400"
+        mc:Ignorable="d"
         x:Class="Timotheus.Views.Settings"
-        Title="{x:Static i18n:Localization.Settings}" FontFamily="Arvo" Icon="/Resources/Icon.ico" CanResize="False" WindowStartupLocation="CenterOwner" Background="#f0f0f0">
+        Title="{x:Static i18n:Localization.Settings}" Width="500" Height="400">
 	<DockPanel Margin="10">
 		<DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
 			<Button Content="{x:Static i18n:Localization.EditKeyDialog_OKButton}" Click="Ok_Click" Margin="0 0 10 0"/>
 			<Button Content="{x:Static i18n:Localization.EditKeyDialog_CancelButton}" Click="Cancel_Click"/>
 		</DockPanel>
-		<Border DockPanel.Dock="Top" Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4">
+		<Border Classes="t1" DockPanel.Dock="Top" Padding="4">
 			<StackPanel Margin="5">
-				<TextBlock Margin="0 5 0 10" Text="{x:Static i18n:Localization.Settings_InfoBox}"/>
+				<TextBlock Margin="0 5 0 10" Text="{x:Static i18n:Localization.Settings_InfoBox}" FontWeight="Bold"/>
 				<DockPanel>
-					<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4">
-						<Image Source="{Binding ImagePath}" Width="100" Height="100"/>
+					<Border Classes="t1" Padding="4">
+						<Image Source="{Binding Image}" Width="100" Height="100"/>
 					</Border>
 					<StackPanel Margin="10 0 0 0">
 						<DockPanel>
@@ -36,9 +36,9 @@
 				</DockPanel>
 			</StackPanel>
 		</Border>
-		<Border Margin="0 10 0 0" Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4">
+		<Border Classes="t1" Margin="0 10 0 0" Padding="4">
 			<StackPanel Margin="5">
-				<TextBlock Margin="0 5 0 10" Text="{x:Static i18n:Localization.Settings_Program}"/>
+				<TextBlock Margin="0 5 0 10" Text="{x:Static i18n:Localization.Settings_Program}" FontWeight="Bold"/>
 				<DockPanel>
 					
 				</DockPanel>

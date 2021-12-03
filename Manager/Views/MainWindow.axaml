@@ -5,49 +5,7 @@
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Timotheus.Views.MainWindow"
-        Title="Timotheus" FontFamily="Arvo" Icon="/Resources/Icon.ico">
-  <Window.Styles>
-    <Style Selector="TabControl">
-      <Setter Property="Background" Value="#f0f0f0"/>
-      <Setter Property="Padding" Value="20"/>
-    </Style>
-    <Style Selector="TabControl WrapPanel">
-      <Setter Property="Background" Value="#076973"/>
-    </Style>
-    <Style Selector="TextBox">
-      <Setter Property="Background" Value="#ffffff"/>
-    </Style>
-    <Style Selector="TabItem">
-      <Setter Property="FontSize" Value="24"/>
-      <Setter Property="Height" Value="64"/>
-      <Setter Property="VerticalAlignment" Value="Center"/>
-      <Setter Property="Background" Value="#076973"/>
-      <Setter Property="Foreground" Value="#F0F0F0"/>
-      <Setter Property="Margin" Value="0 0 0 0"/>
-      <Setter Property="Padding" Value="15 0 15 0"/>
-    </Style>
-    <Style Selector="TabItem:selected">
-      <Setter Property="Background" Value="#15808B"/>
-      <Setter Property="Foreground" Value="#F0F0F0"/>
-    </Style>
-    <Style Selector="DataGrid">
-      <Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
-    </Style>
-    <Style Selector="DataGridCell">
-      <Setter Property="VerticalContentAlignment" Value="Top"/>
-    </Style>
-    <Style Selector="Button">
-      <Setter Property="Background" Value="#999999"/>
-      <Setter Property="Foreground" Value="#FFFFFF"/>
-    </Style>
-    <Style Selector="Button:pointerover /template/ ContentPresenter">
-      <Setter Property="Background" Value="#696969"/>
-    </Style>
-    <Style Selector="Button:pointerover">
-      <Setter Property="Foreground" Value="#FFFFFF"/>
-    </Style>
-  </Window.Styles>
-
+        Title="Timotheus" CanResize="True" Background="#ffffff">
   <DockPanel>
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
@@ -117,7 +75,7 @@
             <Button Content="{x:Static i18n:Localization.Calendar_SyncButton}" Click="SyncCalendar_Click" DockPanel.Dock="Right" Margin="0 0 10 0"/>
             <Button Content="{x:Static i18n:Localization.Calendar_AddButton}" Click="AddEvent_Click" DockPanel.Dock="Left"/>
           </DockPanel>
-          <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
+          <Border Classes="t1" Padding="4" DockPanel.Dock="Bottom">
             <DataGrid Items="{Binding Events}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible">
               <DataGrid.Columns>
                 <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding Start}" SortMemberPath="StartSort" CanUserSort="True" CanUserResize="True"/>
@@ -160,8 +118,8 @@
             <Button Content="{x:Static i18n:Localization.SFTP_GoUpButton}" Click="UpDirectory_Click" DockPanel.Dock="Left"/>
           </DockPanel>
           <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
-            <DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="GoToDirectory_Click">
-              <DataGrid.Columns>
+            <DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="GoToDirectory_Click" LoadingRow="Files_RowLoading">
+			  <DataGrid.Columns>
                 <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True">
                   <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -173,8 +131,9 @@
                   </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
-                <DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
-              </DataGrid.Columns>
+                <DataGridTextColumn Header="" Width="*" MaxWidth="150" Binding="{Binding HandleText}" IsReadOnly="True"/>
+				<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
+			  </DataGrid.Columns>
             </DataGrid>
           </Border>
         </DockPanel>

@@ -5,10 +5,10 @@
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" Width="400" SizeToContent="Height"
         x:Class="Timotheus.Views.OpenCalendar"
-        Title="{x:Static i18n:Localization.OpenCalendar}" CanResize="False" WindowStartupLocation="CenterOwner" FontFamily="Arvo" Icon="/Resources/Icon.ico">
+        Title="{x:Static i18n:Localization.OpenCalendar}">
 
   <DockPanel Margin="20">
-    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" DockPanel.Dock="Top" Padding="10">
+    <Border Classes="t1" DockPanel.Dock="Top" Padding="10">
       <DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
           <RadioButton Content="{x:Static i18n:Localization.OpenCalendar_CalDAVButton}" GroupName="Open" IsChecked="{Binding IsRemote}"/>
@@ -29,7 +29,7 @@
         </DockPanel>
       </DockPanel>
     </Border>
-    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" DockPanel.Dock="Top" Padding="10" Margin="0 10 0 10">
+    <Border Classes="t1" DockPanel.Dock="Top" Padding="10" Margin="0 10 0 10">
       <DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
           <RadioButton Content="{x:Static i18n:Localization.OpenCalendar_ICSButton}" GroupName="Open" IsChecked="{Binding !IsRemote}"/>

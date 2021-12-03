@@ -5,7 +5,7 @@
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" Width="750" Height="350"
         x:Class="Timotheus.Views.EditKey"
-        Title="{x:Static i18n:Localization.EditKeyDialog}" CanResize="True" WindowStartupLocation="CenterOwner" FontFamily="Arvo" Icon="/Resources/Icon.ico">
+        Title="{x:Static i18n:Localization.EditKeyDialog}" CanResize="True">
 
   <DockPanel Margin="20">
     <DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
@@ -13,13 +13,7 @@
       <Button Content="{x:Static i18n:Localization.EditKeyDialog_OKButton}" Click="Ok_Click" DockPanel.Dock="Right" Margin="0 0 10 0"/>
       <Button Content="{x:Static i18n:Localization.EditKeyDialog_AddStdButton}" Click="AddStdKeys_Click" DockPanel.Dock="Left"/>
     </DockPanel>
-    
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
-      <TextBox Text="{Binding Text}" Grid.Column="1" AcceptsReturn="True"/>
-    </Grid>
+
+	<TextBox Text="{Binding Text}" AcceptsReturn="True"/>
   </DockPanel>
 </Window>

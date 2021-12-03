@@ -5,11 +5,11 @@
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" Width="450" SizeToContent="Height"
         x:Class="Timotheus.Views.SetupSFTP"
-        Title="{x:Static i18n:Localization.SFTPSetup}" CanResize="False" WindowStartupLocation="CenterOwner" FontFamily="Arvo" Icon="/Resources/Icon.ico">
+        Title="{x:Static i18n:Localization.SFTPSetup}">
 
   <DockPanel Margin="20">
     <DockPanel DockPanel.Dock="Top">
-      <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" DockPanel.Dock="Top" Padding="10">
+	  <Border Classes="t1" DockPanel.Dock="Top" Padding="10">
         <DockPanel>
           <DockPanel DockPanel.Dock="Top">
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_HostLabel}" Width="100" VerticalAlignment="Center"/>
@@ -27,7 +27,7 @@
       </Border>
     </DockPanel>
     <DockPanel DockPanel.Dock="Top" Margin="0 10">
-      <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" DockPanel.Dock="Top" Padding="10">
+      <Border Classes="t1" DockPanel.Dock="Top" Padding="10">
         <DockPanel>
           <DockPanel DockPanel.Dock="Top">
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_LocalDirectoryLabel}" Width="100" VerticalAlignment="Center"/>

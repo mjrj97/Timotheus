@@ -1,5 +1,6 @@
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media.Imaging;
 using Timotheus.Utility;
 
 namespace Timotheus.Views
@@ -44,7 +45,22 @@ namespace Timotheus.Views
             set
             {
                 _imagePath = value;
+                Image = new Bitmap(value);
                 NotifyPropertyChanged(nameof(ImagePath));
+            }
+        }
+
+        private Bitmap _image = null;
+        public Bitmap Image
+        {
+            get
+            {
+                return _image;
+            }
+            set
+            {
+                _image = value;
+                NotifyPropertyChanged(nameof(Image));
             }
         }
 

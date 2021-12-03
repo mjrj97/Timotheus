@@ -71,7 +71,7 @@ namespace Timotheus.IO
         /// Returns a list of files in the remote directory
         /// </summary>
         /// <param name="remoteDirectory">Path of the directory on the server.</param>
-        public List<SftpFile> ListDirectory(string remoteDirectory)
+        private List<SftpFile> ListDirectory(string remoteDirectory)
         {
             if (client != null)
             {
@@ -319,6 +319,42 @@ namespace Timotheus.IO
             for (int i = 0; i < files.Count; i++)
             {
                 DirectoryFile file = files[i];
+                switch (file.Handle)
+                {
+                    case FileHandle.Synchronize:
+                        if (file.IsDirectory)
+                            Synchronize(file.RemoteFile.FullName, file.LocalFile.FullName);
+                        break;
+                    case FileHandle.NewDownload:
+                    case FileHandle.Download:
+                        if (file.IsDirectory)
+                            DownloadDirectory(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
+                        else
+                            DownloadFile(file.RemoteFile, localPath);
+                        break;
+                    case FileHandle.NewUpload:
+                    case FileHandle.Upload:
+                        if (file.IsDirectory)
+                            UploadDirectory(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
+                        else
+                            UploadFile(remotePath, file.LocalFile.FullName);
+                        break;
+                    case FileHandle.DeleteLocal:
+                        if (file.IsDirectory)
+                            Directory.Delete(file.LocalFile.FullName, true);
+                        else
+                            File.Delete(file.LocalFile.FullName);
+                        break;
+                    case FileHandle.DeleteRemote:
+                        if (file.IsDirectory)
+                            DeleteDirectory(file.RemoteFile.FullName);
+                        else
+                            DeleteFile(file.RemoteFile.FullName);
+                        break;
+                }
+
+                /*
+                DirectoryFile file = files[i];
                 if (file.LocalFile != null && file.RemoteFile != null)
                 {
                     //If file can be found (!)previously & locally & remotely => Find the one with the lastest changes
@@ -410,6 +446,7 @@ namespace Timotheus.IO
                         }
                     }
                 }
+                */
             }
 
             DirectoryLog.Save(localPath, ListDirectory(remotePath));
@@ -428,7 +465,7 @@ namespace Timotheus.IO
         /// <param name="remotePath"></param>
         /// <param name="localPath"></param>
         /// <returns></returns>
-        private List<DirectoryFile> GetFiles(string remotePath, string localPath)
+        public List<DirectoryFile> GetFiles(string remotePath, string localPath)
         {
             DirectoryInfo dirInfo = new(localPath);
             FileSystemInfo[] localFiles = dirInfo.GetFileSystemInfos("*", SearchOption.TopDirectoryOnly);
@@ -502,6 +539,16 @@ namespace Timotheus.IO
             }
 
             return files;
+        }
+        public List<DirectoryFile> GetFiles(string path)
+        {
+            if (path[^1] != '/')
+                path += '/';
+
+            if (path == string.Empty)
+                return new List<DirectoryFile>();
+            else
+                return GetFiles(path, ConvertPath(path));
         }
 
         /// <summary>
