@@ -95,7 +95,6 @@ namespace Timotheus.Views
         private void Open_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = DialogResult.OK;
-            Close();
         }
 
         /// <summary>
@@ -104,7 +103,6 @@ namespace Timotheus.Views
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = DialogResult.Cancel;
-            Close();
         }
 
         /// <summary>

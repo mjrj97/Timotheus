@@ -2,16 +2,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Timotheus.Views.MessageBox" SizeToContent="WidthAndHeight" CanResize="False" WindowStartupLocation="CenterOwner" FontFamily="Arvo" Icon="/Resources/Icon.ico">
-  <StackPanel HorizontalAlignment="Center">
-    <TextBlock HorizontalAlignment="Center" Name="Text"/>
-    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Name="Buttons">
-      <StackPanel.Styles>
-        <Style Selector="Button">
-          <Setter Property="Margin" Value="5"/>
-        </Style>
-      </StackPanel.Styles>
-    </StackPanel>
-  </StackPanel>
+        mc:Ignorable="d"
+        x:Class="Timotheus.Views.MessageBox"
+		Title="{Binding DialogTitle}" SizeToContent="WidthAndHeight" CanResize="False" WindowStartupLocation="CenterOwner" FontFamily="Arvo" Icon="/Resources/Icon.ico">
+	<StackPanel HorizontalAlignment="Center" Margin="10">
+		<TextBlock HorizontalAlignment="Center" Text="{Binding DialogText}" Margin="10"/>
+		<DockPanel HorizontalAlignment="Right">
+			<Button Content="OK" Click="Ok_Click" Margin="0 0 10 0"/>
+			<Button Content="Cancel" Click="Cancel_Click"/>
+		</DockPanel>
+	</StackPanel>
 </Window>

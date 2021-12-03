@@ -169,7 +169,6 @@ namespace Timotheus.Views
                     throw new Exception(Localization.Localization.Exception_EmptyName);
 
                 DialogResult = DialogResult.OK;
-                Close();
             }
             catch (Exception ex)
             {
@@ -183,7 +182,6 @@ namespace Timotheus.Views
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = DialogResult.Cancel;
-            Close();
         }
     }
 }

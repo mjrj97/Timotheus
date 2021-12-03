@@ -1,72 +1,47 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using System.Threading.Tasks;
+using Timotheus.Utility;
 
 namespace Timotheus.Views
 {
-    public partial class MessageBox : Window
+    public partial class MessageBox : Dialog
     {
-        public enum MessageBoxButtons
+        private string _dialogTitle = string.Empty;
+        public string DialogTitle
         {
-            Ok,
-            OkCancel,
-            YesNo,
-            YesNoCancel
+            get { return _dialogTitle; }
+            set 
+            {
+                _dialogTitle = value;
+                NotifyPropertyChanged(nameof(DialogTitle));
+            }
+        }
+
+        private string _dialogText = string.Empty;
+        public string DialogText
+        {
+            get { return _dialogText; }
+            set
+            {
+                _dialogText = value;
+                NotifyPropertyChanged(nameof(DialogText));
+            }
         }
 
         public MessageBox()
         {
+            DataContext = this;
             AvaloniaXamlLoader.Load(this);
         }
 
-        public static Task<MessageBoxResult> Show(Window parent, string text, string title, MessageBoxButtons buttons)
+        private void Ok_Click(object sender, RoutedEventArgs e)
         {
-            var msgbox = new MessageBox()
-            {
-                Title = title
-            };
-            msgbox.FindControl<TextBlock>("Text").Text = text;
-            var buttonPanel = msgbox.FindControl<StackPanel>("Buttons");
-
-            var res = MessageBoxResult.Ok;
-
-            void AddButton(string caption, MessageBoxResult r, bool def = false)
-            {
-                var btn = new Button { Content = caption };
-                btn.Click += (_, __) => {
-                    res = r;
-                    msgbox.Close();
-                };
-                buttonPanel.Children.Add(btn);
-                if (def)
-                    res = r;
-            }
-
-            if (buttons == MessageBoxButtons.Ok || buttons == MessageBoxButtons.OkCancel)
-                AddButton("Ok", MessageBoxResult.Ok, true);
-            if (buttons == MessageBoxButtons.YesNo || buttons == MessageBoxButtons.YesNoCancel)
-            {
-                AddButton("Yes", MessageBoxResult.Yes);
-                AddButton("No", MessageBoxResult.No, true);
-            }
-
-            if (buttons == MessageBoxButtons.OkCancel || buttons == MessageBoxButtons.YesNoCancel)
-                AddButton("Cancel", MessageBoxResult.Cancel, true);
-
-            var tcs = new TaskCompletionSource<MessageBoxResult>();
-            msgbox.Closed += delegate { tcs.TrySetResult(res); };
-            if (parent != null)
-                msgbox.ShowDialog(parent);
-            else msgbox.Show();
-            return tcs.Task;
+            DialogResult = DialogResult.OK;
         }
-    }
 
-    public enum MessageBoxResult
-    {
-        Ok,
-        Cancel,
-        Yes,
-        No
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+        }
     }
 }

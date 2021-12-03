@@ -57,8 +57,8 @@ namespace Timotheus.Views
                         else
                         {
                             PasswordDialog dialog = new();
-                            bool result = await dialog.Show(this);
-                            if (result)
+                            await dialog.ShowDialog(this);
+                            if (dialog.DialogResult == DialogResult.OK)
                             {
                                 password = dialog.Password;
                                 mvm.LoadKey(keyPath, password);
@@ -77,7 +77,7 @@ namespace Timotheus.Views
             }
             catch (Exception ex)
             {
-                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_NoKeys, MessageBox.MessageBoxButtons.OkCancel);
+                Error(Localization.Localization.Exception_NoKeys, ex.Message);
             }
         }
 
@@ -155,7 +155,7 @@ namespace Timotheus.Views
                 }
                 catch (Exception ex)
                 {
-                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_InvalidCalendar, MessageBox.MessageBoxButtons.OkCancel);
+                    Error(Localization.Localization.Exception_InvalidCalendar, ex.Message);
                 }
             }
         }
@@ -182,7 +182,7 @@ namespace Timotheus.Views
                 }
                 catch (Exception ex)
                 {
-                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                    Error(Localization.Localization.Exception_Saving, ex.Message);
                 }
             }
         }
@@ -222,7 +222,7 @@ namespace Timotheus.Views
                 }
                 catch (Exception ex)
                 {
-                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Sync, MessageBox.MessageBoxButtons.OkCancel);
+                    Error(Localization.Localization.Exception_Sync, ex.Message);
                 }
             }
         }
@@ -260,7 +260,7 @@ namespace Timotheus.Views
                 }
                 catch (Exception ex)
                 {
-                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_InvalidEvent, MessageBox.MessageBoxButtons.OkCancel);
+                    Error(Localization.Localization.Exception_InvalidEvent, ex.Message);
                 }
             }
         }
@@ -300,7 +300,7 @@ namespace Timotheus.Views
                 }
                 catch (Exception ex)
                 {
-                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                    Error(Localization.Localization.Exception_Saving, ex.Message);
                 }
             }
         }
@@ -310,7 +310,7 @@ namespace Timotheus.Views
         /// <summary>
         /// Goes one level up from the currently visible directory.
         /// </summary>
-        private async void UpDirectory_Click(object sender, RoutedEventArgs e)
+        private void UpDirectory_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -318,14 +318,14 @@ namespace Timotheus.Views
             }
             catch (Exception ex)
             {
-                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+                Error(Localization.Localization.Exception_Name, ex.Message);
             }
         }
 
         /// <summary>
         /// Synchronizes the files in the local and remote directory.
         /// </summary>
-        private async void SyncFiles_Click(object sender, RoutedEventArgs e)
+        private void SyncFiles_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -334,7 +334,7 @@ namespace Timotheus.Views
             }
             catch (Exception ex)
             {
-                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+                Error(Localization.Localization.Exception_Name, ex.Message);
             }
         }
 
@@ -364,7 +364,7 @@ namespace Timotheus.Views
                 }
                 catch (Exception ex)
                 {
-                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+                    Error(Localization.Localization.Exception_Name, ex.Message);
                 }
             }
         }
@@ -372,7 +372,7 @@ namespace Timotheus.Views
         /// <summary>
         /// Goes one level down into the selected directory.
         /// </summary>
-        private async void GoToDirectory_Click(object sender, RoutedEventArgs e)
+        private void GoToDirectory_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -385,7 +385,7 @@ namespace Timotheus.Views
             }
             catch (Exception ex)
             {
-                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+                Error(Localization.Localization.Exception_Name, ex.Message);
             }
         }
         #endregion
@@ -396,8 +396,11 @@ namespace Timotheus.Views
         /// </summary>
         private async void NewProject_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = await MessageBox.Show(this, Localization.Localization.ToolStrip_NewSecure, Localization.Localization.ToolStrip_NewFile, MessageBox.MessageBoxButtons.YesNo);
-            if (result == MessageBoxResult.Yes)
+            MessageBox msDialog = new();
+            msDialog.DialogTitle = Localization.Localization.ToolStrip_NewFile;
+            msDialog.DialogText = Localization.Localization.ToolStrip_NewSecure;
+            await msDialog.ShowDialog(this);
+            if (msDialog.DialogResult == DialogResult.OK)
             {
                 Timotheus.Registry.Remove("KeyPath");
                 Timotheus.Registry.Remove("KeyPassword");
@@ -430,8 +433,8 @@ namespace Timotheus.Views
                 {
                     case ".tkey":
                         PasswordDialog dialog = new();
-                        bool p = await dialog.Show(this);
-                        if (p)
+                        await dialog.ShowDialog(this);
+                        if (dialog.DialogResult == DialogResult.OK)
                         {
                             string password = dialog.Password;
                             try
@@ -440,7 +443,7 @@ namespace Timotheus.Views
                             }
                             catch (Exception ex)
                             {
-                                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                                Error(Localization.Localization.Exception_Saving, ex.Message);
                             }
                         }
                         break;
@@ -451,7 +454,7 @@ namespace Timotheus.Views
                         }
                         catch (Exception ex)
                         {
-                            await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Saving, MessageBox.MessageBoxButtons.OkCancel);
+                            Error(Localization.Localization.Exception_Saving, ex.Message);
                         }
                         break;
                 }
@@ -480,8 +483,8 @@ namespace Timotheus.Views
                 {
                     case ".tkey":
                         PasswordDialog dialog = new();
-                        bool p = await dialog.Show(this);
-                        if (p)
+                        await dialog.ShowDialog(this);
+                        if (dialog.DialogResult == DialogResult.OK)
                         {
                             string password = dialog.Password;
                             if (dialog.Save)
@@ -497,7 +500,7 @@ namespace Timotheus.Views
                             }
                             catch (Exception ex)
                             {
-                                await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_LoadFailed, MessageBox.MessageBoxButtons.OkCancel);
+                                Error(Localization.Localization.Exception_LoadFailed, ex.Message);
                             }
                         }
                         break;
@@ -508,7 +511,7 @@ namespace Timotheus.Views
                         }
                         catch (Exception ex)
                         {
-                            await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_LoadFailed, MessageBox.MessageBoxButtons.OkCancel);
+                            Error(Localization.Localization.Exception_LoadFailed, ex.Message);
                         }
                         break;
                 }
@@ -531,7 +534,7 @@ namespace Timotheus.Views
                 }
                 catch (Exception ex)
                 {
-                    await MessageBox.Show(this, ex.Message, Localization.Localization.Exception_Name, MessageBox.MessageBoxButtons.OkCancel);
+                    Error(Localization.Localization.Exception_Name, ex.Message);
                 }
             }
         }
@@ -565,5 +568,13 @@ namespace Timotheus.Views
             }
         }
         #endregion
+
+        private async void Error(string title, string Message)
+        {
+            MessageBox msDialog = new();
+            msDialog.DialogTitle = title;
+            msDialog.DialogText = Message;
+            await msDialog.ShowDialog(this);
+        }
     }
 }
