@@ -42,7 +42,20 @@ namespace Timotheus.Views
         {
             try
             {
-                string keyPath = Timotheus.Registry.Get("KeyPath");
+                string keyPath = string.Empty;
+
+                if (Timotheus.FirstTime)
+                {
+                    FirstTimeSetup fts = new();
+                    await fts.ShowDialog(this);
+                    if (fts.DialogResult == DialogResult.OK)
+                    {
+                        keyPath = fts.Path;
+                    }
+                }
+                else
+                    keyPath = Timotheus.Registry.Get("KeyPath");
+
                 if (!File.Exists(keyPath))
                 {
                     Timotheus.Registry.Remove("KeyPath");

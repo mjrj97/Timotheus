@@ -288,6 +288,24 @@
   <data name="Exception_WrongPassword" xml:space="preserve">
     <value>Wrong password</value>
   </data>
+  <data name="FirstTime_1P" xml:space="preserve">
+    <value>Timotheus is a program which seeks to help assocations with their calendar, file sharing, and hopefully a lot more in the future!</value>
+  </data>
+  <data name="FirstTime_2P" xml:space="preserve">
+    <value>The program uses a key file (.tkey) to connect all these services by storing usernames, passwords etc. in a encrypted file.</value>
+  </data>
+  <data name="FirstTime_3P" xml:space="preserve">
+    <value>How do you want to start?</value>
+  </data>
+  <data name="FirstTime_Welcome" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="FirstTime_With" xml:space="preserve">
+    <value>With key</value>
+  </data>
+  <data name="FirstTime_Without" xml:space="preserve">
+    <value>Without key</value>
+  </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>

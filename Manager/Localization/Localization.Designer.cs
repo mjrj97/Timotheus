@@ -574,6 +574,60 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Timotheus is a program which seeks to help assocations with their calendar, file sharing, and hopefully a lot more in the future!.
+        /// </summary>
+        public static string FirstTime_1P {
+            get {
+                return ResourceManager.GetString("FirstTime_1P", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The program uses a key file (.tkey) to connect all these services by storing usernames, passwords etc. in a encrypted file..
+        /// </summary>
+        public static string FirstTime_2P {
+            get {
+                return ResourceManager.GetString("FirstTime_2P", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How do you want to start?.
+        /// </summary>
+        public static string FirstTime_3P {
+            get {
+                return ResourceManager.GetString("FirstTime_3P", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome.
+        /// </summary>
+        public static string FirstTime_Welcome {
+            get {
+                return ResourceManager.GetString("FirstTime_Welcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to With key.
+        /// </summary>
+        public static string FirstTime_With {
+            get {
+                return ResourceManager.GetString("FirstTime_With", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Without key.
+        /// </summary>
+        public static string FirstTime_Without {
+            get {
+                return ResourceManager.GetString("FirstTime_Without", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string Help {

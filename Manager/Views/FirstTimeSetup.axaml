@@ -1,0 +1,24 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:i18n="clr-namespace:Timotheus.Localization"
+        x:Class="Timotheus.Views.FirstTimeSetup"
+        Title="{x:Static i18n:Localization.FirstTime_Welcome}" Width="300" SizeToContent="Height">
+	<StackPanel Margin="10">
+		<Image Source="/Resources/Icon.ico" Width="100" Height="100" HorizontalAlignment="Center"/>
+		<StackPanel Margin="10">
+			<TextBlock Text="{x:Static i18n:Localization.FirstTime_Welcome}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+			<TextBlock Text=" "/>
+			<TextBlock Text="{x:Static i18n:Localization.FirstTime_1P}" TextWrapping="Wrap"/>
+			<TextBlock Text=" "/>
+			<TextBlock Text="{x:Static i18n:Localization.FirstTime_2P}" TextWrapping="Wrap"/>
+			<TextBlock Text=" "/>
+			<TextBlock Text="{x:Static i18n:Localization.FirstTime_3P}" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+			<DockPanel HorizontalAlignment="Center" Margin="0 10 0 0">
+				<Button Content="{x:Static i18n:Localization.FirstTime_With}" Click="WithKey_Click" Margin="0 0 10 0"/>
+				<Button Content="{x:Static i18n:Localization.FirstTime_Without}" Click="WithoutKey_Click"/>
+			</DockPanel>
+		</StackPanel>
+	</StackPanel>
+</Window>

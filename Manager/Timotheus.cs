@@ -31,6 +31,10 @@ namespace Timotheus
         /// Version of the software.
         /// </summary>
         public static string Version = "1.0.0";
+        /// <summary>
+        /// Whether this is the first time the software runs on this computer.
+        /// </summary>
+        public static bool FirstTime = false;
 
         /// <summary>
         /// Initializes the static variables and loads the Registry.
@@ -80,7 +84,10 @@ namespace Timotheus
         private static void SecureFile(string directory, string fileName)
         {
             if (!Directory.Exists(directory))
+            {
+                FirstTime = true;
                 Directory.CreateDirectory(directory);
+            }
             if (!File.Exists(directory + "/" + fileName))
                 File.Create(directory + "/" + fileName).Close();
         }
