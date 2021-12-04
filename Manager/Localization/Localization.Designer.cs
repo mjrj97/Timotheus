@@ -907,6 +907,42 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changes need to be uploaded.
+        /// </summary>
+        public static string SFTP_ChangedLocal {
+            get {
+                return ResourceManager.GetString("SFTP_ChangedLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes need to be downloaded.
+        /// </summary>
+        public static string SFTP_ChangedRemote {
+            get {
+                return ResourceManager.GetString("SFTP_ChangedRemote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted on computer.
+        /// </summary>
+        public static string SFTP_DeleteLocal {
+            get {
+                return ResourceManager.GetString("SFTP_DeleteLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted on server.
+        /// </summary>
+        public static string SFTP_DeleteRemote {
+            get {
+                return ResourceManager.GetString("SFTP_DeleteRemote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Go back.
         /// </summary>
         public static string SFTP_GoUpButton {
@@ -921,6 +957,24 @@ namespace Timotheus.Localization {
         public static string SFTP_NameColumn {
             get {
                 return ResourceManager.GetString("SFTP_NameColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Needs to be uploaded.
+        /// </summary>
+        public static string SFTP_NewLocal {
+            get {
+                return ResourceManager.GetString("SFTP_NewLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Needs to be downloaded.
+        /// </summary>
+        public static string SFTP_NewRemote {
+            get {
+                return ResourceManager.GetString("SFTP_NewRemote", resourceCulture);
             }
         }
         

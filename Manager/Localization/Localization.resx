@@ -426,11 +426,29 @@
   <data name="SFTPSetup_UsernameLabel" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="SFTP_ChangedLocal" xml:space="preserve">
+    <value>Changes need to be uploaded</value>
+  </data>
+  <data name="SFTP_ChangedRemote" xml:space="preserve">
+    <value>Changes need to be downloaded</value>
+  </data>
+  <data name="SFTP_DeleteLocal" xml:space="preserve">
+    <value>Deleted on computer</value>
+  </data>
+  <data name="SFTP_DeleteRemote" xml:space="preserve">
+    <value>Deleted on server</value>
+  </data>
   <data name="SFTP_GoUpButton" xml:space="preserve">
     <value>Go back</value>
   </data>
   <data name="SFTP_NameColumn" xml:space="preserve">
     <value>File name</value>
+  </data>
+  <data name="SFTP_NewLocal" xml:space="preserve">
+    <value>Needs to be uploaded</value>
+  </data>
+  <data name="SFTP_NewRemote" xml:space="preserve">
+    <value>Needs to be downloaded</value>
   </data>
   <data name="SFTP_Page" xml:space="preserve">
     <value>Files</value>

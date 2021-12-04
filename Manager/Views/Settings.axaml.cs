@@ -45,7 +45,8 @@ namespace Timotheus.Views
             set
             {
                 _imagePath = value;
-                Image = new Bitmap(value);
+                if (System.IO.File.Exists(value))
+                    Image = new Bitmap(value);
                 NotifyPropertyChanged(nameof(ImagePath));
             }
         }

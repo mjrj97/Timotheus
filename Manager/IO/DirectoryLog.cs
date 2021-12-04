@@ -15,6 +15,8 @@ namespace Timotheus.IO
         /// <param name="path">Directory path</param>
         public static List<DirectoryLogItem> Load(string path)
         {
+            if (!Directory.Exists(path))
+                return new List<DirectoryLogItem>();
             path = Path.Combine(path, ".tfilelog");
             Secure(path);
             using StreamReader reader = new(path);

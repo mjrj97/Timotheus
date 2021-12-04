@@ -426,11 +426,29 @@
   <data name="SFTPSetup_UsernameLabel" xml:space="preserve">
     <value>Brugernavn</value>
   </data>
+  <data name="SFTP_ChangedLocal" xml:space="preserve">
+    <value>Ændringer skal uploades</value>
+  </data>
+  <data name="SFTP_ChangedRemote" xml:space="preserve">
+    <value>Ændringer skal downloades</value>
+  </data>
+  <data name="SFTP_DeleteLocal" xml:space="preserve">
+    <value>Slettet på computer</value>
+  </data>
+  <data name="SFTP_DeleteRemote" xml:space="preserve">
+    <value>Slettet på server</value>
+  </data>
   <data name="SFTP_GoUpButton" xml:space="preserve">
     <value>Gå tilbage</value>
   </data>
   <data name="SFTP_NameColumn" xml:space="preserve">
     <value>Filnavn</value>
+  </data>
+  <data name="SFTP_NewLocal" xml:space="preserve">
+    <value>Skal uploades</value>
+  </data>
+  <data name="SFTP_NewRemote" xml:space="preserve">
+    <value>Skal downloades</value>
   </data>
   <data name="SFTP_Page" xml:space="preserve">
     <value>Filer</value>

@@ -44,9 +44,23 @@ namespace Timotheus.ViewModels
         }
 
         /// <summary>
-        /// The full name/address of the file.
+        /// The full name/address of the local file.
         /// </summary>
-        public string FullName
+        public string LocalFullName
+        {
+            get
+            {
+                if (file.LocalFile != null)
+                    return file.LocalFile.FullName;
+                else
+                    return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// The full name/address of the remote file.
+        /// </summary>
+        public string RemoteFullName
         {
             get
             {
@@ -91,12 +105,12 @@ namespace Timotheus.ViewModels
             {
                 return file.Handle switch
                 {
-                    FileHandle.NewDownload => "New remote",
-                    FileHandle.Download => "Changed remotely",
-                    FileHandle.NewUpload => "New local",
-                    FileHandle.Upload => "Changed locally",
-                    FileHandle.DeleteLocal => "Deleted remotely",
-                    FileHandle.DeleteRemote => "Deleted locally",
+                    FileHandle.NewDownload => Localization.Localization.SFTP_NewRemote,
+                    FileHandle.Download => Localization.Localization.SFTP_ChangedRemote,
+                    FileHandle.NewUpload => Localization.Localization.SFTP_NewLocal,
+                    FileHandle.Upload => Localization.Localization.SFTP_ChangedLocal,
+                    FileHandle.DeleteLocal => Localization.Localization.SFTP_DeleteRemote,
+                    FileHandle.DeleteRemote => Localization.Localization.SFTP_DeleteLocal,
                     _ => string.Empty,
                 };
             }

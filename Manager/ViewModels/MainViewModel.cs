@@ -189,11 +189,6 @@ namespace Timotheus.ViewModels
             GoToDirectory(Path.GetDirectoryName(currentDirectory) + "/");
         }
 
-        public void GoToDirectory(int i)
-        {
-            if (Files[i].IsDirectory)
-                GoToDirectory(Files[i].FullName);
-        }
         public void GoToDirectory(string path)
         {
             currentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));

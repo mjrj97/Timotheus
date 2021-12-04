@@ -118,8 +118,8 @@
             <Button Content="{x:Static i18n:Localization.SFTP_GoUpButton}" Click="UpDirectory_Click" DockPanel.Dock="Left"/>
           </DockPanel>
           <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
-            <DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="GoToDirectory_Click" LoadingRow="Files_RowLoading">
-			  <DataGrid.Columns>
+            <DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
+		      <DataGrid.Columns>
                 <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True">
                   <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>

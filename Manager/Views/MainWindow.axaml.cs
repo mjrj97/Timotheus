@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Timotheus.IO;
@@ -374,7 +375,7 @@ namespace Timotheus.Views
         /// <summary>
         /// Goes one level down into the selected directory.
         /// </summary>
-        private void GoToDirectory_Click(object sender, RoutedEventArgs e)
+        private void File_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -383,7 +384,28 @@ namespace Timotheus.Views
                                 .FirstOrDefault();
 
                 if (row != null)
-                    mvm.GoToDirectory(row.GetIndex());
+                {
+                    FileViewModel file = row.DataContext as FileViewModel;
+                    if (file.IsDirectory)
+                    {
+                        if (file.RemoteFullName != string.Empty)
+                            mvm.GoToDirectory(file.RemoteFullName);
+                        else
+                            mvm.GoToDirectory(file.LocalFullName);
+                    }
+                    else
+                    {
+                        if (file.LocalFullName != string.Empty)
+                        {
+                            Process p = new();
+                            p.StartInfo = new ProcessStartInfo(file.LocalFullName)
+                            {
+                                UseShellExecute = true
+                            };
+                            p.Start();
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

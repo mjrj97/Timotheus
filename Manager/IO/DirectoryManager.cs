@@ -73,6 +73,7 @@ namespace Timotheus.IO
         /// <param name="remoteDirectory">Path of the directory on the server.</param>
         private List<SftpFile> ListDirectory(string remoteDirectory)
         {
+            List<SftpFile> files = new();
             if (client != null)
             {
                 bool isPreconnected = client.IsConnected;
@@ -81,18 +82,19 @@ namespace Timotheus.IO
                     client.Connect();
                 }
 
-                List<SftpFile> files = client.ListDirectory(remoteDirectory).ToList();
-                files.RemoveAt(0); //Remove the '.' and '..' directories.
-                files.RemoveAt(0);
+                if (client.Exists(remoteDirectory))
+                {
+                    files = client.ListDirectory(remoteDirectory).ToList();
+                    files.RemoveAt(0); //Remove the '.' and '..' directories.
+                    files.RemoveAt(0);
+                }
 
                 if (!isPreconnected)
                 {
                     client.Disconnect();
                 }
-
-                return files;
             }
-            else return new List<SftpFile>();
+            return files;
         }
 
         /// <summary>
@@ -156,7 +158,6 @@ namespace Timotheus.IO
 
             try
             {
-                System.Diagnostics.Debug.WriteLine(path);
                 client.DeleteFile(path);
             }
             catch (SftpPathNotFoundException e)
@@ -185,7 +186,6 @@ namespace Timotheus.IO
 
             try
             {
-                System.Diagnostics.Debug.WriteLine(path);
                 foreach (SftpFile file in client.ListDirectory(path))
                 {
                     if ((file.Name != ".") && (file.Name != ".."))
@@ -274,6 +274,9 @@ namespace Timotheus.IO
 
             for (int i = 0; i < localFilePaths.Length; i++)
             {
+                string name = Path.GetFileName(localFilePaths[i]);
+                if (Ignore(name))
+                    continue;
                 UploadFile(remotePath, localFilePaths[i]);
             }
 
@@ -341,9 +344,19 @@ namespace Timotheus.IO
                         break;
                     case FileHandle.DeleteLocal:
                         if (file.IsDirectory)
-                            Directory.Delete(file.LocalFile.FullName, true);
+                        {
+                            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                                Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(file.LocalFile.FullName, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                            else
+                                Directory.Delete(file.LocalFile.FullName, true);
+                        }
                         else
-                            File.Delete(file.LocalFile.FullName);
+                        {
+                            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                                Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(file.LocalFile.FullName, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                            else
+                                File.Delete(file.LocalFile.FullName);
+                        }
                         break;
                     case FileHandle.DeleteRemote:
                         if (file.IsDirectory)
@@ -467,8 +480,14 @@ namespace Timotheus.IO
         /// <returns></returns>
         public List<DirectoryFile> GetFiles(string remotePath, string localPath)
         {
-            DirectoryInfo dirInfo = new(localPath);
-            FileSystemInfo[] localFiles = dirInfo.GetFileSystemInfos("*", SearchOption.TopDirectoryOnly);
+            DirectoryInfo dirInfo;
+            FileSystemInfo[] localFiles = Array.Empty<FileSystemInfo>();
+
+            if (Directory.Exists(localPath))
+            {
+                dirInfo = new(localPath);
+                localFiles = dirInfo.GetFileSystemInfos("*", SearchOption.TopDirectoryOnly);
+            }
             List<SftpFile> remoteFiles = ListDirectory(remotePath);
 
             List<DirectoryFile> files = new();
@@ -477,7 +496,7 @@ namespace Timotheus.IO
             //Find pairs
             for (int i = 0; i < localFiles.Length; i++)
             {
-                if (localFiles[i].Name[0] == '.' || Path.GetExtension(localFiles[i].Name) == ".tkey") // Also ignore tkeys
+                if (Ignore(localFiles[i].Name)) // Also ignore tkeys
                     continue;
 
                 DirectoryLogItem dli = DirectoryLogItem.Empty;
@@ -519,6 +538,9 @@ namespace Timotheus.IO
             //Add only remote files
             for (int i = 0; i < remoteFiles.Count; i++)
             {
+                if (Ignore(remoteFiles[i].Name)) // Also ignore tkeys
+                    continue;
+
                 DirectoryLogItem dli = DirectoryLogItem.Empty;
 
                 bool found = false;
@@ -542,13 +564,30 @@ namespace Timotheus.IO
         }
         public List<DirectoryFile> GetFiles(string path)
         {
-            if (path[^1] != '/')
-                path += '/';
-
             if (path == string.Empty)
                 return new List<DirectoryFile>();
-            else
-                return GetFiles(path, ConvertPath(path));
+            if (path[^1] != '/')
+                path += '/';
+            if (RemotePath.StartsWith(path))
+                path = RemotePath;
+            if (!path.StartsWith(RemotePath))
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    path = path.Replace('/', '\\');
+                if (path.StartsWith(LocalPath))
+                    path = ConvertPath(path);
+            }
+
+            return GetFiles(path, ConvertPath(path));
+        }
+
+        /// <summary>
+        /// Checks whether the file should be ignored in the sync.
+        /// </summary>
+        private static bool Ignore(string fileName)
+        {
+            fileName = Path.GetFileName(fileName);
+            return fileName[0] == '.' || Path.GetExtension(fileName) == ".tkey";
         }
 
         /// <summary>
