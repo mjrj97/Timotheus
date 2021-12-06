@@ -19,7 +19,7 @@ namespace Timotheus.Localization {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Localization {
@@ -574,6 +574,60 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Timotheus is a program which seeks to help assocations with their calendar, file sharing, and hopefully a lot more in the future!.
+        /// </summary>
+        public static string FirstTime_1P {
+            get {
+                return ResourceManager.GetString("FirstTime_1P", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The program uses a key file (.tkey) to connect all these services by storing usernames, passwords etc. in a encrypted file..
+        /// </summary>
+        public static string FirstTime_2P {
+            get {
+                return ResourceManager.GetString("FirstTime_2P", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How do you want to start?.
+        /// </summary>
+        public static string FirstTime_3P {
+            get {
+                return ResourceManager.GetString("FirstTime_3P", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome.
+        /// </summary>
+        public static string FirstTime_Welcome {
+            get {
+                return ResourceManager.GetString("FirstTime_Welcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to With key.
+        /// </summary>
+        public static string FirstTime_With {
+            get {
+                return ResourceManager.GetString("FirstTime_With", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Without key.
+        /// </summary>
+        public static string FirstTime_Without {
+            get {
+                return ResourceManager.GetString("FirstTime_Without", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string Help {
@@ -844,6 +898,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Settings_AddressLabel {
@@ -858,6 +921,15 @@ namespace Timotheus.Localization {
         public static string Settings_BrowseButton {
             get {
                 return ResourceManager.GetString("Settings_BrowseButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Association information.
+        /// </summary>
+        public static string Settings_InfoBox {
+            get {
+                return ResourceManager.GetString("Settings_InfoBox", resourceCulture);
             }
         }
         
@@ -880,20 +952,47 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Settings.
+        ///   Looks up a localized string similar to Program settings.
         /// </summary>
-        public static string Settings_Page {
+        public static string Settings_Program {
             get {
-                return ResourceManager.GetString("Settings_Page", resourceCulture);
+                return ResourceManager.GetString("Settings_Program", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Association information.
+        ///   Looks up a localized string similar to Changes need to be uploaded.
         /// </summary>
-        public static string Settins_InfoBox {
+        public static string SFTP_ChangedLocal {
             get {
-                return ResourceManager.GetString("Settins_InfoBox", resourceCulture);
+                return ResourceManager.GetString("SFTP_ChangedLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes need to be downloaded.
+        /// </summary>
+        public static string SFTP_ChangedRemote {
+            get {
+                return ResourceManager.GetString("SFTP_ChangedRemote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted on computer.
+        /// </summary>
+        public static string SFTP_DeleteLocal {
+            get {
+                return ResourceManager.GetString("SFTP_DeleteLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted on server.
+        /// </summary>
+        public static string SFTP_DeleteRemote {
+            get {
+                return ResourceManager.GetString("SFTP_DeleteRemote", resourceCulture);
             }
         }
         
@@ -912,6 +1011,24 @@ namespace Timotheus.Localization {
         public static string SFTP_NameColumn {
             get {
                 return ResourceManager.GetString("SFTP_NameColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Needs to be uploaded.
+        /// </summary>
+        public static string SFTP_NewLocal {
+            get {
+                return ResourceManager.GetString("SFTP_NewLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Needs to be downloaded.
+        /// </summary>
+        public static string SFTP_NewRemote {
+            get {
+                return ResourceManager.GetString("SFTP_NewRemote", resourceCulture);
             }
         }
         

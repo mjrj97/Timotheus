@@ -1,0 +1,50 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:i18n="clr-namespace:Timotheus.Localization"
+        mc:Ignorable="d"
+        x:Class="Timotheus.Views.Settings"
+        Title="{x:Static i18n:Localization.Settings}" Width="500" SizeToContent="Height">
+	<DockPanel Margin="10">
+		<DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+			<Button Content="{x:Static i18n:Localization.EditKeyDialog_OKButton}" Click="Ok_Click" Margin="0 0 10 0"/>
+			<Button Content="{x:Static i18n:Localization.EditKeyDialog_CancelButton}" Click="Cancel_Click"/>
+		</DockPanel>
+		<Border Classes="t1" DockPanel.Dock="Top" Padding="4">
+			<StackPanel Margin="5">
+				<TextBlock Margin="0 5 0 10" Text="{x:Static i18n:Localization.Settings_InfoBox}" FontWeight="Bold"/>
+				<DockPanel>
+					<Border Classes="t1" Padding="4">
+						<Image Source="{Binding Image}" Width="100" Height="100"/>
+					</Border>
+					<StackPanel Margin="10 0 0 0">
+						<DockPanel>
+							<TextBlock Text="{x:Static i18n:Localization.Settings_NameLabel}" VerticalAlignment="Center" Width="70"/>
+							<TextBox Text="{Binding AssociationName}"/>
+						</DockPanel>
+						<DockPanel Margin="0 7">
+							<TextBlock Text="{x:Static i18n:Localization.Settings_AddressLabel}" VerticalAlignment="Center" Width="70"/>
+							<TextBox Text="{Binding AssociationAddress}"/>
+						</DockPanel>
+						<DockPanel>
+							<TextBlock Text="{x:Static i18n:Localization.Settings_LogoLabel}" VerticalAlignment="Center" Width="70"/>
+							<TextBox Text="{Binding ImagePath}" Width="163"/>
+							<Button Content="{x:Static i18n:Localization.Settings_BrowseButton}" Click="Browse_Click" Width="100" Margin="7 0 0 0" HorizontalContentAlignment="Center"/>
+						</DockPanel>
+					</StackPanel>
+				</DockPanel>
+			</StackPanel>
+		</Border>
+		<!--
+		<Border Classes="t1" Margin="0 10 0 0" Padding="4">
+			<StackPanel Margin="5">
+				<TextBlock Margin="0 5 0 10" Text="{x:Static i18n:Localization.Settings_Program}" FontWeight="Bold"/>
+				<DockPanel>
+					
+				</DockPanel>
+			</StackPanel>
+		</Border>
+		-->
+	</DockPanel>
+</Window>

@@ -288,6 +288,24 @@
   <data name="Exception_WrongPassword" xml:space="preserve">
     <value>Forkert adgangskode</value>
   </data>
+  <data name="FirstTime_1P" xml:space="preserve">
+    <value>Timotheus er et program som skal hjælpe foreninger med deres kalender, filedeling og forhåbentlig mange flere ting i fremtiden!</value>
+  </data>
+  <data name="FirstTime_2P" xml:space="preserve">
+    <value>Dette program bruger nøglefiler (.tkey) til at forbinde alle disse services ved at opbevare brugernavne, adgangskoder osv. i en krypteret fil.</value>
+  </data>
+  <data name="FirstTime_3P" xml:space="preserve">
+    <value>Hvordan vil du starte?</value>
+  </data>
+  <data name="FirstTime_Welcome" xml:space="preserve">
+    <value>Velkommen</value>
+  </data>
+  <data name="FirstTime_With" xml:space="preserve">
+    <value>Med nøgle</value>
+  </data>
+  <data name="FirstTime_Without" xml:space="preserve">
+    <value>Uden nøgle</value>
+  </data>
   <data name="Help" xml:space="preserve">
     <value>Hjælp</value>
   </data>
@@ -378,11 +396,17 @@
   <data name="PDF_Welcome" xml:space="preserve">
     <value>Velkommen i</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Indstillinger</value>
+  </data>
   <data name="Settings_AddressLabel" xml:space="preserve">
     <value>Adresse</value>
   </data>
   <data name="Settings_BrowseButton" xml:space="preserve">
     <value>Gennemse</value>
+  </data>
+  <data name="Settings_InfoBox" xml:space="preserve">
+    <value>Foreningens information</value>
   </data>
   <data name="Settings_LogoLabel" xml:space="preserve">
     <value>Logo</value>
@@ -390,11 +414,8 @@
   <data name="Settings_NameLabel" xml:space="preserve">
     <value>Navn</value>
   </data>
-  <data name="Settings_Page" xml:space="preserve">
-    <value>Indstillinger</value>
-  </data>
-  <data name="Settins_InfoBox" xml:space="preserve">
-    <value>Foreningens information</value>
+  <data name="Settings_Program" xml:space="preserve">
+    <value>Program indstillinger</value>
   </data>
   <data name="SFTPSetup" xml:space="preserve">
     <value>Opsætning</value>
@@ -423,11 +444,29 @@
   <data name="SFTPSetup_UsernameLabel" xml:space="preserve">
     <value>Brugernavn</value>
   </data>
+  <data name="SFTP_ChangedLocal" xml:space="preserve">
+    <value>Ændringer skal uploades</value>
+  </data>
+  <data name="SFTP_ChangedRemote" xml:space="preserve">
+    <value>Ændringer skal downloades</value>
+  </data>
+  <data name="SFTP_DeleteLocal" xml:space="preserve">
+    <value>Slettet på computer</value>
+  </data>
+  <data name="SFTP_DeleteRemote" xml:space="preserve">
+    <value>Slettet på server</value>
+  </data>
   <data name="SFTP_GoUpButton" xml:space="preserve">
     <value>Gå tilbage</value>
   </data>
   <data name="SFTP_NameColumn" xml:space="preserve">
     <value>Filnavn</value>
+  </data>
+  <data name="SFTP_NewLocal" xml:space="preserve">
+    <value>Skal uploades</value>
+  </data>
+  <data name="SFTP_NewRemote" xml:space="preserve">
+    <value>Skal downloades</value>
   </data>
   <data name="SFTP_Page" xml:space="preserve">
     <value>Filer</value>

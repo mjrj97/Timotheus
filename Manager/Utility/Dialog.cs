@@ -5,7 +5,19 @@ namespace Timotheus.Utility
 {
     public abstract class Dialog : Window, INotifyPropertyChanged
     {
-        public DialogResult DialogResult = DialogResult.None;
+        private DialogResult _dialogResult = DialogResult.None;
+        public DialogResult DialogResult
+        {
+            get
+            {
+                return _dialogResult;
+            }
+            set
+            {
+                _dialogResult = value;
+                Close();
+            }
+        }
 
         public new event PropertyChangedEventHandler PropertyChanged;
         internal void NotifyPropertyChanged(string propertyName = "")

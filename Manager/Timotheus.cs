@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Reflection;
 using System.Globalization;
 using Timotheus.IO;
 
@@ -9,10 +10,10 @@ namespace Timotheus
 {
     public static class Timotheus
     {
+        private static Register _Registry;
         /// <summary>
         /// A register containing all values found in the (Windows registry/macOS .plist/Linux etc folder) associated with Timotheus. Is loaded on start of program and saved on exit.
         /// </summary>
-        private static Register _Registry;
         public static Register Registry
         {
             get { return _Registry; }
@@ -26,6 +27,14 @@ namespace Timotheus
         /// Text encoding used by the program. Is essential to decode the text from Windows Registry.
         /// </summary>
         public readonly static CultureInfo Culture = CultureInfo.GetCultureInfo("da-DK");
+        /// <summary>
+        /// Version of the software.
+        /// </summary>
+        public static string Version = "1.0.0";
+        /// <summary>
+        /// Whether this is the first time the software runs on this computer.
+        /// </summary>
+        public static bool FirstTime = false;
 
         /// <summary>
         /// Initializes the static variables and loads the Registry.
@@ -43,6 +52,9 @@ namespace Timotheus
             CultureInfo.CurrentUICulture = Culture;
 
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
+
+            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Version = version[0..^2];
         }
 
         /// <summary>
@@ -72,7 +84,10 @@ namespace Timotheus
         private static void SecureFile(string directory, string fileName)
         {
             if (!Directory.Exists(directory))
+            {
+                FirstTime = true;
                 Directory.CreateDirectory(directory);
+            }
             if (!File.Exists(directory + "/" + fileName))
                 File.Create(directory + "/" + fileName).Close();
         }

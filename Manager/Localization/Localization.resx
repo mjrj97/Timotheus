@@ -288,6 +288,24 @@
   <data name="Exception_WrongPassword" xml:space="preserve">
     <value>Wrong password</value>
   </data>
+  <data name="FirstTime_1P" xml:space="preserve">
+    <value>Timotheus is a program which seeks to help assocations with their calendar, file sharing, and hopefully a lot more in the future!</value>
+  </data>
+  <data name="FirstTime_2P" xml:space="preserve">
+    <value>The program uses a key file (.tkey) to connect all these services by storing usernames, passwords etc. in a encrypted file.</value>
+  </data>
+  <data name="FirstTime_3P" xml:space="preserve">
+    <value>How do you want to start?</value>
+  </data>
+  <data name="FirstTime_Welcome" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="FirstTime_With" xml:space="preserve">
+    <value>With key</value>
+  </data>
+  <data name="FirstTime_Without" xml:space="preserve">
+    <value>Without key</value>
+  </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
@@ -378,11 +396,17 @@
   <data name="PDF_Welcome" xml:space="preserve">
     <value>Welcome to</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="Settings_AddressLabel" xml:space="preserve">
     <value>Address</value>
   </data>
   <data name="Settings_BrowseButton" xml:space="preserve">
     <value>Browse</value>
+  </data>
+  <data name="Settings_InfoBox" xml:space="preserve">
+    <value>Association information</value>
   </data>
   <data name="Settings_LogoLabel" xml:space="preserve">
     <value>Logo</value>
@@ -390,11 +414,8 @@
   <data name="Settings_NameLabel" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="Settings_Page" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="Settins_InfoBox" xml:space="preserve">
-    <value>Association information</value>
+  <data name="Settings_Program" xml:space="preserve">
+    <value>Program settings</value>
   </data>
   <data name="SFTPSetup" xml:space="preserve">
     <value>Setup</value>
@@ -423,11 +444,29 @@
   <data name="SFTPSetup_UsernameLabel" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="SFTP_ChangedLocal" xml:space="preserve">
+    <value>Changes need to be uploaded</value>
+  </data>
+  <data name="SFTP_ChangedRemote" xml:space="preserve">
+    <value>Changes need to be downloaded</value>
+  </data>
+  <data name="SFTP_DeleteLocal" xml:space="preserve">
+    <value>Deleted on computer</value>
+  </data>
+  <data name="SFTP_DeleteRemote" xml:space="preserve">
+    <value>Deleted on server</value>
+  </data>
   <data name="SFTP_GoUpButton" xml:space="preserve">
     <value>Go back</value>
   </data>
   <data name="SFTP_NameColumn" xml:space="preserve">
     <value>File name</value>
+  </data>
+  <data name="SFTP_NewLocal" xml:space="preserve">
+    <value>Needs to be uploaded</value>
+  </data>
+  <data name="SFTP_NewRemote" xml:space="preserve">
+    <value>Needs to be downloaded</value>
   </data>
   <data name="SFTP_Page" xml:space="preserve">
     <value>Files</value>

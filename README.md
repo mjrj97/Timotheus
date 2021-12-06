@@ -6,7 +6,8 @@ The purpose of this project is to create software that can manage a small associ
 - [X] Platform-Independent (Windows, macOS, Linux)
 - [X] Calendar/Schedule editor
 - [X] Syncing calendars using the CalDAV protocol
-- [ ] Managing GDPR consent forms and member directory
+- [ ] Managing GDPR consent forms
+- [ ] Membership managment
 - [X] SFTP-based storage
 - [X] Password manager
 - [ ] Encryption of stored data
@@ -31,7 +32,8 @@ Formålet med dette projekt er at udvikle software, der kan behandle en lille fo
 - [X] Platformsuafhængighed (Windows, macOS, Linux)
 - [X] Kalender/tidsplan redigeringsværktøj
 - [X] Kalender synkronisering med CalDAV protokollen
-- [ ] Administration af GDPR samtykkeerklæringer og medlemslister
+- [ ] Administration af GDPR samtykkeerklæringer
+- [ ] Medlemslister
 - [X] SFTP baseret fildeling/filopbevaring
 - [X] Adgangskode opbevaring
 - [ ] Kryptering af lagret data

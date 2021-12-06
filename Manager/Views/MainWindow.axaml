@@ -1,0 +1,143 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i18n="clr-namespace:Timotheus.Localization"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Timotheus.Views.MainWindow"
+        Title="Timotheus" CanResize="True" Background="#ffffff">
+  <DockPanel>
+    <DockPanel DockPanel.Dock="Top">
+      <Menu DockPanel.Dock="Top">
+        <MenuItem>
+			<MenuItem.Header>
+				<DockPanel>
+					<Image Source="/Resources/File.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
+					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_File}" VerticalAlignment="Center"/>
+				</DockPanel>
+			</MenuItem.Header>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_NewFile}" Click="NewProject_Click"/>
+            <Separator/>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}" Click="SaveCalendar_Click"/>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_OpenFile}" Click="OpenCalendar_Click"/>
+        </MenuItem>
+        <MenuItem>
+			<MenuItem.Header>
+				<DockPanel>
+					<Image Source="/Resources/Key.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
+					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_Key}" VerticalAlignment="Center"/>
+				</DockPanel>
+			</MenuItem.Header>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveKey}" Click="SaveKey_Click"/>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_LoadKey}" Click="OpenKey_Click"/>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditKey}" Click="EditKey_Click"/>
+        </MenuItem>
+		<MenuItem Click="Settings_Click">
+			<MenuItem.Header>
+				<DockPanel>
+					<Image Source="/Resources/Settings.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
+					<TextBlock Text="{x:Static i18n:Localization.Settings}" VerticalAlignment="Center"/>
+				</DockPanel>
+			</MenuItem.Header>
+		</MenuItem>
+        <MenuItem Click="Help_Click">
+			<MenuItem.Header>
+				<DockPanel>
+					<Image Source="/Resources/Help.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
+					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_Help}" VerticalAlignment="Center"/>
+				</DockPanel>
+			</MenuItem.Header>
+	    </MenuItem>
+      </Menu>
+    </DockPanel>
+    <TabControl>
+      <TabItem>
+        <TabItem.Header>
+          <DockPanel Margin="5">
+            <Image Source="/Resources/Calendar.png" Height="32" VerticalAlignment="Center"/>
+            <TextBlock Text="{x:Static i18n:Localization.Calendar_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
+          </DockPanel>
+        </TabItem.Header>
+        <DockPanel>
+          <DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
+            <Button Name="-" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">←</Button>
+            <TextBox Width="150" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding PeriodText}" KeyDown="Period_KeyDown"/>
+            <Button Name="+" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 30 0">→</Button>
+            <ComboBox SelectedIndex="{Binding SelectedPeriod}">
+              <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_AllButton}"/>
+              <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_YearButton}"/>
+              <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_HalfYearButton}"/>
+              <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_MonthButton}"/>
+            </ComboBox>
+          </DockPanel>
+          <DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch">
+            <Button Content="{x:Static i18n:Localization.Calendar_ExportButton}" Click="ExportPDF_Click" DockPanel.Dock="Right"/>
+            <Button Content="{x:Static i18n:Localization.Calendar_SyncButton}" Click="SyncCalendar_Click" DockPanel.Dock="Right" Margin="0 0 10 0"/>
+            <Button Content="{x:Static i18n:Localization.Calendar_AddButton}" Click="AddEvent_Click" DockPanel.Dock="Left"/>
+          </DockPanel>
+          <Border Classes="t1" Padding="4" DockPanel.Dock="Bottom">
+            <DataGrid Items="{Binding Events}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible">
+              <DataGrid.Columns>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding Start}" SortMemberPath="StartSort" CanUserSort="True" CanUserResize="True"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding End}" SortMemberPath="EndSort" CanUserSort="True" CanUserResize="True"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_NameColumn}" Width="*" Binding="{Binding Name}" CanUserResize="True"/>
+
+                <DataGridTemplateColumn Header="{x:Static i18n:Localization.Calendar_DescriptionColumn}" Width="*" CanUserResize="True">
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <TextBox Text="{Binding Description}" AcceptsReturn="True" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_LocationColumn}" Width="*" MaxWidth="230" Binding="{Binding Location}" CanUserResize="True"/>
+                
+                <DataGridTemplateColumn>
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <Button Click="RemoveEvent_Click" Margin="5">X</Button>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+              </DataGrid.Columns>
+            </DataGrid>
+          </Border>
+        </DockPanel>
+      </TabItem>
+      <TabItem>
+        <TabItem.Header>
+          <DockPanel Margin="5">
+            <Image Source="/Resources/Folder.png" Height="32" VerticalAlignment="Center"/>
+            <TextBlock Text="{x:Static i18n:Localization.SFTP_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
+          </DockPanel>
+        </TabItem.Header>
+        <DockPanel>
+          <DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch">
+            <Button Content="{x:Static i18n:Localization.SFTP_SetupButton}" Click="SetupFiles_Click" DockPanel.Dock="Right"/>
+            <Button Content="{x:Static i18n:Localization.SFTP_SyncButton}" Click="SyncFiles_Click" DockPanel.Dock="Right" Margin="0 0 10 0"/>
+            <Button Content="{x:Static i18n:Localization.SFTP_GoUpButton}" Click="UpDirectory_Click" DockPanel.Dock="Left"/>
+          </DockPanel>
+          <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
+            <DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
+		      <DataGrid.Columns>
+                <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True">
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <DockPanel Margin="1">
+                        <Image Source="/Resources/Folder.png" IsVisible="{Binding IsDirectory}"/>
+                        <Image Source="/Resources/File.png" IsVisible="{Binding !IsDirectory}"/>
+                      </DockPanel>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
+                <DataGridTextColumn Header="" Width="*" MaxWidth="150" Binding="{Binding HandleText}" IsReadOnly="True"/>
+				<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
+			  </DataGrid.Columns>
+            </DataGrid>
+          </Border>
+        </DockPanel>
+      </TabItem>
+    </TabControl>
+  </DockPanel>
+</Window>
