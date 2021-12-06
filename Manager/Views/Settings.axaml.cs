@@ -1,3 +1,4 @@
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
@@ -69,6 +70,23 @@ namespace Timotheus.Views
         {
             DataContext = this;
             AvaloniaXamlLoader.Load(this);
+        }
+
+        private async void Browse_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new();
+
+            FileDialogFilter imgFilter = new();
+            imgFilter.Extensions.Add("png");
+            imgFilter.Extensions.Add("jpg");
+            imgFilter.Name = "Images (.png, .jpg)";
+
+            openFileDialog.Filters = new();
+            openFileDialog.Filters.Add(imgFilter);
+
+            string[] result = await openFileDialog.ShowAsync(this);
+            if (result != null && result.Length > 0)
+                ImagePath = result[0];
         }
 
         private void Ok_Click(object sender, RoutedEventArgs e)

@@ -85,7 +85,7 @@
                 <DataGridTemplateColumn Header="{x:Static i18n:Localization.Calendar_DescriptionColumn}" Width="*" CanUserResize="True">
                   <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                      <TextBox Text="{Binding Description}" AcceptsReturn="True" Background="Transparent" BorderThickness="0"/>
+                      <TextBox Text="{Binding Description}" AcceptsReturn="True" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
                     </DataTemplate>
                   </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
