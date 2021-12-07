@@ -799,6 +799,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to People.
+        /// </summary>
+        public static string People_Page {
+            get {
+                return ResourceManager.GetString("People_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string Settings {

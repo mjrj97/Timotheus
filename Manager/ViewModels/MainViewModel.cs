@@ -104,6 +104,17 @@ namespace Timotheus.ViewModels
             }
         }
 
+        private ObservableCollection<PersonViewModel> _People = new();
+        public ObservableCollection<PersonViewModel> People
+        {
+            get => _People;
+            set
+            {
+                _People = value;
+                NotifyPropertyChanged(nameof(People));
+            }
+        }
+
         private DirectoryManager _Directory = new();
         /// <summary>
         /// A SFTP object connecting a local and remote directory.

@@ -363,6 +363,9 @@
   <data name="PDF_Welcome" xml:space="preserve">
     <value>Welcome to</value>
   </data>
+  <data name="People_Page" xml:space="preserve">
+    <value>People</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
