@@ -249,29 +249,14 @@ namespace Timotheus.Views
         private async void AddEvent_Click(object sender, RoutedEventArgs e)
         {
             AddEvent dialog = new();
+            dialog.Location = mvm.Keys.Get("Settings-Address");
             await dialog.ShowDialog(this);
 
             if (dialog.DialogResult == DialogResult.OK)
             {
                 try
                 {
-                    DateTime Start = new(int.Parse(dialog.StartYear), dialog.StartMonth + 1, int.Parse(dialog.StartDay));
-                    DateTime End = new(int.Parse(dialog.EndYear), dialog.EndMonth + 1, int.Parse(dialog.EndDay));
-
-                    if (!dialog.AllDayEvent)
-                    {
-                        int hour, minute;
-
-                        hour = int.Parse(dialog.StartTime.Substring(0, -3 + dialog.StartTime.Length));
-                        minute = int.Parse(dialog.StartTime.Substring(-2 + dialog.StartTime.Length, 2));
-                        Start = Start.AddMinutes(minute + hour * 60);
-
-                        hour = int.Parse(dialog.EndTime.Substring(0, -3 + dialog.EndTime.Length));
-                        minute = int.Parse(dialog.EndTime.Substring(-2 + dialog.EndTime.Length, 2));
-                        End = End.AddMinutes(minute + hour * 60);
-                    }
-
-                    mvm.Calendar.Events.Add(new Event(Start, End, dialog.EventName, dialog.Description, dialog.Location, string.Empty));
+                    mvm.Calendar.Events.Add(new Event(dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location, string.Empty));
                     mvm.UpdateCalendarTable();
                 }
                 catch (Exception ex)
@@ -286,7 +271,7 @@ namespace Timotheus.Views
         /// </summary>
         private void RemoveEvent_Click(object sender, RoutedEventArgs e)
         {
-            Event ev = (Event)((Button)e.Source).DataContext;
+            EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
             if (ev != null)
             {
                 mvm.Remove(ev);

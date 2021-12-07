@@ -19,7 +19,7 @@ namespace Timotheus.Localization {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Localization {
@@ -169,33 +169,6 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to April.
-        /// </summary>
-        public static string Calendar_April {
-            get {
-                return ResourceManager.GetString("Calendar_April", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to August.
-        /// </summary>
-        public static string Calendar_August {
-            get {
-                return ResourceManager.GetString("Calendar_August", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to December.
-        /// </summary>
-        public static string Calendar_December {
-            get {
-                return ResourceManager.GetString("Calendar_December", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Calendar_DescriptionColumn {
@@ -232,15 +205,6 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to February.
-        /// </summary>
-        public static string Calendar_February {
-            get {
-                return ResourceManager.GetString("Calendar_February", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Half-year.
         /// </summary>
         public static string Calendar_HalfYearButton {
@@ -250,56 +214,11 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to January.
-        /// </summary>
-        public static string Calendar_January {
-            get {
-                return ResourceManager.GetString("Calendar_January", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to July.
-        /// </summary>
-        public static string Calendar_July {
-            get {
-                return ResourceManager.GetString("Calendar_July", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to June.
-        /// </summary>
-        public static string Calendar_June {
-            get {
-                return ResourceManager.GetString("Calendar_June", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Location.
         /// </summary>
         public static string Calendar_LocationColumn {
             get {
                 return ResourceManager.GetString("Calendar_LocationColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to March.
-        /// </summary>
-        public static string Calendar_March {
-            get {
-                return ResourceManager.GetString("Calendar_March", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to May.
-        /// </summary>
-        public static string Calendar_May {
-            get {
-                return ResourceManager.GetString("Calendar_May", resourceCulture);
             }
         }
         
@@ -322,38 +241,11 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to November.
-        /// </summary>
-        public static string Calendar_November {
-            get {
-                return ResourceManager.GetString("Calendar_November", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to October.
-        /// </summary>
-        public static string Calendar_October {
-            get {
-                return ResourceManager.GetString("Calendar_October", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Calendar.
         /// </summary>
         public static string Calendar_Page {
             get {
                 return ResourceManager.GetString("Calendar_Page", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to September.
-        /// </summary>
-        public static string Calendar_September {
-            get {
-                return ResourceManager.GetString("Calendar_September", resourceCulture);
             }
         }
         
@@ -462,6 +354,15 @@ namespace Timotheus.Localization {
         public static string Exception_EmptyName {
             get {
                 return ResourceManager.GetString("Exception_EmptyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End date cannot be before the start date..
+        /// </summary>
+        public static string Exception_EndBeforeStart {
+            get {
+                return ResourceManager.GetString("Exception_EndBeforeStart", resourceCulture);
             }
         }
         

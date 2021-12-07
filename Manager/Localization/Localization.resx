@@ -153,15 +153,6 @@
   <data name="Calendar_AllButton" xml:space="preserve">
     <value>All</value>
   </data>
-  <data name="Calendar_April" xml:space="preserve">
-    <value>April</value>
-  </data>
-  <data name="Calendar_August" xml:space="preserve">
-    <value>August</value>
-  </data>
-  <data name="Calendar_December" xml:space="preserve">
-    <value>December</value>
-  </data>
   <data name="Calendar_DescriptionColumn" xml:space="preserve">
     <value>Description</value>
   </data>
@@ -174,29 +165,11 @@
   <data name="Calendar_Fall" xml:space="preserve">
     <value>Fall</value>
   </data>
-  <data name="Calendar_February" xml:space="preserve">
-    <value>February</value>
-  </data>
   <data name="Calendar_HalfYearButton" xml:space="preserve">
     <value>Half-year</value>
   </data>
-  <data name="Calendar_January" xml:space="preserve">
-    <value>January</value>
-  </data>
-  <data name="Calendar_July" xml:space="preserve">
-    <value>July</value>
-  </data>
-  <data name="Calendar_June" xml:space="preserve">
-    <value>June</value>
-  </data>
   <data name="Calendar_LocationColumn" xml:space="preserve">
     <value>Location</value>
-  </data>
-  <data name="Calendar_March" xml:space="preserve">
-    <value>March</value>
-  </data>
-  <data name="Calendar_May" xml:space="preserve">
-    <value>May</value>
   </data>
   <data name="Calendar_MonthButton" xml:space="preserve">
     <value>Month</value>
@@ -204,17 +177,8 @@
   <data name="Calendar_NameColumn" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="Calendar_November" xml:space="preserve">
-    <value>November</value>
-  </data>
-  <data name="Calendar_October" xml:space="preserve">
-    <value>October</value>
-  </data>
   <data name="Calendar_Page" xml:space="preserve">
     <value>Calendar</value>
-  </data>
-  <data name="Calendar_September" xml:space="preserve">
-    <value>September</value>
   </data>
   <data name="Calendar_Spring" xml:space="preserve">
     <value>Spring</value>
@@ -251,6 +215,9 @@
   </data>
   <data name="Exception_EmptyName" xml:space="preserve">
     <value>Name cannot be empty</value>
+  </data>
+  <data name="Exception_EndBeforeStart" xml:space="preserve">
+    <value>End date cannot be before the start date.</value>
   </data>
   <data name="Exception_InvalidCalendar" xml:space="preserve">
     <value>Calendar isn't formatted correctly</value>
