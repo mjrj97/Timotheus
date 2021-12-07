@@ -16,42 +16,16 @@
       <DockPanel Margin="0 10" DockPanel.Dock="Top">
         <TextBlock Text="{x:Static i18n:Localization.AddEvent_StartLabel}" Width="70" VerticalAlignment="Center"/>
         <TextBox Width="60" Watermark="00:00" Text="{Binding StartTime}" IsEnabled="{Binding !AllDayEvent}"/>
-        <TextBox Margin="10 0 0 0" Watermark="1" Text="{Binding StartDay}"/>
-        <ComboBox Width="125" SelectedIndex="{Binding StartMonth}">
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_January}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_February}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_March}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_April}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_May}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_June}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_July}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_August}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_September}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_October}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_November}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_December}"/>
-        </ComboBox>
-        <TextBox Watermark="2021" Text="{Binding StartYear}"/>
+        <ComboBox Margin="10 0 0 0" Items="{Binding StartDays}" SelectedIndex="{Binding StartDay}"/>
+		<ComboBox Width="125" Items="{Binding Months}" SelectedIndex="{Binding StartMonth}"/>
+        <TextBox Watermark="2021" Text="{Binding StartYear}" KeyUp="FixStartYear"/>
       </DockPanel>
       <DockPanel DockPanel.Dock="Top">
         <TextBlock Text="{x:Static i18n:Localization.AddEvent_EndLabel}" Width="70" VerticalAlignment="Center"/>
         <TextBox Width="60" Watermark="00:00" Text="{Binding EndTime}" IsEnabled="{Binding !AllDayEvent}"/>
-        <TextBox Margin="10 0 0 0" Watermark="1" Text="{Binding EndDay}"/>
-        <ComboBox Width="125" SelectedIndex="{Binding EndMonth}">
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_January}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_February}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_March}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_April}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_May}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_June}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_July}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_August}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_September}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_October}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_November}"/>
-          <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_December}"/>
-        </ComboBox>
-        <TextBox Watermark="2021" Text="{Binding EndYear}"/>
+		<ComboBox Margin="10 0 0 0" Items="{Binding EndDays}" SelectedIndex="{Binding EndDay}"/>
+		<ComboBox Width="125" Items="{Binding Months}" SelectedIndex="{Binding EndMonth}"/>
+        <TextBox Watermark="2021" Text="{Binding EndYear}" KeyUp="FixEndYear"/>
       </DockPanel>
       <DockPanel DockPanel.Dock="Top">
         <CheckBox Margin="70 10 0 10" Content="All day event" IsChecked="{Binding AllDayEvent}"/>

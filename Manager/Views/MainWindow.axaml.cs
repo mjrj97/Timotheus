@@ -249,14 +249,15 @@ namespace Timotheus.Views
         private async void AddEvent_Click(object sender, RoutedEventArgs e)
         {
             AddEvent dialog = new();
+            dialog.Location = mvm.Keys.Get("Settings-Address");
             await dialog.ShowDialog(this);
 
             if (dialog.DialogResult == DialogResult.OK)
             {
                 try
                 {
-                    DateTime Start = new(int.Parse(dialog.StartYear), dialog.StartMonth + 1, int.Parse(dialog.StartDay));
-                    DateTime End = new(int.Parse(dialog.EndYear), dialog.EndMonth + 1, int.Parse(dialog.EndDay));
+                    DateTime Start = dialog.Start.Date;
+                    DateTime End = dialog.End.Date;
 
                     if (!dialog.AllDayEvent)
                     {
@@ -286,7 +287,7 @@ namespace Timotheus.Views
         /// </summary>
         private void RemoveEvent_Click(object sender, RoutedEventArgs e)
         {
-            Event ev = (Event)((Button)e.Source).DataContext;
+            EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
             if (ev != null)
             {
                 mvm.Remove(ev);

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Timotheus.IO;
 using Timotheus.Schedule;
-using Renci.SshNet.Sftp;
 
 namespace Timotheus.ViewModels
 {
@@ -176,7 +175,7 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// Removes the event from list.
         /// </summary>
-        public void Remove(Event ev) {
+        public void Remove(EventViewModel ev) {
             ev.Deleted = true;
             UpdateCalendarTable();
         }

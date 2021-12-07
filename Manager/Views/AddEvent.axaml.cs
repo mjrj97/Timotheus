@@ -1,6 +1,11 @@
-﻿using Avalonia.Interactivity;
+﻿using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using Timotheus.Utility;
 
 namespace Timotheus.Views
@@ -17,8 +22,37 @@ namespace Timotheus.Views
             set { _EventName = value; }
         }
 
-        #region Start
-        private string _StartTime = DateTime.Now.ToString("t");
+        private DateTime _Start = DateTime.Now;
+        public DateTime Start
+        {
+            get
+            {
+                return _Start;
+            }
+            set
+            {
+                _Start = value;
+            }
+        }
+
+        private DateTime _End = DateTime.Now.AddMinutes(90);
+        public DateTime End
+        {
+            get
+            {
+                return _End;
+            }
+            set
+            {
+                _End = value;
+            }
+        }
+
+        public List<string> Months { get; set; }
+        public List<int> StartDays { get; set; }
+        public List<int> EndDays { get; set; }
+
+        private string _StartTime;
         /// <summary>
         /// Start time of the event. Has the format HH:mm.
         /// </summary>
@@ -28,41 +62,60 @@ namespace Timotheus.Views
             set { _StartTime = value; }
         }
 
-        private string _StartDay = DateTime.Now.Day.ToString();
-        /// <summary>
-        /// Start day of the event.
-        /// </summary>
-        public string StartDay
+        private int StartDay
         {
-            get { return _StartDay; }
-            set { _StartDay = value; }
+            get
+            {
+                return Start.Day - 1;
+            }
+            set
+            {
+                if (value == -1)
+                {
+                    Start = new DateTime(Start.Year, Start.Month, Start.Day, Start.Hour, Start.Minute, Start.Second);
+                }
+                else
+                {
+                    try
+                    {
+                        Start = new DateTime(Start.Year, Start.Month, value + 1, Start.Hour, Start.Minute, Start.Second);
+                    }
+                    catch (Exception)
+                    {
+                        Start = new DateTime(Start.Year, Start.Month, 1, Start.Hour, Start.Minute, Start.Second);
+                    }
+                }
+            }
         }
 
-        private int _StartMonth = DateTime.Now.Month - 1;
-        /// <summary>
-        /// Start month of the event.
-        /// </summary>
-        public int StartMonth
+        private int StartMonth
         {
-            get { return _StartMonth; }
-            set { _StartMonth = value; }
+            get
+            {
+                return Start.Month - 1;
+            }
+            set
+            {
+                Start = new DateTime(Start.Year, value+1, Start.Day, Start.Hour, Start.Minute, Start.Second);
+            }
         }
 
-        private string _StartYear = DateTime.Now.Year.ToString();
-        /// <summary>
-        /// Start year of the event.
-        /// </summary>
-        public string StartYear
+        private int StartYear
         {
-            get { return _StartYear; }
-            set { _StartYear = value; }
+            get
+            {
+                return Start.Year;
+            }
+            set
+            {
+                if (value <= 9999)
+                    Start = new DateTime(value, Start.Month, Start.Day, Start.Hour, Start.Minute, Start.Second);
+            }
         }
-        #endregion
 
-        #region End
-        private string _EndTime = DateTime.Now.AddMinutes(90).ToString("t");
+        private string _EndTime;
         /// <summary>
-        /// End time of the event. Has the format HH:mm.
+        /// Start time of the event. Has the format HH:mm.
         /// </summary>
         public string EndTime
         {
@@ -70,36 +123,44 @@ namespace Timotheus.Views
             set { _EndTime = value; }
         }
 
-        private string _EndDay = DateTime.Now.AddMinutes(90).Day.ToString();
-        /// <summary>
-        /// End day of the event.
-        /// </summary>
-        public string EndDay
+        private int EndDay
         {
-            get { return _EndDay; }
-            set { _EndDay = value; }
+            get
+            {
+                return End.Day - 1;
+            }
+            set
+            {
+                if (value == -1)
+                    value = Start.Day;
+                End = new DateTime(End.Year, End.Month, value + 1, End.Hour, End.Minute, End.Second);
+            }
         }
 
-        private int _EndMonth = DateTime.Now.AddMinutes(90).Month - 1;
-        /// <summary>
-        /// End month of the event.
-        /// </summary>
-        public int EndMonth
+        private int EndMonth
         {
-            get { return _EndMonth; }
-            set { _EndMonth = value; }
+            get
+            {
+                return End.Month - 1;
+            }
+            set
+            {
+                End = new DateTime(End.Year, value + 1, End.Day, End.Hour, End.Minute, End.Second);
+            }
         }
 
-        private string _EndYear = DateTime.Now.AddMinutes(90).Year.ToString();
-        /// <summary>
-        /// End year of the event.
-        /// </summary>
-        public string EndYear
+        private int EndYear
         {
-            get { return _EndYear; }
-            set { _EndYear = value; }
+            get
+            {
+                return End.Year;
+            }
+            set
+            {
+                if (value <= 9999)
+                    End = new DateTime(value, End.Month, End.Day, End.Hour, End.Minute, End.Second);
+            }
         }
-        #endregion
 
         private bool _AllDayEvent = false;
         /// <summary>
@@ -122,7 +183,11 @@ namespace Timotheus.Views
         public string Location
         {
             get { return _Location; }
-            set { _Location = value; }
+            set 
+            { 
+                _Location = value;
+                NotifyPropertyChanged(nameof(Location));
+            }
         }
 
         private string _Description = string.Empty;
@@ -154,8 +219,32 @@ namespace Timotheus.Views
         /// </summary>
         public AddEvent()
         {
+            StartTime = Start.ToString("t");
+            EndTime = End.ToString("t");
+
+            string[] months = DateTimeFormatInfo.CurrentInfo.MonthNames;
+            Months = new List<string>();
+            for (int i = 0; i < months.Length - 1; i++) { Months.Add(months[i]); }
+
+            StartDays = GetDays(Start.Month, Start.Year);
+            EndDays = GetDays(End.Month, End.Year);
+
             AvaloniaXamlLoader.Load(this);
             DataContext = this;
+        }
+
+        private static List<int> GetDays(int month, int year)
+        {
+            int i = 1;
+            List<int> numbers = new();
+            DateTime time = new(year, month, i);
+            while (time.Month == month)
+            {
+                time = time.AddDays(1);
+                numbers.Add(i);
+                i++;
+            }
+            return numbers;
         }
 
         /// <summary>
@@ -182,6 +271,30 @@ namespace Timotheus.Views
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+        }
+
+        private void FixStartYear(object sender, KeyEventArgs e)
+        {
+            string text = ((TextBox)sender).Text;
+            try
+            {
+                Regex regexObj = new(@"[^\d]");
+                ((TextBox)sender).Text = regexObj.Replace(text, "");
+                NotifyPropertyChanged(nameof(StartYear));
+            }
+            catch (ArgumentException) { }
+        }
+
+        private void FixEndYear(object sender, KeyEventArgs e)
+        {
+            string text = ((TextBox)sender).Text;
+            try
+            {
+                Regex regexObj = new(@"[^\d]");
+                ((TextBox)sender).Text = regexObj.Replace(text, "");
+                NotifyPropertyChanged(nameof(EndYear));
+            }
+            catch (ArgumentException){}
         }
     }
 }

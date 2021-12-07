@@ -5,6 +5,8 @@ using System.Text;
 using System.Reflection;
 using System.Globalization;
 using Timotheus.IO;
+using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace Timotheus
 {
@@ -70,10 +72,28 @@ namespace Timotheus
         /// </summary>
         private static void SaveRegistry()
         {
-            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
-            string fileName = "Registry.ini";
-            SecureFile(directory, fileName);
-            Registry.Save(directory + "/" + fileName);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus", true);
+
+                if (key == null)
+                    key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus");
+
+                List<Key> keys = Registry.Keys();
+                for (int i = 0; i < keys.Count; i++)
+                {
+                    key.SetValue(keys[i].name, keys[i].value);
+                }
+
+                key.Close();
+            }
+            else
+            {
+                string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+                string fileName = "Registry.ini";
+                SecureFile(directory, fileName);
+                Registry.Save(directory + "/" + fileName);
+            }
         }
 
         /// <summary>
@@ -97,10 +117,32 @@ namespace Timotheus
         /// </summary>
         private static void LoadRegistry()
         {
-            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
-            string fileName = "Registry.ini";
-            SecureFile(directory, fileName);
-            Registry = new Register(directory + "/" + fileName, ':');
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Registry = new();
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus");
+
+                if (key != null)
+                {
+                    string[] names = key.GetValueNames();
+                    for (int i = 0; i < names.Length; i++)
+                    {
+                        string value = Convert.ToString(key.GetValue(names[i]));
+                        Registry.Add(names[i], value);
+                    }
+
+                    key.Close();
+                }
+                else
+                    FirstTime = true;
+            }
+            else
+            {
+                string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+                string fileName = "Registry.ini";
+                SecureFile(directory, fileName);
+                Registry = new Register(directory + "/" + fileName, ':');
+            }
         }
     }
 }

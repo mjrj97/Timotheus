@@ -153,12 +153,6 @@
   <data name="Calendar_AllButton" xml:space="preserve">
     <value>Alle</value>
   </data>
-  <data name="Calendar_April" xml:space="preserve">
-    <value>April</value>
-  </data>
-  <data name="Calendar_August" xml:space="preserve">
-    <value>August</value>
-  </data>
   <data name="Calendar_December" xml:space="preserve">
     <value>December</value>
   </data>
@@ -174,29 +168,11 @@
   <data name="Calendar_Fall" xml:space="preserve">
     <value>Efteråret</value>
   </data>
-  <data name="Calendar_February" xml:space="preserve">
-    <value>Februar</value>
-  </data>
   <data name="Calendar_HalfYearButton" xml:space="preserve">
     <value>Halvår</value>
   </data>
-  <data name="Calendar_January" xml:space="preserve">
-    <value>Januar</value>
-  </data>
-  <data name="Calendar_July" xml:space="preserve">
-    <value>Juli</value>
-  </data>
-  <data name="Calendar_June" xml:space="preserve">
-    <value>Juni</value>
-  </data>
   <data name="Calendar_LocationColumn" xml:space="preserve">
     <value>Adresse</value>
-  </data>
-  <data name="Calendar_March" xml:space="preserve">
-    <value>Marts</value>
-  </data>
-  <data name="Calendar_May" xml:space="preserve">
-    <value>Maj</value>
   </data>
   <data name="Calendar_MonthButton" xml:space="preserve">
     <value>Måned</value>
@@ -204,17 +180,8 @@
   <data name="Calendar_NameColumn" xml:space="preserve">
     <value>Navn</value>
   </data>
-  <data name="Calendar_November" xml:space="preserve">
-    <value>November</value>
-  </data>
-  <data name="Calendar_October" xml:space="preserve">
-    <value>Oktober</value>
-  </data>
   <data name="Calendar_Page" xml:space="preserve">
     <value>Kalender</value>
-  </data>
-  <data name="Calendar_September" xml:space="preserve">
-    <value>September</value>
   </data>
   <data name="Calendar_Spring" xml:space="preserve">
     <value>Foråret</value>
