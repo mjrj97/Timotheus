@@ -219,6 +219,9 @@
   <data name="Exception_EmptyName" xml:space="preserve">
     <value>Navn må ikke være tom</value>
   </data>
+  <data name="Exception_EndBeforeStart" xml:space="preserve">
+    <value>Slut dato kan ikke være før start.</value>
+  </data>
   <data name="Exception_InvalidCalendar" xml:space="preserve">
     <value>Kalender er ikke formateret korrekt</value>
   </data>

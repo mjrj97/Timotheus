@@ -22,45 +22,34 @@ namespace Timotheus.Views
             set { _EventName = value; }
         }
 
-        private DateTime _Start = DateTime.Now;
-        public DateTime Start
-        {
+        private DateTime _Start;
+        public DateTime Start 
+        { 
             get
             {
                 return _Start;
             }
             set
             {
+                TimeSpan span = End - Start;
                 _Start = value;
-            }
-        }
+                End = Start + span;
 
-        private DateTime _End = DateTime.Now.AddMinutes(90);
-        public DateTime End
-        {
-            get
-            {
-                return _End;
-            }
-            set
-            {
-                _End = value;
+                NotifyPropertyChanged(nameof(EndDay));
+                NotifyPropertyChanged(nameof(EndMonth));
+                NotifyPropertyChanged(nameof(EndYear));
             }
         }
+        public DateTime End { get; set; }
 
         public List<string> Months { get; set; }
         public List<int> StartDays { get; set; }
         public List<int> EndDays { get; set; }
 
-        private string _StartTime;
         /// <summary>
         /// Start time of the event. Has the format HH:mm.
         /// </summary>
-        public string StartTime
-        {
-            get { return _StartTime; }
-            set { _StartTime = value; }
-        }
+        public string StartTime { get; set; }
 
         private int StartDay
         {
@@ -72,17 +61,17 @@ namespace Timotheus.Views
             {
                 if (value == -1)
                 {
-                    Start = new DateTime(Start.Year, Start.Month, Start.Day, Start.Hour, Start.Minute, Start.Second);
+                    Start = new DateTime(Start.Year, Start.Month, Start.Day);
                 }
                 else
                 {
                     try
                     {
-                        Start = new DateTime(Start.Year, Start.Month, value + 1, Start.Hour, Start.Minute, Start.Second);
+                        Start = new DateTime(Start.Year, Start.Month, value + 1);
                     }
                     catch (Exception)
                     {
-                        Start = new DateTime(Start.Year, Start.Month, 1, Start.Hour, Start.Minute, Start.Second);
+                        Start = new DateTime(Start.Year, Start.Month, 1);
                     }
                 }
             }
@@ -96,7 +85,13 @@ namespace Timotheus.Views
             }
             set
             {
-                Start = new DateTime(Start.Year, value+1, Start.Day, Start.Hour, Start.Minute, Start.Second);
+                StartDays = GetDays(value + 1, Start.Year);
+                int day = Start.Day;
+                if (day >= StartDays.Count)
+                    day = StartDays.Count;
+                Start = new DateTime(Start.Year, value+1, day);
+                NotifyPropertyChanged(nameof(StartDays));
+                NotifyPropertyChanged(nameof(StartDay));
             }
         }
 
@@ -109,19 +104,14 @@ namespace Timotheus.Views
             set
             {
                 if (value <= 9999)
-                    Start = new DateTime(value, Start.Month, Start.Day, Start.Hour, Start.Minute, Start.Second);
+                    Start = new DateTime(value, Start.Month, Start.Day);
             }
         }
 
-        private string _EndTime;
         /// <summary>
         /// Start time of the event. Has the format HH:mm.
         /// </summary>
-        public string EndTime
-        {
-            get { return _EndTime; }
-            set { _EndTime = value; }
-        }
+        public string EndTime { get; set; }
 
         private int EndDay
         {
@@ -132,8 +122,20 @@ namespace Timotheus.Views
             set
             {
                 if (value == -1)
-                    value = Start.Day;
-                End = new DateTime(End.Year, End.Month, value + 1, End.Hour, End.Minute, End.Second);
+                {
+                    End = new DateTime(End.Year, End.Month, End.Day);
+                }
+                else
+                {
+                    try
+                    {
+                        End = new DateTime(End.Year, End.Month, value + 1);
+                    }
+                    catch (Exception)
+                    {
+                        End = new DateTime(End.Year, End.Month, 1);
+                    }
+                }
             }
         }
 
@@ -145,7 +147,13 @@ namespace Timotheus.Views
             }
             set
             {
-                End = new DateTime(End.Year, value + 1, End.Day, End.Hour, End.Minute, End.Second);
+                EndDays = GetDays(value + 1, End.Year); 
+                int day = End.Day;
+                if (day >= EndDays.Count)
+                    day = EndDays.Count;
+                End = new DateTime(End.Year, value + 1, day);
+                NotifyPropertyChanged(nameof(EndDays));
+                NotifyPropertyChanged(nameof(EndDay));
             }
         }
 
@@ -158,7 +166,7 @@ namespace Timotheus.Views
             set
             {
                 if (value <= 9999)
-                    End = new DateTime(value, End.Month, End.Day, End.Hour, End.Minute, End.Second);
+                    End = new DateTime(value, End.Month, End.Day);
             }
         }
 
@@ -166,7 +174,7 @@ namespace Timotheus.Views
         /// <summary>
         /// Designates whether the Event is an all day event.
         /// </summary>
-        public bool AllDayEvent
+        private bool AllDayEvent
         {
             get => _AllDayEvent;
             set
@@ -219,6 +227,9 @@ namespace Timotheus.Views
         /// </summary>
         public AddEvent()
         {
+            Start = DateTime.Now;
+            End = DateTime.Now.AddMinutes(90);
+
             StartTime = Start.ToString("t");
             EndTime = End.ToString("t");
 
@@ -233,6 +244,9 @@ namespace Timotheus.Views
             DataContext = this;
         }
 
+        /// <summary>
+        /// Returns the list of days in the month.
+        /// </summary>
         private static List<int> GetDays(int month, int year)
         {
             int i = 1;
@@ -256,6 +270,26 @@ namespace Timotheus.Views
             {
                 if (EventName.Trim() == string.Empty)
                     throw new Exception(Localization.Localization.Exception_EmptyName);
+                if (End < Start)
+                    throw new Exception(Localization.Localization.Exception_EndBeforeStart);
+
+                Start = Start.Date;
+                End = End.Date;
+
+                if (!AllDayEvent)
+                {
+                    int hour, minute;
+
+                    hour = int.Parse(StartTime[..(-3 + StartTime.Length)]);
+                    minute = int.Parse(StartTime.Substring(-2 + StartTime.Length, 2));
+                    Start = Start.Date.AddMinutes(minute + hour * 60);
+
+                    hour = int.Parse(EndTime[..(-3 + EndTime.Length)]);
+                    minute = int.Parse(EndTime.Substring(-2 + EndTime.Length, 2));
+                    End = End.Date.AddMinutes(minute + hour * 60);
+                }
+                else
+                    End = End.AddDays(1);
 
                 DialogResult = DialogResult.OK;
             }
@@ -273,7 +307,26 @@ namespace Timotheus.Views
             DialogResult = DialogResult.Cancel;
         }
 
-        private void FixStartYear(object sender, KeyEventArgs e)
+        /// <summary>
+        /// Makes sure that the year fields only contain numbers.
+        /// </summary>
+        private void FixTime(object sender, KeyEventArgs e)
+        {
+            string text = ((TextBox)sender).Text;
+            try
+            {
+                Regex regexObj = new(@"[^\d&&:&&.]");
+                ((TextBox)sender).Text = regexObj.Replace(text, "");
+                NotifyPropertyChanged(nameof(StartTime));
+                NotifyPropertyChanged(nameof(EndTime));
+            }
+            catch (ArgumentException) { }
+        }
+
+        /// <summary>
+        /// Makes sure that the year fields only contain numbers.
+        /// </summary>
+        private void FixYear(object sender, KeyEventArgs e)
         {
             string text = ((TextBox)sender).Text;
             try
@@ -281,20 +334,9 @@ namespace Timotheus.Views
                 Regex regexObj = new(@"[^\d]");
                 ((TextBox)sender).Text = regexObj.Replace(text, "");
                 NotifyPropertyChanged(nameof(StartYear));
-            }
-            catch (ArgumentException) { }
-        }
-
-        private void FixEndYear(object sender, KeyEventArgs e)
-        {
-            string text = ((TextBox)sender).Text;
-            try
-            {
-                Regex regexObj = new(@"[^\d]");
-                ((TextBox)sender).Text = regexObj.Replace(text, "");
                 NotifyPropertyChanged(nameof(EndYear));
             }
-            catch (ArgumentException){}
+            catch (ArgumentException) { }
         }
     }
 }

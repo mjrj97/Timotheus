@@ -256,23 +256,7 @@ namespace Timotheus.Views
             {
                 try
                 {
-                    DateTime Start = dialog.Start.Date;
-                    DateTime End = dialog.End.Date;
-
-                    if (!dialog.AllDayEvent)
-                    {
-                        int hour, minute;
-
-                        hour = int.Parse(dialog.StartTime.Substring(0, -3 + dialog.StartTime.Length));
-                        minute = int.Parse(dialog.StartTime.Substring(-2 + dialog.StartTime.Length, 2));
-                        Start = Start.AddMinutes(minute + hour * 60);
-
-                        hour = int.Parse(dialog.EndTime.Substring(0, -3 + dialog.EndTime.Length));
-                        minute = int.Parse(dialog.EndTime.Substring(-2 + dialog.EndTime.Length, 2));
-                        End = End.AddMinutes(minute + hour * 60);
-                    }
-
-                    mvm.Calendar.Events.Add(new Event(Start, End, dialog.EventName, dialog.Description, dialog.Location, string.Empty));
+                    mvm.Calendar.Events.Add(new Event(dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location, string.Empty));
                     mvm.UpdateCalendarTable();
                 }
                 catch (Exception ex)

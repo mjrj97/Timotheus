@@ -216,6 +216,9 @@
   <data name="Exception_EmptyName" xml:space="preserve">
     <value>Name cannot be empty</value>
   </data>
+  <data name="Exception_EndBeforeStart" xml:space="preserve">
+    <value>End date cannot be before the start date.</value>
+  </data>
   <data name="Exception_InvalidCalendar" xml:space="preserve">
     <value>Calendar isn't formatted correctly</value>
   </data>

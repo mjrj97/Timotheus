@@ -358,6 +358,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End date cannot be before the start date..
+        /// </summary>
+        public static string Exception_EndBeforeStart {
+            get {
+                return ResourceManager.GetString("Exception_EndBeforeStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calendar isn&apos;t formatted correctly.
         /// </summary>
         public static string Exception_InvalidCalendar {
