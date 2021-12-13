@@ -48,7 +48,6 @@
 				</DockPanel>
 			</MenuItem.Header>
 	    </MenuItem>
-		<MenuItem Click="Test_Click" Header="Test"/>
 	  </Menu>
     </DockPanel>
     <TabControl>

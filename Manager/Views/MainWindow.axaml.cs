@@ -326,11 +326,12 @@ namespace Timotheus.Views
         /// <summary>
         /// Synchronizes the files in the local and remote directory.
         /// </summary>
-        private void SyncFiles_Click(object sender, RoutedEventArgs e)
+        private async void SyncFiles_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                mvm.Directory.Synchronize();
+                ProgressDialog dialog = new();
+                await dialog.ShowDialog(this, mvm.Directory);
                 mvm.GoToDirectory(mvm.Directory.RemotePath);
             }
             catch (Exception ex)
@@ -660,12 +661,6 @@ namespace Timotheus.Views
             msDialog.DialogTitle = title;
             msDialog.DialogText = Message;
             await msDialog.ShowDialog(this);
-        }
-
-        private void Test_Click(object sender, RoutedEventArgs e)
-        {
-            ProgressDialog dialog = new();
-            dialog.Show(this);
         }
     }
 }

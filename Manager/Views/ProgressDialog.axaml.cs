@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Timotheus.Utility;
 
 namespace Timotheus.Views
@@ -22,42 +23,44 @@ namespace Timotheus.Views
             }
         }
 
-        private readonly BackgroundWorker bw;
+        private string _message = "Working...";
+        private string Message
+        {
+            get
+            {
+                return _message;
+            }
+            set
+            {
+                _message = value;
+                NotifyPropertyChanged(nameof(Message));
+            }
+        }
+
+        private BackgroundWorker bw;
 
         public ProgressDialog()
         {
             DataContext = this;
             AvaloniaXamlLoader.Load(this);
+        }
 
-            bw = new();
+        public async Task ShowDialog(Window parent, IProgressible progressible)
+        {
+            bw = progressible.Worker;
             bw.WorkerReportsProgress = true;
             bw.WorkerSupportsCancellation = true;
-            bw.DoWork += DoWork;
             bw.RunWorkerCompleted += Completed;
             bw.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
             bw.RunWorkerAsync();
-        }
 
-        private void DoWork(object sender, DoWorkEventArgs e)
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                if (bw.CancellationPending == true)
-                {
-                    e.Cancel = true;
-                    break;
-                }
-                else
-                {
-                    System.Threading.Thread.Sleep(100);
-                    bw.ReportProgress(i);
-                }
-            }
+            await ShowDialog(parent);
         }
 
         private void ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             Progress = e.ProgressPercentage / 100.0;
+            Message = e.UserState.ToString();
         }
 
         private void Completed(object sender, RunWorkerCompletedEventArgs e)
