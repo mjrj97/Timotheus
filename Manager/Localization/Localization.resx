@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddEvent" xml:space="preserve">
-    <value>Add</value>
+    <value>Add event</value>
   </data>
   <data name="AddEvent_AddButton" xml:space="preserve">
     <value>Add</value>
@@ -160,7 +160,7 @@
     <value>End</value>
   </data>
   <data name="Calendar_ExportButton" xml:space="preserve">
-    <value>Export PDF</value>
+    <value>Export</value>
   </data>
   <data name="Calendar_Fall" xml:space="preserve">
     <value>Fall</value>
@@ -424,7 +424,10 @@
     <value>Deleted on server</value>
   </data>
   <data name="SFTP_GoUpButton" xml:space="preserve">
-    <value>Go back</value>
+    <value>Back</value>
+  </data>
+  <data name="SFTP_Message" xml:space="preserve">
+    <value>Synchronizing</value>
   </data>
   <data name="SFTP_NameColumn" xml:space="preserve">
     <value>File name</value>

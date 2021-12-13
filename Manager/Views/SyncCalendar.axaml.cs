@@ -35,6 +35,7 @@ namespace Timotheus.Views
             {
                 _UseCurrent = value;
                 NotifyPropertyChanged(nameof(UseCurrent));
+                NotifyPropertyChanged(nameof(IsRemote));
             }
         }
 
@@ -63,6 +64,7 @@ namespace Timotheus.Views
             {
                 _SyncAll = value;
                 NotifyPropertyChanged(nameof(SyncAll));
+                NotifyPropertyChanged(nameof(SyncCustomPeriod));
             }
         }
 
@@ -77,6 +79,7 @@ namespace Timotheus.Views
             {
                 _SyncPeriod = value;
                 NotifyPropertyChanged(nameof(SyncPeriod));
+                NotifyPropertyChanged(nameof(SyncCustomPeriod));
             }
         }
 
@@ -119,6 +122,22 @@ namespace Timotheus.Views
             {
                 _Password = value;
                 NotifyPropertyChanged(nameof(Password));
+            }
+        }
+
+        private bool SyncCustomPeriod
+        {
+            get
+            {
+                return !(SyncPeriod || SyncAll);
+            }
+        }
+
+        private bool IsRemote
+        {
+            get
+            {
+                return !(UseCurrent);
             }
         }
 

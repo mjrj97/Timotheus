@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddEvent" xml:space="preserve">
-    <value>Tilføj</value>
+    <value>Tilføj begivenhed</value>
   </data>
   <data name="AddEvent_AddButton" xml:space="preserve">
     <value>Tilføj</value>
@@ -163,7 +163,7 @@
     <value>Slut</value>
   </data>
   <data name="Calendar_ExportButton" xml:space="preserve">
-    <value>Eksport PDF</value>
+    <value>Eksport</value>
   </data>
   <data name="Calendar_Fall" xml:space="preserve">
     <value>Efteråret</value>
@@ -427,7 +427,10 @@
     <value>Slettet på server</value>
   </data>
   <data name="SFTP_GoUpButton" xml:space="preserve">
-    <value>Gå tilbage</value>
+    <value>Tilbage</value>
+  </data>
+  <data name="SFTP_Message" xml:space="preserve">
+    <value>Synkronisere</value>
   </data>
   <data name="SFTP_NameColumn" xml:space="preserve">
     <value>Filnavn</value>

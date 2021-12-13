@@ -49,7 +49,7 @@
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
           <RadioButton Content="{x:Static i18n:Localization.SyncCalendar_CustomCalendarButton}" GroupName="SyncPeriod"/>
         </DockPanel>
-        <DockPanel>
+        <DockPanel IsEnabled="{Binding SyncCustomPeriod}">
           <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
             <DatePicker SelectedDate="{Binding Start}" Width="337"/>
           </DockPanel>
