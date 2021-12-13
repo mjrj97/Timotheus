@@ -304,7 +304,7 @@ namespace Timotheus.IO
         /// <summary>
         /// Synchronize the defined remote and local directories.
         /// </summary>
-        public void Synchronize(object sender, DoWorkEventArgs e)
+        private void Synchronize(object sender, DoWorkEventArgs e)
         {
             if (client != null)
                 Synchronize(RemotePath, LocalPath);

@@ -61,7 +61,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add.
+        ///   Looks up a localized string similar to Add event.
         /// </summary>
         public static string AddEvent {
             get {
@@ -187,7 +187,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Export PDF.
+        ///   Looks up a localized string similar to Export.
         /// </summary>
         public static string Calendar_ExportButton {
             get {
@@ -898,11 +898,20 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Go back.
+        ///   Looks up a localized string similar to Back.
         /// </summary>
         public static string SFTP_GoUpButton {
             get {
                 return ResourceManager.GetString("SFTP_GoUpButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synchronizing.
+        /// </summary>
+        public static string SFTP_Message {
+            get {
+                return ResourceManager.GetString("SFTP_Message", resourceCulture);
             }
         }
         

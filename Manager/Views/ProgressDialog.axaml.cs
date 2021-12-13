@@ -23,7 +23,7 @@ namespace Timotheus.Views
             }
         }
 
-        private string _message = "Working...";
+        private string _message = Localization.Localization.SFTP_Message;
         private string Message
         {
             get

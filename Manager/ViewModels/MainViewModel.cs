@@ -121,10 +121,22 @@ namespace Timotheus.ViewModels
             }
         }
 
+        private string _currentDirectory = string.Empty;
         /// <summary>
         /// The directory currently being shown.
         /// </summary>
-        private string currentDirectory = string.Empty;
+        public string CurrentDirectory
+        {
+            get
+            {
+                return _currentDirectory;
+            }
+            set
+            {
+                _currentDirectory = value;
+                NotifyPropertyChanged(nameof(CurrentDirectory));
+            }
+        }
 
         public MainViewModel() {
             calendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
@@ -185,13 +197,13 @@ namespace Timotheus.ViewModels
         /// </summary>
         public void GoUpDirectory()
         {
-            GoToDirectory(Path.GetDirectoryName(currentDirectory) + "/");
+            GoToDirectory(Path.GetDirectoryName(CurrentDirectory) + "/");
         }
 
         public void GoToDirectory(string path)
         {
-            currentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));
-            List<DirectoryFile> files = Directory.GetFiles(currentDirectory);
+            CurrentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));
+            List<DirectoryFile> files = Directory.GetFiles(CurrentDirectory);
             List<FileViewModel> viewFiles = new();
             for (int i = 0; i < files.Count; i++)
             {

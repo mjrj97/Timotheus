@@ -60,21 +60,40 @@
         </TabItem.Header>
         <DockPanel>
           <DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-            <Button Name="-" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">←</Button>
+            <Button Name="-" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">
+				<Image Source="/Resources/Left.png" Height="20" VerticalAlignment="Center"/>
+			</Button>
             <TextBox Width="150" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding PeriodText}" KeyDown="Period_KeyDown"/>
-            <Button Name="+" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 30 0">→</Button>
-            <ComboBox SelectedIndex="{Binding SelectedPeriod}">
+            <Button Name="+" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 0 0">
+				<Image Source="/Resources/Right.png" Height="20" VerticalAlignment="Center"/>
+			</Button>
+            <ComboBox SelectedIndex="{Binding SelectedPeriod}" VerticalAlignment="Center" Margin="20 0">
               <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_AllButton}"/>
               <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_YearButton}"/>
               <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_HalfYearButton}"/>
               <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_MonthButton}"/>
             </ComboBox>
-          </DockPanel>
-          <DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch">
-            <Button Content="{x:Static i18n:Localization.Calendar_ExportButton}" Click="ExportPDF_Click" DockPanel.Dock="Right"/>
-            <Button Content="{x:Static i18n:Localization.Calendar_SyncButton}" Click="SyncCalendar_Click" DockPanel.Dock="Right" Margin="0 0 10 0"/>
-            <Button Content="{x:Static i18n:Localization.Calendar_AddButton}" Click="AddEvent_Click" DockPanel.Dock="Left"/>
-          </DockPanel>
+			  <DockPanel HorizontalAlignment="Right">
+				  <Button Click="AddEvent_Click" Height="32">
+					  <DockPanel>
+						  <Image Source="/Resources/Add.png" Height="17" VerticalAlignment="Center"/>
+						  <TextBlock Text="{x:Static i18n:Localization.Calendar_AddButton}" Margin="5 0" VerticalAlignment="Center"/>
+					  </DockPanel>
+				  </Button>
+				  <Button Click="SyncCalendar_Click" Margin="10 0" Height="32">
+					  <DockPanel>
+						  <Image Source="/Resources/Sync.png" Height="23" VerticalAlignment="Center"/>
+						  <TextBlock Text="{x:Static i18n:Localization.Calendar_SyncButton}" Margin="5 0" VerticalAlignment="Center"/>
+					  </DockPanel>
+				  </Button>
+				  <Button Click="ExportPDF_Click" Height="32">
+					  <DockPanel>
+						  <Image Source="/Resources/Export.png" Height="17" VerticalAlignment="Center"/>
+						  <TextBlock Text="{x:Static i18n:Localization.Calendar_ExportButton}" Margin="5 0" VerticalAlignment="Center"/>
+					  </DockPanel>
+				  </Button>
+		      </DockPanel>
+		  </DockPanel>
           <Border Classes="t1" Padding="4" DockPanel.Dock="Bottom">
             <DataGrid Items="{Binding Events}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible">
               <DataGrid.Columns>
@@ -95,7 +114,9 @@
                 <DataGridTemplateColumn>
                   <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                      <Button Click="RemoveEvent_Click" Margin="5">X</Button>
+                      <Button Click="RemoveEvent_Click" Margin="5">
+						  <Image Source="/Resources/Delete.png" Height="20" VerticalAlignment="Center"/>
+					  </Button>
                     </DataTemplate>
                   </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -112,11 +133,29 @@
           </DockPanel>
         </TabItem.Header>
         <DockPanel>
-          <DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch">
-            <Button Content="{x:Static i18n:Localization.SFTP_SetupButton}" Click="SetupFiles_Click" DockPanel.Dock="Right"/>
-            <Button Content="{x:Static i18n:Localization.SFTP_SyncButton}" Click="SyncFiles_Click" DockPanel.Dock="Right" Margin="0 0 10 0"/>
-            <Button Content="{x:Static i18n:Localization.SFTP_GoUpButton}" Click="UpDirectory_Click" DockPanel.Dock="Left"/>
-          </DockPanel>
+          <DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
+			  <Button Click="UpDirectory_Click" Height="32">
+				  <DockPanel>
+					  <Image Source="/Resources/Left.png" Height="17" VerticalAlignment="Center"/>
+					  <TextBlock Text="{x:Static i18n:Localization.SFTP_GoUpButton}" Margin="5 0" VerticalAlignment="Center"/>
+				  </DockPanel>
+			  </Button>
+			  <DockPanel DockPanel.Dock="Right">
+				  <Button Click="SyncFiles_Click" Height="32" Margin="0 0 10 0">
+					  <DockPanel>
+						  <Image Source="/Resources/Sync.png" Height="17" VerticalAlignment="Center"/>
+						  <TextBlock Text="{x:Static i18n:Localization.SFTP_SyncButton}" Margin="5 0" VerticalAlignment="Center"/>
+					  </DockPanel>
+				  </Button>
+				  <Button Click="SetupFiles_Click" Height="32">
+					  <DockPanel>
+						  <Image Source="/Resources/Setup.png" Height="17" VerticalAlignment="Center"/>
+						  <TextBlock Text="{x:Static i18n:Localization.SFTP_SetupButton}" Margin="5 0" VerticalAlignment="Center"/>
+					  </DockPanel>
+				  </Button>
+			  </DockPanel>
+			  <TextBox Text="{Binding CurrentDirectory}" Margin="10 0" IsReadOnly="True"/>
+		  </DockPanel>
           <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
             <DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
 		      <DataGrid.Columns>
