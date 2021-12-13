@@ -661,5 +661,11 @@ namespace Timotheus.Views
             msDialog.DialogText = Message;
             await msDialog.ShowDialog(this);
         }
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+            ProgressDialog dialog = new();
+            dialog.Show(this);
+        }
     }
 }
