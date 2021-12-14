@@ -227,12 +227,16 @@ namespace Timotheus.Views
                         mvm.Keys.Set("Calendar-URL", dialog.URL);
                     }
 
+                    ProgressDialog pDialog = new();
+                    Period syncPeriod;
                     if (dialog.SyncAll)
-                        mvm.Calendar.Sync();
+                        syncPeriod = new Period(DateTime.MinValue, DateTime.MaxValue);
                     else if (dialog.SyncPeriod)
-                        mvm.Calendar.Sync(new Period(mvm.PeriodText));
+                        syncPeriod = new Period(mvm.PeriodText);
                     else
-                        mvm.Calendar.Sync(new Period(dialog.Start, dialog.End.AddDays(1)));
+                        syncPeriod = new Period(dialog.Start, dialog.End.AddDays(1));
+
+                    await pDialog.ShowDialog(this, mvm.Calendar.Sync, syncPeriod);
 
                     mvm.UpdateCalendarTable();
                 }
@@ -331,7 +335,7 @@ namespace Timotheus.Views
             try
             {
                 ProgressDialog dialog = new();
-                await dialog.ShowDialog(this, mvm.Directory);
+                await dialog.ShowDialog(this, mvm.Directory.Sync);
                 mvm.GoToDirectory(mvm.Directory.RemotePath);
             }
             catch (Exception ex)

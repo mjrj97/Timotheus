@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 using System.Collections.Generic;
 using Timotheus.IO;
 using Timotheus.Utility;
@@ -37,12 +38,19 @@ namespace Timotheus.Schedule
         public readonly List<Event> Events;
 
         /// <summary>
+        /// Worker used for synchronizing the calendar in the ProgressDialog.
+        /// </summary>
+        public BackgroundWorker Sync;
+
+        /// <summary>
         /// Creates a Calendar object and pulls calendar data from URL using specified credentials.
         /// </summary>
         public Calendar(string username, string password, string url)
         {
             SetupSync(username, password, url);
             Events = LoadFromLines(HttpRequest(url, credentials));
+            Sync = new();
+            Sync.DoWork += Synchronize;
         }
         /// <summary>
         /// Creates a Calendar object and loads event data from .ics file.
@@ -51,6 +59,8 @@ namespace Timotheus.Schedule
         {
             string[] lines = File.ReadAllLines(path);
             Events = LoadFromLines(lines);
+            Sync = new();
+            Sync.DoWork += Synchronize;
         }
         /// <summary>
         /// Creates an empty Calendar object.
@@ -64,6 +74,8 @@ namespace Timotheus.Schedule
             headers.Add("VERSION", "2.0");
             headers.Add("PRODID", "-//mjrj97//Timotheus//EN");
             headers.Add("X-WR-CALNAME", "Calendar");
+            Sync = new();
+            Sync.DoWork += Synchronize;
         }
 
         /// <summary>
@@ -184,7 +196,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Syncs the events in the time interval from a to b with the remote calendar. (As long as either the start time or end time is in the interval)
         /// </summary>
-        public void Sync(Period period)
+        private void Synchronize(Period period)
         {
             List<Event> remoteEvents = LoadFromLines(HttpRequest(url, credentials));
             bool[] foundLocal = new bool[Events.Count];
@@ -192,57 +204,84 @@ namespace Timotheus.Schedule
 
             for (int i = 0; i < Events.Count; i++)
             {
-                for (int j = 0; j < remoteEvents.Count; j++)
+                if (Sync.CancellationPending == true)
                 {
-                    if (Events[i].UID == remoteEvents[j].UID)
+                    break;
+                }
+                else
+                {
+                    for (int j = 0; j < remoteEvents.Count; j++)
                     {
-                        foundLocal[i] = true;
-                        foundRemote[j] = true;
-
-                        if (Events[i].In(period))
+                        if (Events[i].UID == remoteEvents[j].UID)
                         {
-                            if (Events[i].Deleted)
+                            foundLocal[i] = true;
+                            foundRemote[j] = true;
+
+                            if (Events[i].In(period))
                             {
-                                DeleteEvent(Events[i]);
-                                Events.Remove(Events[i]);
-                            }
-                            else if (!Events[i].Equals(remoteEvents[j]))
-                            {
-                                if (Events[i].Changed >= remoteEvents[j].Changed)
+                                if (Events[i].Deleted)
                                 {
                                     DeleteEvent(Events[i]);
-                                    AddEvent(Events[i]);
+                                    Events.Remove(Events[i]);
                                 }
-                                else
-                                    Events[i].Update(remoteEvents[j]);
+                                else if (!Events[i].Equals(remoteEvents[j]))
+                                {
+                                    if (Events[i].Changed >= remoteEvents[j].Changed)
+                                    {
+                                        DeleteEvent(Events[i]);
+                                        AddEvent(Events[i]);
+                                    }
+                                    else
+                                        Events[i].Update(remoteEvents[j]);
+                                }
                             }
                         }
                     }
+
+                    Sync.ReportProgress((i * 100) / Events.Count, Events[i].Name);
                 }
             }
             for (int i = 0; i < Events.Count; i++)
             {
-                if (Events[i].In(period))
+                if (Sync.CancellationPending == true)
                 {
-                    if (!foundLocal[i])
-                        AddEvent(Events[i]);
+                    break;
+                }
+                else
+                {
+                    if (Events[i].In(period))
+                    {
+                        if (!foundLocal[i])
+                            AddEvent(Events[i]);
+                    }
+
+                    Sync.ReportProgress((i * 100) / Events.Count, Events[i].Name);
                 }
             }
             for (int i = 0; i < remoteEvents.Count; i++)
             {
-                if (remoteEvents[i].In(period))
+                if (Sync.CancellationPending == true)
                 {
-                    if (!foundRemote[i])
-                        Events.Add(remoteEvents[i]);
+                    break;
+                }
+                else
+                {
+                    if (remoteEvents[i].In(period))
+                    {
+                        if (!foundRemote[i])
+                            Events.Add(remoteEvents[i]);
+                    }
+
+                    Sync.ReportProgress((i * 100) / remoteEvents.Count, remoteEvents[i].Name);
                 }
             }
         }
         /// <summary>
-        /// Syncs the entire local calendar with the entire remote calendar server.
+        /// Synchronize the calendar
         /// </summary>
-        public void Sync()
+        private void Synchronize(object sender, DoWorkEventArgs e)
         {
-            Sync(new Period(DateTime.MinValue, DateTime.MaxValue));
+            Synchronize((Period)e.Argument);
         }
 
         /// <summary>
@@ -372,7 +411,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Sends a HTTP request to a URL and returns the response as a string array.
         /// </summary>
-        public static string[] HttpRequest(string url, NetworkCredential credentials, string method = null, byte[] data = null)
+        private static string[] HttpRequest(string url, NetworkCredential credentials, string method = null, byte[] data = null)
         {
             WebRequest request = WebRequest.Create(url);
             request.Credentials = credentials;

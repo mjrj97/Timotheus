@@ -3,7 +3,7 @@ using Timotheus.Schedule;
 
 namespace Timotheus.ViewModels
 {
-    public class EventViewModel
+    public class EventViewModel : ViewModel
     {
         /// <summary>
         /// Event the View Model takes data from.

@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using Timotheus.Utility;
 using System.ComponentModel;
 
 namespace Timotheus.IO
@@ -14,7 +13,7 @@ namespace Timotheus.IO
     /// <summary>
     /// Class that contains SFTP related methods. Uses SSH.NET.
     /// </summary>
-    public class DirectoryManager : IProgressible
+    public class DirectoryManager
     {
         /// <summary>
         /// Client that is connected to the remote directory.
@@ -33,7 +32,7 @@ namespace Timotheus.IO
         /// <summary>
         /// Worker that is used to track the progress of the synchronization.
         /// </summary>
-        public BackgroundWorker Worker { get; private set; }
+        public BackgroundWorker Sync { get; private set; }
 
         /// <summary>
         /// Constructor. Is an object that is tasked with keeping a local and remote directory synced.
@@ -71,8 +70,8 @@ namespace Timotheus.IO
         }
         public DirectoryManager()
         {
-            Worker = new();
-            Worker.DoWork += Synchronize;
+            Sync = new();
+            Sync.DoWork += Synchronize;
         }
 
         /// <summary>
@@ -329,7 +328,7 @@ namespace Timotheus.IO
 
             for (int i = 0; i < files.Count; i++)
             {
-                if (Worker.CancellationPending == true)
+                if (Sync.CancellationPending == true)
                 {
                     break;
                 }
@@ -380,7 +379,7 @@ namespace Timotheus.IO
                             break;
                     }
 
-                    Worker.ReportProgress(i, file.Name);
+                    Sync.ReportProgress((i*100) / files.Count, file.Name);
                 }
             }
 

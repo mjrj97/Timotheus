@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Timotheus.IO;
@@ -8,7 +7,7 @@ using Timotheus.Schedule;
 
 namespace Timotheus.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : ViewModel
     {
         private Register _Keys = new();
         /// <summary>
@@ -266,12 +265,6 @@ namespace Timotheus.ViewModels
         public void SaveKey(string path, string password)
         {
             Keys.Save(path, password);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        internal void NotifyPropertyChanged(string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
