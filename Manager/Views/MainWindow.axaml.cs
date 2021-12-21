@@ -296,6 +296,7 @@ namespace Timotheus.Views
             saveFileDialog.Filters.Add(filter);
 
             string result = await saveFileDialog.ShowAsync(this);
+
             if (result != null)
             {
                 try
@@ -436,45 +437,23 @@ namespace Timotheus.Views
             {
                 if (e.Row.GetIndex() % 2 == 1)
                 {
-                    switch (file.Handle)
+                    e.Row.Background = file.Handle switch
                     {
-                        case FileHandle.NewDownload:
-                        case FileHandle.NewUpload:
-                            e.Row.Background = NewDark;
-                            break;
-                        case FileHandle.Download:
-                        case FileHandle.Upload:
-                            e.Row.Background = UpdateDark;
-                            break;
-                        case FileHandle.DeleteLocal:
-                        case FileHandle.DeleteRemote:
-                            e.Row.Background = DeleteDark;
-                            break;
-                        default:
-                            e.Row.Background = StdDark;
-                            break;
-                    }
+                        FileHandle.NewDownload or FileHandle.NewUpload => NewDark,
+                        FileHandle.Download or FileHandle.Upload => UpdateDark,
+                        FileHandle.DeleteLocal or FileHandle.DeleteRemote => DeleteDark,
+                        _ => StdDark,
+                    };
                 }
                 else
                 {
-                    switch (file.Handle)
+                    e.Row.Background = file.Handle switch
                     {
-                        case FileHandle.NewDownload:
-                        case FileHandle.NewUpload:
-                            e.Row.Background = NewLight;
-                            break;
-                        case FileHandle.Download:
-                        case FileHandle.Upload:
-                            e.Row.Background = UpdateLight;
-                            break;
-                        case FileHandle.DeleteLocal:
-                        case FileHandle.DeleteRemote:
-                            e.Row.Background = DeleteLight;
-                            break;
-                        default:
-                            e.Row.Background = StdLight;
-                            break;
-                    }
+                        FileHandle.NewDownload or FileHandle.NewUpload => NewLight,
+                        FileHandle.Download or FileHandle.Upload => UpdateLight,
+                        FileHandle.DeleteLocal or FileHandle.DeleteRemote => DeleteLight,
+                        _ => StdLight,
+                    };
                 }
             }
         }

@@ -826,6 +826,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event settings.
+        /// </summary>
+        public static string Settings_Event {
+            get {
+                return ResourceManager.GetString("Settings_Event", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Association information.
         /// </summary>
         public static string Settings_InfoBox {

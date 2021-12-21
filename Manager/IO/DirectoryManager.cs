@@ -141,9 +141,12 @@ namespace Timotheus.IO
             }
 
             string path = remotePath + '/' + Path.GetFileName(localFile);
-            FileStream fs = File.OpenRead(localFile);
-            client.UploadFile(fs, path, true);
-            fs.Close();
+            try
+            {
+                using FileStream fs = File.Open(localFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                client.UploadFile(fs, path, true);
+            }
+            catch (IOException) { }
 
             if (!isPreconnected)
             {
@@ -330,11 +333,13 @@ namespace Timotheus.IO
             {
                 if (Sync.CancellationPending == true)
                 {
+                    //Top synchronization if user presses 'Cancel'
                     break;
                 }
                 else
                 {
                     DirectoryFile file = files[i];
+                    //File.Handle is determined by the Directory file on initialization.
                     switch (file.Handle)
                     {
                         case FileHandle.Synchronize:
@@ -379,6 +384,7 @@ namespace Timotheus.IO
                             break;
                     }
 
+                    //Report the progress to the ProgressDialog
                     Sync.ReportProgress((i*100) / files.Count, file.Name);
                 }
             }

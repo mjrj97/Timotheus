@@ -375,6 +375,9 @@
   <data name="Settings_BrowseButton" xml:space="preserve">
     <value>Gennemse</value>
   </data>
+  <data name="Settings_Event" xml:space="preserve">
+    <value>Begivenhed indstillinger</value>
+  </data>
   <data name="Settings_InfoBox" xml:space="preserve">
     <value>Foreningens information</value>
   </data>

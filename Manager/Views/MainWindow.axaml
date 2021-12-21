@@ -60,14 +60,14 @@
         </TabItem.Header>
         <DockPanel>
           <DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-            <Button Name="-" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">
+            <Button Name="-" Click="Period_Click" Width="32" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">
 				<Image Source="/Resources/Left.png" Height="20" VerticalAlignment="Center"/>
 			</Button>
-            <TextBox Width="150" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding PeriodText}" KeyDown="Period_KeyDown"/>
-            <Button Name="+" Click="Period_Click" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 0 0">
+            <TextBox Width="150" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding PeriodText}" KeyDown="Period_KeyDown"/>
+            <Button Name="+" Click="Period_Click" Width="32" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 0 0">
 				<Image Source="/Resources/Right.png" Height="20" VerticalAlignment="Center"/>
 			</Button>
-            <ComboBox SelectedIndex="{Binding SelectedPeriod}" VerticalAlignment="Center" Margin="20 0">
+            <ComboBox SelectedIndex="{Binding SelectedPeriod}" VerticalAlignment="Center" Margin="20 0" Height="32">
               <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_AllButton}"/>
               <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_YearButton}"/>
               <ComboBoxItem Content="{x:Static i18n:Localization.Calendar_HalfYearButton}"/>
@@ -154,7 +154,7 @@
 					  </DockPanel>
 				  </Button>
 			  </DockPanel>
-			  <TextBox Text="{Binding CurrentDirectory}" Margin="10 0" IsReadOnly="True"/>
+			  <TextBox Text="{Binding CurrentDirectory}" Margin="10 0" IsReadOnly="True" Height="32"/>
 		  </DockPanel>
           <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
             <DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
@@ -170,7 +170,7 @@
                   </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
-                <DataGridTextColumn Header="" Width="*" MaxWidth="150" Binding="{Binding HandleText}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="" Width="*" MaxWidth="200" Binding="{Binding HandleText}" IsReadOnly="True"/>
 				<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
 			  </DataGrid.Columns>
             </DataGrid>

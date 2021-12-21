@@ -20,25 +20,104 @@ namespace Timotheus.Schedule
         public DateTime Created;
 
         /// <summary>
+        /// Start date of the event.
+        /// </summary>
+        public new DateTime Start
+        {
+            get
+            {
+                return base.Start;
+            }
+            set
+            {
+                base.Start = value;
+                Changed = DateTime.Now;
+            }
+        }
+
+        /// <summary>
+        /// End date of the event.
+        /// </summary>
+        public new DateTime End
+        {
+            get
+            {
+                return base.End;
+            }
+            set
+            {
+                base.End = value;
+                Changed = DateTime.Now;
+            }
+        }
+
+        private string _name = string.Empty;
+        /// <summary>
         /// Name of the event. Cannot be multiple lines.
         /// </summary>
-        private string _Name = string.Empty;
-        public string Name { get { return _Name;  } set { _Name = value.Replace("\r\n", ""); Changed = DateTime.Now; } }
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value.Replace("\r\n", "");
+                Changed = DateTime.Now;
+            }
+        }
+        
+        private string _description = string.Empty;
         /// <summary>
         /// Description of the event.
         /// </summary>
-        private string _Description = string.Empty;
-        public string Description { get { return _Description; } set { _Description = value; Changed = DateTime.Now; } }
+        public string Description
+        { 
+            get
+            {
+                return _description;
+            }
+            set
+            {
+                _description = value;
+                Changed = DateTime.Now;
+            }
+        }
+
+        private string _location = string.Empty;
         /// <summary>
         /// Location of the event. Is often an address. Cannot be multiple lines.
         /// </summary>
-        private string _Location = string.Empty;
-        public string Location { get { return _Location; } set { _Location = value.Replace("\r\n", ""); Changed = DateTime.Now; } }
+        public string Location
+        {
+            get
+            {
+                return _location;
+            }
+            set
+            {
+                _location = value.Replace("\r\n", "");
+                Changed = DateTime.Now;
+            }
+        }
+
+        private string _UID = string.Empty;
         /// <summary>
         /// Unique identifier of the event. Cannot be changed.
         /// </summary>
-        private string _UID = string.Empty;
-        public string UID { get { return _UID; } set { _UID = (value == string.Empty) ? Guid.NewGuid().ToString().ToUpper() : value; } }
+        public string UID
+        {
+            get
+            {
+                return _UID;
+            }
+            set
+            {
+                _UID = (value == string.Empty) ? Guid.NewGuid().ToString().ToUpper() : value;
+            }
+        }
+
         /// <summary>
         /// Is true of the event is marked for deletion. Is used instead of just deleting the event, so the calendar knows which event was deleted locally when syncing.
         /// </summary>

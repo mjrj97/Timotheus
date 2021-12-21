@@ -49,8 +49,7 @@ namespace Timotheus.Schedule
         {
             SetupSync(username, password, url);
             Events = LoadFromLines(HttpRequest(url, credentials));
-            Sync = new();
-            Sync.DoWork += Synchronize;
+            SetupWorkers();
         }
         /// <summary>
         /// Creates a Calendar object and loads event data from .ics file.
@@ -59,8 +58,7 @@ namespace Timotheus.Schedule
         {
             string[] lines = File.ReadAllLines(path);
             Events = LoadFromLines(lines);
-            Sync = new();
-            Sync.DoWork += Synchronize;
+            SetupWorkers();
         }
         /// <summary>
         /// Creates an empty Calendar object.
@@ -74,6 +72,14 @@ namespace Timotheus.Schedule
             headers.Add("VERSION", "2.0");
             headers.Add("PRODID", "-//mjrj97//Timotheus//EN");
             headers.Add("X-WR-CALNAME", "Calendar");
+            SetupWorkers();
+        }
+
+        /// <summary>
+        /// Setups up the BackgroundWorkers of the calendar.
+        /// </summary>
+        private void SetupWorkers()
+        {
             Sync = new();
             Sync.DoWork += Synchronize;
         }
@@ -82,7 +88,7 @@ namespace Timotheus.Schedule
         /// Add an event on the remote calendar.
         /// </summary>
         /// <param name="ev">Adds the event to the remote calendar. Assumes that the UID is one the remote calendar.</param>
-        private void AddEvent(Event ev)
+        private void Add(Event ev)
         {
             string request =
             "BEGIN:VCALENDAR\n" +
@@ -99,7 +105,7 @@ namespace Timotheus.Schedule
         /// Removes an event on the remote calendar.
         /// </summary>
         /// <param name="ev">Event that should be deleted. Assumes that the UID is one the remote calendar.</param>
-        private void DeleteEvent(Event ev)
+        private void Delete(Event ev)
         {
             HttpRequest(url + ev.UID + ".ics", credentials, "DELETE");
         }
@@ -196,8 +202,9 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Syncs the events in the time interval from a to b with the remote calendar. (As long as either the start time or end time is in the interval)
         /// </summary>
-        private void Synchronize(Period period)
+        private void Synchronize(object sender, DoWorkEventArgs e)
         {
+            Period period = (Period)e.Argument;
             List<Event> remoteEvents = LoadFromLines(HttpRequest(url, credentials));
             bool[] foundLocal = new bool[Events.Count];
             bool[] foundRemote = new bool[remoteEvents.Count];
@@ -210,6 +217,8 @@ namespace Timotheus.Schedule
                 }
                 else
                 {
+                    Sync.ReportProgress((i * 100) / Events.Count, Events[i].Name);
+
                     for (int j = 0; j < remoteEvents.Count; j++)
                     {
                         if (Events[i].UID == remoteEvents[j].UID)
@@ -221,15 +230,15 @@ namespace Timotheus.Schedule
                             {
                                 if (Events[i].Deleted)
                                 {
-                                    DeleteEvent(Events[i]);
+                                    Delete(Events[i]);
                                     Events.Remove(Events[i]);
                                 }
                                 else if (!Events[i].Equals(remoteEvents[j]))
                                 {
                                     if (Events[i].Changed >= remoteEvents[j].Changed)
                                     {
-                                        DeleteEvent(Events[i]);
-                                        AddEvent(Events[i]);
+                                        Delete(Events[i]);
+                                        Add(Events[i]);
                                     }
                                     else
                                         Events[i].Update(remoteEvents[j]);
@@ -237,8 +246,6 @@ namespace Timotheus.Schedule
                             }
                         }
                     }
-
-                    Sync.ReportProgress((i * 100) / Events.Count, Events[i].Name);
                 }
             }
             for (int i = 0; i < Events.Count; i++)
@@ -249,13 +256,13 @@ namespace Timotheus.Schedule
                 }
                 else
                 {
+                    Sync.ReportProgress((i * 100) / Events.Count, Events[i].Name);
+
                     if (Events[i].In(period))
                     {
-                        if (!foundLocal[i])
-                            AddEvent(Events[i]);
+                        if (!foundLocal[i] && !Events[i].Deleted)
+                            Add(Events[i]);
                     }
-
-                    Sync.ReportProgress((i * 100) / Events.Count, Events[i].Name);
                 }
             }
             for (int i = 0; i < remoteEvents.Count; i++)
@@ -266,22 +273,15 @@ namespace Timotheus.Schedule
                 }
                 else
                 {
+                    Sync.ReportProgress((i * 100) / remoteEvents.Count, remoteEvents[i].Name);
+
                     if (remoteEvents[i].In(period))
                     {
                         if (!foundRemote[i])
                             Events.Add(remoteEvents[i]);
                     }
-
-                    Sync.ReportProgress((i * 100) / remoteEvents.Count, remoteEvents[i].Name);
                 }
             }
-        }
-        /// <summary>
-        /// Synchronize the calendar
-        /// </summary>
-        private void Synchronize(object sender, DoWorkEventArgs e)
-        {
-            Synchronize((Period)e.Argument);
         }
 
         /// <summary>
@@ -377,7 +377,7 @@ namespace Timotheus.Schedule
         /// <param name="period">The period of events that should be included</param>
         public void Export(string name, string path, string orgName, string orgAddress, string orgImagePath, Period period)
         {
-            List<Event> exportEvents = new List<Event>();
+            List<Event> exportEvents = new();
             for (int i = 0; i < Events.Count; i++)
             {
                 if (Events[i].In(period))
@@ -459,9 +459,9 @@ namespace Timotheus.Schedule
         public static DateTime StringToDate(string date)
         {
             if (date.Length == 8)
-                return new DateTime(int.Parse(date.Substring(0, 4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), 0, 0, 0);
+                return new DateTime(int.Parse(date[..4]), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), 0, 0, 0);
             else
-                return new DateTime(int.Parse(date.Substring(0, 4)), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), int.Parse(date.Substring(9, 2)), int.Parse(date.Substring(11, 2)), int.Parse(date.Substring(13, 2)));
+                return new DateTime(int.Parse(date[..4]), int.Parse(date.Substring(4, 2)), int.Parse(date.Substring(6, 2)), int.Parse(date.Substring(9, 2)), int.Parse(date.Substring(11, 2)), int.Parse(date.Substring(13, 2)));
         }
 
         /// <summary>

@@ -227,8 +227,8 @@ namespace Timotheus.Views
         /// </summary>
         public AddEvent()
         {
-            Start = DateTime.Now;
-            End = DateTime.Now.AddMinutes(90);
+            Start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 19, 00, 00);
+            End = Start.AddMinutes(90);
 
             StartTime = Start.ToString("t");
             EndTime = End.ToString("t");

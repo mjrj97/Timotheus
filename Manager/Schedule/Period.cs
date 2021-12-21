@@ -8,14 +8,37 @@ namespace Timotheus.Schedule
     /// </summary>
     public class Period
     {
+        private DateTime _start;
         /// <summary>
         /// Start date of the period.
         /// </summary>
-        public DateTime Start { get; set; }
+        public DateTime Start
+        {
+            get
+            {
+                return _start;
+            }
+            set
+            {
+                _start = value;
+            }
+        }
+
+        private DateTime _end;
         /// <summary>
         /// End date of the period.
         /// </summary>
-        public DateTime End { get; set; }
+        public DateTime End
+        { 
+            get
+            {
+                return _end;
+            }
+            set
+            {
+                _end = value;
+            }
+        }
         /// <summary>
         /// The type of period.
         /// </summary>
