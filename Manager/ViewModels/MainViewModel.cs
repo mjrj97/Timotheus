@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Timotheus.IO;
@@ -8,7 +7,7 @@ using Timotheus.Schedule;
 
 namespace Timotheus.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : ViewModel
     {
         private Register _Keys = new();
         /// <summary>
@@ -168,6 +167,9 @@ namespace Timotheus.ViewModels
                 calendarPeriod.Subtract();
             UpdateCalendarTable();
         }
+        /// <summary>
+        /// Changes the selected year and calls UpdateTable.
+        /// </summary>
         public void UpdatePeriod(string text)
         {
             calendarPeriod.SetPeriod(text);
@@ -197,9 +199,14 @@ namespace Timotheus.ViewModels
         /// </summary>
         public void GoUpDirectory()
         {
-            GoToDirectory(Path.GetDirectoryName(CurrentDirectory) + "/");
+            string path = Path.GetDirectoryName(CurrentDirectory) + "/";
+            if (path.Length >= Directory.RemotePath.Length)
+                GoToDirectory(path);
         }
 
+        /// <summary>
+        /// Changes the current directory to the given path.
+        /// </summary>
         public void GoToDirectory(string path)
         {
             CurrentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));
@@ -266,12 +273,6 @@ namespace Timotheus.ViewModels
         public void SaveKey(string path, string password)
         {
             Keys.Save(path, password);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        internal void NotifyPropertyChanged(string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

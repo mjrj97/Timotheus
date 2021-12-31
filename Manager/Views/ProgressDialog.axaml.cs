@@ -45,9 +45,21 @@ namespace Timotheus.Views
             AvaloniaXamlLoader.Load(this);
         }
 
-        public async Task ShowDialog(Window parent, IProgressible progressible)
+        public async Task ShowDialog(Window parent, BackgroundWorker worker, object arg)
         {
-            bw = progressible.Worker;
+            bw = worker;
+            bw.WorkerReportsProgress = true;
+            bw.WorkerSupportsCancellation = true;
+            bw.RunWorkerCompleted += Completed;
+            bw.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
+            bw.RunWorkerAsync(argument: arg);
+
+            await ShowDialog(parent);
+        }
+
+        public async Task ShowDialog(Window parent, BackgroundWorker worker)
+        {
+            bw = worker;
             bw.WorkerReportsProgress = true;
             bw.WorkerSupportsCancellation = true;
             bw.RunWorkerCompleted += Completed;

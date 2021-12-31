@@ -12,27 +12,31 @@ namespace Timotheus.Views
 {
     public partial class AddEvent : Dialog
     {
-        private string _EventName = string.Empty;
+        private string _eventName = string.Empty;
         /// <summary>
         /// The title/name of the event. Should not be empty.
         /// </summary>
         public string EventName
         {
-            get { return _EventName; }
-            set { _EventName = value; }
+            get { return _eventName; }
+            set
+            {
+                _eventName = value;
+                NotifyPropertyChanged(nameof(EventName));
+            }
         }
 
-        private DateTime _Start;
+        private DateTime _start;
         public DateTime Start 
         { 
             get
             {
-                return _Start;
+                return _start;
             }
             set
             {
                 TimeSpan span = End - Start;
-                _Start = value;
+                _start = value;
                 End = Start + span;
 
                 NotifyPropertyChanged(nameof(EndDay));
@@ -46,10 +50,22 @@ namespace Timotheus.Views
         public List<int> StartDays { get; set; }
         public List<int> EndDays { get; set; }
 
+        private string _startTime;
         /// <summary>
         /// Start time of the event. Has the format HH:mm.
         /// </summary>
-        public string StartTime { get; set; }
+        public string StartTime
+        {
+            get
+            {
+                return _startTime;
+            }
+            set
+            {
+                _startTime = value;
+                NotifyPropertyChanged(nameof(StartTime));
+            }
+        }
 
         private int StartDay
         {
@@ -108,10 +124,22 @@ namespace Timotheus.Views
             }
         }
 
+        private string _endTime;
         /// <summary>
         /// Start time of the event. Has the format HH:mm.
         /// </summary>
-        public string EndTime { get; set; }
+        public string EndTime
+        {
+            get
+            {
+                return _endTime;
+            }
+            set
+            {
+                _endTime = value;
+                NotifyPropertyChanged(nameof(EndTime));
+            }
+        }
 
         private int EndDay
         {
@@ -170,54 +198,61 @@ namespace Timotheus.Views
             }
         }
 
-        private bool _AllDayEvent = false;
+        private bool _allDayEvent = false;
         /// <summary>
         /// Designates whether the Event is an all day event.
         /// </summary>
         private bool AllDayEvent
         {
-            get => _AllDayEvent;
+            get => _allDayEvent;
             set
             {
-                _AllDayEvent = value;
+                _allDayEvent = value;
                 NotifyPropertyChanged(nameof(AllDayEvent));
             }
         }
 
-        private string _Location = string.Empty;
+        private string _location = string.Empty;
         /// <summary>
         /// The Event's location.
         /// </summary>
         public string Location
         {
-            get { return _Location; }
+            get { return _location; }
             set 
-            { 
-                _Location = value;
+            {
+                _location = value;
                 NotifyPropertyChanged(nameof(Location));
             }
         }
 
-        private string _Description = string.Empty;
+        private string _description = string.Empty;
         /// <summary>
         /// The Event's description.
         /// </summary>
         public string Description
         {
-            get { return _Description; }
-            set { _Description = value; }
+            get
+            {
+                return _description;
+            }
+            set
+            {
+                _description = value;
+                NotifyPropertyChanged(nameof(Description));
+            }
         }
 
-        private string _Error = string.Empty;
+        private string _error = string.Empty;
         /// <summary>
         /// Error message shown on the buttom.
         /// </summary>
         public string Error
         {
-            get => _Error;
+            get => _error;
             set
             {
-                _Error = value;
+                _error = value;
                 NotifyPropertyChanged(nameof(Error));
             }
         }
@@ -227,8 +262,8 @@ namespace Timotheus.Views
         /// </summary>
         public AddEvent()
         {
-            Start = DateTime.Now;
-            End = DateTime.Now.AddMinutes(90);
+            Start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 19, 00, 00);
+            End = Start.AddMinutes(90);
 
             StartTime = Start.ToString("t");
             EndTime = End.ToString("t");

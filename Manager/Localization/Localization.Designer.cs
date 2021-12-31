@@ -826,6 +826,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event settings.
+        /// </summary>
+        public static string Settings_Event {
+            get {
+                return ResourceManager.GetString("Settings_Event", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Association information.
         /// </summary>
         public static string Settings_InfoBox {
@@ -975,6 +984,15 @@ namespace Timotheus.Localization {
         public static string SFTP_SyncButton {
             get {
                 return ResourceManager.GetString("SFTP_SyncButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synchronizing folders.
+        /// </summary>
+        public static string SFTP_SyncWorker {
+            get {
+                return ResourceManager.GetString("SFTP_SyncWorker", resourceCulture);
             }
         }
         
@@ -1173,6 +1191,15 @@ namespace Timotheus.Localization {
         public static string SyncCalendar_UsernameLabel {
             get {
                 return ResourceManager.GetString("SyncCalendar_UsernameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synchronizing calendar.
+        /// </summary>
+        public static string SyncCalendar_Worker {
+            get {
+                return ResourceManager.GetString("SyncCalendar_Worker", resourceCulture);
             }
         }
         

@@ -372,6 +372,9 @@
   <data name="Settings_BrowseButton" xml:space="preserve">
     <value>Browse</value>
   </data>
+  <data name="Settings_Event" xml:space="preserve">
+    <value>Event settings</value>
+  </data>
   <data name="Settings_InfoBox" xml:space="preserve">
     <value>Association information</value>
   </data>
@@ -450,6 +453,9 @@
   <data name="SFTP_SyncButton" xml:space="preserve">
     <value>Synchronize</value>
   </data>
+  <data name="SFTP_SyncWorker" xml:space="preserve">
+    <value>Synchronizing folders</value>
+  </data>
   <data name="SyncCalendar" xml:space="preserve">
     <value>Synchronize</value>
   </data>
@@ -488,6 +494,9 @@
   </data>
   <data name="SyncCalendar_UsernameLabel" xml:space="preserve">
     <value>Username</value>
+  </data>
+  <data name="SyncCalendar_Worker" xml:space="preserve">
+    <value>Synchronizing calendar</value>
   </data>
   <data name="ToolStrip_EditKey" xml:space="preserve">
     <value>Edit key</value>

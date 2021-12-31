@@ -227,12 +227,17 @@ namespace Timotheus.Views
                         mvm.Keys.Set("Calendar-URL", dialog.URL);
                     }
 
+                    ProgressDialog pDialog = new();
+                    pDialog.Title = Localization.Localization.SyncCalendar_Worker;
+                    Period syncPeriod;
                     if (dialog.SyncAll)
-                        mvm.Calendar.Sync();
+                        syncPeriod = new Period(DateTime.MinValue, DateTime.MaxValue);
                     else if (dialog.SyncPeriod)
-                        mvm.Calendar.Sync(new Period(mvm.PeriodText));
+                        syncPeriod = new Period(mvm.PeriodText);
                     else
-                        mvm.Calendar.Sync(new Period(dialog.Start, dialog.End.AddDays(1)));
+                        syncPeriod = new Period(dialog.Start, dialog.End.AddDays(1));
+
+                    await pDialog.ShowDialog(this, mvm.Calendar.Sync, syncPeriod);
 
                     mvm.UpdateCalendarTable();
                 }
@@ -249,7 +254,17 @@ namespace Timotheus.Views
         private async void AddEvent_Click(object sender, RoutedEventArgs e)
         {
             AddEvent dialog = new();
-            dialog.Location = mvm.Keys.Get("Settings-Address");
+
+            string text;
+            if ((text = mvm.Keys.Get("Settings-Address")) != string.Empty)
+                dialog.Location = text;
+            if ((text = mvm.Keys.Get("Settings-EventDescription")) != string.Empty)
+                dialog.Description = text;
+            if ((text = mvm.Keys.Get("Settings-EventStart")) != string.Empty)
+                dialog.StartTime = text;
+            if ((text = mvm.Keys.Get("Settings-EventEnd")) != string.Empty)
+                dialog.EndTime = text;
+
             await dialog.ShowDialog(this);
 
             if (dialog.DialogResult == DialogResult.OK)
@@ -292,6 +307,7 @@ namespace Timotheus.Views
             saveFileDialog.Filters.Add(filter);
 
             string result = await saveFileDialog.ShowAsync(this);
+
             if (result != null)
             {
                 try
@@ -331,7 +347,8 @@ namespace Timotheus.Views
             try
             {
                 ProgressDialog dialog = new();
-                await dialog.ShowDialog(this, mvm.Directory);
+                dialog.Title = Localization.Localization.SFTP_SyncWorker;
+                await dialog.ShowDialog(this, mvm.Directory.Sync);
                 mvm.GoToDirectory(mvm.Directory.RemotePath);
             }
             catch (Exception ex)
@@ -432,45 +449,23 @@ namespace Timotheus.Views
             {
                 if (e.Row.GetIndex() % 2 == 1)
                 {
-                    switch (file.Handle)
+                    e.Row.Background = file.Handle switch
                     {
-                        case FileHandle.NewDownload:
-                        case FileHandle.NewUpload:
-                            e.Row.Background = NewDark;
-                            break;
-                        case FileHandle.Download:
-                        case FileHandle.Upload:
-                            e.Row.Background = UpdateDark;
-                            break;
-                        case FileHandle.DeleteLocal:
-                        case FileHandle.DeleteRemote:
-                            e.Row.Background = DeleteDark;
-                            break;
-                        default:
-                            e.Row.Background = StdDark;
-                            break;
-                    }
+                        FileHandle.NewDownload or FileHandle.NewUpload => NewDark,
+                        FileHandle.Download or FileHandle.Upload => UpdateDark,
+                        FileHandle.DeleteLocal or FileHandle.DeleteRemote => DeleteDark,
+                        _ => StdDark,
+                    };
                 }
                 else
                 {
-                    switch (file.Handle)
+                    e.Row.Background = file.Handle switch
                     {
-                        case FileHandle.NewDownload:
-                        case FileHandle.NewUpload:
-                            e.Row.Background = NewLight;
-                            break;
-                        case FileHandle.Download:
-                        case FileHandle.Upload:
-                            e.Row.Background = UpdateLight;
-                            break;
-                        case FileHandle.DeleteLocal:
-                        case FileHandle.DeleteRemote:
-                            e.Row.Background = DeleteLight;
-                            break;
-                        default:
-                            e.Row.Background = StdLight;
-                            break;
-                    }
+                        FileHandle.NewDownload or FileHandle.NewUpload => NewLight,
+                        FileHandle.Download or FileHandle.Upload => UpdateLight,
+                        FileHandle.DeleteLocal or FileHandle.DeleteRemote => DeleteLight,
+                        _ => StdLight,
+                    };
                 }
             }
         }
@@ -644,13 +639,25 @@ namespace Timotheus.Views
             dialog.AssociationName = mvm.Keys.Get("Settings-Name");
             dialog.AssociationAddress = mvm.Keys.Get("Settings-Address");
             dialog.ImagePath = mvm.Keys.Get("Settings-Image");
+            dialog.Description = mvm.Keys.Get("Settings-EventDescription");
+            dialog.StartTime = mvm.Keys.Get("Settings-EventStart");
+            dialog.EndTime = mvm.Keys.Get("Settings-EventEnd");
 
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
             {
-                mvm.Keys.Set("Settings-Name", dialog.AssociationName);
-                mvm.Keys.Set("Settings-Address", dialog.AssociationAddress);
-                mvm.Keys.Set("Settings-Image", dialog.ImagePath);
+                if (dialog.AssociationName != string.Empty)
+                    mvm.Keys.Set("Settings-Name", dialog.AssociationName);
+                if (dialog.AssociationAddress != string.Empty)
+                    mvm.Keys.Set("Settings-Address", dialog.AssociationAddress);
+                if (dialog.ImagePath != string.Empty)
+                    mvm.Keys.Set("Settings-Image", dialog.ImagePath);
+                if (dialog.Description != string.Empty)
+                    mvm.Keys.Set("Settings-EventDescription", dialog.Description);
+                if (dialog.StartTime != string.Empty)
+                    mvm.Keys.Set("Settings-EventStart", dialog.StartTime);
+                if (dialog.EndTime != string.Empty)
+                    mvm.Keys.Set("Settings-EventEnd", dialog.EndTime);
             }
         }
         #endregion
