@@ -5,7 +5,7 @@
 		xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d"
         x:Class="Timotheus.Views.ProgressDialog"
-        Title="{x:Static i18n:Localization.SFTP_Message}" SizeToContent="Height" Width="300">
+        Title="" SizeToContent="Height" Width="300">
 	<StackPanel Margin="10">
 		<TextBlock Text="{Binding Message}" Margin="0 5" TextWrapping="Wrap"/>
 		<ProgressBar Height="20" Value="{Binding Progress}" Minimum="0.0" Maximum="1.0"/>

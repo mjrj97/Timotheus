@@ -42,13 +42,13 @@
 				<DockPanel Margin="0 7">
 					<TextBlock Text="Time" VerticalAlignment="Center" Width="100"/>
 					<TextBlock Text="Start" VerticalAlignment="Center" Width="50"/>
-					<TextBox Watermark="00:00" Text="{Binding AssociationAddress}" Width="115" Margin="0 0 30 0"/>
+					<TextBox Watermark="00:00" Text="{Binding StartTime}" Width="115" Margin="0 0 30 0"/>
 					<TextBlock Text="End" VerticalAlignment="Center" Width="50"/>
-					<TextBox Watermark="00:00" Text="{Binding AssociationAddress}" Width="115"/>
+					<TextBox Watermark="00:00" Text="{Binding EndTime}" Width="115"/>
 				</DockPanel>
 				<DockPanel>
 					<TextBlock Text="Description" VerticalAlignment="Top" Width="100" Margin="0 7 0 0"/>
-					<TextBox Text="{Binding AssociationAddress}" Height="100"/>
+					<TextBox Text="{Binding Description}" Height="100" AcceptsReturn="True"/>
 				</DockPanel>
 			</StackPanel>
 		</Border>

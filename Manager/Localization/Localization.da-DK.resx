@@ -456,6 +456,9 @@
   <data name="SFTP_SyncButton" xml:space="preserve">
     <value>Synkronisér</value>
   </data>
+  <data name="SFTP_SyncWorker" xml:space="preserve">
+    <value>Synkroniserer filer</value>
+  </data>
   <data name="SyncCalendar" xml:space="preserve">
     <value>Synkronisér</value>
   </data>
@@ -494,6 +497,9 @@
   </data>
   <data name="SyncCalendar_UsernameLabel" xml:space="preserve">
     <value>Brugernavn</value>
+  </data>
+  <data name="SyncCalendar_Worker" xml:space="preserve">
+    <value>Synkroniserer kalender</value>
   </data>
   <data name="ToolStrip_EditKey" xml:space="preserve">
     <value>Redigér nøgle</value>

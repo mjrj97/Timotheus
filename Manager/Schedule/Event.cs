@@ -123,6 +123,17 @@ namespace Timotheus.Schedule
         /// </summary>
         public bool Deleted = false;
 
+        /// <summary>
+        /// Returns whether the date is an all-day event.
+        /// </summary>
+        public bool IsAllDayEvent
+        {
+            get
+            {
+                return Start.Hour == End.Hour && Start.Minute == End.Minute && Start.Second == End.Second && Start.Hour == 0 && Start.Minute == 0 && Start.Second == 0;
+            }
+        }
+
         //Constructors
         public Event(DateTime Start, DateTime End, DateTime Created, string Name, string Description, string Location, string UID)
         {
@@ -185,7 +196,7 @@ namespace Timotheus.Schedule
         {
             StringBuilder builder = new("BEGIN:VEVENT\nUID:");
             builder.Append(UID);
-            if (Start.Hour == End.Hour && Start.Minute == End.Minute && Start.Second == End.Second && Start.Hour == 0 && Start.Minute == 0 && Start.Second == 0)
+            if (IsAllDayEvent)
             {
                 builder.Append("\nDTSTART;VALUE=DATE:");
                 builder.Append(Calendar.DateToString(Start));

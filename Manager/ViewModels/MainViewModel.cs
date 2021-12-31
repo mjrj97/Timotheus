@@ -167,6 +167,9 @@ namespace Timotheus.ViewModels
                 calendarPeriod.Subtract();
             UpdateCalendarTable();
         }
+        /// <summary>
+        /// Changes the selected year and calls UpdateTable.
+        /// </summary>
         public void UpdatePeriod(string text)
         {
             calendarPeriod.SetPeriod(text);
@@ -196,9 +199,14 @@ namespace Timotheus.ViewModels
         /// </summary>
         public void GoUpDirectory()
         {
-            GoToDirectory(Path.GetDirectoryName(CurrentDirectory) + "/");
+            string path = Path.GetDirectoryName(CurrentDirectory) + "/";
+            if (path.Length >= Directory.RemotePath.Length)
+                GoToDirectory(path);
         }
 
+        /// <summary>
+        /// Changes the current directory to the given path.
+        /// </summary>
         public void GoToDirectory(string path)
         {
             CurrentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));

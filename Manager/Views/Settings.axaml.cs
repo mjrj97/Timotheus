@@ -52,6 +52,42 @@ namespace Timotheus.Views
             }
         }
 
+        private string _description = string.Empty;
+        public string Description
+        {
+            get
+            {
+                return _description;
+            }
+            set
+            {
+                _description = value;
+                NotifyPropertyChanged(nameof(Description));
+            }
+        }
+
+        private string _startTime;
+        public string StartTime
+        {
+            get { return _startTime; }
+            set
+            {
+                _startTime = value;
+                NotifyPropertyChanged(nameof(StartTime));
+            }
+        }
+
+        private string _endTime;
+        public string EndTime
+        {
+            get { return _endTime; }
+            set
+            {
+                _endTime = value;
+                NotifyPropertyChanged(nameof(EndTime));
+            }
+        }
+
         private Bitmap _image = null;
         public Bitmap Image
         {

@@ -17,7 +17,10 @@ namespace Timotheus.ViewModels
         {
             get
             {
-                return ev.Start.ToString("g");
+                if (ev.IsAllDayEvent)
+                    return ev.Start.ToString("d");
+                else
+                    return ev.Start.ToString("g");
             }
             set
             {
@@ -43,7 +46,10 @@ namespace Timotheus.ViewModels
         {
             get
             {
-                return ev.End.ToString("g");
+                if (ev.IsAllDayEvent)
+                    return ev.End.ToString("d");
+                else
+                    return ev.End.ToString("g");
             }
             set
             {
