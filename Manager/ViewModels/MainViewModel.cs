@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Timotheus.IO;
@@ -8,7 +7,7 @@ using Timotheus.Schedule;
 
 namespace Timotheus.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : ViewModel
     {
         private Register _Keys = new();
         /// <summary>
@@ -132,10 +131,22 @@ namespace Timotheus.ViewModels
             }
         }
 
+        private string _currentDirectory = string.Empty;
         /// <summary>
         /// The directory currently being shown.
         /// </summary>
-        private string currentDirectory = string.Empty;
+        public string CurrentDirectory
+        {
+            get
+            {
+                return _currentDirectory;
+            }
+            set
+            {
+                _currentDirectory = value;
+                NotifyPropertyChanged(nameof(CurrentDirectory));
+            }
+        }
 
         public MainViewModel() {
             calendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
@@ -167,6 +178,9 @@ namespace Timotheus.ViewModels
                 calendarPeriod.Subtract();
             UpdateCalendarTable();
         }
+        /// <summary>
+        /// Changes the selected year and calls UpdateTable.
+        /// </summary>
         public void UpdatePeriod(string text)
         {
             calendarPeriod.SetPeriod(text);
@@ -196,13 +210,18 @@ namespace Timotheus.ViewModels
         /// </summary>
         public void GoUpDirectory()
         {
-            GoToDirectory(Path.GetDirectoryName(currentDirectory) + "/");
+            string path = Path.GetDirectoryName(CurrentDirectory) + "/";
+            if (path.Length >= Directory.RemotePath.Length)
+                GoToDirectory(path);
         }
 
+        /// <summary>
+        /// Changes the current directory to the given path.
+        /// </summary>
         public void GoToDirectory(string path)
         {
-            currentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));
-            List<DirectoryFile> files = Directory.GetFiles(currentDirectory);
+            CurrentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));
+            List<DirectoryFile> files = Directory.GetFiles(CurrentDirectory);
             List<FileViewModel> viewFiles = new();
             for (int i = 0; i < files.Count; i++)
             {
@@ -265,12 +284,6 @@ namespace Timotheus.ViewModels
         public void SaveKey(string path, string password)
         {
             Keys.Save(path, password);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        internal void NotifyPropertyChanged(string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

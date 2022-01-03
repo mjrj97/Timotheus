@@ -11,8 +11,20 @@ namespace Timotheus
         [STAThread]
         public static void Main(string[] args)
         {
+#if DEBUG
             Timotheus.Initalize();
             BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+#else
+            try
+            {
+                Timotheus.Initalize();
+                BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+            }
+            catch (Exception e)
+            {
+                System.IO.File.AppendAllText("log.txt", "[" + DateTime.Now + "]: " +  e.Message);
+            }
+#endif
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.

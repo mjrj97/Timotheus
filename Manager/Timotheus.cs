@@ -4,9 +4,9 @@ using System.Net;
 using System.Text;
 using System.Reflection;
 using System.Globalization;
-using Timotheus.IO;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using Timotheus.IO;
 
 namespace Timotheus
 {
@@ -32,11 +32,11 @@ namespace Timotheus
         /// <summary>
         /// Version of the software.
         /// </summary>
-        public static string Version = "1.0.0";
+        public static string Version { get; private set; }
         /// <summary>
         /// Whether this is the first time the software runs on this computer.
         /// </summary>
-        public static bool FirstTime = false;
+        public static bool FirstTime { get; private set; }
 
         /// <summary>
         /// Initializes the static variables and loads the Registry.
@@ -52,9 +52,11 @@ namespace Timotheus
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             CultureInfo.CurrentUICulture = Culture;
+            CultureInfo.CurrentCulture = Culture;
 
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
 
+            Version = "1.0.0";
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             Version = version[0..^2];
         }

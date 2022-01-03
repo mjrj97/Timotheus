@@ -3,7 +3,7 @@ using Timotheus.IO;
 
 namespace Timotheus.ViewModels
 {
-    public class FileViewModel
+    public class FileViewModel : ViewModel
     {
         /// <summary>
         /// File which the view model uses.

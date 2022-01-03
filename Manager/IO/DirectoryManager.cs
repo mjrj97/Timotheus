@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.ComponentModel;
 
 namespace Timotheus.IO
 {
@@ -29,6 +30,11 @@ namespace Timotheus.IO
         public readonly string RemotePath = string.Empty;
 
         /// <summary>
+        /// Worker that is used to track the progress of the synchronization.
+        /// </summary>
+        public BackgroundWorker Sync { get; private set; }
+
+        /// <summary>
         /// Constructor. Is an object that is tasked with keeping a local and remote directory synced.
         /// </summary>
         /// <param name="localPath">Path to the local directory</param>
@@ -36,7 +42,7 @@ namespace Timotheus.IO
         /// <param name="host">Connection host/url</param>
         /// <param name="username">Username to the SFTP connection</param>
         /// <param name="password">Password to the SFTP connection</param>
-        public DirectoryManager(string localPath, string remotePath, string host, string username, string password)
+        public DirectoryManager(string localPath, string remotePath, string host, string username, string password) : this()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -64,7 +70,8 @@ namespace Timotheus.IO
         }
         public DirectoryManager()
         {
-
+            Sync = new();
+            Sync.DoWork += Synchronize;
         }
 
         /// <summary>
@@ -134,9 +141,12 @@ namespace Timotheus.IO
             }
 
             string path = remotePath + '/' + Path.GetFileName(localFile);
-            FileStream fs = File.OpenRead(localFile);
-            client.UploadFile(fs, path, true);
-            fs.Close();
+            try
+            {
+                using FileStream fs = File.Open(localFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                client.UploadFile(fs, path, true);
+            }
+            catch (IOException) { }
 
             if (!isPreconnected)
             {
@@ -296,7 +306,7 @@ namespace Timotheus.IO
         /// <summary>
         /// Synchronize the defined remote and local directories.
         /// </summary>
-        public void Synchronize()
+        private void Synchronize(object sender, DoWorkEventArgs e)
         {
             if (client != null)
                 Synchronize(RemotePath, LocalPath);
@@ -321,145 +331,62 @@ namespace Timotheus.IO
 
             for (int i = 0; i < files.Count; i++)
             {
-                DirectoryFile file = files[i];
-                switch (file.Handle)
+                if (Sync.CancellationPending == true)
                 {
-                    case FileHandle.Synchronize:
-                        if (file.IsDirectory)
-                            Synchronize(file.RemoteFile.FullName, file.LocalFile.FullName);
-                        break;
-                    case FileHandle.NewDownload:
-                    case FileHandle.Download:
-                        if (file.IsDirectory)
-                            DownloadDirectory(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
-                        else
-                            DownloadFile(file.RemoteFile, localPath);
-                        break;
-                    case FileHandle.NewUpload:
-                    case FileHandle.Upload:
-                        if (file.IsDirectory)
-                            UploadDirectory(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
-                        else
-                            UploadFile(remotePath, file.LocalFile.FullName);
-                        break;
-                    case FileHandle.DeleteLocal:
-                        if (file.IsDirectory)
-                        {
-                            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                                Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(file.LocalFile.FullName, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
-                            else
-                                Directory.Delete(file.LocalFile.FullName, true);
-                        }
-                        else
-                        {
-                            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                                Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(file.LocalFile.FullName, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
-                            else
-                                File.Delete(file.LocalFile.FullName);
-                        }
-                        break;
-                    case FileHandle.DeleteRemote:
-                        if (file.IsDirectory)
-                            DeleteDirectory(file.RemoteFile.FullName);
-                        else
-                            DeleteFile(file.RemoteFile.FullName);
-                        break;
-                }
-
-                /*
-                DirectoryFile file = files[i];
-                if (file.LocalFile != null && file.RemoteFile != null)
-                {
-                    //If file can be found (!)previously & locally & remotely => Find the one with the lastest changes
-                    if (file.IsDirectory)
-                        Synchronize(file.RemoteFile.FullName, file.LocalFile.FullName);
-                    else
-                    {
-                        //Synchronize
-                        if (file.LocalFile.LastWriteTimeUtc.Ticks == file.LogItem.LocalTicks && file.RemoteFile.LastWriteTimeUtc.Ticks != file.LogItem.RemoteTicks)
-                        {
-                            //Download
-                            DownloadFile(file.RemoteFile, localPath);
-                        }
-                        else if (file.LocalFile.LastWriteTimeUtc.Ticks != file.LogItem.LocalTicks && file.RemoteFile.LastWriteTimeUtc.Ticks == file.LogItem.RemoteTicks)
-                        {
-                            //Upload
-                            UploadFile(remotePath, file.LocalFile.FullName);
-                        }
-                        else if (file.LocalFile.LastWriteTimeUtc.Ticks != file.LogItem.LocalTicks && file.RemoteFile.LastWriteTimeUtc.Ticks != file.LogItem.RemoteTicks)
-                        {
-                            if (file.LocalFile.LastWriteTimeUtc.Ticks < file.RemoteFile.LastWriteTimeUtc.Ticks)
-                            {
-                                //Download
-                                DownloadFile(file.RemoteFile, localPath);
-                            }
-                            else if (file.LocalFile.LastWriteTimeUtc.Ticks > file.RemoteFile.LastWriteTimeUtc.Ticks)
-                            {
-                                //Upload
-                                UploadFile(remotePath, file.LocalFile.FullName);
-                            }
-                        }
-                    }
-                }
-                else if (file.LogItem.Equals(DirectoryLogItem.Empty))
-                {
-                    if (file.LocalFile != null && file.RemoteFile == null)
-                    {
-                        //If file can be found !previously & locally & !remotely => Upload
-                        if (file.IsDirectory)
-                            UploadDirectory(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
-                        else
-                            UploadFile(remotePath, file.LocalFile.FullName);
-                    }
-                    else if (file.LocalFile == null && file.RemoteFile != null)
-                    {
-                        //If file can be found !previously & !locally & remotely => Download
-                        if (file.IsDirectory)
-                            DownloadDirectory(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
-                        else
-                            DownloadFile(file.RemoteFile, localPath);
-                    }
+                    //Top synchronization if user presses 'Cancel'
+                    break;
                 }
                 else
                 {
-                    if (file.LocalFile != null && file.RemoteFile == null)
+                    DirectoryFile file = files[i];
+                    //File.Handle is determined by the Directory file on initialization.
+                    switch (file.Handle)
                     {
-                        //If file can be found previously & locally & !remotely => Delete local (If local & previously LastWriteTime is the same, otherwise upload)
-                        if (file.LocalFile.LastWriteTimeUtc.Ticks == file.LogItem.LocalTicks)
-                        {
+                        case FileHandle.Synchronize:
                             if (file.IsDirectory)
-                                Directory.Delete(file.LocalFile.FullName);
-                            else
-                                File.Delete(file.LocalFile.FullName);
-                        }
-                        else
-                        {
-                            if (file.IsDirectory)
-                                UploadDirectory(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
-                            else
-                                UploadFile(remotePath, file.LocalFile.FullName);
-                        }
-                    }
-                    else if (file.LocalFile == null && file.RemoteFile != null)
-                    {
-                        //If file can be found previously & !locally & remotely => Delete remote (If remote & previously LastWriteTime is the same, otherwise download)
-                        if (file.RemoteFile.LastWriteTimeUtc.Ticks == file.LogItem.RemoteTicks)
-                        {
-                            if (file.IsDirectory)
-                                DeleteDirectory(file.RemoteFile.FullName);
-                            else
-                                DeleteFile(file.RemoteFile.FullName);
-                        }
-                        else
-                        {
+                                Synchronize(file.RemoteFile.FullName, file.LocalFile.FullName);
+                            break;
+                        case FileHandle.NewDownload:
+                        case FileHandle.Download:
                             if (file.IsDirectory)
                                 DownloadDirectory(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
                             else
                                 DownloadFile(file.RemoteFile, localPath);
-                        }
+                            break;
+                        case FileHandle.NewUpload:
+                        case FileHandle.Upload:
+                            if (file.IsDirectory)
+                                UploadDirectory(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
+                            else
+                                UploadFile(remotePath, file.LocalFile.FullName);
+                            break;
+                        case FileHandle.DeleteLocal:
+                            if (file.IsDirectory)
+                            {
+                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(file.LocalFile.FullName, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                                else
+                                    Directory.Delete(file.LocalFile.FullName, true);
+                            }
+                            else
+                            {
+                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(file.LocalFile.FullName, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                                else
+                                    File.Delete(file.LocalFile.FullName);
+                            }
+                            break;
+                        case FileHandle.DeleteRemote:
+                            if (file.IsDirectory)
+                                DeleteDirectory(file.RemoteFile.FullName);
+                            else
+                                DeleteFile(file.RemoteFile.FullName);
+                            break;
                     }
+
+                    //Report the progress to the ProgressDialog
+                    Sync.ReportProgress((i*100) / files.Count, file.Name);
                 }
-                */
             }
 
             DirectoryLog.Save(localPath, ListDirectory(remotePath));
