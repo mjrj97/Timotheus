@@ -186,7 +186,7 @@
 			</TabItem.Header>
 			<DockPanel>
 				<DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch">
-					<Button Content="Add person" DockPanel.Dock="Left"/>
+					<Button Content="Add person" Click="AddPerson_Click" DockPanel.Dock="Left"/>
 				</DockPanel>
 				<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
 					<DataGrid Items="{Binding People}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible">
@@ -195,7 +195,7 @@
 							<DataGridTemplateColumn>
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
-										<Button Click="RemoveEvent_Click" Margin="5">X</Button>
+										<Button Click="RemovePerson_Click" Margin="5">X</Button>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>

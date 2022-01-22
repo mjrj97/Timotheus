@@ -7,7 +7,7 @@ The purpose of this project is to create software that can manage a small associ
 - [X] Calendar/Schedule editor
 - [X] Syncing calendars using the CalDAV protocol
 - [ ] Managing GDPR consent forms
-- [ ] Membership managment
+- [ ] Membership management
 - [X] SFTP-based storage
 - [X] Password manager
 - [ ] Encryption of stored data
@@ -15,13 +15,15 @@ The purpose of this project is to create software that can manage a small associ
 - [ ] Small Group Management
 
 ## Libraries
-Avalonia 0.10.8</br>
+Avalonia 0.10.10</br>
 PDFsharp-MigraDoc 1.50.5147</br>
 SSH.NET 2020.0.1
 
 ## How to contribute
-You are welcome to contribute to the project!
+You are welcome to contribute to the project!</br>
 Contact Martin for further information.
+</br>
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=XUQ6GLJNQFGCC)
 </br>
 </br>
 # DANSK
@@ -41,10 +43,12 @@ Formålet med dette projekt er at udvikle software, der kan behandle en lille fo
 - [ ] Administration af smågrupper
 
 ## Biblioteker
-Avalonia 0.10.8</br>
+Avalonia 0.10.10</br>
 PDFsharp-MigraDoc 1.50.5147</br>
 SSH.NET 2020.0.1
 
 ## Hvordan man kan bidrage
-Man er velkommen til at bidrage til projektet!
+Man er velkommen til at bidrage til projektet!</br>
 Kontakt Martin for at få yderligere information.
+</br>
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=XUQ6GLJNQFGCC)

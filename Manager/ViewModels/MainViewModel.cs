@@ -206,6 +206,14 @@ namespace Timotheus.ViewModels
         }
 
         /// <summary>
+        /// Removes the person from list.
+        /// </summary>
+        public void Remove(PersonViewModel person)
+        {
+            People.Remove(person);
+        }
+
+        /// <summary>
         /// Go up a level in the directory.
         /// </summary>
         public void GoUpDirectory()

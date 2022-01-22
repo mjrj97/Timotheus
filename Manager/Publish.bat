@@ -19,11 +19,11 @@ xcopy Resources\Icon*.icns %userprofile%\desktop\Timotheus\macOS\Application\Tim
 
 REM LINUX SECTION
 ECHO ***Building Linux application***
-dotnet publish -c Release --runtime linux-x64 --self-contained true -p:PublishTrimmed=true --output %userprofile%\desktop\Timotheus\Linux\Application\
+dotnet publish -c Release --runtime linux-x64 --self-contained true -p:PublishReadyToRun=true -p:PublishTrimmed=true --output %userprofile%\desktop\Timotheus\Linux\Application\
 
 REM WINDOWS SECTION
 ECHO ***Building Windows application***
-dotnet publish -c Release --runtime win-x64 --self-contained true -p:PublishTrimmed=true --output %userprofile%\desktop\Timotheus\Windows\Application\
+dotnet publish -c Release --runtime win-x64 --self-contained true -p:PublishReadyToRun=true -p:PublishTrimmed=true --output %userprofile%\desktop\Timotheus\Windows\Application\
 
 ECHO ***Building Windows installer***
 "C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\AdvancedInstaller.com" /edit %userprofile%/OneDrive/Dokumenter/GitHub/Timotheus/Installer/Windows/Installer.aip /SetVersion %VERSION%

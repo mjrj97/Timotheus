@@ -471,6 +471,28 @@ namespace Timotheus.Views
         }
         #endregion
 
+        #region Consent Forms
+        private async void AddPerson_Click(object sender, RoutedEventArgs e)
+        {
+            AddConsentForm dialog = new();
+            await dialog.ShowDialog(this);
+            if (dialog.DialogResult == DialogResult.OK)
+            {
+                PersonViewModel model = new(dialog.ConsentName);
+                mvm.People.Add(model);
+            }
+        }
+
+        private void RemovePerson_Click(object sender, RoutedEventArgs e)
+        {
+            PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
+            if (person != null)
+            {
+                mvm.Remove(person);
+            }
+        }
+        #endregion
+
         #region Toolstrip
         /// <summary>
         /// Clears the Calendar and Directory.
