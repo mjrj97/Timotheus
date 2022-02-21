@@ -366,6 +366,7 @@ namespace Timotheus.Views
             dialog.Local = mvm.Keys.Get("SSH-LocalDirectory");
             dialog.Remote = mvm.Keys.Get("SSH-RemoteDirectory");
             dialog.Host = mvm.Keys.Get("SSH-URL");
+            dialog.Port = mvm.Keys.Get("SSH-Port");
             dialog.Username = mvm.Keys.Get("SSH-Username");
             dialog.Password = mvm.Keys.Get("SSH-Password");
 
@@ -374,10 +375,11 @@ namespace Timotheus.Views
             {
                 try
                 {
-                    mvm.Directory = new IO.DirectoryManager(dialog.Local, dialog.Remote, dialog.Host, dialog.Username, dialog.Password);
+                    mvm.Directory = new DirectoryManager(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
                     mvm.Keys.Set("SSH-LocalDirectory", dialog.Local);
                     mvm.Keys.Set("SSH-RemoteDirectory", dialog.Remote);
                     mvm.Keys.Set("SSH-URL", dialog.Host);
+                    mvm.Keys.Set("SSH-Port", dialog.Port);
                     mvm.Keys.Set("SSH-Username", dialog.Username);
                     mvm.Keys.Set("SSH-Password", dialog.Password);
                 }
@@ -478,8 +480,25 @@ namespace Timotheus.Views
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
             {
-                PersonViewModel model = new(dialog.ConsentName);
-                mvm.People.Add(model);
+                mvm.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion.ToString(), dialog.ConsentComment);
+            }
+        }
+
+        private void ToggleActivePerson_Click(object sender, RoutedEventArgs e)
+        {
+            PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
+            person.Active = !person.Active;
+            mvm.UpdatePeopleTable();
+        }
+
+        private void People_RowLoading(object sender, DataGridRowEventArgs e)
+        {
+            if (e.Row.DataContext is PersonViewModel person)
+            {
+                if (person.Active)
+                    e.Row.Background = StdLight;
+                else
+                    e.Row.Background = StdDark;
             }
         }
 

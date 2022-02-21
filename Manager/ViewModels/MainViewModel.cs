@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Timotheus.IO;
 using Timotheus.Schedule;
+using Timotheus.Persons;
 
 namespace Timotheus.ViewModels
 {
@@ -42,6 +43,7 @@ namespace Timotheus.ViewModels
                 UpdateCalendarTable();
             }
         }
+        public List<Person> Persons = new();
 
         /// <summary>
         /// Type of period used by Calendar_View.
@@ -167,6 +169,18 @@ namespace Timotheus.ViewModels
             PeriodText = calendarPeriod.ToString();
         }
 
+        public void UpdatePeopleTable()
+        {
+            People.Clear();
+            for (int i = 0; i < Persons.Count; i++)
+            {
+                if (!Persons[i].Deleted)
+                    People.Add(new PersonViewModel(Persons[i]));
+            }
+
+            NotifyPropertyChanged(nameof(People));
+        }
+
         /// <summary>
         /// Changes the selected year and calls UpdateTable.
         /// </summary>
@@ -198,9 +212,19 @@ namespace Timotheus.ViewModels
         }
 
         /// <summary>
+        /// Adds a person to the list.
+        /// </summary>
+        public void AddPerson(string Name, DateTime ConsentDate, string ConsentVersion, string ConsentComment)
+        {
+            Persons.Add(new Person(Name, ConsentDate, ConsentVersion, ConsentComment, true));
+            UpdatePeopleTable();
+        }
+
+        /// <summary>
         /// Removes the event from list.
         /// </summary>
-        public void Remove(EventViewModel ev) {
+        public void Remove(EventViewModel ev)
+        {
             ev.Deleted = true;
             UpdateCalendarTable();
         }
@@ -210,7 +234,8 @@ namespace Timotheus.ViewModels
         /// </summary>
         public void Remove(PersonViewModel person)
         {
-            People.Remove(person);
+            person.Deleted = true;
+            UpdatePeopleTable();
         }
 
         /// <summary>

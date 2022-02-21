@@ -1,24 +1,21 @@
-﻿using Renci.SshNet;
-using Renci.SshNet.Sftp;
-using Renci.SshNet.Common;
-using System;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+using Renci.SshNet.Common;
 
 namespace Timotheus.IO
 {
     /// <summary>
-    /// Class that contains SFTP related methods. Uses SSH.NET.
+    /// Class that contains (S)FTP related methods.
     /// </summary>
     public class DirectoryManager
     {
         /// <summary>
         /// Client that is connected to the remote directory.
         /// </summary>
-        private readonly SftpClient client;
+        private readonly DirectoryClient client;
 
         /// <summary>
         /// The path of the local directory to be watched and synced with.
@@ -40,9 +37,9 @@ namespace Timotheus.IO
         /// <param name="localPath">Path to the local directory</param>
         /// <param name="remotePath">Path to the remote directory</param>
         /// <param name="host">Connection host/url</param>
-        /// <param name="username">Username to the SFTP connection</param>
-        /// <param name="password">Password to the SFTP connection</param>
-        public DirectoryManager(string localPath, string remotePath, string host, string username, string password) : this()
+        /// <param name="username">Username to the (S)FTP connection</param>
+        /// <param name="password">Password to the (S)FTP connection</param>
+        public DirectoryManager(string localPath, string remotePath, string host, int port, string username, string password) : this()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -60,14 +57,12 @@ namespace Timotheus.IO
 
             if (!Directory.Exists(LocalPath))
                 throw new Exception();
+            if (port != 22 && port != 21)
+                throw new Exception("Port is not supported.");
 
-            //LoadLastSync();
-            PasswordAuthenticationMethod auth = new(username, password);
-            ConnectionInfo connectionInfo = new(host, 22, username, auth);
-            connectionInfo.Encoding = System.Text.Encoding.UTF8;
-
-            client = new SftpClient(connectionInfo);
+            client = new DirectoryClient(host, port, username, password);
         }
+        public DirectoryManager(string localPath, string remotePath, string host, string username, string password) : this(localPath, remotePath, host, 22, username, password) { }
         public DirectoryManager()
         {
             Sync = new();
@@ -75,41 +70,11 @@ namespace Timotheus.IO
         }
 
         /// <summary>
-        /// Returns a list of files in the remote directory
-        /// </summary>
-        /// <param name="remoteDirectory">Path of the directory on the server.</param>
-        private List<SftpFile> ListDirectory(string remoteDirectory)
-        {
-            List<SftpFile> files = new();
-            if (client != null)
-            {
-                bool isPreconnected = client.IsConnected;
-                if (!isPreconnected)
-                {
-                    client.Connect();
-                }
-
-                if (client.Exists(remoteDirectory))
-                {
-                    files = client.ListDirectory(remoteDirectory).ToList();
-                    files.RemoveAt(0); //Remove the '.' and '..' directories.
-                    files.RemoveAt(0);
-                }
-
-                if (!isPreconnected)
-                {
-                    client.Disconnect();
-                }
-            }
-            return files;
-        }
-
-        /// <summary>
         /// Downloads a file from remote directory to a local directory
         /// </summary>
-        /// <param name="remoteFile">Path of the file on the server.</param>
+        /// <param name="remotePath">Path of the file on the server.</param>
         /// <param name="localPath">Path of the directory on the local machine.</param>
-        private void DownloadFile(SftpFile remoteFile, string localPath)
+        private void DownloadFile(string remotePath, string localPath)
         {
             bool isPreconnected = client.IsConnected;
             if (!isPreconnected)
@@ -117,9 +82,7 @@ namespace Timotheus.IO
                 client.Connect();
             }
 
-            string path = Path.Combine(localPath, remoteFile.Name);
-            using Stream fileStream = File.OpenWrite(path);
-            client.DownloadFile(remoteFile.FullName, fileStream);
+            client.DownloadFile(remotePath, localPath);
 
             if (!isPreconnected)
             {
@@ -140,11 +103,9 @@ namespace Timotheus.IO
                 client.Connect();
             }
 
-            string path = remotePath + '/' + Path.GetFileName(localFile);
             try
             {
-                using FileStream fs = File.Open(localFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                client.UploadFile(fs, path, true);
+                client.UploadFile(remotePath, localFile);
             }
             catch (IOException) { }
 
@@ -196,21 +157,6 @@ namespace Timotheus.IO
 
             try
             {
-                foreach (SftpFile file in client.ListDirectory(path))
-                {
-                    if ((file.Name != ".") && (file.Name != ".."))
-                    {
-                        if (file.IsDirectory)
-                        {
-                            DeleteDirectory(file.FullName);
-                        }
-                        else
-                        {
-                            client.DeleteFile(file.FullName);
-                        }
-                    }
-                }
-
                 client.DeleteDirectory(path);
             }
             catch (SftpPathNotFoundException e)
@@ -240,20 +186,7 @@ namespace Timotheus.IO
                 client.Connect();
             }
 
-            IList<SftpFile> files = ListDirectory(remotePath);
-
-            foreach (SftpFile file in files)
-            {
-                if (!file.IsDirectory && !file.IsSymbolicLink)
-                    DownloadFile(file, localPath);
-                else if (file.IsSymbolicLink)
-                    System.Diagnostics.Debug.WriteLine("Symbolic link ignore: " + file.FullName);
-                else
-                {
-                    DirectoryInfo dir = Directory.CreateDirectory(Path.Combine(localPath, file.Name));
-                    DownloadDirectory(file.FullName, dir.FullName);
-                }
-            }
+            client.DownloadDirectory(remotePath, localPath);
 
             if (!isPreconnected)
             {
@@ -275,7 +208,7 @@ namespace Timotheus.IO
             }
 
             string convertedPath = ConvertPath(localPath);
-            if (!client.Exists(convertedPath))
+            if (!client.Exists(convertedPath, true))
                 client.CreateDirectory(convertedPath);
 
             //Files in local directory
@@ -351,7 +284,7 @@ namespace Timotheus.IO
                             if (file.IsDirectory)
                                 DownloadDirectory(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
                             else
-                                DownloadFile(file.RemoteFile, localPath);
+                                DownloadFile(file.RemoteFile.FullName, localPath);
                             break;
                         case FileHandle.NewUpload:
                         case FileHandle.Upload:
@@ -389,7 +322,7 @@ namespace Timotheus.IO
                 }
             }
 
-            DirectoryLog.Save(localPath, ListDirectory(remotePath));
+            DirectoryLog.Save(localPath, client.ListDirectory(remotePath));
 
             #region DISCONNECTION
             if (!isPreconnected)
@@ -415,7 +348,7 @@ namespace Timotheus.IO
                 dirInfo = new(localPath);
                 localFiles = dirInfo.GetFileSystemInfos("*", SearchOption.TopDirectoryOnly);
             }
-            List<SftpFile> remoteFiles = ListDirectory(remotePath);
+            List<RemoteFile> remoteFiles = client.ListDirectory(remotePath);
 
             List<DirectoryFile> files = new();
             List<DirectoryLogItem> logList = DirectoryLog.Load(localPath);

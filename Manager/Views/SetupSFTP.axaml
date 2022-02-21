@@ -13,7 +13,9 @@
         <DockPanel>
           <DockPanel DockPanel.Dock="Top">
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_HostLabel}" Width="100" VerticalAlignment="Center"/>
-            <TextBox Watermark="ssh.domain.com" Text="{Binding Host}"/>
+            <TextBox Watermark="ssh.domain.com" Text="{Binding Host}" Width="162"/>
+			  <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_PortLabel}" Margin="10 0 0 0" Width="50" VerticalAlignment="Center"/>
+			  <TextBox Width="50" Watermark="22" Text="{Binding Port}"/>
           </DockPanel>
           <DockPanel DockPanel.Dock="Top" Margin="0 10">
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_UsernameLabel}" Width="100" VerticalAlignment="Center"/>

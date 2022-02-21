@@ -1060,6 +1060,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Port.
+        /// </summary>
+        public static string SFTPSetup_PortLabel {
+            get {
+                return ResourceManager.GetString("SFTPSetup_PortLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remote.
         /// </summary>
         public static string SFTPSetup_RemoteDirectoryLabel {

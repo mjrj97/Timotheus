@@ -185,17 +185,28 @@
 				</DockPanel>
 			</TabItem.Header>
 			<DockPanel>
-				<DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch">
-					<Button Content="Add person" Click="AddPerson_Click" DockPanel.Dock="Left"/>
+				<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10" HorizontalAlignment="Stretch">
+					<Button Click="AddPerson_Click" DockPanel.Dock="Left" Height="32">
+						<DockPanel>
+							<Image Source="/Resources/Add.png" Height="17" VerticalAlignment="Center"/>
+							<TextBlock Text="Add person" Margin="5 0" VerticalAlignment="Center"/>
+						</DockPanel>
+					</Button>
 				</DockPanel>
 				<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
-					<DataGrid Items="{Binding People}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible">
+					<DataGrid Items="{Binding People}" VerticalScrollBarVisibility="Visible" LoadingRow="People_RowLoading">
 						<DataGrid.Columns>
-							<DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}" IsReadOnly="True"/>
+							<DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name}"/>
+							<DataGridTextColumn Header="Consent date" Width="150" Binding="{Binding Date}" IsReadOnly="True"/>
+							<DataGridTextColumn Header="Consent version" Width="150" Binding="{Binding Version}" IsReadOnly="True"/>
+							<DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Comment}"/>
 							<DataGridTemplateColumn>
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
-										<Button Click="RemovePerson_Click" Margin="5">X</Button>
+										<DockPanel>
+											<Button Click="ToggleActivePerson_Click" Margin="5">Active</Button>
+											<Button Click="RemovePerson_Click" Margin="5">X</Button>
+										</DockPanel>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>

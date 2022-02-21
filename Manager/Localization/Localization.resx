@@ -408,6 +408,9 @@
   <data name="SFTPSetup_PasswordLabel" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="SFTPSetup_PortLabel" xml:space="preserve">
+    <value>Port</value>
+  </data>
   <data name="SFTPSetup_RemoteDirectoryLabel" xml:space="preserve">
     <value>Remote</value>
   </data>

@@ -11,14 +11,29 @@ namespace Timotheus.Views
         /// The name of the person giving consent.
         /// </summary>
         public string ConsentName { get; set; }
+
+        private DateTime _consentDate;
         /// <summary>
         /// The date of where consent was given.
         /// </summary>
-        public DateTime ConsentDate { get; set; }
+        public DateTime ConsentDate
+        {
+            get
+            {
+                return _consentDate;
+            }
+            set
+            {
+                _consentDate = value;
+                NotifyPropertyChanged(nameof(ConsentDate));
+            }
+        }
+
         /// <summary>
         /// The version of the consent form.
         /// </summary>
         public int ConsentVersion { get; set; }
+
         /// <summary>
         /// Any comment given to the consent.
         /// </summary>
