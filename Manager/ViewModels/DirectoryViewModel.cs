@@ -3,14 +3,14 @@ using System.IO;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
-using Renci.SshNet.Common;
+using Timotheus.IO;
 
-namespace Timotheus.IO
+namespace Timotheus.ViewModels
 {
     /// <summary>
     /// Class that contains (S)FTP related methods.
     /// </summary>
-    public class DirectoryManager
+    public class DirectoryViewModel
     {
         /// <summary>
         /// Client that is connected to the remote directory.
@@ -39,7 +39,7 @@ namespace Timotheus.IO
         /// <param name="host">Connection host/url</param>
         /// <param name="username">Username to the (S)FTP connection</param>
         /// <param name="password">Password to the (S)FTP connection</param>
-        public DirectoryManager(string localPath, string remotePath, string host, int port, string username, string password) : this()
+        public DirectoryViewModel(string localPath, string remotePath, string host, int port, string username, string password) : this()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -62,113 +62,11 @@ namespace Timotheus.IO
 
             client = new DirectoryClient(host, port, username, password);
         }
-        public DirectoryManager(string localPath, string remotePath, string host, string username, string password) : this(localPath, remotePath, host, 22, username, password) { }
-        public DirectoryManager()
+        public DirectoryViewModel(string localPath, string remotePath, string host, string username, string password) : this(localPath, remotePath, host, 22, username, password) { }
+        public DirectoryViewModel()
         {
             Sync = new();
             Sync.DoWork += Synchronize;
-        }
-
-        /// <summary>
-        /// Downloads a file from remote directory to a local directory
-        /// </summary>
-        /// <param name="remotePath">Path of the file on the server.</param>
-        /// <param name="localPath">Path of the directory on the local machine.</param>
-        private void DownloadFile(string remotePath, string localPath)
-        {
-            bool isPreconnected = client.IsConnected;
-            if (!isPreconnected)
-            {
-                client.Connect();
-            }
-
-            client.DownloadFile(remotePath, localPath);
-
-            if (!isPreconnected)
-            {
-                client.Disconnect();
-            }
-        }
-
-        /// <summary>
-        /// Uploads a file from the local directory to the remote directory
-        /// </summary>
-        /// <param name="remotePath">Path of the directory on the server.</param>
-        /// <param name="localFile">Path of the file on the local machine.</param>
-        private void UploadFile(string remotePath, string localFile)
-        {
-            bool isPreconnected = client.IsConnected;
-            if (!isPreconnected)
-            {
-                client.Connect();
-            }
-
-            try
-            {
-                client.UploadFile(remotePath, localFile);
-            }
-            catch (IOException) { }
-
-            if (!isPreconnected)
-            {
-                client.Disconnect();
-            }
-        }
-
-        /// <summary>
-        /// Deletes file on the remote directory.
-        /// </summary>
-        /// <param name="path">Path of the file on the server.</param>
-        private void DeleteFile(string path)
-        {
-            bool isPreconnected = client.IsConnected;
-            if (!isPreconnected)
-            {
-                client.Connect();
-            }
-
-            try
-            {
-                client.DeleteFile(path);
-            }
-            catch (SftpPathNotFoundException e)
-            {
-                //Do something when file is not found
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
-
-            if (!isPreconnected)
-            {
-                client.Disconnect();
-            }
-        }
-
-        /// <summary>
-        /// Deletes directory on the remote directory.
-        /// </summary>
-        /// <param name="path">Path of the directory on the server.</param>
-        private void DeleteDirectory(string path)
-        {
-            bool isPreconnected = client.IsConnected;
-            if (!isPreconnected)
-            {
-                client.Connect();
-            }
-
-            try
-            {
-                client.DeleteDirectory(path);
-            }
-            catch (SftpPathNotFoundException e)
-            {
-                //Do something when file is not found
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
-
-            if (!isPreconnected)
-            {
-                client.Disconnect();
-            }
         }
 
         /// <summary>
@@ -186,7 +84,23 @@ namespace Timotheus.IO
                 client.Connect();
             }
 
-            client.DownloadDirectory(remotePath, localPath);
+            foreach (RemoteFile file in client.ListDirectory(remotePath))
+            {
+                if ((file.Name != ".") && (file.Name != ".."))
+                {
+                    if (!file.IsDirectory && !file.IsSymbolicLink)
+                        client.DownloadFile(file.FullName, ConvertPath(file.FullName));
+                    else if (file.IsSymbolicLink)
+                        System.Diagnostics.Debug.WriteLine("Symbolic link ignore: " + file.FullName);
+                    else
+                    {
+                        DirectoryInfo dir = Directory.CreateDirectory(Path.Combine(localPath, file.Name));
+                        DownloadDirectory(file.FullName, dir.FullName);
+                    }
+                }
+            }
+
+            DirectoryLog.Save(localPath, client.ListDirectory(remotePath));
 
             if (!isPreconnected)
             {
@@ -220,7 +134,7 @@ namespace Timotheus.IO
                 string name = Path.GetFileName(localFilePaths[i]);
                 if (Ignore(name))
                     continue;
-                UploadFile(remotePath, localFilePaths[i]);
+                client.UploadFile(remotePath, localFilePaths[i]);
             }
 
             for (int i = 0; i < localDirectoryPaths.Length; i++)
@@ -264,11 +178,9 @@ namespace Timotheus.IO
 
             for (int i = 0; i < files.Count; i++)
             {
+                //Stop synchronization if user presses 'Cancel'
                 if (Sync.CancellationPending == true)
-                {
-                    //Top synchronization if user presses 'Cancel'
                     break;
-                }
                 else
                 {
                     DirectoryFile file = files[i];
@@ -284,14 +196,14 @@ namespace Timotheus.IO
                             if (file.IsDirectory)
                                 DownloadDirectory(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
                             else
-                                DownloadFile(file.RemoteFile.FullName, localPath);
+                                client.DownloadFile(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
                             break;
                         case FileHandle.NewUpload:
                         case FileHandle.Upload:
                             if (file.IsDirectory)
                                 UploadDirectory(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
                             else
-                                UploadFile(remotePath, file.LocalFile.FullName);
+                                client.UploadFile(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
                             break;
                         case FileHandle.DeleteLocal:
                             if (file.IsDirectory)
@@ -311,9 +223,9 @@ namespace Timotheus.IO
                             break;
                         case FileHandle.DeleteRemote:
                             if (file.IsDirectory)
-                                DeleteDirectory(file.RemoteFile.FullName);
+                                client.DeleteDirectory(file.RemoteFile.FullName);
                             else
-                                DeleteFile(file.RemoteFile.FullName);
+                                client.DeleteFile(file.RemoteFile.FullName);
                             break;
                     }
 

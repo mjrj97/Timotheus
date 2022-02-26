@@ -4,16 +4,26 @@ using System.IO;
 using Renci.SshNet.Sftp;
 using System.Collections.Generic;
 using System.Linq;
+using Renci.SshNet.Common;
 
 namespace Timotheus.IO
 {
+    /// <summary>
+    /// Wrapper class around a Ftp and Sftp client.
+    /// </summary>
     public class DirectoryClient
     {
         private readonly SftpClient sftpClient;
         private readonly FtpClient ftpClient;
 
+        /// <summary>
+        /// The port used by the client. 22 = Sftp and 21 = Ftp.
+        /// </summary>
         private readonly int port;
 
+        /// <summary>
+        /// Is the client connected to the remote directory.
+        /// </summary>
         public bool IsConnected
         {
             get
@@ -25,6 +35,13 @@ namespace Timotheus.IO
             }
         }
 
+        /// <summary>
+        /// Creates an instace of a DirectoryClient. The port determines whether (22) SFTP or (21) FTP is used.
+        /// </summary>
+        /// <param name="host">Host/URL to the remote server.</param>
+        /// <param name="port">Port of the server.</param>
+        /// <param name="username">Username used to connect to the server.</param>
+        /// <param name="password">Password of the user.</param>
         public DirectoryClient(string host, int port, string username, string password)
         {
             this.port = port;
@@ -39,6 +56,10 @@ namespace Timotheus.IO
                 ftpClient = new FtpClient(host, port, username, password);
         }
 
+        /// <summary>
+        /// Returns a list of files in the remote directory.
+        /// </summary>
+        /// <param name="remote">Path to the remote directory.</param>
         public List<RemoteFile> ListDirectory(string remote)
         {
             List<RemoteFile> files = new();
@@ -84,6 +105,10 @@ namespace Timotheus.IO
             return files;
         }
 
+        /// <summary>
+        /// Creates a directory on the remote directory at the given path.
+        /// </summary>
+        /// <param name="remote">Path of the new directory.</param>
         public void CreateDirectory(string remote)
         {
             if (port == 22)
@@ -92,6 +117,11 @@ namespace Timotheus.IO
                 ftpClient.CreateDirectory(remote);
         }
 
+        /// <summary>
+        /// Checks whether a file/directory exists on the remote directory.
+        /// </summary>
+        /// <param name="remote">Path to the file or directory.</param>
+        /// <param name="directory">Is this a directory?</param>
         public bool Exists(string remote, bool directory)
         {
             bool exists;
@@ -109,120 +139,162 @@ namespace Timotheus.IO
             return exists;
         }
 
+        /// <summary>
+        /// Downloads a file from the remote directory to the local directory.
+        /// </summary>
+        /// <param name="remote">Path of the file on the remote directory.</param>
+        /// <param name="local">Path of the file on the local machine.</param>
         public void DownloadFile(string remote, string local)
         {
+            bool isPreconnected = IsConnected;
+            if (!isPreconnected)
+            {
+                Connect();
+            }
+
             if (port == 22)
             {
-                string path = Path.Combine(local, remote);
-                using Stream fileStream = File.OpenWrite(path);
+                using Stream fileStream = File.OpenWrite(local);
                 sftpClient.DownloadFile(remote, fileStream);
             }
             else
                 ftpClient.DownloadFile(local, remote);
-        }
 
-        public void DownloadDirectory(string remote, string local)
-        {
-            if (port == 22)
+            if (!isPreconnected)
             {
-                foreach (SftpFile file in sftpClient.ListDirectory(remote))
-                {
-                    if ((file.Name != ".") && (file.Name != ".."))
-                    {
-                        if (!file.IsDirectory && !file.IsSymbolicLink)
-                            DownloadFile(file.FullName, local);
-                        else if (file.IsSymbolicLink)
-                            System.Diagnostics.Debug.WriteLine("Symbolic link ignore: " + file.FullName);
-                        else
-                        {
-                            DirectoryInfo dir = Directory.CreateDirectory(Path.Combine(local, file.Name));
-                            DownloadDirectory(file.FullName, dir.FullName);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                foreach (FtpListItem file in ftpClient.GetListing(remote))
-                {
-                    if ((file.Name != ".") && (file.Name != ".."))
-                    {
-                        if (file.Type != FtpFileSystemObjectType.Directory && file.Type != FtpFileSystemObjectType.Link)
-                            DownloadFile(file.FullName, local);
-                        else if (file.Type == FtpFileSystemObjectType.Link)
-                            System.Diagnostics.Debug.WriteLine("Symbolic link ignore: " + file.FullName);
-                        else
-                        {
-                            DirectoryInfo dir = Directory.CreateDirectory(Path.Combine(local, file.Name));
-                            DownloadDirectory(file.FullName, dir.FullName);
-                        }
-                    }
-                }
+                Disconnect();
             }
         }
 
+        /// <summary>
+        /// Uploads a file from the local directory to the remote directory
+        /// </summary>
+        /// <param name="remote">Path of the file on the remote directory.</param>
+        /// <param name="local">Path of the file on the local machine.</param>
         public void UploadFile(string remote, string local)
         {
-            string path = remote + '/' + Path.GetFileName(local);
-            if (port == 22)
+            bool isPreconnected = IsConnected;
+            if (!isPreconnected)
             {
-                using FileStream fs = File.Open(local, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                sftpClient.UploadFile(fs, path, true);
+                Connect();
             }
-            else
-                ftpClient.UploadFile(local, path);
+
+            try
+            {
+                if (port == 22)
+                {
+                    using FileStream fs = File.Open(local, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    sftpClient.UploadFile(fs, remote, true);
+                }
+                else
+                    ftpClient.UploadFile(local, remote);
+            } catch (IOException) { }
+
+            if (!isPreconnected)
+            {
+                Disconnect();
+            }
         }
 
+        /// <summary>
+        /// Deletes file on the remote directory.
+        /// </summary>
+        /// <param name="remote">Path of the file on the server.</param>
         public void DeleteFile(string remote)
         {
-            if (port == 22)
-                sftpClient.DeleteFile(remote);
-            else
-                ftpClient.DeleteFile(remote);
+            bool isPreconnected = IsConnected;
+            if (!isPreconnected)
+            {
+                Connect();
+            }
+
+            try
+            {
+                if (port == 22)
+                    sftpClient.DeleteFile(remote);
+                else
+                    ftpClient.DeleteFile(remote);
+            }
+            catch (SftpPathNotFoundException e)
+            {
+                //Do something when file is not found
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+
+            if (!isPreconnected)
+            {
+                Disconnect();
+            }
         }
 
+        /// <summary>
+        /// Deletes directory on the remote directory.
+        /// </summary>
+        /// <param name="remote">Path of the directory on the server.</param>
         public void DeleteDirectory(string remote)
         {
-            if (port == 22)
+            bool isPreconnected = IsConnected;
+            if (!isPreconnected)
             {
-                foreach (SftpFile file in sftpClient.ListDirectory(remote))
-                {
-                    if ((file.Name != ".") && (file.Name != ".."))
-                    {
-                        if (file.IsDirectory)
-                        {
-                            DeleteDirectory(file.FullName);
-                        }
-                        else
-                        {
-                            sftpClient.DeleteFile(file.FullName);
-                        }
-                    }
-                }
-
-                sftpClient.DeleteDirectory(remote);
+                Connect();
             }
-            else
+
+            try
             {
-                foreach (FtpListItem file in ftpClient.GetListing(remote))
+                if (port == 22)
                 {
-                    if ((file.Name != ".") && (file.Name != ".."))
+                    foreach (SftpFile file in sftpClient.ListDirectory(remote))
                     {
-                        if (file.Type == FtpFileSystemObjectType.Directory)
+                        if ((file.Name != ".") && (file.Name != ".."))
                         {
-                            DeleteDirectory(file.FullName);
-                        }
-                        else
-                        {
-                            ftpClient.DeleteFile(file.FullName);
+                            if (file.IsDirectory)
+                            {
+                                DeleteDirectory(file.FullName);
+                            }
+                            else
+                            {
+                                sftpClient.DeleteFile(file.FullName);
+                            }
                         }
                     }
-                }
 
-                ftpClient.DeleteDirectory(remote);
+                    sftpClient.DeleteDirectory(remote);
+                }
+                else
+                {
+                    foreach (FtpListItem file in ftpClient.GetListing(remote))
+                    {
+                        if ((file.Name != ".") && (file.Name != ".."))
+                        {
+                            if (file.Type == FtpFileSystemObjectType.Directory)
+                            {
+                                DeleteDirectory(file.FullName);
+                            }
+                            else
+                            {
+                                ftpClient.DeleteFile(file.FullName);
+                            }
+                        }
+                    }
+
+                    ftpClient.DeleteDirectory(remote);
+                }
+            }
+            catch (SftpPathNotFoundException e)
+            {
+                //Do something when file is not found
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+
+            if (!isPreconnected)
+            {
+                Disconnect();
             }
         }
 
+        /// <summary>
+        /// Establish connection to the remote directory.
+        /// </summary>
         public void Connect()
         {
             if (port == 22)
@@ -231,6 +303,9 @@ namespace Timotheus.IO
                 ftpClient.Connect();
         }
 
+        /// <summary>
+        /// Disconnect from the remote directory.
+        /// </summary>
         public void Disconnect()
         {
             if (port == 22)

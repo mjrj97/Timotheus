@@ -375,7 +375,7 @@ namespace Timotheus.Views
             {
                 try
                 {
-                    mvm.Directory = new DirectoryManager(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
+                    mvm.Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
                     mvm.Keys.Set("SSH-LocalDirectory", dialog.Local);
                     mvm.Keys.Set("SSH-RemoteDirectory", dialog.Remote);
                     mvm.Keys.Set("SSH-URL", dialog.Host);

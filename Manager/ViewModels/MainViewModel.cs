@@ -116,11 +116,11 @@ namespace Timotheus.ViewModels
             }
         }
 
-        private DirectoryManager _Directory = new();
+        private DirectoryViewModel _Directory = new();
         /// <summary>
         /// A SFTP object connecting a local and remote directory.
         /// </summary>
-        public DirectoryManager Directory
+        public DirectoryViewModel Directory
         {
             get
             {
@@ -272,7 +272,7 @@ namespace Timotheus.ViewModels
         {
             try
             {
-                Directory = new DirectoryManager(Keys.Get("SSH-LocalDirectory"), Keys.Get("SSH-RemoteDirectory"), Keys.Get("SSH-URL"), Keys.Get("SSH-Username"), Keys.Get("SSH-Password"));
+                Directory = new DirectoryViewModel(Keys.Get("SSH-LocalDirectory"), Keys.Get("SSH-RemoteDirectory"), Keys.Get("SSH-URL"), int.Parse(Keys.Get("SSH-Port")), Keys.Get("SSH-Username"), Keys.Get("SSH-Password"));
             }
             catch (Exception) { Directory = new(); }
 
