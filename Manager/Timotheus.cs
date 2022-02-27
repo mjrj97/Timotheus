@@ -82,7 +82,7 @@ namespace Timotheus
                 List<Key> keys = Registry.Keys();
                 for (int i = 0; i < keys.Count; i++)
                 {
-                    key.SetValue(keys[i].name, keys[i].value);
+                    key.SetValue(keys[i].Name, keys[i].Value);
                 }
 
                 key.Close();

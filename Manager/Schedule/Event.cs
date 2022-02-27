@@ -157,19 +157,19 @@ namespace Timotheus.Schedule
             for (int i = 0; i < lines.Length; i++)
             {
                 if (lines[i].Contains("SUMMARY"))
-                    Name = Key.Value(lines[i], ':');
+                    Name = Key.GetValue(lines[i], ':');
                 if (lines[i].Contains("DESCRIPTION"))
-                    Description = Calendar.ConvertFromCALString(Key.Value(lines[i], ':'));
+                    Description = Calendar.ConvertFromCALString(Key.GetValue(lines[i], ':'));
                 if (lines[i].Contains("LOCATION"))
-                    Location = Calendar.ConvertFromCALString(Key.Value(lines[i], ':'));
+                    Location = Calendar.ConvertFromCALString(Key.GetValue(lines[i], ':'));
                 if (lines[i].Contains("UID"))
-                    UID = Key.Value(lines[i], ':');
+                    UID = Key.GetValue(lines[i], ':');
                 if (lines[i].Contains("DTSTART"))
-                    Start = Calendar.StringToDate(Key.Value(lines[i], ':'));
+                    Start = Calendar.StringToDate(Key.GetValue(lines[i], ':'));
                 if (lines[i].Contains("DTEND"))
-                    End = Calendar.StringToDate(Key.Value(lines[i], ':'));
+                    End = Calendar.StringToDate(Key.GetValue(lines[i], ':'));
                 if (lines[i].Contains("DTSTAMP"))
-                    Created = Calendar.StringToDate(Key.Value(lines[i], ':'));
+                    Created = Calendar.StringToDate(Key.GetValue(lines[i], ':'));
             }
 
             Changed = Created;

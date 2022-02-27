@@ -65,7 +65,7 @@ namespace Timotheus.Views
                 int j = 0;
                 while (j < keys.Count && !found)
                 {
-                    if (keys[j].name == std[i])
+                    if (keys[j].Name == std[i])
                         found = true;
                     j++;
                 }

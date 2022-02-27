@@ -144,6 +144,8 @@ namespace Timotheus.ViewModels
                 UploadDirectory(path, localDirectoryPaths[i]);
             }
 
+            DirectoryLog.Save(localPath, client.ListDirectory(remotePath));
+
             if (!isPreconnected)
             {
                 client.Disconnect();

@@ -1,4 +1,6 @@
-﻿namespace Timotheus.IO
+﻿using System;
+
+namespace Timotheus.IO
 {
     /// <summary>
     /// A key is named and has a corresponding value. Can be used as holding a password ie. Password,12345 or localization etc.
@@ -8,22 +10,33 @@
         /// <summary>
         /// Name of the key, could be "Password"
         /// </summary>
-        public readonly string name;
-        
+        public readonly string Name;
+
+        private string _value = string.Empty;
         /// <summary>
         /// Value of the key, could be a password.
         /// </summary>
-        public string value;
+        public string Value 
+        { 
+            get
+            {
+                return _value.Replace("\\n", Environment.NewLine);
+            }
+            set
+            {
+                _value = value.Replace("\n", "\\n").Replace("\r", "");
+            }
+        }
 
         /// <summary>
         /// Constructor to create a key with a name and value.
         /// </summary>
-        /// <param name="name">Designates the name of the key. Is used when trying to get the value.</param>
-        /// <param name="value">The value assigned to this key.</param>
-        public Key(string name, string value)
+        /// <param name="Name">Designates the name of the key. Is used when trying to get the value.</param>
+        /// <param name="Value">The value assigned to this key.</param>
+        public Key(string Name, string Value)
         {
-            this.name = name;
-            this.value = value;
+            this.Name = Name;
+            this.Value = Value;
         }
 
         /// <summary>
@@ -38,8 +51,8 @@
             {
                 i++;
             }
-            name = line.Substring(0, i);
-            value = line.Substring(i + 1, line.Length - i - 1);
+            Name = line[..i];
+            Value = line.Substring(i + 1, line.Length - i - 1);
         }
 
         /// <summary>
@@ -47,14 +60,14 @@
         /// </summary>
         /// <param name="line">Line that contains of a name, separator and value.</param>
         /// <param name="separator">The character used to separate the name and value.</param>
-        public static string Name(string line, char separator)
+        public static string GetName(string line, char separator)
         {
             int i = 0;
             while (line[i] != separator && i < line.Length)
             {
                 i++;
             }
-            return line.Substring(0, i);
+            return line[..i];
         }
 
         /// <summary>
@@ -62,7 +75,7 @@
         /// </summary>
         /// <param name="line">Line that contains of a name, separator and value.</param>
         /// <param name="separator">The character used to separate the name and value.</param>
-        public static string Value(string line, char separator)
+        public static string GetValue(string line, char separator)
         {
             int i = 0;
             while (line[i] != separator && i < line.Length)
@@ -77,7 +90,7 @@
         /// </summary>
         public override string ToString()
         {
-            return name + ":" + value;
+            return Name + ":" + _value;
         }
     }
 }

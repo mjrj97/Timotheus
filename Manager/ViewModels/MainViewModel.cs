@@ -272,7 +272,7 @@ namespace Timotheus.ViewModels
         {
             try
             {
-                Directory = new DirectoryViewModel(Keys.Get("SSH-LocalDirectory"), Keys.Get("SSH-RemoteDirectory"), Keys.Get("SSH-URL"), int.Parse(Keys.Get("SSH-Port")), Keys.Get("SSH-Username"), Keys.Get("SSH-Password"));
+                Directory = new DirectoryViewModel(Keys.Get("SSH-LocalDirectory"), Keys.Get("SSH-RemoteDirectory"), Keys.Get("SSH-URL"), int.Parse(Keys.Get("SSH-Port") == string.Empty ? "22" : Keys.Get("SSH-Port")), Keys.Get("SSH-Username"), Keys.Get("SSH-Password"));
             }
             catch (Exception) { Directory = new(); }
 

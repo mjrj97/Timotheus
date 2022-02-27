@@ -179,9 +179,9 @@ namespace Timotheus.IO
             bool found = false;
             while (!found && i < keys.Count)
             {
-                if (keys[i].name == name)
+                if (keys[i].Name == name)
                 {
-                    keys[i].value = value;
+                    keys[i].Value = value;
                     found = true;
                 }
                 i++;
@@ -202,7 +202,7 @@ namespace Timotheus.IO
             bool found = false;
             while (!found && i < keys.Count)
             {
-                if (keys[i].name == name)
+                if (keys[i].Name == name)
                 {
                     keys.Remove(keys[i]);
                     found = true;
@@ -223,9 +223,9 @@ namespace Timotheus.IO
 
             while (i < keys.Count && !found)
             {
-                if (keys[i].name == name)
+                if (keys[i].Name == name)
                 {
-                    value = keys[i].value;
+                    value = keys[i].Value;
                     found = true;
                 }
                 i++;
@@ -262,9 +262,7 @@ namespace Timotheus.IO
             StringBuilder builder = new();
             for (int i = 0; i < keys.Count; i++)
             {
-                builder.Append(keys[i].name);
-                builder.Append(':');
-                builder.Append(keys[i].value);
+                builder.Append(keys[i].ToString());
                 if (i != keys.Count - 1)
                     builder.Append('\n');
             }
