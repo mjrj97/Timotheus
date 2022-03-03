@@ -9,7 +9,7 @@ namespace Timotheus.IO
     /// <summary>
     /// Class that can load a list of value with corresponding names. Can be loaded from encrypted (using a password) and unencrypted files. The file's line separator can be specified (ie. NAME,VALUE where ',' is used).
     /// </summary>
-    public class Register
+    public class Register : IRepository<string>
     {
         /// <summary>
         /// Name of the register.
@@ -155,7 +155,7 @@ namespace Timotheus.IO
         /// </summary>
         /// <param name="name">Name of the key.</param>
         /// <param name="value">Value of the key.</param>
-        public void Add(string name, string value)
+        public void Create(string name, string value)
         {
             keys.Add(new Key(name, value));
         }
@@ -163,7 +163,7 @@ namespace Timotheus.IO
         /// Adds a key to the register from a line. Uses the specified separator to get name and value. Doesn't check if key already exists.
         /// </summary>
         /// <param name="line"></param>
-        public void Add(string line)
+        public void Create(string line)
         {
             keys.Add(new Key(line, separator));
         }
@@ -173,7 +173,7 @@ namespace Timotheus.IO
         /// </summary>
         /// <param name="name">Name of the key.</param>
         /// <param name="value">Value of the key.</param>
-        public void Set(string name, string value)
+        public void Update(string name, string value)
         {
             int i = 0;
             bool found = false;
@@ -196,7 +196,7 @@ namespace Timotheus.IO
         /// Removes a key with the given name.
         /// </summary>
         /// <param name="name">Name of the key</param>
-        public void Remove(string name)
+        public void Delete(string name)
         {
             int i = 0;
             bool found = false;
@@ -215,7 +215,7 @@ namespace Timotheus.IO
         /// Returns the value of the key with a given name.
         /// </summary>
         /// <param name="name">Name of the key.</param>
-        public string Get(string name)
+        public string Retrieve(string name)
         {
             string value = string.Empty;
             int i = 0;
@@ -237,9 +237,9 @@ namespace Timotheus.IO
         /// </summary>
         /// <param name="name">The name of the variable (e.g. Calendar_Page).</param>
         /// <param name="standard">The standard value in case the variable wasn't found.</param>
-        public string Get(string name, string standard)
+        public string Retrieve(string name, string standard)
         {
-            string value = Get(name);
+            string value = Retrieve(name);
             if (value == string.Empty)
                 return standard;
             else

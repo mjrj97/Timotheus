@@ -128,7 +128,7 @@ namespace Timotheus
                     for (int i = 0; i < names.Length; i++)
                     {
                         string value = Convert.ToString(key.GetValue(names[i]));
-                        Registry.Add(names[i], value);
+                        Registry.Create(names[i], value);
                     }
 
                     key.Close();

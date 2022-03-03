@@ -54,16 +54,16 @@ namespace Timotheus.Views
                     }
                 }
                 else
-                    keyPath = Timotheus.Registry.Get("KeyPath");
+                    keyPath = Timotheus.Registry.Retrieve("KeyPath");
 
                 if (!File.Exists(keyPath))
                 {
-                    Timotheus.Registry.Remove("KeyPath");
+                    Timotheus.Registry.Delete("KeyPath");
                 }
                 switch (Path.GetExtension(keyPath))
                 {
                     case ".tkey":
-                        string encodedPassword = Timotheus.Registry.Get("KeyPassword");
+                        string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword");
                         string password = string.Empty;
                         if (encodedPassword != string.Empty)
                         {
@@ -81,7 +81,7 @@ namespace Timotheus.Views
                                 if (dialog.Save)
                                 {
                                     encodedPassword = Cipher.Encrypt(password);
-                                    Timotheus.Registry.Set("KeyPassword", encodedPassword);
+                                    Timotheus.Registry.Update("KeyPassword", encodedPassword);
                                 }
                             }
                         }
@@ -145,10 +145,10 @@ namespace Timotheus.Views
         private async void OpenCalendar_Click(object sender, RoutedEventArgs e)
         {
             OpenCalendar dialog = new();
-            dialog.Username = mvm.Keys.Get("Calendar-Email");
-            dialog.Password = mvm.Keys.Get("Calendar-Password");
-            dialog.URL = mvm.Keys.Get("Calendar-URL");
-            dialog.Path = mvm.Keys.Get("Calendar-Path");
+            dialog.Username = mvm.Keys.Retrieve("Calendar-Email");
+            dialog.Password = mvm.Keys.Retrieve("Calendar-Password");
+            dialog.URL = mvm.Keys.Retrieve("Calendar-URL");
+            dialog.Path = mvm.Keys.Retrieve("Calendar-Path");
 
             await dialog.ShowDialog(this);
 
@@ -159,14 +159,14 @@ namespace Timotheus.Views
                     if (dialog.IsRemote)
                     {
                         mvm.Calendar = new(dialog.Username, dialog.Password, dialog.URL);
-                        mvm.Keys.Set("Calendar-Email", dialog.Username);
-                        mvm.Keys.Set("Calendar-Password", dialog.Password);
-                        mvm.Keys.Set("Calendar-URL", dialog.URL);
+                        mvm.Keys.Update("Calendar-Email", dialog.Username);
+                        mvm.Keys.Update("Calendar-Password", dialog.Password);
+                        mvm.Keys.Update("Calendar-URL", dialog.URL);
                     }
                     else
                     {
                         mvm.Calendar = new(dialog.Path);
-                        mvm.Keys.Set("Calendar-Path", dialog.Path);
+                        mvm.Keys.Update("Calendar-Path", dialog.Path);
                     }
                 }
                 catch (Exception ex)
@@ -222,9 +222,9 @@ namespace Timotheus.Views
                     if (!dialog.UseCurrent)
                     {
                         mvm.Calendar.SetupSync(dialog.Username, dialog.Password, dialog.URL);
-                        mvm.Keys.Set("Calendar-Email", dialog.Username);
-                        mvm.Keys.Set("Calendar-Password", dialog.Password);
-                        mvm.Keys.Set("Calendar-URL", dialog.URL);
+                        mvm.Keys.Update("Calendar-Email", dialog.Username);
+                        mvm.Keys.Update("Calendar-Password", dialog.Password);
+                        mvm.Keys.Update("Calendar-URL", dialog.URL);
                     }
 
                     ProgressDialog pDialog = new();
@@ -256,13 +256,13 @@ namespace Timotheus.Views
             AddEvent dialog = new();
 
             string text;
-            if ((text = mvm.Keys.Get("Settings-Address")) != string.Empty)
+            if ((text = mvm.Keys.Retrieve("Settings-Address")) != string.Empty)
                 dialog.Location = text;
-            if ((text = mvm.Keys.Get("Settings-EventDescription")) != string.Empty)
+            if ((text = mvm.Keys.Retrieve("Settings-EventDescription")) != string.Empty)
                 dialog.Description = text;
-            if ((text = mvm.Keys.Get("Settings-EventStart")) != string.Empty)
+            if ((text = mvm.Keys.Retrieve("Settings-EventStart")) != string.Empty)
                 dialog.StartTime = text;
-            if ((text = mvm.Keys.Get("Settings-EventEnd")) != string.Empty)
+            if ((text = mvm.Keys.Retrieve("Settings-EventEnd")) != string.Empty)
                 dialog.EndTime = text;
 
             await dialog.ShowDialog(this);
@@ -363,12 +363,12 @@ namespace Timotheus.Views
         private async void SetupFiles_Click(object sender, RoutedEventArgs e)
         {
             SetupSFTP dialog = new();
-            dialog.Local = mvm.Keys.Get("SSH-LocalDirectory");
-            dialog.Remote = mvm.Keys.Get("SSH-RemoteDirectory");
-            dialog.Host = mvm.Keys.Get("SSH-URL");
-            dialog.Port = mvm.Keys.Get("SSH-Port");
-            dialog.Username = mvm.Keys.Get("SSH-Username");
-            dialog.Password = mvm.Keys.Get("SSH-Password");
+            dialog.Local = mvm.Keys.Retrieve("SSH-LocalDirectory");
+            dialog.Remote = mvm.Keys.Retrieve("SSH-RemoteDirectory");
+            dialog.Host = mvm.Keys.Retrieve("SSH-URL");
+            dialog.Port = mvm.Keys.Retrieve("SSH-Port");
+            dialog.Username = mvm.Keys.Retrieve("SSH-Username");
+            dialog.Password = mvm.Keys.Retrieve("SSH-Password");
 
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
@@ -376,12 +376,12 @@ namespace Timotheus.Views
                 try
                 {
                     mvm.Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
-                    mvm.Keys.Set("SSH-LocalDirectory", dialog.Local);
-                    mvm.Keys.Set("SSH-RemoteDirectory", dialog.Remote);
-                    mvm.Keys.Set("SSH-URL", dialog.Host);
-                    mvm.Keys.Set("SSH-Port", dialog.Port);
-                    mvm.Keys.Set("SSH-Username", dialog.Username);
-                    mvm.Keys.Set("SSH-Password", dialog.Password);
+                    mvm.Keys.Update("SSH-LocalDirectory", dialog.Local);
+                    mvm.Keys.Update("SSH-RemoteDirectory", dialog.Remote);
+                    mvm.Keys.Update("SSH-URL", dialog.Host);
+                    mvm.Keys.Update("SSH-Port", dialog.Port);
+                    mvm.Keys.Update("SSH-Username", dialog.Username);
+                    mvm.Keys.Update("SSH-Password", dialog.Password);
                 }
                 catch (Exception ex)
                 {
@@ -524,8 +524,8 @@ namespace Timotheus.Views
             await msDialog.ShowDialog(this);
             if (msDialog.DialogResult == DialogResult.OK)
             {
-                Timotheus.Registry.Remove("KeyPath");
-                Timotheus.Registry.Remove("KeyPassword");
+                Timotheus.Registry.Delete("KeyPath");
+                Timotheus.Registry.Delete("KeyPassword");
                 mvm.Keys = new(':');
             }
         }
@@ -612,10 +612,10 @@ namespace Timotheus.Views
                             if (dialog.Save)
                             {
                                 string encodedPassword = Cipher.Encrypt(password);
-                                Timotheus.Registry.Set("KeyPassword", encodedPassword);
+                                Timotheus.Registry.Update("KeyPassword", encodedPassword);
                             }
                             else
-                                Timotheus.Registry.Remove("KeyPassword");
+                                Timotheus.Registry.Delete("KeyPassword");
                             try
                             {
                                 mvm.LoadKey(result[0], password);
@@ -677,28 +677,28 @@ namespace Timotheus.Views
         {
             Settings dialog = new();
 
-            dialog.AssociationName = mvm.Keys.Get("Settings-Name");
-            dialog.AssociationAddress = mvm.Keys.Get("Settings-Address");
-            dialog.ImagePath = mvm.Keys.Get("Settings-Image");
-            dialog.Description = mvm.Keys.Get("Settings-EventDescription");
-            dialog.StartTime = mvm.Keys.Get("Settings-EventStart");
-            dialog.EndTime = mvm.Keys.Get("Settings-EventEnd");
+            dialog.AssociationName = mvm.Keys.Retrieve("Settings-Name");
+            dialog.AssociationAddress = mvm.Keys.Retrieve("Settings-Address");
+            dialog.ImagePath = mvm.Keys.Retrieve("Settings-Image");
+            dialog.Description = mvm.Keys.Retrieve("Settings-EventDescription");
+            dialog.StartTime = mvm.Keys.Retrieve("Settings-EventStart");
+            dialog.EndTime = mvm.Keys.Retrieve("Settings-EventEnd");
 
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
             {
                 if (dialog.AssociationName != string.Empty)
-                    mvm.Keys.Set("Settings-Name", dialog.AssociationName);
+                    mvm.Keys.Update("Settings-Name", dialog.AssociationName);
                 if (dialog.AssociationAddress != string.Empty)
-                    mvm.Keys.Set("Settings-Address", dialog.AssociationAddress);
+                    mvm.Keys.Update("Settings-Address", dialog.AssociationAddress);
                 if (dialog.ImagePath != string.Empty)
-                    mvm.Keys.Set("Settings-Image", dialog.ImagePath);
+                    mvm.Keys.Update("Settings-Image", dialog.ImagePath);
                 if (dialog.Description != string.Empty)
-                    mvm.Keys.Set("Settings-EventDescription", dialog.Description);
+                    mvm.Keys.Update("Settings-EventDescription", dialog.Description);
                 if (dialog.StartTime != string.Empty)
-                    mvm.Keys.Set("Settings-EventStart", dialog.StartTime);
+                    mvm.Keys.Update("Settings-EventStart", dialog.StartTime);
                 if (dialog.EndTime != string.Empty)
-                    mvm.Keys.Set("Settings-EventEnd", dialog.EndTime);
+                    mvm.Keys.Update("Settings-EventEnd", dialog.EndTime);
             }
         }
         #endregion

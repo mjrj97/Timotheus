@@ -208,7 +208,7 @@ namespace Timotheus.ViewModels
         /// <param name="path">Path to save</param>
         public void ExportCalendar(string name, string path)
         {
-            Calendar.Export(name, path, Keys.Get("Settings-Name"), Keys.Get("Settings-Address"), Keys.Get("Settings-Image"), calendarPeriod);
+            Calendar.Export(name, path, Keys.Retrieve("Settings-Name"), Keys.Retrieve("Settings-Address"), Keys.Retrieve("Settings-Image"), calendarPeriod);
         }
 
         /// <summary>
@@ -272,13 +272,13 @@ namespace Timotheus.ViewModels
         {
             try
             {
-                Directory = new DirectoryViewModel(Keys.Get("SSH-LocalDirectory"), Keys.Get("SSH-RemoteDirectory"), Keys.Get("SSH-URL"), int.Parse(Keys.Get("SSH-Port") == string.Empty ? "22" : Keys.Get("SSH-Port")), Keys.Get("SSH-Username"), Keys.Get("SSH-Password"));
+                Directory = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory"), Keys.Retrieve("SSH-RemoteDirectory"), Keys.Retrieve("SSH-URL"), int.Parse(Keys.Retrieve("SSH-Port") == string.Empty ? "22" : Keys.Retrieve("SSH-Port")), Keys.Retrieve("SSH-Username"), Keys.Retrieve("SSH-Password"));
             }
             catch (Exception) { Directory = new(); }
 
             try
             {
-                Calendar = new(Keys.Get("Calendar-Email"), Keys.Get("Calendar-Password"), Keys.Get("Calendar-URL"));
+                Calendar = new(Keys.Retrieve("Calendar-Email"), Keys.Retrieve("Calendar-Password"), Keys.Retrieve("Calendar-URL"));
             }
             catch (Exception) { Calendar = new(); }
         }
@@ -291,7 +291,7 @@ namespace Timotheus.ViewModels
         public void LoadKey(string path, string password)
         {
             Keys = new Register(path, password, ':');
-            Timotheus.Registry.Set("KeyPath", path);
+            Timotheus.Registry.Update("KeyPath", path);
         }
         /// <summary>
         /// Loads the key from the path.
@@ -300,8 +300,8 @@ namespace Timotheus.ViewModels
         public void LoadKey(string path)
         {
             Keys = new Register(path, ':');
-            Timotheus.Registry.Set("KeyPath", path);
-            Timotheus.Registry.Remove("KeyPassword");
+            Timotheus.Registry.Update("KeyPath", path);
+            Timotheus.Registry.Delete("KeyPassword");
         }
 
         /// <summary>
