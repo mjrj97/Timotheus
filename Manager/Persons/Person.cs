@@ -20,5 +20,14 @@ namespace Timotheus.Persons
             this.Comment = Comment;
             this.Active = Active;
         }
+
+        public Person(string Name) 
+        {
+            this.Name = Name;
+            ConsentDate = DateTime.MinValue;
+            ConsentVersion = "";
+            Comment = "";
+            Active = true;
+        }
     }
 }

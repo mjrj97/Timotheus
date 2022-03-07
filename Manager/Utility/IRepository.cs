@@ -1,4 +1,6 @@
-﻿namespace Timotheus.Utility
+﻿using System.Collections.Generic;
+
+namespace Timotheus.Utility
 {
     internal interface IRepository<T>
     {
@@ -6,7 +8,9 @@
 
         public T Retrieve(string id);
 
-        public void Update(string id, T obj);
+        public List<T> RetrieveAll();
+
+        public void Update(T obj);
 
         public void Delete(T obj);
     }

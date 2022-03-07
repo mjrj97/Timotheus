@@ -55,7 +55,7 @@ namespace Timotheus.Views
         private void AddStdKeys_Click(object sender, RoutedEventArgs e)
         {
             Register register = new(':', Text);
-            List<Key> keys = register.Keys();
+            List<Key> keys = register.RetrieveAll();
 
             bool firstAdded = Text.Trim() != string.Empty;
             for (int i = 0; i < std.Length; i++)

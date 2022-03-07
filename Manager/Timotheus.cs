@@ -79,7 +79,7 @@ namespace Timotheus
                 Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(@"SOFTWARE\Timotheus");
                 Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus");
 
-                List<Key> keys = Registry.Keys();
+                List<Key> keys = Registry.RetrieveAll();
                 for (int i = 0; i < keys.Count; i++)
                 {
                     key.SetValue(keys[i].Name, keys[i].Value);

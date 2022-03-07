@@ -43,7 +43,8 @@ namespace Timotheus.ViewModels
                 UpdateCalendarTable();
             }
         }
-        public List<Person> Persons = new();
+
+        public PersonRepository repo = new();
 
         /// <summary>
         /// Type of period used by Calendar_View.
@@ -106,6 +107,9 @@ namespace Timotheus.ViewModels
         }
 
         private ObservableCollection<PersonViewModel> _People = new();
+        /// <summary>
+        /// A list of people that has made consent.
+        /// </summary>
         public ObservableCollection<PersonViewModel> People
         {
             get => _People;
@@ -153,6 +157,7 @@ namespace Timotheus.ViewModels
         public MainViewModel() {
             calendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
             PeriodText = calendarPeriod.ToString();
+            UpdatePeopleTable();
         }
 
         /// <summary>
@@ -169,13 +174,17 @@ namespace Timotheus.ViewModels
             PeriodText = calendarPeriod.ToString();
         }
 
+        /// <summary>
+        /// Updates the contents of the persons/people table.
+        /// </summary>
         public void UpdatePeopleTable()
         {
             People.Clear();
-            for (int i = 0; i < Persons.Count; i++)
+            List<Person> people = repo.RetrieveAll();
+            for (int i = 0; i < people.Count; i++)
             {
-                if (!Persons[i].Deleted)
-                    People.Add(new PersonViewModel(Persons[i]));
+                if (!people[i].Deleted)
+                    People.Add(new PersonViewModel(people[i]));
             }
 
             NotifyPropertyChanged(nameof(People));
@@ -208,7 +217,7 @@ namespace Timotheus.ViewModels
         /// <param name="path">Path to save</param>
         public void ExportCalendar(string name, string path)
         {
-            Calendar.Export(name, path, Keys.Retrieve("Settings-Name"), Keys.Retrieve("Settings-Address"), Keys.Retrieve("Settings-Image"), calendarPeriod);
+            Calendar.Export(name, path, Keys.Retrieve("Settings-Name").Value, Keys.Retrieve("Settings-Address").Value, Keys.Retrieve("Settings-Image").Value, calendarPeriod);
         }
 
         /// <summary>
@@ -216,7 +225,7 @@ namespace Timotheus.ViewModels
         /// </summary>
         public void AddPerson(string Name, DateTime ConsentDate, string ConsentVersion, string ConsentComment)
         {
-            Persons.Add(new Person(Name, ConsentDate, ConsentVersion, ConsentComment, true));
+            repo.Create(new Person(Name, ConsentDate, ConsentVersion, ConsentComment, true));
             UpdatePeopleTable();
         }
 
@@ -272,13 +281,13 @@ namespace Timotheus.ViewModels
         {
             try
             {
-                Directory = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory"), Keys.Retrieve("SSH-RemoteDirectory"), Keys.Retrieve("SSH-URL"), int.Parse(Keys.Retrieve("SSH-Port") == string.Empty ? "22" : Keys.Retrieve("SSH-Port")), Keys.Retrieve("SSH-Username"), Keys.Retrieve("SSH-Password"));
+                Directory = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory").Value, Keys.Retrieve("SSH-RemoteDirectory").Value, Keys.Retrieve("SSH-URL").Value, int.Parse(Keys.Retrieve("SSH-Port").Value == string.Empty ? "22" : Keys.Retrieve("SSH-Port").Value), Keys.Retrieve("SSH-Username").Value, Keys.Retrieve("SSH-Password").Value);
             }
             catch (Exception) { Directory = new(); }
 
             try
             {
-                Calendar = new(Keys.Retrieve("Calendar-Email"), Keys.Retrieve("Calendar-Password"), Keys.Retrieve("Calendar-URL"));
+                Calendar = new(Keys.Retrieve("Calendar-Email").Value, Keys.Retrieve("Calendar-Password").Value, Keys.Retrieve("Calendar-URL").Value);
             }
             catch (Exception) { Calendar = new(); }
         }

@@ -9,7 +9,7 @@ namespace Timotheus.IO
     /// <summary>
     /// Class that can load a list of value with corresponding names. Can be loaded from encrypted (using a password) and unencrypted files. The file's line separator can be specified (ie. NAME,VALUE where ',' is used).
     /// </summary>
-    public class Register : IRepository<string>
+    public class Register : IRepository<Key>
     {
         /// <summary>
         /// Name of the register.
@@ -157,7 +157,15 @@ namespace Timotheus.IO
         /// <param name="value">Value of the key.</param>
         public void Create(string name, string value)
         {
-            keys.Add(new Key(name, value));
+            Create(new Key(name, value));
+        }
+        /// <summary>
+        /// Adds a key to the register. Doesn't check if key already exists.
+        /// </summary>
+        /// <param name="key">The key to be added.</param>
+        public void Create(Key key)
+        {
+            keys.Add(key);
         }
         /// <summary>
         /// Adds a key to the register from a line. Uses the specified separator to get name and value. Doesn't check if key already exists.
@@ -165,7 +173,7 @@ namespace Timotheus.IO
         /// <param name="line"></param>
         public void Create(string line)
         {
-            keys.Add(new Key(line, separator));
+            Create(new Key(line, separator));
         }
 
         /// <summary>
@@ -191,6 +199,14 @@ namespace Timotheus.IO
                 keys.Add(new Key(name, value));
             }
         }
+        /// <summary>
+        /// Updates the given key.
+        /// </summary>
+        /// <param name="key">Key to be updated.</param>
+        public void Update(Key key)
+        {
+            Update(key.Name, key.Value);
+        }
 
         /// <summary>
         /// Removes a key with the given name.
@@ -210,14 +226,21 @@ namespace Timotheus.IO
                 i++;
             }
         }
+        /// <summary>
+        /// Removes a key from the Register.
+        /// </summary>
+        /// <param name="key"></param>
+        public void Delete(Key key)
+        {
+            keys.Remove(key);
+        }
 
         /// <summary>
         /// Returns the value of the key with a given name.
         /// </summary>
         /// <param name="name">Name of the key.</param>
-        public string Retrieve(string name)
+        public Key Retrieve(string name)
         {
-            string value = string.Empty;
             int i = 0;
             bool found = false;
 
@@ -225,23 +248,26 @@ namespace Timotheus.IO
             {
                 if (keys[i].Name == name)
                 {
-                    value = keys[i].Value;
                     found = true;
                 }
-                i++;
+                else
+                    i++;
             }
-            return value;
+            if (found)
+                return keys[i];
+            else
+                return new Key(string.Empty, string.Empty);
         }
         /// <summary>
-        /// Returns the value withc corresponding the name, but a standard value can be provided in case the variable wasn't found.
+        /// Returns the value with corresponding the name, but a standard value can be provided in case the variable wasn't found.
         /// </summary>
         /// <param name="name">The name of the variable (e.g. Calendar_Page).</param>
         /// <param name="standard">The standard value in case the variable wasn't found.</param>
-        public string Retrieve(string name, string standard)
+        public Key Retrieve(string name, string standard)
         {
-            string value = Retrieve(name);
-            if (value == string.Empty)
-                return standard;
+            Key value = Retrieve(name);
+            if (value == null)
+                return new Key(string.Empty, standard);
             else
                 return value;
         }
@@ -249,7 +275,7 @@ namespace Timotheus.IO
         /// <summary>
         /// Returns a list of the keys in the register.
         /// </summary>
-        public List<Key> Keys()
+        public List<Key> RetrieveAll()
         {
             return keys;
         }
