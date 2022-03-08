@@ -844,6 +844,42 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Settings_EventDescription {
+            get {
+                return ResourceManager.GetString("Settings_EventDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End.
+        /// </summary>
+        public static string Settings_EventEnd {
+            get {
+                return ResourceManager.GetString("Settings_EventEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string Settings_EventStart {
+            get {
+                return ResourceManager.GetString("Settings_EventStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        public static string Settings_EventTime {
+            get {
+                return ResourceManager.GetString("Settings_EventTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Association information.
         /// </summary>
         public static string Settings_InfoBox {

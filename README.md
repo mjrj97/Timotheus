@@ -3,10 +3,10 @@
 The purpose of this project is to create software that can manage a small association's calendar, data storage, consent forms etc. in a GDPR compliant fashion (or atleast to its best ability). The project is primarily aimed towards small associations e.g. the Danish LM, IM, that handle sensitive data (names, ages, addresses etc.).
 
 ## Planned features
-- [X] Platform-Independent (Windows, macOS, Linux)
+- [X] Platform-Independent (Windows, macOS)
 - [X] Calendar/Schedule editor
 - [X] Syncing calendars using the CalDAV protocol
-- [ ] Managing GDPR consent forms
+- [X] Managing GDPR consent forms
 - [ ] Membership management
 - [X] SFTP-based storage
 - [X] Password manager
@@ -17,6 +17,7 @@ The purpose of this project is to create software that can manage a small associ
 ## Libraries
 Avalonia 0.10.10</br>
 PDFsharp-MigraDoc 1.50.5147</br>
+FluentFTP 37.0.1</br>
 SSH.NET 2020.0.1
 
 ## How to contribute
@@ -31,10 +32,10 @@ Contact Martin for further information.
 Formålet med dette projekt er at udvikle software, der kan behandle en lille forenings kalender, data opbevaring, samtykkeerklæringer osv. på en GDPR venlig måde (Til bedste evne). Projektet er primært beregnet til foreninger såsom Luthersk Mission eller Indre Mission, der behandler personfølsomme oplysninger (navne, aldre, adresser osv.).
 
 ## Planlagte funktioner
-- [X] Platformsuafhængighed (Windows, macOS, Linux)
+- [X] Platformsuafhængighed (Windows, macOS)
 - [X] Kalender/tidsplan redigeringsværktøj
 - [X] Kalender synkronisering med CalDAV protokollen
-- [ ] Administration af GDPR samtykkeerklæringer
+- [X] Administration af GDPR samtykkeerklæringer
 - [ ] Medlemslister
 - [X] SFTP baseret fildeling/filopbevaring
 - [X] Adgangskode opbevaring
@@ -45,6 +46,7 @@ Formålet med dette projekt er at udvikle software, der kan behandle en lille fo
 ## Biblioteker
 Avalonia 0.10.10</br>
 PDFsharp-MigraDoc 1.50.5147</br>
+FluentFTP 37.0.1</br>
 SSH.NET 2020.0.1
 
 ## Hvordan man kan bidrage

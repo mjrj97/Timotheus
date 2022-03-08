@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using Timotheus.IO;
+using Timotheus.Utility;
 
 namespace Timotheus.ViewModels
 {
@@ -189,25 +190,25 @@ namespace Timotheus.ViewModels
                     //File.Handle is determined by the Directory file on initialization.
                     switch (file.Handle)
                     {
-                        case FileHandle.Synchronize:
+                        case SyncHandle.Synchronize:
                             if (file.IsDirectory)
                                 Synchronize(file.RemoteFile.FullName, file.LocalFile.FullName);
                             break;
-                        case FileHandle.NewDownload:
-                        case FileHandle.Download:
+                        case SyncHandle.NewDownload:
+                        case SyncHandle.Download:
                             if (file.IsDirectory)
                                 DownloadDirectory(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
                             else
                                 client.DownloadFile(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
                             break;
-                        case FileHandle.NewUpload:
-                        case FileHandle.Upload:
+                        case SyncHandle.NewUpload:
+                        case SyncHandle.Upload:
                             if (file.IsDirectory)
                                 UploadDirectory(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
                             else
                                 client.UploadFile(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
                             break;
-                        case FileHandle.DeleteLocal:
+                        case SyncHandle.DeleteLocal:
                             if (file.IsDirectory)
                             {
                                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -223,7 +224,7 @@ namespace Timotheus.ViewModels
                                     File.Delete(file.LocalFile.FullName);
                             }
                             break;
-                        case FileHandle.DeleteRemote:
+                        case SyncHandle.DeleteRemote:
                             if (file.IsDirectory)
                                 client.DeleteDirectory(file.RemoteFile.FullName);
                             else

@@ -2,10 +2,7 @@
 REM This .bat script builds for macOS and creates a an .app on the Desktop in a Timotheus folder
 
 REM Load info about the application and delete last build
-SET VERSION=1.0.0
-FOR /F "tokens=1,2 delims=:" %%A in (../Info.txt) DO (
-	IF %%A==VERSION SET VERSION=%%B
-)
+SET VERSION=1.2.0
 IF EXIST %userprofile%\desktop\Timotheus (
     rmdir %userprofile%\desktop\Timotheus /s /q
 )

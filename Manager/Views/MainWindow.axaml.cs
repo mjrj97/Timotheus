@@ -8,7 +8,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Timotheus.IO;
 using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -389,9 +388,9 @@ namespace Timotheus.Views
                 {
                     e.Row.Background = file.Handle switch
                     {
-                        FileHandle.NewDownload or FileHandle.NewUpload => NewDark,
-                        FileHandle.Download or FileHandle.Upload => UpdateDark,
-                        FileHandle.DeleteLocal or FileHandle.DeleteRemote => DeleteDark,
+                        SyncHandle.NewDownload or SyncHandle.NewUpload => NewDark,
+                        SyncHandle.Download or SyncHandle.Upload => UpdateDark,
+                        SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteDark,
                         _ => StdDark,
                     };
                 }
@@ -399,9 +398,9 @@ namespace Timotheus.Views
                 {
                     e.Row.Background = file.Handle switch
                     {
-                        FileHandle.NewDownload or FileHandle.NewUpload => NewLight,
-                        FileHandle.Download or FileHandle.Upload => UpdateLight,
-                        FileHandle.DeleteLocal or FileHandle.DeleteRemote => DeleteLight,
+                        SyncHandle.NewDownload or SyncHandle.NewUpload => NewLight,
+                        SyncHandle.Download or SyncHandle.Upload => UpdateLight,
+                        SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteLight,
                         _ => StdLight,
                     };
                 }

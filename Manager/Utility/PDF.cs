@@ -131,7 +131,7 @@ namespace Timotheus.Utility
             table.AddColumn("10.5cm");
             table.AddColumn("2.8cm");
             table.AddColumn("2.8cm");
-            table.AddColumn("7.5cm");
+            table.AddColumn("6.5cm");
 
             // Add the header text of the columns.
             Row row = table.AddRow();
