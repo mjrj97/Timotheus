@@ -9,15 +9,22 @@ namespace Timotheus.Persons
     {
         private readonly List<Person> people = new();
 
+        private readonly string path;
+
+        public PersonRepository(string path)
+        {
+            this.path = path;
+            Load();
+        }
+
         public PersonRepository()
         {
-            Load(@"C:\Users\marti\Desktop\Test.csv");
+
         }
 
         public void Create(Person obj)
         {
             people.Add(obj);
-            Save(@"C:\Users\marti\Desktop\Test.csv");
         }
 
         public void Delete(Person obj)
@@ -40,27 +47,30 @@ namespace Timotheus.Persons
             throw new NotImplementedException();
         }
 
-        private void Load(string path)
+        public void Load()
         {
             people.Clear();
             if (File.Exists(path))
             {
-                using StreamReader reader = new(path, Timotheus.Encoding);
+                using StreamReader reader = new(path, System.Text.Encoding.UTF8);
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
                     string[] data = line.Split(';');
+                    if (data.Length < 5)
+                        continue;
                     people.Add(new Person(data[0], DateTime.Parse(data[1]), data[2], data[3], data[4] == "True"));
                 }
             }
         }
 
-        private void Save(string path)
+        public void Save(string savePath)
         {
-            using StreamWriter writer = new(path, false, Timotheus.Encoding);
+            using StreamWriter writer = new(savePath, false, System.Text.Encoding.UTF8);
+            writer.WriteLine("sep=;");
             for (int i = 0; i < people.Count; i++)
             {
-                writer.WriteLine(people[i].Name + ";" + people[i].ConsentDate.ToString() + ";" + people[i].ConsentVersion + ";" + people[i].Comment + ";" + people[i].Active.ToString());
+                writer.WriteLine(people[i].Name + ";" + people[i].ConsentDate.ToString("d") + ";" + people[i].ConsentVersion + ";" + people[i].Comment + ";" + people[i].Active.ToString());
             }
         }
     }

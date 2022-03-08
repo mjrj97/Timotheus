@@ -18,8 +18,8 @@
 			</MenuItem.Header>
             <MenuItem Header="{x:Static i18n:Localization.ToolStrip_NewFile}" Click="NewProject_Click"/>
             <Separator/>
-            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}" Click="SaveCalendar_Click"/>
-            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_OpenFile}" Click="OpenCalendar_Click"/>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}" Click="Save_Click"/>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_OpenFile}" Click="Open_Click"/>
         </MenuItem>
         <MenuItem>
 			<MenuItem.Header>
@@ -50,7 +50,7 @@
 	    </MenuItem>
 	  </Menu>
     </DockPanel>
-    <TabControl>
+    <TabControl SelectedIndex="{Binding CurrentTab}">
       <TabItem>
         <TabItem.Header>
           <DockPanel Margin="5">
@@ -196,9 +196,9 @@
 				<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
 					<DataGrid Items="{Binding People}" VerticalScrollBarVisibility="Visible" LoadingRow="People_RowLoading">
 						<DataGrid.Columns>
-							<DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name}"/>
-							<DataGridTextColumn Header="Consent date" Width="150" Binding="{Binding Date}" IsReadOnly="True"/>
-							<DataGridTextColumn Header="Consent version" Width="150" Binding="{Binding Version}" IsReadOnly="True"/>
+							<DataGridTextColumn Header="Name" Width="300" Binding="{Binding Name}"/>
+							<DataGridTextColumn Header="Consent date" Width="125" Binding="{Binding Date}" SortMemberPath="SortableDate" IsReadOnly="True"/>
+							<DataGridTextColumn Header="Consent version" Width="125" Binding="{Binding Version}" IsReadOnly="True"/>
 							<DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Comment}"/>
 							<DataGridTemplateColumn>
 								<DataGridTemplateColumn.CellTemplate>

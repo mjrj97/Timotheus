@@ -20,7 +20,15 @@ namespace Timotheus.ViewModels
                 if (person.ConsentDate == DateTime.MinValue)
                     return "No consent";
                 else
-                    return person.ConsentDate.Date.ToString();
+                    return person.ConsentDate.Date.ToString("d");
+            }
+        }
+
+        public DateTime SortableDate
+        {
+            get
+            {
+                return person.ConsentDate;
             }
         }
 

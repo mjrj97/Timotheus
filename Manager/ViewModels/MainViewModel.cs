@@ -5,12 +5,18 @@ using System.Collections.ObjectModel;
 using Timotheus.IO;
 using Timotheus.Schedule;
 using Timotheus.Persons;
+using System.Linq;
 
 namespace Timotheus.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        private Register _Keys = new();
+        /// <summary>
+        /// Index of the currently open tab.
+        /// </summary>
+        public int CurrentTab { get; set; }
+
+        private Register _keys = new();
         /// <summary>
         /// Register containing all the keys loaded at startup or manually from a key file (.tkey or .txt)
         /// </summary>
@@ -18,16 +24,16 @@ namespace Timotheus.ViewModels
         {
             get
             {
-                return _Keys;
+                return _keys;
             }
             set
             {
-                _Keys = value;
+                _keys = value;
                 InsertKey();
             }
         }
 
-        private Calendar _Calendar = new();
+        private Calendar _calendar = new();
         /// <summary>
         /// Current calendar used by the program.
         /// </summary>
@@ -35,16 +41,31 @@ namespace Timotheus.ViewModels
         {
             get
             {
-                return _Calendar;
+                return _calendar;
             }
             set
             {
-                _Calendar = value;
+                _calendar = value;
                 UpdateCalendarTable();
             }
         }
 
-        public PersonRepository repo = new();
+        private PersonRepository _personRepo = new();
+        /// <summary>
+        /// The repository containing all the people.
+        /// </summary>
+        public PersonRepository PersonRepo
+        {
+            get
+            {
+                return _personRepo;
+            }
+            set
+            {
+                _personRepo = value;
+                UpdatePeopleTable();
+            }
+        }
 
         /// <summary>
         /// Type of period used by Calendar_View.
@@ -180,7 +201,7 @@ namespace Timotheus.ViewModels
         public void UpdatePeopleTable()
         {
             People.Clear();
-            List<Person> people = repo.RetrieveAll();
+            List<Person> people = PersonRepo.RetrieveAll().OrderBy(o=>o.Name).ToList();
             for (int i = 0; i < people.Count; i++)
             {
                 if (!people[i].Deleted)
@@ -225,7 +246,7 @@ namespace Timotheus.ViewModels
         /// </summary>
         public void AddPerson(string Name, DateTime ConsentDate, string ConsentVersion, string ConsentComment)
         {
-            repo.Create(new Person(Name, ConsentDate, ConsentVersion, ConsentComment, true));
+            PersonRepo.Create(new Person(Name, ConsentDate, ConsentVersion, ConsentComment, true));
             UpdatePeopleTable();
         }
 
@@ -290,6 +311,12 @@ namespace Timotheus.ViewModels
                 Calendar = new(Keys.Retrieve("Calendar-Email").Value, Keys.Retrieve("Calendar-Password").Value, Keys.Retrieve("Calendar-URL").Value);
             }
             catch (Exception) { Calendar = new(); }
+
+            try
+            {
+                PersonRepo = new(Keys.Retrieve("Person-File").Value);
+            }
+            catch (Exception) { PersonRepo = new(); }
         }
 
         /// <summary>

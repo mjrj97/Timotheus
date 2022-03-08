@@ -140,70 +140,6 @@ namespace Timotheus.Views
         }
 
         /// <summary>
-        /// Opens a OpenCalendar dialog
-        /// </summary>
-        private async void OpenCalendar_Click(object sender, RoutedEventArgs e)
-        {
-            OpenCalendar dialog = new();
-            dialog.Username = mvm.Keys.Retrieve("Calendar-Email").Value;
-            dialog.Password = mvm.Keys.Retrieve("Calendar-Password").Value;
-            dialog.URL = mvm.Keys.Retrieve("Calendar-URL").Value;
-            dialog.Path = mvm.Keys.Retrieve("Calendar-Path").Value;
-
-            await dialog.ShowDialog(this);
-
-            if (dialog.DialogResult == DialogResult.OK)
-            {
-                try
-                {
-                    if (dialog.IsRemote)
-                    {
-                        mvm.Calendar = new(dialog.Username, dialog.Password, dialog.URL);
-                        mvm.Keys.Update("Calendar-Email", dialog.Username);
-                        mvm.Keys.Update("Calendar-Password", dialog.Password);
-                        mvm.Keys.Update("Calendar-URL", dialog.URL);
-                    }
-                    else
-                    {
-                        mvm.Calendar = new(dialog.Path);
-                        mvm.Keys.Update("Calendar-Path", dialog.Path);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Error(Localization.Localization.Exception_InvalidCalendar, ex.Message);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Opens a SaveFileDialog to save the current Calendar.
-        /// </summary>
-        private async void SaveCalendar_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog saveFileDialog = new();
-            FileDialogFilter filter = new();
-            filter.Extensions.Add("ics");
-            filter.Name = "Calendar (.ics)";
-
-            saveFileDialog.Filters = new();
-            saveFileDialog.Filters.Add(filter);
-
-            string result = await saveFileDialog.ShowAsync(this);
-            if (result != null)
-            {
-                try
-                {
-                    mvm.Calendar.Save(result);
-                }
-                catch (Exception ex)
-                {
-                    Error(Localization.Localization.Exception_Saving, ex.Message);
-                }
-            }
-        }
-
-        /// <summary>
         /// Opens a SyncCalendar dialog to sync the current calendar.
         /// </summary>
         private async void SyncCalendar_Click(object sender, RoutedEventArgs e)
@@ -527,6 +463,117 @@ namespace Timotheus.Views
                 Timotheus.Registry.Delete("KeyPath");
                 Timotheus.Registry.Delete("KeyPassword");
                 mvm.Keys = new(':');
+            }
+        }
+
+        /// <summary>
+        /// Opens a OpenCalendar dialog
+        /// </summary>
+        private async void Open_Click(object sender, RoutedEventArgs e)
+        {
+            switch (mvm.CurrentTab) {
+                case 0:
+                    OpenCalendar dialog = new();
+                    dialog.Username = mvm.Keys.Retrieve("Calendar-Email").Value;
+                    dialog.Password = mvm.Keys.Retrieve("Calendar-Password").Value;
+                    dialog.URL = mvm.Keys.Retrieve("Calendar-URL").Value;
+                    dialog.Path = mvm.Keys.Retrieve("Calendar-Path").Value;
+
+                    await dialog.ShowDialog(this);
+
+                    if (dialog.DialogResult == DialogResult.OK)
+                    {
+                        try
+                        {
+                            if (dialog.IsRemote)
+                            {
+                                mvm.Calendar = new(dialog.Username, dialog.Password, dialog.URL);
+                                mvm.Keys.Update("Calendar-Email", dialog.Username);
+                                mvm.Keys.Update("Calendar-Password", dialog.Password);
+                                mvm.Keys.Update("Calendar-URL", dialog.URL);
+                            }
+                            else
+                            {
+                                mvm.Calendar = new(dialog.Path);
+                                mvm.Keys.Update("Calendar-Path", dialog.Path);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Error(Localization.Localization.Exception_InvalidCalendar, ex.Message);
+                        }
+                    }
+                    break;
+                case 2:
+                    OpenFileDialog openFileDialog = new();
+
+                    FileDialogFilter txtFilter = new();
+                    txtFilter.Extensions.Add("csv");
+                    txtFilter.Name = "CSV (.csv)";
+
+                    openFileDialog.Filters = new();
+                    openFileDialog.Filters.Add(txtFilter);
+
+                    string[] result = await openFileDialog.ShowAsync(this);
+                    if (result != null && result.Length > 0)
+                    {
+                        mvm.PersonRepo = new(result[0]);
+                        mvm.Keys.Update("Person-File", result[0]);
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Opens a SaveFileDialog to save the current Calendar.
+        /// </summary>
+        private async void Save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new();
+            FileDialogFilter filter = new();
+            string result;
+            switch (mvm.CurrentTab)
+            {
+                case 0:
+                    filter.Extensions.Add("ics");
+                    filter.Name = "Calendar (.ics)";
+
+                    saveFileDialog.Filters = new();
+                    saveFileDialog.Filters.Add(filter);
+
+                    result = await saveFileDialog.ShowAsync(this);
+                    if (result != null)
+                    {
+                        try
+                        {
+                            mvm.Calendar.Save(result);
+                        }
+                        catch (Exception ex)
+                        {
+                            Error(Localization.Localization.Exception_Saving, ex.Message);
+                        }
+                    }
+                    break;
+                case 2:
+                    filter.Extensions.Add("csv");
+                    filter.Name = "CSV (.csv)";
+
+                    saveFileDialog.Filters = new();
+                    saveFileDialog.Filters.Add(filter);
+
+                    result = await saveFileDialog.ShowAsync(this);
+                    if (result != null)
+                    {
+                        try
+                        {
+                            mvm.PersonRepo.Save(result);
+                        }
+                        catch (Exception ex)
+                        {
+                            Error(Localization.Localization.Exception_Saving, ex.Message);
+                        }
+                    }
+                    break;
             }
         }
 
