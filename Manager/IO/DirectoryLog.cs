@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Collections.Generic;
-using Renci.SshNet.Sftp;
 
 namespace Timotheus.IO
 {
@@ -36,7 +35,7 @@ namespace Timotheus.IO
         /// </summary>
         /// <param name="path">Directory path</param>
         /// <param name="remoteFiles">The files on the remote</param>
-        public static void Save(string path, List<SftpFile> remoteFiles)
+        public static void Save(string path, List<RemoteFile> remoteFiles)
         {
             List<DirectoryLogItem> logItems = new();
             DirectoryInfo dirInfo = new(path);

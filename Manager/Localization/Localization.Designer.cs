@@ -799,6 +799,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to People.
+        /// </summary>
+        public static string People_Page {
+            get {
+                return ResourceManager.GetString("People_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string Settings {
@@ -1047,6 +1056,15 @@ namespace Timotheus.Localization {
         public static string SFTPSetup_PasswordLabel {
             get {
                 return ResourceManager.GetString("SFTPSetup_PasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port.
+        /// </summary>
+        public static string SFTPSetup_PortLabel {
+            get {
+                return ResourceManager.GetString("SFTPSetup_PortLabel", resourceCulture);
             }
         }
         

@@ -1,5 +1,4 @@
-﻿using Renci.SshNet.Sftp;
-using System.IO;
+﻿using System.IO;
 
 namespace Timotheus.IO
 {
@@ -15,7 +14,7 @@ namespace Timotheus.IO
         /// <summary>
         /// The remote file
         /// </summary>
-        public SftpFile RemoteFile;
+        public RemoteFile RemoteFile;
         /// <summary>
         /// Item that contains whether the file was in the last sync, and related info.
         /// </summary>
@@ -40,7 +39,7 @@ namespace Timotheus.IO
         /// <summary>
         /// Connects the pairs.
         /// </summary>
-        public DirectoryFile(FileSystemInfo LocalFile, SftpFile RemoteFile, DirectoryLogItem LogItem)
+        public DirectoryFile(FileSystemInfo LocalFile, RemoteFile RemoteFile, DirectoryLogItem LogItem)
         {
             Size = 0;
             if (LocalFile == null)
