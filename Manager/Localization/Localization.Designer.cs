@@ -1258,7 +1258,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit key.
+        ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string ToolStrip_EditKey {
             get {
@@ -1303,7 +1303,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open key.
+        ///   Looks up a localized string similar to Open.
         /// </summary>
         public static string ToolStrip_LoadKey {
             get {
@@ -1339,6 +1339,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save as.
+        /// </summary>
+        public static string ToolStrip_SaveAsKey {
+            get {
+                return ResourceManager.GetString("ToolStrip_SaveAsKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string ToolStrip_SaveFile {
@@ -1348,7 +1357,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save key.
+        ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string ToolStrip_SaveKey {
             get {

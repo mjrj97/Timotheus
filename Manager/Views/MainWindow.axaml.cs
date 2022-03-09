@@ -68,16 +68,19 @@ namespace Timotheus.Views
                         {
                             password = Cipher.Decrypt(encodedPassword);
                             mvm.LoadKey(keyPath, password);
+                            InsertKey();
                         }
                         else
                         {
-                            PasswordDialog dialog = new();
-                            await dialog.ShowDialog(this);
-                            if (dialog.DialogResult == DialogResult.OK)
+                            PasswordDialog passDialog = new();
+                            await passDialog.ShowDialog(this);
+                            if (passDialog.DialogResult == DialogResult.OK)
                             {
-                                password = dialog.Password;
+                                password = passDialog.Password;
                                 mvm.LoadKey(keyPath, password);
-                                if (dialog.Save)
+                                InsertKey();
+
+                                if (passDialog.Save)
                                 {
                                     encodedPassword = Cipher.Encrypt(password);
                                     Timotheus.Registry.Update("KeyPassword", encodedPassword);
@@ -87,6 +90,7 @@ namespace Timotheus.Views
                         break;
                     case ".txt":
                         mvm.LoadKey(keyPath);
+                        InsertKey();
                         break;
                 }
             }
@@ -109,6 +113,22 @@ namespace Timotheus.Views
             }
         }
         private static bool isShown = false;
+
+        private async void InsertKey()
+        {
+            ProgressDialog dialog = new();
+            try
+            {
+                dialog.Title = "Inserting key";
+                await dialog.ShowDialog(this, mvm.InsertingKey);
+                mvm.UpdateCalendarTable();
+                mvm.UpdatePeopleTable();
+            }
+            catch (Exception ex)
+            {
+                Error(Localization.Localization.Exception_Name, ex.Message);
+            }
+        }
 
         #region Calendar
         /// <summary>
@@ -461,7 +481,7 @@ namespace Timotheus.Views
             {
                 Timotheus.Registry.Delete("KeyPath");
                 Timotheus.Registry.Delete("KeyPassword");
-                mvm.Keys = new(':');
+                mvm.NewProject();
             }
         }
 
@@ -490,11 +510,13 @@ namespace Timotheus.Views
                                 mvm.Keys.Update("Calendar-Email", dialog.Username);
                                 mvm.Keys.Update("Calendar-Password", dialog.Password);
                                 mvm.Keys.Update("Calendar-URL", dialog.URL);
+                                mvm.UpdateCalendarTable();
                             }
                             else
                             {
                                 mvm.Calendar = new(dialog.Path);
                                 mvm.Keys.Update("Calendar-Path", dialog.Path);
+                                mvm.UpdateCalendarTable();
                             }
                         }
                         catch (Exception ex)
@@ -517,6 +539,7 @@ namespace Timotheus.Views
                     if (result != null && result.Length > 0)
                     {
                         mvm.PersonRepo = new(result[0]);
+                        mvm.UpdatePeopleTable();
                         mvm.Keys.Update("Person-File", result[0]);
                     }
                     break;
@@ -580,6 +603,71 @@ namespace Timotheus.Views
         /// Opens a SaveFileDialog so the user can save the current key as a file.
         /// </summary>
         private async void SaveKey_Click(object sender, RoutedEventArgs e)
+        {
+            string keyPath = Timotheus.Registry.Retrieve("KeyPath").Value;
+            if (!File.Exists(keyPath))
+                SaveAsKey_Click(sender, e);
+            else
+            {
+                switch (Path.GetExtension(keyPath))
+                {
+                    case ".tkey":
+                        string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword").Value;
+                        string password;
+                        if (encodedPassword != string.Empty)
+                        {
+                            password = Cipher.Decrypt(encodedPassword);
+                            try
+                            {
+                                mvm.SaveKey(keyPath, password);
+                            }
+                            catch (Exception ex)
+                            {
+                                Error(Localization.Localization.Exception_Saving, ex.Message);
+                            }
+                        }
+                        else
+                        {
+                            PasswordDialog dialog = new();
+                            await dialog.ShowDialog(this);
+                            if (dialog.DialogResult == DialogResult.OK)
+                            {
+                                password = dialog.Password;
+                                try
+                                {
+                                    mvm.SaveKey(keyPath, password);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Error(Localization.Localization.Exception_Saving, ex.Message);
+                                }
+
+                                if (dialog.Save)
+                                {
+                                    encodedPassword = Cipher.Encrypt(password);
+                                    Timotheus.Registry.Update("KeyPassword", encodedPassword);
+                                }
+                            }
+                        }
+                        break;
+                    case ".txt":
+                        try
+                        {
+                            mvm.SaveKey(keyPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Error(Localization.Localization.Exception_Saving, ex.Message);
+                        }
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Opens a SaveFileDialog so the user can save the current key as a file.
+        /// </summary>
+        private async void SaveAsKey_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new();
             saveFileDialog.Filters = new();
@@ -650,12 +738,12 @@ namespace Timotheus.Views
                 switch (Path.GetExtension(result[0]))
                 {
                     case ".tkey":
-                        PasswordDialog dialog = new();
-                        await dialog.ShowDialog(this);
-                        if (dialog.DialogResult == DialogResult.OK)
+                        PasswordDialog passDialog = new();
+                        await passDialog.ShowDialog(this);
+                        if (passDialog.DialogResult == DialogResult.OK)
                         {
-                            string password = dialog.Password;
-                            if (dialog.Save)
+                            string password = passDialog.Password;
+                            if (passDialog.Save)
                             {
                                 string encodedPassword = Cipher.Encrypt(password);
                                 Timotheus.Registry.Update("KeyPassword", encodedPassword);
@@ -665,6 +753,7 @@ namespace Timotheus.Views
                             try
                             {
                                 mvm.LoadKey(result[0], password);
+                                InsertKey();
                             }
                             catch (Exception ex)
                             {
@@ -676,6 +765,7 @@ namespace Timotheus.Views
                         try
                         {
                             mvm.LoadKey(result[0]);
+                            InsertKey();
                         }
                         catch (Exception ex)
                         {
@@ -698,7 +788,7 @@ namespace Timotheus.Views
             {
                 try
                 {
-                    mvm.Keys = new IO.Register(':', dialog.Text);
+                    mvm.NewProject(dialog.Text);
                 }
                 catch (Exception ex)
                 {

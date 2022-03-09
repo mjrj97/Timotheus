@@ -520,7 +520,7 @@
     <value>Synkroniserer kalender</value>
   </data>
   <data name="ToolStrip_EditKey" xml:space="preserve">
-    <value>Redigér nøgle</value>
+    <value>Redigér</value>
   </data>
   <data name="ToolStrip_Exit" xml:space="preserve">
     <value>Luk</value>
@@ -535,7 +535,7 @@
     <value>Nøgle</value>
   </data>
   <data name="ToolStrip_LoadKey" xml:space="preserve">
-    <value>Åben nøgle</value>
+    <value>Åben</value>
   </data>
   <data name="ToolStrip_NewFile" xml:space="preserve">
     <value>Ny</value>
@@ -546,10 +546,13 @@
   <data name="ToolStrip_OpenFile" xml:space="preserve">
     <value>Åben</value>
   </data>
+  <data name="ToolStrip_SaveAsKey" xml:space="preserve">
+    <value>Gem som</value>
+  </data>
   <data name="ToolStrip_SaveFile" xml:space="preserve">
     <value>Gem</value>
   </data>
   <data name="ToolStrip_SaveKey" xml:space="preserve">
-    <value>Gem nøgle</value>
+    <value>Gem</value>
   </data>
 </root>

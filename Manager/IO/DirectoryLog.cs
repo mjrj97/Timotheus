@@ -85,6 +85,8 @@ namespace Timotheus.IO
                 File.SetAttributes(path, FileAttributes.Hidden);
                 stream.Close();
             }
+            else
+                File.SetAttributes(path, FileAttributes.Hidden);
         }
     }
 }

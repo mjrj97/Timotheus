@@ -86,7 +86,7 @@ namespace Timotheus.IO
         public Register(string path, string password)
         {
             if (!File.Exists(path))
-                throw new System.Exception("Exception_NoKeys");
+                throw new System.Exception(Localization.Localization.Exception_NoKeys);
             Name = Path.GetFileName(path);
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);

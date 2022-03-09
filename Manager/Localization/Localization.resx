@@ -517,7 +517,7 @@
     <value>Synchronizing calendar</value>
   </data>
   <data name="ToolStrip_EditKey" xml:space="preserve">
-    <value>Edit key</value>
+    <value>Edit</value>
   </data>
   <data name="ToolStrip_Exit" xml:space="preserve">
     <value>Exit</value>
@@ -532,7 +532,7 @@
     <value>Key</value>
   </data>
   <data name="ToolStrip_LoadKey" xml:space="preserve">
-    <value>Open key</value>
+    <value>Open</value>
   </data>
   <data name="ToolStrip_NewFile" xml:space="preserve">
     <value>New</value>
@@ -543,10 +543,13 @@
   <data name="ToolStrip_OpenFile" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="ToolStrip_SaveAsKey" xml:space="preserve">
+    <value>Save as</value>
+  </data>
   <data name="ToolStrip_SaveFile" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="ToolStrip_SaveKey" xml:space="preserve">
-    <value>Save key</value>
+    <value>Save</value>
   </data>
 </root>

@@ -6,6 +6,7 @@ using Timotheus.IO;
 using Timotheus.Schedule;
 using Timotheus.Persons;
 using System.Linq;
+using System.ComponentModel;
 
 namespace Timotheus.ViewModels
 {
@@ -15,6 +16,11 @@ namespace Timotheus.ViewModels
         /// Index of the currently open tab.
         /// </summary>
         public int CurrentTab { get; set; }
+
+        /// <summary>
+        /// Worker that is used to track the progress of the inserting a key.
+        /// </summary>
+        public BackgroundWorker InsertingKey { get; private set; }
 
         private Register _keys = new();
         /// <summary>
@@ -26,10 +32,9 @@ namespace Timotheus.ViewModels
             {
                 return _keys;
             }
-            set
+            private set
             {
                 _keys = value;
-                InsertKey();
             }
         }
 
@@ -46,7 +51,6 @@ namespace Timotheus.ViewModels
             set
             {
                 _calendar = value;
-                UpdateCalendarTable();
             }
         }
 
@@ -63,7 +67,6 @@ namespace Timotheus.ViewModels
             set
             {
                 _personRepo = value;
-                UpdatePeopleTable();
             }
         }
 
@@ -175,10 +178,23 @@ namespace Timotheus.ViewModels
             }
         }
 
+        /// <summary>
+        /// Creates an instance of the MainViewModel
+        /// </summary>
         public MainViewModel() {
+            InsertingKey = new();
+            InsertingKey.DoWork += InsertKey;
+
             calendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
             PeriodText = calendarPeriod.ToString();
-            UpdatePeopleTable();
+        }
+
+        /// <summary>
+        /// Creates a new project.
+        /// </summary>
+        public void NewProject(string text = "")
+        {
+            Keys = new Register(':', text);
         }
 
         /// <summary>
@@ -298,20 +314,29 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// "Inserts" the current key, and tries to open the Calendar and Filsharing system.
         /// </summary>
-        private void InsertKey()
+        private void InsertKey(object sender, DoWorkEventArgs e)
         {
+            InsertingKey.ReportProgress(0, "Connecting to directory.");
+            if (InsertingKey.CancellationPending == true)
+                return;
             try
             {
                 Directory = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory").Value, Keys.Retrieve("SSH-RemoteDirectory").Value, Keys.Retrieve("SSH-URL").Value, int.Parse(Keys.Retrieve("SSH-Port").Value == string.Empty ? "22" : Keys.Retrieve("SSH-Port").Value), Keys.Retrieve("SSH-Username").Value, Keys.Retrieve("SSH-Password").Value);
             }
             catch (Exception) { Directory = new(); }
 
+            InsertingKey.ReportProgress(33, "Opening calendar.");
+            if (InsertingKey.CancellationPending == true)
+                return;
             try
             {
                 Calendar = new(Keys.Retrieve("Calendar-Email").Value, Keys.Retrieve("Calendar-Password").Value, Keys.Retrieve("Calendar-URL").Value);
             }
             catch (Exception) { Calendar = new(); }
 
+            InsertingKey.ReportProgress(66, "Loads people");
+            if (InsertingKey.CancellationPending == true)
+                return;
             try
             {
                 PersonRepo = new(Keys.Retrieve("Person-File").Value);
