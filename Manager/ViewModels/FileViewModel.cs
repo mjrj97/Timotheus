@@ -1,5 +1,6 @@
 ﻿using System;
 using Timotheus.IO;
+using Timotheus.Utility;
 
 namespace Timotheus.ViewModels
 {
@@ -88,7 +89,7 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// Variable that tells the software how to handle this file on sync.
         /// </summary>
-        public FileHandle Handle
+        public SyncHandle Handle
         {
             get
             {
@@ -105,12 +106,12 @@ namespace Timotheus.ViewModels
             {
                 return file.Handle switch
                 {
-                    FileHandle.NewDownload => Localization.Localization.SFTP_NewRemote,
-                    FileHandle.Download => Localization.Localization.SFTP_ChangedRemote,
-                    FileHandle.NewUpload => Localization.Localization.SFTP_NewLocal,
-                    FileHandle.Upload => Localization.Localization.SFTP_ChangedLocal,
-                    FileHandle.DeleteLocal => Localization.Localization.SFTP_DeleteRemote,
-                    FileHandle.DeleteRemote => Localization.Localization.SFTP_DeleteLocal,
+                    SyncHandle.NewDownload => Localization.Localization.SFTP_NewRemote,
+                    SyncHandle.Download => Localization.Localization.SFTP_ChangedRemote,
+                    SyncHandle.NewUpload => Localization.Localization.SFTP_NewLocal,
+                    SyncHandle.Upload => Localization.Localization.SFTP_ChangedLocal,
+                    SyncHandle.DeleteLocal => Localization.Localization.SFTP_DeleteRemote,
+                    SyncHandle.DeleteRemote => Localization.Localization.SFTP_DeleteLocal,
                     _ => string.Empty,
                 };
             }

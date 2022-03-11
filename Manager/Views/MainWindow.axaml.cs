@@ -8,7 +8,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Timotheus.IO;
 using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -54,40 +53,44 @@ namespace Timotheus.Views
                     }
                 }
                 else
-                    keyPath = Timotheus.Registry.Get("KeyPath");
+                    keyPath = Timotheus.Registry.Retrieve("KeyPath").Value;
 
                 if (!File.Exists(keyPath))
                 {
-                    Timotheus.Registry.Remove("KeyPath");
+                    Timotheus.Registry.Delete("KeyPath");
                 }
                 switch (Path.GetExtension(keyPath))
                 {
                     case ".tkey":
-                        string encodedPassword = Timotheus.Registry.Get("KeyPassword");
+                        string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword").Value;
                         string password = string.Empty;
                         if (encodedPassword != string.Empty)
                         {
                             password = Cipher.Decrypt(encodedPassword);
                             mvm.LoadKey(keyPath, password);
+                            InsertKey();
                         }
                         else
                         {
-                            PasswordDialog dialog = new();
-                            await dialog.ShowDialog(this);
-                            if (dialog.DialogResult == DialogResult.OK)
+                            PasswordDialog passDialog = new();
+                            await passDialog.ShowDialog(this);
+                            if (passDialog.DialogResult == DialogResult.OK)
                             {
-                                password = dialog.Password;
+                                password = passDialog.Password;
                                 mvm.LoadKey(keyPath, password);
-                                if (dialog.Save)
+                                InsertKey();
+
+                                if (passDialog.Save)
                                 {
                                     encodedPassword = Cipher.Encrypt(password);
-                                    Timotheus.Registry.Set("KeyPassword", encodedPassword);
+                                    Timotheus.Registry.Update("KeyPassword", encodedPassword);
                                 }
                             }
                         }
                         break;
                     case ".txt":
                         mvm.LoadKey(keyPath);
+                        InsertKey();
                         break;
                 }
             }
@@ -110,6 +113,22 @@ namespace Timotheus.Views
             }
         }
         private static bool isShown = false;
+
+        private async void InsertKey()
+        {
+            ProgressDialog dialog = new();
+            try
+            {
+                dialog.Title = Localization.Localization.InsertKey_Dialog;
+                await dialog.ShowDialog(this, mvm.InsertingKey);
+                mvm.UpdateCalendarTable();
+                mvm.UpdatePeopleTable();
+            }
+            catch (Exception ex)
+            {
+                Error(Localization.Localization.Exception_Name, ex.Message);
+            }
+        }
 
         #region Calendar
         /// <summary>
@@ -140,70 +159,6 @@ namespace Timotheus.Views
         }
 
         /// <summary>
-        /// Opens a OpenCalendar dialog
-        /// </summary>
-        private async void OpenCalendar_Click(object sender, RoutedEventArgs e)
-        {
-            OpenCalendar dialog = new();
-            dialog.Username = mvm.Keys.Get("Calendar-Email");
-            dialog.Password = mvm.Keys.Get("Calendar-Password");
-            dialog.URL = mvm.Keys.Get("Calendar-URL");
-            dialog.Path = mvm.Keys.Get("Calendar-Path");
-
-            await dialog.ShowDialog(this);
-
-            if (dialog.DialogResult == DialogResult.OK)
-            {
-                try
-                {
-                    if (dialog.IsRemote)
-                    {
-                        mvm.Calendar = new(dialog.Username, dialog.Password, dialog.URL);
-                        mvm.Keys.Set("Calendar-Email", dialog.Username);
-                        mvm.Keys.Set("Calendar-Password", dialog.Password);
-                        mvm.Keys.Set("Calendar-URL", dialog.URL);
-                    }
-                    else
-                    {
-                        mvm.Calendar = new(dialog.Path);
-                        mvm.Keys.Set("Calendar-Path", dialog.Path);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Error(Localization.Localization.Exception_InvalidCalendar, ex.Message);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Opens a SaveFileDialog to save the current Calendar.
-        /// </summary>
-        private async void SaveCalendar_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog saveFileDialog = new();
-            FileDialogFilter filter = new();
-            filter.Extensions.Add("ics");
-            filter.Name = "Calendar (.ics)";
-
-            saveFileDialog.Filters = new();
-            saveFileDialog.Filters.Add(filter);
-
-            string result = await saveFileDialog.ShowAsync(this);
-            if (result != null)
-            {
-                try
-                {
-                    mvm.Calendar.Save(result);
-                }
-                catch (Exception ex)
-                {
-                    Error(Localization.Localization.Exception_Saving, ex.Message);
-                }
-            }
-        }
-
-        /// <summary>
         /// Opens a SyncCalendar dialog to sync the current calendar.
         /// </summary>
         private async void SyncCalendar_Click(object sender, RoutedEventArgs e)
@@ -222,9 +177,9 @@ namespace Timotheus.Views
                     if (!dialog.UseCurrent)
                     {
                         mvm.Calendar.SetupSync(dialog.Username, dialog.Password, dialog.URL);
-                        mvm.Keys.Set("Calendar-Email", dialog.Username);
-                        mvm.Keys.Set("Calendar-Password", dialog.Password);
-                        mvm.Keys.Set("Calendar-URL", dialog.URL);
+                        mvm.Keys.Update("Calendar-Email", dialog.Username);
+                        mvm.Keys.Update("Calendar-Password", dialog.Password);
+                        mvm.Keys.Update("Calendar-URL", dialog.URL);
                     }
 
                     ProgressDialog pDialog = new();
@@ -256,13 +211,13 @@ namespace Timotheus.Views
             AddEvent dialog = new();
 
             string text;
-            if ((text = mvm.Keys.Get("Settings-Address")) != string.Empty)
+            if ((text = mvm.Keys.Retrieve("Settings-Address").Value) != string.Empty)
                 dialog.Location = text;
-            if ((text = mvm.Keys.Get("Settings-EventDescription")) != string.Empty)
+            if ((text = mvm.Keys.Retrieve("Settings-EventDescription").Value) != string.Empty)
                 dialog.Description = text;
-            if ((text = mvm.Keys.Get("Settings-EventStart")) != string.Empty)
+            if ((text = mvm.Keys.Retrieve("Settings-EventStart").Value) != string.Empty)
                 dialog.StartTime = text;
-            if ((text = mvm.Keys.Get("Settings-EventEnd")) != string.Empty)
+            if ((text = mvm.Keys.Retrieve("Settings-EventEnd").Value) != string.Empty)
                 dialog.EndTime = text;
 
             await dialog.ShowDialog(this);
@@ -363,23 +318,25 @@ namespace Timotheus.Views
         private async void SetupFiles_Click(object sender, RoutedEventArgs e)
         {
             SetupSFTP dialog = new();
-            dialog.Local = mvm.Keys.Get("SSH-LocalDirectory");
-            dialog.Remote = mvm.Keys.Get("SSH-RemoteDirectory");
-            dialog.Host = mvm.Keys.Get("SSH-URL");
-            dialog.Username = mvm.Keys.Get("SSH-Username");
-            dialog.Password = mvm.Keys.Get("SSH-Password");
+            dialog.Local = mvm.Keys.Retrieve("SSH-LocalDirectory").Value;
+            dialog.Remote = mvm.Keys.Retrieve("SSH-RemoteDirectory").Value;
+            dialog.Host = mvm.Keys.Retrieve("SSH-URL").Value;
+            dialog.Port = mvm.Keys.Retrieve("SSH-Port").Value;
+            dialog.Username = mvm.Keys.Retrieve("SSH-Username").Value;
+            dialog.Password = mvm.Keys.Retrieve("SSH-Password").Value;
 
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
             {
                 try
                 {
-                    mvm.Directory = new IO.DirectoryManager(dialog.Local, dialog.Remote, dialog.Host, dialog.Username, dialog.Password);
-                    mvm.Keys.Set("SSH-LocalDirectory", dialog.Local);
-                    mvm.Keys.Set("SSH-RemoteDirectory", dialog.Remote);
-                    mvm.Keys.Set("SSH-URL", dialog.Host);
-                    mvm.Keys.Set("SSH-Username", dialog.Username);
-                    mvm.Keys.Set("SSH-Password", dialog.Password);
+                    mvm.Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
+                    mvm.Keys.Update("SSH-LocalDirectory", dialog.Local);
+                    mvm.Keys.Update("SSH-RemoteDirectory", dialog.Remote);
+                    mvm.Keys.Update("SSH-URL", dialog.Host);
+                    mvm.Keys.Update("SSH-Port", dialog.Port);
+                    mvm.Keys.Update("SSH-Username", dialog.Username);
+                    mvm.Keys.Update("SSH-Password", dialog.Password);
                 }
                 catch (Exception ex)
                 {
@@ -451,9 +408,9 @@ namespace Timotheus.Views
                 {
                     e.Row.Background = file.Handle switch
                     {
-                        FileHandle.NewDownload or FileHandle.NewUpload => NewDark,
-                        FileHandle.Download or FileHandle.Upload => UpdateDark,
-                        FileHandle.DeleteLocal or FileHandle.DeleteRemote => DeleteDark,
+                        SyncHandle.NewDownload or SyncHandle.NewUpload => NewDark,
+                        SyncHandle.Download or SyncHandle.Upload => UpdateDark,
+                        SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteDark,
                         _ => StdDark,
                     };
                 }
@@ -461,13 +418,63 @@ namespace Timotheus.Views
                 {
                     e.Row.Background = file.Handle switch
                     {
-                        FileHandle.NewDownload or FileHandle.NewUpload => NewLight,
-                        FileHandle.Download or FileHandle.Upload => UpdateLight,
-                        FileHandle.DeleteLocal or FileHandle.DeleteRemote => DeleteLight,
+                        SyncHandle.NewDownload or SyncHandle.NewUpload => NewLight,
+                        SyncHandle.Download or SyncHandle.Upload => UpdateLight,
+                        SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteLight,
                         _ => StdLight,
                     };
                 }
             }
+        }
+        #endregion
+
+        #region Consent Forms
+        private async void AddPerson_Click(object sender, RoutedEventArgs e)
+        {
+            AddConsentForm dialog = new();
+            await dialog.ShowDialog(this);
+            if (dialog.DialogResult == DialogResult.OK)
+            {
+                mvm.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
+            }
+        }
+
+        private void ToggleActivePerson_Click(object sender, RoutedEventArgs e)
+        {
+            PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
+            person.Active = !person.Active;
+            mvm.UpdatePeopleTable();
+        }
+
+        private void People_RowLoading(object sender, DataGridRowEventArgs e)
+        {
+            if (e.Row.DataContext is PersonViewModel person)
+            {
+                if (person.Active)
+                    e.Row.Background = StdLight;
+                else
+                    e.Row.Background = StdDark;
+            }
+        }
+
+        private void RemovePerson_Click(object sender, RoutedEventArgs e)
+        {
+            PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
+            if (person != null)
+            {
+                mvm.Remove(person);
+            }
+        }
+
+        private void ToggleInactive_Click(object sender, RoutedEventArgs e)
+        {
+            mvm.ShowInactive = !mvm.ShowInactive;
+            mvm.UpdatePeopleTable();
+        }
+
+        private void SearchPeople(object sender, KeyEventArgs e)
+        {
+            mvm.UpdatePeopleTable();
         }
         #endregion
 
@@ -483,9 +490,123 @@ namespace Timotheus.Views
             await msDialog.ShowDialog(this);
             if (msDialog.DialogResult == DialogResult.OK)
             {
-                Timotheus.Registry.Remove("KeyPath");
-                Timotheus.Registry.Remove("KeyPassword");
-                mvm.Keys = new(':');
+                Timotheus.Registry.Delete("KeyPath");
+                Timotheus.Registry.Delete("KeyPassword");
+                mvm.NewProject();
+            }
+        }
+
+        /// <summary>
+        /// Opens a OpenCalendar dialog
+        /// </summary>
+        private async void Open_Click(object sender, RoutedEventArgs e)
+        {
+            switch (mvm.CurrentTab) {
+                case 0:
+                    OpenCalendar dialog = new();
+                    dialog.Username = mvm.Keys.Retrieve("Calendar-Email").Value;
+                    dialog.Password = mvm.Keys.Retrieve("Calendar-Password").Value;
+                    dialog.URL = mvm.Keys.Retrieve("Calendar-URL").Value;
+                    dialog.Path = mvm.Keys.Retrieve("Calendar-Path").Value;
+
+                    await dialog.ShowDialog(this);
+
+                    if (dialog.DialogResult == DialogResult.OK)
+                    {
+                        try
+                        {
+                            if (dialog.IsRemote)
+                            {
+                                mvm.Calendar = new(dialog.Username, dialog.Password, dialog.URL);
+                                mvm.Keys.Update("Calendar-Email", dialog.Username);
+                                mvm.Keys.Update("Calendar-Password", dialog.Password);
+                                mvm.Keys.Update("Calendar-URL", dialog.URL);
+                                mvm.UpdateCalendarTable();
+                            }
+                            else
+                            {
+                                mvm.Calendar = new(dialog.Path);
+                                mvm.Keys.Update("Calendar-Path", dialog.Path);
+                                mvm.UpdateCalendarTable();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Error(Localization.Localization.Exception_InvalidCalendar, ex.Message);
+                        }
+                    }
+                    break;
+                case 2:
+                    OpenFileDialog openFileDialog = new();
+
+                    FileDialogFilter txtFilter = new();
+                    txtFilter.Extensions.Add("csv");
+                    txtFilter.Name = "CSV (.csv)";
+
+                    openFileDialog.Filters = new();
+                    openFileDialog.Filters.Add(txtFilter);
+
+                    string[] result = await openFileDialog.ShowAsync(this);
+                    if (result != null && result.Length > 0)
+                    {
+                        mvm.PersonRepo = new(result[0]);
+                        mvm.UpdatePeopleTable();
+                        mvm.Keys.Update("Person-File", result[0]);
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Opens a SaveFileDialog to save the current Calendar.
+        /// </summary>
+        private async void Save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new();
+            FileDialogFilter filter = new();
+            string result;
+            switch (mvm.CurrentTab)
+            {
+                case 0:
+                    filter.Extensions.Add("ics");
+                    filter.Name = "Calendar (.ics)";
+
+                    saveFileDialog.Filters = new();
+                    saveFileDialog.Filters.Add(filter);
+
+                    result = await saveFileDialog.ShowAsync(this);
+                    if (result != null)
+                    {
+                        try
+                        {
+                            mvm.Calendar.Save(result);
+                        }
+                        catch (Exception ex)
+                        {
+                            Error(Localization.Localization.Exception_Saving, ex.Message);
+                        }
+                    }
+                    break;
+                case 2:
+                    filter.Extensions.Add("csv");
+                    filter.Name = "CSV (.csv)";
+
+                    saveFileDialog.Filters = new();
+                    saveFileDialog.Filters.Add(filter);
+
+                    result = await saveFileDialog.ShowAsync(this);
+                    if (result != null)
+                    {
+                        try
+                        {
+                            mvm.PersonRepo.Save(result);
+                        }
+                        catch (Exception ex)
+                        {
+                            Error(Localization.Localization.Exception_Saving, ex.Message);
+                        }
+                    }
+                    break;
             }
         }
 
@@ -493,6 +614,71 @@ namespace Timotheus.Views
         /// Opens a SaveFileDialog so the user can save the current key as a file.
         /// </summary>
         private async void SaveKey_Click(object sender, RoutedEventArgs e)
+        {
+            string keyPath = Timotheus.Registry.Retrieve("KeyPath").Value;
+            if (!File.Exists(keyPath))
+                SaveAsKey_Click(sender, e);
+            else
+            {
+                switch (Path.GetExtension(keyPath))
+                {
+                    case ".tkey":
+                        string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword").Value;
+                        string password;
+                        if (encodedPassword != string.Empty)
+                        {
+                            password = Cipher.Decrypt(encodedPassword);
+                            try
+                            {
+                                mvm.SaveKey(keyPath, password);
+                            }
+                            catch (Exception ex)
+                            {
+                                Error(Localization.Localization.Exception_Saving, ex.Message);
+                            }
+                        }
+                        else
+                        {
+                            PasswordDialog dialog = new();
+                            await dialog.ShowDialog(this);
+                            if (dialog.DialogResult == DialogResult.OK)
+                            {
+                                password = dialog.Password;
+                                try
+                                {
+                                    mvm.SaveKey(keyPath, password);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Error(Localization.Localization.Exception_Saving, ex.Message);
+                                }
+
+                                if (dialog.Save)
+                                {
+                                    encodedPassword = Cipher.Encrypt(password);
+                                    Timotheus.Registry.Update("KeyPassword", encodedPassword);
+                                }
+                            }
+                        }
+                        break;
+                    case ".txt":
+                        try
+                        {
+                            mvm.SaveKey(keyPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Error(Localization.Localization.Exception_Saving, ex.Message);
+                        }
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Opens a SaveFileDialog so the user can save the current key as a file.
+        /// </summary>
+        private async void SaveAsKey_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new();
             saveFileDialog.Filters = new();
@@ -563,21 +749,22 @@ namespace Timotheus.Views
                 switch (Path.GetExtension(result[0]))
                 {
                     case ".tkey":
-                        PasswordDialog dialog = new();
-                        await dialog.ShowDialog(this);
-                        if (dialog.DialogResult == DialogResult.OK)
+                        PasswordDialog passDialog = new();
+                        await passDialog.ShowDialog(this);
+                        if (passDialog.DialogResult == DialogResult.OK)
                         {
-                            string password = dialog.Password;
-                            if (dialog.Save)
+                            string password = passDialog.Password;
+                            if (passDialog.Save)
                             {
                                 string encodedPassword = Cipher.Encrypt(password);
-                                Timotheus.Registry.Set("KeyPassword", encodedPassword);
+                                Timotheus.Registry.Update("KeyPassword", encodedPassword);
                             }
                             else
-                                Timotheus.Registry.Remove("KeyPassword");
+                                Timotheus.Registry.Delete("KeyPassword");
                             try
                             {
                                 mvm.LoadKey(result[0], password);
+                                InsertKey();
                             }
                             catch (Exception ex)
                             {
@@ -589,6 +776,7 @@ namespace Timotheus.Views
                         try
                         {
                             mvm.LoadKey(result[0]);
+                            InsertKey();
                         }
                         catch (Exception ex)
                         {
@@ -611,7 +799,7 @@ namespace Timotheus.Views
             {
                 try
                 {
-                    mvm.Keys = new IO.Register(':', dialog.Text);
+                    mvm.NewProject(dialog.Text);
                 }
                 catch (Exception ex)
                 {
@@ -636,28 +824,28 @@ namespace Timotheus.Views
         {
             Settings dialog = new();
 
-            dialog.AssociationName = mvm.Keys.Get("Settings-Name");
-            dialog.AssociationAddress = mvm.Keys.Get("Settings-Address");
-            dialog.ImagePath = mvm.Keys.Get("Settings-Image");
-            dialog.Description = mvm.Keys.Get("Settings-EventDescription");
-            dialog.StartTime = mvm.Keys.Get("Settings-EventStart");
-            dialog.EndTime = mvm.Keys.Get("Settings-EventEnd");
+            dialog.AssociationName = mvm.Keys.Retrieve("Settings-Name").Value;
+            dialog.AssociationAddress = mvm.Keys.Retrieve("Settings-Address").Value;
+            dialog.ImagePath = mvm.Keys.Retrieve("Settings-Image").Value;
+            dialog.Description = mvm.Keys.Retrieve("Settings-EventDescription").Value;
+            dialog.StartTime = mvm.Keys.Retrieve("Settings-EventStart").Value;
+            dialog.EndTime = mvm.Keys.Retrieve("Settings-EventEnd").Value;
 
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
             {
                 if (dialog.AssociationName != string.Empty)
-                    mvm.Keys.Set("Settings-Name", dialog.AssociationName);
+                    mvm.Keys.Update("Settings-Name", dialog.AssociationName);
                 if (dialog.AssociationAddress != string.Empty)
-                    mvm.Keys.Set("Settings-Address", dialog.AssociationAddress);
+                    mvm.Keys.Update("Settings-Address", dialog.AssociationAddress);
                 if (dialog.ImagePath != string.Empty)
-                    mvm.Keys.Set("Settings-Image", dialog.ImagePath);
+                    mvm.Keys.Update("Settings-Image", dialog.ImagePath);
                 if (dialog.Description != string.Empty)
-                    mvm.Keys.Set("Settings-EventDescription", dialog.Description);
+                    mvm.Keys.Update("Settings-EventDescription", dialog.Description);
                 if (dialog.StartTime != string.Empty)
-                    mvm.Keys.Set("Settings-EventStart", dialog.StartTime);
+                    mvm.Keys.Update("Settings-EventStart", dialog.StartTime);
                 if (dialog.EndTime != string.Empty)
-                    mvm.Keys.Set("Settings-EventEnd", dialog.EndTime);
+                    mvm.Keys.Update("Settings-EventEnd", dialog.EndTime);
             }
         }
         #endregion

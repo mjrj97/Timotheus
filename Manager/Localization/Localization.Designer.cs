@@ -61,6 +61,69 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add person.
+        /// </summary>
+        public static string AddConsentForm {
+            get {
+                return ResourceManager.GetString("AddConsentForm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string AddConsentForm_AddButton {
+            get {
+                return ResourceManager.GetString("AddConsentForm_AddButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string AddConsentForm_CancelButton {
+            get {
+                return ResourceManager.GetString("AddConsentForm_CancelButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment.
+        /// </summary>
+        public static string AddConsentForm_Comment {
+            get {
+                return ResourceManager.GetString("AddConsentForm_Comment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string AddConsentForm_Date {
+            get {
+                return ResourceManager.GetString("AddConsentForm_Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string AddConsentForm_Name {
+            get {
+                return ResourceManager.GetString("AddConsentForm_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version.
+        /// </summary>
+        public static string AddConsentForm_Version {
+            get {
+                return ResourceManager.GetString("AddConsentForm_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add event.
         /// </summary>
         public static string AddEvent {
@@ -592,6 +655,42 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inserting key.
+        /// </summary>
+        public static string InsertKey_Dialog {
+            get {
+                return ResourceManager.GetString("InsertKey_Dialog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opening calendar.
+        /// </summary>
+        public static string InsertKey_LoadCalendar {
+            get {
+                return ResourceManager.GetString("InsertKey_LoadCalendar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connecting to remote directory.
+        /// </summary>
+        public static string InsertKey_LoadFiles {
+            get {
+                return ResourceManager.GetString("InsertKey_LoadFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading people.
+        /// </summary>
+        public static string InsertKey_LoadPeople {
+            get {
+                return ResourceManager.GetString("InsertKey_LoadPeople", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open.
         /// </summary>
         public static string OpenCalendar {
@@ -799,6 +898,96 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        public static string People_Active {
+            get {
+                return ResourceManager.GetString("People_Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add person.
+        /// </summary>
+        public static string People_Add {
+            get {
+                return ResourceManager.GetString("People_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment.
+        /// </summary>
+        public static string People_Comment {
+            get {
+                return ResourceManager.GetString("People_Comment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string People_ConsentDate {
+            get {
+                return ResourceManager.GetString("People_ConsentDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version.
+        /// </summary>
+        public static string People_ConsentVersion {
+            get {
+                return ResourceManager.GetString("People_ConsentVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide inactive.
+        /// </summary>
+        public static string People_HideInactive {
+            get {
+                return ResourceManager.GetString("People_HideInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string People_Name {
+            get {
+                return ResourceManager.GetString("People_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to People.
+        /// </summary>
+        public static string People_Page {
+            get {
+                return ResourceManager.GetString("People_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string People_Search {
+            get {
+                return ResourceManager.GetString("People_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show inactive.
+        /// </summary>
+        public static string People_ShowInactive {
+            get {
+                return ResourceManager.GetString("People_ShowInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string Settings {
@@ -831,6 +1020,42 @@ namespace Timotheus.Localization {
         public static string Settings_Event {
             get {
                 return ResourceManager.GetString("Settings_Event", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Settings_EventDescription {
+            get {
+                return ResourceManager.GetString("Settings_EventDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End.
+        /// </summary>
+        public static string Settings_EventEnd {
+            get {
+                return ResourceManager.GetString("Settings_EventEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string Settings_EventStart {
+            get {
+                return ResourceManager.GetString("Settings_EventStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        public static string Settings_EventTime {
+            get {
+                return ResourceManager.GetString("Settings_EventTime", resourceCulture);
             }
         }
         
@@ -1051,6 +1276,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Port.
+        /// </summary>
+        public static string SFTPSetup_PortLabel {
+            get {
+                return ResourceManager.GetString("SFTPSetup_PortLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remote.
         /// </summary>
         public static string SFTPSetup_RemoteDirectoryLabel {
@@ -1204,7 +1438,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit key.
+        ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string ToolStrip_EditKey {
             get {
@@ -1249,7 +1483,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open key.
+        ///   Looks up a localized string similar to Open.
         /// </summary>
         public static string ToolStrip_LoadKey {
             get {
@@ -1285,6 +1519,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save as.
+        /// </summary>
+        public static string ToolStrip_SaveAsKey {
+            get {
+                return ResourceManager.GetString("ToolStrip_SaveAsKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string ToolStrip_SaveFile {
@@ -1294,7 +1537,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save key.
+        ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string ToolStrip_SaveKey {
             get {

@@ -18,8 +18,8 @@
 			</MenuItem.Header>
             <MenuItem Header="{x:Static i18n:Localization.ToolStrip_NewFile}" Click="NewProject_Click"/>
             <Separator/>
-            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}" Click="SaveCalendar_Click"/>
-            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_OpenFile}" Click="OpenCalendar_Click"/>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}" Click="Save_Click"/>
+            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_OpenFile}" Click="Open_Click"/>
         </MenuItem>
         <MenuItem>
 			<MenuItem.Header>
@@ -29,7 +29,8 @@
 				</DockPanel>
 			</MenuItem.Header>
             <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveKey}" Click="SaveKey_Click"/>
-            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_LoadKey}" Click="OpenKey_Click"/>
+			<MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveAsKey}" Click="SaveAsKey_Click"/>
+			<MenuItem Header="{x:Static i18n:Localization.ToolStrip_LoadKey}" Click="OpenKey_Click"/>
             <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditKey}" Click="EditKey_Click"/>
         </MenuItem>
 		<MenuItem Click="Settings_Click">
@@ -50,7 +51,7 @@
 	    </MenuItem>
 	  </Menu>
     </DockPanel>
-    <TabControl>
+    <TabControl SelectedIndex="{Binding CurrentTab}">
       <TabItem>
         <TabItem.Header>
           <DockPanel Margin="5">
@@ -177,6 +178,54 @@
           </Border>
         </DockPanel>
       </TabItem>
+		<TabItem>
+			<TabItem.Header>
+				<DockPanel Margin="5">
+					<Image Source="/Resources/People.png" Height="32" VerticalAlignment="Center"/>
+					<TextBlock Text="{x:Static i18n:Localization.People_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
+				</DockPanel>
+			</TabItem.Header>
+			<DockPanel>
+				<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10" HorizontalAlignment="Stretch">
+					<Button Click="AddPerson_Click" DockPanel.Dock="Left" Height="32">
+						<DockPanel>
+							<Image Source="/Resources/Add.png" Height="17" VerticalAlignment="Center"/>
+							<TextBlock Text="{x:Static i18n:Localization.People_Add}" Margin="5 0" VerticalAlignment="Center"/>
+						</DockPanel>
+					</Button>
+					<Button Click="ToggleInactive_Click" DockPanel.Dock="Right" Height="32">
+						<DockPanel>
+							<Image Source="/Resources/Eye.png" Height="17" VerticalAlignment="Center"/>
+							<TextBlock IsVisible="{Binding ShowInactive}" Text="{x:Static i18n:Localization.People_HideInactive}" Margin="5 0" VerticalAlignment="Center"/>
+							<TextBlock IsVisible="{Binding HideInactive}" Text="{x:Static i18n:Localization.People_ShowInactive}" Margin="5 0" VerticalAlignment="Center"/>
+						</DockPanel>
+					</Button>
+					<TextBox Margin="10 0" Text="{Binding SearchField}" Watermark="{x:Static i18n:Localization.People_Search}" KeyUp="SearchPeople"/>
+				</DockPanel>
+				<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
+					<DataGrid Items="{Binding People}" VerticalScrollBarVisibility="Visible" LoadingRow="People_RowLoading">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="{x:Static i18n:Localization.People_Name}" Width="300" Binding="{Binding Name}"/>
+							<DataGridTextColumn Header="{x:Static i18n:Localization.People_ConsentDate}" Width="125" Binding="{Binding Date}" SortMemberPath="SortableDate" IsReadOnly="True"/>
+							<DataGridTextColumn Header="{x:Static i18n:Localization.People_ConsentVersion}" Width="125" Binding="{Binding Version}" IsReadOnly="True"/>
+							<DataGridTextColumn Header="{x:Static i18n:Localization.People_Comment}" Width="*" Binding="{Binding Comment}"/>
+							<DataGridTemplateColumn Header="Active" SortMemberPath="{x:Static i18n:Localization.People_Active}">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<DockPanel>
+											<Button Click="ToggleActivePerson_Click" Height="32" VerticalContentAlignment="Center" Margin="5" Content="{x:Static i18n:Localization.People_Active}"/>
+											<Button Click="RemovePerson_Click" Height="32" Margin="5">
+												<Image Source="/Resources/Delete.png" Height="20" VerticalAlignment="Center"/>
+											</Button>
+										</DockPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+						</DataGrid.Columns>
+					</DataGrid>
+				</Border>
+			</DockPanel>
+		</TabItem>
     </TabControl>
   </DockPanel>
 </Window>

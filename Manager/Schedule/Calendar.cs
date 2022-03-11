@@ -69,9 +69,9 @@ namespace Timotheus.Schedule
             Events = new List<Event>();
             timezone = GenerateTimeZone();
 
-            headers.Add("VERSION", "2.0");
-            headers.Add("PRODID", "-//mjrj97//Timotheus//EN");
-            headers.Add("X-WR-CALNAME", "Calendar");
+            headers.Create("VERSION", "2.0");
+            headers.Create("PRODID", "-//mjrj97//Timotheus//EN");
+            headers.Create("X-WR-CALNAME", "Calendar");
             SetupWorkers();
         }
 
@@ -92,8 +92,8 @@ namespace Timotheus.Schedule
         {
             string request =
             "BEGIN:VCALENDAR\n" +
-            "VERSION:" + headers.Get("VERSION") + "\n" +
-            "PRODID:" + headers.Get("PRODID") + "\n" +
+            "VERSION:" + headers.Retrieve("VERSION") + "\n" +
+            "PRODID:" + headers.Retrieve("PRODID") + "\n" +
             timezone + "\n" +
             ev.ToString() + "\n" +
             "END:VCALENDAR";
@@ -137,7 +137,7 @@ namespace Timotheus.Schedule
                         timeZoneStart = i;
                     }
                     else if (lines[i].Trim() != string.Empty)
-                        headers.Add(lines[i]);
+                        headers.Create(lines[i]);
                 }
                 else if (timeZoneEnd == 0)
                 {

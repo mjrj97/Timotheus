@@ -40,14 +40,14 @@
 			<StackPanel Margin="5">
 				<TextBlock Margin="0 5 0 10" Text="{x:Static i18n:Localization.Settings_Event}" FontWeight="Bold"/>
 				<DockPanel Margin="0 7">
-					<TextBlock Text="Time" VerticalAlignment="Center" Width="100"/>
-					<TextBlock Text="Start" VerticalAlignment="Center" Width="50"/>
+					<TextBlock Text="{x:Static i18n:Localization.Settings_EventTime}" VerticalAlignment="Center" Width="100"/>
+					<TextBlock Text="{x:Static i18n:Localization.Settings_EventStart}" VerticalAlignment="Center" Width="50"/>
 					<TextBox Watermark="00:00" Text="{Binding StartTime}" Width="115" Margin="0 0 30 0"/>
-					<TextBlock Text="End" VerticalAlignment="Center" Width="50"/>
+					<TextBlock Text="{x:Static i18n:Localization.Settings_EventEnd}" VerticalAlignment="Center" Width="50"/>
 					<TextBox Watermark="00:00" Text="{Binding EndTime}" Width="115"/>
 				</DockPanel>
 				<DockPanel>
-					<TextBlock Text="Description" VerticalAlignment="Top" Width="100" Margin="0 7 0 0"/>
+					<TextBlock Text="{x:Static i18n:Localization.Settings_EventDescription}" VerticalAlignment="Top" Width="100" Margin="0 7 0 0"/>
 					<TextBox Text="{Binding Description}" Height="100" AcceptsReturn="True"/>
 				</DockPanel>
 			</StackPanel>

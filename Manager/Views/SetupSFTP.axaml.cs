@@ -10,72 +10,86 @@ namespace Timotheus.Views
     /// </summary>
     public partial class SetupSFTP : Dialog
     {
-        private string _Host = string.Empty;
+        private string _host = string.Empty;
         /// <summary>
         /// Host string for SFTP.
         /// </summary>
         public string Host
         {
-            get => _Host;
+            get => _host;
             set 
             {
-                _Host = value;
+                _host = value;
                 NotifyPropertyChanged(nameof(Host));
             }
         }
 
-        private string _Username = string.Empty;
+        private string _port = string.Empty;
+        /// <summary>
+        /// The port of the host.
+        /// </summary>
+        public string Port
+        {
+            get => _port;
+            set
+            {
+                _port = value;
+                NotifyPropertyChanged(nameof(Port));
+            }
+        }
+
+        private string _username = string.Empty;
         /// <summary>
         /// Username on the SFTP Server.
         /// </summary>
         public string Username
         {
-            get => _Username;
+            get => _username;
             set
             {
-                _Username = value;
+                _username = value;
                 NotifyPropertyChanged(nameof(Username));
             }
         }
 
-        private string _Password = string.Empty;
+        private string _password = string.Empty;
         /// <summary>
         /// Password to the SFTP Server.
         /// </summary>
         public string Password
         {
-            get => _Password;
+            get => _password;
             set
             {
-                _Password = value;
-                NotifyPropertyChanged(nameof(Host));
+                _password = value;
+                NotifyPropertyChanged(nameof(Password));
             }
         }
 
-        private string _Remote = string.Empty;
+        private string _remote = string.Empty;
         /// <summary>
         /// Remote path to sync with.
         /// </summary>
         public string Remote
         {
-            get => _Remote;
+            get => _remote;
             set
             {
-                _Remote = value;
+                _remote = value;
                 NotifyPropertyChanged(nameof(Remote));
             }
         }
 
-        private string _Local = string.Empty;
+        private string _local = string.Empty;
         /// <summary>
         /// Local path to sync with.
         /// </summary>
         public string Local
         {
-            get => _Local;
+            get => _local;
             set
             {
-                _Local = value;
+                _local = value;
                 NotifyPropertyChanged(nameof(Local));
             }
         }

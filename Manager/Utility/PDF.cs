@@ -131,7 +131,7 @@ namespace Timotheus.Utility
             table.AddColumn("10.5cm");
             table.AddColumn("2.8cm");
             table.AddColumn("2.8cm");
-            table.AddColumn("7.5cm");
+            table.AddColumn("6.5cm");
 
             // Add the header text of the columns.
             Row row = table.AddRow();
@@ -166,9 +166,9 @@ namespace Timotheus.Utility
                 Register values = new(':', SortedList[i].Description);
                 DateTime time = SortedList[i].Start;
 
-                string eventLeader = values.Get(leader);
-                string eventMusician = values.Get(musician);
-                string eventCoffee = values.Get(coffee);
+                string eventLeader = values.Retrieve(leader).Value;
+                string eventMusician = values.Retrieve(musician).Value;
+                string eventCoffee = values.Retrieve(coffee).Value;
 
                 row = table.AddRow();
                 row.Shading.Color = (i % 2 == 1) ? Color.FromRgb(255, 255, 255) : Color.FromRgb(245, 245, 245);

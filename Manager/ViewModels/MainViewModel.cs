@@ -4,12 +4,25 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Timotheus.IO;
 using Timotheus.Schedule;
+using Timotheus.Persons;
+using System.Linq;
+using System.ComponentModel;
 
 namespace Timotheus.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        private Register _Keys = new();
+        /// <summary>
+        /// Index of the currently open tab.
+        /// </summary>
+        public int CurrentTab { get; set; }
+
+        /// <summary>
+        /// Worker that is used to track the progress of the inserting a key.
+        /// </summary>
+        public BackgroundWorker InsertingKey { get; private set; }
+
+        private Register _keys = new();
         /// <summary>
         /// Register containing all the keys loaded at startup or manually from a key file (.tkey or .txt)
         /// </summary>
@@ -17,16 +30,15 @@ namespace Timotheus.ViewModels
         {
             get
             {
-                return _Keys;
+                return _keys;
             }
-            set
+            private set
             {
-                _Keys = value;
-                InsertKey();
+                _keys = value;
             }
         }
 
-        private Calendar _Calendar = new();
+        private Calendar _calendar = new();
         /// <summary>
         /// Current calendar used by the program.
         /// </summary>
@@ -34,12 +46,27 @@ namespace Timotheus.ViewModels
         {
             get
             {
-                return _Calendar;
+                return _calendar;
             }
             set
             {
-                _Calendar = value;
-                UpdateCalendarTable();
+                _calendar = value;
+            }
+        }
+
+        private PersonRepository _personRepo = new();
+        /// <summary>
+        /// The repository containing all the people.
+        /// </summary>
+        public PersonRepository PersonRepo
+        {
+            get
+            {
+                return _personRepo;
+            }
+            set
+            {
+                _personRepo = value;
             }
         }
 
@@ -103,11 +130,25 @@ namespace Timotheus.ViewModels
             }
         }
 
-        private DirectoryManager _Directory = new();
+        private ObservableCollection<PersonViewModel> _People = new();
+        /// <summary>
+        /// A list of people that has made consent.
+        /// </summary>
+        public ObservableCollection<PersonViewModel> People
+        {
+            get => _People;
+            set
+            {
+                _People = value;
+                NotifyPropertyChanged(nameof(People));
+            }
+        }
+
+        private DirectoryViewModel _Directory = new();
         /// <summary>
         /// A SFTP object connecting a local and remote directory.
         /// </summary>
-        public DirectoryManager Directory
+        public DirectoryViewModel Directory
         {
             get
             {
@@ -137,9 +178,69 @@ namespace Timotheus.ViewModels
             }
         }
 
+        private string _searchField = string.Empty;
+        /// <summary>
+        /// The search field in the people tab.
+        /// </summary>
+        public string SearchField
+        {
+            get
+            {
+                return _searchField;
+            }
+            set
+            {
+                _searchField = value;
+                NotifyPropertyChanged(nameof(SearchField));
+            }
+        }
+
+        private bool _showInactive = true;
+        /// <summary>
+        /// Whether inactive people should be shown in the people table.
+        /// </summary>
+        public bool ShowInactive 
+        {
+            get
+            {
+                return _showInactive;
+            }
+            set
+            {
+                _showInactive = value;
+                NotifyPropertyChanged(nameof(ShowInactive));
+                NotifyPropertyChanged(nameof(HideInactive));
+            }
+        }
+
+        /// <summary>
+        /// The inverse of ShowInactive. Used for UI:
+        /// </summary>
+        public bool HideInactive
+        {
+            get
+            {
+                return !_showInactive;
+            }
+        }
+
+        /// <summary>
+        /// Creates an instance of the MainViewModel
+        /// </summary>
         public MainViewModel() {
+            InsertingKey = new();
+            InsertingKey.DoWork += InsertKey;
+
             calendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
             PeriodText = calendarPeriod.ToString();
+        }
+
+        /// <summary>
+        /// Creates a new project.
+        /// </summary>
+        public void NewProject(string text = "")
+        {
+            Keys = new Register(':', text);
         }
 
         /// <summary>
@@ -154,6 +255,22 @@ namespace Timotheus.ViewModels
                     Events.Add(new EventViewModel(Calendar.Events[i]));
             }
             PeriodText = calendarPeriod.ToString();
+        }
+
+        /// <summary>
+        /// Updates the contents of the persons/people table.
+        /// </summary>
+        public void UpdatePeopleTable()
+        {
+            People.Clear();
+            List<Person> people = PersonRepo.RetrieveAll().OrderBy(o => o.Name).ToList();
+            for (int i = 0; i < people.Count; i++)
+            {
+                if (!people[i].Deleted && (people[i].Active || (!people[i].Active && ShowInactive))  && (people[i].Name.ToLower().Contains(SearchField.ToLower()) || people[i].Comment.ToLower().Contains(SearchField.ToLower())))
+                    People.Add(new PersonViewModel(people[i]));
+            }
+
+            NotifyPropertyChanged(nameof(People));
         }
 
         /// <summary>
@@ -183,15 +300,34 @@ namespace Timotheus.ViewModels
         /// <param name="path">Path to save</param>
         public void ExportCalendar(string name, string path)
         {
-            Calendar.Export(name, path, Keys.Get("Settings-Name"), Keys.Get("Settings-Address"), Keys.Get("Settings-Image"), calendarPeriod);
+            Calendar.Export(name, path, Keys.Retrieve("Settings-Name").Value, Keys.Retrieve("Settings-Address").Value, Keys.Retrieve("Settings-Image").Value, calendarPeriod);
+        }
+
+        /// <summary>
+        /// Adds a person to the list.
+        /// </summary>
+        public void AddPerson(string Name, DateTime ConsentDate, string ConsentVersion, string ConsentComment)
+        {
+            PersonRepo.Create(new Person(Name, ConsentDate, ConsentVersion, ConsentComment, true));
+            UpdatePeopleTable();
         }
 
         /// <summary>
         /// Removes the event from list.
         /// </summary>
-        public void Remove(EventViewModel ev) {
+        public void Remove(EventViewModel ev)
+        {
             ev.Deleted = true;
             UpdateCalendarTable();
+        }
+
+        /// <summary>
+        /// Removes the person from list.
+        /// </summary>
+        public void Remove(PersonViewModel person)
+        {
+            person.Deleted = true;
+            UpdatePeopleTable();
         }
 
         /// <summary>
@@ -224,19 +360,34 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// "Inserts" the current key, and tries to open the Calendar and Filsharing system.
         /// </summary>
-        private void InsertKey()
+        private void InsertKey(object sender, DoWorkEventArgs e)
         {
+            InsertingKey.ReportProgress(0, Localization.Localization.InsertKey_LoadFiles);
+            if (InsertingKey.CancellationPending == true)
+                return;
             try
             {
-                Directory = new DirectoryManager(Keys.Get("SSH-LocalDirectory"), Keys.Get("SSH-RemoteDirectory"), Keys.Get("SSH-URL"), Keys.Get("SSH-Username"), Keys.Get("SSH-Password"));
+                Directory = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory").Value, Keys.Retrieve("SSH-RemoteDirectory").Value, Keys.Retrieve("SSH-URL").Value, int.Parse(Keys.Retrieve("SSH-Port").Value == string.Empty ? "22" : Keys.Retrieve("SSH-Port").Value), Keys.Retrieve("SSH-Username").Value, Keys.Retrieve("SSH-Password").Value);
             }
             catch (Exception) { Directory = new(); }
 
+            InsertingKey.ReportProgress(33, Localization.Localization.InsertKey_LoadCalendar);
+            if (InsertingKey.CancellationPending == true)
+                return;
             try
             {
-                Calendar = new(Keys.Get("Calendar-Email"), Keys.Get("Calendar-Password"), Keys.Get("Calendar-URL"));
+                Calendar = new(Keys.Retrieve("Calendar-Email").Value, Keys.Retrieve("Calendar-Password").Value, Keys.Retrieve("Calendar-URL").Value);
             }
             catch (Exception) { Calendar = new(); }
+
+            InsertingKey.ReportProgress(66, Localization.Localization.InsertKey_LoadPeople);
+            if (InsertingKey.CancellationPending == true)
+                return;
+            try
+            {
+                PersonRepo = new(Keys.Retrieve("Person-File").Value);
+            }
+            catch (Exception) { PersonRepo = new(); }
         }
 
         /// <summary>
@@ -247,7 +398,7 @@ namespace Timotheus.ViewModels
         public void LoadKey(string path, string password)
         {
             Keys = new Register(path, password, ':');
-            Timotheus.Registry.Set("KeyPath", path);
+            Timotheus.Registry.Update("KeyPath", path);
         }
         /// <summary>
         /// Loads the key from the path.
@@ -256,8 +407,8 @@ namespace Timotheus.ViewModels
         public void LoadKey(string path)
         {
             Keys = new Register(path, ':');
-            Timotheus.Registry.Set("KeyPath", path);
-            Timotheus.Registry.Remove("KeyPassword");
+            Timotheus.Registry.Update("KeyPath", path);
+            Timotheus.Registry.Delete("KeyPassword");
         }
 
         /// <summary>

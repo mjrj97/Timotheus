@@ -9,7 +9,7 @@ namespace Timotheus.IO
     /// <summary>
     /// Class that can load a list of value with corresponding names. Can be loaded from encrypted (using a password) and unencrypted files. The file's line separator can be specified (ie. NAME,VALUE where ',' is used).
     /// </summary>
-    public class Register
+    public class Register : IRepository<Key>
     {
         /// <summary>
         /// Name of the register.
@@ -86,7 +86,7 @@ namespace Timotheus.IO
         public Register(string path, string password)
         {
             if (!File.Exists(path))
-                throw new System.Exception("Exception_NoKeys");
+                throw new System.Exception(Localization.Localization.Exception_NoKeys);
             Name = Path.GetFileName(path);
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
@@ -155,17 +155,25 @@ namespace Timotheus.IO
         /// </summary>
         /// <param name="name">Name of the key.</param>
         /// <param name="value">Value of the key.</param>
-        public void Add(string name, string value)
+        public void Create(string name, string value)
         {
-            keys.Add(new Key(name, value));
+            Create(new Key(name, value));
+        }
+        /// <summary>
+        /// Adds a key to the register. Doesn't check if key already exists.
+        /// </summary>
+        /// <param name="key">The key to be added.</param>
+        public void Create(Key key)
+        {
+            keys.Add(key);
         }
         /// <summary>
         /// Adds a key to the register from a line. Uses the specified separator to get name and value. Doesn't check if key already exists.
         /// </summary>
         /// <param name="line"></param>
-        public void Add(string line)
+        public void Create(string line)
         {
-            keys.Add(new Key(line, separator));
+            Create(new Key(line, separator));
         }
 
         /// <summary>
@@ -173,15 +181,15 @@ namespace Timotheus.IO
         /// </summary>
         /// <param name="name">Name of the key.</param>
         /// <param name="value">Value of the key.</param>
-        public void Set(string name, string value)
+        public void Update(string name, string value)
         {
             int i = 0;
             bool found = false;
             while (!found && i < keys.Count)
             {
-                if (keys[i].name == name)
+                if (keys[i].Name == name)
                 {
-                    keys[i].value = value;
+                    keys[i].Value = value;
                     found = true;
                 }
                 i++;
@@ -191,18 +199,26 @@ namespace Timotheus.IO
                 keys.Add(new Key(name, value));
             }
         }
+        /// <summary>
+        /// Updates the given key.
+        /// </summary>
+        /// <param name="key">Key to be updated.</param>
+        public void Update(Key key)
+        {
+            Update(key.Name, key.Value);
+        }
 
         /// <summary>
         /// Removes a key with the given name.
         /// </summary>
         /// <param name="name">Name of the key</param>
-        public void Remove(string name)
+        public void Delete(string name)
         {
             int i = 0;
             bool found = false;
             while (!found && i < keys.Count)
             {
-                if (keys[i].name == name)
+                if (keys[i].Name == name)
                 {
                     keys.Remove(keys[i]);
                     found = true;
@@ -210,38 +226,48 @@ namespace Timotheus.IO
                 i++;
             }
         }
+        /// <summary>
+        /// Removes a key from the Register.
+        /// </summary>
+        /// <param name="key"></param>
+        public void Delete(Key key)
+        {
+            keys.Remove(key);
+        }
 
         /// <summary>
         /// Returns the value of the key with a given name.
         /// </summary>
         /// <param name="name">Name of the key.</param>
-        public string Get(string name)
+        public Key Retrieve(string name)
         {
-            string value = string.Empty;
             int i = 0;
             bool found = false;
 
             while (i < keys.Count && !found)
             {
-                if (keys[i].name == name)
+                if (keys[i].Name == name)
                 {
-                    value = keys[i].value;
                     found = true;
                 }
-                i++;
+                else
+                    i++;
             }
-            return value;
+            if (found)
+                return keys[i];
+            else
+                return new Key(string.Empty, string.Empty);
         }
         /// <summary>
-        /// Returns the value withc corresponding the name, but a standard value can be provided in case the variable wasn't found.
+        /// Returns the value with corresponding the name, but a standard value can be provided in case the variable wasn't found.
         /// </summary>
         /// <param name="name">The name of the variable (e.g. Calendar_Page).</param>
         /// <param name="standard">The standard value in case the variable wasn't found.</param>
-        public string Get(string name, string standard)
+        public Key Retrieve(string name, string standard)
         {
-            string value = Get(name);
-            if (value == string.Empty)
-                return standard;
+            Key value = Retrieve(name);
+            if (value == null)
+                return new Key(string.Empty, standard);
             else
                 return value;
         }
@@ -249,7 +275,7 @@ namespace Timotheus.IO
         /// <summary>
         /// Returns a list of the keys in the register.
         /// </summary>
-        public List<Key> Keys()
+        public List<Key> RetrieveAll()
         {
             return keys;
         }
@@ -262,9 +288,7 @@ namespace Timotheus.IO
             StringBuilder builder = new();
             for (int i = 0; i < keys.Count; i++)
             {
-                builder.Append(keys[i].name);
-                builder.Append(':');
-                builder.Append(keys[i].value);
+                builder.Append(keys[i].ToString());
                 if (i != keys.Count - 1)
                     builder.Append('\n');
             }

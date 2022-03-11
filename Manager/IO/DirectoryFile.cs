@@ -1,5 +1,5 @@
-﻿using Renci.SshNet.Sftp;
-using System.IO;
+﻿using System.IO;
+using Timotheus.Utility;
 
 namespace Timotheus.IO
 {
@@ -15,7 +15,7 @@ namespace Timotheus.IO
         /// <summary>
         /// The remote file
         /// </summary>
-        public SftpFile RemoteFile;
+        public RemoteFile RemoteFile;
         /// <summary>
         /// Item that contains whether the file was in the last sync, and related info.
         /// </summary>
@@ -35,12 +35,12 @@ namespace Timotheus.IO
         /// <summary>
         /// Variable that tells the software how to handle this file on sync.
         /// </summary>
-        public FileHandle Handle;
+        public SyncHandle Handle;
 
         /// <summary>
         /// Connects the pairs.
         /// </summary>
-        public DirectoryFile(FileSystemInfo LocalFile, SftpFile RemoteFile, DirectoryLogItem LogItem)
+        public DirectoryFile(FileSystemInfo LocalFile, RemoteFile RemoteFile, DirectoryLogItem LogItem)
         {
             Size = 0;
             if (LocalFile == null)
@@ -58,7 +58,7 @@ namespace Timotheus.IO
                     Size = new FileInfo(LocalFile.FullName).Length;
             }
 
-            Handle = FileHandle.Nothing;
+            Handle = SyncHandle.Nothing;
             this.LogItem = LogItem;
             this.LocalFile = LocalFile;
             this.RemoteFile = RemoteFile;
@@ -67,29 +67,29 @@ namespace Timotheus.IO
             {
                 //If file can be found (!)previously & locally & remotely => Find the one with the lastest changes
                 if (IsDirectory)
-                    Handle = FileHandle.Synchronize;
+                    Handle = SyncHandle.Synchronize;
                 else
                 {
                     //Synchronize
                     if (LocalFile.LastWriteTimeUtc.Ticks == LogItem.LocalTicks && RemoteFile.LastWriteTimeUtc.Ticks != LogItem.RemoteTicks)
                     {
-                        Handle = FileHandle.Download;
+                        Handle = SyncHandle.Download;
                     }
                     else if (LocalFile.LastWriteTimeUtc.Ticks != LogItem.LocalTicks && RemoteFile.LastWriteTimeUtc.Ticks == LogItem.RemoteTicks)
                     {
-                        Handle = FileHandle.Upload;
+                        Handle = SyncHandle.Upload;
                     }
                     else if (LocalFile.LastWriteTimeUtc.Ticks != LogItem.LocalTicks && RemoteFile.LastWriteTimeUtc.Ticks != LogItem.RemoteTicks)
                     {
                         if (LocalFile.LastWriteTimeUtc.Ticks < RemoteFile.LastWriteTimeUtc.Ticks)
                         {
                             //Download
-                            Handle = FileHandle.Download;
+                            Handle = SyncHandle.Download;
                         }
                         else if (LocalFile.LastWriteTimeUtc.Ticks > RemoteFile.LastWriteTimeUtc.Ticks)
                         {
                             //Upload
-                            Handle = FileHandle.Upload;
+                            Handle = SyncHandle.Upload;
                         }
                     }
                 }
@@ -99,12 +99,12 @@ namespace Timotheus.IO
                 if (LocalFile != null && RemoteFile == null)
                 {
                     //If file can be found !previously & locally & !remotely => Upload
-                    Handle = FileHandle.NewUpload;
+                    Handle = SyncHandle.NewUpload;
                 }
                 else if (LocalFile == null && RemoteFile != null)
                 {
                     //If file can be found !previously & !locally & remotely => Download
-                    Handle = FileHandle.NewDownload;
+                    Handle = SyncHandle.NewDownload;
                 }
             }
             else
@@ -114,11 +114,11 @@ namespace Timotheus.IO
                     //If file can be found previously & locally & !remotely => Delete local (If local & previously LastWriteTime is the same, otherwise upload)
                     if (LocalFile.LastWriteTimeUtc.Ticks == LogItem.LocalTicks)
                     {
-                        Handle = FileHandle.DeleteLocal;
+                        Handle = SyncHandle.DeleteLocal;
                     }
                     else
                     {
-                        Handle = FileHandle.NewUpload;
+                        Handle = SyncHandle.NewUpload;
                     }
                 }
                 else if (LocalFile == null && RemoteFile != null)
@@ -126,29 +126,14 @@ namespace Timotheus.IO
                     //If file can be found previously & !locally & remotely => Delete remote (If remote & previously LastWriteTime is the same, otherwise download)
                     if (RemoteFile.LastWriteTimeUtc.Ticks == LogItem.RemoteTicks)
                     {
-                        Handle = FileHandle.DeleteRemote;
+                        Handle = SyncHandle.DeleteRemote;
                     }
                     else
                     {
-                        Handle = FileHandle.NewDownload;
+                        Handle = SyncHandle.NewDownload;
                     }
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// Enum that tells the software how to handle a file on sync.
-    /// </summary>
-    public enum FileHandle
-    {
-        Nothing,
-        Synchronize,
-        NewDownload,
-        Download,
-        NewUpload,
-        Upload,
-        DeleteLocal,
-        DeleteRemote
     }
 }

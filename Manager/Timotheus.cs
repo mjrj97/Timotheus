@@ -32,7 +32,7 @@ namespace Timotheus
         /// <summary>
         /// Version of the software.
         /// </summary>
-        public static string Version { get; private set; }
+        public const string Version = "1.2.0";
         /// <summary>
         /// Whether this is the first time the software runs on this computer.
         /// </summary>
@@ -55,10 +55,6 @@ namespace Timotheus
             CultureInfo.CurrentCulture = Culture;
 
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
-
-            Version = "1.0.0";
-            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            Version = version[0..^2];
         }
 
         /// <summary>
@@ -79,10 +75,10 @@ namespace Timotheus
                 Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(@"SOFTWARE\Timotheus");
                 Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus");
 
-                List<Key> keys = Registry.Keys();
+                List<Key> keys = Registry.RetrieveAll();
                 for (int i = 0; i < keys.Count; i++)
                 {
-                    key.SetValue(keys[i].name, keys[i].value);
+                    key.SetValue(keys[i].Name, keys[i].Value);
                 }
 
                 key.Close();
@@ -128,7 +124,7 @@ namespace Timotheus
                     for (int i = 0; i < names.Length; i++)
                     {
                         string value = Convert.ToString(key.GetValue(names[i]));
-                        Registry.Add(names[i], value);
+                        Registry.Create(names[i], value);
                     }
 
                     key.Close();
