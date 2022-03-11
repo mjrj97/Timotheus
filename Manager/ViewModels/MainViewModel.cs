@@ -178,6 +178,52 @@ namespace Timotheus.ViewModels
             }
         }
 
+        private string _searchField = string.Empty;
+        /// <summary>
+        /// The search field in the people tab.
+        /// </summary>
+        public string SearchField
+        {
+            get
+            {
+                return _searchField;
+            }
+            set
+            {
+                _searchField = value;
+                NotifyPropertyChanged(nameof(SearchField));
+            }
+        }
+
+        private bool _showInactive = true;
+        /// <summary>
+        /// Whether inactive people should be shown in the people table.
+        /// </summary>
+        public bool ShowInactive 
+        {
+            get
+            {
+                return _showInactive;
+            }
+            set
+            {
+                _showInactive = value;
+                NotifyPropertyChanged(nameof(ShowInactive));
+                NotifyPropertyChanged(nameof(HideInactive));
+            }
+        }
+
+        /// <summary>
+        /// The inverse of ShowInactive. Used for UI:
+        /// </summary>
+        public bool HideInactive
+        {
+            get
+            {
+                return !_showInactive;
+            }
+        }
+
         /// <summary>
         /// Creates an instance of the MainViewModel
         /// </summary>
@@ -217,10 +263,10 @@ namespace Timotheus.ViewModels
         public void UpdatePeopleTable()
         {
             People.Clear();
-            List<Person> people = PersonRepo.RetrieveAll().OrderBy(o=>o.Name).ToList();
+            List<Person> people = PersonRepo.RetrieveAll().OrderBy(o => o.Name).ToList();
             for (int i = 0; i < people.Count; i++)
             {
-                if (!people[i].Deleted)
+                if (!people[i].Deleted && (people[i].Active || (!people[i].Active && ShowInactive))  && (people[i].Name.ToLower().Contains(SearchField.ToLower()) || people[i].Comment.ToLower().Contains(SearchField.ToLower())))
                     People.Add(new PersonViewModel(people[i]));
             }
 
@@ -316,7 +362,7 @@ namespace Timotheus.ViewModels
         /// </summary>
         private void InsertKey(object sender, DoWorkEventArgs e)
         {
-            InsertingKey.ReportProgress(0, "Connecting to directory.");
+            InsertingKey.ReportProgress(0, Localization.Localization.InsertKey_LoadFiles);
             if (InsertingKey.CancellationPending == true)
                 return;
             try
@@ -325,7 +371,7 @@ namespace Timotheus.ViewModels
             }
             catch (Exception) { Directory = new(); }
 
-            InsertingKey.ReportProgress(33, "Opening calendar.");
+            InsertingKey.ReportProgress(33, Localization.Localization.InsertKey_LoadCalendar);
             if (InsertingKey.CancellationPending == true)
                 return;
             try
@@ -334,7 +380,7 @@ namespace Timotheus.ViewModels
             }
             catch (Exception) { Calendar = new(); }
 
-            InsertingKey.ReportProgress(66, "Loads people");
+            InsertingKey.ReportProgress(66, Localization.Localization.InsertKey_LoadPeople);
             if (InsertingKey.CancellationPending == true)
                 return;
             try

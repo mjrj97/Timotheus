@@ -117,6 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddConsentForm" xml:space="preserve">
+    <value>Add person</value>
+  </data>
+  <data name="AddConsentForm_AddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddConsentForm_CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AddConsentForm_Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="AddConsentForm_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="AddConsentForm_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="AddConsentForm_Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
   <data name="AddEvent" xml:space="preserve">
     <value>Add event</value>
   </data>
@@ -294,6 +315,18 @@
   <data name="Help_VersionLabel" xml:space="preserve">
     <value>Version:</value>
   </data>
+  <data name="InsertKey_Dialog" xml:space="preserve">
+    <value>Inserting key</value>
+  </data>
+  <data name="InsertKey_LoadCalendar" xml:space="preserve">
+    <value>Opening calendar</value>
+  </data>
+  <data name="InsertKey_LoadFiles" xml:space="preserve">
+    <value>Connecting to remote directory</value>
+  </data>
+  <data name="InsertKey_LoadPeople" xml:space="preserve">
+    <value>Loading people</value>
+  </data>
   <data name="OpenCalendar" xml:space="preserve">
     <value>Open</value>
   </data>
@@ -363,8 +396,35 @@
   <data name="PDF_Welcome" xml:space="preserve">
     <value>Welcome to</value>
   </data>
+  <data name="People_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="People_Add" xml:space="preserve">
+    <value>Add person</value>
+  </data>
+  <data name="People_Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="People_ConsentDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="People_ConsentVersion" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="People_HideInactive" xml:space="preserve">
+    <value>Hide inactive</value>
+  </data>
+  <data name="People_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="People_Page" xml:space="preserve">
     <value>People</value>
+  </data>
+  <data name="People_Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="People_ShowInactive" xml:space="preserve">
+    <value>Show inactive</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>

@@ -32,7 +32,7 @@ namespace Timotheus.Views
         /// <summary>
         /// The version of the consent form.
         /// </summary>
-        public int ConsentVersion { get; set; }
+        public string ConsentVersion { get; set; }
 
         /// <summary>
         /// Any comment given to the consent.

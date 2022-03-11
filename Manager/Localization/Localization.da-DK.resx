@@ -117,6 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddConsentForm" xml:space="preserve">
+    <value>Tilføj person</value>
+  </data>
+  <data name="AddConsentForm_AddButton" xml:space="preserve">
+    <value>Tilføj</value>
+  </data>
+  <data name="AddConsentForm_CancelButton" xml:space="preserve">
+    <value>Annullér</value>
+  </data>
+  <data name="AddConsentForm_Comment" xml:space="preserve">
+    <value>Kommentar</value>
+  </data>
+  <data name="AddConsentForm_Date" xml:space="preserve">
+    <value>Dato</value>
+  </data>
+  <data name="AddConsentForm_Name" xml:space="preserve">
+    <value>Navn</value>
+  </data>
+  <data name="AddConsentForm_Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
   <data name="AddEvent" xml:space="preserve">
     <value>Tilføj begivenhed</value>
   </data>
@@ -297,6 +318,18 @@
   <data name="Help_VersionLabel" xml:space="preserve">
     <value>Version:</value>
   </data>
+  <data name="InsertKey_Dialog" xml:space="preserve">
+    <value>Indlæser nøgle</value>
+  </data>
+  <data name="InsertKey_LoadCalendar" xml:space="preserve">
+    <value>Åbner kalender</value>
+  </data>
+  <data name="InsertKey_LoadFiles" xml:space="preserve">
+    <value>Forbinder til filer</value>
+  </data>
+  <data name="InsertKey_LoadPeople" xml:space="preserve">
+    <value>Indlæser personer</value>
+  </data>
   <data name="OpenCalendar" xml:space="preserve">
     <value>Åben</value>
   </data>
@@ -366,8 +399,35 @@
   <data name="PDF_Welcome" xml:space="preserve">
     <value>Velkommen i</value>
   </data>
+  <data name="People_Active" xml:space="preserve">
+    <value>Aktiv</value>
+  </data>
+  <data name="People_Add" xml:space="preserve">
+    <value>Tilføj person</value>
+  </data>
+  <data name="People_Comment" xml:space="preserve">
+    <value>Kommentar</value>
+  </data>
+  <data name="People_ConsentDate" xml:space="preserve">
+    <value>Dato</value>
+  </data>
+  <data name="People_ConsentVersion" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="People_HideInactive" xml:space="preserve">
+    <value>Skjul inaktive</value>
+  </data>
+  <data name="People_Name" xml:space="preserve">
+    <value>Navn</value>
+  </data>
   <data name="People_Page" xml:space="preserve">
     <value>Personer</value>
+  </data>
+  <data name="People_Search" xml:space="preserve">
+    <value>Søg</value>
+  </data>
+  <data name="People_ShowInactive" xml:space="preserve">
+    <value>Vis inaktive</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Indstillinger</value>

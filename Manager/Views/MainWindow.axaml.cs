@@ -119,7 +119,7 @@ namespace Timotheus.Views
             ProgressDialog dialog = new();
             try
             {
-                dialog.Title = "Inserting key";
+                dialog.Title = Localization.Localization.InsertKey_Dialog;
                 await dialog.ShowDialog(this, mvm.InsertingKey);
                 mvm.UpdateCalendarTable();
                 mvm.UpdatePeopleTable();
@@ -435,7 +435,7 @@ namespace Timotheus.Views
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
             {
-                mvm.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion.ToString(), dialog.ConsentComment);
+                mvm.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
             }
         }
 
@@ -464,6 +464,17 @@ namespace Timotheus.Views
             {
                 mvm.Remove(person);
             }
+        }
+
+        private void ToggleInactive_Click(object sender, RoutedEventArgs e)
+        {
+            mvm.ShowInactive = !mvm.ShowInactive;
+            mvm.UpdatePeopleTable();
+        }
+
+        private void SearchPeople(object sender, KeyEventArgs e)
+        {
+            mvm.UpdatePeopleTable();
         }
         #endregion
 
