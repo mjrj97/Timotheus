@@ -418,7 +418,7 @@
     <value>Name</value>
   </data>
   <data name="People_Page" xml:space="preserve">
-    <value>People</value>
+    <value>Consent forms</value>
   </data>
   <data name="People_Search" xml:space="preserve">
     <value>Search</value>
@@ -611,5 +611,11 @@
   </data>
   <data name="ToolStrip_SaveKey" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="UpdateDialog_Text" xml:space="preserve">
+    <value>There is a new update (#) available on the website: www.mjrj.dk</value>
+  </data>
+  <data name="UpdateDialog_Title" xml:space="preserve">
+    <value>Update</value>
   </data>
 </root>

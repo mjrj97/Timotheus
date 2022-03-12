@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Reflection;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
@@ -32,7 +31,7 @@ namespace Timotheus
         /// <summary>
         /// Version of the software.
         /// </summary>
-        public const string Version = "1.2.0";
+        public const string Version = "1.2.1";
         /// <summary>
         /// Whether this is the first time the software runs on this computer.
         /// </summary>

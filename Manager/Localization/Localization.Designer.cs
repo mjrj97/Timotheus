@@ -961,7 +961,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to People.
+        ///   Looks up a localized string similar to Consent forms.
         /// </summary>
         public static string People_Page {
             get {
@@ -1542,6 +1542,24 @@ namespace Timotheus.Localization {
         public static string ToolStrip_SaveKey {
             get {
                 return ResourceManager.GetString("ToolStrip_SaveKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is a new update (#) available on the website: www.mjrj.dk.
+        /// </summary>
+        public static string UpdateDialog_Text {
+            get {
+                return ResourceManager.GetString("UpdateDialog_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string UpdateDialog_Title {
+            get {
+                return ResourceManager.GetString("UpdateDialog_Title", resourceCulture);
             }
         }
     }

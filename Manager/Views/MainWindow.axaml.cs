@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -101,6 +102,39 @@ namespace Timotheus.Views
         }
 
         /// <summary>
+        /// Looks for updates on the website.
+        /// </summary>
+        private async void LookForUpdates()
+        {
+            string foundVersion = Timotheus.Version;
+
+            // Fetch version from website
+            WebRequest request = WebRequest.Create("https://mjrj.dk/software/timotheus/index.html");
+            WebResponse response = request.GetResponse();
+            StreamReader reader = new(response.GetResponseStream());
+            string[] text = reader.ReadToEnd().Split(Environment.NewLine);
+            response.Close();
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                string line = text[i].Trim();
+                if (line.StartsWith("v."))
+                    foundVersion = line[3..];
+            }
+
+            // Show update dialog if user hasn't disabled it
+            if (foundVersion != Timotheus.Version && Timotheus.Registry.Retrieve("ShowUpdateDialog").Value != "false")
+            {
+                UpdateWindow dialog = new();
+                dialog.DialogTitle = Localization.Localization.UpdateDialog_Title;
+                dialog.DialogText = Localization.Localization.UpdateDialog_Text.Replace("#", foundVersion);
+                await dialog.ShowDialog(this);
+                if (dialog.DontShowAgain)
+                    Timotheus.Registry.Update("ShowUpdateDialog", "false");
+            }
+        }
+
+        /// <summary>
         /// Opens the window and retrieves last used key.
         /// </summary>
         public override void Show()
@@ -109,6 +143,7 @@ namespace Timotheus.Views
             if (!isShown)
             {
                 StartUpKey();
+                LookForUpdates();
                 isShown = true;
             }
         }
