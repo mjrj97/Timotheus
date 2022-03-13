@@ -202,7 +202,7 @@ namespace Timotheus.Views
         /// <summary>
         /// Designates whether the Event is an all day event.
         /// </summary>
-        private bool AllDayEvent
+        public bool AllDayEvent
         {
             get => _allDayEvent;
             set

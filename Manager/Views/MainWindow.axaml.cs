@@ -106,32 +106,36 @@ namespace Timotheus.Views
         /// </summary>
         private async void LookForUpdates()
         {
-            string foundVersion = Timotheus.Version;
-
-            // Fetch version from website
-            WebRequest request = WebRequest.Create("https://mjrj.dk/software/timotheus/index.html");
-            WebResponse response = request.GetResponse();
-            StreamReader reader = new(response.GetResponseStream());
-            string[] text = reader.ReadToEnd().Split(Environment.NewLine);
-            response.Close();
-
-            for (int i = 0; i < text.Length; i++)
+            try
             {
-                string line = text[i].Trim();
-                if (line.StartsWith("v."))
-                    foundVersion = line[3..];
-            }
+                string foundVersion = Timotheus.Version;
 
-            // Show update dialog if user hasn't disabled it
-            if (foundVersion != Timotheus.Version && Timotheus.Registry.Retrieve("ShowUpdateDialog").Value != "false")
-            {
-                UpdateWindow dialog = new();
-                dialog.DialogTitle = Localization.Localization.UpdateDialog_Title;
-                dialog.DialogText = Localization.Localization.UpdateDialog_Text.Replace("#", foundVersion);
-                await dialog.ShowDialog(this);
-                if (dialog.DontShowAgain)
-                    Timotheus.Registry.Update("ShowUpdateDialog", "false");
+                // Fetch version from website
+                WebRequest request = WebRequest.Create("https://mjrj.dk/software/timotheus/index.html");
+                WebResponse response = request.GetResponse();
+                StreamReader reader = new(response.GetResponseStream());
+                string[] text = reader.ReadToEnd().Split(Environment.NewLine);
+                response.Close();
+
+                for (int i = 0; i < text.Length; i++)
+                {
+                    string line = text[i].Trim();
+                    if (line.StartsWith("v."))
+                        foundVersion = line[3..];
+                }
+
+                // Show update dialog if user hasn't disabled it
+                if (foundVersion != Timotheus.Version && Timotheus.Registry.Retrieve("ShowUpdateDialog").Value != "false")
+                {
+                    UpdateWindow dialog = new();
+                    dialog.DialogTitle = Localization.Localization.UpdateDialog_Title;
+                    dialog.DialogText = Localization.Localization.UpdateDialog_Text.Replace("#", foundVersion);
+                    await dialog.ShowDialog(this);
+                    if (dialog.DontShowAgain)
+                        Timotheus.Registry.Update("ShowUpdateDialog", "false");
+                }
             }
+            catch (Exception) { }
         }
 
         /// <summary>
@@ -308,6 +312,45 @@ namespace Timotheus.Views
                 catch (Exception ex)
                 {
                     Error(Localization.Localization.Exception_Saving, ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Marks the selected event for deletion.
+        /// </summary>
+        private async void EditEvent_Click(object sender, RoutedEventArgs e)
+        {
+            EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
+            if (ev != null)
+            {
+                AddEvent dialog = new();
+
+                dialog.EventName = ev.Name;
+                dialog.Start = ev.StartSort;
+                dialog.End = ev.EndSort;
+                dialog.AllDayEvent = ev.AllDayEvent;
+                dialog.Location = ev.Location;
+                dialog.Description = ev.Description;
+
+                await dialog.ShowDialog(this);
+
+                if (dialog.DialogResult == DialogResult.OK)
+                {
+                    try
+                    {
+                        ev.Name = dialog.EventName;
+                        ev.Start = dialog.Start.ToString();
+                        ev.End = dialog.End.ToString();
+                        ev.Location = dialog.Location;
+                        ev.Description = dialog.Description;
+
+                        mvm.UpdateCalendarTable();
+                    }
+                    catch (Exception ex)
+                    {
+                        Error(Localization.Localization.Exception_InvalidEvent, ex.Message);
+                    }
                 }
             }
         }
@@ -828,6 +871,7 @@ namespace Timotheus.Views
         private async void EditKey_Click(object sender, RoutedEventArgs e)
         {
             EditKey dialog = new();
+            dialog.Title = dialog.Title + " (" + Timotheus.Registry.Retrieve("KeyPath").Value + ")";
             dialog.Text = mvm.Keys.ToString();
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)

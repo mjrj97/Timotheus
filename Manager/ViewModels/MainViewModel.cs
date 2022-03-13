@@ -241,6 +241,9 @@ namespace Timotheus.ViewModels
         public void NewProject(string text = "")
         {
             Keys = new Register(':', text);
+            InsertKey(null, null);
+            UpdateCalendarTable();
+            UpdatePeopleTable();
         }
 
         /// <summary>
@@ -362,27 +365,38 @@ namespace Timotheus.ViewModels
         /// </summary>
         private void InsertKey(object sender, DoWorkEventArgs e)
         {
-            InsertingKey.ReportProgress(0, Localization.Localization.InsertKey_LoadFiles);
-            if (InsertingKey.CancellationPending == true)
-                return;
+            if (sender != null && e != null)
+            {
+                InsertingKey.ReportProgress(0, Localization.Localization.InsertKey_LoadFiles);
+                if (InsertingKey.CancellationPending == true)
+                    return;
+            }
             try
             {
                 Directory = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory").Value, Keys.Retrieve("SSH-RemoteDirectory").Value, Keys.Retrieve("SSH-URL").Value, int.Parse(Keys.Retrieve("SSH-Port").Value == string.Empty ? "22" : Keys.Retrieve("SSH-Port").Value), Keys.Retrieve("SSH-Username").Value, Keys.Retrieve("SSH-Password").Value);
             }
             catch (Exception) { Directory = new(); }
 
-            InsertingKey.ReportProgress(33, Localization.Localization.InsertKey_LoadCalendar);
-            if (InsertingKey.CancellationPending == true)
-                return;
+            if (sender != null && e != null)
+            {
+                InsertingKey.ReportProgress(33, Localization.Localization.InsertKey_LoadCalendar);
+                if (InsertingKey.CancellationPending == true)
+                    return;
+            }
+            
             try
             {
                 Calendar = new(Keys.Retrieve("Calendar-Email").Value, Keys.Retrieve("Calendar-Password").Value, Keys.Retrieve("Calendar-URL").Value);
             }
             catch (Exception) { Calendar = new(); }
 
-            InsertingKey.ReportProgress(66, Localization.Localization.InsertKey_LoadPeople);
-            if (InsertingKey.CancellationPending == true)
-                return;
+            if (sender != null && e != null)
+            {
+                InsertingKey.ReportProgress(66, Localization.Localization.InsertKey_LoadPeople);
+                if (InsertingKey.CancellationPending == true)
+                    return;
+            }
+            
             try
             {
                 PersonRepo = new(Keys.Retrieve("Person-File").Value);
