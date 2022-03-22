@@ -102,6 +102,17 @@ namespace Timotheus.Views
             }
         }
 
+        private bool _lookForUpdates = true;
+        public bool LookForUpdates
+        {
+            get { return _lookForUpdates; }
+            set 
+            { 
+                _lookForUpdates = value;
+                NotifyPropertyChanged(nameof(LookForUpdates));
+            }
+        }
+
         public Settings()
         {
             DataContext = this;

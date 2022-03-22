@@ -383,7 +383,6 @@ namespace Timotheus.ViewModels
                 if (InsertingKey.CancellationPending == true)
                     return;
             }
-            
             try
             {
                 Calendar = new(Keys.Retrieve("Calendar-Email").Value, Keys.Retrieve("Calendar-Password").Value, Keys.Retrieve("Calendar-URL").Value);
@@ -396,7 +395,6 @@ namespace Timotheus.ViewModels
                 if (InsertingKey.CancellationPending == true)
                     return;
             }
-            
             try
             {
                 PersonRepo = new(Keys.Retrieve("Person-File").Value);

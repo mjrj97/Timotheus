@@ -243,6 +243,9 @@
   <data name="Exception_EndBeforeStart" xml:space="preserve">
     <value>Slut dato kan ikke være før start.</value>
   </data>
+  <data name="Exception_FolderNotFound" xml:space="preserve">
+    <value>Mappen til fildeling kunne ikke findes. Vil du vælge en ny mappe?</value>
+  </data>
   <data name="Exception_InvalidCalendar" xml:space="preserve">
     <value>Kalender er ikke formateret korrekt</value>
   </data>
@@ -318,8 +321,14 @@
   <data name="Help_VersionLabel" xml:space="preserve">
     <value>Version:</value>
   </data>
+  <data name="InsertKey_ChangeDetected" xml:space="preserve">
+    <value>Ændringer</value>
+  </data>
   <data name="InsertKey_Dialog" xml:space="preserve">
     <value>Indlæser nøgle</value>
+  </data>
+  <data name="InsertKey_DoYouWantToSave" xml:space="preserve">
+    <value>Vil du gemme ændringerne til nøglen?</value>
   </data>
   <data name="InsertKey_LoadCalendar" xml:space="preserve">
     <value>Åbner kalender</value>

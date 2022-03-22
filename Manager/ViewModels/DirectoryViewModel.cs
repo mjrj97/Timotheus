@@ -362,7 +362,7 @@ namespace Timotheus.ViewModels
         private static bool Ignore(string fileName)
         {
             fileName = Path.GetFileName(fileName);
-            return fileName[0] == '.' || Path.GetExtension(fileName) == ".tkey";
+            return fileName[0] == '.' || Path.GetExtension(fileName) == ".tkey" || fileName.StartsWith("~$");
         }
 
         /// <summary>

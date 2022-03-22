@@ -240,6 +240,9 @@
   <data name="Exception_EndBeforeStart" xml:space="preserve">
     <value>End date cannot be before the start date.</value>
   </data>
+  <data name="Exception_FolderNotFound" xml:space="preserve">
+    <value>The local folder couldn't be found. Do you want to find a new folder for syncing?</value>
+  </data>
   <data name="Exception_InvalidCalendar" xml:space="preserve">
     <value>Calendar isn't formatted correctly</value>
   </data>
@@ -315,8 +318,14 @@
   <data name="Help_VersionLabel" xml:space="preserve">
     <value>Version:</value>
   </data>
+  <data name="InsertKey_ChangeDetected" xml:space="preserve">
+    <value>Changes detected</value>
+  </data>
   <data name="InsertKey_Dialog" xml:space="preserve">
     <value>Inserting key</value>
+  </data>
+  <data name="InsertKey_DoYouWantToSave" xml:space="preserve">
+    <value>Do you want to save the changes made to the key?</value>
   </data>
   <data name="InsertKey_LoadCalendar" xml:space="preserve">
     <value>Opening calendar</value>

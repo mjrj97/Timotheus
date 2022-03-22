@@ -125,7 +125,7 @@ namespace Timotheus.Views
                 }
 
                 // Show update dialog if user hasn't disabled it
-                if (foundVersion != Timotheus.Version && Timotheus.Registry.Retrieve("ShowUpdateDialog").Value != "false")
+                if (foundVersion != Timotheus.Version && Timotheus.Registry.Retrieve("LookForUpdates").Value != "False")
                 {
                     UpdateWindow dialog = new();
                     dialog.DialogTitle = Localization.Localization.UpdateDialog_Title;
@@ -166,6 +166,30 @@ namespace Timotheus.Views
             catch (Exception ex)
             {
                 Error(Localization.Localization.Exception_Name, ex.Message);
+            }
+
+            if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory").Value))
+            {
+                MessageBox messageBox = new();
+                messageBox.DialogTitle = Localization.Localization.Exception_Name;
+                messageBox.DialogText = Localization.Localization.Exception_FolderNotFound;
+                await messageBox.ShowDialog(this);
+                if (messageBox.DialogResult == DialogResult.OK)
+                {
+                    OpenFolderDialog openFolder = new();
+                    string path = await openFolder.ShowAsync(this);
+                    if (path != string.Empty && path != null)
+                    {
+                        mvm.Keys.Update("SSH-LocalDirectory", path);
+                        InsertKey();
+                        messageBox = new();
+                        messageBox.DialogTitle = Localization.Localization.InsertKey_ChangeDetected;
+                        messageBox.DialogText = Localization.Localization.InsertKey_DoYouWantToSave;
+                        await messageBox.ShowDialog(this);
+                        if (messageBox.DialogResult == DialogResult.OK)
+                            SaveKey_Click(null, null);
+                    }
+                }
             }
         }
 
@@ -909,6 +933,7 @@ namespace Timotheus.Views
             dialog.Description = mvm.Keys.Retrieve("Settings-EventDescription").Value;
             dialog.StartTime = mvm.Keys.Retrieve("Settings-EventStart").Value;
             dialog.EndTime = mvm.Keys.Retrieve("Settings-EventEnd").Value;
+            dialog.LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates").Value != "False";
 
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
@@ -925,6 +950,7 @@ namespace Timotheus.Views
                     mvm.Keys.Update("Settings-EventStart", dialog.StartTime);
                 if (dialog.EndTime != string.Empty)
                     mvm.Keys.Update("Settings-EventEnd", dialog.EndTime);
+                Timotheus.Registry.Update("LookForUpdates", dialog.LookForUpdates.ToString());
             }
         }
         #endregion
