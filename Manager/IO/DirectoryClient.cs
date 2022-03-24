@@ -181,14 +181,25 @@ namespace Timotheus.IO
 
             try
             {
+                using FileStream fs = File.Open(local, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 if (port == 22)
-                {
-                    using FileStream fs = File.Open(local, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     sftpClient.UploadFile(fs, remote, true);
-                }
                 else
-                    ftpClient.UploadFile(local, remote);
-            } catch (IOException) { }
+                    ftpClient.Upload(fs, remote);
+            }
+            catch (IOException) 
+            {
+                string tempFile = Path.GetTempFileName();
+                File.Copy(local, tempFile, true);
+                using (FileStream fs = File.Open(tempFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    if (port == 22)
+                        sftpClient.UploadFile(fs, remote, true);
+                    else
+                        ftpClient.Upload(fs, remote);
+                }
+                File.Delete(tempFile);
+            }
 
             if (!isPreconnected)
             {

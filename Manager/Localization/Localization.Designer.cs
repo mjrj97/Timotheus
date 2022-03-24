@@ -430,6 +430,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The local folder couldn&apos;t be found. Do you want to find a new folder for syncing?.
+        /// </summary>
+        public static string Exception_FolderNotFound {
+            get {
+                return ResourceManager.GetString("Exception_FolderNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calendar isn&apos;t formatted correctly.
         /// </summary>
         public static string Exception_InvalidCalendar {
@@ -655,11 +664,29 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changes detected.
+        /// </summary>
+        public static string InsertKey_ChangeDetected {
+            get {
+                return ResourceManager.GetString("InsertKey_ChangeDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inserting key.
         /// </summary>
         public static string InsertKey_Dialog {
             get {
                 return ResourceManager.GetString("InsertKey_Dialog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to save the changes made to the key?.
+        /// </summary>
+        public static string InsertKey_DoYouWantToSave {
+            get {
+                return ResourceManager.GetString("InsertKey_DoYouWantToSave", resourceCulture);
             }
         }
         
@@ -961,7 +988,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to People.
+        ///   Looks up a localized string similar to Consent forms.
         /// </summary>
         public static string People_Page {
             get {
@@ -1542,6 +1569,24 @@ namespace Timotheus.Localization {
         public static string ToolStrip_SaveKey {
             get {
                 return ResourceManager.GetString("ToolStrip_SaveKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is a new update (#) available on the website: www.mjrj.dk.
+        /// </summary>
+        public static string UpdateDialog_Text {
+            get {
+                return ResourceManager.GetString("UpdateDialog_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string UpdateDialog_Title {
+            get {
+                return ResourceManager.GetString("UpdateDialog_Title", resourceCulture);
             }
         }
     }

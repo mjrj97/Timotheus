@@ -243,6 +243,9 @@
   <data name="Exception_EndBeforeStart" xml:space="preserve">
     <value>Slut dato kan ikke være før start.</value>
   </data>
+  <data name="Exception_FolderNotFound" xml:space="preserve">
+    <value>Mappen til fildeling kunne ikke findes. Vil du vælge en ny mappe?</value>
+  </data>
   <data name="Exception_InvalidCalendar" xml:space="preserve">
     <value>Kalender er ikke formateret korrekt</value>
   </data>
@@ -280,7 +283,7 @@
     <value>Forkert adgangskode</value>
   </data>
   <data name="FirstTime_1P" xml:space="preserve">
-    <value>Timotheus er et program som skal hjælpe foreninger med deres kalender, filedeling og forhåbentlig mange flere ting i fremtiden!</value>
+    <value>Timotheus er et program som skal hjælpe foreninger med deres kalender, fildeling og forhåbentlig mange flere ting i fremtiden!</value>
   </data>
   <data name="FirstTime_2P" xml:space="preserve">
     <value>Dette program bruger nøglefiler (.tkey) til at forbinde alle disse services ved at opbevare brugernavne, adgangskoder osv. i en krypteret fil.</value>
@@ -318,8 +321,14 @@
   <data name="Help_VersionLabel" xml:space="preserve">
     <value>Version:</value>
   </data>
+  <data name="InsertKey_ChangeDetected" xml:space="preserve">
+    <value>Ændringer</value>
+  </data>
   <data name="InsertKey_Dialog" xml:space="preserve">
     <value>Indlæser nøgle</value>
+  </data>
+  <data name="InsertKey_DoYouWantToSave" xml:space="preserve">
+    <value>Vil du gemme ændringerne til nøglen?</value>
   </data>
   <data name="InsertKey_LoadCalendar" xml:space="preserve">
     <value>Åbner kalender</value>
@@ -421,7 +430,7 @@
     <value>Navn</value>
   </data>
   <data name="People_Page" xml:space="preserve">
-    <value>Personer</value>
+    <value>Samtykkeerklæringer</value>
   </data>
   <data name="People_Search" xml:space="preserve">
     <value>Søg</value>
@@ -614,5 +623,11 @@
   </data>
   <data name="ToolStrip_SaveKey" xml:space="preserve">
     <value>Gem</value>
+  </data>
+  <data name="UpdateDialog_Text" xml:space="preserve">
+    <value>Der er en ny opdatering (#) tilgængelig på hjemmesiden: www.mjrj.dk</value>
+  </data>
+  <data name="UpdateDialog_Title" xml:space="preserve">
+    <value>Opdatering</value>
   </data>
 </root>

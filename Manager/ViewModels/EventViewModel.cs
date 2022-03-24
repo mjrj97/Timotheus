@@ -129,6 +129,17 @@ namespace Timotheus.ViewModels
         }
 
         /// <summary>
+        /// Whether the event is the entire day.
+        /// </summary>
+        public bool AllDayEvent
+        {
+            get
+            {
+                return ev.IsAllDayEvent;
+            }
+        }
+
+        /// <summary>
         /// Creates a view model of an event for usage in UI.
         /// </summary>
         public EventViewModel(Event ev)

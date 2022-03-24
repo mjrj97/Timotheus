@@ -109,7 +109,9 @@ namespace Timotheus.Views
         private async void Browse_Click(object sender, RoutedEventArgs e)
         {
             OpenFolderDialog openFolder = new();
-            Local = await openFolder.ShowAsync(this);
+            string path = await openFolder.ShowAsync(this);
+            if (path != string.Empty && path != null)
+                Local = path;
         }
 
         /// <summary>

@@ -241,6 +241,9 @@ namespace Timotheus.ViewModels
         public void NewProject(string text = "")
         {
             Keys = new Register(':', text);
+            InsertKey(null, null);
+            UpdateCalendarTable();
+            UpdatePeopleTable();
         }
 
         /// <summary>
@@ -300,7 +303,7 @@ namespace Timotheus.ViewModels
         /// <param name="path">Path to save</param>
         public void ExportCalendar(string name, string path)
         {
-            Calendar.Export(name, path, Keys.Retrieve("Settings-Name").Value, Keys.Retrieve("Settings-Address").Value, Keys.Retrieve("Settings-Image").Value, calendarPeriod);
+            Calendar.Export(name, path, Keys.Retrieve("Settings-Name"), Keys.Retrieve("Settings-Address"), Keys.Retrieve("Settings-Image"), calendarPeriod);
         }
 
         /// <summary>
@@ -362,32 +365,53 @@ namespace Timotheus.ViewModels
         /// </summary>
         private void InsertKey(object sender, DoWorkEventArgs e)
         {
-            InsertingKey.ReportProgress(0, Localization.Localization.InsertKey_LoadFiles);
-            if (InsertingKey.CancellationPending == true)
-                return;
-            try
+            if (sender != null && e != null)
             {
-                Directory = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory").Value, Keys.Retrieve("SSH-RemoteDirectory").Value, Keys.Retrieve("SSH-URL").Value, int.Parse(Keys.Retrieve("SSH-Port").Value == string.Empty ? "22" : Keys.Retrieve("SSH-Port").Value), Keys.Retrieve("SSH-Username").Value, Keys.Retrieve("SSH-Password").Value);
+                InsertingKey.ReportProgress(0, Localization.Localization.InsertKey_LoadFiles);
+                if (InsertingKey.CancellationPending == true)
+                    return;
             }
-            catch (Exception) { Directory = new(); }
 
-            InsertingKey.ReportProgress(33, Localization.Localization.InsertKey_LoadCalendar);
-            if (InsertingKey.CancellationPending == true)
-                return;
-            try
+            if (Keys.Retrieve("SSH-LocalDirectory") != string.Empty)
             {
-                Calendar = new(Keys.Retrieve("Calendar-Email").Value, Keys.Retrieve("Calendar-Password").Value, Keys.Retrieve("Calendar-URL").Value);
+                try
+                {
+                    Directory = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory"), Keys.Retrieve("SSH-RemoteDirectory"), Keys.Retrieve("SSH-URL"), int.Parse(Keys.Retrieve("SSH-Port") == string.Empty ? "22" : Keys.Retrieve("SSH-Port")), Keys.Retrieve("SSH-Username"), Keys.Retrieve("SSH-Password"));
+                }
+                catch (Exception) { Directory = new(); }
             }
-            catch (Exception) { Calendar = new(); }
 
-            InsertingKey.ReportProgress(66, Localization.Localization.InsertKey_LoadPeople);
-            if (InsertingKey.CancellationPending == true)
-                return;
-            try
+            if (sender != null && e != null)
             {
-                PersonRepo = new(Keys.Retrieve("Person-File").Value);
+                InsertingKey.ReportProgress(33, Localization.Localization.InsertKey_LoadCalendar);
+                if (InsertingKey.CancellationPending == true)
+                    return;
             }
-            catch (Exception) { PersonRepo = new(); }
+
+            if (Keys.Retrieve("Calendar-Email") != string.Empty)
+            {
+                try
+                {
+                    Calendar = new(Keys.Retrieve("Calendar-Email"), Keys.Retrieve("Calendar-Password"), Keys.Retrieve("Calendar-URL"));
+                }
+                catch (Exception) { Calendar = new(); }
+            }
+
+            if (sender != null && e != null)
+            {
+                InsertingKey.ReportProgress(66, Localization.Localization.InsertKey_LoadPeople);
+                if (InsertingKey.CancellationPending == true)
+                    return;
+            }
+
+            if (Keys.Retrieve("Person-File") != string.Empty)
+            {
+                try
+                {
+                    PersonRepo = new(Keys.Retrieve("Person-File"));
+                }
+                catch (Exception) { PersonRepo = new(); }
+            }
         }
 
         /// <summary>

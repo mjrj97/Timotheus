@@ -110,14 +110,19 @@
                   </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_LocationColumn}" Width="*" MaxWidth="230" Binding="{Binding Location}" CanUserResize="True"/>
+                <DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_LocationColumn}" Width="*" MaxWidth="300" Binding="{Binding Location}" CanUserResize="True"/>
                 
                 <DataGridTemplateColumn>
                   <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                      <Button Click="RemoveEvent_Click" Margin="5">
-						  <Image Source="/Resources/Delete.png" Height="20" VerticalAlignment="Center"/>
-					  </Button>
+						<DockPanel>
+							<Button Click="EditEvent_Click" Margin="0 5 5 5" Width="30" Height="30">
+								<Image Source="/Resources/Pencil.png" Height="20" Width="20" VerticalAlignment="Center"/>
+							</Button>
+							<Button Click="RemoveEvent_Click" Margin="0 5 5 5" Width="30" Height="30">
+								<Image Source="/Resources/Delete.png" Height="20" Width="20" VerticalAlignment="Center"/>
+							</Button>
+						</DockPanel>
                     </DataTemplate>
                   </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -213,9 +218,9 @@
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<DockPanel>
-											<Button Click="ToggleActivePerson_Click" Height="32" VerticalContentAlignment="Center" Margin="5" Content="{x:Static i18n:Localization.People_Active}"/>
-											<Button Click="RemovePerson_Click" Height="32" Margin="5">
-												<Image Source="/Resources/Delete.png" Height="20" VerticalAlignment="Center"/>
+											<Button Click="ToggleActivePerson_Click" Width="60" Height="30" Margin="0 5 5 5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{x:Static i18n:Localization.People_Active}"/>
+											<Button Click="RemovePerson_Click" Width="30" Height="30" Margin="0 5 5 5">
+												<Image Source="/Resources/Delete.png" Height="20" Width="20" VerticalAlignment="Center"/>
 											</Button>
 										</DockPanel>
 									</DataTemplate>

@@ -9,7 +9,7 @@ namespace Timotheus.IO
     /// <summary>
     /// Class that can load a list of value with corresponding names. Can be loaded from encrypted (using a password) and unencrypted files. The file's line separator can be specified (ie. NAME,VALUE where ',' is used).
     /// </summary>
-    public class Register : IRepository<Key>
+    public class Register
     {
         /// <summary>
         /// Name of the register.
@@ -239,7 +239,7 @@ namespace Timotheus.IO
         /// Returns the value of the key with a given name.
         /// </summary>
         /// <param name="name">Name of the key.</param>
-        public Key Retrieve(string name)
+        public string Retrieve(string name)
         {
             int i = 0;
             bool found = false;
@@ -254,20 +254,52 @@ namespace Timotheus.IO
                     i++;
             }
             if (found)
-                return keys[i];
+            {
+                string value = keys[i].Value;
+                StringBuilder v = new();
+                i = 0;
+                bool endFound = false;
+                while (i < value.Length)
+                {
+                    if (value[i] == '{')
+                    {
+                        int j = i;
+                        while (j < value.Length && !endFound)
+                        {
+                            if (value[j] == '}')
+                            {
+                                string otherName = value[(i + 1)..j];
+                                string otherValue = Retrieve(otherName);
+                                if (otherValue != string.Empty)
+                                    v.Append(otherValue);
+                                else
+                                    v.Append("{" + otherName + "}");
+                                i = j+1;
+                                endFound = true;
+                            }
+                            j++;
+                        }
+                    }
+                    if (i < value.Length)
+                        v.Append(value[i]);
+                    endFound = false;
+                    i++;
+                }
+                return v.ToString();
+            }
             else
-                return new Key(string.Empty, string.Empty);
+                return string.Empty;
         }
         /// <summary>
         /// Returns the value with corresponding the name, but a standard value can be provided in case the variable wasn't found.
         /// </summary>
         /// <param name="name">The name of the variable (e.g. Calendar_Page).</param>
         /// <param name="standard">The standard value in case the variable wasn't found.</param>
-        public Key Retrieve(string name, string standard)
+        public string Retrieve(string name, string standard)
         {
-            Key value = Retrieve(name);
-            if (value == null)
-                return new Key(string.Empty, standard);
+            string value = Retrieve(name);
+            if (value == string.Empty)
+                return standard;
             else
                 return value;
         }
