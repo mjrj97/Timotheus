@@ -85,26 +85,13 @@ namespace Timotheus
             else
             {
                 string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
-                string fileName = "Registry.ini";
-                SecureFile(directory, fileName);
-                Registry.Save(directory + "/" + fileName);
+                string fileName = directory + "/" + "Registry.ini";
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+                if (!File.Exists(fileName))
+                    File.Create(fileName).Close();
+                Registry.Save(fileName);
             }
-        }
-
-        /// <summary>
-        /// Checks if the directory and file exists. If not both are created.
-        /// </summary>
-        /// <param name="directory">Path to directory</param>
-        /// <param name="fileName">File name (without path)</param>
-        private static void SecureFile(string directory, string fileName)
-        {
-            if (!Directory.Exists(directory))
-            {
-                FirstTime = true;
-                Directory.CreateDirectory(directory);
-            }
-            if (!File.Exists(directory + "/" + fileName))
-                File.Create(directory + "/" + fileName).Close();
         }
 
         /// <summary>
@@ -134,9 +121,15 @@ namespace Timotheus
             else
             {
                 string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
-                string fileName = "Registry.ini";
-                SecureFile(directory, fileName);
-                Registry = new Register(directory + "/" + fileName, ':');
+                string fileName = directory + "/" + "Registry.ini";
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+                if (!File.Exists(fileName))
+                {
+                    FirstTime = true;
+                    File.Create(fileName).Close();
+                }
+                Registry = new Register(fileName, ':');
             }
         }
     }

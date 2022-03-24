@@ -283,7 +283,7 @@
     <value>Forkert adgangskode</value>
   </data>
   <data name="FirstTime_1P" xml:space="preserve">
-    <value>Timotheus er et program som skal hjælpe foreninger med deres kalender, filedeling og forhåbentlig mange flere ting i fremtiden!</value>
+    <value>Timotheus er et program som skal hjælpe foreninger med deres kalender, fildeling og forhåbentlig mange flere ting i fremtiden!</value>
   </data>
   <data name="FirstTime_2P" xml:space="preserve">
     <value>Dette program bruger nøglefiler (.tkey) til at forbinde alle disse services ved at opbevare brugernavne, adgangskoder osv. i en krypteret fil.</value>

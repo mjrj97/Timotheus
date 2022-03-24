@@ -303,7 +303,7 @@ namespace Timotheus.ViewModels
         /// <param name="path">Path to save</param>
         public void ExportCalendar(string name, string path)
         {
-            Calendar.Export(name, path, Keys.Retrieve("Settings-Name").Value, Keys.Retrieve("Settings-Address").Value, Keys.Retrieve("Settings-Image").Value, calendarPeriod);
+            Calendar.Export(name, path, Keys.Retrieve("Settings-Name"), Keys.Retrieve("Settings-Address"), Keys.Retrieve("Settings-Image"), calendarPeriod);
         }
 
         /// <summary>
@@ -371,11 +371,15 @@ namespace Timotheus.ViewModels
                 if (InsertingKey.CancellationPending == true)
                     return;
             }
-            try
+
+            if (Keys.Retrieve("SSH-LocalDirectory") != string.Empty)
             {
-                Directory = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory").Value, Keys.Retrieve("SSH-RemoteDirectory").Value, Keys.Retrieve("SSH-URL").Value, int.Parse(Keys.Retrieve("SSH-Port").Value == string.Empty ? "22" : Keys.Retrieve("SSH-Port").Value), Keys.Retrieve("SSH-Username").Value, Keys.Retrieve("SSH-Password").Value);
+                try
+                {
+                    Directory = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory"), Keys.Retrieve("SSH-RemoteDirectory"), Keys.Retrieve("SSH-URL"), int.Parse(Keys.Retrieve("SSH-Port") == string.Empty ? "22" : Keys.Retrieve("SSH-Port")), Keys.Retrieve("SSH-Username"), Keys.Retrieve("SSH-Password"));
+                }
+                catch (Exception) { Directory = new(); }
             }
-            catch (Exception) { Directory = new(); }
 
             if (sender != null && e != null)
             {
@@ -383,11 +387,15 @@ namespace Timotheus.ViewModels
                 if (InsertingKey.CancellationPending == true)
                     return;
             }
-            try
+
+            if (Keys.Retrieve("Calendar-Email") != string.Empty)
             {
-                Calendar = new(Keys.Retrieve("Calendar-Email").Value, Keys.Retrieve("Calendar-Password").Value, Keys.Retrieve("Calendar-URL").Value);
+                try
+                {
+                    Calendar = new(Keys.Retrieve("Calendar-Email"), Keys.Retrieve("Calendar-Password"), Keys.Retrieve("Calendar-URL"));
+                }
+                catch (Exception) { Calendar = new(); }
             }
-            catch (Exception) { Calendar = new(); }
 
             if (sender != null && e != null)
             {
@@ -395,11 +403,15 @@ namespace Timotheus.ViewModels
                 if (InsertingKey.CancellationPending == true)
                     return;
             }
-            try
+
+            if (Keys.Retrieve("Person-File") != string.Empty)
             {
-                PersonRepo = new(Keys.Retrieve("Person-File").Value);
+                try
+                {
+                    PersonRepo = new(Keys.Retrieve("Person-File"));
+                }
+                catch (Exception) { PersonRepo = new(); }
             }
-            catch (Exception) { PersonRepo = new(); }
         }
 
         /// <summary>

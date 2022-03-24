@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using Timotheus.Utility;
 
 namespace Timotheus.Persons
 {
-    public class PersonRepository : IRepository<Person>
+    public class PersonRepository
     {
         private readonly List<Person> people = new();
 

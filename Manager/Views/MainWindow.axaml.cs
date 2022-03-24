@@ -54,7 +54,7 @@ namespace Timotheus.Views
                     }
                 }
                 else
-                    keyPath = Timotheus.Registry.Retrieve("KeyPath").Value;
+                    keyPath = Timotheus.Registry.Retrieve("KeyPath");
 
                 if (!File.Exists(keyPath))
                 {
@@ -63,7 +63,7 @@ namespace Timotheus.Views
                 switch (Path.GetExtension(keyPath))
                 {
                     case ".tkey":
-                        string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword").Value;
+                        string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword");
                         string password = string.Empty;
                         if (encodedPassword != string.Empty)
                         {
@@ -125,7 +125,7 @@ namespace Timotheus.Views
                 }
 
                 // Show update dialog if user hasn't disabled it
-                if (foundVersion != Timotheus.Version && Timotheus.Registry.Retrieve("LookForUpdates").Value != "False")
+                if (foundVersion != Timotheus.Version && Timotheus.Registry.Retrieve("LookForUpdates") != "False")
                 {
                     UpdateWindow dialog = new();
                     dialog.DialogTitle = Localization.Localization.UpdateDialog_Title;
@@ -168,7 +168,7 @@ namespace Timotheus.Views
                 Error(Localization.Localization.Exception_Name, ex.Message);
             }
 
-            if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory").Value))
+            if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory")))
             {
                 MessageBox messageBox = new();
                 messageBox.DialogTitle = Localization.Localization.Exception_Name;
@@ -274,13 +274,13 @@ namespace Timotheus.Views
             AddEvent dialog = new();
 
             string text;
-            if ((text = mvm.Keys.Retrieve("Settings-Address").Value) != string.Empty)
+            if ((text = mvm.Keys.Retrieve("Settings-Address")) != string.Empty)
                 dialog.Location = text;
-            if ((text = mvm.Keys.Retrieve("Settings-EventDescription").Value) != string.Empty)
+            if ((text = mvm.Keys.Retrieve("Settings-EventDescription")) != string.Empty)
                 dialog.Description = text;
-            if ((text = mvm.Keys.Retrieve("Settings-EventStart").Value) != string.Empty)
+            if ((text = mvm.Keys.Retrieve("Settings-EventStart")) != string.Empty)
                 dialog.StartTime = text;
-            if ((text = mvm.Keys.Retrieve("Settings-EventEnd").Value) != string.Empty)
+            if ((text = mvm.Keys.Retrieve("Settings-EventEnd")) != string.Empty)
                 dialog.EndTime = text;
 
             await dialog.ShowDialog(this);
@@ -420,18 +420,20 @@ namespace Timotheus.Views
         private async void SetupFiles_Click(object sender, RoutedEventArgs e)
         {
             SetupSFTP dialog = new();
-            dialog.Local = mvm.Keys.Retrieve("SSH-LocalDirectory").Value;
-            dialog.Remote = mvm.Keys.Retrieve("SSH-RemoteDirectory").Value;
-            dialog.Host = mvm.Keys.Retrieve("SSH-URL").Value;
-            dialog.Port = mvm.Keys.Retrieve("SSH-Port").Value;
-            dialog.Username = mvm.Keys.Retrieve("SSH-Username").Value;
-            dialog.Password = mvm.Keys.Retrieve("SSH-Password").Value;
+            dialog.Local = mvm.Keys.Retrieve("SSH-LocalDirectory");
+            dialog.Remote = mvm.Keys.Retrieve("SSH-RemoteDirectory");
+            dialog.Host = mvm.Keys.Retrieve("SSH-URL");
+            dialog.Port = mvm.Keys.Retrieve("SSH-Port");
+            dialog.Username = mvm.Keys.Retrieve("SSH-Username");
+            dialog.Password = mvm.Keys.Retrieve("SSH-Password");
 
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
             {
                 try
                 {
+                    if (dialog.Port == string.Empty)
+                        dialog.Port = "22";
                     mvm.Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
                     mvm.Keys.Update("SSH-LocalDirectory", dialog.Local);
                     mvm.Keys.Update("SSH-RemoteDirectory", dialog.Remote);
@@ -606,10 +608,10 @@ namespace Timotheus.Views
             switch (mvm.CurrentTab) {
                 case 0:
                     OpenCalendar dialog = new();
-                    dialog.Username = mvm.Keys.Retrieve("Calendar-Email").Value;
-                    dialog.Password = mvm.Keys.Retrieve("Calendar-Password").Value;
-                    dialog.URL = mvm.Keys.Retrieve("Calendar-URL").Value;
-                    dialog.Path = mvm.Keys.Retrieve("Calendar-Path").Value;
+                    dialog.Username = mvm.Keys.Retrieve("Calendar-Email");
+                    dialog.Password = mvm.Keys.Retrieve("Calendar-Password");
+                    dialog.URL = mvm.Keys.Retrieve("Calendar-URL");
+                    dialog.Path = mvm.Keys.Retrieve("Calendar-Path");
 
                     await dialog.ShowDialog(this);
 
@@ -717,7 +719,7 @@ namespace Timotheus.Views
         /// </summary>
         private async void SaveKey_Click(object sender, RoutedEventArgs e)
         {
-            string keyPath = Timotheus.Registry.Retrieve("KeyPath").Value;
+            string keyPath = Timotheus.Registry.Retrieve("KeyPath");
             if (!File.Exists(keyPath))
                 SaveAsKey_Click(sender, e);
             else
@@ -725,7 +727,7 @@ namespace Timotheus.Views
                 switch (Path.GetExtension(keyPath))
                 {
                     case ".tkey":
-                        string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword").Value;
+                        string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword");
                         string password;
                         if (encodedPassword != string.Empty)
                         {
@@ -790,11 +792,6 @@ namespace Timotheus.Views
             tkeyFilter.Name = "Encrypted key (.tkey)";
             saveFileDialog.Filters.Add(tkeyFilter);
 
-            FileDialogFilter txtFilter = new();
-            txtFilter.Extensions.Add("txt");
-            txtFilter.Name = "Text files (.txt)";
-            saveFileDialog.Filters.Add(txtFilter);
-
             string result = await saveFileDialog.ShowAsync(this);
             if (result != null)
             {
@@ -838,9 +835,8 @@ namespace Timotheus.Views
             OpenFileDialog openFileDialog = new();
 
             FileDialogFilter txtFilter = new();
-            txtFilter.Extensions.Add("txt");
             txtFilter.Extensions.Add("tkey");
-            txtFilter.Name = "Key files (.txt, .tkey)";
+            txtFilter.Name = "Key files (.tkey)";
 
             openFileDialog.Filters = new();
             openFileDialog.Filters.Add(txtFilter);
@@ -895,7 +891,7 @@ namespace Timotheus.Views
         private async void EditKey_Click(object sender, RoutedEventArgs e)
         {
             EditKey dialog = new();
-            dialog.Title = dialog.Title + " (" + Timotheus.Registry.Retrieve("KeyPath").Value + ")";
+            dialog.Title = dialog.Title + " (" + Timotheus.Registry.Retrieve("KeyPath") + ")";
             dialog.Text = mvm.Keys.ToString();
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
@@ -927,13 +923,13 @@ namespace Timotheus.Views
         {
             Settings dialog = new();
 
-            dialog.AssociationName = mvm.Keys.Retrieve("Settings-Name").Value;
-            dialog.AssociationAddress = mvm.Keys.Retrieve("Settings-Address").Value;
-            dialog.ImagePath = mvm.Keys.Retrieve("Settings-Image").Value;
-            dialog.Description = mvm.Keys.Retrieve("Settings-EventDescription").Value;
-            dialog.StartTime = mvm.Keys.Retrieve("Settings-EventStart").Value;
-            dialog.EndTime = mvm.Keys.Retrieve("Settings-EventEnd").Value;
-            dialog.LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates").Value != "False";
+            dialog.AssociationName = mvm.Keys.Retrieve("Settings-Name");
+            dialog.AssociationAddress = mvm.Keys.Retrieve("Settings-Address");
+            dialog.ImagePath = mvm.Keys.Retrieve("Settings-Image");
+            dialog.Description = mvm.Keys.Retrieve("Settings-EventDescription");
+            dialog.StartTime = mvm.Keys.Retrieve("Settings-EventStart");
+            dialog.EndTime = mvm.Keys.Retrieve("Settings-EventEnd");
+            dialog.LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates") != "False";
 
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
