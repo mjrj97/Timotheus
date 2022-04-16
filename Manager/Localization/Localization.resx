@@ -444,6 +444,9 @@
   <data name="Settings_BrowseButton" xml:space="preserve">
     <value>Browse</value>
   </data>
+  <data name="Settings_DeleteSettings" xml:space="preserve">
+    <value>Delete program settings</value>
+  </data>
   <data name="Settings_Event" xml:space="preserve">
     <value>Event settings</value>
   </data>
@@ -464,6 +467,9 @@
   </data>
   <data name="Settings_LogoLabel" xml:space="preserve">
     <value>Logo</value>
+  </data>
+  <data name="Settings_LookForUpdates" xml:space="preserve">
+    <value>Look for updates</value>
   </data>
   <data name="Settings_NameLabel" xml:space="preserve">
     <value>Name</value>

@@ -136,6 +136,11 @@ namespace Timotheus.Views
                 ImagePath = result[0];
         }
 
+        private void DeleteSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Timotheus.DeleteRegistry();
+        }
+
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = DialogResult.OK;

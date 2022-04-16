@@ -111,7 +111,7 @@ namespace Timotheus.Views
                 string foundVersion = Timotheus.Version;
 
                 // Fetch version from website
-                WebRequest request = WebRequest.Create("https://mjrj.dk/software/timotheus/index.html");
+                WebRequest request = WebRequest.Create("https://www.mjrj.dk/software/timotheus/index.html");
                 WebResponse response = request.GetResponse();
                 StreamReader reader = new(response.GetResponseStream());
                 string[] text = reader.ReadToEnd().Split(Environment.NewLine);

@@ -1042,6 +1042,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete program settings.
+        /// </summary>
+        public static string Settings_DeleteSettings {
+            get {
+                return ResourceManager.GetString("Settings_DeleteSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event settings.
         /// </summary>
         public static string Settings_Event {
@@ -1101,6 +1110,15 @@ namespace Timotheus.Localization {
         public static string Settings_LogoLabel {
             get {
                 return ResourceManager.GetString("Settings_LogoLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Look for updates.
+        /// </summary>
+        public static string Settings_LookForUpdates {
+            get {
+                return ResourceManager.GetString("Settings_LookForUpdates", resourceCulture);
             }
         }
         

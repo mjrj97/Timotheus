@@ -10,16 +10,19 @@
     <CFBundleName>Timotheus</CFBundleName>
     <!-- Also defines .app file name -->
     <CFBundleDisplayName>Timotheus</CFBundleDisplayName>
-    <CFBundleIdentifier>com.mjrj97.Timotheus</CFBundleIdentifier>
+    <CFBundleIdentifier>dk.mjrj.Timotheus</CFBundleIdentifier>
     <CFBundleVersion>1.0.0</CFBundleVersion>
     <CFBundlePackageType>APPL</CFBundlePackageType>
     <CFBundleSignature>????</CFBundleSignature>
-    <CFBundleExecutable>Timotheus</CFBundleExecutable>
+	<CFBundleExecutable>Timotheus</CFBundleExecutable>
     <CFBundleIconFile>Icon.icns</CFBundleIconFile>
     <CFBundleShortVersionString>Test</CFBundleShortVersionString>
     <!-- Will be copied from output directory -->
     <NSPrincipalClass>NSApplication</NSPrincipalClass>
-    <NSHighResolutionCapable>true</NSHighResolutionCapable>
+	<NSHumanReadableCopyright>Copyright 2022, Martin Johannes Roennekjaer Jensen, All rights reserved.</NSHumanReadableCopyright>
+	<LSMinimumSystemVersion>10.4</LSMinimumSystemVersion>
+	<LSApplicationCategoryType>public.app-category.productivity</LSApplicationCategoryType>
+	<NSHighResolutionCapable>true</NSHighResolutionCapable>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>

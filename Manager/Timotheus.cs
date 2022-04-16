@@ -18,7 +18,7 @@ namespace Timotheus
         public static Register Registry
         {
             get { return _Registry; }
-            set { _Registry = value; }
+            private set { _Registry = value; }
         }
         /// <summary>
         /// Text encoding used by the program. Is essential to decode the text from Windows Registry.
@@ -31,7 +31,7 @@ namespace Timotheus
         /// <summary>
         /// Version of the software.
         /// </summary>
-        public const string Version = "1.2.1";
+        public const string Version = "1.2.2";
         /// <summary>
         /// Whether this is the first time the software runs on this computer.
         /// </summary>
@@ -129,6 +129,23 @@ namespace Timotheus
                     FirstTime = true;
                     File.Create(fileName).Close();
                 }
+                Registry = new Register(fileName, ':');
+            }
+        }
+
+        /// <summary>
+        /// Deletes the settings saved in the registry
+        /// </summary>
+        public static void DeleteRegistry()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Registry = new();
+            }
+            else
+            {
+                string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+                string fileName = directory + "/" + "Registry.ini";
                 Registry = new Register(fileName, ':');
             }
         }

@@ -447,6 +447,9 @@
   <data name="Settings_BrowseButton" xml:space="preserve">
     <value>Gennemse</value>
   </data>
+  <data name="Settings_DeleteSettings" xml:space="preserve">
+    <value>Slet programindstillinger</value>
+  </data>
   <data name="Settings_Event" xml:space="preserve">
     <value>Begivenhed indstillinger</value>
   </data>
@@ -467,6 +470,9 @@
   </data>
   <data name="Settings_LogoLabel" xml:space="preserve">
     <value>Logo</value>
+  </data>
+  <data name="Settings_LookForUpdates" xml:space="preserve">
+    <value>Led efter opdateringer</value>
   </data>
   <data name="Settings_NameLabel" xml:space="preserve">
     <value>Navn</value>
