@@ -435,12 +435,25 @@ namespace Timotheus.Views
                     if (dialog.Port == string.Empty)
                         dialog.Port = "22";
                     mvm.Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
-                    mvm.Keys.Update("SSH-LocalDirectory", dialog.Local);
-                    mvm.Keys.Update("SSH-RemoteDirectory", dialog.Remote);
-                    mvm.Keys.Update("SSH-URL", dialog.Host);
-                    mvm.Keys.Update("SSH-Port", dialog.Port);
-                    mvm.Keys.Update("SSH-Username", dialog.Username);
-                    mvm.Keys.Update("SSH-Password", dialog.Password);
+
+                    bool changed = false;
+
+                    changed |= mvm.Keys.Update("SSH-LocalDirectory", dialog.Local);
+                    changed |= mvm.Keys.Update("SSH-RemoteDirectory", dialog.Remote);
+                    changed |= mvm.Keys.Update("SSH-URL", dialog.Host);
+                    changed |= mvm.Keys.Update("SSH-Port", dialog.Port);
+                    changed |= mvm.Keys.Update("SSH-Username", dialog.Username);
+                    changed |= mvm.Keys.Update("SSH-Password", dialog.Password);
+
+                    if (changed)
+                    {
+                        MessageBox messageBox = new();
+                        messageBox.DialogTitle = Localization.Localization.InsertKey_ChangeDetected;
+                        messageBox.DialogText = Localization.Localization.InsertKey_DoYouWantToSave;
+                        await messageBox.ShowDialog(this);
+                        if (messageBox.DialogResult == DialogResult.OK)
+                            SaveKey_Click(null, null);
+                    }
                 }
                 catch (Exception ex)
                 {

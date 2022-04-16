@@ -177,19 +177,24 @@ namespace Timotheus.IO
         }
 
         /// <summary>
-        /// Finds the key with the given name and sets it value. If key is not in register, it creates a new key.
+        /// Finds the key with the given name and sets it value. If key is not in register, it creates a new key. Returns true if value was changed.
         /// </summary>
         /// <param name="name">Name of the key.</param>
         /// <param name="value">Value of the key.</param>
-        public void Update(string name, string value)
+        public bool Update(string name, string value)
         {
             int i = 0;
             bool found = false;
+            bool changed = false;
             while (!found && i < keys.Count)
             {
                 if (keys[i].Name == name)
                 {
-                    keys[i].Value = value;
+                    if (value != keys[i].Value)
+                    {
+                        keys[i].Value = value;
+                        changed = true;
+                    }
                     found = true;
                 }
                 i++;
@@ -197,15 +202,17 @@ namespace Timotheus.IO
             if (!found)
             {
                 keys.Add(new Key(name, value));
+                changed = true;
             }
+            return changed;
         }
         /// <summary>
         /// Updates the given key.
         /// </summary>
         /// <param name="key">Key to be updated.</param>
-        public void Update(Key key)
+        public bool Update(Key key)
         {
-            Update(key.Name, key.Value);
+            return Update(key.Name, key.Value);
         }
 
         /// <summary>

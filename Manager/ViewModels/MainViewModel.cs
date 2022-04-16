@@ -380,6 +380,8 @@ namespace Timotheus.ViewModels
                 }
                 catch (Exception) { Directory = new(); }
             }
+            else
+                Directory = new();
 
             if (sender != null && e != null)
             {
@@ -396,6 +398,8 @@ namespace Timotheus.ViewModels
                 }
                 catch (Exception) { Calendar = new(); }
             }
+            else
+                Calendar = new();
 
             if (sender != null && e != null)
             {
@@ -412,6 +416,8 @@ namespace Timotheus.ViewModels
                 }
                 catch (Exception) { PersonRepo = new(); }
             }
+            else
+                PersonRepo = new();
         }
 
         /// <summary>
