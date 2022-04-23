@@ -30,7 +30,5 @@
     <string>public.app-category.productivity</string>
     <key>NSHighResolutionCapable</key>
     <true/>
-    <key>com.apple.security.app-sandbox</key>
-    <true/>
   </dict>
 </plist>

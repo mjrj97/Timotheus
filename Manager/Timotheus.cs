@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -31,7 +31,7 @@ namespace Timotheus
         /// <summary>
         /// Version of the software.
         /// </summary>
-        public const string Version = "1.2.2";
+        public const string Version = "X.X.X";
         /// <summary>
         /// Whether this is the first time the software runs on this computer.
         /// </summary>

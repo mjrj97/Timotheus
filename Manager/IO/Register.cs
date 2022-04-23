@@ -103,7 +103,7 @@ namespace Timotheus.IO
         {
             this.separator = separator;
             if (!File.Exists(path))
-                throw new System.Exception("Exception_NoKeys");
+                throw new System.Exception(Localization.Localization.Exception_NoKeys);
             Name = Path.GetFileName(path);
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
