@@ -132,6 +132,12 @@
   <data name="AddConsentForm_Date" xml:space="preserve">
     <value>Dato</value>
   </data>
+  <data name="AddConsentForm_EmptyName" xml:space="preserve">
+    <value>Navnet kan ikke være tomt</value>
+  </data>
+  <data name="AddConsentForm_EmptyVersion" xml:space="preserve">
+    <value>Et tomt versionsfelt tolkes som ingen samtykke. Er du sikker på at du stadig vil tilføje personen?</value>
+  </data>
   <data name="AddConsentForm_Name" xml:space="preserve">
     <value>Navn</value>
   </data>
@@ -278,6 +284,9 @@
   </data>
   <data name="Exception_SyncSFTP" xml:space="preserve">
     <value>Kunne ikke synkronisere filerne</value>
+  </data>
+  <data name="Exception_Warning" xml:space="preserve">
+    <value>Advarsel</value>
   </data>
   <data name="Exception_WrongPassword" xml:space="preserve">
     <value>Forkert adgangskode</value>

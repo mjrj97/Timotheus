@@ -106,6 +106,24 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The name cannot be empty.
+        /// </summary>
+        public static string AddConsentForm_EmptyName {
+            get {
+                return ResourceManager.GetString("AddConsentForm_EmptyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An empty version field is interpreted as no consent. Are you sure you want to add the person?.
+        /// </summary>
+        public static string AddConsentForm_EmptyVersion {
+            get {
+                return ResourceManager.GetString("AddConsentForm_EmptyVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string AddConsentForm_Name {
@@ -534,6 +552,15 @@ namespace Timotheus.Localization {
         public static string Exception_SyncSFTP {
             get {
                 return ResourceManager.GetString("Exception_SyncSFTP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        public static string Exception_Warning {
+            get {
+                return ResourceManager.GetString("Exception_Warning", resourceCulture);
             }
         }
         

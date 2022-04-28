@@ -552,7 +552,19 @@ namespace Timotheus.Views
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
             {
-                mvm.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
+                if (dialog.ConsentVersion == string.Empty)
+                {
+                    MessageBox messageBox = new();
+                    messageBox.DialogTitle = Localization.Localization.Exception_Warning;
+                    messageBox.DialogText = Localization.Localization.AddConsentForm_EmptyVersion;
+                    await messageBox.ShowDialog(this);
+                    if (messageBox.DialogResult == DialogResult.OK)
+                    {
+                        mvm.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
+                    }
+                }
+                else
+                    mvm.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
             }
         }
 
