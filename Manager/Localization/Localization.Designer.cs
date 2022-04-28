@@ -1105,6 +1105,42 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string Settings_Language {
+            get {
+                return ResourceManager.GetString("Settings_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Danish.
+        /// </summary>
+        public static string Settings_Language_Danish {
+            get {
+                return ResourceManager.GetString("Settings_Language_Danish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string Settings_Language_English {
+            get {
+                return ResourceManager.GetString("Settings_Language_English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart the program to change the language of the program.
+        /// </summary>
+        public static string Settings_LanguageChanged {
+            get {
+                return ResourceManager.GetString("Settings_LanguageChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logo.
         /// </summary>
         public static string Settings_LogoLabel {

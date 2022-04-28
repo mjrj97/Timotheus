@@ -465,6 +465,18 @@
   <data name="Settings_InfoBox" xml:space="preserve">
     <value>Association information</value>
   </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings_LanguageChanged" xml:space="preserve">
+    <value>Restart the program to change the language of the program</value>
+  </data>
+  <data name="Settings_Language_Danish" xml:space="preserve">
+    <value>Danish</value>
+  </data>
+  <data name="Settings_Language_English" xml:space="preserve">
+    <value>English</value>
+  </data>
   <data name="Settings_LogoLabel" xml:space="preserve">
     <value>Logo</value>
   </data>

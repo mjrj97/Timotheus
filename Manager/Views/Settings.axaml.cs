@@ -102,6 +102,18 @@ namespace Timotheus.Views
             }
         }
 
+        private int _selectedLanguage = 0;
+        public int SelectedLanguage
+        {
+            get { return _selectedLanguage; }
+            set 
+            { 
+                _selectedLanguage = value;
+                NotifyPropertyChanged(nameof(SelectedLanguage));
+            }
+        }
+
+
         private bool _lookForUpdates = true;
         public bool LookForUpdates
         {

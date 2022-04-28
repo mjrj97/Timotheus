@@ -3,7 +3,6 @@ REM This .bat script builds for macOS and creates a an .app on the Desktop in a 
 
 REM Load info about the application and delete last build
 SET VERSION=1.2.2
-SET BUILD=1
 IF EXIST %userprofile%\desktop\Timotheus (
     rmdir %userprofile%\desktop\Timotheus /s /q
 )

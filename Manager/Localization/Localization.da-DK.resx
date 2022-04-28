@@ -468,6 +468,18 @@
   <data name="Settings_InfoBox" xml:space="preserve">
     <value>Foreningens information</value>
   </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Sprog</value>
+  </data>
+  <data name="Settings_LanguageChanged" xml:space="preserve">
+    <value>Genstart programmet for at skifte programmet sprog</value>
+  </data>
+  <data name="Settings_Language_Danish" xml:space="preserve">
+    <value>Dansk</value>
+  </data>
+  <data name="Settings_Language_English" xml:space="preserve">
+    <value>Engelsk</value>
+  </data>
   <data name="Settings_LogoLabel" xml:space="preserve">
     <value>Logo</value>
   </data>

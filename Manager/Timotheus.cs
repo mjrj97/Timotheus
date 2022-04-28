@@ -24,10 +24,21 @@ namespace Timotheus
         /// Text encoding used by the program. Is essential to decode the text from Windows Registry.
         /// </summary>
         public readonly static Encoding Encoding = Encoding.BigEndianUnicode;
+        private static CultureInfo _culture;
         /// <summary>
         /// Text encoding used by the program. Is essential to decode the text from Windows Registry.
         /// </summary>
-        public readonly static CultureInfo Culture = CultureInfo.GetCultureInfo("da-DK");
+        public static CultureInfo Culture
+        {
+            get
+            {
+                return _culture;
+            }
+            private set
+            {
+                _culture = value;
+            }
+        }
         /// <summary>
         /// Version of the software.
         /// </summary>
@@ -49,6 +60,10 @@ namespace Timotheus
 
             //Defines encoding 1252 for PDF
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            if (Registry.Retrieve("Language") == string.Empty)
+                Registry.Create("Language", CultureInfo.CurrentUICulture.Name);
+            Culture = CultureInfo.GetCultureInfo(Registry.Retrieve("Language"));
 
             CultureInfo.CurrentUICulture = Culture;
             CultureInfo.CurrentCulture = Culture;

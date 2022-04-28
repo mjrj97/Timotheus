@@ -8,6 +8,7 @@
     <CFBundleName>Timotheus</CFBundleName>
     <CFBundleDisplayName>Timotheus</CFBundleDisplayName>
     <CFBundleIdentifier>dk.mjrj.Timotheus</CFBundleIdentifier>
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />

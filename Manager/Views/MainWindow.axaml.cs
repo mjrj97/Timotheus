@@ -943,6 +943,8 @@ namespace Timotheus.Views
             dialog.StartTime = mvm.Keys.Retrieve("Settings-EventStart");
             dialog.EndTime = mvm.Keys.Retrieve("Settings-EventEnd");
             dialog.LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates") != "False";
+            dialog.SelectedLanguage = Timotheus.Registry.Retrieve("Language") == "da-DK" ? 1 : 0;
+            int initialSelected = dialog.SelectedLanguage;
 
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
@@ -959,6 +961,20 @@ namespace Timotheus.Views
                     mvm.Keys.Update("Settings-EventStart", dialog.StartTime);
                 if (dialog.EndTime != string.Empty)
                     mvm.Keys.Update("Settings-EventEnd", dialog.EndTime);
+                if (initialSelected != dialog.SelectedLanguage)
+                {
+                    Timotheus.Registry.Update("Language", dialog.SelectedLanguage == 0 ? "en-US" : "da-DK");
+
+                    MessageBox messageBox = new();
+                    messageBox.DialogTitle = Localization.Localization.Settings;
+                    messageBox.DialogText = Localization.Localization.Settings_LanguageChanged;
+                    await messageBox.ShowDialog(this);
+                    if (messageBox.DialogResult == DialogResult.OK)
+                    {
+
+                    }
+                }
+
                 Timotheus.Registry.Update("LookForUpdates", dialog.LookForUpdates.ToString());
             }
         }
