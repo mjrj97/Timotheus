@@ -86,7 +86,8 @@ namespace Timotheus
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(@"SOFTWARE\Timotheus");
+                if (Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus") != null)
+                    Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(@"SOFTWARE\Timotheus");
                 Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus");
 
                 List<Key> keys = Registry.RetrieveAll();

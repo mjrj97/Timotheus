@@ -361,7 +361,7 @@ namespace Timotheus.ViewModels
         }
 
         /// <summary>
-        /// "Inserts" the current key, and tries to open the Calendar and Filsharing system.
+        /// "Inserts" the current key, and tries to open the Calendar and File sharing system.
         /// </summary>
         private void InsertKey(object sender, DoWorkEventArgs e)
         {
@@ -454,6 +454,15 @@ namespace Timotheus.ViewModels
         public void SaveKey(string path, string password)
         {
             Keys.Save(path, password);
+        }
+
+        /// <summary>
+        /// Returns whether the user has made progress that hasn't been saved.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsThereUnsavedProgress()
+        {
+            return true;
         }
     }
 }

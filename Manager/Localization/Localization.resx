@@ -282,6 +282,9 @@
   <data name="Exception_SyncSFTP" xml:space="preserve">
     <value>Couldn't sync the files</value>
   </data>
+  <data name="Exception_UnsavedProgress" xml:space="preserve">
+    <value>Are you sure you want to quit? There is unsaved progress.</value>
+  </data>
   <data name="Exception_Warning" xml:space="preserve">
     <value>Warning</value>
   </data>

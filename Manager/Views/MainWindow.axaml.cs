@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace Timotheus.Views
         {
             mvm = new();
             AvaloniaXamlLoader.Load(this);
+            Closing += OnWindowClose;
             DataContext = mvm;
         }
 
@@ -992,11 +994,34 @@ namespace Timotheus.Views
         }
         #endregion
 
-        private async void Error(string title, string Message)
+        private bool firstClose = true;
+        private async void OnWindowClose(object sender, CancelEventArgs e)
+        {
+            if (firstClose)
+            {
+                if (mvm.IsThereUnsavedProgress())
+                {
+                    e.Cancel = true;
+
+                    MessageBox msDialog = new();
+                    msDialog.DialogTitle = Localization.Localization.Exception_Warning;
+                    msDialog.DialogText = Localization.Localization.Exception_UnsavedProgress;
+                    await msDialog.ShowDialog(this);
+
+                    if (msDialog.DialogResult == DialogResult.OK)
+                    {
+                        firstClose = false;
+                        Close();
+                    }
+                }
+            }
+        }
+
+        private async void Error(string title, string message)
         {
             MessageBox msDialog = new();
             msDialog.DialogTitle = title;
-            msDialog.DialogText = Message;
+            msDialog.DialogText = message;
             await msDialog.ShowDialog(this);
         }
     }

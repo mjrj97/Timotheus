@@ -556,6 +556,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to quit? There is unsaved progress..
+        /// </summary>
+        public static string Exception_UnsavedProgress {
+            get {
+                return ResourceManager.GetString("Exception_UnsavedProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning.
         /// </summary>
         public static string Exception_Warning {
