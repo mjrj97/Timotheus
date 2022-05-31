@@ -798,6 +798,14 @@ namespace Timotheus.Views
                         }
                         break;
                 }
+
+                if (sender != null)
+                {
+                    MessageBox msDialog = new();
+                    msDialog.DialogTitle = Localization.Localization.Exception_Message;
+                    msDialog.DialogText = Localization.Localization.Exception_SaveSuccessful;
+                    await msDialog.ShowDialog(this);
+                }
             }
         }
 

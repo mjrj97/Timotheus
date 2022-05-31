@@ -13,7 +13,7 @@ namespace Timotheus.Schedule
     /// <summary>
     /// Calendar object that contains a list of events, and is used to add/remove events on a remote calendar using iCal and CalDAV.
     /// </summary>
-    public class Calendar
+    public class Calendar : ISaveable
     {
         /// <summary>
         /// Username and password used to gain access to remote calendar.

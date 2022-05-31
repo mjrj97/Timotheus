@@ -264,11 +264,17 @@
   <data name="Exception_LoadFailed" xml:space="preserve">
     <value>Couldn't load file</value>
   </data>
+  <data name="Exception_Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
   <data name="Exception_Name" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="Exception_NoKeys" xml:space="preserve">
     <value>Key file could not be loaded</value>
+  </data>
+  <data name="Exception_SaveSuccessful" xml:space="preserve">
+    <value>File saved!</value>
   </data>
   <data name="Exception_Saving" xml:space="preserve">
     <value>Couldn't save file</value>

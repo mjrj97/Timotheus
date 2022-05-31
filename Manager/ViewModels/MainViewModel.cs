@@ -490,7 +490,12 @@ namespace Timotheus.ViewModels
         /// </summary>
         public bool IsThereUnsavedProgress()
         {
-            return Calendar.HasBeenChanged();
+            bool isThereUnsavedProgress = false;
+
+            isThereUnsavedProgress |= Calendar.HasBeenChanged();
+            isThereUnsavedProgress |= PersonRepo.HasBeenChanged();
+
+            return isThereUnsavedProgress;
         }
     }
 }
