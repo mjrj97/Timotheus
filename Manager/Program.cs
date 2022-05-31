@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using Timotheus.Utility;
 
 namespace Timotheus
 {
@@ -11,6 +12,8 @@ namespace Timotheus
         [STAThread]
         public static void Main(string[] args)
         {
+            PDFCreator.CreatePDF();
+
 #if DEBUG
             Timotheus.Initalize();
             BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
