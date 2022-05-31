@@ -13,10 +13,13 @@ namespace Timotheus.Persons
         public PersonRepository(string path)
         {
             this.path = path;
-            people = Load(path);
+            if (path != null && path != string.Empty)
+                people = Load(path);
+            else
+                people = new List<Person>();
         }
 
-        public PersonRepository() { }
+        public PersonRepository() : this(string.Empty) { }
 
         public void Create(Person obj)
         {
@@ -117,28 +120,31 @@ namespace Timotheus.Persons
         {
             bool changed = false;
 
-            List<Person> peopleInFile = Load(path);
-            bool[] found = new bool[people.Count];
+            if (path != string.Empty)
+            {
+                List<Person> peopleInFile = Load(path);
+                bool[] found = new bool[people.Count];
 
-            for (int i = 0; i < people.Count && !changed; i++)
-            {
-                int j = 0;
-                if (people[i].Deleted)
-                    changed = true;
-                while (!found[i] && j < peopleInFile.Count && !changed)
+                for (int i = 0; i < people.Count && !changed; i++)
                 {
-                    if (peopleInFile[j].Name == people[i].Name)
+                    int j = 0;
+                    if (people[i].Deleted)
+                        changed = true;
+                    while (!found[i] && j < peopleInFile.Count && !changed)
                     {
-                        found[i] = true;
-                        changed = peopleInFile[j].Active != people[i].Active || peopleInFile[j].ConsentVersion != people[i].ConsentVersion || peopleInFile[j].ConsentDate != people[i].ConsentDate || peopleInFile[j].Comment != people[i].Comment;
+                        if (peopleInFile[j].Name == people[i].Name)
+                        {
+                            found[i] = true;
+                            changed = peopleInFile[j].Active != people[i].Active || peopleInFile[j].ConsentVersion != people[i].ConsentVersion || peopleInFile[j].ConsentDate != people[i].ConsentDate || peopleInFile[j].Comment != people[i].Comment;
+                        }
+                        j++;
                     }
-                    j++;
                 }
-            }
-            for (int i = 0; i < found.Length && !changed; i++)
-            {
-                if (!found[i])
-                    changed = true;
+                for (int i = 0; i < found.Length && !changed; i++)
+                {
+                    if (!found[i])
+                        changed = true;
+                }
             }
 
             return changed;

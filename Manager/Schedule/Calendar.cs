@@ -290,52 +290,55 @@ namespace Timotheus.Schedule
         public bool HasBeenChanged()
         {
             bool hasBeenChanged = false;
-
-            Period period = new(DateTime.MinValue, DateTime.MaxValue);
-            List<Event> remoteEvents = LoadFromLines(HttpRequest(url, credentials));
-            bool[] foundLocal = new bool[Events.Count];
-            bool[] foundRemote = new bool[remoteEvents.Count];
-
-            for (int i = 0; i < Events.Count && !hasBeenChanged; i++)
+            
+            if (IsSetup())
             {
-                for (int j = 0; j < remoteEvents.Count; j++)
-                {
-                    if (Events[i].UID == remoteEvents[j].UID)
-                    {
-                        foundLocal[i] = true;
-                        foundRemote[j] = true;
+                Period period = new(DateTime.MinValue, DateTime.MaxValue);
+                List<Event> remoteEvents = LoadFromLines(HttpRequest(url, credentials));
+                bool[] foundLocal = new bool[Events.Count];
+                bool[] foundRemote = new bool[remoteEvents.Count];
 
-                        if (Events[i].In(period))
+                for (int i = 0; i < Events.Count && !hasBeenChanged; i++)
+                {
+                    for (int j = 0; j < remoteEvents.Count; j++)
+                    {
+                        if (Events[i].UID == remoteEvents[j].UID)
                         {
-                            if (Events[i].Deleted)
+                            foundLocal[i] = true;
+                            foundRemote[j] = true;
+
+                            if (Events[i].In(period))
                             {
-                                hasBeenChanged = true;
-                            }
-                            else if (!Events[i].Equals(remoteEvents[j]))
-                            {
-                                if (Events[i].Changed >= remoteEvents[j].Changed)
+                                if (Events[i].Deleted)
                                 {
                                     hasBeenChanged = true;
+                                }
+                                else if (!Events[i].Equals(remoteEvents[j]))
+                                {
+                                    if (Events[i].Changed >= remoteEvents[j].Changed)
+                                    {
+                                        hasBeenChanged = true;
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
-            for (int i = 0; i < Events.Count && !hasBeenChanged; i++)
-            {
-                if (Events[i].In(period))
+                for (int i = 0; i < Events.Count && !hasBeenChanged; i++)
                 {
-                    if (!foundLocal[i] && !Events[i].Deleted)
-                        hasBeenChanged = true;
+                    if (Events[i].In(period))
+                    {
+                        if (!foundLocal[i] && !Events[i].Deleted)
+                            hasBeenChanged = true;
+                    }
                 }
-            }
-            for (int i = 0; i < remoteEvents.Count && !hasBeenChanged; i++)
-            {
-                if (remoteEvents[i].In(period))
+                for (int i = 0; i < remoteEvents.Count && !hasBeenChanged; i++)
                 {
-                    if (!foundRemote[i])
-                        hasBeenChanged = true;
+                    if (remoteEvents[i].In(period))
+                    {
+                        if (!foundRemote[i])
+                            hasBeenChanged = true;
+                    }
                 }
             }
 
