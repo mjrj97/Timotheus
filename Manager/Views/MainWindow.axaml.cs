@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace Timotheus.Views
         {
             mvm = new();
             AvaloniaXamlLoader.Load(this);
+            Closing += OnWindowClose;
             DataContext = mvm;
         }
 
@@ -111,7 +113,7 @@ namespace Timotheus.Views
                 string foundVersion = Timotheus.Version;
 
                 // Fetch version from website
-                WebRequest request = WebRequest.Create("https://mjrj.dk/software/timotheus/index.html");
+                WebRequest request = WebRequest.Create("https://www.mjrj.dk/software/timotheus/index.html");
                 WebResponse response = request.GetResponse();
                 StreamReader reader = new(response.GetResponseStream());
                 string[] text = reader.ReadToEnd().Split(Environment.NewLine);
@@ -168,26 +170,29 @@ namespace Timotheus.Views
                 Error(Localization.Localization.Exception_Name, ex.Message);
             }
 
-            if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory")))
+            if (mvm.Keys.Retrieve("SSH-URL") != string.Empty)
             {
-                MessageBox messageBox = new();
-                messageBox.DialogTitle = Localization.Localization.Exception_Name;
-                messageBox.DialogText = Localization.Localization.Exception_FolderNotFound;
-                await messageBox.ShowDialog(this);
-                if (messageBox.DialogResult == DialogResult.OK)
+                if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory")))
                 {
-                    OpenFolderDialog openFolder = new();
-                    string path = await openFolder.ShowAsync(this);
-                    if (path != string.Empty && path != null)
+                    MessageBox messageBox = new();
+                    messageBox.DialogTitle = Localization.Localization.Exception_Name;
+                    messageBox.DialogText = Localization.Localization.Exception_FolderNotFound;
+                    await messageBox.ShowDialog(this);
+                    if (messageBox.DialogResult == DialogResult.OK)
                     {
-                        mvm.Keys.Update("SSH-LocalDirectory", path);
-                        InsertKey();
-                        messageBox = new();
-                        messageBox.DialogTitle = Localization.Localization.InsertKey_ChangeDetected;
-                        messageBox.DialogText = Localization.Localization.InsertKey_DoYouWantToSave;
-                        await messageBox.ShowDialog(this);
-                        if (messageBox.DialogResult == DialogResult.OK)
-                            SaveKey_Click(null, null);
+                        OpenFolderDialog openFolder = new();
+                        string path = await openFolder.ShowAsync(this);
+                        if (path != string.Empty && path != null)
+                        {
+                            mvm.Keys.Update("SSH-LocalDirectory", path);
+                            InsertKey();
+                            messageBox = new();
+                            messageBox.DialogTitle = Localization.Localization.InsertKey_ChangeDetected;
+                            messageBox.DialogText = Localization.Localization.InsertKey_DoYouWantToSave;
+                            await messageBox.ShowDialog(this);
+                            if (messageBox.DialogResult == DialogResult.OK)
+                                SaveKey_Click(null, null);
+                        }
                     }
                 }
             }
@@ -214,10 +219,9 @@ namespace Timotheus.Views
         /// </summary>
         private void Period_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Avalonia.Input.Key.Enter)
+            if (e.Key == Key.Enter)
             {
                 mvm.UpdatePeriod(((TextBox)sender).Text);
-                mvm.UpdateCalendarTable();
             }
         }
 
@@ -289,8 +293,7 @@ namespace Timotheus.Views
             {
                 try
                 {
-                    mvm.Calendar.Events.Add(new Event(dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location, string.Empty));
-                    mvm.UpdateCalendarTable();
+                    mvm.AddEvent(dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location);
                 }
                 catch (Exception ex)
                 {
@@ -307,7 +310,7 @@ namespace Timotheus.Views
             EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
             if (ev != null)
             {
-                mvm.Remove(ev);
+                mvm.RemoveEvent(ev);
             }
         }
 
@@ -363,13 +366,7 @@ namespace Timotheus.Views
                 {
                     try
                     {
-                        ev.Name = dialog.EventName;
-                        ev.Start = dialog.Start.ToString();
-                        ev.End = dialog.End.ToString();
-                        ev.Location = dialog.Location;
-                        ev.Description = dialog.Description;
-
-                        mvm.UpdateCalendarTable();
+                        mvm.EditEvent(ev.UID, dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location);
                     }
                     catch (Exception ex)
                     {
@@ -435,12 +432,25 @@ namespace Timotheus.Views
                     if (dialog.Port == string.Empty)
                         dialog.Port = "22";
                     mvm.Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
-                    mvm.Keys.Update("SSH-LocalDirectory", dialog.Local);
-                    mvm.Keys.Update("SSH-RemoteDirectory", dialog.Remote);
-                    mvm.Keys.Update("SSH-URL", dialog.Host);
-                    mvm.Keys.Update("SSH-Port", dialog.Port);
-                    mvm.Keys.Update("SSH-Username", dialog.Username);
-                    mvm.Keys.Update("SSH-Password", dialog.Password);
+
+                    bool changed = false;
+
+                    changed |= mvm.Keys.Update("SSH-LocalDirectory", dialog.Local);
+                    changed |= mvm.Keys.Update("SSH-RemoteDirectory", dialog.Remote);
+                    changed |= mvm.Keys.Update("SSH-URL", dialog.Host);
+                    changed |= mvm.Keys.Update("SSH-Port", dialog.Port);
+                    changed |= mvm.Keys.Update("SSH-Username", dialog.Username);
+                    changed |= mvm.Keys.Update("SSH-Password", dialog.Password);
+
+                    if (changed)
+                    {
+                        MessageBox messageBox = new();
+                        messageBox.DialogTitle = Localization.Localization.InsertKey_ChangeDetected;
+                        messageBox.DialogText = Localization.Localization.InsertKey_DoYouWantToSave;
+                        await messageBox.ShowDialog(this);
+                        if (messageBox.DialogResult == DialogResult.OK)
+                            SaveKey_Click(null, null);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -539,7 +549,19 @@ namespace Timotheus.Views
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
             {
-                mvm.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
+                if (dialog.ConsentVersion == string.Empty)
+                {
+                    MessageBox messageBox = new();
+                    messageBox.DialogTitle = Localization.Localization.Exception_Warning;
+                    messageBox.DialogText = Localization.Localization.AddConsentForm_EmptyVersion;
+                    await messageBox.ShowDialog(this);
+                    if (messageBox.DialogResult == DialogResult.OK)
+                    {
+                        mvm.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
+                    }
+                }
+                else
+                    mvm.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
             }
         }
 
@@ -776,6 +798,14 @@ namespace Timotheus.Views
                         }
                         break;
                 }
+
+                if (sender != null)
+                {
+                    MessageBox msDialog = new();
+                    msDialog.DialogTitle = Localization.Localization.Exception_Message;
+                    msDialog.DialogText = Localization.Localization.Exception_SaveSuccessful;
+                    await msDialog.ShowDialog(this);
+                }
             }
         }
 
@@ -930,6 +960,8 @@ namespace Timotheus.Views
             dialog.StartTime = mvm.Keys.Retrieve("Settings-EventStart");
             dialog.EndTime = mvm.Keys.Retrieve("Settings-EventEnd");
             dialog.LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates") != "False";
+            dialog.SelectedLanguage = Timotheus.Registry.Retrieve("Language") == "da-DK" ? 1 : 0;
+            int initialSelected = dialog.SelectedLanguage;
 
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
@@ -946,16 +978,53 @@ namespace Timotheus.Views
                     mvm.Keys.Update("Settings-EventStart", dialog.StartTime);
                 if (dialog.EndTime != string.Empty)
                     mvm.Keys.Update("Settings-EventEnd", dialog.EndTime);
+                if (initialSelected != dialog.SelectedLanguage)
+                {
+                    Timotheus.Registry.Update("Language", dialog.SelectedLanguage == 0 ? "en-US" : "da-DK");
+
+                    MessageBox messageBox = new();
+                    messageBox.DialogTitle = Localization.Localization.Settings;
+                    messageBox.DialogText = Localization.Localization.Settings_LanguageChanged;
+                    await messageBox.ShowDialog(this);
+                    if (messageBox.DialogResult == DialogResult.OK)
+                    {
+
+                    }
+                }
+
                 Timotheus.Registry.Update("LookForUpdates", dialog.LookForUpdates.ToString());
             }
         }
         #endregion
 
-        private async void Error(string title, string Message)
+        private bool firstClose = true;
+        private async void OnWindowClose(object sender, CancelEventArgs e)
+        {
+            if (firstClose)
+            {
+                if (mvm.IsThereUnsavedProgress())
+                {
+                    e.Cancel = true;
+
+                    MessageBox msDialog = new();
+                    msDialog.DialogTitle = Localization.Localization.Exception_Warning;
+                    msDialog.DialogText = Localization.Localization.Exception_UnsavedProgress;
+                    await msDialog.ShowDialog(this);
+
+                    if (msDialog.DialogResult == DialogResult.OK)
+                    {
+                        firstClose = false;
+                        Close();
+                    }
+                }
+            }
+        }
+
+        private async void Error(string title, string message)
         {
             MessageBox msDialog = new();
             msDialog.DialogTitle = title;
-            msDialog.DialogText = Message;
+            msDialog.DialogText = message;
             await msDialog.ShowDialog(this);
         }
     }

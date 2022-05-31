@@ -132,6 +132,12 @@
   <data name="AddConsentForm_Date" xml:space="preserve">
     <value>Dato</value>
   </data>
+  <data name="AddConsentForm_EmptyName" xml:space="preserve">
+    <value>Navnet kan ikke være tomt</value>
+  </data>
+  <data name="AddConsentForm_EmptyVersion" xml:space="preserve">
+    <value>Et tomt versionsfelt tolkes som ingen samtykke. Er du sikker på at du stadig vil tilføje personen?</value>
+  </data>
   <data name="AddConsentForm_Name" xml:space="preserve">
     <value>Navn</value>
   </data>
@@ -261,11 +267,17 @@
   <data name="Exception_LoadFailed" xml:space="preserve">
     <value>Kunne ikke læse fil</value>
   </data>
+  <data name="Exception_Message" xml:space="preserve">
+    <value>Besked</value>
+  </data>
   <data name="Exception_Name" xml:space="preserve">
     <value>Fejl</value>
   </data>
   <data name="Exception_NoKeys" xml:space="preserve">
     <value>Nøglefil kunne ikke læses</value>
+  </data>
+  <data name="Exception_SaveSuccessful" xml:space="preserve">
+    <value>Fil gemt!</value>
   </data>
   <data name="Exception_Saving" xml:space="preserve">
     <value>Kunne ikke gemme fil</value>
@@ -278,6 +290,12 @@
   </data>
   <data name="Exception_SyncSFTP" xml:space="preserve">
     <value>Kunne ikke synkronisere filerne</value>
+  </data>
+  <data name="Exception_UnsavedProgress" xml:space="preserve">
+    <value>Er du sikker på du vil lukke? Der er ændringer som ikke er blevet gemt.</value>
+  </data>
+  <data name="Exception_Warning" xml:space="preserve">
+    <value>Advarsel</value>
   </data>
   <data name="Exception_WrongPassword" xml:space="preserve">
     <value>Forkert adgangskode</value>
@@ -447,6 +465,9 @@
   <data name="Settings_BrowseButton" xml:space="preserve">
     <value>Gennemse</value>
   </data>
+  <data name="Settings_DeleteSettings" xml:space="preserve">
+    <value>Slet programindstillinger</value>
+  </data>
   <data name="Settings_Event" xml:space="preserve">
     <value>Begivenhed indstillinger</value>
   </data>
@@ -465,8 +486,23 @@
   <data name="Settings_InfoBox" xml:space="preserve">
     <value>Foreningens information</value>
   </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Sprog</value>
+  </data>
+  <data name="Settings_LanguageChanged" xml:space="preserve">
+    <value>Genstart programmet for at skifte programmet sprog</value>
+  </data>
+  <data name="Settings_Language_Danish" xml:space="preserve">
+    <value>Dansk</value>
+  </data>
+  <data name="Settings_Language_English" xml:space="preserve">
+    <value>Engelsk</value>
+  </data>
   <data name="Settings_LogoLabel" xml:space="preserve">
     <value>Logo</value>
+  </data>
+  <data name="Settings_LookForUpdates" xml:space="preserve">
+    <value>Led efter opdateringer</value>
   </data>
   <data name="Settings_NameLabel" xml:space="preserve">
     <value>Navn</value>

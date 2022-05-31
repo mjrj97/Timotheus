@@ -297,6 +297,44 @@ namespace Timotheus.ViewModels
         }
 
         /// <summary>
+        /// Adds an event to the current calendar.
+        /// </summary>
+        public void AddEvent(DateTime start, DateTime end, string name, string description, string location)
+        {
+            Calendar.Events.Add(new Event(start, end, name, description, location));
+            UpdateCalendarTable();
+        }
+
+        /// <summary>
+        /// Edits the event with the given UID.
+        /// </summary>
+        public void EditEvent(string UID, DateTime start, DateTime end, string name, string description, string location)
+        {
+            foreach (EventViewModel ev in Events)
+            {
+                if (ev.UID == UID)
+                {
+                    ev.Start = start.ToString();
+                    ev.End = end.ToString();
+                    ev.Name = name;
+                    ev.Description = description;
+                    ev.Location = location;
+                }
+            }
+
+            UpdateCalendarTable();
+        }
+
+        /// <summary>
+        /// Removes the event from list.
+        /// </summary>
+        public void RemoveEvent(EventViewModel ev)
+        {
+            ev.Deleted = true;
+            UpdateCalendarTable();
+        }
+
+        /// <summary>
         /// Exports the current Calendar in the selected period as a PDF.
         /// </summary>
         /// <param name="name">File name</param>
@@ -313,15 +351,6 @@ namespace Timotheus.ViewModels
         {
             PersonRepo.Create(new Person(Name, ConsentDate, ConsentVersion, ConsentComment, true));
             UpdatePeopleTable();
-        }
-
-        /// <summary>
-        /// Removes the event from list.
-        /// </summary>
-        public void Remove(EventViewModel ev)
-        {
-            ev.Deleted = true;
-            UpdateCalendarTable();
         }
 
         /// <summary>
@@ -361,7 +390,7 @@ namespace Timotheus.ViewModels
         }
 
         /// <summary>
-        /// "Inserts" the current key, and tries to open the Calendar and Filsharing system.
+        /// "Inserts" the current key, and tries to open the Calendar and File sharing system.
         /// </summary>
         private void InsertKey(object sender, DoWorkEventArgs e)
         {
@@ -380,6 +409,8 @@ namespace Timotheus.ViewModels
                 }
                 catch (Exception) { Directory = new(); }
             }
+            else
+                Directory = new();
 
             if (sender != null && e != null)
             {
@@ -396,6 +427,8 @@ namespace Timotheus.ViewModels
                 }
                 catch (Exception) { Calendar = new(); }
             }
+            else
+                Calendar = new();
 
             if (sender != null && e != null)
             {
@@ -412,6 +445,8 @@ namespace Timotheus.ViewModels
                 }
                 catch (Exception) { PersonRepo = new(); }
             }
+            else
+                PersonRepo = new();
         }
 
         /// <summary>
@@ -448,6 +483,19 @@ namespace Timotheus.ViewModels
         public void SaveKey(string path, string password)
         {
             Keys.Save(path, password);
+        }
+
+        /// <summary>
+        /// Returns whether the user has made progress that hasn't been saved.
+        /// </summary>
+        public bool IsThereUnsavedProgress()
+        {
+            bool isThereUnsavedProgress = false;
+
+            isThereUnsavedProgress |= Calendar.HasBeenChanged();
+            isThereUnsavedProgress |= PersonRepo.HasBeenChanged();
+
+            return isThereUnsavedProgress;
         }
     }
 }

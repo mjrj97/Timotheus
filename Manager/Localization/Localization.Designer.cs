@@ -106,6 +106,24 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The name cannot be empty.
+        /// </summary>
+        public static string AddConsentForm_EmptyName {
+            get {
+                return ResourceManager.GetString("AddConsentForm_EmptyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An empty version field is interpreted as no consent. Are you sure you want to add the person?.
+        /// </summary>
+        public static string AddConsentForm_EmptyVersion {
+            get {
+                return ResourceManager.GetString("AddConsentForm_EmptyVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string AddConsentForm_Name {
@@ -484,6 +502,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        public static string Exception_Message {
+            get {
+                return ResourceManager.GetString("Exception_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Exception_Name {
@@ -498,6 +525,15 @@ namespace Timotheus.Localization {
         public static string Exception_NoKeys {
             get {
                 return ResourceManager.GetString("Exception_NoKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File saved!.
+        /// </summary>
+        public static string Exception_SaveSuccessful {
+            get {
+                return ResourceManager.GetString("Exception_SaveSuccessful", resourceCulture);
             }
         }
         
@@ -534,6 +570,24 @@ namespace Timotheus.Localization {
         public static string Exception_SyncSFTP {
             get {
                 return ResourceManager.GetString("Exception_SyncSFTP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to quit? There is unsaved progress..
+        /// </summary>
+        public static string Exception_UnsavedProgress {
+            get {
+                return ResourceManager.GetString("Exception_UnsavedProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        public static string Exception_Warning {
+            get {
+                return ResourceManager.GetString("Exception_Warning", resourceCulture);
             }
         }
         
@@ -1042,6 +1096,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete program settings.
+        /// </summary>
+        public static string Settings_DeleteSettings {
+            get {
+                return ResourceManager.GetString("Settings_DeleteSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event settings.
         /// </summary>
         public static string Settings_Event {
@@ -1096,11 +1159,56 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string Settings_Language {
+            get {
+                return ResourceManager.GetString("Settings_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Danish.
+        /// </summary>
+        public static string Settings_Language_Danish {
+            get {
+                return ResourceManager.GetString("Settings_Language_Danish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string Settings_Language_English {
+            get {
+                return ResourceManager.GetString("Settings_Language_English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart the program to change the language of the program.
+        /// </summary>
+        public static string Settings_LanguageChanged {
+            get {
+                return ResourceManager.GetString("Settings_LanguageChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logo.
         /// </summary>
         public static string Settings_LogoLabel {
             get {
                 return ResourceManager.GetString("Settings_LogoLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Look for updates.
+        /// </summary>
+        public static string Settings_LookForUpdates {
+            get {
+                return ResourceManager.GetString("Settings_LookForUpdates", resourceCulture);
             }
         }
         

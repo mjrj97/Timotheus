@@ -1,29 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <ApplicationIcon>Resources/Icon.ico</ApplicationIcon>
-    <UseAppHost>true</UseAppHost>
     <RuntimeIdentifiers>win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup>
     <CFBundleName>Timotheus</CFBundleName>
-    <!-- Also defines .app file name -->
     <CFBundleDisplayName>Timotheus</CFBundleDisplayName>
-    <CFBundleIdentifier>com.mjrj97.Timotheus</CFBundleIdentifier>
-    <CFBundleVersion>1.0.0</CFBundleVersion>
-    <CFBundlePackageType>APPL</CFBundlePackageType>
-    <CFBundleSignature>????</CFBundleSignature>
-    <CFBundleExecutable>Timotheus</CFBundleExecutable>
-    <CFBundleIconFile>Icon.icns</CFBundleIconFile>
-    <CFBundleShortVersionString>Test</CFBundleShortVersionString>
-    <!-- Will be copied from output directory -->
-    <NSPrincipalClass>NSApplication</NSPrincipalClass>
-    <NSHighResolutionCapable>true</NSHighResolutionCapable>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CFBundleIdentifier>dk.mjrj.Timotheus</CFBundleIdentifier>
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="Fonts\Arvo-Bold.ttf" />
+    <None Remove="Fonts\Arvo-BoldItalic.ttf" />
+    <None Remove="Fonts\Arvo-Italic.ttf" />
+    <None Remove="Fonts\Arvo-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.10" />
@@ -37,6 +29,7 @@
    </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Resources\**" />
+	<AvaloniaResource Include="Fonts\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Localization\Localization.Designer.cs">

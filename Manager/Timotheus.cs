@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -18,20 +18,31 @@ namespace Timotheus
         public static Register Registry
         {
             get { return _Registry; }
-            set { _Registry = value; }
+            private set { _Registry = value; }
         }
         /// <summary>
         /// Text encoding used by the program. Is essential to decode the text from Windows Registry.
         /// </summary>
         public readonly static Encoding Encoding = Encoding.BigEndianUnicode;
+        private static CultureInfo _culture;
         /// <summary>
         /// Text encoding used by the program. Is essential to decode the text from Windows Registry.
         /// </summary>
-        public readonly static CultureInfo Culture = CultureInfo.GetCultureInfo("da-DK");
+        public static CultureInfo Culture
+        {
+            get
+            {
+                return _culture;
+            }
+            private set
+            {
+                _culture = value;
+            }
+        }
         /// <summary>
         /// Version of the software.
         /// </summary>
-        public const string Version = "1.2.1";
+        public const string Version = "X.X.X";
         /// <summary>
         /// Whether this is the first time the software runs on this computer.
         /// </summary>
@@ -49,6 +60,10 @@ namespace Timotheus
 
             //Defines encoding 1252 for PDF
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            if (Registry.Retrieve("Language") == string.Empty)
+                Registry.Create("Language", CultureInfo.CurrentUICulture.Name);
+            Culture = CultureInfo.GetCultureInfo(Registry.Retrieve("Language"));
 
             CultureInfo.CurrentUICulture = Culture;
             CultureInfo.CurrentCulture = Culture;
@@ -71,7 +86,8 @@ namespace Timotheus
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(@"SOFTWARE\Timotheus");
+                if (Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus") != null)
+                    Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(@"SOFTWARE\Timotheus");
                 Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus");
 
                 List<Key> keys = Registry.RetrieveAll();
@@ -129,6 +145,23 @@ namespace Timotheus
                     FirstTime = true;
                     File.Create(fileName).Close();
                 }
+                Registry = new Register(fileName, ':');
+            }
+        }
+
+        /// <summary>
+        /// Deletes the settings saved in the registry
+        /// </summary>
+        public static void DeleteRegistry()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Registry = new();
+            }
+            else
+            {
+                string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+                string fileName = directory + "/" + "Registry.ini";
                 Registry = new Register(fileName, ':');
             }
         }

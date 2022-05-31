@@ -102,6 +102,18 @@ namespace Timotheus.Views
             }
         }
 
+        private int _selectedLanguage = 0;
+        public int SelectedLanguage
+        {
+            get { return _selectedLanguage; }
+            set 
+            { 
+                _selectedLanguage = value;
+                NotifyPropertyChanged(nameof(SelectedLanguage));
+            }
+        }
+
+
         private bool _lookForUpdates = true;
         public bool LookForUpdates
         {
@@ -134,6 +146,11 @@ namespace Timotheus.Views
             string[] result = await openFileDialog.ShowAsync(this);
             if (result != null && result.Length > 0)
                 ImagePath = result[0];
+        }
+
+        private void DeleteSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Timotheus.DeleteRegistry();
         }
 
         private void Ok_Click(object sender, RoutedEventArgs e)

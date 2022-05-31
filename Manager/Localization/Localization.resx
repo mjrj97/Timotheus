@@ -132,6 +132,12 @@
   <data name="AddConsentForm_Date" xml:space="preserve">
     <value>Date</value>
   </data>
+  <data name="AddConsentForm_EmptyName" xml:space="preserve">
+    <value>The name cannot be empty</value>
+  </data>
+  <data name="AddConsentForm_EmptyVersion" xml:space="preserve">
+    <value>An empty version field is interpreted as no consent. Are you sure you want to add the person?</value>
+  </data>
   <data name="AddConsentForm_Name" xml:space="preserve">
     <value>Name</value>
   </data>
@@ -258,11 +264,17 @@
   <data name="Exception_LoadFailed" xml:space="preserve">
     <value>Couldn't load file</value>
   </data>
+  <data name="Exception_Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
   <data name="Exception_Name" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="Exception_NoKeys" xml:space="preserve">
     <value>Key file could not be loaded</value>
+  </data>
+  <data name="Exception_SaveSuccessful" xml:space="preserve">
+    <value>File saved!</value>
   </data>
   <data name="Exception_Saving" xml:space="preserve">
     <value>Couldn't save file</value>
@@ -275,6 +287,12 @@
   </data>
   <data name="Exception_SyncSFTP" xml:space="preserve">
     <value>Couldn't sync the files</value>
+  </data>
+  <data name="Exception_UnsavedProgress" xml:space="preserve">
+    <value>Are you sure you want to quit? There is unsaved progress.</value>
+  </data>
+  <data name="Exception_Warning" xml:space="preserve">
+    <value>Warning</value>
   </data>
   <data name="Exception_WrongPassword" xml:space="preserve">
     <value>Wrong password</value>
@@ -444,6 +462,9 @@
   <data name="Settings_BrowseButton" xml:space="preserve">
     <value>Browse</value>
   </data>
+  <data name="Settings_DeleteSettings" xml:space="preserve">
+    <value>Delete program settings</value>
+  </data>
   <data name="Settings_Event" xml:space="preserve">
     <value>Event settings</value>
   </data>
@@ -462,8 +483,23 @@
   <data name="Settings_InfoBox" xml:space="preserve">
     <value>Association information</value>
   </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings_LanguageChanged" xml:space="preserve">
+    <value>Restart the program to change the language of the program</value>
+  </data>
+  <data name="Settings_Language_Danish" xml:space="preserve">
+    <value>Danish</value>
+  </data>
+  <data name="Settings_Language_English" xml:space="preserve">
+    <value>English</value>
+  </data>
   <data name="Settings_LogoLabel" xml:space="preserve">
     <value>Logo</value>
+  </data>
+  <data name="Settings_LookForUpdates" xml:space="preserve">
+    <value>Look for updates</value>
   </data>
   <data name="Settings_NameLabel" xml:space="preserve">
     <value>Name</value>
