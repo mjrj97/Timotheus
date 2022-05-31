@@ -170,26 +170,29 @@ namespace Timotheus.Views
                 Error(Localization.Localization.Exception_Name, ex.Message);
             }
 
-            if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory")))
+            if (mvm.Keys.Retrieve("SSH-URL") != string.Empty)
             {
-                MessageBox messageBox = new();
-                messageBox.DialogTitle = Localization.Localization.Exception_Name;
-                messageBox.DialogText = Localization.Localization.Exception_FolderNotFound;
-                await messageBox.ShowDialog(this);
-                if (messageBox.DialogResult == DialogResult.OK)
+                if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory")))
                 {
-                    OpenFolderDialog openFolder = new();
-                    string path = await openFolder.ShowAsync(this);
-                    if (path != string.Empty && path != null)
+                    MessageBox messageBox = new();
+                    messageBox.DialogTitle = Localization.Localization.Exception_Name;
+                    messageBox.DialogText = Localization.Localization.Exception_FolderNotFound;
+                    await messageBox.ShowDialog(this);
+                    if (messageBox.DialogResult == DialogResult.OK)
                     {
-                        mvm.Keys.Update("SSH-LocalDirectory", path);
-                        InsertKey();
-                        messageBox = new();
-                        messageBox.DialogTitle = Localization.Localization.InsertKey_ChangeDetected;
-                        messageBox.DialogText = Localization.Localization.InsertKey_DoYouWantToSave;
-                        await messageBox.ShowDialog(this);
-                        if (messageBox.DialogResult == DialogResult.OK)
-                            SaveKey_Click(null, null);
+                        OpenFolderDialog openFolder = new();
+                        string path = await openFolder.ShowAsync(this);
+                        if (path != string.Empty && path != null)
+                        {
+                            mvm.Keys.Update("SSH-LocalDirectory", path);
+                            InsertKey();
+                            messageBox = new();
+                            messageBox.DialogTitle = Localization.Localization.InsertKey_ChangeDetected;
+                            messageBox.DialogText = Localization.Localization.InsertKey_DoYouWantToSave;
+                            await messageBox.ShowDialog(this);
+                            if (messageBox.DialogResult == DialogResult.OK)
+                                SaveKey_Click(null, null);
+                        }
                     }
                 }
             }
@@ -216,10 +219,9 @@ namespace Timotheus.Views
         /// </summary>
         private void Period_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Avalonia.Input.Key.Enter)
+            if (e.Key == Key.Enter)
             {
                 mvm.UpdatePeriod(((TextBox)sender).Text);
-                mvm.UpdateCalendarTable();
             }
         }
 
@@ -291,8 +293,7 @@ namespace Timotheus.Views
             {
                 try
                 {
-                    mvm.Calendar.Events.Add(new Event(dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location, string.Empty));
-                    mvm.UpdateCalendarTable();
+                    mvm.AddEvent(dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location);
                 }
                 catch (Exception ex)
                 {
@@ -309,7 +310,7 @@ namespace Timotheus.Views
             EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
             if (ev != null)
             {
-                mvm.Remove(ev);
+                mvm.RemoveEvent(ev);
             }
         }
 
@@ -365,13 +366,7 @@ namespace Timotheus.Views
                 {
                     try
                     {
-                        ev.Name = dialog.EventName;
-                        ev.Start = dialog.Start.ToString();
-                        ev.End = dialog.End.ToString();
-                        ev.Location = dialog.Location;
-                        ev.Description = dialog.Description;
-
-                        mvm.UpdateCalendarTable();
+                        mvm.EditEvent(ev.UID, dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location);
                     }
                     catch (Exception ex)
                     {
