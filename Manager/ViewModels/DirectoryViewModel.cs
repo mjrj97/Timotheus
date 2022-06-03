@@ -182,7 +182,7 @@ namespace Timotheus.ViewModels
                 string name = Path.GetFileName(localFilePaths[i]);
                 if (Ignore(name))
                     continue;
-                client.UploadFile(remotePath, localFilePaths[i]);
+                client.UploadFile(ConvertPath(localFilePaths[i]), localFilePaths[i]);
             }
 
             for (int i = 0; i < localDirectoryPaths.Length; i++)

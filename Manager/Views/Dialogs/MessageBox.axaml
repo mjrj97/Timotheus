@@ -4,9 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         x:Class="Timotheus.Views.Dialogs.MessageBox"
-		Title="{Binding DialogTitle}" SizeToContent="WidthAndHeight" MaxWidth="600">
-	<StackPanel HorizontalAlignment="Center" Margin="10">
-		<TextBlock HorizontalAlignment="Center" Text="{Binding DialogText}" Margin="10" TextWrapping="Wrap" MaxWidth="560"/>
+		Title="{Binding DialogTitle}" SizeToContent="WidthAndHeight" MinWidth="250" MaxWidth="600">
+	<StackPanel Margin="10">
+		<TextBlock HorizontalAlignment="Left" Text="{Binding DialogText}" Margin="10" TextWrapping="Wrap" MaxWidth="560"/>
 		<DockPanel HorizontalAlignment="Right">
 			<Button Content="OK" Click="Ok_Click" Margin="0 0 10 0"/>
 			<Button Content="Cancel" Click="Cancel_Click"/>

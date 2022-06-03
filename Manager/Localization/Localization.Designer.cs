@@ -502,6 +502,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        public static string Exception_Message {
+            get {
+                return ResourceManager.GetString("Exception_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Exception_Name {
@@ -516,6 +525,15 @@ namespace Timotheus.Localization {
         public static string Exception_NoKeys {
             get {
                 return ResourceManager.GetString("Exception_NoKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File saved!.
+        /// </summary>
+        public static string Exception_SaveSuccessful {
+            get {
+                return ResourceManager.GetString("Exception_SaveSuccessful", resourceCulture);
             }
         }
         

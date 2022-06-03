@@ -89,10 +89,14 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// Returns whether the user has made progress that hasn't been saved.
         /// </summary>
-        /// <returns></returns>
         public bool IsThereUnsavedProgress()
         {
-            return false;
+            bool isThereUnsavedProgress = false;
+
+            isThereUnsavedProgress |= Calendar.HasBeenChanged();
+            isThereUnsavedProgress |= PersonRepo.HasBeenChanged();
+
+            return isThereUnsavedProgress;
         }
     }
 }

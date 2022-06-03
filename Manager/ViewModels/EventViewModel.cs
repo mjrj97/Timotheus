@@ -140,6 +140,21 @@ namespace Timotheus.ViewModels
         }
 
         /// <summary>
+        /// The UID of the event.
+        /// </summary>
+        public string UID
+        {
+            get
+            {
+                return ev.UID;
+            }
+            set
+            {
+                ev.UID = value;
+            }
+        }
+
+        /// <summary>
         /// Creates a view model of an event for usage in UI.
         /// </summary>
         public EventViewModel(Event ev)
