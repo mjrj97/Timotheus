@@ -68,6 +68,19 @@ namespace Timotheus.ViewModels
         {
             Sync = new();
             Sync.DoWork += Synchronize;
+
+            var startTimeSpan = TimeSpan.Zero;
+            var periodTimeSpan = TimeSpan.FromMinutes(1);
+
+            var timer = new System.Threading.Timer((e) =>
+            {
+                MyMethod();
+            }, null, startTimeSpan, periodTimeSpan);
+        }
+
+        private static void MyMethod()
+        {
+            File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Test.txt", DateTime.Now.ToString() + "\n");
         }
 
         /// <summary>

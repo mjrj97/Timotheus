@@ -2,7 +2,7 @@
 using Avalonia.Markup.Xaml;
 using Timotheus.Utility;
 
-namespace Timotheus.Views
+namespace Timotheus.Views.Dialogs
 {
     public partial class MessageBox : Dialog
     {
@@ -10,7 +10,7 @@ namespace Timotheus.Views
         public string DialogTitle
         {
             get { return _dialogTitle; }
-            set 
+            set
             {
                 _dialogTitle = value;
                 NotifyPropertyChanged(nameof(DialogTitle));

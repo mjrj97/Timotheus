@@ -32,6 +32,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views\Tabs\FilesPage.axaml.cs">
+      <DependentUpon>FilesPage.axaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Update="Localization\Localization.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
