@@ -4,8 +4,8 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 using System;
-using System.Diagnostics;
 using System.Linq;
+using System.Diagnostics;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
@@ -14,7 +14,6 @@ namespace Timotheus.Views.Tabs
 {
     public partial class FilesPage : Tab
     {
-        private DirectoryViewModel _Directory = new();
         /// <summary>
         /// A SFTP object connecting a local and remote directory.
         /// </summary>
@@ -22,14 +21,28 @@ namespace Timotheus.Views.Tabs
         {
             get
             {
-                return _Directory;
+                return (DirectoryViewModel)ViewModel;
             }
             set
             {
-                _Directory = value;
-                _Directory.GoToDirectory(_Directory.RemotePath);
+                ViewModel = value;
+                Directory.GoToDirectory(Directory.RemotePath);
             }
         }
+
+        #region Colors
+        readonly IBrush NewLight = new SolidColorBrush(Color.FromRgb(230, 255, 230));
+        readonly IBrush NewDark = new SolidColorBrush(Color.FromRgb(210, 255, 210));
+
+        readonly IBrush UpdateLight = new SolidColorBrush(Color.FromRgb(255, 255, 230));
+        readonly IBrush UpdateDark = new SolidColorBrush(Color.FromRgb(255, 255, 200));
+
+        readonly IBrush DeleteLight = new SolidColorBrush(Color.FromRgb(255, 230, 230));
+        readonly IBrush DeleteDark = new SolidColorBrush(Color.FromRgb(255, 210, 210));
+
+        readonly IBrush StdLight = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+        readonly IBrush StdDark = new SolidColorBrush(Color.FromRgb(230, 230, 230));
+        #endregion
 
         public FilesPage()
         {
@@ -38,13 +51,16 @@ namespace Timotheus.Views.Tabs
             DataContext = Directory;
         }
 
+        /// <summary>
+        /// Reloads the Directory with the current key in the MainViewModel.
+        /// </summary>
         public override void Load()
         {
-            if (MVM.Keys.Retrieve("SSH-LocalDirectory") != string.Empty)
+            if (MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory") != string.Empty)
             {
                 try
                 {
-                    Directory = new DirectoryViewModel(MVM.Keys.Retrieve("SSH-LocalDirectory"), MVM.Keys.Retrieve("SSH-RemoteDirectory"), MVM.Keys.Retrieve("SSH-URL"), int.Parse(MVM.Keys.Retrieve("SSH-Port") == string.Empty ? "22" : MVM.Keys.Retrieve("SSH-Port")), MVM.Keys.Retrieve("SSH-Username"), MVM.Keys.Retrieve("SSH-Password"));
+                    Directory = new DirectoryViewModel(MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-RemoteDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-URL"), int.Parse(MainViewModel.Instance.Keys.Retrieve("SSH-Port") == string.Empty ? "22" : MainViewModel.Instance.Keys.Retrieve("SSH-Port")), MainViewModel.Instance.Keys.Retrieve("SSH-Username"), MainViewModel.Instance.Keys.Retrieve("SSH-Password"));
                 }
                 catch (Exception) { Directory = new(); }
             }
@@ -94,12 +110,12 @@ namespace Timotheus.Views.Tabs
         {
             SetupSFTP dialog = new()
             {
-                Local = MVM.Keys.Retrieve("SSH-LocalDirectory"),
-                Remote = MVM.Keys.Retrieve("SSH-RemoteDirectory"),
-                Host = MVM.Keys.Retrieve("SSH-URL"),
-                Port = MVM.Keys.Retrieve("SSH-Port"),
-                Username = MVM.Keys.Retrieve("SSH-Username"),
-                Password = MVM.Keys.Retrieve("SSH-Password")
+                Local = MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory"),
+                Remote = MainViewModel.Instance.Keys.Retrieve("SSH-RemoteDirectory"),
+                Host = MainViewModel.Instance.Keys.Retrieve("SSH-URL"),
+                Port = MainViewModel.Instance.Keys.Retrieve("SSH-Port"),
+                Username = MainViewModel.Instance.Keys.Retrieve("SSH-Username"),
+                Password = MainViewModel.Instance.Keys.Retrieve("SSH-Password")
             };
 
             await dialog.ShowDialog(MainWindow.Instance);
@@ -113,12 +129,12 @@ namespace Timotheus.Views.Tabs
 
                     bool changed = false;
 
-                    changed |= MVM.Keys.Update("SSH-LocalDirectory", dialog.Local);
-                    changed |= MVM.Keys.Update("SSH-RemoteDirectory", dialog.Remote);
-                    changed |= MVM.Keys.Update("SSH-URL", dialog.Host);
-                    changed |= MVM.Keys.Update("SSH-Port", dialog.Port);
-                    changed |= MVM.Keys.Update("SSH-Username", dialog.Username);
-                    changed |= MVM.Keys.Update("SSH-Password", dialog.Password);
+                    changed |= MainViewModel.Instance.Keys.Update("SSH-LocalDirectory", dialog.Local);
+                    changed |= MainViewModel.Instance.Keys.Update("SSH-RemoteDirectory", dialog.Remote);
+                    changed |= MainViewModel.Instance.Keys.Update("SSH-URL", dialog.Host);
+                    changed |= MainViewModel.Instance.Keys.Update("SSH-Port", dialog.Port);
+                    changed |= MainViewModel.Instance.Keys.Update("SSH-Username", dialog.Username);
+                    changed |= MainViewModel.Instance.Keys.Update("SSH-Password", dialog.Password);
 
                     if (changed)
                     {
@@ -184,20 +200,6 @@ namespace Timotheus.Views.Tabs
             }
         }
 
-        #region Colors
-        readonly IBrush NewLight = new SolidColorBrush(Color.FromRgb(230, 255, 230));
-        readonly IBrush NewDark = new SolidColorBrush(Color.FromRgb(210, 255, 210));
-
-        readonly IBrush UpdateLight = new SolidColorBrush(Color.FromRgb(255, 255, 230));
-        readonly IBrush UpdateDark = new SolidColorBrush(Color.FromRgb(255, 255, 200));
-
-        readonly IBrush DeleteLight = new SolidColorBrush(Color.FromRgb(255, 230, 230));
-        readonly IBrush DeleteDark = new SolidColorBrush(Color.FromRgb(255, 210, 210));
-
-        readonly IBrush StdLight = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-        readonly IBrush StdDark = new SolidColorBrush(Color.FromRgb(230, 230, 230));
-        #endregion
-
         private void Files_RowLoading(object sender, DataGridRowEventArgs e)
         {
             if (e.Row.DataContext is FileViewModel file)
@@ -223,6 +225,11 @@ namespace Timotheus.Views.Tabs
                     };
                 }
             }
+        }
+
+        public override void Update()
+        {
+            
         }
     }
 }

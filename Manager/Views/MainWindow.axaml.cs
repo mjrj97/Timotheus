@@ -57,7 +57,9 @@ namespace Timotheus.Views
 
             Tabs = new List<Tab>
             {
-                this.FindControl<Tab>("FilPage")
+                this.FindControl<Tab>("CalPage"),
+                this.FindControl<Tab>("FilPage"),
+                this.FindControl<Tab>("PeoPage")
             };
 
             Closing += OnWindowClose;
@@ -191,11 +193,11 @@ namespace Timotheus.Views
                 await dialog.ShowDialog(this, InsertingKey);
 
                 // WORK AROUND - Cannot set data context in InsertingKey because it is on another thread.
-                FilesPage page = (FilesPage)Tabs[0];
-                page.DataContext = page.Directory;
-
-                mvm.UpdateCalendarTable();
-                mvm.UpdatePeopleTable();
+                foreach (Tab tab in Tabs)
+                {
+                    tab.DataContext = tab.ViewModel;
+                    tab.Update();
+                }
             }
             catch (Exception ex)
             {
@@ -243,42 +245,6 @@ namespace Timotheus.Views
 
                 Tabs[i].Load();
             }
-
-            if (sender != null && e != null)
-            {
-                InsertingKey.ReportProgress(33, Localization.Localization.InsertKey_LoadCalendar);
-                if (InsertingKey.CancellationPending == true)
-                    return;
-            }
-
-            if (mvm.Keys.Retrieve("Calendar-Email") != string.Empty)
-            {
-                try
-                {
-                    mvm.Calendar = new(mvm.Keys.Retrieve("Calendar-Email"), mvm.Keys.Retrieve("Calendar-Password"), mvm.Keys.Retrieve("Calendar-URL"));
-                }
-                catch (Exception) { mvm.Calendar = new(); }
-            }
-            else
-                mvm.Calendar = new();
-
-            if (sender != null && e != null)
-            {
-                InsertingKey.ReportProgress(66, Localization.Localization.InsertKey_LoadPeople);
-                if (InsertingKey.CancellationPending == true)
-                    return;
-            }
-
-            if (mvm.Keys.Retrieve("Person-File") != string.Empty)
-            {
-                try
-                {
-                    mvm.PersonRepo = new(mvm.Keys.Retrieve("Person-File"));
-                }
-                catch (Exception) { mvm.PersonRepo = new(); }
-            }
-            else
-                mvm.PersonRepo = new();
         }
 
         /// <summary>
@@ -308,12 +274,14 @@ namespace Timotheus.Views
         private async void Open_Click(object sender, RoutedEventArgs e)
         {
             switch (mvm.CurrentTab) {
-                case 0:
-                    OpenCalendar dialog = new();
-                    dialog.Username = mvm.Keys.Retrieve("Calendar-Email");
-                    dialog.Password = mvm.Keys.Retrieve("Calendar-Password");
-                    dialog.URL = mvm.Keys.Retrieve("Calendar-URL");
-                    dialog.Path = mvm.Keys.Retrieve("Calendar-Path");
+                case 0: //FIX
+                    /*OpenCalendar dialog = new()
+                    {
+                        Username = mvm.Keys.Retrieve("Calendar-Email"),
+                        Password = mvm.Keys.Retrieve("Calendar-Password"),
+                        URL = mvm.Keys.Retrieve("Calendar-URL"),
+                        Path = mvm.Keys.Retrieve("Calendar-Path")
+                    };
 
                     await dialog.ShowDialog(this);
 
@@ -340,10 +308,10 @@ namespace Timotheus.Views
                         {
                             Error(Localization.Localization.Exception_InvalidCalendar, ex.Message);
                         }
-                    }
+                    }*/
                     break;
                 case 2:
-                    OpenFileDialog openFileDialog = new();
+                    /*OpenFileDialog openFileDialog = new();
 
                     FileDialogFilter txtFilter = new();
                     txtFilter.Extensions.Add("csv");
@@ -358,7 +326,7 @@ namespace Timotheus.Views
                         mvm.PersonRepo = new(result[0]);
                         mvm.UpdatePeopleTable();
                         mvm.Keys.Update("Person-File", result[0]);
-                    }
+                    }*/
                     break;
             }
         }
@@ -374,7 +342,7 @@ namespace Timotheus.Views
             switch (mvm.CurrentTab)
             {
                 case 0:
-                    filter.Extensions.Add("ics");
+                    /*filter.Extensions.Add("ics"); //FIX
                     filter.Name = "Calendar (.ics)";
 
                     saveFileDialog.Filters = new();
@@ -391,10 +359,10 @@ namespace Timotheus.Views
                         {
                             Error(Localization.Localization.Exception_Saving, ex.Message);
                         }
-                    }
+                    }*/
                     break;
                 case 2:
-                    filter.Extensions.Add("csv");
+                    /*filter.Extensions.Add("csv");
                     filter.Name = "CSV (.csv)";
 
                     saveFileDialog.Filters = new();
@@ -411,7 +379,7 @@ namespace Timotheus.Views
                         {
                             Error(Localization.Localization.Exception_Saving, ex.Message);
                         }
-                    }
+                    }*/
                     break;
             }
         }

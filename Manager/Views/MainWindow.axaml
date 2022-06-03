@@ -60,7 +60,7 @@
             <TextBlock Text="{x:Static i18n:Localization.Calendar_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
           </DockPanel>
         </TabItem.Header>
-		<uc:CalendarPage/>
+		  <uc:CalendarPage Name="CalPage"/>
       </TabItem>
       <TabItem>
         <TabItem.Header>
@@ -78,7 +78,7 @@
 				<TextBlock Text="{x:Static i18n:Localization.People_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
 			</DockPanel>
 		</TabItem.Header>
-		<uc:PeoplePage/>
+		<uc:PeoplePage Name="PeoPage"/>
 	  </TabItem>
     </TabControl>
   </DockPanel>

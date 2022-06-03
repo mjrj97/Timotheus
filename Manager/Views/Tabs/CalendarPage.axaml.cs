@@ -11,19 +11,28 @@ using Timotheus.Views.Dialogs;
 
 namespace Timotheus.Views.Tabs
 {
-    public partial class CalendarPage : UserControl
+    public partial class CalendarPage : Tab
     {
-        private MainViewModel MVM
+        /// <summary>
+        /// A SFTP object connecting a local and remote directory.
+        /// </summary>
+        public CalendarViewModel Calendar
         {
             get
             {
-                return DataContext as MainViewModel;
+                return (CalendarViewModel)ViewModel;
+            }
+            set
+            {
+                ViewModel = value;
             }
         }
 
         public CalendarPage()
         {
+            LoadingTitle = Localization.Localization.InsertKey_LoadCalendar;
             AvaloniaXamlLoader.Load(this);
+            DataContext = Calendar;
         }
 
         /// <summary>
@@ -35,9 +44,9 @@ namespace Timotheus.Views.Tabs
             {
                 Button button = (Button)sender;
                 if (button.Name == "+")
-                    MVM.UpdatePeriod(true);
+                    Calendar.UpdatePeriod(true);
                 else if (button.Name == "-")
-                    MVM.UpdatePeriod(false);
+                    Calendar.UpdatePeriod(false);
             }
         }
 
@@ -48,8 +57,8 @@ namespace Timotheus.Views.Tabs
         {
             if (e.Key == Avalonia.Input.Key.Enter)
             {
-                MVM.UpdatePeriod(((TextBox)sender).Text);
-                MVM.UpdateCalendarTable();
+                Calendar.UpdatePeriod(((TextBox)sender).Text);
+                Update();
             }
         }
 
@@ -60,9 +69,9 @@ namespace Timotheus.Views.Tabs
         {
             SyncCalendar dialog = new()
             {
-                Period = MVM.PeriodText,
-                UseCurrent = MVM.Calendar.IsSetup(),
-                CanUseCurrent = MVM.Calendar.IsSetup()
+                Period = Calendar.PeriodText,
+                UseCurrent = Calendar.IsSetup,
+                CanUseCurrent = Calendar.IsSetup
             };
 
             await dialog.ShowDialog(MainWindow.Instance);
@@ -73,25 +82,27 @@ namespace Timotheus.Views.Tabs
                 {
                     if (!dialog.UseCurrent)
                     {
-                        MVM.Calendar.SetupSync(dialog.Username, dialog.Password, dialog.URL);
-                        MVM.Keys.Update("Calendar-Email", dialog.Username);
-                        MVM.Keys.Update("Calendar-Password", dialog.Password);
-                        MVM.Keys.Update("Calendar-URL", dialog.URL);
+                        Calendar.SetupSync(dialog.Username, dialog.Password, dialog.URL);
+                        MainViewModel.Instance.Keys.Update("Calendar-Email", dialog.Username);
+                        MainViewModel.Instance.Keys.Update("Calendar-Password", dialog.Password);
+                        MainViewModel.Instance.Keys.Update("Calendar-URL", dialog.URL);
                     }
 
-                    ProgressDialog pDialog = new();
-                    pDialog.Title = Localization.Localization.SyncCalendar_Worker;
+                    ProgressDialog pDialog = new()
+                    {
+                        Title = Localization.Localization.SyncCalendar_Worker
+                    };
                     Period syncPeriod;
                     if (dialog.SyncAll)
                         syncPeriod = new Period(DateTime.MinValue, DateTime.MaxValue);
                     else if (dialog.SyncPeriod)
-                        syncPeriod = new Period(MVM.PeriodText);
+                        syncPeriod = new Period(Calendar.PeriodText);
                     else
                         syncPeriod = new Period(dialog.Start, dialog.End.AddDays(1));
 
-                    await pDialog.ShowDialog(MainWindow.Instance, MVM.Calendar.Sync, syncPeriod);
+                    await pDialog.ShowDialog(MainWindow.Instance, Calendar.Sync, syncPeriod);
 
-                    MVM.UpdateCalendarTable();
+                    Update();
                 }
                 catch (Exception ex)
                 {
@@ -108,13 +119,13 @@ namespace Timotheus.Views.Tabs
             AddEvent dialog = new();
 
             string text;
-            if ((text = MVM.Keys.Retrieve("Settings-Address")) != string.Empty)
+            if ((text = MainViewModel.Instance.Keys.Retrieve("Settings-Address")) != string.Empty)
                 dialog.Location = text;
-            if ((text = MVM.Keys.Retrieve("Settings-EventDescription")) != string.Empty)
+            if ((text = MainViewModel.Instance.Keys.Retrieve("Settings-EventDescription")) != string.Empty)
                 dialog.Description = text;
-            if ((text = MVM.Keys.Retrieve("Settings-EventStart")) != string.Empty)
+            if ((text = MainViewModel.Instance.Keys.Retrieve("Settings-EventStart")) != string.Empty)
                 dialog.StartTime = text;
-            if ((text = MVM.Keys.Retrieve("Settings-EventEnd")) != string.Empty)
+            if ((text = MainViewModel.Instance.Keys.Retrieve("Settings-EventEnd")) != string.Empty)
                 dialog.EndTime = text;
 
             await dialog.ShowDialog(MainWindow.Instance);
@@ -123,8 +134,8 @@ namespace Timotheus.Views.Tabs
             {
                 try
                 {
-                    MVM.Calendar.Events.Add(new Event(dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location, string.Empty));
-                    MVM.UpdateCalendarTable();
+                    Calendar.AddEvent(dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location, string.Empty);
+                    Update();
                 }
                 catch (Exception ex)
                 {
@@ -141,7 +152,7 @@ namespace Timotheus.Views.Tabs
             EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
             if (ev != null)
             {
-                MVM.Remove(ev);
+                Calendar.RemoveEvent(ev);
             }
         }
 
@@ -165,7 +176,7 @@ namespace Timotheus.Views.Tabs
                 try
                 {
                     FileInfo file = new(result);
-                    MVM.ExportCalendar(file.Name, file.DirectoryName);
+                    Calendar.ExportCalendar(file.Name, file.DirectoryName);
                 }
                 catch (Exception ex)
                 {
@@ -204,7 +215,7 @@ namespace Timotheus.Views.Tabs
                         ev.Location = dialog.Location;
                         ev.Description = dialog.Description;
 
-                        MVM.UpdateCalendarTable();
+                        Update();
                     }
                     catch (Exception ex)
                     {
@@ -212,6 +223,25 @@ namespace Timotheus.Views.Tabs
                     }
                 }
             }
+        }
+
+        public override void Load()
+        {
+            if (MainViewModel.Instance.Keys.Retrieve("Calendar-Email") != string.Empty)
+            {
+                try
+                {
+                    Calendar = new(MainViewModel.Instance.Keys.Retrieve("Calendar-Email"), MainViewModel.Instance.Keys.Retrieve("Calendar-Password"), MainViewModel.Instance.Keys.Retrieve("Calendar-URL"));
+                }
+                catch (Exception) { Calendar = new(); }
+            }
+            else
+                Calendar = new();
+        }
+
+        public override void Update()
+        {
+            Calendar.UpdateCalendarTable();
         }
     }
 }

@@ -3,19 +3,24 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using System;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
 
 namespace Timotheus.Views.Tabs
 {
-    public partial class PeoplePage : UserControl
+    public partial class PeoplePage : Tab
     {
-        private MainViewModel MVM
+        public PeopleViewModel People
         {
             get
             {
-                return DataContext as MainViewModel;
+                return (PeopleViewModel)ViewModel;
+            }
+            set
+            {
+                ViewModel = value;
             }
         }
 
@@ -24,6 +29,7 @@ namespace Timotheus.Views.Tabs
 
         public PeoplePage()
         {
+            LoadingTitle = Localization.Localization.InsertKey_LoadPeople;
             AvaloniaXamlLoader.Load(this);
         }
 
@@ -43,11 +49,11 @@ namespace Timotheus.Views.Tabs
                     await messageBox.ShowDialog(MainWindow.Instance);
                     if (messageBox.DialogResult == DialogResult.OK)
                     {
-                        MVM.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
+                        People.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
                     }
                 }
                 else
-                    MVM.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
+                    People.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
             }
         }
 
@@ -55,7 +61,7 @@ namespace Timotheus.Views.Tabs
         {
             PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
             person.Active = !person.Active;
-            MVM.UpdatePeopleTable();
+            Update();
         }
 
         private void People_RowLoading(object sender, DataGridRowEventArgs e)
@@ -74,19 +80,38 @@ namespace Timotheus.Views.Tabs
             PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
             if (person != null)
             {
-                MVM.Remove(person);
+                People.RemovePerson(person);
             }
         }
 
         private void ToggleInactive_Click(object sender, RoutedEventArgs e)
         {
-            MVM.ShowInactive = !MVM.ShowInactive;
-            MVM.UpdatePeopleTable();
+            People.ShowInactive = !People.ShowInactive;
+            Update();
         }
 
         private void SearchPeople(object sender, KeyEventArgs e)
         {
-            MVM.UpdatePeopleTable();
+            Update();
+        }
+
+        public override void Load()
+        {
+            if (MainViewModel.Instance.Keys.Retrieve("Person-File") != string.Empty)
+            {
+                try
+                {
+                    People = new(MainViewModel.Instance.Keys.Retrieve("Person-File"));
+                }
+                catch (Exception) { People = new(); }
+            }
+            else
+                People = new();
+        }
+
+        public override void Update()
+        {
+            People.UpdatePeopleTable();
         }
     }
 }
