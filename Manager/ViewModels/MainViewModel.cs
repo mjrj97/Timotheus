@@ -17,11 +17,6 @@ namespace Timotheus.ViewModels
         /// </summary>
         public int CurrentTab { get; set; }
 
-        /// <summary>
-        /// Worker that is used to track the progress of the inserting a key.
-        /// </summary>
-        public BackgroundWorker InsertingKey { get; private set; }
-
         private Register _keys = new();
         /// <summary>
         /// Register containing all the keys loaded at startup or manually from a key file (.tkey or .txt)
@@ -115,21 +110,7 @@ namespace Timotheus.ViewModels
                 NotifyPropertyChanged(nameof(Events));
             }
         }
-
-        private ObservableCollection<FileViewModel> _Files = new();
-        /// <summary>
-        /// A list of files in the current directory.
-        /// </summary>
-        public ObservableCollection<FileViewModel> Files
-        {
-            get => _Files;
-            set
-            {
-                _Files = value;
-                NotifyPropertyChanged(nameof(Files));
-            }
-        }
-
+        
         private ObservableCollection<PersonViewModel> _People = new();
         /// <summary>
         /// A list of people that has made consent.
@@ -141,40 +122,6 @@ namespace Timotheus.ViewModels
             {
                 _People = value;
                 NotifyPropertyChanged(nameof(People));
-            }
-        }
-
-        private DirectoryViewModel _Directory = new();
-        /// <summary>
-        /// A SFTP object connecting a local and remote directory.
-        /// </summary>
-        public DirectoryViewModel Directory
-        {
-            get
-            {
-                return _Directory;
-            }
-            set
-            {
-                _Directory = value;
-                GoToDirectory(_Directory.RemotePath);
-            }
-        }
-
-        private string _currentDirectory = string.Empty;
-        /// <summary>
-        /// The directory currently being shown.
-        /// </summary>
-        public string CurrentDirectory
-        {
-            get
-            {
-                return _currentDirectory;
-            }
-            set
-            {
-                _currentDirectory = value;
-                NotifyPropertyChanged(nameof(CurrentDirectory));
             }
         }
 
@@ -224,24 +171,31 @@ namespace Timotheus.ViewModels
             }
         }
 
+        private static MainViewModel s_instance;
+        public static MainViewModel Instance
+        {
+            get
+            {
+                return s_instance;
+            }
+            private set
+            {
+                s_instance = value;
+            }
+        }
+
         /// <summary>
         /// Creates an instance of the MainViewModel
         /// </summary>
         public MainViewModel() {
-            InsertingKey = new();
-            InsertingKey.DoWork += InsertKey;
-
+            Instance = this;
             calendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
             PeriodText = calendarPeriod.ToString();
         }
 
-        /// <summary>
-        /// Creates a new project.
-        /// </summary>
-        public void NewProject(string text = "")
+        public void NewProject(Register register)
         {
-            Keys = new Register(':', text);
-            InsertKey(null, null);
+            Keys = register;
             UpdateCalendarTable();
             UpdatePeopleTable();
         }
@@ -331,93 +285,6 @@ namespace Timotheus.ViewModels
         {
             person.Deleted = true;
             UpdatePeopleTable();
-        }
-
-        /// <summary>
-        /// Go up a level in the directory.
-        /// </summary>
-        public void GoUpDirectory()
-        {
-            string path = Path.GetDirectoryName(CurrentDirectory) + "/";
-            if (path.Length >= Directory.RemotePath.Length)
-                GoToDirectory(path);
-        }
-
-        /// <summary>
-        /// Changes the current directory to the given path.
-        /// </summary>
-        public void GoToDirectory(string path)
-        {
-            CurrentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));
-            List<DirectoryFile> files = Directory.GetFiles(CurrentDirectory);
-            List<FileViewModel> viewFiles = new();
-            for (int i = 0; i < files.Count; i++)
-            {
-                viewFiles.Add(new FileViewModel(files[i]));
-            }
-            viewFiles.Sort((x, y) => x.SortName.CompareTo(y.SortName));
-
-            Files = new ObservableCollection<FileViewModel>(viewFiles);
-        }
-
-        /// <summary>
-        /// "Inserts" the current key, and tries to open the Calendar and File sharing system.
-        /// </summary>
-        private void InsertKey(object sender, DoWorkEventArgs e)
-        {
-            if (sender != null && e != null)
-            {
-                InsertingKey.ReportProgress(0, Localization.Localization.InsertKey_LoadFiles);
-                if (InsertingKey.CancellationPending == true)
-                    return;
-            }
-
-            if (Keys.Retrieve("SSH-LocalDirectory") != string.Empty)
-            {
-                try
-                {
-                    Directory = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory"), Keys.Retrieve("SSH-RemoteDirectory"), Keys.Retrieve("SSH-URL"), int.Parse(Keys.Retrieve("SSH-Port") == string.Empty ? "22" : Keys.Retrieve("SSH-Port")), Keys.Retrieve("SSH-Username"), Keys.Retrieve("SSH-Password"));
-                }
-                catch (Exception) { Directory = new(); }
-            }
-            else
-                Directory = new();
-
-            if (sender != null && e != null)
-            {
-                InsertingKey.ReportProgress(33, Localization.Localization.InsertKey_LoadCalendar);
-                if (InsertingKey.CancellationPending == true)
-                    return;
-            }
-
-            if (Keys.Retrieve("Calendar-Email") != string.Empty)
-            {
-                try
-                {
-                    Calendar = new(Keys.Retrieve("Calendar-Email"), Keys.Retrieve("Calendar-Password"), Keys.Retrieve("Calendar-URL"));
-                }
-                catch (Exception) { Calendar = new(); }
-            }
-            else
-                Calendar = new();
-
-            if (sender != null && e != null)
-            {
-                InsertingKey.ReportProgress(66, Localization.Localization.InsertKey_LoadPeople);
-                if (InsertingKey.CancellationPending == true)
-                    return;
-            }
-
-            if (Keys.Retrieve("Person-File") != string.Empty)
-            {
-                try
-                {
-                    PersonRepo = new(Keys.Retrieve("Person-File"));
-                }
-                catch (Exception) { PersonRepo = new(); }
-            }
-            else
-                PersonRepo = new();
         }
 
         /// <summary>

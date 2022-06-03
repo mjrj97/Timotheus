@@ -12,19 +12,44 @@ using Timotheus.Views.Dialogs;
 
 namespace Timotheus.Views.Tabs
 {
-    public partial class FilesPage : UserControl
+    public partial class FilesPage : Tab
     {
-        private MainViewModel MVM
+        private DirectoryViewModel _Directory = new();
+        /// <summary>
+        /// A SFTP object connecting a local and remote directory.
+        /// </summary>
+        public DirectoryViewModel Directory
         {
             get
             {
-                return DataContext as MainViewModel;
+                return _Directory;
+            }
+            set
+            {
+                _Directory = value;
+                _Directory.GoToDirectory(_Directory.RemotePath);
             }
         }
 
         public FilesPage()
         {
+            LoadingTitle = Localization.Localization.InsertKey_LoadFiles;
             AvaloniaXamlLoader.Load(this);
+            DataContext = Directory;
+        }
+
+        public override void Load()
+        {
+            if (MVM.Keys.Retrieve("SSH-LocalDirectory") != string.Empty)
+            {
+                try
+                {
+                    Directory = new DirectoryViewModel(MVM.Keys.Retrieve("SSH-LocalDirectory"), MVM.Keys.Retrieve("SSH-RemoteDirectory"), MVM.Keys.Retrieve("SSH-URL"), int.Parse(MVM.Keys.Retrieve("SSH-Port") == string.Empty ? "22" : MVM.Keys.Retrieve("SSH-Port")), MVM.Keys.Retrieve("SSH-Username"), MVM.Keys.Retrieve("SSH-Password"));
+                }
+                catch (Exception) { Directory = new(); }
+            }
+            else
+                Directory = new();
         }
 
         /// <summary>
@@ -34,7 +59,7 @@ namespace Timotheus.Views.Tabs
         {
             try
             {
-                MVM.GoUpDirectory();
+                Directory.GoUpDirectory();
             }
             catch (Exception ex)
             {
@@ -53,8 +78,8 @@ namespace Timotheus.Views.Tabs
                 {
                     Title = Localization.Localization.SFTP_SyncWorker
                 };
-                await dialog.ShowDialog(MainWindow.Instance, MVM.Directory.Sync);
-                MVM.GoToDirectory(MVM.Directory.RemotePath);
+                await dialog.ShowDialog(MainWindow.Instance, Directory.Sync);
+                Directory.GoToDirectory(Directory.RemotePath);
             }
             catch (Exception ex)
             {
@@ -84,7 +109,7 @@ namespace Timotheus.Views.Tabs
                 {
                     if (dialog.Port == string.Empty)
                         dialog.Port = "22";
-                    MVM.Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
+                    Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
 
                     bool changed = false;
 
@@ -133,18 +158,20 @@ namespace Timotheus.Views.Tabs
                     if (file.IsDirectory)
                     {
                         if (file.RemoteFullName != string.Empty)
-                            MVM.GoToDirectory(file.RemoteFullName);
+                            Directory.GoToDirectory(file.RemoteFullName);
                         else
-                            MVM.GoToDirectory(file.LocalFullName);
+                            Directory.GoToDirectory(file.LocalFullName);
                     }
                     else
                     {
                         if (file.LocalFullName != string.Empty)
                         {
-                            Process p = new();
-                            p.StartInfo = new ProcessStartInfo(file.LocalFullName)
+                            Process p = new()
                             {
-                                UseShellExecute = true
+                                StartInfo = new ProcessStartInfo(file.LocalFullName)
+                                {
+                                    UseShellExecute = true
+                                }
                             };
                             p.Start();
                         }

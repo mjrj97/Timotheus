@@ -2,12 +2,15 @@
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
+using Timotheus.IO;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
+using Timotheus.Views.Tabs;
 
 namespace Timotheus.Views
 {
@@ -35,13 +38,28 @@ namespace Timotheus.Views
         }
 
         /// <summary>
+        /// Worker that is used to track the progress of the inserting a key.
+        /// </summary>
+        public BackgroundWorker InsertingKey { get; private set; }
+
+        public List<Tab> Tabs { get; set; }
+
+        /// <summary>
         /// Constructor. Creates datacontext and loads XAML.
         /// </summary>
         public MainWindow()
         {
             Instance = this;
             mvm = new();
+            InsertingKey = new();
+            InsertingKey.DoWork += InsertKey;
             AvaloniaXamlLoader.Load(this);
+
+            Tabs = new List<Tab>
+            {
+                this.FindControl<Tab>("FilPage")
+            };
+
             Closing += OnWindowClose;
             DataContext = mvm;
         }
@@ -170,7 +188,12 @@ namespace Timotheus.Views
             try
             {
                 dialog.Title = Localization.Localization.InsertKey_Dialog;
-                await dialog.ShowDialog(this, mvm.InsertingKey);
+                await dialog.ShowDialog(this, InsertingKey);
+
+                // WORK AROUND - Cannot set data context in InsertingKey because it is on another thread.
+                FilesPage page = (FilesPage)Tabs[0];
+                page.DataContext = page.Directory;
+
                 mvm.UpdateCalendarTable();
                 mvm.UpdatePeopleTable();
             }
@@ -205,19 +228,77 @@ namespace Timotheus.Views
         }
 
         /// <summary>
+        /// "Inserts" the current key, and tries to open the Calendar and File sharing system.
+        /// </summary>
+        private void InsertKey(object sender, DoWorkEventArgs e)
+        {
+            for (int i = 0; i < Tabs.Count; i++)
+            {
+                if (sender != null && e != null)
+                {
+                    InsertingKey.ReportProgress(100/(Tabs.Count)*i, Tabs[i].LoadingTitle);
+                    if (InsertingKey.CancellationPending == true)
+                        return;
+                }
+
+                Tabs[i].Load();
+            }
+
+            if (sender != null && e != null)
+            {
+                InsertingKey.ReportProgress(33, Localization.Localization.InsertKey_LoadCalendar);
+                if (InsertingKey.CancellationPending == true)
+                    return;
+            }
+
+            if (mvm.Keys.Retrieve("Calendar-Email") != string.Empty)
+            {
+                try
+                {
+                    mvm.Calendar = new(mvm.Keys.Retrieve("Calendar-Email"), mvm.Keys.Retrieve("Calendar-Password"), mvm.Keys.Retrieve("Calendar-URL"));
+                }
+                catch (Exception) { mvm.Calendar = new(); }
+            }
+            else
+                mvm.Calendar = new();
+
+            if (sender != null && e != null)
+            {
+                InsertingKey.ReportProgress(66, Localization.Localization.InsertKey_LoadPeople);
+                if (InsertingKey.CancellationPending == true)
+                    return;
+            }
+
+            if (mvm.Keys.Retrieve("Person-File") != string.Empty)
+            {
+                try
+                {
+                    mvm.PersonRepo = new(mvm.Keys.Retrieve("Person-File"));
+                }
+                catch (Exception) { mvm.PersonRepo = new(); }
+            }
+            else
+                mvm.PersonRepo = new();
+        }
+
+        /// <summary>
         /// Clears the Calendar and Directory.
         /// </summary>
         private async void NewProject_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox msDialog = new();
-            msDialog.DialogTitle = Localization.Localization.ToolStrip_NewFile;
-            msDialog.DialogText = Localization.Localization.ToolStrip_NewSecure;
+            MessageBox msDialog = new()
+            {
+                DialogTitle = Localization.Localization.ToolStrip_NewFile,
+                DialogText = Localization.Localization.ToolStrip_NewSecure
+            };
             await msDialog.ShowDialog(this);
             if (msDialog.DialogResult == DialogResult.OK)
             {
                 Timotheus.Registry.Delete("KeyPath");
                 Timotheus.Registry.Delete("KeyPassword");
-                mvm.NewProject();
+
+                mvm.NewProject(new Register(':'));
+                InsertKey(null, null);
             }
         }
 
@@ -519,7 +600,8 @@ namespace Timotheus.Views
             {
                 try
                 {
-                    mvm.NewProject(dialog.Text);
+                    mvm.NewProject(new Register(':', dialog.Text));
+                    InsertKey(null, null);
                 }
                 catch (Exception ex)
                 {

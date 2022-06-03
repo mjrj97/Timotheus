@@ -69,7 +69,7 @@
             <TextBlock Text="{x:Static i18n:Localization.SFTP_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
           </DockPanel>
         </TabItem.Header>
-		<uc:FilesPage/>
+		<uc:FilesPage Name="FilPage"/>
       </TabItem>
 	  <TabItem>
 		<TabItem.Header>

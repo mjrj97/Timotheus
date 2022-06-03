@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" Width="450" SizeToContent="Height"
-        x:Class="Timotheus.Views.SetupSFTP"
+        x:Class="Timotheus.Views.Dialogs.SetupSFTP"
         Title="{x:Static i18n:Localization.SFTPSetup}">
 
   <DockPanel Margin="20">

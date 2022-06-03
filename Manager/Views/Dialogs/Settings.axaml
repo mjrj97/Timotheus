@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d"
-        x:Class="Timotheus.Views.Settings"
+        x:Class="Timotheus.Views.Dialogs.Settings"
         Title="{x:Static i18n:Localization.Settings}" Width="500" SizeToContent="Height">
 	<StackPanel Margin="10">
 		<Border Classes="t1" DockPanel.Dock="Top" Padding="4">
