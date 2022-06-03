@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        x:Class="Timotheus.Views.UpdateWindow"
+        x:Class="Timotheus.Views.Dialogs.UpdateWindow"
 		Title="{Binding DialogTitle}" SizeToContent="WidthAndHeight" MaxWidth="300">
 	<StackPanel HorizontalAlignment="Center" Margin="10">
 		<Image Source="/Resources/Icon.ico" Width="100"/>

@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" Width="440" SizeToContent="Height"
-        x:Class="Timotheus.Views.AddEvent"
+        x:Class="Timotheus.Views.Dialogs.AddEvent"
         Title="{x:Static i18n:Localization.AddEvent}">
 
   <DockPanel Margin="20">

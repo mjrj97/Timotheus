@@ -5,18 +5,50 @@ using System.Runtime.InteropServices;
 using System.ComponentModel;
 using Timotheus.IO;
 using Timotheus.Utility;
+using System.Collections.ObjectModel;
 
 namespace Timotheus.ViewModels
 {
     /// <summary>
     /// Class that contains (S)FTP related methods.
     /// </summary>
-    public class DirectoryViewModel
+    public class DirectoryViewModel : ViewModel
     {
         /// <summary>
         /// Client that is connected to the remote directory.
         /// </summary>
         private readonly DirectoryClient client;
+
+        private string _currentDirectory = string.Empty;
+        /// <summary>
+        /// The directory currently being shown.
+        /// </summary>
+        public string CurrentDirectory
+        {
+            get
+            {
+                return _currentDirectory;
+            }
+            set
+            {
+                _currentDirectory = value;
+                NotifyPropertyChanged(nameof(CurrentDirectory));
+            }
+        }
+
+        private ObservableCollection<FileViewModel> _Files = new();
+        /// <summary>
+        /// A list of files in the current directory.
+        /// </summary>
+        public ObservableCollection<FileViewModel> Files
+        {
+            get => _Files;
+            set
+            {
+                _Files = value;
+                NotifyPropertyChanged(nameof(Files));
+            }
+        }
 
         /// <summary>
         /// The path of the local directory to be watched and synced with.
@@ -62,12 +94,27 @@ namespace Timotheus.ViewModels
                 throw new Exception("Port is not supported.");
 
             client = new DirectoryClient(host, port, username, password);
+
+            GoToDirectory(RemotePath);
         }
         public DirectoryViewModel(string localPath, string remotePath, string host, string username, string password) : this(localPath, remotePath, host, 22, username, password) { }
         public DirectoryViewModel()
         {
             Sync = new();
             Sync.DoWork += Synchronize;
+
+            var startTimeSpan = TimeSpan.Zero;
+            var periodTimeSpan = TimeSpan.FromMinutes(1);
+
+            var timer = new System.Threading.Timer((e) =>
+            {
+                MyMethod();
+            }, null, startTimeSpan, periodTimeSpan);
+        }
+
+        private static void MyMethod()
+        {
+            File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Test.txt", DateTime.Now.ToString() + "\n");
         }
 
         /// <summary>
@@ -245,6 +292,33 @@ namespace Timotheus.ViewModels
                 client.Disconnect();
             }
             #endregion
+        }
+
+        /// <summary>
+        /// Go up a level in the directory.
+        /// </summary>
+        public void GoUpDirectory()
+        {
+            string path = Path.GetDirectoryName(CurrentDirectory) + "/";
+            if (path.Length >= RemotePath.Length)
+                GoToDirectory(path);
+        }
+
+        /// <summary>
+        /// Changes the current directory to the given path.
+        /// </summary>
+        public void GoToDirectory(string path)
+        {
+            CurrentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));
+            List<DirectoryFile> files = GetFiles(CurrentDirectory);
+            List<FileViewModel> viewFiles = new();
+            for (int i = 0; i < files.Count; i++)
+            {
+                viewFiles.Add(new FileViewModel(files[i]));
+            }
+            viewFiles.Sort((x, y) => x.SortName.CompareTo(y.SortName));
+
+            Files = new ObservableCollection<FileViewModel>(viewFiles);
         }
 
         /// <summary>
