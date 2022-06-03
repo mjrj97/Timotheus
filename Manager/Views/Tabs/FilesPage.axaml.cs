@@ -231,5 +231,10 @@ namespace Timotheus.Views.Tabs
         {
             
         }
+
+        public override bool HasBeenChanged()
+        {
+            return false;
+        }
     }
 }

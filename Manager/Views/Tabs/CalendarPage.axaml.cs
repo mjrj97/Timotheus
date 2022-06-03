@@ -243,5 +243,10 @@ namespace Timotheus.Views.Tabs
         {
             Calendar.UpdateCalendarTable();
         }
+
+        public override bool HasBeenChanged()
+        {
+            return Calendar.HasBeenChanged;
+        }
     }
 }

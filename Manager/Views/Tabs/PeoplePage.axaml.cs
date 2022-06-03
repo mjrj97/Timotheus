@@ -113,5 +113,10 @@ namespace Timotheus.Views.Tabs
         {
             People.UpdatePeopleTable();
         }
+
+        public override bool HasBeenChanged()
+        {
+            return People.HasBeenChanged;
+        }
     }
 }

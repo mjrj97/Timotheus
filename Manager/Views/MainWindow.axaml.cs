@@ -634,9 +634,11 @@ namespace Timotheus.Views
                 {
                     Timotheus.Registry.Update("Language", dialog.SelectedLanguage == 0 ? "en-US" : "da-DK");
 
-                    MessageBox messageBox = new();
-                    messageBox.DialogTitle = Localization.Localization.Settings;
-                    messageBox.DialogText = Localization.Localization.Settings_LanguageChanged;
+                    MessageBox messageBox = new()
+                    {
+                        DialogTitle = Localization.Localization.Settings,
+                        DialogText = Localization.Localization.Settings_LanguageChanged
+                    };
                     await messageBox.ShowDialog(this);
                     if (messageBox.DialogResult == DialogResult.OK)
                     {
@@ -653,7 +655,7 @@ namespace Timotheus.Views
         {
             if (firstClose)
             {
-                if (mvm.IsThereUnsavedProgress())
+                if (IsThereUnsavedProgress())
                 {
                     e.Cancel = true;
 
@@ -669,6 +671,21 @@ namespace Timotheus.Views
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns whether the user has made progress that hasn't been saved.
+        /// </summary>
+        public bool IsThereUnsavedProgress()
+        {
+            bool isThereUnsavedProgress = false;
+
+            for (int i = 0; i < Tabs.Count; i++)
+            {
+                isThereUnsavedProgress |= Tabs[i].HasBeenChanged();
+            }
+
+            return isThereUnsavedProgress;
         }
 
         public async void Error(string title, string message)

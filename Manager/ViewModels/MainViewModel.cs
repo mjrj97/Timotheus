@@ -85,18 +85,5 @@ namespace Timotheus.ViewModels
         {
             Keys.Save(path, password);
         }
-
-        /// <summary>
-        /// Returns whether the user has made progress that hasn't been saved.
-        /// </summary>
-        public bool IsThereUnsavedProgress()
-        {
-            bool isThereUnsavedProgress = false;
-
-            isThereUnsavedProgress |= Calendar.HasBeenChanged();
-            isThereUnsavedProgress |= PersonRepo.HasBeenChanged();
-
-            return isThereUnsavedProgress;
-        }
     }
 }

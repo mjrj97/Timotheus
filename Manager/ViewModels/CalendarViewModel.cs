@@ -77,6 +77,14 @@ namespace Timotheus.ViewModels
             }
         }
 
+        public bool HasBeenChanged
+        {
+            get
+            {
+                return Calendar.HasBeenChanged();
+            }
+        }
+
         /// <summary>
         /// Worker used for synchronizing the calendar in the ProgressDialog.
         /// </summary>
