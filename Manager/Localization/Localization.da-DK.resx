@@ -582,6 +582,9 @@
   <data name="SFTP_SyncWorker" xml:space="preserve">
     <value>Synkroniserer filer</value>
   </data>
+  <data name="SFTP_UpdateButton" xml:space="preserve">
+    <value>Opdatér</value>
+  </data>
   <data name="SyncCalendar" xml:space="preserve">
     <value>Synkronisér</value>
   </data>

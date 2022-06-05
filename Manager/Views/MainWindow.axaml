@@ -18,35 +18,35 @@
 				 </DockPanel>
 			 </MenuItem.Header>
         </MenuItem>
-		  <MenuItem Click="SaveKey_Click">
-			  <MenuItem.Header>
-				  <DockPanel>
-					  <Image Source="/Resources/Key.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
-					  <TextBlock Text="{x:Static i18n:Localization.ToolStrip_SaveKey}" VerticalAlignment="Center"/>
-				  </DockPanel>
-			  </MenuItem.Header>
-		  </MenuItem>
-		  <MenuItem Click="SaveAsKey_Click">
-			  <MenuItem.Header>
-				  <DockPanel>
-					  <TextBlock Text="{x:Static i18n:Localization.ToolStrip_SaveAsKey}" VerticalAlignment="Center"/>
-				  </DockPanel>
-			  </MenuItem.Header>
-		  </MenuItem>
-		  <MenuItem Click="OpenKey_Click">
-			  <MenuItem.Header>
-				  <DockPanel>
-					  <TextBlock Text="{x:Static i18n:Localization.ToolStrip_LoadKey}" VerticalAlignment="Center"/>
-				  </DockPanel>
-			  </MenuItem.Header>
-		  </MenuItem>
-		  <MenuItem Click="EditKey_Click">
-			  <MenuItem.Header>
-				  <DockPanel>
-					  <TextBlock Text="{x:Static i18n:Localization.ToolStrip_EditKey}" VerticalAlignment="Center"/>
-				  </DockPanel>
-			  </MenuItem.Header>
-		  </MenuItem>
+		<MenuItem Click="SaveKey_Click">
+			<MenuItem.Header>
+				<DockPanel>
+					<Image Source="/Resources/Key.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
+					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_SaveKey}" VerticalAlignment="Center"/>
+				</DockPanel>
+			</MenuItem.Header>
+		</MenuItem>
+		<MenuItem Click="SaveAsKey_Click">
+			<MenuItem.Header>
+				<DockPanel>
+					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_SaveAsKey}" VerticalAlignment="Center"/>
+				</DockPanel>
+			</MenuItem.Header>
+		</MenuItem>
+		<MenuItem Click="OpenKey_Click">
+			<MenuItem.Header>
+				<DockPanel>
+					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_LoadKey}" VerticalAlignment="Center"/>
+				</DockPanel>
+			</MenuItem.Header>
+		</MenuItem>
+		<MenuItem Click="EditKey_Click">
+			<MenuItem.Header>
+				<DockPanel>
+					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_EditKey}" VerticalAlignment="Center"/>
+				</DockPanel>
+			</MenuItem.Header>
+		</MenuItem>
 		<MenuItem Click="Settings_Click">
 			<MenuItem.Header>
 				<DockPanel>

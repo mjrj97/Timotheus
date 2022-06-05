@@ -118,6 +118,14 @@ namespace Timotheus.ViewModels
         }
 
         /// <summary>
+        /// Returns whether the directory exists.
+        /// </summary>
+        public bool DirectoryExists(string path)
+        {
+            return client.Exists(path, true);
+        }
+
+        /// <summary>
         /// Downloads the entire remote directory and every file under each subfolder to the local directory.
         /// </summary>
         /// <param name="remotePath">Path of the directory on the server.</param>

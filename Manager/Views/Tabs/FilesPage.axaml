@@ -13,6 +13,12 @@
 				</DockPanel>
 			</Button>
 			<DockPanel DockPanel.Dock="Right">
+				<Button Click="UpdateDirectory_Click" Height="32" Margin="0 0 10 0">
+					<DockPanel>
+						<Image Source="/Resources/Update.png" Height="17" VerticalAlignment="Center"/>
+						<TextBlock Text="{x:Static i18n:Localization.SFTP_UpdateButton}" Margin="5 0" VerticalAlignment="Center"/>
+					</DockPanel>
+				</Button>
 				<Button Click="SyncFiles_Click" Height="32" Margin="0 0 10 0">
 					<DockPanel>
 						<Image Source="/Resources/Sync.png" Height="17" VerticalAlignment="Center"/>
