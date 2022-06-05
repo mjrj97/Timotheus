@@ -4,11 +4,6 @@ namespace Timotheus.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        /// <summary>
-        /// Index of the currently open tab.
-        /// </summary>
-        public int CurrentTab { get; set; }
-
         private Register _keys = new();
         /// <summary>
         /// Register containing all the keys loaded at startup or manually from a key file (.tkey or .txt)
@@ -45,6 +40,9 @@ namespace Timotheus.ViewModels
             Instance = this;
         }
 
+        /// <summary>
+        /// Creates a new project with the given register.
+        /// </summary>
         public void NewProject(Register register)
         {
             Keys = register;

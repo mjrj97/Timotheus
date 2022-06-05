@@ -646,7 +646,7 @@
     <value>Ny</value>
   </data>
   <data name="ToolStrip_NewSecure" xml:space="preserve">
-    <value>Er du sikker på at du vil lave et nyt projekt? Ikke gemt data vil blive slettet.</value>
+    <value>Er du sikker på at du vil lave et nyt projekt? Alt der ikke er gemt, vil blive slettet.</value>
   </data>
   <data name="ToolStrip_OpenFile" xml:space="preserve">
     <value>Åben</value>

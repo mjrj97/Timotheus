@@ -112,6 +112,76 @@ namespace Timotheus.Views.Tabs
         }
 
         /// <summary>
+        /// Opens a SaveFileDialog to save the current Calendar.
+        /// </summary>
+        private async void Save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new();
+            FileDialogFilter filter = new();
+            string result;
+
+            filter.Extensions.Add("ics");
+            filter.Name = "Calendar (.ics)";
+
+            saveFileDialog.Filters = new();
+            saveFileDialog.Filters.Add(filter);
+
+            result = await saveFileDialog.ShowAsync(MainWindow.Instance);
+            if (result != null)
+            {
+                try
+                {
+                    Calendar.Save(result);
+                }
+                catch (Exception ex)
+                {
+                    MainWindow.Instance.Error(Localization.Localization.Exception_Saving, ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Opens a OpenCalendar dialog
+        /// </summary>
+        private async void Open_Click(object sender, RoutedEventArgs e)
+        {
+            OpenCalendar dialog = new()
+            {
+                Username = MainViewModel.Instance.Keys.Retrieve("Calendar-Email"),
+                Password = MainViewModel.Instance.Keys.Retrieve("Calendar-Password"),
+                URL = MainViewModel.Instance.Keys.Retrieve("Calendar-URL"),
+                Path = MainViewModel.Instance.Keys.Retrieve("Calendar-Path")
+            };
+
+            await dialog.ShowDialog(MainWindow.Instance);
+
+            if (dialog.DialogResult == DialogResult.OK)
+            {
+                try
+                {
+                    if (dialog.IsRemote)
+                    {
+                        Calendar = new(dialog.Username, dialog.Password, dialog.URL);
+                        MainViewModel.Instance.Keys.Update("Calendar-Email", dialog.Username);
+                        MainViewModel.Instance.Keys.Update("Calendar-Password", dialog.Password);
+                        MainViewModel.Instance.Keys.Update("Calendar-URL", dialog.URL);
+                        Update();
+                    }
+                    else
+                    {
+                        Calendar = new(dialog.Path);
+                        MainViewModel.Instance.Keys.Update("Calendar-Path", dialog.Path);
+                        Update();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainWindow.Instance.Error(Localization.Localization.Exception_InvalidCalendar, ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
         /// Opens a AddEvent dialog, and adds the result to the current calendar.
         /// </summary>
         private async void AddEvent_Click(object sender, RoutedEventArgs e)

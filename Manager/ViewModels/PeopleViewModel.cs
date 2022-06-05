@@ -102,6 +102,11 @@ namespace Timotheus.ViewModels
                 PersonRepo = new();
         }
 
+        public void Save(string path)
+        {
+            PersonRepo.Save(path);
+        }
+
         /// <summary>
         /// Updates the contents of the persons/people table.
         /// </summary>

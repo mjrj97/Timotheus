@@ -57,6 +57,55 @@ namespace Timotheus.Views.Tabs
             }
         }
 
+        /// <summary>
+        /// Opens a SaveFileDialog to save the current Calendar.
+        /// </summary>
+        private async void Save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new();
+            FileDialogFilter filter = new();
+            string result;
+
+            filter.Extensions.Add("csv");
+            filter.Name = "CSV (.csv)";
+
+            saveFileDialog.Filters = new();
+            saveFileDialog.Filters.Add(filter);
+
+            result = await saveFileDialog.ShowAsync(MainWindow.Instance);
+            if (result != null)
+            {
+                try
+                {
+                    People.Save(result);
+                }
+                catch (Exception ex)
+                {
+                    MainWindow.Instance.Error(Localization.Localization.Exception_Saving, ex.Message);
+                }
+            }
+        }
+
+        private async void Open_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new();
+
+            FileDialogFilter txtFilter = new();
+            txtFilter.Extensions.Add("csv");
+            txtFilter.Name = "CSV (.csv)";
+
+            openFileDialog.Filters = new();
+            openFileDialog.Filters.Add(txtFilter);
+
+            string[] result = await openFileDialog.ShowAsync(MainWindow.Instance);
+            if (result != null && result.Length > 0)
+            {
+                People = new(result[0]);
+                Update();
+                MainViewModel.Instance.Keys.Update("Person-File", result[0]);
+            }
+        }
+
         private void ToggleActivePerson_Click(object sender, RoutedEventArgs e)
         {
             PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;

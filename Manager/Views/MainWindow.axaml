@@ -10,30 +10,43 @@
   <DockPanel>
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
-        <MenuItem>
-			<MenuItem.Header>
-				<DockPanel>
-					<Image Source="/Resources/File.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
-					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_File}" VerticalAlignment="Center"/>
-				</DockPanel>
-			</MenuItem.Header>
-            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_NewFile}" Click="NewProject_Click"/>
-            <Separator/>
-            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveFile}" Click="Save_Click"/>
-            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_OpenFile}" Click="Open_Click"/>
+		<MenuItem Click="NewProject_Click">
+			 <MenuItem.Header>
+				 <DockPanel>
+					 <Image Source="/Resources/File.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
+					 <TextBlock Text="{x:Static i18n:Localization.ToolStrip_NewFile}" VerticalAlignment="Center"/>
+				 </DockPanel>
+			 </MenuItem.Header>
         </MenuItem>
-        <MenuItem>
-			<MenuItem.Header>
-				<DockPanel>
-					<Image Source="/Resources/Key.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
-					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_Key}" VerticalAlignment="Center"/>
-				</DockPanel>
-			</MenuItem.Header>
-            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveKey}" Click="SaveKey_Click"/>
-			<MenuItem Header="{x:Static i18n:Localization.ToolStrip_SaveAsKey}" Click="SaveAsKey_Click"/>
-			<MenuItem Header="{x:Static i18n:Localization.ToolStrip_LoadKey}" Click="OpenKey_Click"/>
-            <MenuItem Header="{x:Static i18n:Localization.ToolStrip_EditKey}" Click="EditKey_Click"/>
-        </MenuItem>
+		  <MenuItem Click="SaveKey_Click">
+			  <MenuItem.Header>
+				  <DockPanel>
+					  <Image Source="/Resources/Key.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
+					  <TextBlock Text="{x:Static i18n:Localization.ToolStrip_SaveKey}" VerticalAlignment="Center"/>
+				  </DockPanel>
+			  </MenuItem.Header>
+		  </MenuItem>
+		  <MenuItem Click="SaveAsKey_Click">
+			  <MenuItem.Header>
+				  <DockPanel>
+					  <TextBlock Text="{x:Static i18n:Localization.ToolStrip_SaveAsKey}" VerticalAlignment="Center"/>
+				  </DockPanel>
+			  </MenuItem.Header>
+		  </MenuItem>
+		  <MenuItem Click="OpenKey_Click">
+			  <MenuItem.Header>
+				  <DockPanel>
+					  <TextBlock Text="{x:Static i18n:Localization.ToolStrip_LoadKey}" VerticalAlignment="Center"/>
+				  </DockPanel>
+			  </MenuItem.Header>
+		  </MenuItem>
+		  <MenuItem Click="EditKey_Click">
+			  <MenuItem.Header>
+				  <DockPanel>
+					  <TextBlock Text="{x:Static i18n:Localization.ToolStrip_EditKey}" VerticalAlignment="Center"/>
+				  </DockPanel>
+			  </MenuItem.Header>
+		  </MenuItem>
 		<MenuItem Click="Settings_Click">
 			<MenuItem.Header>
 				<DockPanel>
