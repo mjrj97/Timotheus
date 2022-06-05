@@ -462,7 +462,7 @@ namespace Timotheus.ViewModels
         /// <returns></returns>
         public bool IsThereUnsavedProgress()
         {
-            return true;
+            return false;
         }
     }
 }
