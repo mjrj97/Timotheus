@@ -12,6 +12,10 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="Fonts\Arvo-Bold.ttf" />
+    <None Remove="Fonts\Arvo-BoldItalic.ttf" />
+    <None Remove="Fonts\Arvo-Italic.ttf" />
+    <None Remove="Fonts\Arvo-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.15" />
@@ -26,12 +30,16 @@
    </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Resources\**" />
+	<AvaloniaResource Include="Fonts\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Localization\Localization.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Localization.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tabs\FilesPage.axaml.cs">
+      <DependentUpon>FilesPage.axaml</DependentUpon>
     </Compile>
     <EmbeddedResource Update="Localization\Localization.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

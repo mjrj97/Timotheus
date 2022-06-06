@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i18n="clr-namespace:Timotheus.Localization"
-        x:Class="Timotheus.Views.AddConsentForm"
+        x:Class="Timotheus.Views.Dialogs.AddConsentForm"
 		Width="440" SizeToContent="Height"
         Title="{x:Static i18n:Localization.AddConsentForm}">
 	<DockPanel Margin="20">

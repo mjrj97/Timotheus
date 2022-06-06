@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:i18n="clr-namespace:Timotheus.Localization"
-        x:Class="Timotheus.Views.FirstTimeSetup"
+        x:Class="Timotheus.Views.Dialogs.FirstTimeSetup"
         Title="{x:Static i18n:Localization.FirstTime_Welcome}" Width="300" SizeToContent="Height">
 	<StackPanel Margin="10">
 		<Image Source="/Resources/Icon.ico" Width="100" Height="100" HorizontalAlignment="Center"/>

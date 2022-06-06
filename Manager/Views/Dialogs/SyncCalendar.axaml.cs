@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 using System;
 using Timotheus.Utility;
 
-namespace Timotheus.Views
+namespace Timotheus.Views.Dialogs
 {
     /// <summary>
     /// Dialog where the user can setup the sync settings for the calendar.
@@ -137,7 +137,7 @@ namespace Timotheus.Views
         {
             get
             {
-                return !(UseCurrent);
+                return !UseCurrent;
             }
         }
 

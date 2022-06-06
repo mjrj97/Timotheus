@@ -267,11 +267,17 @@
   <data name="Exception_LoadFailed" xml:space="preserve">
     <value>Kunne ikke læse fil</value>
   </data>
+  <data name="Exception_Message" xml:space="preserve">
+    <value>Besked</value>
+  </data>
   <data name="Exception_Name" xml:space="preserve">
     <value>Fejl</value>
   </data>
   <data name="Exception_NoKeys" xml:space="preserve">
     <value>Nøglefil kunne ikke læses</value>
+  </data>
+  <data name="Exception_SaveSuccessful" xml:space="preserve">
+    <value>Fil gemt!</value>
   </data>
   <data name="Exception_Saving" xml:space="preserve">
     <value>Kunne ikke gemme fil</value>

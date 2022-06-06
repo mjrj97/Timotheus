@@ -13,7 +13,7 @@ namespace Timotheus.Schedule
     /// <summary>
     /// Calendar object that contains a list of events, and is used to add/remove events on a remote calendar using iCal and CalDAV.
     /// </summary>
-    public class Calendar
+    public class Calendar : ISaveable
     {
         /// <summary>
         /// Username and password used to gain access to remote calendar.
@@ -282,6 +282,67 @@ namespace Timotheus.Schedule
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns whether the calendar has been edited.
+        /// </summary>
+        public bool HasBeenChanged()
+        {
+            bool hasBeenChanged = false;
+            
+            if (IsSetup())
+            {
+                Period period = new(DateTime.MinValue, DateTime.MaxValue);
+                List<Event> remoteEvents = LoadFromLines(HttpRequest(url, credentials));
+                bool[] foundLocal = new bool[Events.Count];
+                bool[] foundRemote = new bool[remoteEvents.Count];
+
+                for (int i = 0; i < Events.Count && !hasBeenChanged; i++)
+                {
+                    for (int j = 0; j < remoteEvents.Count; j++)
+                    {
+                        if (Events[i].UID == remoteEvents[j].UID)
+                        {
+                            foundLocal[i] = true;
+                            foundRemote[j] = true;
+
+                            if (Events[i].In(period))
+                            {
+                                if (Events[i].Deleted)
+                                {
+                                    hasBeenChanged = true;
+                                }
+                                else if (!Events[i].Equals(remoteEvents[j]))
+                                {
+                                    if (Events[i].Changed >= remoteEvents[j].Changed)
+                                    {
+                                        hasBeenChanged = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < Events.Count && !hasBeenChanged; i++)
+                {
+                    if (Events[i].In(period))
+                    {
+                        if (!foundLocal[i] && !Events[i].Deleted)
+                            hasBeenChanged = true;
+                    }
+                }
+                for (int i = 0; i < remoteEvents.Count && !hasBeenChanged; i++)
+                {
+                    if (remoteEvents[i].In(period))
+                    {
+                        if (!foundRemote[i])
+                            hasBeenChanged = true;
+                    }
+                }
+            }
+
+            return hasBeenChanged;
         }
 
         /// <summary>

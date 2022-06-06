@@ -4,13 +4,13 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using Timotheus.Utility;
 
-namespace Timotheus.Views
+namespace Timotheus.Views.Dialogs
 {
     public partial class Settings : Dialog
     {
         private string _associationName = string.Empty;
         public string AssociationName
-        { 
+        {
             get
             {
                 return _associationName;
@@ -106,8 +106,8 @@ namespace Timotheus.Views
         public int SelectedLanguage
         {
             get { return _selectedLanguage; }
-            set 
-            { 
+            set
+            {
                 _selectedLanguage = value;
                 NotifyPropertyChanged(nameof(SelectedLanguage));
             }
@@ -118,8 +118,8 @@ namespace Timotheus.Views
         public bool LookForUpdates
         {
             get { return _lookForUpdates; }
-            set 
-            { 
+            set
+            {
                 _lookForUpdates = value;
                 NotifyPropertyChanged(nameof(LookForUpdates));
             }

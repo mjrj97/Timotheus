@@ -3,7 +3,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Timotheus.Utility;
 
-namespace Timotheus.Views
+namespace Timotheus.Views.Dialogs
 {
     /// <summary>
     /// A dialog where the user can setup SFTP.
@@ -17,7 +17,7 @@ namespace Timotheus.Views
         public string Host
         {
             get => _host;
-            set 
+            set
             {
                 _host = value;
                 NotifyPropertyChanged(nameof(Host));

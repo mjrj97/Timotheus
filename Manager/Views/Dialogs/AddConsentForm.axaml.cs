@@ -8,7 +8,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using Timotheus.Utility;
 
-namespace Timotheus.Views
+namespace Timotheus.Views.Dialogs
 {
     public partial class AddConsentForm : Dialog
     {
@@ -16,7 +16,7 @@ namespace Timotheus.Views
         /// <summary>
         /// The name of the person giving consent.
         /// </summary>
-        public string ConsentName 
+        public string ConsentName
         {
             get
             {
@@ -137,7 +137,7 @@ namespace Timotheus.Views
         public AddConsentForm()
         {
             ConsentDate = DateTime.Now.Date;
-            
+
             string[] months = DateTimeFormatInfo.CurrentInfo.MonthNames;
             Months = new List<string>();
             for (int i = 0; i < months.Length - 1; i++) { Months.Add(months[i]); }

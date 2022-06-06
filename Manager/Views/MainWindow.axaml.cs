@@ -1,18 +1,16 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
-using Avalonia.VisualTree;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using Timotheus.Schedule;
+using Timotheus.IO;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
+using Timotheus.Views.Dialogs;
+using Timotheus.Views.Tabs;
 
 namespace Timotheus.Views
 {
@@ -26,13 +24,44 @@ namespace Timotheus.Views
         /// </summary>
         private readonly MainViewModel mvm;
 
+        private static MainWindow s_instance;
+        public static MainWindow Instance
+        {
+            get
+            {
+                return s_instance;
+            }
+            private set
+            {
+                s_instance = value;
+            }
+        }
+
+        /// <summary>
+        /// Worker that is used to track the progress of the inserting a key.
+        /// </summary>
+        public BackgroundWorker InsertingKey { get; private set; }
+
+        public List<Tab> Tabs { get; set; }
+
         /// <summary>
         /// Constructor. Creates datacontext and loads XAML.
         /// </summary>
         public MainWindow()
         {
+            Instance = this;
             mvm = new();
+            InsertingKey = new();
+            InsertingKey.DoWork += InsertKey;
             AvaloniaXamlLoader.Load(this);
+
+            Tabs = new List<Tab>
+            {
+                this.FindControl<Tab>("CalPage"),
+                this.FindControl<Tab>("FilPage"),
+                this.FindControl<Tab>("PeoPage")
+            };
+
             Closing += OnWindowClose;
             DataContext = mvm;
         }
@@ -161,469 +190,84 @@ namespace Timotheus.Views
             try
             {
                 dialog.Title = Localization.Localization.InsertKey_Dialog;
-                await dialog.ShowDialog(this, mvm.InsertingKey);
-                mvm.UpdateCalendarTable();
-                mvm.UpdatePeopleTable();
+                await dialog.ShowDialog(this, InsertingKey);
+
+                // WORK AROUND - Cannot set data context in InsertingKey because it is on another thread.
+                foreach (Tab tab in Tabs)
+                {
+                    tab.DataContext = tab.ViewModel;
+                    tab.Update();
+                }
             }
             catch (Exception ex)
             {
                 Error(Localization.Localization.Exception_Name, ex.Message);
             }
 
-            if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory")))
+            if (mvm.Keys.Retrieve("SSH-URL") != string.Empty)
             {
-                MessageBox messageBox = new();
-                messageBox.DialogTitle = Localization.Localization.Exception_Name;
-                messageBox.DialogText = Localization.Localization.Exception_FolderNotFound;
-                await messageBox.ShowDialog(this);
-                if (messageBox.DialogResult == DialogResult.OK)
+                if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory")))
                 {
-                    OpenFolderDialog openFolder = new();
-                    string path = await openFolder.ShowAsync(this);
-                    if (path != string.Empty && path != null)
+                    MessageBox messageBox = new();
+                    messageBox.DialogTitle = Localization.Localization.Exception_Name;
+                    messageBox.DialogText = Localization.Localization.Exception_FolderNotFound;
+                    await messageBox.ShowDialog(this);
+                    if (messageBox.DialogResult == DialogResult.OK)
                     {
-                        mvm.Keys.Update("SSH-LocalDirectory", path);
-                        InsertKey();
-                        messageBox = new();
-                        messageBox.DialogTitle = Localization.Localization.InsertKey_ChangeDetected;
-                        messageBox.DialogText = Localization.Localization.InsertKey_DoYouWantToSave;
-                        await messageBox.ShowDialog(this);
-                        if (messageBox.DialogResult == DialogResult.OK)
-                            SaveKey_Click(null, null);
-                    }
-                }
-            }
-        }
-
-        #region Calendar
-        /// <summary>
-        /// Changes the selected year and calls UpdateTable.
-        /// </summary>
-        private void Period_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender != null)
-            {
-                Button button = (Button)sender;
-                if (button.Name == "+")
-                    mvm.UpdatePeriod(true);
-                else if (button.Name == "-")
-                    mvm.UpdatePeriod(false);
-            }
-        }
-
-        /// <summary>
-        /// Updates the period according to the textbox.
-        /// </summary>
-        private void Period_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Avalonia.Input.Key.Enter)
-            {
-                mvm.UpdatePeriod(((TextBox)sender).Text);
-                mvm.UpdateCalendarTable();
-            }
-        }
-
-        /// <summary>
-        /// Opens a SyncCalendar dialog to sync the current calendar.
-        /// </summary>
-        private async void SyncCalendar_Click(object sender, RoutedEventArgs e)
-        {
-            SyncCalendar dialog = new();
-            dialog.Period = mvm.PeriodText;
-            dialog.UseCurrent = mvm.Calendar.IsSetup();
-            dialog.CanUseCurrent = mvm.Calendar.IsSetup();
-
-            await dialog.ShowDialog(this);
-
-            if (dialog.DialogResult == DialogResult.OK)
-            {
-                try
-                {
-                    if (!dialog.UseCurrent)
-                    {
-                        mvm.Calendar.SetupSync(dialog.Username, dialog.Password, dialog.URL);
-                        mvm.Keys.Update("Calendar-Email", dialog.Username);
-                        mvm.Keys.Update("Calendar-Password", dialog.Password);
-                        mvm.Keys.Update("Calendar-URL", dialog.URL);
-                    }
-
-                    ProgressDialog pDialog = new();
-                    pDialog.Title = Localization.Localization.SyncCalendar_Worker;
-                    Period syncPeriod;
-                    if (dialog.SyncAll)
-                        syncPeriod = new Period(DateTime.MinValue, DateTime.MaxValue);
-                    else if (dialog.SyncPeriod)
-                        syncPeriod = new Period(mvm.PeriodText);
-                    else
-                        syncPeriod = new Period(dialog.Start, dialog.End.AddDays(1));
-
-                    await pDialog.ShowDialog(this, mvm.Calendar.Sync, syncPeriod);
-
-                    mvm.UpdateCalendarTable();
-                }
-                catch (Exception ex)
-                {
-                    Error(Localization.Localization.Exception_Sync, ex.Message);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Opens a AddEvent dialog, and adds the result to the current calendar.
-        /// </summary>
-        private async void AddEvent_Click(object sender, RoutedEventArgs e)
-        {
-            AddEvent dialog = new();
-
-            string text;
-            if ((text = mvm.Keys.Retrieve("Settings-Address")) != string.Empty)
-                dialog.Location = text;
-            if ((text = mvm.Keys.Retrieve("Settings-EventDescription")) != string.Empty)
-                dialog.Description = text;
-            if ((text = mvm.Keys.Retrieve("Settings-EventStart")) != string.Empty)
-                dialog.StartTime = text;
-            if ((text = mvm.Keys.Retrieve("Settings-EventEnd")) != string.Empty)
-                dialog.EndTime = text;
-
-            await dialog.ShowDialog(this);
-
-            if (dialog.DialogResult == DialogResult.OK)
-            {
-                try
-                {
-                    mvm.Calendar.Events.Add(new Event(dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location, string.Empty));
-                    mvm.UpdateCalendarTable();
-                }
-                catch (Exception ex)
-                {
-                    Error(Localization.Localization.Exception_InvalidEvent, ex.Message);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Marks the selected event for deletion.
-        /// </summary>
-        private void RemoveEvent_Click(object sender, RoutedEventArgs e)
-        {
-            EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
-            if (ev != null)
-            {
-                mvm.Remove(ev);
-            }
-        }
-
-        /// <summary>
-        /// Opens a SaveFileDialog to export the current Calendar (in the given period) as a PDF.
-        /// </summary>
-        private async void ExportPDF_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog saveFileDialog = new();
-            FileDialogFilter filter = new();
-            filter.Extensions.Add("pdf");
-            filter.Name = "PDF Files (.pdf)";
-
-            saveFileDialog.Filters = new();
-            saveFileDialog.Filters.Add(filter);
-
-            string result = await saveFileDialog.ShowAsync(this);
-
-            if (result != null)
-            {
-                try
-                {
-                    FileInfo file = new(result);
-                    mvm.ExportCalendar(file.Name, file.DirectoryName);
-                }
-                catch (Exception ex)
-                {
-                    Error(Localization.Localization.Exception_Saving, ex.Message);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Marks the selected event for deletion.
-        /// </summary>
-        private async void EditEvent_Click(object sender, RoutedEventArgs e)
-        {
-            EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
-            if (ev != null)
-            {
-                AddEvent dialog = new();
-
-                dialog.EventName = ev.Name;
-                dialog.Start = ev.StartSort;
-                dialog.End = ev.EndSort;
-                dialog.AllDayEvent = ev.AllDayEvent;
-                dialog.Location = ev.Location;
-                dialog.Description = ev.Description;
-
-                await dialog.ShowDialog(this);
-
-                if (dialog.DialogResult == DialogResult.OK)
-                {
-                    try
-                    {
-                        ev.Name = dialog.EventName;
-                        ev.Start = dialog.Start.ToString();
-                        ev.End = dialog.End.ToString();
-                        ev.Location = dialog.Location;
-                        ev.Description = dialog.Description;
-
-                        mvm.UpdateCalendarTable();
-                    }
-                    catch (Exception ex)
-                    {
-                        Error(Localization.Localization.Exception_InvalidEvent, ex.Message);
-                    }
-                }
-            }
-        }
-        #endregion
-
-        #region Files
-        /// <summary>
-        /// Goes one level up from the currently visible directory.
-        /// </summary>
-        private void UpDirectory_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                mvm.GoUpDirectory();
-            }
-            catch (Exception ex)
-            {
-                Error(Localization.Localization.Exception_Name, ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Synchronizes the files in the local and remote directory.
-        /// </summary>
-        private async void SyncFiles_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                ProgressDialog dialog = new();
-                dialog.Title = Localization.Localization.SFTP_SyncWorker;
-                await dialog.ShowDialog(this, mvm.Directory.Sync);
-                mvm.GoToDirectory(mvm.Directory.RemotePath);
-            }
-            catch (Exception ex)
-            {
-                Error(Localization.Localization.Exception_Name, ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Opens a SetupSFTP dialog to define the SFTP parameters.
-        /// </summary>
-        private async void SetupFiles_Click(object sender, RoutedEventArgs e)
-        {
-            SetupSFTP dialog = new();
-            dialog.Local = mvm.Keys.Retrieve("SSH-LocalDirectory");
-            dialog.Remote = mvm.Keys.Retrieve("SSH-RemoteDirectory");
-            dialog.Host = mvm.Keys.Retrieve("SSH-URL");
-            dialog.Port = mvm.Keys.Retrieve("SSH-Port");
-            dialog.Username = mvm.Keys.Retrieve("SSH-Username");
-            dialog.Password = mvm.Keys.Retrieve("SSH-Password");
-
-            await dialog.ShowDialog(this);
-            if (dialog.DialogResult == DialogResult.OK)
-            {
-                try
-                {
-                    if (dialog.Port == string.Empty)
-                        dialog.Port = "22";
-                    mvm.Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
-
-                    bool changed = false;
-
-                    changed |= mvm.Keys.Update("SSH-LocalDirectory", dialog.Local);
-                    changed |= mvm.Keys.Update("SSH-RemoteDirectory", dialog.Remote);
-                    changed |= mvm.Keys.Update("SSH-URL", dialog.Host);
-                    changed |= mvm.Keys.Update("SSH-Port", dialog.Port);
-                    changed |= mvm.Keys.Update("SSH-Username", dialog.Username);
-                    changed |= mvm.Keys.Update("SSH-Password", dialog.Password);
-
-                    if (changed)
-                    {
-                        MessageBox messageBox = new();
-                        messageBox.DialogTitle = Localization.Localization.InsertKey_ChangeDetected;
-                        messageBox.DialogText = Localization.Localization.InsertKey_DoYouWantToSave;
-                        await messageBox.ShowDialog(this);
-                        if (messageBox.DialogResult == DialogResult.OK)
-                            SaveKey_Click(null, null);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Error(Localization.Localization.Exception_Name, ex.Message);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Goes one level down into the selected directory.
-        /// </summary>
-        private void File_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var row = ((IControl)e.Source).GetSelfAndVisualAncestors()
-                                .OfType<DataGridRow>()
-                                .FirstOrDefault();
-
-                if (row != null)
-                {
-                    FileViewModel file = row.DataContext as FileViewModel;
-                    if (file.IsDirectory)
-                    {
-                        if (file.RemoteFullName != string.Empty)
-                            mvm.GoToDirectory(file.RemoteFullName);
-                        else
-                            mvm.GoToDirectory(file.LocalFullName);
-                    }
-                    else
-                    {
-                        if (file.LocalFullName != string.Empty)
+                        OpenFolderDialog openFolder = new();
+                        string path = await openFolder.ShowAsync(this);
+                        if (path != string.Empty && path != null)
                         {
-                            Process p = new();
-                            p.StartInfo = new ProcessStartInfo(file.LocalFullName)
-                            {
-                                UseShellExecute = true
-                            };
-                            p.Start();
+                            mvm.Keys.Update("SSH-LocalDirectory", path);
+                            InsertKey();
+                            messageBox = new();
+                            messageBox.DialogTitle = Localization.Localization.InsertKey_ChangeDetected;
+                            messageBox.DialogText = Localization.Localization.InsertKey_DoYouWantToSave;
+                            await messageBox.ShowDialog(this);
+                            if (messageBox.DialogResult == DialogResult.OK)
+                                SaveKey_Click(null, null);
                         }
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                Error(Localization.Localization.Exception_Name, ex.Message);
-            }
         }
 
-        #region Colors
-        readonly IBrush NewLight = new SolidColorBrush(Color.FromRgb(230, 255, 230));
-        readonly IBrush NewDark = new SolidColorBrush(Color.FromRgb(210, 255, 210));
-
-        readonly IBrush UpdateLight = new SolidColorBrush(Color.FromRgb(255, 255, 230));
-        readonly IBrush UpdateDark = new SolidColorBrush(Color.FromRgb(255, 255, 200));
-
-        readonly IBrush DeleteLight = new SolidColorBrush(Color.FromRgb(255, 230, 230));
-        readonly IBrush DeleteDark = new SolidColorBrush(Color.FromRgb(255, 210, 210));
-
-        readonly IBrush StdLight = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-        readonly IBrush StdDark = new SolidColorBrush(Color.FromRgb(230, 230, 230));
-        #endregion
-
-        private void Files_RowLoading(object sender, DataGridRowEventArgs e)
+        /// <summary>
+        /// "Inserts" the current key, and tries to open the Calendar and File sharing system.
+        /// </summary>
+        private void InsertKey(object sender, DoWorkEventArgs e)
         {
-            if (e.Row.DataContext is FileViewModel file)
+            for (int i = 0; i < Tabs.Count; i++)
             {
-                if (e.Row.GetIndex() % 2 == 1)
+                if (sender != null && e != null)
                 {
-                    e.Row.Background = file.Handle switch
-                    {
-                        SyncHandle.NewDownload or SyncHandle.NewUpload => NewDark,
-                        SyncHandle.Download or SyncHandle.Upload => UpdateDark,
-                        SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteDark,
-                        _ => StdDark,
-                    };
+                    InsertingKey.ReportProgress(100/(Tabs.Count)*i, Tabs[i].LoadingTitle);
+                    if (InsertingKey.CancellationPending == true)
+                        return;
                 }
-                else
-                {
-                    e.Row.Background = file.Handle switch
-                    {
-                        SyncHandle.NewDownload or SyncHandle.NewUpload => NewLight,
-                        SyncHandle.Download or SyncHandle.Upload => UpdateLight,
-                        SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteLight,
-                        _ => StdLight,
-                    };
-                }
-            }
-        }
-        #endregion
 
-        #region Consent Forms
-        private async void AddPerson_Click(object sender, RoutedEventArgs e)
-        {
-            AddConsentForm dialog = new();
-            await dialog.ShowDialog(this);
-            if (dialog.DialogResult == DialogResult.OK)
-            {
-                if (dialog.ConsentVersion == string.Empty)
-                {
-                    MessageBox messageBox = new();
-                    messageBox.DialogTitle = Localization.Localization.Exception_Warning;
-                    messageBox.DialogText = Localization.Localization.AddConsentForm_EmptyVersion;
-                    await messageBox.ShowDialog(this);
-                    if (messageBox.DialogResult == DialogResult.OK)
-                    {
-                        mvm.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
-                    }
-                }
-                else
-                    mvm.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
+                Tabs[i].Load();
             }
         }
 
-        private void ToggleActivePerson_Click(object sender, RoutedEventArgs e)
-        {
-            PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
-            person.Active = !person.Active;
-            mvm.UpdatePeopleTable();
-        }
-
-        private void People_RowLoading(object sender, DataGridRowEventArgs e)
-        {
-            if (e.Row.DataContext is PersonViewModel person)
-            {
-                if (person.Active)
-                    e.Row.Background = StdLight;
-                else
-                    e.Row.Background = StdDark;
-            }
-        }
-
-        private void RemovePerson_Click(object sender, RoutedEventArgs e)
-        {
-            PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
-            if (person != null)
-            {
-                mvm.Remove(person);
-            }
-        }
-
-        private void ToggleInactive_Click(object sender, RoutedEventArgs e)
-        {
-            mvm.ShowInactive = !mvm.ShowInactive;
-            mvm.UpdatePeopleTable();
-        }
-
-        private void SearchPeople(object sender, KeyEventArgs e)
-        {
-            mvm.UpdatePeopleTable();
-        }
-        #endregion
-
-        #region Toolstrip
         /// <summary>
         /// Clears the Calendar and Directory.
         /// </summary>
         private async void NewProject_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox msDialog = new();
-            msDialog.DialogTitle = Localization.Localization.ToolStrip_NewFile;
-            msDialog.DialogText = Localization.Localization.ToolStrip_NewSecure;
+            MessageBox msDialog = new()
+            {
+                DialogTitle = Localization.Localization.ToolStrip_NewFile,
+                DialogText = Localization.Localization.ToolStrip_NewSecure
+            };
             await msDialog.ShowDialog(this);
             if (msDialog.DialogResult == DialogResult.OK)
             {
                 Timotheus.Registry.Delete("KeyPath");
                 Timotheus.Registry.Delete("KeyPassword");
-                mvm.NewProject();
+
+                mvm.NewProject(new Register(':'));
+                InsertKey(null, null);
             }
         }
 
@@ -633,12 +277,14 @@ namespace Timotheus.Views
         private async void Open_Click(object sender, RoutedEventArgs e)
         {
             switch (mvm.CurrentTab) {
-                case 0:
-                    OpenCalendar dialog = new();
-                    dialog.Username = mvm.Keys.Retrieve("Calendar-Email");
-                    dialog.Password = mvm.Keys.Retrieve("Calendar-Password");
-                    dialog.URL = mvm.Keys.Retrieve("Calendar-URL");
-                    dialog.Path = mvm.Keys.Retrieve("Calendar-Path");
+                case 0: //FIX
+                    /*OpenCalendar dialog = new()
+                    {
+                        Username = mvm.Keys.Retrieve("Calendar-Email"),
+                        Password = mvm.Keys.Retrieve("Calendar-Password"),
+                        URL = mvm.Keys.Retrieve("Calendar-URL"),
+                        Path = mvm.Keys.Retrieve("Calendar-Path")
+                    };
 
                     await dialog.ShowDialog(this);
 
@@ -665,10 +311,10 @@ namespace Timotheus.Views
                         {
                             Error(Localization.Localization.Exception_InvalidCalendar, ex.Message);
                         }
-                    }
+                    }*/
                     break;
                 case 2:
-                    OpenFileDialog openFileDialog = new();
+                    /*OpenFileDialog openFileDialog = new();
 
                     FileDialogFilter txtFilter = new();
                     txtFilter.Extensions.Add("csv");
@@ -683,7 +329,7 @@ namespace Timotheus.Views
                         mvm.PersonRepo = new(result[0]);
                         mvm.UpdatePeopleTable();
                         mvm.Keys.Update("Person-File", result[0]);
-                    }
+                    }*/
                     break;
             }
         }
@@ -699,7 +345,7 @@ namespace Timotheus.Views
             switch (mvm.CurrentTab)
             {
                 case 0:
-                    filter.Extensions.Add("ics");
+                    /*filter.Extensions.Add("ics"); //FIX
                     filter.Name = "Calendar (.ics)";
 
                     saveFileDialog.Filters = new();
@@ -716,10 +362,10 @@ namespace Timotheus.Views
                         {
                             Error(Localization.Localization.Exception_Saving, ex.Message);
                         }
-                    }
+                    }*/
                     break;
                 case 2:
-                    filter.Extensions.Add("csv");
+                    /*filter.Extensions.Add("csv");
                     filter.Name = "CSV (.csv)";
 
                     saveFileDialog.Filters = new();
@@ -736,7 +382,7 @@ namespace Timotheus.Views
                         {
                             Error(Localization.Localization.Exception_Saving, ex.Message);
                         }
-                    }
+                    }*/
                     break;
             }
         }
@@ -744,7 +390,7 @@ namespace Timotheus.Views
         /// <summary>
         /// Opens a SaveFileDialog so the user can save the current key as a file.
         /// </summary>
-        private async void SaveKey_Click(object sender, RoutedEventArgs e)
+        public async void SaveKey_Click(object sender, RoutedEventArgs e)
         {
             string keyPath = Timotheus.Registry.Retrieve("KeyPath");
             if (!File.Exists(keyPath))
@@ -803,13 +449,21 @@ namespace Timotheus.Views
                         }
                         break;
                 }
+
+                if (sender != null)
+                {
+                    MessageBox msDialog = new();
+                    msDialog.DialogTitle = Localization.Localization.Exception_Message;
+                    msDialog.DialogText = Localization.Localization.Exception_SaveSuccessful;
+                    await msDialog.ShowDialog(this);
+                }
             }
         }
 
         /// <summary>
         /// Opens a SaveFileDialog so the user can save the current key as a file.
         /// </summary>
-        private async void SaveAsKey_Click(object sender, RoutedEventArgs e)
+        public async void SaveAsKey_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new();
             saveFileDialog.Filters = new();
@@ -925,7 +579,8 @@ namespace Timotheus.Views
             {
                 try
                 {
-                    mvm.NewProject(dialog.Text);
+                    mvm.NewProject(new Register(':', dialog.Text));
+                    InsertKey(null, null);
                 }
                 catch (Exception ex)
                 {
@@ -992,8 +647,7 @@ namespace Timotheus.Views
                 Timotheus.Registry.Update("LookForUpdates", dialog.LookForUpdates.ToString());
             }
         }
-        #endregion
-
+        
         private bool firstClose = true;
         private async void OnWindowClose(object sender, CancelEventArgs e)
         {
@@ -1017,7 +671,7 @@ namespace Timotheus.Views
             }
         }
 
-        private async void Error(string title, string message)
+        public async void Error(string title, string message)
         {
             MessageBox msDialog = new();
             msDialog.DialogTitle = title;
