@@ -58,9 +58,6 @@ namespace Timotheus
             //Defines the security protocol
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
-            //Defines encoding 1252 for PDF
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
             if (Registry.Retrieve("Language") == string.Empty)
                 Registry.Create("Language", CultureInfo.CurrentUICulture.Name);
             Culture = CultureInfo.GetCultureInfo(Registry.Retrieve("Language"));
