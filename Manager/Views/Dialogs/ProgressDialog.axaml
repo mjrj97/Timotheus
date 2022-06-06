@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d"
-        x:Class="Timotheus.Views.ProgressDialog"
+        x:Class="Timotheus.Views.Dialogs.ProgressDialog"
         Title="" SizeToContent="Height" Width="300">
 	<StackPanel Margin="10">
 		<TextBlock Text="{Binding Message}" Margin="0 5" TextWrapping="Wrap"/>

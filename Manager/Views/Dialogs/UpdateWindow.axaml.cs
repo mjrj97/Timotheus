@@ -2,7 +2,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Timotheus.Utility;
 
-namespace Timotheus.Views
+namespace Timotheus.Views.Dialogs
 {
     public partial class UpdateWindow : Dialog
     {

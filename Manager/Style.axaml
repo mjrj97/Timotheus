@@ -5,7 +5,6 @@
             <!-- Add Controls for Previewer Here -->
         </Border>
     </Design.PreviewWith>
-
 	<Style Selector="Window">
 		<Setter Property="FontFamily" Value="/Fonts/Arvo.ttf#Arvo"/>
 		<Setter Property="Icon" Value="/Resources/Icon.ico"/>

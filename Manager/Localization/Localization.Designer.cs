@@ -1357,6 +1357,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string SFTP_UpdateButton {
+            get {
+                return ResourceManager.GetString("SFTP_UpdateButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Setup.
         /// </summary>
         public static string SFTPSetup {

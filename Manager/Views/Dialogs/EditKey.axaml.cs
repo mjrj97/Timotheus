@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Timotheus.IO;
 using Timotheus.Utility;
 
-namespace Timotheus.Views
+namespace Timotheus.Views.Dialogs
 {
     public partial class EditKey : Dialog
     {

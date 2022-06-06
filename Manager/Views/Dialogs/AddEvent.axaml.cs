@@ -8,7 +8,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using Timotheus.Utility;
 
-namespace Timotheus.Views
+namespace Timotheus.Views.Dialogs
 {
     public partial class AddEvent : Dialog
     {
@@ -27,8 +27,8 @@ namespace Timotheus.Views
         }
 
         private DateTime _start;
-        public DateTime Start 
-        { 
+        public DateTime Start
+        {
             get
             {
                 return _start;
@@ -105,7 +105,7 @@ namespace Timotheus.Views
                 int day = Start.Day;
                 if (day >= StartDays.Count)
                     day = StartDays.Count;
-                Start = new DateTime(Start.Year, value+1, day);
+                Start = new DateTime(Start.Year, value + 1, day);
                 NotifyPropertyChanged(nameof(StartDays));
                 NotifyPropertyChanged(nameof(StartDay));
             }
@@ -175,7 +175,7 @@ namespace Timotheus.Views
             }
             set
             {
-                EndDays = GetDays(value + 1, End.Year); 
+                EndDays = GetDays(value + 1, End.Year);
                 int day = End.Day;
                 if (day >= EndDays.Count)
                     day = EndDays.Count;
@@ -219,7 +219,7 @@ namespace Timotheus.Views
         public string Location
         {
             get { return _location; }
-            set 
+            set
             {
                 _location = value;
                 NotifyPropertyChanged(nameof(Location));

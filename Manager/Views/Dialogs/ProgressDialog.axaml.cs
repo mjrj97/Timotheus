@@ -5,13 +5,13 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Timotheus.Utility;
 
-namespace Timotheus.Views
+namespace Timotheus.Views.Dialogs
 {
     public partial class ProgressDialog : Dialog
     {
         private double _progress;
-        private double Progress 
-        { 
+        private double Progress
+        {
             get
             {
                 return _progress;

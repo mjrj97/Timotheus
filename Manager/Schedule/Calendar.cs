@@ -315,7 +315,7 @@ namespace Timotheus.Schedule
                                 }
                                 else if (!Events[i].Equals(remoteEvents[j]))
                                 {
-                                    if (Events[i].Changed >= remoteEvents[j].Changed)
+                                    if ((Events[i].Changed.Ticks - remoteEvents[j].Changed.Ticks) > 10000000)
                                     {
                                         hasBeenChanged = true;
                                     }
@@ -444,7 +444,7 @@ namespace Timotheus.Schedule
                 if (Events[i].In(period))
                     exportEvents.Add(Events[i]);
             }
-            PDF.ExportCalendar(exportEvents, path, name, orgName, orgAddress, orgImagePath, period.ToString());
+            PDFCreator.CreatePDF(exportEvents, path, name, orgName, orgAddress, orgImagePath, period.ToString());
         }
 
         /// <summary>

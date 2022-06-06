@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i18n="clr-namespace:Timotheus.Localization"
+			 x:Class="Timotheus.Views.Tabs.FilesPage" d:DesignHeight="400" d:DesignWidth="900">
+    <DockPanel>
+		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
+			<Button Click="UpDirectory_Click" Height="32">
+				<DockPanel>
+					<Image Source="/Resources/Left.png" Height="17" VerticalAlignment="Center"/>
+					<TextBlock Text="{x:Static i18n:Localization.SFTP_GoUpButton}" Margin="5 0" VerticalAlignment="Center"/>
+				</DockPanel>
+			</Button>
+			<DockPanel DockPanel.Dock="Right">
+				<Button Click="UpdateDirectory_Click" Height="32" Margin="0 0 10 0">
+					<DockPanel>
+						<Image Source="/Resources/Update.png" Height="17" VerticalAlignment="Center"/>
+						<TextBlock Text="{x:Static i18n:Localization.SFTP_UpdateButton}" Margin="5 0" VerticalAlignment="Center"/>
+					</DockPanel>
+				</Button>
+				<Button Click="SyncFiles_Click" Height="32" Margin="0 0 10 0">
+					<DockPanel>
+						<Image Source="/Resources/Sync.png" Height="17" VerticalAlignment="Center"/>
+						<TextBlock Text="{x:Static i18n:Localization.SFTP_SyncButton}" Margin="5 0" VerticalAlignment="Center"/>
+					</DockPanel>
+				</Button>
+				<Button Click="SetupFiles_Click" Height="32">
+					<DockPanel>
+						<Image Source="/Resources/Setup.png" Height="17" VerticalAlignment="Center"/>
+						<TextBlock Text="{x:Static i18n:Localization.SFTP_SetupButton}" Margin="5 0" VerticalAlignment="Center"/>
+					</DockPanel>
+				</Button>
+			</DockPanel>
+			<TextBox Text="{Binding CurrentDirectory}" Margin="10 0" IsReadOnly="True" Height="32"/>
+		</DockPanel>
+		<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
+		<DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
+			<DataGrid.Columns>
+			<DataGridTemplateColumn Header="" Width="32" IsReadOnly="True">
+				<DataGridTemplateColumn.CellTemplate>
+				<DataTemplate>
+					<DockPanel Margin="1">
+					<Image Source="/Resources/Folder.png" IsVisible="{Binding IsDirectory}"/>
+					<Image Source="/Resources/File.png" IsVisible="{Binding !IsDirectory}"/>
+					</DockPanel>
+				</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
+			<DataGridTextColumn Header="" Width="*" MaxWidth="200" Binding="{Binding HandleText}" IsReadOnly="True"/>
+			<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
+			</DataGrid.Columns>
+		</DataGrid>
+		</Border>
+	</DockPanel>
+</UserControl>
