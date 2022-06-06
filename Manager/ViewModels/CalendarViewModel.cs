@@ -77,6 +77,14 @@ namespace Timotheus.ViewModels
             }
         }
 
+        public bool HasBeenChanged
+        {
+            get
+            {
+                return Calendar.HasBeenChanged();
+            }
+        }
+
         /// <summary>
         /// Worker used for synchronizing the calendar in the ProgressDialog.
         /// </summary>
@@ -94,6 +102,12 @@ namespace Timotheus.ViewModels
             calendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
             PeriodText = calendarPeriod.ToString();
         }
+        public CalendarViewModel(string path)
+        {
+            Calendar = new(path);
+            calendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
+            PeriodText = calendarPeriod.ToString();
+        }
         public CalendarViewModel()
         {
             Calendar = new();
@@ -104,6 +118,11 @@ namespace Timotheus.ViewModels
         public void AddEvent(DateTime Start, DateTime End, string Name, string Description, string Location, string UID)
         {
             Calendar.Events.Add(new Event(Start, End, Name, Description, Location, UID));
+        }
+
+        public void Save(string path)
+        {
+            Calendar.Save(path);
         }
 
         public void RemoveEvent(EventViewModel evm)

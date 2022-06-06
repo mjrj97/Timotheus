@@ -10,7 +10,6 @@ using Timotheus.IO;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
-using Timotheus.Views.Tabs;
 
 namespace Timotheus.Views
 {
@@ -272,122 +271,6 @@ namespace Timotheus.Views
         }
 
         /// <summary>
-        /// Opens a OpenCalendar dialog
-        /// </summary>
-        private async void Open_Click(object sender, RoutedEventArgs e)
-        {
-            switch (mvm.CurrentTab) {
-                case 0: //FIX
-                    /*OpenCalendar dialog = new()
-                    {
-                        Username = mvm.Keys.Retrieve("Calendar-Email"),
-                        Password = mvm.Keys.Retrieve("Calendar-Password"),
-                        URL = mvm.Keys.Retrieve("Calendar-URL"),
-                        Path = mvm.Keys.Retrieve("Calendar-Path")
-                    };
-
-                    await dialog.ShowDialog(this);
-
-                    if (dialog.DialogResult == DialogResult.OK)
-                    {
-                        try
-                        {
-                            if (dialog.IsRemote)
-                            {
-                                mvm.Calendar = new(dialog.Username, dialog.Password, dialog.URL);
-                                mvm.Keys.Update("Calendar-Email", dialog.Username);
-                                mvm.Keys.Update("Calendar-Password", dialog.Password);
-                                mvm.Keys.Update("Calendar-URL", dialog.URL);
-                                mvm.UpdateCalendarTable();
-                            }
-                            else
-                            {
-                                mvm.Calendar = new(dialog.Path);
-                                mvm.Keys.Update("Calendar-Path", dialog.Path);
-                                mvm.UpdateCalendarTable();
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Error(Localization.Localization.Exception_InvalidCalendar, ex.Message);
-                        }
-                    }*/
-                    break;
-                case 2:
-                    /*OpenFileDialog openFileDialog = new();
-
-                    FileDialogFilter txtFilter = new();
-                    txtFilter.Extensions.Add("csv");
-                    txtFilter.Name = "CSV (.csv)";
-
-                    openFileDialog.Filters = new();
-                    openFileDialog.Filters.Add(txtFilter);
-
-                    string[] result = await openFileDialog.ShowAsync(this);
-                    if (result != null && result.Length > 0)
-                    {
-                        mvm.PersonRepo = new(result[0]);
-                        mvm.UpdatePeopleTable();
-                        mvm.Keys.Update("Person-File", result[0]);
-                    }*/
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Opens a SaveFileDialog to save the current Calendar.
-        /// </summary>
-        private async void Save_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog saveFileDialog = new();
-            FileDialogFilter filter = new();
-            string result;
-            switch (mvm.CurrentTab)
-            {
-                case 0:
-                    /*filter.Extensions.Add("ics"); //FIX
-                    filter.Name = "Calendar (.ics)";
-
-                    saveFileDialog.Filters = new();
-                    saveFileDialog.Filters.Add(filter);
-
-                    result = await saveFileDialog.ShowAsync(this);
-                    if (result != null)
-                    {
-                        try
-                        {
-                            mvm.Calendar.Save(result);
-                        }
-                        catch (Exception ex)
-                        {
-                            Error(Localization.Localization.Exception_Saving, ex.Message);
-                        }
-                    }*/
-                    break;
-                case 2:
-                    /*filter.Extensions.Add("csv");
-                    filter.Name = "CSV (.csv)";
-
-                    saveFileDialog.Filters = new();
-                    saveFileDialog.Filters.Add(filter);
-
-                    result = await saveFileDialog.ShowAsync(this);
-                    if (result != null)
-                    {
-                        try
-                        {
-                            mvm.PersonRepo.Save(result);
-                        }
-                        catch (Exception ex)
-                        {
-                            Error(Localization.Localization.Exception_Saving, ex.Message);
-                        }
-                    }*/
-                    break;
-            }
-        }
-
-        /// <summary>
         /// Opens a SaveFileDialog so the user can save the current key as a file.
         /// </summary>
         public async void SaveKey_Click(object sender, RoutedEventArgs e)
@@ -603,16 +486,17 @@ namespace Timotheus.Views
         /// </summary>
         private async void Settings_Click(object sender, RoutedEventArgs e)
         {
-            Settings dialog = new();
-
-            dialog.AssociationName = mvm.Keys.Retrieve("Settings-Name");
-            dialog.AssociationAddress = mvm.Keys.Retrieve("Settings-Address");
-            dialog.ImagePath = mvm.Keys.Retrieve("Settings-Image");
-            dialog.Description = mvm.Keys.Retrieve("Settings-EventDescription");
-            dialog.StartTime = mvm.Keys.Retrieve("Settings-EventStart");
-            dialog.EndTime = mvm.Keys.Retrieve("Settings-EventEnd");
-            dialog.LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates") != "False";
-            dialog.SelectedLanguage = Timotheus.Registry.Retrieve("Language") == "da-DK" ? 1 : 0;
+            Settings dialog = new()
+            {
+                AssociationName = mvm.Keys.Retrieve("Settings-Name"),
+                AssociationAddress = mvm.Keys.Retrieve("Settings-Address"),
+                ImagePath = mvm.Keys.Retrieve("Settings-Image"),
+                Description = mvm.Keys.Retrieve("Settings-EventDescription"),
+                StartTime = mvm.Keys.Retrieve("Settings-EventStart"),
+                EndTime = mvm.Keys.Retrieve("Settings-EventEnd"),
+                LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates") != "False",
+                SelectedLanguage = Timotheus.Registry.Retrieve("Language") == "da-DK" ? 1 : 0
+            };
             int initialSelected = dialog.SelectedLanguage;
 
             await dialog.ShowDialog(this);
@@ -634,9 +518,11 @@ namespace Timotheus.Views
                 {
                     Timotheus.Registry.Update("Language", dialog.SelectedLanguage == 0 ? "en-US" : "da-DK");
 
-                    MessageBox messageBox = new();
-                    messageBox.DialogTitle = Localization.Localization.Settings;
-                    messageBox.DialogText = Localization.Localization.Settings_LanguageChanged;
+                    MessageBox messageBox = new()
+                    {
+                        DialogTitle = Localization.Localization.Settings,
+                        DialogText = Localization.Localization.Settings_LanguageChanged
+                    };
                     await messageBox.ShowDialog(this);
                     if (messageBox.DialogResult == DialogResult.OK)
                     {
@@ -653,7 +539,7 @@ namespace Timotheus.Views
         {
             if (firstClose)
             {
-                if (mvm.IsThereUnsavedProgress())
+                if (IsThereUnsavedProgress())
                 {
                     e.Cancel = true;
 
@@ -669,6 +555,21 @@ namespace Timotheus.Views
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns whether the user has made progress that hasn't been saved.
+        /// </summary>
+        public bool IsThereUnsavedProgress()
+        {
+            bool isThereUnsavedProgress = false;
+
+            for (int i = 0; i < Tabs.Count; i++)
+            {
+                isThereUnsavedProgress |= Tabs[i].HasBeenChanged();
+            }
+
+            return isThereUnsavedProgress;
         }
 
         public async void Error(string title, string message)

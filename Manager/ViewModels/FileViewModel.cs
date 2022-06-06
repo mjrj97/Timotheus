@@ -86,6 +86,14 @@ namespace Timotheus.ViewModels
             }
         }
 
+        public string Permissions
+        {
+            get
+            {
+                return file.Permissions.ToString();
+            }
+        }
+
         /// <summary>
         /// Variable that tells the software how to handle this file on sync.
         /// </summary>

@@ -111,5 +111,48 @@ namespace Timotheus.IO
         {
             ftpFile = file;
         }
+
+        /// <summary>
+        /// Returns the permissions of the file.
+        /// </summary>
+        public short Permissions
+        {
+            get
+            {
+                short sum = 0;
+
+                if (sftpFile != null)
+                {
+                    sum += (short)(sftpFile.OthersCanExecute ? 1 : 0);
+                    sum += (short)(sftpFile.OthersCanWrite ? 2 : 0);
+                    sum += (short)(sftpFile.OthersCanRead ? 4 : 0);
+
+                    sum += (short)(sftpFile.GroupCanExecute ? 10 : 0);
+                    sum += (short)(sftpFile.GroupCanWrite ? 20 : 0);
+                    sum += (short)(sftpFile.GroupCanRead ? 40 : 0);
+
+                    sum += (short)(sftpFile.OwnerCanExecute ? 100 : 0);
+                    sum += (short)(sftpFile.OwnerCanWrite ? 200 : 0);
+                    sum += (short)(sftpFile.OwnerCanRead ? 400 : 0);
+                }
+                else
+                {
+                    sum += (short)((int)ftpFile.OthersPermissions * 1);
+                    sum += (short)((int)ftpFile.GroupPermissions * 10);
+                    sum += (short)((int)ftpFile.OwnerPermissions * 100);
+                }
+                
+                return sum;
+            }
+            set
+            {
+                if (sftpFile != null)
+                    sftpFile.SetPermissions(value);
+                else
+                {
+                    // FIX
+                }
+            }
+        }
     }
 }
