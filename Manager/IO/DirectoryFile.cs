@@ -36,6 +36,21 @@ namespace Timotheus.IO
         /// Variable that tells the software how to handle this file on sync.
         /// </summary>
         public SyncHandle Handle;
+        /// <summary>
+        /// Returns the value of the files permission.
+        /// </summary>
+        public short Permissions
+        {
+            get
+            {
+                if (RemoteFile != null)
+                    return RemoteFile.Permissions;
+                else
+                    return 0;
+            }
+            // 770 is private / hidden
+            // 775 is public
+        }
 
         /// <summary>
         /// Connects the pairs.

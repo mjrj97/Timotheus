@@ -14,6 +14,8 @@ namespace Timotheus.Views
 
         public abstract void Update();
 
+        public abstract bool HasBeenChanged();
+
         public event PropertyChangedEventHandler PropertyChanged;
         internal void NotifyPropertyChanged(string propertyName)
         {

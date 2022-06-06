@@ -84,6 +84,14 @@ namespace Timotheus.Views.Tabs
         }
 
         /// <summary>
+        /// Synchronize the defined remote and local directories.
+        /// </summary>
+        private void UpdateDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            Directory.GoToDirectory(Directory.CurrentDirectory);
+        }
+
+        /// <summary>
         /// Synchronizes the files in the local and remote directory.
         /// </summary>
         private async void SyncFiles_Click(object sender, RoutedEventArgs e)
@@ -95,7 +103,10 @@ namespace Timotheus.Views.Tabs
                     Title = Localization.Localization.SFTP_SyncWorker
                 };
                 await dialog.ShowDialog(MainWindow.Instance, Directory.Sync);
-                Directory.GoToDirectory(Directory.RemotePath);
+                if (Directory.DirectoryExists(Directory.CurrentDirectory))
+                    Directory.GoToDirectory(Directory.CurrentDirectory);
+                else
+                    Directory.GoToDirectory(Directory.RemotePath);
             }
             catch (Exception ex)
             {
@@ -230,6 +241,11 @@ namespace Timotheus.Views.Tabs
         public override void Update()
         {
             
+        }
+
+        public override bool HasBeenChanged()
+        {
+            return false;
         }
     }
 }

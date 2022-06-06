@@ -31,7 +31,7 @@ echo "[INFO] Deleting Zip file"
 rm "$APP_NAME.zip"
 
 echo "[INFO] Creating pkg file"
-pkgbuild --component "$APP_NAME.app" --timestamp --install-location /Applications --sign $PKG_CERTIFICATE "$APP_NAME.pkg"
+pkgbuild --component "$APP_NAME.app" --timestamp --install-location /Applications --sign "$PKG_CERTIFICATE" "$APP_NAME.pkg"
 
 echo "[INFO] Uploading pkg for Notarization"
 xcrun altool --notarize-app --primary-bundle-id $BUNDLE_ID --username $USERNAME --password $PASSWORD --file "$APP_NAME.pkg"

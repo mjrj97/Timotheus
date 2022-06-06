@@ -444,7 +444,7 @@ namespace Timotheus.Schedule
                 if (Events[i].In(period))
                     exportEvents.Add(Events[i]);
             }
-            PDF.ExportCalendar(exportEvents, path, name, orgName, orgAddress, orgImagePath, period.ToString());
+            PDFCreator.CreatePDF(exportEvents, path, name, orgName, orgAddress, orgImagePath, period.ToString());
         }
 
         /// <summary>

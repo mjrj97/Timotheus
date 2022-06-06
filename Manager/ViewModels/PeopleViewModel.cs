@@ -84,6 +84,14 @@ namespace Timotheus.ViewModels
             }
         }
 
+        public bool HasBeenChanged
+        {
+            get
+            {
+                return PersonRepo.HasBeenChanged();
+            }
+        }
+
         public PeopleViewModel(string path = "")
         {
             if (path != string.Empty)
@@ -92,6 +100,11 @@ namespace Timotheus.ViewModels
             }
             else
                 PersonRepo = new();
+        }
+
+        public void Save(string path)
+        {
+            PersonRepo.Save(path);
         }
 
         /// <summary>

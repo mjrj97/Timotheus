@@ -3,13 +3,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i18n="clr-namespace:Timotheus.Localization"
-			 x:Class="Timotheus.Views.Tabs.PeoplePage">
+			 x:Class="Timotheus.Views.Tabs.PeoplePage" d:DesignHeight="400" d:DesignWidth="900">
 	<DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10" HorizontalAlignment="Stretch">
-			<Button Click="AddPerson_Click" DockPanel.Dock="Left" Height="32">
+			<Button Click="Save_Click" Height="32" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_SaveFile}">
 				<DockPanel>
-					<Image Source="/Resources/Add.png" Height="17" VerticalAlignment="Center"/>
-					<TextBlock Text="{x:Static i18n:Localization.People_Add}" Margin="5 0" VerticalAlignment="Center"/>
+					<Image Source="/Resources/Save.png" Height="17" VerticalAlignment="Center"/>
+				</DockPanel>
+			</Button>
+			<Button Click="Open_Click" Height="32" Margin="10 0 0 0" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_OpenFile}">
+				<DockPanel>
+					<Image Source="/Resources/Open.png" Height="17" VerticalAlignment="Center"/>
 				</DockPanel>
 			</Button>
 			<Button Click="ToggleInactive_Click" DockPanel.Dock="Right" Height="32">
@@ -17,6 +21,12 @@
 					<Image Source="/Resources/Eye.png" Height="17" VerticalAlignment="Center"/>
 					<TextBlock IsVisible="{Binding ShowInactive}" Text="{x:Static i18n:Localization.People_HideInactive}" Margin="5 0" VerticalAlignment="Center"/>
 					<TextBlock IsVisible="{Binding HideInactive}" Text="{x:Static i18n:Localization.People_ShowInactive}" Margin="5 0" VerticalAlignment="Center"/>
+				</DockPanel>
+			</Button>
+			<Button Click="AddPerson_Click" DockPanel.Dock="Right" Height="32" Margin="0 0 10 0">
+				<DockPanel>
+					<Image Source="/Resources/Add.png" Height="17" VerticalAlignment="Center"/>
+					<TextBlock Text="{x:Static i18n:Localization.People_Add}" Margin="5 0" VerticalAlignment="Center"/>
 				</DockPanel>
 			</Button>
 			<TextBox Margin="10 0" Text="{Binding SearchField}" Watermark="{x:Static i18n:Localization.People_Search}" KeyUp="SearchPeople"/>
