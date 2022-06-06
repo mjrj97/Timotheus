@@ -3,6 +3,7 @@ using PdfSharpCore.Pdf;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using Timotheus.IO;
 using Timotheus.Schedule;
@@ -29,12 +30,12 @@ namespace Timotheus.Utility
             XGraphics gfx = XGraphics.FromPdfPage(page);
             XSolidBrush headingColor = new(XColor.FromArgb(5, 105, 115));
             XSolidBrush alternatingGray = new(XColor.FromArgb(245, 245, 245));
-            XFont heading1 = new("Arvo", 18, XFontStyle.Bold);
-            XFont heading2 = new("Arvo", 14, XFontStyle.Regular);
-            XFont footer = new("Arvo", 9, XFontStyle.Regular);
+            XFont heading1 = new("Verdana", 18, XFontStyle.Bold);
+            XFont heading2 = new("Verdana", 14, XFontStyle.Regular);
+            XFont footer = new("Verdana", 9, XFontStyle.Regular);
 
-            XFont tableHeading = new("Arvo", 10, XFontStyle.Bold);
-            XFont tableContent = new("Arvo", 10, XFontStyle.Regular);
+            XFont tableHeading = new("Verdana", 10, XFontStyle.Bold);
+            XFont tableContent = new("Verdana", 10, XFontStyle.Regular);
 
             #region Localization
             string welcome = Localization.Localization.PDF_Welcome;
@@ -48,7 +49,8 @@ namespace Timotheus.Utility
             #endregion
             
             //PAGE HEADER
-            gfx.DrawImage(XImage.FromFile(logoPath), new XRect(28, 28, 85, 85));
+            if (File.Exists(logoPath))
+                gfx.DrawImage(XImage.FromFile(logoPath), new XRect(28, 28, 85, 85));
             gfx.DrawString(welcome + " " + associationName, heading1, headingColor, new XRect(28, 125, 200,18), XStringFormats.TopLeft);
             gfx.DrawString(schedule + " " + periodName.ToLower(), heading2, headingColor, new XRect(28, 148, 200, 18), XStringFormats.TopLeft);
 

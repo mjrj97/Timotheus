@@ -315,7 +315,7 @@ namespace Timotheus.Schedule
                                 }
                                 else if (!Events[i].Equals(remoteEvents[j]))
                                 {
-                                    if (Events[i].Changed >= remoteEvents[j].Changed)
+                                    if ((Events[i].Changed.Ticks - remoteEvents[j].Changed.Ticks) > 10000000)
                                     {
                                         hasBeenChanged = true;
                                     }

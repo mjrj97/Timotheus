@@ -123,6 +123,10 @@ namespace Timotheus.Views
                         mvm.LoadKey(keyPath);
                         InsertKey();
                         break;
+                    default:
+                        InsertKey(null, null);
+                        UpdateTabs();
+                        break;
                 }
             }
             catch (Exception ex)
@@ -169,6 +173,18 @@ namespace Timotheus.Views
         }
 
         /// <summary>
+        /// Calls the Update method of all tabs.
+        /// </summary>
+        private void UpdateTabs()
+        {
+            foreach (Tab tab in Tabs)
+            {
+                tab.DataContext = tab.ViewModel;
+                tab.Update();
+            }
+        }
+
+        /// <summary>
         /// Opens the window and retrieves last used key.
         /// </summary>
         public override void Show()
@@ -190,13 +206,7 @@ namespace Timotheus.Views
             {
                 dialog.Title = Localization.Localization.InsertKey_Dialog;
                 await dialog.ShowDialog(this, InsertingKey);
-
-                // WORK AROUND - Cannot set data context in InsertingKey because it is on another thread.
-                foreach (Tab tab in Tabs)
-                {
-                    tab.DataContext = tab.ViewModel;
-                    tab.Update();
-                }
+                UpdateTabs();
             }
             catch (Exception ex)
             {
@@ -207,9 +217,11 @@ namespace Timotheus.Views
             {
                 if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory")))
                 {
-                    MessageBox messageBox = new();
-                    messageBox.DialogTitle = Localization.Localization.Exception_Name;
-                    messageBox.DialogText = Localization.Localization.Exception_FolderNotFound;
+                    MessageBox messageBox = new()
+                    {
+                        DialogTitle = Localization.Localization.Exception_Name,
+                        DialogText = Localization.Localization.Exception_FolderNotFound
+                    };
                     await messageBox.ShowDialog(this);
                     if (messageBox.DialogResult == DialogResult.OK)
                     {
@@ -267,6 +279,7 @@ namespace Timotheus.Views
 
                 mvm.NewProject(new Register(':'));
                 InsertKey(null, null);
+                UpdateTabs();
             }
         }
 
