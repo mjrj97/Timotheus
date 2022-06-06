@@ -163,7 +163,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    //Error(Localization.Localization.Exception_Name, ex.Message);
+                    MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
                 }
             }
         }

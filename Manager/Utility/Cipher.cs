@@ -70,7 +70,7 @@ namespace Timotheus.Utility
         /// </summary>
         private static SymmetricAlgorithm GetAlgorithm(string password)
         {
-            Rijndael algorithm = Rijndael.Create();
+            Aes algorithm = Aes.Create();
             byte[] salt = { 0x53, 0x6f, 0x64, 0x69, 0x75, 0x6d, 0x20, 0x43, 0x68, 0x6c, 0x6f, 0x72, 0x69, 0x64, 0x65 };
 
             using (Rfc2898DeriveBytes rdb = new(password, salt))

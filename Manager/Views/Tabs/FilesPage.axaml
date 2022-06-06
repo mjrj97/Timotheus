@@ -49,7 +49,7 @@
 			</DataGridTemplateColumn>
 			<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
 			<DataGridTextColumn Header="" Width="*" MaxWidth="200" Binding="{Binding HandleText}" IsReadOnly="True"/>
-			<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Permissions}" IsReadOnly="True"/>
+			<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
 			</DataGrid.Columns>
 		</DataGrid>
 		</Border>

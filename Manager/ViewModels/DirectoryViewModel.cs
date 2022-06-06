@@ -112,11 +112,6 @@ namespace Timotheus.ViewModels
             }, null, startTimeSpan, periodTimeSpan);*/
         }
 
-        private static void MyMethod()
-        {
-            File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Test.txt", DateTime.Now.ToString() + "\n");
-        }
-
         /// <summary>
         /// Returns whether the directory exists.
         /// </summary>

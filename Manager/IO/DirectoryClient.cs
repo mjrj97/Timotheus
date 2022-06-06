@@ -48,8 +48,10 @@ namespace Timotheus.IO
             if (port == 22)
             {
                 PasswordAuthenticationMethod auth = new(username, password);
-                ConnectionInfo connectionInfo = new(host, port, username, auth);
-                connectionInfo.Encoding = System.Text.Encoding.UTF8;
+                ConnectionInfo connectionInfo = new(host, port, username, auth)
+                {
+                    Encoding = System.Text.Encoding.UTF8
+                };
                 sftpClient = new SftpClient(connectionInfo);
             }
             else

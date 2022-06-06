@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using Timotheus.IO;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -145,11 +145,10 @@ namespace Timotheus.Views
                 string foundVersion = Timotheus.Version;
 
                 // Fetch version from website
-                WebRequest request = WebRequest.Create("https://www.mjrj.dk/software/timotheus/index.html");
-                WebResponse response = request.GetResponse();
-                StreamReader reader = new(response.GetResponseStream());
-                string[] text = reader.ReadToEnd().Split(Environment.NewLine);
-                response.Close();
+                HttpClient client = new();
+                HttpResponseMessage response = await client.GetAsync("http://www.mjrj.dk/software/timotheus/index.html");
+                response.EnsureSuccessStatusCode();
+                string[] text = (await response.Content.ReadAsStringAsync()).Split(Environment.NewLine);
 
                 for (int i = 0; i < text.Length; i++)
                 {
@@ -161,9 +160,11 @@ namespace Timotheus.Views
                 // Show update dialog if user hasn't disabled it
                 if (foundVersion != Timotheus.Version && Timotheus.Registry.Retrieve("LookForUpdates") != "False")
                 {
-                    UpdateWindow dialog = new();
-                    dialog.DialogTitle = Localization.Localization.UpdateDialog_Title;
-                    dialog.DialogText = Localization.Localization.UpdateDialog_Text.Replace("#", foundVersion);
+                    UpdateWindow dialog = new()
+                    {
+                        DialogTitle = Localization.Localization.UpdateDialog_Title,
+                        DialogText = Localization.Localization.UpdateDialog_Text.Replace("#", foundVersion)
+                    };
                     await dialog.ShowDialog(this);
                     if (dialog.DontShowAgain)
                         Timotheus.Registry.Update("ShowUpdateDialog", "false");
@@ -231,9 +232,11 @@ namespace Timotheus.Views
                         {
                             mvm.Keys.Update("SSH-LocalDirectory", path);
                             InsertKey();
-                            messageBox = new();
-                            messageBox.DialogTitle = Localization.Localization.InsertKey_ChangeDetected;
-                            messageBox.DialogText = Localization.Localization.InsertKey_DoYouWantToSave;
+                            messageBox = new()
+                            {
+                                DialogTitle = Localization.Localization.InsertKey_ChangeDetected,
+                                DialogText = Localization.Localization.InsertKey_DoYouWantToSave
+                            };
                             await messageBox.ShowDialog(this);
                             if (messageBox.DialogResult == DialogResult.OK)
                                 SaveKey_Click(null, null);
@@ -348,9 +351,11 @@ namespace Timotheus.Views
 
                 if (sender != null)
                 {
-                    MessageBox msDialog = new();
-                    msDialog.DialogTitle = Localization.Localization.Exception_Message;
-                    msDialog.DialogText = Localization.Localization.Exception_SaveSuccessful;
+                    MessageBox msDialog = new()
+                    {
+                        DialogTitle = Localization.Localization.Exception_Message,
+                        DialogText = Localization.Localization.Exception_SaveSuccessful
+                    };
                     await msDialog.ShowDialog(this);
                 }
             }
@@ -361,8 +366,10 @@ namespace Timotheus.Views
         /// </summary>
         public async void SaveAsKey_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new();
-            saveFileDialog.Filters = new();
+            SaveFileDialog saveFileDialog = new()
+            {
+                Filters = new()
+            };
 
             FileDialogFilter tkeyFilter = new();
             tkeyFilter.Extensions.Add("tkey");
@@ -415,8 +422,10 @@ namespace Timotheus.Views
             txtFilter.Extensions.Add("tkey");
             txtFilter.Name = "Key files (.tkey)";
 
-            openFileDialog.Filters = new();
-            openFileDialog.Filters.Add(txtFilter);
+            openFileDialog.Filters = new()
+            {
+                txtFilter
+            };
 
             string[] result = await openFileDialog.ShowAsync(this);
             if (result != null && result.Length > 0)
@@ -556,9 +565,11 @@ namespace Timotheus.Views
                 {
                     e.Cancel = true;
 
-                    MessageBox msDialog = new();
-                    msDialog.DialogTitle = Localization.Localization.Exception_Warning;
-                    msDialog.DialogText = Localization.Localization.Exception_UnsavedProgress;
+                    MessageBox msDialog = new()
+                    {
+                        DialogTitle = Localization.Localization.Exception_Warning,
+                        DialogText = Localization.Localization.Exception_UnsavedProgress
+                    };
                     await msDialog.ShowDialog(this);
 
                     if (msDialog.DialogResult == DialogResult.OK)
@@ -587,9 +598,11 @@ namespace Timotheus.Views
 
         public async void Error(string title, string message)
         {
-            MessageBox msDialog = new();
-            msDialog.DialogTitle = title;
-            msDialog.DialogText = message;
+            MessageBox msDialog = new()
+            {
+                DialogTitle = title,
+                DialogText = message
+            };
             await msDialog.ShowDialog(this);
         }
     }
