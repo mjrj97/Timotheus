@@ -22,7 +22,7 @@ namespace Timotheus
             }
             catch (Exception e)
             {
-                System.IO.File.AppendAllText("log.txt", "[" + DateTime.Now + "]: " +  e.Message);
+                System.IO.File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/" + DateTime.Now.ToString() + ".txt", "[" + DateTime.Now + "]: " + e.Message);
             }
 #endif
         }
