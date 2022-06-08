@@ -2,7 +2,7 @@
 REM This .bat script builds for macOS and creates a an .app on the Desktop in a Timotheus folder
 
 REM Load info about the application and delete last build
-SET VERSION=1.2.3
+SET VERSION=1.2.4
 IF EXIST %userprofile%\desktop\Timotheus (
     rmdir %userprofile%\desktop\Timotheus /s /q
 )
@@ -25,7 +25,7 @@ dotnet publish -c Release --runtime linux-x64 --self-contained true --output %us
 
 REM WINDOWS SECTION
 ECHO ***Building Windows application***
-dotnet publish -c Release --runtime win-x64 --self-contained true -p:PublishReadyToRun=true -p:PublishTrimmed=true --output %userprofile%\desktop\Timotheus\Windows\Application\
+dotnet publish -c Release --runtime win-x64 --self-contained true -p:PublishReadyToRun=true --output %userprofile%\desktop\Timotheus\Windows\Application\
 
 REM ECHO ***Building Windows installer***
 "C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\AdvancedInstaller.com" /edit %userprofile%/OneDrive/Dokumenter/GitHub/Timotheus/Installer/Windows/Installer.aip /SetVersion %VERSION%

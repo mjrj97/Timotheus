@@ -66,15 +66,16 @@ namespace Timotheus.Views.Dialogs
                     {
                         ConsentDate = new DateTime(ConsentDate.Year, ConsentDate.Month, value + 1);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Timotheus.Log(ex);
                         ConsentDate = new DateTime(ConsentDate.Year, ConsentDate.Month, 1);
                     }
                 }
             }
         }
 
-        private int Month
+        public int Month
         {
             get
             {
@@ -157,9 +158,11 @@ namespace Timotheus.Views.Dialogs
             {
                 if (ConsentName == string.Empty)
                 {
-                    MessageBox messageBox = new();
-                    messageBox.DialogTitle = Localization.Localization.Exception_Name;
-                    messageBox.DialogText = Localization.Localization.AddConsentForm_EmptyName;
+                    MessageBox messageBox = new()
+                    {
+                        DialogTitle = Localization.Localization.Exception_Name,
+                        DialogText = Localization.Localization.AddConsentForm_EmptyName
+                    };
                     messageBox.ShowDialog(this);
                 }
                 else
@@ -167,6 +170,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (Exception ex)
             {
+                Timotheus.Log(ex);
                 Error = ex.Message;
             }
         }
@@ -191,7 +195,10 @@ namespace Timotheus.Views.Dialogs
                 ((TextBox)sender).Text = regexObj.Replace(text, "");
                 NotifyPropertyChanged(nameof(Year));
             }
-            catch (ArgumentException) { }
+            catch (ArgumentException ex) 
+            {
+                Timotheus.Log(ex);
+            }
         }
 
         /// <summary>

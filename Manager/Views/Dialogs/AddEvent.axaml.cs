@@ -85,15 +85,16 @@ namespace Timotheus.Views.Dialogs
                     {
                         Start = new DateTime(Start.Year, Start.Month, value + 1);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Timotheus.Log(ex);
                         Start = new DateTime(Start.Year, Start.Month, 1);
                     }
                 }
             }
         }
 
-        private int StartMonth
+        public int StartMonth
         {
             get
             {
@@ -159,8 +160,9 @@ namespace Timotheus.Views.Dialogs
                     {
                         End = new DateTime(End.Year, End.Month, value + 1);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Timotheus.Log(ex);
                         End = new DateTime(End.Year, End.Month, 1);
                     }
                 }
@@ -330,6 +332,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (Exception ex)
             {
+                Timotheus.Log(ex);
                 Error = ex.Message;
             }
         }
@@ -355,7 +358,10 @@ namespace Timotheus.Views.Dialogs
                 NotifyPropertyChanged(nameof(StartTime));
                 NotifyPropertyChanged(nameof(EndTime));
             }
-            catch (ArgumentException) { }
+            catch (ArgumentException ex) 
+            {
+                Timotheus.Log(ex);
+            }
         }
 
         /// <summary>
@@ -371,7 +377,10 @@ namespace Timotheus.Views.Dialogs
                 NotifyPropertyChanged(nameof(StartYear));
                 NotifyPropertyChanged(nameof(EndYear));
             }
-            catch (ArgumentException) { }
+            catch (ArgumentException ex)
+            {
+                Timotheus.Log(ex);
+            }
         }
     }
 }

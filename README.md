@@ -15,9 +15,9 @@ The purpose of this project is to create software that can manage a small associ
 - [ ] Small Group Management
 
 ## Libraries
-Avalonia 0.10.10</br>
-PDFsharp-MigraDoc 1.50.5147</br>
-FluentFTP 37.0.1</br>
+Avalonia 0.10.15</br>
+PdfSharpCore 1.3.30</br>
+FluentFTP 37.0.3</br>
 SSH.NET 2020.0.1
 
 ## How to contribute
@@ -44,9 +44,9 @@ Formålet med dette projekt er at udvikle software, der kan behandle en lille fo
 - [ ] Administration af smågrupper
 
 ## Biblioteker
-Avalonia 0.10.10</br>
-PDFsharp-MigraDoc 1.50.5147</br>
-FluentFTP 37.0.1</br>
+Avalonia 0.10.15</br>
+PdfSharpCore 1.3.30</br>
+FluentFTP 37.0.3</br>
 SSH.NET 2020.0.1
 
 ## Hvordan man kan bidrage

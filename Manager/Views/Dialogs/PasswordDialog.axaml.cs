@@ -35,11 +35,14 @@ namespace Timotheus.Views.Dialogs
                 string decrypted = Cipher.Decrypt(encrypted);
                 DialogResult = DialogResult.OK;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox msDialog = new();
-                msDialog.DialogTitle = Localization.Localization.Exception_InvalidPassword;
-                msDialog.DialogText = Localization.Localization.Exception_Name;
+                Timotheus.Log(ex);
+                MessageBox msDialog = new()
+                {
+                    DialogTitle = Localization.Localization.Exception_InvalidPassword,
+                    DialogText = Localization.Localization.Exception_Name
+                };
                 await msDialog.ShowDialog(this);
             }
         }

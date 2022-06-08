@@ -62,7 +62,11 @@ namespace Timotheus.Views.Tabs
                 {
                     Directory = new DirectoryViewModel(MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-RemoteDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-URL"), int.Parse(MainViewModel.Instance.Keys.Retrieve("SSH-Port") == string.Empty ? "22" : MainViewModel.Instance.Keys.Retrieve("SSH-Port")), MainViewModel.Instance.Keys.Retrieve("SSH-Username"), MainViewModel.Instance.Keys.Retrieve("SSH-Password"));
                 }
-                catch (Exception) { Directory = new(); }
+                catch (Exception ex)
+                {
+                    Timotheus.Log(ex);
+                    Directory = new();
+                }
             }
             else
                 Directory = new();
@@ -79,6 +83,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
+                Timotheus.Log(ex);
                 MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
             }
         }
@@ -110,6 +115,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
+                Timotheus.Log(ex);
                 MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
             }
         }
@@ -163,6 +169,35 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
+                    Timotheus.Log(ex);
+                    MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Marks the selected event for deletion.
+        /// </summary>
+        private void EditFilePermission_Click(object sender, RoutedEventArgs e)
+        {
+            FileViewModel file = (FileViewModel)((Button)e.Source).DataContext;
+            if (sender != null)
+            {
+                try
+                {
+                    Button button = (Button)sender;
+                    if (button.Name == "Public")
+                    {
+                        Directory.SetFilePermissions(file, 770);
+                    }
+                    else if (button.Name == "Private")
+                    {
+                        Directory.SetFilePermissions(file, 775);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Timotheus.Log(ex);
                     MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
                 }
             }
@@ -207,6 +242,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
+                Timotheus.Log(ex);
                 MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
             }
         }
