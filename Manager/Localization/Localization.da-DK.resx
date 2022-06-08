@@ -159,6 +159,12 @@
   <data name="AddEvent_DescriptionLabel" xml:space="preserve">
     <value>Beskriv.</value>
   </data>
+  <data name="AddEvent_Edit" xml:space="preserve">
+    <value>Ændr begivenhed</value>
+  </data>
+  <data name="AddEvent_EditButton" xml:space="preserve">
+    <value>Ændr</value>
+  </data>
   <data name="AddEvent_EndLabel" xml:space="preserve">
     <value>Slut*</value>
   </data>

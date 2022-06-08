@@ -203,6 +203,13 @@ namespace Timotheus.Views.Tabs
             if ((text = MainViewModel.Instance.Keys.Retrieve("Settings-EventEnd")) != string.Empty)
                 dialog.EndTime = text;
 
+            Period period = new(Calendar.PeriodText);
+            if (!period.In(DateTime.Now))
+            {
+                dialog.Start = period.Start.Date;
+                dialog.End = period.Start.Date;
+            }
+
             await dialog.ShowDialog(MainWindow.Instance);
 
             if (dialog.DialogResult == DialogResult.OK)
@@ -274,6 +281,8 @@ namespace Timotheus.Views.Tabs
             {
                 AddEvent dialog = new()
                 {
+                    Title = Localization.Localization.AddEvent_Edit,
+                    ButtonName = Localization.Localization.AddEvent_EditButton,
                     EventName = ev.Name,
                     Start = ev.StartSort,
                     End = ev.EndSort,

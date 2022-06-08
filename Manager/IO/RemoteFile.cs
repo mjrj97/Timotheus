@@ -144,15 +144,6 @@ namespace Timotheus.IO
                 
                 return sum;
             }
-            set
-            {
-                if (sftpFile != null)
-                    sftpFile.SetPermissions(value);
-                else
-                {
-                    // FIX
-                }
-            }
         }
     }
 }

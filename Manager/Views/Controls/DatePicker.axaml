@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="32"
+             x:Class="Timotheus.Views.Controls.DatePicker">
+	<DockPanel>
+		<ComboBox Items="{Binding Days}" SelectedIndex="{Binding Day}" DockPanel.Dock="Left"/>
+		<TextBox Watermark="2021" Text="{Binding Year}" Width="30" Height="32" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Right"/>
+		<ComboBox HorizontalAlignment="Stretch" Items="{Binding Months}" SelectedIndex="{Binding Month}"/>
+	</DockPanel>
+</UserControl>

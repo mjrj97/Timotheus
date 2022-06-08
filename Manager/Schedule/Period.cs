@@ -342,6 +342,11 @@ namespace Timotheus.Schedule
             return (this.Start >= Start && this.Start <= End) || (this.End >= Start && this.End <= End);
         }
 
+        public bool In(DateTime Time)
+        {
+            return Start <= Time && End >= Time;
+        }
+
         /// <summary>
         /// Returns the period as a string (ie. April 2021)
         /// </summary>

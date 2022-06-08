@@ -41,7 +41,7 @@
     </DockPanel>
     <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
       <TextBlock Name="Error" Foreground="Red" VerticalAlignment="Center" Text="{Binding Error}" Width="230" TextWrapping="Wrap"/>
-      <Button Content="{x:Static i18n:Localization.AddEvent_AddButton}" Click="Add_Click" Margin="10 0"/>
+      <Button Content="{Binding ButtonName}" Click="Add_Click" Margin="10 0"/>
       <Button Content="{x:Static i18n:Localization.AddEvent_CancelButton}" Click="Cancel_Click"/>
     </DockPanel>
   </DockPanel>

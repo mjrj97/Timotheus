@@ -259,6 +259,20 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
+        private string _buttonName = Localization.Localization.AddEvent_AddButton;
+        public string ButtonName
+        {
+            get
+            {
+                return _buttonName;
+            }
+            set
+            {
+                _buttonName = value;
+                NotifyPropertyChanged(nameof(ButtonName));
+            }
+        }
+
         /// <summary>
         /// Loads the XAML and assigns the DataContext.
         /// </summary>
