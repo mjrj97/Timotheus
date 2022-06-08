@@ -106,6 +106,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
+                    Timotheus.Log(ex);
                     MainWindow.Instance.Error(Localization.Localization.Exception_Sync, ex.Message);
                 }
             }
@@ -123,8 +124,10 @@ namespace Timotheus.Views.Tabs
             filter.Extensions.Add("ics");
             filter.Name = "Calendar (.ics)";
 
-            saveFileDialog.Filters = new();
-            saveFileDialog.Filters.Add(filter);
+            saveFileDialog.Filters = new()
+            {
+                filter
+            };
 
             result = await saveFileDialog.ShowAsync(MainWindow.Instance);
             if (result != null)
@@ -135,6 +138,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
+                    Timotheus.Log(ex);
                     MainWindow.Instance.Error(Localization.Localization.Exception_Saving, ex.Message);
                 }
             }
@@ -176,6 +180,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
+                    Timotheus.Log(ex);
                     MainWindow.Instance.Error(Localization.Localization.Exception_InvalidCalendar, ex.Message);
                 }
             }
@@ -198,6 +203,13 @@ namespace Timotheus.Views.Tabs
             if ((text = MainViewModel.Instance.Keys.Retrieve("Settings-EventEnd")) != string.Empty)
                 dialog.EndTime = text;
 
+            Period period = new(Calendar.PeriodText);
+            if (!period.In(DateTime.Now))
+            {
+                dialog.Start = period.Start.Date;
+                dialog.End = period.Start.Date;
+            }
+
             await dialog.ShowDialog(MainWindow.Instance);
 
             if (dialog.DialogResult == DialogResult.OK)
@@ -209,6 +221,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
+                    Timotheus.Log(ex);
                     MainWindow.Instance.Error(Localization.Localization.Exception_InvalidEvent, ex.Message);
                 }
             }
@@ -236,8 +249,10 @@ namespace Timotheus.Views.Tabs
             filter.Extensions.Add("pdf");
             filter.Name = "PDF Files (.pdf)";
 
-            saveFileDialog.Filters = new();
-            saveFileDialog.Filters.Add(filter);
+            saveFileDialog.Filters = new()
+            {
+                filter
+            };
 
             string result = await saveFileDialog.ShowAsync(MainWindow.Instance);
 
@@ -250,6 +265,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
+                    Timotheus.Log(ex);
                     MainWindow.Instance.Error(Localization.Localization.Exception_Saving, ex.Message);
                 }
             }
@@ -265,6 +281,8 @@ namespace Timotheus.Views.Tabs
             {
                 AddEvent dialog = new()
                 {
+                    Title = Localization.Localization.AddEvent_Edit,
+                    ButtonName = Localization.Localization.AddEvent_EditButton,
                     EventName = ev.Name,
                     Start = ev.StartSort,
                     End = ev.EndSort,
@@ -289,6 +307,7 @@ namespace Timotheus.Views.Tabs
                     }
                     catch (Exception ex)
                     {
+                        Timotheus.Log(ex);
                         MainWindow.Instance.Error(Localization.Localization.Exception_InvalidEvent, ex.Message);
                     }
                 }
@@ -303,7 +322,11 @@ namespace Timotheus.Views.Tabs
                 {
                     Calendar = new(MainViewModel.Instance.Keys.Retrieve("Calendar-Email"), MainViewModel.Instance.Keys.Retrieve("Calendar-Password"), MainViewModel.Instance.Keys.Retrieve("Calendar-URL"));
                 }
-                catch (Exception) { Calendar = new(); }
+                catch (Exception ex)
+                {
+                    Timotheus.Log(ex);
+                    Calendar = new();
+                }
             }
             else
                 Calendar = new();

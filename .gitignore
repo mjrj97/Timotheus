@@ -59,6 +59,7 @@ artifacts/
 # Installer
 Installer-cache/
 Installer-SetupFiles/
+*.aip
 
 # StyleCop
 StyleCopReport.xml

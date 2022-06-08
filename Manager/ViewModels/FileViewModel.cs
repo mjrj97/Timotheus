@@ -86,11 +86,31 @@ namespace Timotheus.ViewModels
             }
         }
 
-        public string Permissions
+        /// <summary>
+        /// Whether the file is private.
+        /// </summary>
+        public bool IsPrivate
         {
             get
             {
-                return file.Permissions.ToString();
+                if (Handle != SyncHandle.NewUpload)
+                    return file.Permissions == 770;
+                else
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Whether the file is public.
+        /// </summary>
+        public bool IsPublic
+        {
+            get
+            {
+                if (Handle != SyncHandle.NewUpload)
+                    return !IsPrivate;
+                else
+                    return false;
             }
         }
 

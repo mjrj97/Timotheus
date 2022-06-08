@@ -81,6 +81,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
+                    Timotheus.Log(ex);
                     MainWindow.Instance.Error(Localization.Localization.Exception_Saving, ex.Message);
                 }
             }
@@ -152,7 +153,11 @@ namespace Timotheus.Views.Tabs
                 {
                     People = new(MainViewModel.Instance.Keys.Retrieve("Person-File"));
                 }
-                catch (Exception) { People = new(); }
+                catch (Exception ex) 
+                {
+                    Timotheus.Log(ex);
+                    People = new();
+                }
             }
             else
                 People = new();

@@ -50,6 +50,20 @@
 			<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
 			<DataGridTextColumn Header="" Width="*" MaxWidth="200" Binding="{Binding HandleText}" IsReadOnly="True"/>
 			<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
+				<DataGridTemplateColumn>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<DockPanel>
+								<Button Name="Private" Click="EditFilePermission_Click" Margin="0 5 5 5" Width="30" Height="30" IsVisible="{Binding IsPrivate}">
+									<Image Source="/Resources/Lock.png" Height="20" Width="20" VerticalAlignment="Center"/>
+								</Button>
+								<Button Name="Public" Click="EditFilePermission_Click" Margin="0 5 5 5" Width="30" Height="30" IsVisible="{Binding IsPublic}">
+									<Image Source="/Resources/Eye.png" Height="20" Width="20" VerticalAlignment="Center"/>
+								</Button>
+							</DockPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 		</Border>

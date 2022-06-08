@@ -127,6 +127,13 @@ namespace Timotheus.IO
         public bool Exists(string remote, bool directory)
         {
             bool exists;
+
+            bool isPreconnected = IsConnected;
+            if (!isPreconnected)
+            {
+                Connect();
+            }
+
             if (port == 22)
             {
                 exists = sftpClient.Exists(remote);
@@ -138,6 +145,12 @@ namespace Timotheus.IO
                 else
                     exists = ftpClient.FileExists(remote);
             }
+
+            if (!isPreconnected)
+            {
+                Disconnect();
+            }
+
             return exists;
         }
 
@@ -189,8 +202,9 @@ namespace Timotheus.IO
                 else
                     ftpClient.Upload(fs, remote);
             }
-            catch (IOException) 
+            catch (IOException ex) 
             {
+                Timotheus.Log(ex);
                 string tempFile = Path.GetTempFileName();
                 File.Copy(local, tempFile, true);
                 using (FileStream fs = File.Open(tempFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -228,10 +242,11 @@ namespace Timotheus.IO
                 else
                     ftpClient.DeleteFile(remote);
             }
-            catch (SftpPathNotFoundException e)
+            catch (SftpPathNotFoundException ex)
             {
+                Timotheus.Log(ex);
                 //Do something when file is not found
-                System.Diagnostics.Debug.WriteLine(e.Message);
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
 
             if (!isPreconnected)
@@ -293,10 +308,40 @@ namespace Timotheus.IO
                     ftpClient.DeleteDirectory(remote);
                 }
             }
-            catch (SftpPathNotFoundException e)
+            catch (SftpPathNotFoundException ex)
             {
+                Timotheus.Log(ex);
                 //Do something when file is not found
-                System.Diagnostics.Debug.WriteLine(e.Message);
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+
+            if (!isPreconnected)
+            {
+                Disconnect();
+            }
+        }
+
+        /// <summary>
+        /// Sets the permissions of the file/directory with given path.
+        /// </summary>
+        public void SetPermissions(string path, short permissions)
+        {
+            bool isPreconnected = IsConnected;
+            if (!isPreconnected)
+            {
+                Connect();
+            }
+
+            if (port == 22) //SFTP
+            {
+                SftpFileAttributes attributes = sftpClient.GetAttributes(path);
+                attributes.SetPermissions(permissions);
+                sftpClient.SetAttributes(path, attributes);
+                System.Diagnostics.Debug.WriteLine(path + ": " + permissions);
+            }
+            else
+            {
+                ftpClient.SetFilePermissions(path, permissions);
             }
 
             if (!isPreconnected)

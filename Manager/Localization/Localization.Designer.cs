@@ -187,6 +187,24 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit event.
+        /// </summary>
+        public static string AddEvent_Edit {
+            get {
+                return ResourceManager.GetString("AddEvent_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string AddEvent_EditButton {
+            get {
+                return ResourceManager.GetString("AddEvent_EditButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End*.
         /// </summary>
         public static string AddEvent_EndLabel {

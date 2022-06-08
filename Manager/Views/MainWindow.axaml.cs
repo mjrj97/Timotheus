@@ -131,6 +131,7 @@ namespace Timotheus.Views
             }
             catch (Exception ex)
             {
+                Timotheus.Log(ex);
                 Error(Localization.Localization.Exception_NoKeys, ex.Message);
             }
         }
@@ -170,7 +171,10 @@ namespace Timotheus.Views
                         Timotheus.Registry.Update("ShowUpdateDialog", "false");
                 }
             }
-            catch (Exception) { }
+            catch (Exception) 
+            {
+                //Timotheus.Log(ex); FIX
+            }
         }
 
         /// <summary>
@@ -211,6 +215,7 @@ namespace Timotheus.Views
             }
             catch (Exception ex)
             {
+                Timotheus.Log(ex);
                 Error(Localization.Localization.Exception_Name, ex.Message);
             }
 
@@ -310,6 +315,7 @@ namespace Timotheus.Views
                             }
                             catch (Exception ex)
                             {
+                                Timotheus.Log(ex);
                                 Error(Localization.Localization.Exception_Saving, ex.Message);
                             }
                         }
@@ -326,6 +332,7 @@ namespace Timotheus.Views
                                 }
                                 catch (Exception ex)
                                 {
+                                    Timotheus.Log(ex);
                                     Error(Localization.Localization.Exception_Saving, ex.Message);
                                 }
 
@@ -344,6 +351,7 @@ namespace Timotheus.Views
                         }
                         catch (Exception ex)
                         {
+                            Timotheus.Log(ex);
                             Error(Localization.Localization.Exception_Saving, ex.Message);
                         }
                         break;
@@ -393,6 +401,7 @@ namespace Timotheus.Views
                             }
                             catch (Exception ex)
                             {
+                                Timotheus.Log(ex);
                                 Error(Localization.Localization.Exception_Saving, ex.Message);
                             }
                         }
@@ -404,6 +413,7 @@ namespace Timotheus.Views
                         }
                         catch (Exception ex)
                         {
+                            Timotheus.Log(ex);
                             Error(Localization.Localization.Exception_Saving, ex.Message);
                         }
                         break;
@@ -452,6 +462,7 @@ namespace Timotheus.Views
                             }
                             catch (Exception ex)
                             {
+                                Timotheus.Log(ex);
                                 Error(Localization.Localization.Exception_LoadFailed, ex.Message);
                             }
                         }
@@ -464,6 +475,7 @@ namespace Timotheus.Views
                         }
                         catch (Exception ex)
                         {
+                            Timotheus.Log(ex);
                             Error(Localization.Localization.Exception_LoadFailed, ex.Message);
                         }
                         break;
@@ -489,6 +501,7 @@ namespace Timotheus.Views
                 }
                 catch (Exception ex)
                 {
+                    Timotheus.Log(ex);
                     Error(Localization.Localization.Exception_Name, ex.Message);
                 }
             }

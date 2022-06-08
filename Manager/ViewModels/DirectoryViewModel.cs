@@ -325,6 +325,15 @@ namespace Timotheus.ViewModels
         }
 
         /// <summary>
+        /// Sets the permissions of the file.
+        /// </summary>
+        public void SetFilePermissions(FileViewModel file, short permissions)
+        {
+            client.SetPermissions(file.RemoteFullName, permissions);
+            GoToDirectory(CurrentDirectory);
+        }
+
+        /// <summary>
         /// Make a list of all the files in the directories. Trying to match the files according to their name.
         /// </summary>
         /// <param name="remotePath"></param>

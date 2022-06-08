@@ -39,18 +39,7 @@ namespace Timotheus.IO
         /// <summary>
         /// Returns the value of the files permission.
         /// </summary>
-        public short Permissions
-        {
-            get
-            {
-                if (RemoteFile != null)
-                    return RemoteFile.Permissions;
-                else
-                    return 0;
-            }
-            // 770 is private / hidden
-            // 775 is public
-        }
+        public short Permissions;
 
         /// <summary>
         /// Connects the pairs.
@@ -149,6 +138,11 @@ namespace Timotheus.IO
                     }
                 }
             }
+
+            if (RemoteFile != null)
+                Permissions = RemoteFile.Permissions;
+            else
+                Permissions = 0;
         }
     }
 }
