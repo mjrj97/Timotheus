@@ -309,6 +309,9 @@
   <data name="Exception_Name" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="Exception_NoInternet" xml:space="preserve">
+    <value>A connection to the internet could not be established. Check your internet conneciton or firewall.</value>
+  </data>
   <data name="Exception_NoKeys" xml:space="preserve">
     <value>Key file could not be loaded</value>
   </data>

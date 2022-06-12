@@ -324,8 +324,9 @@ namespace Timotheus.Views.Dialogs
                 if (End < Start)
                     throw new Exception(Localization.Localization.Exception_EndBeforeStart);
 
+                DateTime EndSaved = End.Date;
                 Start = Start.Date;
-                End = End.Date;
+                End = EndSaved;
 
                 if (!AllDayEvent)
                 {

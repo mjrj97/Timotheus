@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using Timotheus.IO;
 using Timotheus.Utility;
@@ -72,6 +73,9 @@ namespace Timotheus.Views
         {
             try
             {
+                if (!CheckForInternetConnection())
+                    throw new Exception(Localization.Localization.Exception_NoInternet);
+
                 string keyPath = string.Empty;
 
                 if (Timotheus.FirstTime)
@@ -133,6 +137,10 @@ namespace Timotheus.Views
             {
                 Timotheus.Log(ex);
                 Error(Localization.Localization.Exception_NoKeys, ex.Message);
+
+                mvm.NewProject(new Register(':'));
+                InsertKey(null, null);
+                UpdateTabs();
             }
         }
 
@@ -624,6 +632,32 @@ namespace Timotheus.Views
             }
 
             return isThereUnsavedProgress;
+        }
+
+        public static bool CheckForInternetConnection(int timeoutMs = 10000, string url = null)
+        {
+            try
+            {
+                url ??= System.Globalization.CultureInfo.InstalledUICulture switch
+                {
+                    { Name: var n } when n.StartsWith("fa") => // Iran
+                        "http://www.aparat.com",
+                    { Name: var n } when n.StartsWith("zh") => // China
+                        "http://www.baidu.com",
+                    _ =>
+                        "http://www.gstatic.com/generate_204",
+                };
+
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.KeepAlive = false;
+                request.Timeout = timeoutMs;
+                using var response = (HttpWebResponse)request.GetResponse();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async void Error(string title, string message)

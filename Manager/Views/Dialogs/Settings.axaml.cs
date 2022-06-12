@@ -1,7 +1,10 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
+using System;
+using System.Text.RegularExpressions;
 using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
@@ -113,7 +116,6 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-
         private bool _lookForUpdates = true;
         public bool LookForUpdates
         {
@@ -140,12 +142,33 @@ namespace Timotheus.Views.Dialogs
             imgFilter.Extensions.Add("jpg");
             imgFilter.Name = "Images (.png, .jpg)";
 
-            openFileDialog.Filters = new();
-            openFileDialog.Filters.Add(imgFilter);
+            openFileDialog.Filters = new()
+            {
+                imgFilter
+            };
 
             string[] result = await openFileDialog.ShowAsync(this);
             if (result != null && result.Length > 0)
                 ImagePath = result[0];
+        }
+
+        /// <summary>
+        /// Makes sure that the year fields only contain numbers.
+        /// </summary>
+        private void FixTime(object sender, KeyEventArgs e)
+        {
+            string text = ((TextBox)sender).Text;
+            try
+            {
+                Regex regexObj = new(@"[^\d&&:&&.]");
+                ((TextBox)sender).Text = regexObj.Replace(text, "");
+                NotifyPropertyChanged(nameof(StartTime));
+                NotifyPropertyChanged(nameof(EndTime));
+            }
+            catch (ArgumentException ex)
+            {
+                Timotheus.Log(ex);
+            }
         }
 
         private void DeleteSettings_Click(object sender, RoutedEventArgs e)

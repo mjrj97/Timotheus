@@ -38,9 +38,9 @@
 				<DockPanel Margin="0 7">
 					<TextBlock Text="{x:Static i18n:Localization.Settings_EventTime}" VerticalAlignment="Center" Width="100"/>
 					<TextBlock Text="{x:Static i18n:Localization.Settings_EventStart}" VerticalAlignment="Center" Width="50"/>
-					<TextBox Watermark="00:00" Text="{Binding StartTime}" Width="115" Margin="0 0 30 0"/>
+					<TextBox Watermark="00:00" Text="{Binding StartTime}" KeyUp="FixTime" Width="115" Margin="0 0 30 0"/>
 					<TextBlock Text="{x:Static i18n:Localization.Settings_EventEnd}" VerticalAlignment="Center" Width="50"/>
-					<TextBox Watermark="00:00" Text="{Binding EndTime}" Width="115"/>
+					<TextBox Watermark="00:00" Text="{Binding EndTime}" KeyUp="FixTime" Width="115"/>
 				</DockPanel>
 				<DockPanel>
 					<TextBlock Text="{x:Static i18n:Localization.Settings_EventDescription}" VerticalAlignment="Top" Width="100" Margin="0 7 0 0"/>

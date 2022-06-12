@@ -637,6 +637,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A connection to the internet could not be established. Check your internet conneciton or firewall..
+        /// </summary>
+        public static string Exception_NoInternet {
+            get {
+                return ResourceManager.GetString("Exception_NoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Key file could not be loaded.
         /// </summary>
         public static string Exception_NoKeys {

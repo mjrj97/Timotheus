@@ -312,6 +312,9 @@
   <data name="Exception_Name" xml:space="preserve">
     <value>Fejl</value>
   </data>
+  <data name="Exception_NoInternet" xml:space="preserve">
+    <value>Der kunne ikke skabes en forbindelse til internettet. Tjek din internetforbindelse eller firewall.</value>
+  </data>
   <data name="Exception_NoKeys" xml:space="preserve">
     <value>Nøglefil kunne ikke læses</value>
   </data>
