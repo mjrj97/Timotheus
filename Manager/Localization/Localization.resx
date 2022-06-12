@@ -180,11 +180,20 @@
   <data name="Calendar_AddButton" xml:space="preserve">
     <value>Add Event</value>
   </data>
+  <data name="Calendar_AddEvent_ToolTip" xml:space="preserve">
+    <value>Add an event to the calendar</value>
+  </data>
   <data name="Calendar_All" xml:space="preserve">
     <value>All</value>
   </data>
   <data name="Calendar_AllButton" xml:space="preserve">
     <value>All</value>
+  </data>
+  <data name="Calendar_BackTime_ToolTip" xml:space="preserve">
+    <value>Go back in time</value>
+  </data>
+  <data name="Calendar_DeleteEvent" xml:space="preserve">
+    <value>Are you sure you want to delete the event "#"?</value>
   </data>
   <data name="Calendar_DescriptionColumn" xml:space="preserve">
     <value>Description</value>
@@ -195,8 +204,14 @@
   <data name="Calendar_ExportButton" xml:space="preserve">
     <value>Export</value>
   </data>
+  <data name="Calendar_Export_ToolTip" xml:space="preserve">
+    <value>Exports the calendar as PDF, and only shows events in the current period.</value>
+  </data>
   <data name="Calendar_Fall" xml:space="preserve">
     <value>Fall</value>
+  </data>
+  <data name="Calendar_ForwardTime_ToolTip" xml:space="preserve">
+    <value>Go forward in time</value>
   </data>
   <data name="Calendar_HalfYearButton" xml:space="preserve">
     <value>Half-year</value>
@@ -210,8 +225,20 @@
   <data name="Calendar_NameColumn" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Calendar_Open_ToolTip" xml:space="preserve">
+    <value>Open a calendar</value>
+  </data>
   <data name="Calendar_Page" xml:space="preserve">
     <value>Calendar</value>
+  </data>
+  <data name="Calendar_PeriodBox_ToolTip" xml:space="preserve">
+    <value>The current period. The calendar will only show events in this period.</value>
+  </data>
+  <data name="Calendar_PeriodType_ToolTip" xml:space="preserve">
+    <value>The current type of period.</value>
+  </data>
+  <data name="Calendar_Save_ToolTip" xml:space="preserve">
+    <value>Save the calendar as a .ics file. This does NOT synchronize the calendar.</value>
   </data>
   <data name="Calendar_Spring" xml:space="preserve">
     <value>Spring</value>
@@ -221,6 +248,9 @@
   </data>
   <data name="Calendar_SyncButton" xml:space="preserve">
     <value>Synchronize</value>
+  </data>
+  <data name="Calendar_Sync_ToolTip" xml:space="preserve">
+    <value>Synchronize the calendar with a remote calendar</value>
   </data>
   <data name="Calendar_YearButton" xml:space="preserve">
     <value>Year</value>
@@ -239,6 +269,9 @@
   </data>
   <data name="Exception_AlreadyRunning" xml:space="preserve">
     <value>The program is already running. If you can't see it, check the system tray or task manager</value>
+  </data>
+  <data name="Exception_CantGoUpDirectory" xml:space="preserve">
+    <value>You can't go further back. This is the root directory.</value>
   </data>
   <data name="Exception_EmptyAddress" xml:space="preserve">
     <value>Address cannot be empty</value>
@@ -432,7 +465,13 @@
   <data name="People_Active" xml:space="preserve">
     <value>Active</value>
   </data>
+  <data name="People_Active_ToolTip" xml:space="preserve">
+    <value>Make the person active/inactive</value>
+  </data>
   <data name="People_Add" xml:space="preserve">
+    <value>Add person</value>
+  </data>
+  <data name="People_Add_ToolTip" xml:space="preserve">
     <value>Add person</value>
   </data>
   <data name="People_Comment" xml:space="preserve">
@@ -444,17 +483,38 @@
   <data name="People_ConsentVersion" xml:space="preserve">
     <value>Version</value>
   </data>
+  <data name="People_Delete" xml:space="preserve">
+    <value>Are you sure you want to delete "#"?</value>
+  </data>
+  <data name="People_Delete_ToolTip" xml:space="preserve">
+    <value>Delete the person</value>
+  </data>
   <data name="People_HideInactive" xml:space="preserve">
     <value>Hide inactive</value>
+  </data>
+  <data name="People_InActive" xml:space="preserve">
+    <value>Inactive</value>
   </data>
   <data name="People_Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="People_Open_ToolTip" xml:space="preserve">
+    <value>Open a file with people</value>
+  </data>
   <data name="People_Page" xml:space="preserve">
     <value>Consent forms</value>
   </data>
+  <data name="People_Save_ToolTip" xml:space="preserve">
+    <value>Save the people to a file</value>
+  </data>
   <data name="People_Search" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="People_Search_ToolTip" xml:space="preserve">
+    <value>Search in the peoples names and comments</value>
+  </data>
+  <data name="People_ShowHide_ToolTip" xml:space="preserve">
+    <value>Hide/show people who are inactive</value>
   </data>
   <data name="People_ShowInactive" xml:space="preserve">
     <value>Show inactive</value>
@@ -549,6 +609,9 @@
   <data name="SFTP_ChangedRemote" xml:space="preserve">
     <value>Changes need to be downloaded</value>
   </data>
+  <data name="SFTP_ChangePermission" xml:space="preserve">
+    <value>Are you sure you want to make "#1" #2 with immediate effect? It is currently #3.</value>
+  </data>
   <data name="SFTP_DeleteLocal" xml:space="preserve">
     <value>Deleted on computer</value>
   </data>
@@ -557,6 +620,9 @@
   </data>
   <data name="SFTP_GoUpButton" xml:space="preserve">
     <value>Back</value>
+  </data>
+  <data name="SFTP_GoUp_ToolTip" xml:space="preserve">
+    <value>Go back to the last folder</value>
   </data>
   <data name="SFTP_Message" xml:space="preserve">
     <value>Synchronizing</value>
@@ -573,8 +639,26 @@
   <data name="SFTP_Page" xml:space="preserve">
     <value>Files</value>
   </data>
+  <data name="SFTP_Path_ToolTip" xml:space="preserve">
+    <value>The current folder path</value>
+  </data>
+  <data name="SFTP_Permission_ToolTip" xml:space="preserve">
+    <value>Change permission</value>
+  </data>
+  <data name="SFTP_Private" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="SFTP_Public" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="SFTP_Refresh_ToolTip" xml:space="preserve">
+    <value>Refresh the folder and look for updates</value>
+  </data>
   <data name="SFTP_SetupButton" xml:space="preserve">
     <value>Setup</value>
+  </data>
+  <data name="SFTP_Setup_ToolTip" xml:space="preserve">
+    <value>Setup which folder to synchronize with</value>
   </data>
   <data name="SFTP_SizeColumn" xml:space="preserve">
     <value>File size</value>
@@ -585,8 +669,11 @@
   <data name="SFTP_SyncWorker" xml:space="preserve">
     <value>Synchronizing folders</value>
   </data>
+  <data name="SFTP_Sync_ToolTip" xml:space="preserve">
+    <value>Synchronize all files and folders</value>
+  </data>
   <data name="SFTP_UpdateButton" xml:space="preserve">
-    <value>Update</value>
+    <value>Refresh</value>
   </data>
   <data name="SyncCalendar" xml:space="preserve">
     <value>Synchronize</value>
@@ -633,6 +720,9 @@
   <data name="ToolStrip_EditKey" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="ToolStrip_EditKey_ToolTip" xml:space="preserve">
+    <value>Make changes to the current key</value>
+  </data>
   <data name="ToolStrip_Exit" xml:space="preserve">
     <value>Exit</value>
   </data>
@@ -641,6 +731,9 @@
   </data>
   <data name="ToolStrip_Help" xml:space="preserve">
     <value>Help</value>
+  </data>
+  <data name="ToolStrip_Help_ToolTip" xml:space="preserve">
+    <value>Find information about the program</value>
   </data>
   <data name="ToolStrip_Key" xml:space="preserve">
     <value>Key</value>
@@ -651,20 +744,35 @@
   <data name="ToolStrip_NewFile" xml:space="preserve">
     <value>New</value>
   </data>
+  <data name="ToolStrip_NewFile_ToolTip" xml:space="preserve">
+    <value>Creates a new project</value>
+  </data>
   <data name="ToolStrip_NewSecure" xml:space="preserve">
     <value>Are you sure you want to create a new project? Unsaved progress will be lost.</value>
   </data>
   <data name="ToolStrip_OpenFile" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="ToolStrip_OpenKey_ToolTip" xml:space="preserve">
+    <value>Find a key and open it</value>
+  </data>
   <data name="ToolStrip_SaveAsKey" xml:space="preserve">
     <value>Save as</value>
+  </data>
+  <data name="ToolStrip_SaveAsKey_ToolTip" xml:space="preserve">
+    <value>Save a copy of the current key to a specific location</value>
   </data>
   <data name="ToolStrip_SaveFile" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="ToolStrip_SaveKey" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="ToolStrip_SaveKey_ToolTip" xml:space="preserve">
+    <value>Save the current key</value>
+  </data>
+  <data name="ToolStrip_Settings_ToolTip" xml:space="preserve">
+    <value>Here you can change the settings of the program</value>
   </data>
   <data name="UpdateDialog_Text" xml:space="preserve">
     <value>There is a new update (#) available on the website: www.mjrj.dk</value>

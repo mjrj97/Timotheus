@@ -6,43 +6,61 @@
 			 x:Class="Timotheus.Views.Tabs.FilesPage" d:DesignHeight="400" d:DesignWidth="900">
     <DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-			<Button Click="UpDirectory_Click" Height="32">
+			<Button Click="UpDirectory_Click" Height="32" ToolTip.Tip="{x:Static i18n:Localization.SFTP_GoUp_ToolTip}">
 				<DockPanel>
 					<Image Source="/Resources/Left.png" Height="17" VerticalAlignment="Center"/>
 					<TextBlock Text="{x:Static i18n:Localization.SFTP_GoUpButton}" Margin="5 0" VerticalAlignment="Center"/>
 				</DockPanel>
 			</Button>
 			<DockPanel DockPanel.Dock="Right">
-				<Button Click="UpdateDirectory_Click" Height="32" Margin="0 0 10 0">
+				<Button Click="UpdateDirectory_Click" Height="32" Margin="0 0 10 0" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Refresh_ToolTip}">
 					<DockPanel>
 						<Image Source="/Resources/Update.png" Height="17" VerticalAlignment="Center"/>
 						<TextBlock Text="{x:Static i18n:Localization.SFTP_UpdateButton}" Margin="5 0" VerticalAlignment="Center"/>
 					</DockPanel>
 				</Button>
-				<Button Click="SyncFiles_Click" Height="32" Margin="0 0 10 0">
+				<Button Click="SyncFiles_Click" Height="32" Margin="0 0 10 0" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Sync_ToolTip}">
 					<DockPanel>
 						<Image Source="/Resources/Sync.png" Height="17" VerticalAlignment="Center"/>
 						<TextBlock Text="{x:Static i18n:Localization.SFTP_SyncButton}" Margin="5 0" VerticalAlignment="Center"/>
 					</DockPanel>
 				</Button>
-				<Button Click="SetupFiles_Click" Height="32">
+				<Button Click="SetupFiles_Click" Height="32" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Setup_ToolTip}">
 					<DockPanel>
 						<Image Source="/Resources/Setup.png" Height="17" VerticalAlignment="Center"/>
 						<TextBlock Text="{x:Static i18n:Localization.SFTP_SetupButton}" Margin="5 0" VerticalAlignment="Center"/>
 					</DockPanel>
 				</Button>
 			</DockPanel>
-			<TextBox Text="{Binding CurrentDirectory}" Margin="10 0" IsReadOnly="True" Height="32"/>
+			<TextBox Text="{Binding CurrentDirectory}" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Path_ToolTip}" Margin="10 0" IsReadOnly="True" Height="32"/>
 		</DockPanel>
 		<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
-		<DataGrid Name="Files" Items="{Binding Files}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
+			<Border.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="New folder"/>
+					<Separator/>
+					<MenuItem Header="Synchronize"/>
+					<MenuItem Header="Refresh"/>
+				</ContextMenu>
+			</Border.ContextMenu>
+			<DataGrid Name="Files" Items="{Binding Files}" SelectedItem="{Binding Selected}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
+			<DataGrid.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Open"/>
+					<MenuItem Header="Show in explorer" Click="OpenInFolder_Click"/>
+					<Separator/>
+					<MenuItem Header="Synchronize"/>
+					<Separator/>
+					<MenuItem Header="Delete"/>
+				</ContextMenu>
+			</DataGrid.ContextMenu>
 			<DataGrid.Columns>
-			<DataGridTemplateColumn Header="" Width="32" IsReadOnly="True">
+			<DataGridTemplateColumn IsReadOnly="True">
 				<DataGridTemplateColumn.CellTemplate>
 				<DataTemplate>
-					<DockPanel Margin="1">
-					<Image Source="/Resources/Folder.png" IsVisible="{Binding IsDirectory}"/>
-					<Image Source="/Resources/File.png" IsVisible="{Binding !IsDirectory}"/>
+					<DockPanel VerticalAlignment="Center" Height="30" Margin="5">
+						<Image Source="/Resources/Folder.png" IsVisible="{Binding IsDirectory}"/>
+						<Image Source="/Resources/File.png" IsVisible="{Binding !IsDirectory}"/>
 					</DockPanel>
 				</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
@@ -54,10 +72,10 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<DockPanel>
-								<Button Name="Private" Click="EditFilePermission_Click" Margin="0 5 5 5" Width="30" Height="30" IsVisible="{Binding IsPrivate}">
+								<Button Name="Private" Click="EditFilePermission_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}" Margin="0 5 5 5" Width="30" Height="30" IsVisible="{Binding IsPrivate}">
 									<Image Source="/Resources/Lock.png" Height="20" Width="20" VerticalAlignment="Center"/>
 								</Button>
-								<Button Name="Public" Click="EditFilePermission_Click" Margin="0 5 5 5" Width="30" Height="30" IsVisible="{Binding IsPublic}">
+								<Button Name="Public" Click="EditFilePermission_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}" Margin="0 5 5 5" Width="30" Height="30" IsVisible="{Binding IsPublic}">
 									<Image Source="/Resources/Eye.png" Height="20" Width="20" VerticalAlignment="Center"/>
 								</Button>
 							</DockPanel>

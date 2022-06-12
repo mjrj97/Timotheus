@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Timotheus.IO;
 using Timotheus.Utility;
 using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace Timotheus.ViewModels
 {
@@ -14,6 +15,11 @@ namespace Timotheus.ViewModels
     /// </summary>
     public class DirectoryViewModel : ViewModel
     {
+        /// <summary>
+        /// The currently selected file. Used for the context menu.
+        /// </summary>
+        public FileViewModel Selected { get; set; }
+
         /// <summary>
         /// Client that is connected to the remote directory.
         /// </summary>
@@ -64,6 +70,8 @@ namespace Timotheus.ViewModels
         /// </summary>
         public BackgroundWorker Sync { get; private set; }
 
+        public Timer BackgroundSync;
+
         /// <summary>
         /// Constructor. Is an object that is tasked with keeping a local and remote directory synced.
         /// </summary>
@@ -103,12 +111,12 @@ namespace Timotheus.ViewModels
             Sync = new();
             Sync.DoWork += Synchronize;
 
-            var startTimeSpan = TimeSpan.Zero;
+            /*var startTimeSpan = TimeSpan.Zero;
             var periodTimeSpan = TimeSpan.FromMinutes(1);
 
-            /*var timer = new System.Threading.Timer((e) =>
+            BackgroundSync = new Timer((e) =>
             {
-                MyMethod();
+                File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Test.txt", DateTime.Now.ToString() + "\n");
             }, null, startTimeSpan, periodTimeSpan);*/
         }
 
@@ -305,6 +313,8 @@ namespace Timotheus.ViewModels
             string path = Path.GetDirectoryName(CurrentDirectory) + "/";
             if (path.Length >= RemotePath.Length)
                 GoToDirectory(path);
+            else
+                throw new Exception(Localization.Localization.Exception_CantGoUpDirectory);
         }
 
         /// <summary>

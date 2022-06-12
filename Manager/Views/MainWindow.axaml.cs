@@ -537,18 +537,35 @@ namespace Timotheus.Views
             await dialog.ShowDialog(this);
             if (dialog.DialogResult == DialogResult.OK)
             {
+                bool changed = false;
+
                 if (dialog.AssociationName != string.Empty)
-                    mvm.Keys.Update("Settings-Name", dialog.AssociationName);
+                    changed |= mvm.Keys.Update("Settings-Name", dialog.AssociationName);
                 if (dialog.AssociationAddress != string.Empty)
-                    mvm.Keys.Update("Settings-Address", dialog.AssociationAddress);
+                    changed |= mvm.Keys.Update("Settings-Address", dialog.AssociationAddress);
                 if (dialog.ImagePath != string.Empty)
-                    mvm.Keys.Update("Settings-Image", dialog.ImagePath);
+                    changed |= mvm.Keys.Update("Settings-Image", dialog.ImagePath);
                 if (dialog.Description != string.Empty)
-                    mvm.Keys.Update("Settings-EventDescription", dialog.Description);
+                    changed |= mvm.Keys.Update("Settings-EventDescription", dialog.Description);
                 if (dialog.StartTime != string.Empty)
-                    mvm.Keys.Update("Settings-EventStart", dialog.StartTime);
+                    changed |= mvm.Keys.Update("Settings-EventStart", dialog.StartTime);
                 if (dialog.EndTime != string.Empty)
-                    mvm.Keys.Update("Settings-EventEnd", dialog.EndTime);
+                    changed |= mvm.Keys.Update("Settings-EventEnd", dialog.EndTime);
+
+                if (changed)
+                {
+                    MessageBox messageBox = new()
+                    {
+                        DialogTitle = Localization.Localization.InsertKey_ChangeDetected,
+                        DialogText = Localization.Localization.InsertKey_DoYouWantToSave
+                    };
+                    await messageBox.ShowDialog(this);
+                    if (messageBox.DialogResult == DialogResult.OK)
+                    {
+                        SaveKey_Click(null, null);
+                    }
+                }
+
                 if (initialSelected != dialog.SelectedLanguage)
                 {
                     Timotheus.Registry.Update("Language", dialog.SelectedLanguage == 0 ? "en-US" : "da-DK");

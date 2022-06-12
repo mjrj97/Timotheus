@@ -250,6 +250,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add an event to the calendar.
+        /// </summary>
+        public static string Calendar_AddEvent_ToolTip {
+            get {
+                return ResourceManager.GetString("Calendar_AddEvent_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string Calendar_All {
@@ -264,6 +273,24 @@ namespace Timotheus.Localization {
         public static string Calendar_AllButton {
             get {
                 return ResourceManager.GetString("Calendar_AllButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go back in time.
+        /// </summary>
+        public static string Calendar_BackTime_ToolTip {
+            get {
+                return ResourceManager.GetString("Calendar_BackTime_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the event &quot;#&quot;?.
+        /// </summary>
+        public static string Calendar_DeleteEvent {
+            get {
+                return ResourceManager.GetString("Calendar_DeleteEvent", resourceCulture);
             }
         }
         
@@ -286,6 +313,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exports the calendar as PDF, and only shows events in the current period..
+        /// </summary>
+        public static string Calendar_Export_ToolTip {
+            get {
+                return ResourceManager.GetString("Calendar_Export_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export.
         /// </summary>
         public static string Calendar_ExportButton {
@@ -300,6 +336,15 @@ namespace Timotheus.Localization {
         public static string Calendar_Fall {
             get {
                 return ResourceManager.GetString("Calendar_Fall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go forward in time.
+        /// </summary>
+        public static string Calendar_ForwardTime_ToolTip {
+            get {
+                return ResourceManager.GetString("Calendar_ForwardTime_ToolTip", resourceCulture);
             }
         }
         
@@ -340,11 +385,47 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open a calendar.
+        /// </summary>
+        public static string Calendar_Open_ToolTip {
+            get {
+                return ResourceManager.GetString("Calendar_Open_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calendar.
         /// </summary>
         public static string Calendar_Page {
             get {
                 return ResourceManager.GetString("Calendar_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The current period. The calendar will only show events in this period..
+        /// </summary>
+        public static string Calendar_PeriodBox_ToolTip {
+            get {
+                return ResourceManager.GetString("Calendar_PeriodBox_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The current type of period..
+        /// </summary>
+        public static string Calendar_PeriodType_ToolTip {
+            get {
+                return ResourceManager.GetString("Calendar_PeriodType_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save the calendar as a .ics file. This does NOT synchronize the calendar..
+        /// </summary>
+        public static string Calendar_Save_ToolTip {
+            get {
+                return ResourceManager.GetString("Calendar_Save_ToolTip", resourceCulture);
             }
         }
         
@@ -363,6 +444,15 @@ namespace Timotheus.Localization {
         public static string Calendar_StartColumn {
             get {
                 return ResourceManager.GetString("Calendar_StartColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synchronize the calendar with a remote calendar.
+        /// </summary>
+        public static string Calendar_Sync_ToolTip {
+            get {
+                return ResourceManager.GetString("Calendar_Sync_ToolTip", resourceCulture);
             }
         }
         
@@ -426,6 +516,15 @@ namespace Timotheus.Localization {
         public static string Exception_AlreadyRunning {
             get {
                 return ResourceManager.GetString("Exception_AlreadyRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t go further back. This is the root directory..
+        /// </summary>
+        public static string Exception_CantGoUpDirectory {
+            get {
+                return ResourceManager.GetString("Exception_CantGoUpDirectory", resourceCulture);
             }
         }
         
@@ -1006,11 +1105,29 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Make the person active/inactive.
+        /// </summary>
+        public static string People_Active_ToolTip {
+            get {
+                return ResourceManager.GetString("People_Active_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add person.
         /// </summary>
         public static string People_Add {
             get {
                 return ResourceManager.GetString("People_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add person.
+        /// </summary>
+        public static string People_Add_ToolTip {
+            get {
+                return ResourceManager.GetString("People_Add_ToolTip", resourceCulture);
             }
         }
         
@@ -1042,11 +1159,38 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete &quot;#&quot;?.
+        /// </summary>
+        public static string People_Delete {
+            get {
+                return ResourceManager.GetString("People_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete the person.
+        /// </summary>
+        public static string People_Delete_ToolTip {
+            get {
+                return ResourceManager.GetString("People_Delete_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hide inactive.
         /// </summary>
         public static string People_HideInactive {
             get {
                 return ResourceManager.GetString("People_HideInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inactive.
+        /// </summary>
+        public static string People_InActive {
+            get {
+                return ResourceManager.GetString("People_InActive", resourceCulture);
             }
         }
         
@@ -1060,6 +1204,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open a file with people.
+        /// </summary>
+        public static string People_Open_ToolTip {
+            get {
+                return ResourceManager.GetString("People_Open_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Consent forms.
         /// </summary>
         public static string People_Page {
@@ -1069,11 +1222,38 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save the people to a file.
+        /// </summary>
+        public static string People_Save_ToolTip {
+            get {
+                return ResourceManager.GetString("People_Save_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string People_Search {
             get {
                 return ResourceManager.GetString("People_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search in the peoples names and comments.
+        /// </summary>
+        public static string People_Search_ToolTip {
+            get {
+                return ResourceManager.GetString("People_Search_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide/show people who are inactive.
+        /// </summary>
+        public static string People_ShowHide_ToolTip {
+            get {
+                return ResourceManager.GetString("People_ShowHide_ToolTip", resourceCulture);
             }
         }
         
@@ -1267,6 +1447,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to make &quot;#1&quot; #2 with immediate effect? It is currently #3..
+        /// </summary>
+        public static string SFTP_ChangePermission {
+            get {
+                return ResourceManager.GetString("SFTP_ChangePermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deleted on computer.
         /// </summary>
         public static string SFTP_DeleteLocal {
@@ -1281,6 +1470,15 @@ namespace Timotheus.Localization {
         public static string SFTP_DeleteRemote {
             get {
                 return ResourceManager.GetString("SFTP_DeleteRemote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go back to the last folder.
+        /// </summary>
+        public static string SFTP_GoUp_ToolTip {
+            get {
+                return ResourceManager.GetString("SFTP_GoUp_ToolTip", resourceCulture);
             }
         }
         
@@ -1339,6 +1537,60 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The current folder path.
+        /// </summary>
+        public static string SFTP_Path_ToolTip {
+            get {
+                return ResourceManager.GetString("SFTP_Path_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change permission.
+        /// </summary>
+        public static string SFTP_Permission_ToolTip {
+            get {
+                return ResourceManager.GetString("SFTP_Permission_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private.
+        /// </summary>
+        public static string SFTP_Private {
+            get {
+                return ResourceManager.GetString("SFTP_Private", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Public.
+        /// </summary>
+        public static string SFTP_Public {
+            get {
+                return ResourceManager.GetString("SFTP_Public", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh the folder and look for updates.
+        /// </summary>
+        public static string SFTP_Refresh_ToolTip {
+            get {
+                return ResourceManager.GetString("SFTP_Refresh_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setup which folder to synchronize with.
+        /// </summary>
+        public static string SFTP_Setup_ToolTip {
+            get {
+                return ResourceManager.GetString("SFTP_Setup_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Setup.
         /// </summary>
         public static string SFTP_SetupButton {
@@ -1353,6 +1605,15 @@ namespace Timotheus.Localization {
         public static string SFTP_SizeColumn {
             get {
                 return ResourceManager.GetString("SFTP_SizeColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synchronize all files and folders.
+        /// </summary>
+        public static string SFTP_Sync_ToolTip {
+            get {
+                return ResourceManager.GetString("SFTP_Sync_ToolTip", resourceCulture);
             }
         }
         
@@ -1375,7 +1636,7 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Update.
+        ///   Looks up a localized string similar to Refresh.
         /// </summary>
         public static string SFTP_UpdateButton {
             get {
@@ -1609,6 +1870,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Make changes to the current key.
+        /// </summary>
+        public static string ToolStrip_EditKey_ToolTip {
+            get {
+                return ResourceManager.GetString("ToolStrip_EditKey_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         public static string ToolStrip_Exit {
@@ -1632,6 +1902,15 @@ namespace Timotheus.Localization {
         public static string ToolStrip_Help {
             get {
                 return ResourceManager.GetString("ToolStrip_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find information about the program.
+        /// </summary>
+        public static string ToolStrip_Help_ToolTip {
+            get {
+                return ResourceManager.GetString("ToolStrip_Help_ToolTip", resourceCulture);
             }
         }
         
@@ -1663,6 +1942,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creates a new project.
+        /// </summary>
+        public static string ToolStrip_NewFile_ToolTip {
+            get {
+                return ResourceManager.GetString("ToolStrip_NewFile_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to create a new project? Unsaved progress will be lost..
         /// </summary>
         public static string ToolStrip_NewSecure {
@@ -1681,11 +1969,29 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Find a key and open it.
+        /// </summary>
+        public static string ToolStrip_OpenKey_ToolTip {
+            get {
+                return ResourceManager.GetString("ToolStrip_OpenKey_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save as.
         /// </summary>
         public static string ToolStrip_SaveAsKey {
             get {
                 return ResourceManager.GetString("ToolStrip_SaveAsKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save a copy of the current key to a specific location.
+        /// </summary>
+        public static string ToolStrip_SaveAsKey_ToolTip {
+            get {
+                return ResourceManager.GetString("ToolStrip_SaveAsKey_ToolTip", resourceCulture);
             }
         }
         
@@ -1704,6 +2010,24 @@ namespace Timotheus.Localization {
         public static string ToolStrip_SaveKey {
             get {
                 return ResourceManager.GetString("ToolStrip_SaveKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save the current key.
+        /// </summary>
+        public static string ToolStrip_SaveKey_ToolTip {
+            get {
+                return ResourceManager.GetString("ToolStrip_SaveKey_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Here you can change the settings of the program.
+        /// </summary>
+        public static string ToolStrip_Settings_ToolTip {
+            get {
+                return ResourceManager.GetString("ToolStrip_Settings_ToolTip", resourceCulture);
             }
         }
         

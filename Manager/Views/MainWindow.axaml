@@ -10,7 +10,7 @@
   <DockPanel>
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
-		<MenuItem Click="NewProject_Click">
+		<MenuItem Click="NewProject_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_NewFile_ToolTip}">
 			 <MenuItem.Header>
 				 <DockPanel>
 					 <Image Source="/Resources/File.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
@@ -25,28 +25,28 @@
 					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_Key}" VerticalAlignment="Center"/>
 				</DockPanel>
 			</MenuItem.Header>
-			<MenuItem Click="SaveAsKey_Click">
+			<MenuItem Click="SaveKey_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_SaveKey_ToolTip}">
 				<MenuItem.Header>
 					<DockPanel>
 						<TextBlock Text="{x:Static i18n:Localization.ToolStrip_SaveKey}" VerticalAlignment="Center"/>
 					</DockPanel>
 				</MenuItem.Header>
 			</MenuItem>
-			<MenuItem Click="SaveAsKey_Click">
+			<MenuItem Click="SaveAsKey_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_SaveAsKey_ToolTip}">
 				<MenuItem.Header>
 					<DockPanel>
 						<TextBlock Text="{x:Static i18n:Localization.ToolStrip_SaveAsKey}" VerticalAlignment="Center"/>
 					</DockPanel>
 				</MenuItem.Header>
 			</MenuItem>
-			<MenuItem Click="OpenKey_Click">
+			<MenuItem Click="OpenKey_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_OpenKey_ToolTip}">
 				<MenuItem.Header>
 					<DockPanel>
 						<TextBlock Text="{x:Static i18n:Localization.ToolStrip_LoadKey}" VerticalAlignment="Center"/>
 					</DockPanel>
 				</MenuItem.Header>
 			</MenuItem>
-			<MenuItem Click="EditKey_Click">
+			<MenuItem Click="EditKey_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_EditKey_ToolTip}">
 				<MenuItem.Header>
 					<DockPanel>
 						<TextBlock Text="{x:Static i18n:Localization.ToolStrip_EditKey}" VerticalAlignment="Center"/>
@@ -54,7 +54,7 @@
 				</MenuItem.Header>
 			</MenuItem>
 		</MenuItem>
-		<MenuItem Click="Settings_Click">
+		<MenuItem Click="Settings_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_Settings_ToolTip}">
 			<MenuItem.Header>
 				<DockPanel>
 					<Image Source="/Resources/Settings.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
@@ -62,7 +62,7 @@
 				</DockPanel>
 			</MenuItem.Header>
 		</MenuItem>
-        <MenuItem Click="Help_Click">
+        <MenuItem Click="Help_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_Help_ToolTip}">
 			<MenuItem.Header>
 				<DockPanel>
 					<Image Source="/Resources/Help.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>

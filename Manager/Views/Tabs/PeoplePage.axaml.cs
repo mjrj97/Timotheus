@@ -69,8 +69,10 @@ namespace Timotheus.Views.Tabs
             filter.Extensions.Add("csv");
             filter.Name = "CSV (.csv)";
 
-            saveFileDialog.Filters = new();
-            saveFileDialog.Filters.Add(filter);
+            saveFileDialog.Filters = new()
+            {
+                filter
+            };
 
             result = await saveFileDialog.ShowAsync(MainWindow.Instance);
             if (result != null)
@@ -95,13 +97,16 @@ namespace Timotheus.Views.Tabs
             txtFilter.Extensions.Add("csv");
             txtFilter.Name = "CSV (.csv)";
 
-            openFileDialog.Filters = new();
-            openFileDialog.Filters.Add(txtFilter);
+            openFileDialog.Filters = new()
+            {
+                txtFilter
+            };
 
             string[] result = await openFileDialog.ShowAsync(MainWindow.Instance);
             if (result != null && result.Length > 0)
             {
                 People = new(result[0]);
+                DataContext = People;
                 Update();
                 MainViewModel.Instance.Keys.Update("Person-File", result[0]);
             }
@@ -125,12 +130,21 @@ namespace Timotheus.Views.Tabs
             }
         }
 
-        private void RemovePerson_Click(object sender, RoutedEventArgs e)
+        private async void RemovePerson_Click(object sender, RoutedEventArgs e)
         {
             PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
             if (person != null)
             {
-                People.RemovePerson(person);
+                MessageBox msDialog = new()
+                {
+                    DialogTitle = Localization.Localization.Exception_Warning,
+                    DialogText = Localization.Localization.People_Delete.Replace("#", person.Name)
+                };
+                await msDialog.ShowDialog(MainWindow.Instance);
+                if (msDialog.DialogResult == DialogResult.OK)
+                {
+                    People.RemovePerson(person);
+                }
             }
         }
 

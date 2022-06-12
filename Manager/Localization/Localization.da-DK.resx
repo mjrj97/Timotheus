@@ -180,14 +180,23 @@
   <data name="Calendar_AddButton" xml:space="preserve">
     <value>Tilføj</value>
   </data>
+  <data name="Calendar_AddEvent_ToolTip" xml:space="preserve">
+    <value>Tilføj en begivenhed til kalenderen</value>
+  </data>
   <data name="Calendar_All" xml:space="preserve">
     <value>Alle</value>
   </data>
   <data name="Calendar_AllButton" xml:space="preserve">
     <value>Alle</value>
   </data>
+  <data name="Calendar_BackTime_ToolTip" xml:space="preserve">
+    <value>Gå tilbage i tiden</value>
+  </data>
   <data name="Calendar_December" xml:space="preserve">
     <value>December</value>
+  </data>
+  <data name="Calendar_DeleteEvent" xml:space="preserve">
+    <value>Er du sikker på at du vil slette begivenheden "#"?</value>
   </data>
   <data name="Calendar_DescriptionColumn" xml:space="preserve">
     <value>Beskrivelse</value>
@@ -198,8 +207,14 @@
   <data name="Calendar_ExportButton" xml:space="preserve">
     <value>Eksportér</value>
   </data>
+  <data name="Calendar_Export_ToolTip" xml:space="preserve">
+    <value>Eksportér kalenderen som PDF med begivenheder i den valgte periode</value>
+  </data>
   <data name="Calendar_Fall" xml:space="preserve">
     <value>Efteråret</value>
+  </data>
+  <data name="Calendar_ForwardTime_ToolTip" xml:space="preserve">
+    <value>Gå fremad i tiden</value>
   </data>
   <data name="Calendar_HalfYearButton" xml:space="preserve">
     <value>Halvår</value>
@@ -213,8 +228,20 @@
   <data name="Calendar_NameColumn" xml:space="preserve">
     <value>Navn</value>
   </data>
+  <data name="Calendar_Open_ToolTip" xml:space="preserve">
+    <value>Åben en kalender</value>
+  </data>
   <data name="Calendar_Page" xml:space="preserve">
     <value>Kalender</value>
+  </data>
+  <data name="Calendar_PeriodBox_ToolTip" xml:space="preserve">
+    <value>Den nuværende periode. Der vises kun begivenheder der er i denne periode.</value>
+  </data>
+  <data name="Calendar_PeriodType_ToolTip" xml:space="preserve">
+    <value>Den nuværende slags periode.</value>
+  </data>
+  <data name="Calendar_Save_ToolTip" xml:space="preserve">
+    <value>Gem kalenderen som en .ics fil. Dette synkronisere IKKE kalenderen.</value>
   </data>
   <data name="Calendar_Spring" xml:space="preserve">
     <value>Foråret</value>
@@ -224,6 +251,9 @@
   </data>
   <data name="Calendar_SyncButton" xml:space="preserve">
     <value>Synkronisér</value>
+  </data>
+  <data name="Calendar_Sync_ToolTip" xml:space="preserve">
+    <value>Synkroniser kalenderen med en anden</value>
   </data>
   <data name="Calendar_YearButton" xml:space="preserve">
     <value>År</value>
@@ -242,6 +272,9 @@
   </data>
   <data name="Exception_AlreadyRunning" xml:space="preserve">
     <value>Programmet kører allerede, hvis du ikke kan se det, tjek systembakken eller joblisten</value>
+  </data>
+  <data name="Exception_CantGoUpDirectory" xml:space="preserve">
+    <value>Du kan ikke gå længere tilbage.</value>
   </data>
   <data name="Exception_EmptyAddress" xml:space="preserve">
     <value>Adresse må ikke være tom</value>
@@ -435,8 +468,14 @@
   <data name="People_Active" xml:space="preserve">
     <value>Aktiv</value>
   </data>
+  <data name="People_Active_ToolTip" xml:space="preserve">
+    <value>Gør samtykkeerklæringen aktiv/inaktiv</value>
+  </data>
   <data name="People_Add" xml:space="preserve">
     <value>Tilføj person</value>
+  </data>
+  <data name="People_Add_ToolTip" xml:space="preserve">
+    <value>Tilføj samtykkeerklæring</value>
   </data>
   <data name="People_Comment" xml:space="preserve">
     <value>Kommentar</value>
@@ -447,17 +486,38 @@
   <data name="People_ConsentVersion" xml:space="preserve">
     <value>Version</value>
   </data>
+  <data name="People_Delete" xml:space="preserve">
+    <value>Er du sikker på at du vil slette "#"?</value>
+  </data>
+  <data name="People_Delete_ToolTip" xml:space="preserve">
+    <value>Slet samtykkeerklæringen</value>
+  </data>
   <data name="People_HideInactive" xml:space="preserve">
     <value>Skjul inaktive</value>
+  </data>
+  <data name="People_InActive" xml:space="preserve">
+    <value>Inaktiv</value>
   </data>
   <data name="People_Name" xml:space="preserve">
     <value>Navn</value>
   </data>
+  <data name="People_Open_ToolTip" xml:space="preserve">
+    <value>Åben en fil med samtykkeerklæringer</value>
+  </data>
   <data name="People_Page" xml:space="preserve">
     <value>Samtykkeerklæringer</value>
   </data>
+  <data name="People_Save_ToolTip" xml:space="preserve">
+    <value>Gem samtykkeerklæringer til en fil</value>
+  </data>
   <data name="People_Search" xml:space="preserve">
     <value>Søg</value>
+  </data>
+  <data name="People_Search_ToolTip" xml:space="preserve">
+    <value>Søg i samtykkeerklæringernes navne og kommentarer</value>
+  </data>
+  <data name="People_ShowHide_ToolTip" xml:space="preserve">
+    <value>Skjul/vis samtykkeerklæringer der er inaktive</value>
   </data>
   <data name="People_ShowInactive" xml:space="preserve">
     <value>Vis inaktive</value>
@@ -552,6 +612,9 @@
   <data name="SFTP_ChangedRemote" xml:space="preserve">
     <value>Ændringer skal downloades</value>
   </data>
+  <data name="SFTP_ChangePermission" xml:space="preserve">
+    <value>Er du sikker på at du vil gøre "#1" #2 med øjeblikkelig virkning? Den er #3 lige nu.</value>
+  </data>
   <data name="SFTP_DeleteLocal" xml:space="preserve">
     <value>Slettet på computer</value>
   </data>
@@ -560,6 +623,9 @@
   </data>
   <data name="SFTP_GoUpButton" xml:space="preserve">
     <value>Tilbage</value>
+  </data>
+  <data name="SFTP_GoUp_ToolTip" xml:space="preserve">
+    <value>Gå tilbage til den sidste mappe</value>
   </data>
   <data name="SFTP_Message" xml:space="preserve">
     <value>Synkronisere</value>
@@ -576,8 +642,26 @@
   <data name="SFTP_Page" xml:space="preserve">
     <value>Filer</value>
   </data>
+  <data name="SFTP_Path_ToolTip" xml:space="preserve">
+    <value>Den nuværende mappes sti</value>
+  </data>
+  <data name="SFTP_Permission_ToolTip" xml:space="preserve">
+    <value>Ændr tilladelse</value>
+  </data>
+  <data name="SFTP_Private" xml:space="preserve">
+    <value>Privat</value>
+  </data>
+  <data name="SFTP_Public" xml:space="preserve">
+    <value>Offentlig</value>
+  </data>
+  <data name="SFTP_Refresh_ToolTip" xml:space="preserve">
+    <value>Genindlæs mappen og se om der er sket ændringer</value>
+  </data>
   <data name="SFTP_SetupButton" xml:space="preserve">
     <value>Opsætning</value>
+  </data>
+  <data name="SFTP_Setup_ToolTip" xml:space="preserve">
+    <value>Indstil hvilken mappe der skal synkroniseres med</value>
   </data>
   <data name="SFTP_SizeColumn" xml:space="preserve">
     <value>Filstørrelse</value>
@@ -587,6 +671,9 @@
   </data>
   <data name="SFTP_SyncWorker" xml:space="preserve">
     <value>Synkroniserer filer</value>
+  </data>
+  <data name="SFTP_Sync_ToolTip" xml:space="preserve">
+    <value>Synkroniser alle filer og mapper</value>
   </data>
   <data name="SFTP_UpdateButton" xml:space="preserve">
     <value>Opdatér</value>
@@ -636,6 +723,9 @@
   <data name="ToolStrip_EditKey" xml:space="preserve">
     <value>Redigér</value>
   </data>
+  <data name="ToolStrip_EditKey_ToolTip" xml:space="preserve">
+    <value>Lav ændringer til den nuværende nøgle</value>
+  </data>
   <data name="ToolStrip_Exit" xml:space="preserve">
     <value>Luk</value>
   </data>
@@ -644,6 +734,9 @@
   </data>
   <data name="ToolStrip_Help" xml:space="preserve">
     <value>Hjælp</value>
+  </data>
+  <data name="ToolStrip_Help_ToolTip" xml:space="preserve">
+    <value>Find information omkring programmet</value>
   </data>
   <data name="ToolStrip_Key" xml:space="preserve">
     <value>Nøgle</value>
@@ -654,20 +747,35 @@
   <data name="ToolStrip_NewFile" xml:space="preserve">
     <value>Ny</value>
   </data>
+  <data name="ToolStrip_NewFile_ToolTip" xml:space="preserve">
+    <value>Lav et nyt projekt</value>
+  </data>
   <data name="ToolStrip_NewSecure" xml:space="preserve">
     <value>Er du sikker på at du vil lave et nyt projekt? Alt der ikke er gemt, vil blive slettet.</value>
   </data>
   <data name="ToolStrip_OpenFile" xml:space="preserve">
     <value>Åben</value>
   </data>
+  <data name="ToolStrip_OpenKey_ToolTip" xml:space="preserve">
+    <value>Find en nøgle og åben den</value>
+  </data>
   <data name="ToolStrip_SaveAsKey" xml:space="preserve">
     <value>Gem som</value>
+  </data>
+  <data name="ToolStrip_SaveAsKey_ToolTip" xml:space="preserve">
+    <value>Gem en kobi af den nuværende nøgle til et bestemt sted</value>
   </data>
   <data name="ToolStrip_SaveFile" xml:space="preserve">
     <value>Gem</value>
   </data>
   <data name="ToolStrip_SaveKey" xml:space="preserve">
     <value>Gem</value>
+  </data>
+  <data name="ToolStrip_SaveKey_ToolTip" xml:space="preserve">
+    <value>Gem den nuværende nøgle</value>
+  </data>
+  <data name="ToolStrip_Settings_ToolTip" xml:space="preserve">
+    <value>Her kan du lave om på diverse indstillinger</value>
   </data>
   <data name="UpdateDialog_Text" xml:space="preserve">
     <value>Der er en ny opdatering (#) tilgængelig på hjemmesiden: www.mjrj.dk</value>

@@ -178,21 +178,33 @@ namespace Timotheus.Views.Tabs
         /// <summary>
         /// Marks the selected event for deletion.
         /// </summary>
-        private void EditFilePermission_Click(object sender, RoutedEventArgs e)
+        private async void EditFilePermission_Click(object sender, RoutedEventArgs e)
         {
             FileViewModel file = (FileViewModel)((Button)e.Source).DataContext;
             if (sender != null)
             {
                 try
                 {
-                    Button button = (Button)sender;
-                    if (button.Name == "Public")
+                    string first = file.IsPublic ? Localization.Localization.SFTP_Private : Localization.Localization.SFTP_Public;
+                    string second = file.IsPublic ? Localization.Localization.SFTP_Public : Localization.Localization.SFTP_Private;
+
+                    MessageBox msDialog = new()
                     {
-                        Directory.SetFilePermissions(file, 770);
-                    }
-                    else if (button.Name == "Private")
+                        DialogTitle = Localization.Localization.Exception_Warning,
+                        DialogText = Localization.Localization.SFTP_ChangePermission.Replace("#1", file.Name).Replace("#2", first.ToLower()).Replace("#3", second.ToLower())
+                    };
+                    await msDialog.ShowDialog(MainWindow.Instance);
+                    if (msDialog.DialogResult == DialogResult.OK)
                     {
-                        Directory.SetFilePermissions(file, 775);
+                        Button button = (Button)sender;
+                        if (button.Name == "Public")
+                        {
+                            Directory.SetFilePermissions(file, 770);
+                        }
+                        else if (button.Name == "Private")
+                        {
+                            Directory.SetFilePermissions(file, 775);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -272,6 +284,16 @@ namespace Timotheus.Views.Tabs
                     };
                 }
             }
+        }
+
+        private void OpenInFolder_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                FileName = System.IO.Path.GetDirectoryName(Directory.Selected.LocalFullName),
+                UseShellExecute = true,
+                Verb = "open"
+            });
         }
 
         public override void Update()

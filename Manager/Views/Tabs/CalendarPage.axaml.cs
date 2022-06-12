@@ -230,12 +230,21 @@ namespace Timotheus.Views.Tabs
         /// <summary>
         /// Marks the selected event for deletion.
         /// </summary>
-        private void RemoveEvent_Click(object sender, RoutedEventArgs e)
+        private async void RemoveEvent_Click(object sender, RoutedEventArgs e)
         {
             EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
             if (ev != null)
             {
-                Calendar.RemoveEvent(ev);
+                MessageBox msDialog = new()
+                {
+                    DialogTitle = Localization.Localization.Exception_Warning,
+                    DialogText = Localization.Localization.Calendar_DeleteEvent.Replace("#", ev.Name)
+                };
+                await msDialog.ShowDialog(MainWindow.Instance);
+                if (msDialog.DialogResult == DialogResult.OK)
+                {
+                    Calendar.RemoveEvent(ev);
+                }
             }
         }
 
