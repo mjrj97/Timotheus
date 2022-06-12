@@ -7,6 +7,7 @@ using Timotheus.IO;
 using Timotheus.Utility;
 using System.Collections.ObjectModel;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Timotheus.ViewModels
 {
@@ -306,6 +307,32 @@ namespace Timotheus.ViewModels
         }
 
         /// <summary>
+        /// Deletes the file in the local and remote directory.
+        /// </summary>
+        /// <param name="file"></param>
+        public void Delete(FileViewModel file)
+        {
+            if (file.IsDirectory)
+            {
+                if (file.LocalFullName != string.Empty && Directory.Exists(file.LocalFullName))
+                    Directory.Delete(file.LocalFullName + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? '\\' : '/'), true);
+                if (file.RemoteFullName != string.Empty && client.Exists(file.RemoteFullName, true))
+                    client.DeleteDirectory(file.RemoteFullName);
+            }
+            else
+            {
+                if (file.LocalFullName != string.Empty && File.Exists(file.LocalFullName))
+                    File.Delete(file.LocalFullName);
+                if (file.RemoteFullName != string.Empty && client.Exists(file.RemoteFullName, false))
+                    client.DeleteFile(file.RemoteFullName);
+            }
+
+            string cd = CurrentDirectory.EndsWith('/') ? CurrentDirectory : CurrentDirectory + "/";
+            DirectoryLog.Save(ConvertPath(cd), client.ListDirectory(CurrentDirectory));
+            GoToDirectory(CurrentDirectory);
+        }
+
+        /// <summary>
         /// Go up a level in the directory.
         /// </summary>
         public void GoUpDirectory()
@@ -340,6 +367,48 @@ namespace Timotheus.ViewModels
         public void SetFilePermissions(FileViewModel file, short permissions)
         {
             client.SetPermissions(file.RemoteFullName, permissions);
+            GoToDirectory(CurrentDirectory);
+        }
+
+        /// <summary>
+        /// Opens the given file. If it is a directory, the list of files is opdated. If it is a file, it opens the file like the OS would.
+        /// </summary>
+        /// <param name="file"></param>
+        public void Open(FileViewModel file)
+        {
+            if (file.IsDirectory)
+            {
+                if (file.RemoteFullName != string.Empty)
+                    GoToDirectory(file.RemoteFullName);
+                else
+                    GoToDirectory(file.LocalFullName);
+            }
+            else
+            {
+                if (file.LocalFullName != string.Empty)
+                {
+                    Process p = new()
+                    {
+                        StartInfo = new ProcessStartInfo(file.LocalFullName)
+                        {
+                            UseShellExecute = true
+                        }
+                    };
+                    p.Start();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates a new folder with the given name in the current directory.
+        /// </summary>
+        public void NewFolder(string name)
+        {
+            string path = ConvertPath(CurrentDirectory + '/' + name);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            else
+                throw new Exception(Localization.Localization.SFTP_FolderExists);
             GoToDirectory(CurrentDirectory);
         }
 

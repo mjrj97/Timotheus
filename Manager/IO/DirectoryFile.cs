@@ -116,7 +116,7 @@ namespace Timotheus.IO
                 if (LocalFile != null && RemoteFile == null)
                 {
                     //If file can be found previously & locally & !remotely => Delete local (If local & previously LastWriteTime is the same, otherwise upload)
-                    if (LocalFile.LastWriteTimeUtc.Ticks == LogItem.LocalTicks)
+                    if (LocalFile.LastWriteTimeUtc.Ticks == LogItem.LocalTicks && LogItem.RemoteTicks != 0)
                     {
                         Handle = SyncHandle.DeleteLocal;
                     }

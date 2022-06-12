@@ -216,7 +216,48 @@ namespace Timotheus.Views.Tabs
         }
 
         /// <summary>
-        /// Goes one level down into the selected directory.
+        /// Marks the selected event for deletion.
+        /// </summary>
+        private async void EditFilePermission_ContextMenu_Click(object sender, RoutedEventArgs e)
+        {
+            FileViewModel file = Directory.Selected;
+            if (sender != null)
+            {
+                try
+                {
+                    MenuItem button = (MenuItem)sender;
+
+                    string first = button.Name == "ContextPublic" ? Localization.Localization.SFTP_Public : Localization.Localization.SFTP_Private;
+                    string second = file.IsPublic ? Localization.Localization.SFTP_Public : Localization.Localization.SFTP_Private;
+
+                    MessageBox msDialog = new()
+                    {
+                        DialogTitle = Localization.Localization.Exception_Warning,
+                        DialogText = Localization.Localization.SFTP_ChangePermission.Replace("#1", file.Name).Replace("#2", first.ToLower()).Replace("#3", second.ToLower())
+                    };
+                    await msDialog.ShowDialog(MainWindow.Instance);
+                    if (msDialog.DialogResult == DialogResult.OK)
+                    {
+                        if (button.Name == "ContextPrivate")
+                        {
+                            Directory.SetFilePermissions(file, 770);
+                        }
+                        else if (button.Name == "ContextPublic")
+                        {
+                            Directory.SetFilePermissions(file, 775);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Timotheus.Log(ex);
+                    MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Opens the file that is double clicked.
         /// </summary>
         private void File_Click(object sender, RoutedEventArgs e)
         {
@@ -229,27 +270,70 @@ namespace Timotheus.Views.Tabs
                 if (row != null)
                 {
                     FileViewModel file = row.DataContext as FileViewModel;
-                    if (file.IsDirectory)
-                    {
-                        if (file.RemoteFullName != string.Empty)
-                            Directory.GoToDirectory(file.RemoteFullName);
-                        else
-                            Directory.GoToDirectory(file.LocalFullName);
-                    }
-                    else
-                    {
-                        if (file.LocalFullName != string.Empty)
-                        {
-                            Process p = new()
-                            {
-                                StartInfo = new ProcessStartInfo(file.LocalFullName)
-                                {
-                                    UseShellExecute = true
-                                }
-                            };
-                            p.Start();
-                        }
-                    }
+                    Directory.Open(file);
+                }
+            }
+            catch (Exception ex)
+            {
+                Timotheus.Log(ex);
+                MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Open the file from the context menu.
+        /// </summary>
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Directory.Open(Directory.Selected);
+            }
+            catch (Exception ex)
+            {
+                Timotheus.Log(ex);
+                MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Open the file from the context menu.
+        /// </summary>
+        private async void NewFolder_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                TextDialog dialog = new()
+                {
+                    Title = Localization.Localization.SFTP_NewFolder
+                };
+                await dialog.ShowDialog(MainWindow.Instance);
+                if (dialog.DialogResult == DialogResult.OK)
+                    Directory.NewFolder(dialog.Text == string.Empty ? Localization.Localization.SFTP_NewFolder : dialog.Text);
+            }
+            catch (Exception ex)
+            {
+                Timotheus.Log(ex);
+                MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Synchronizes the file.
+        /// </summary>
+        private async void DeleteFile_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MessageBox msDialog = new()
+                {
+                    DialogTitle = Localization.Localization.Exception_Warning,
+                    DialogText = Localization.Localization.SFTP_DeleteWarning.Replace("#", Directory.Selected.Name)
+                };
+                await msDialog.ShowDialog(MainWindow.Instance);
+                if (msDialog.DialogResult == DialogResult.OK)
+                {
+                    Directory.Delete(Directory.Selected);
                 }
             }
             catch (Exception ex)

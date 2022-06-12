@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using Timotheus.Schedule;
 
 namespace Timotheus.ViewModels
@@ -177,6 +178,7 @@ namespace Timotheus.ViewModels
                 if (Calendar.Events[i].In(calendarPeriod) && !Calendar.Events[i].Deleted)
                     Events.Add(new EventViewModel(Calendar.Events[i]));
             }
+            Events = new ObservableCollection<EventViewModel>(Events.OrderBy(i => i.StartSort));
             PeriodText = calendarPeriod.ToString();
         }
     }

@@ -615,11 +615,41 @@
   <data name="SFTP_ChangePermission" xml:space="preserve">
     <value>Er du sikker på at du vil gøre "#1" #2 med øjeblikkelig virkning? Den er #3 lige nu.</value>
   </data>
+  <data name="SFTP_ContextMenu_Delete" xml:space="preserve">
+    <value>Slet</value>
+  </data>
+  <data name="SFTP_ContextMenu_NewFolder" xml:space="preserve">
+    <value>Ny mappe</value>
+  </data>
+  <data name="SFTP_ContextMenu_Open" xml:space="preserve">
+    <value>Åben</value>
+  </data>
+  <data name="SFTP_ContextMenu_Private" xml:space="preserve">
+    <value>Gør privat</value>
+  </data>
+  <data name="SFTP_ContextMenu_Public" xml:space="preserve">
+    <value>Gør offentlig</value>
+  </data>
+  <data name="SFTP_ContextMenu_ShowInExplorer" xml:space="preserve">
+    <value>Vis i stifinder</value>
+  </data>
+  <data name="SFTP_ContextMenu_Sync" xml:space="preserve">
+    <value>Synkronisér fil</value>
+  </data>
   <data name="SFTP_DeleteLocal" xml:space="preserve">
     <value>Slettet på computer</value>
   </data>
   <data name="SFTP_DeleteRemote" xml:space="preserve">
     <value>Slettet på server</value>
+  </data>
+  <data name="SFTP_DeleteWarning" xml:space="preserve">
+    <value>Er du sikker på at du vil slette "#" lokalt og online?</value>
+  </data>
+  <data name="SFTP_Delete_ToolTip" xml:space="preserve">
+    <value>Sletter filen lokalt og online</value>
+  </data>
+  <data name="SFTP_FolderExists" xml:space="preserve">
+    <value>En mappe med det navn findes allerede</value>
   </data>
   <data name="SFTP_GoUpButton" xml:space="preserve">
     <value>Tilbage</value>
@@ -633,11 +663,20 @@
   <data name="SFTP_NameColumn" xml:space="preserve">
     <value>Filnavn</value>
   </data>
+  <data name="SFTP_NewFolder" xml:space="preserve">
+    <value>Ny mappe</value>
+  </data>
+  <data name="SFTP_NewFolder_ToolTip" xml:space="preserve">
+    <value>Lav en ny mappe</value>
+  </data>
   <data name="SFTP_NewLocal" xml:space="preserve">
     <value>Skal uploades</value>
   </data>
   <data name="SFTP_NewRemote" xml:space="preserve">
     <value>Skal downloades</value>
+  </data>
+  <data name="SFTP_Open_ToolTip" xml:space="preserve">
+    <value>Åbner den valgte fil. Hvis det er en mappe, går man ind i mappen.</value>
   </data>
   <data name="SFTP_Page" xml:space="preserve">
     <value>Filer</value>
@@ -663,11 +702,17 @@
   <data name="SFTP_Setup_ToolTip" xml:space="preserve">
     <value>Indstil hvilken mappe der skal synkroniseres med</value>
   </data>
+  <data name="SFTP_ShowInExplorer_ToolTip" xml:space="preserve">
+    <value>Viser den valgte fil på computeren</value>
+  </data>
   <data name="SFTP_SizeColumn" xml:space="preserve">
     <value>Filstørrelse</value>
   </data>
   <data name="SFTP_SyncButton" xml:space="preserve">
     <value>Synkronisér</value>
+  </data>
+  <data name="SFTP_SyncFile_ToolTip" xml:space="preserve">
+    <value>Synkronisér den valgte fil</value>
   </data>
   <data name="SFTP_SyncWorker" xml:space="preserve">
     <value>Synkroniserer filer</value>
@@ -719,6 +764,9 @@
   </data>
   <data name="SyncCalendar_Worker" xml:space="preserve">
     <value>Synkroniserer kalender</value>
+  </data>
+  <data name="TextDialog" xml:space="preserve">
+    <value>Tekst</value>
   </data>
   <data name="ToolStrip_EditKey" xml:space="preserve">
     <value>Redigér</value>

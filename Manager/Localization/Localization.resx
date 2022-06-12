@@ -612,11 +612,41 @@
   <data name="SFTP_ChangePermission" xml:space="preserve">
     <value>Are you sure you want to make "#1" #2 with immediate effect? It is currently #3.</value>
   </data>
+  <data name="SFTP_ContextMenu_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="SFTP_ContextMenu_NewFolder" xml:space="preserve">
+    <value>New folder</value>
+  </data>
+  <data name="SFTP_ContextMenu_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="SFTP_ContextMenu_Private" xml:space="preserve">
+    <value>Make private</value>
+  </data>
+  <data name="SFTP_ContextMenu_Public" xml:space="preserve">
+    <value>Make public</value>
+  </data>
+  <data name="SFTP_ContextMenu_ShowInExplorer" xml:space="preserve">
+    <value>Show in file explorer</value>
+  </data>
+  <data name="SFTP_ContextMenu_Sync" xml:space="preserve">
+    <value>Synchronize file</value>
+  </data>
   <data name="SFTP_DeleteLocal" xml:space="preserve">
     <value>Deleted on computer</value>
   </data>
   <data name="SFTP_DeleteRemote" xml:space="preserve">
     <value>Deleted on server</value>
+  </data>
+  <data name="SFTP_DeleteWarning" xml:space="preserve">
+    <value>Are you sure you want to delete "#" locally and remotely?</value>
+  </data>
+  <data name="SFTP_Delete_ToolTip" xml:space="preserve">
+    <value>Deletes the file locally and remotely</value>
+  </data>
+  <data name="SFTP_FolderExists" xml:space="preserve">
+    <value>A folder with that name already exists.</value>
   </data>
   <data name="SFTP_GoUpButton" xml:space="preserve">
     <value>Back</value>
@@ -630,11 +660,20 @@
   <data name="SFTP_NameColumn" xml:space="preserve">
     <value>File name</value>
   </data>
+  <data name="SFTP_NewFolder" xml:space="preserve">
+    <value>New folder</value>
+  </data>
+  <data name="SFTP_NewFolder_ToolTip" xml:space="preserve">
+    <value>Create a new folder</value>
+  </data>
   <data name="SFTP_NewLocal" xml:space="preserve">
     <value>Needs to be uploaded</value>
   </data>
   <data name="SFTP_NewRemote" xml:space="preserve">
     <value>Needs to be downloaded</value>
+  </data>
+  <data name="SFTP_Open_ToolTip" xml:space="preserve">
+    <value>Opens the file. If it is a directory, then the files in the directory are shown.</value>
   </data>
   <data name="SFTP_Page" xml:space="preserve">
     <value>Files</value>
@@ -660,11 +699,17 @@
   <data name="SFTP_Setup_ToolTip" xml:space="preserve">
     <value>Setup which folder to synchronize with</value>
   </data>
+  <data name="SFTP_ShowInExplorer_ToolTip" xml:space="preserve">
+    <value>Shows the file on the computer.</value>
+  </data>
   <data name="SFTP_SizeColumn" xml:space="preserve">
     <value>File size</value>
   </data>
   <data name="SFTP_SyncButton" xml:space="preserve">
     <value>Synchronize</value>
+  </data>
+  <data name="SFTP_SyncFile_ToolTip" xml:space="preserve">
+    <value>Synchronizes the file</value>
   </data>
   <data name="SFTP_SyncWorker" xml:space="preserve">
     <value>Synchronizing folders</value>
@@ -716,6 +761,9 @@
   </data>
   <data name="SyncCalendar_Worker" xml:space="preserve">
     <value>Synchronizing calendar</value>
+  </data>
+  <data name="TextDialog" xml:space="preserve">
+    <value>Text</value>
   </data>
   <data name="ToolStrip_EditKey" xml:space="preserve">
     <value>Edit</value>

@@ -37,21 +37,22 @@
 		<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
 			<Border.ContextMenu>
 				<ContextMenu>
-					<MenuItem Header="New folder"/>
+					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_NewFolder}" Click="NewFolder_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_NewFolder_ToolTip}"/>
 					<Separator/>
-					<MenuItem Header="Synchronize"/>
-					<MenuItem Header="Refresh"/>
+					<MenuItem Header="{x:Static i18n:Localization.SFTP_SyncButton}" Click="SyncFiles_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Sync_ToolTip}"/>
+					<MenuItem Header="{x:Static i18n:Localization.SFTP_UpdateButton}" Click="UpdateDirectory_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Refresh_ToolTip}"/>
 				</ContextMenu>
 			</Border.ContextMenu>
 			<DataGrid Name="Files" Items="{Binding Files}" SelectedItem="{Binding Selected}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
 			<DataGrid.ContextMenu>
 				<ContextMenu>
-					<MenuItem Header="Open"/>
-					<MenuItem Header="Show in explorer" Click="OpenInFolder_Click"/>
+					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_Open}" Click="Open_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Open_ToolTip}"/>
+					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_ShowInExplorer}" Click="OpenInFolder_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_ShowInExplorer_ToolTip}"/>
 					<Separator/>
-					<MenuItem Header="Synchronize"/>
+					<MenuItem Name="ContextPublic" Header="{x:Static i18n:Localization.SFTP_ContextMenu_Public}" Click="EditFilePermission_ContextMenu_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}"/>
+					<MenuItem Name="ContextPrivate" Header="{x:Static i18n:Localization.SFTP_ContextMenu_Private}" Click="EditFilePermission_ContextMenu_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}"/>
 					<Separator/>
-					<MenuItem Header="Delete"/>
+					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_Delete}" Click="DeleteFile_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Delete_ToolTip}"/>
 				</ContextMenu>
 			</DataGrid.ContextMenu>
 			<DataGrid.Columns>

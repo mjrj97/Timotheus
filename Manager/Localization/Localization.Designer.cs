@@ -1456,6 +1456,78 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string SFTP_ContextMenu_Delete {
+            get {
+                return ResourceManager.GetString("SFTP_ContextMenu_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New folder.
+        /// </summary>
+        public static string SFTP_ContextMenu_NewFolder {
+            get {
+                return ResourceManager.GetString("SFTP_ContextMenu_NewFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        public static string SFTP_ContextMenu_Open {
+            get {
+                return ResourceManager.GetString("SFTP_ContextMenu_Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make private.
+        /// </summary>
+        public static string SFTP_ContextMenu_Private {
+            get {
+                return ResourceManager.GetString("SFTP_ContextMenu_Private", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make public.
+        /// </summary>
+        public static string SFTP_ContextMenu_Public {
+            get {
+                return ResourceManager.GetString("SFTP_ContextMenu_Public", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show in file explorer.
+        /// </summary>
+        public static string SFTP_ContextMenu_ShowInExplorer {
+            get {
+                return ResourceManager.GetString("SFTP_ContextMenu_ShowInExplorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synchronize file.
+        /// </summary>
+        public static string SFTP_ContextMenu_Sync {
+            get {
+                return ResourceManager.GetString("SFTP_ContextMenu_Sync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deletes the file locally and remotely.
+        /// </summary>
+        public static string SFTP_Delete_ToolTip {
+            get {
+                return ResourceManager.GetString("SFTP_Delete_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deleted on computer.
         /// </summary>
         public static string SFTP_DeleteLocal {
@@ -1470,6 +1542,24 @@ namespace Timotheus.Localization {
         public static string SFTP_DeleteRemote {
             get {
                 return ResourceManager.GetString("SFTP_DeleteRemote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete &quot;#&quot; locally and remotely?.
+        /// </summary>
+        public static string SFTP_DeleteWarning {
+            get {
+                return ResourceManager.GetString("SFTP_DeleteWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A folder with that name already exists..
+        /// </summary>
+        public static string SFTP_FolderExists {
+            get {
+                return ResourceManager.GetString("SFTP_FolderExists", resourceCulture);
             }
         }
         
@@ -1510,6 +1600,24 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New folder.
+        /// </summary>
+        public static string SFTP_NewFolder {
+            get {
+                return ResourceManager.GetString("SFTP_NewFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a new folder.
+        /// </summary>
+        public static string SFTP_NewFolder_ToolTip {
+            get {
+                return ResourceManager.GetString("SFTP_NewFolder_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Needs to be uploaded.
         /// </summary>
         public static string SFTP_NewLocal {
@@ -1524,6 +1632,15 @@ namespace Timotheus.Localization {
         public static string SFTP_NewRemote {
             get {
                 return ResourceManager.GetString("SFTP_NewRemote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opens the file. If it is a directory, then the files in the directory are shown..
+        /// </summary>
+        public static string SFTP_Open_ToolTip {
+            get {
+                return ResourceManager.GetString("SFTP_Open_ToolTip", resourceCulture);
             }
         }
         
@@ -1600,6 +1717,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shows the file on the computer..
+        /// </summary>
+        public static string SFTP_ShowInExplorer_ToolTip {
+            get {
+                return ResourceManager.GetString("SFTP_ShowInExplorer_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File size.
         /// </summary>
         public static string SFTP_SizeColumn {
@@ -1623,6 +1749,15 @@ namespace Timotheus.Localization {
         public static string SFTP_SyncButton {
             get {
                 return ResourceManager.GetString("SFTP_SyncButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synchronizes the file.
+        /// </summary>
+        public static string SFTP_SyncFile_ToolTip {
+            get {
+                return ResourceManager.GetString("SFTP_SyncFile_ToolTip", resourceCulture);
             }
         }
         
@@ -1857,6 +1992,15 @@ namespace Timotheus.Localization {
         public static string SyncCalendar_Worker {
             get {
                 return ResourceManager.GetString("SyncCalendar_Worker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text.
+        /// </summary>
+        public static string TextDialog {
+            get {
+                return ResourceManager.GetString("TextDialog", resourceCulture);
             }
         }
         
