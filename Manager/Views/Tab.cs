@@ -14,6 +14,10 @@ namespace Timotheus.Views
 
         public abstract void Update();
 
+        /// <summary>
+        /// Whether the tab has been changed since load.
+        /// </summary>
+        /// <returns></returns>
         public abstract bool HasBeenChanged();
 
         public new event PropertyChangedEventHandler PropertyChanged;

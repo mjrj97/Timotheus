@@ -318,6 +318,12 @@
   <data name="Exception_NoKeys" xml:space="preserve">
     <value>Nøglefil kunne ikke læses</value>
   </data>
+  <data name="Exception_PDFArchiveNotFound" xml:space="preserve">
+    <value>Arkivet kunne ikke findes. Prøv at vælge en anden mappe i "Eksport".</value>
+  </data>
+  <data name="Exception_PDFEmptyExport" xml:space="preserve">
+    <value>Eksport feltet kan ikke være tomt.</value>
+  </data>
   <data name="Exception_SaveSuccessful" xml:space="preserve">
     <value>Fil gemt!</value>
   </data>
@@ -444,8 +450,20 @@
   <data name="PasswordDialog_SaveBox" xml:space="preserve">
     <value>Gem adgangskode</value>
   </data>
+  <data name="PDF" xml:space="preserve">
+    <value>Eksportér PDF</value>
+  </data>
   <data name="PDF_Activity" xml:space="preserve">
     <value>Aktivitet</value>
+  </data>
+  <data name="PDF_ArchivePath" xml:space="preserve">
+    <value>Arkiv</value>
+  </data>
+  <data name="PDF_Browse" xml:space="preserve">
+    <value>Gennemse</value>
+  </data>
+  <data name="PDF_Cancel" xml:space="preserve">
+    <value>Annullér</value>
   </data>
   <data name="PDF_Coffee" xml:space="preserve">
     <value>Kaffehold</value>
@@ -453,17 +471,41 @@
   <data name="PDF_Date" xml:space="preserve">
     <value>Dato</value>
   </data>
+  <data name="PDF_ExportPath" xml:space="preserve">
+    <value>Eksport</value>
+  </data>
+  <data name="PDF_Footer" xml:space="preserve">
+    <value>Sidefod</value>
+  </data>
   <data name="PDF_Leader" xml:space="preserve">
     <value>Mødeleder</value>
   </data>
+  <data name="PDF_Logo" xml:space="preserve">
+    <value>Logo</value>
+  </data>
   <data name="PDF_Musician" xml:space="preserve">
     <value>Musiker</value>
+  </data>
+  <data name="PDF_Ok" xml:space="preserve">
+    <value>Eksportér</value>
   </data>
   <data name="PDF_Schedule" xml:space="preserve">
     <value>Program for</value>
   </data>
   <data name="PDF_Start" xml:space="preserve">
     <value>Start</value>
+  </data>
+  <data name="PDF_Subtitle" xml:space="preserve">
+    <value>Undertitel</value>
+  </data>
+  <data name="PDF_Title" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="PDF_Type_Book" xml:space="preserve">
+    <value>Bog</value>
+  </data>
+  <data name="PDF_Type_Table" xml:space="preserve">
+    <value>Tabel</value>
   </data>
   <data name="PDF_Welcome" xml:space="preserve">
     <value>Velkommen i</value>

@@ -64,7 +64,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
+                    Program.Log(ex);
                     Directory = new();
                 }
             }
@@ -83,8 +83,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -115,8 +114,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -169,8 +167,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                    Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
                 }
             }
         }
@@ -209,8 +206,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                    Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
                 }
             }
         }
@@ -250,8 +246,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                    Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
                 }
             }
         }
@@ -275,8 +270,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -291,8 +285,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -313,8 +306,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -338,8 +330,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 

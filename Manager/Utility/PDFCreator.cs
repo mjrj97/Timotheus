@@ -12,11 +12,10 @@ namespace Timotheus.Utility
 {
     public static class PDFCreator
     {
-        public static void CreatePDF(List<Event> events, string path, string title, string associationName, string associationAddress, string logoPath, string periodName)
+        public static void CreatePDF(List<Event> events, string path, string title, string subtitle, string footer, string logoPath)
         {
             List<Event> SortedList = events.OrderBy(o => o.Start).ToList();
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            string fileName = $"{path}\\{title}";
             int pages = SortedList.Count / 40 + 1;
 
             PdfDocument document = new();
@@ -32,7 +31,7 @@ namespace Timotheus.Utility
             XSolidBrush alternatingGray = new(XColor.FromArgb(245, 245, 245));
             XFont heading1 = new("Verdana", 18, XFontStyle.Bold);
             XFont heading2 = new("Verdana", 14, XFontStyle.Regular);
-            XFont footer = new("Verdana", 9, XFontStyle.Regular);
+            XFont xfooter = new("Verdana", 9, XFontStyle.Regular);
 
             XFont tableHeading = new("Verdana", 10, XFontStyle.Bold);
             XFont tableContent = new("Verdana", 10, XFontStyle.Regular);
@@ -51,8 +50,8 @@ namespace Timotheus.Utility
             //PAGE HEADER
             if (File.Exists(logoPath))
                 gfx.DrawImage(XImage.FromFile(logoPath), new XRect(28, 28, 85, 85));
-            gfx.DrawString(welcome + " " + associationName, heading1, headingColor, new XRect(28, 125, 200,18), XStringFormats.TopLeft);
-            gfx.DrawString(schedule + " " + periodName.ToLower(), heading2, headingColor, new XRect(28, 148, 200, 18), XStringFormats.TopLeft);
+            gfx.DrawString(title, heading1, headingColor, new XRect(28, 125, 200,18), XStringFormats.TopLeft);
+            gfx.DrawString(subtitle, heading2, headingColor, new XRect(28, 148, 200, 18), XStringFormats.TopLeft);
 
             //TABLE COLUMN HEADERS
             gfx.DrawString(date, tableHeading, XBrushes.Black, new XRect(28, 177, 200, 10), XStringFormats.TopLeft);
@@ -63,9 +62,12 @@ namespace Timotheus.Utility
             gfx.DrawString(coffee, tableHeading, XBrushes.Black, new XRect(625, 177, 200, 10), XStringFormats.TopLeft);
 
             //TABLE CONTENTS
+            bool gray = true;
             for (int i = 0; i < SortedList.Count && i < 28; i++)
             {
-                if (i%2==0)
+                if (i > 0 && SortedList[i - 1].Start.Date != SortedList[i].Start.Date)
+                    gray = !gray;
+                if (gray)
                     gfx.DrawRectangle(alternatingGray, new XRect(26, 190+12*i, 786, 12));
 
                 string name = SortedList[i].Name;
@@ -76,7 +78,8 @@ namespace Timotheus.Utility
                 string eventMusician = values.Retrieve(musician);
                 string eventCoffee = values.Retrieve(coffee);
 
-                gfx.DrawString(time.ToString("ddd. d. MMM", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(28, 190 + 12 * i, 85, 12), XStringFormats.CenterLeft);
+                if (i == 0 || (SortedList[i - 1].Start.Date != SortedList[i].Start.Date))
+                    gfx.DrawString(time.ToString("ddd. d. MMM", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(28, 190 + 12 * i, 85, 12), XStringFormats.CenterLeft);
                 gfx.DrawString((time.Minute == 0 && time.Hour == 0) ? "" : time.ToString("t", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(113, 190 + 12 * i, 57, 12), XStringFormats.CenterLeft);
                 gfx.DrawString(name, tableContent, XBrushes.Black, new XRect(170, 190 + 12 * i, 294, 12), XStringFormats.CenterLeft);
                 gfx.DrawString(eventLeader, tableContent, XBrushes.Black, new XRect(464, 190 + 12 * i, 79, 12), XStringFormats.CenterLeft);
@@ -85,7 +88,7 @@ namespace Timotheus.Utility
             }
 
             //PAGE FOOTER
-            gfx.DrawString("1 / " + pages + "                            " + associationAddress, footer, XBrushes.Black, new XRect(28, page.Height - 18 - 28, 200, 18), XStringFormats.TopLeft);
+            gfx.DrawString("1 / " + pages + "                            " + footer, xfooter, XBrushes.Black, new XRect(28, page.Height - 18 - 28, 200, 18), XStringFormats.TopLeft);
 
             if (SortedList.Count > 28)
             {
@@ -98,7 +101,9 @@ namespace Timotheus.Utility
                     int j = 28 + h*40;
                     for (int i = 0; i < (SortedList.Count- j) && i < 40; i++)
                     {
-                        if (i % 2 == 0)
+                        if (SortedList[j + i - 1].Start.Date != SortedList[j + i].Start.Date)
+                            gray = !gray;
+                        if (gray)
                             addGFX.DrawRectangle(alternatingGray, new XRect(26, 46 + 12 * i, 786, 12));
 
                         string name = SortedList[j+i].Name;
@@ -109,7 +114,8 @@ namespace Timotheus.Utility
                         string eventMusician = values.Retrieve(musician);
                         string eventCoffee = values.Retrieve(coffee);
 
-                        addGFX.DrawString(time.ToString("ddd. d. MMM", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(28, 46 + 12 * i, 85, 12), XStringFormats.CenterLeft);
+                        if (SortedList[j + i - 1].Start.Date != SortedList[j + i].Start.Date)
+                            addGFX.DrawString(time.ToString("ddd. d. MMM", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(28, 46 + 12 * i, 85, 12), XStringFormats.CenterLeft);
                         addGFX.DrawString((time.Minute == 0 && time.Hour == 0) ? "" : time.ToString("t", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(113, 46 + 12 * i, 57, 12), XStringFormats.CenterLeft);
                         addGFX.DrawString(name, tableContent, XBrushes.Black, new XRect(170, 46 + 12 * i, 294, 12), XStringFormats.CenterLeft);
                         addGFX.DrawString(eventLeader, tableContent, XBrushes.Black, new XRect(464, 46 + 12 * i, 79, 12), XStringFormats.CenterLeft);
@@ -118,15 +124,15 @@ namespace Timotheus.Utility
                     }
 
                     //PAGE FOOTER
-                    addGFX.DrawString((h+2) + " / " + pages + "                            " + associationAddress, footer, XBrushes.Black, new XRect(28, page.Height - 18 - 28, 200, 18), XStringFormats.TopLeft);
+                    addGFX.DrawString((h+2) + " / " + pages + "                            " + footer, xfooter, XBrushes.Black, new XRect(28, page.Height - 18 - 28, 200, 18), XStringFormats.TopLeft);
                 }
             }
 
-            document.Save(fileName);
+            document.Save(path);
 
             Process p = new()
             {
-                StartInfo = new ProcessStartInfo(fileName)
+                StartInfo = new ProcessStartInfo(path)
                 {
                     UseShellExecute = true
                 }

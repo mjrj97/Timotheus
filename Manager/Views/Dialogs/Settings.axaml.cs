@@ -167,7 +167,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (ArgumentException ex)
             {
-                Timotheus.Log(ex);
+                Program.Log(ex);
             }
         }
 

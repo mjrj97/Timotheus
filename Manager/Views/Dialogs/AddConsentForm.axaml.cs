@@ -68,7 +68,7 @@ namespace Timotheus.Views.Dialogs
                     }
                     catch (Exception ex)
                     {
-                        Timotheus.Log(ex);
+                        Program.Log(ex);
                         ConsentDate = new DateTime(ConsentDate.Year, ConsentDate.Month, 1);
                     }
                 }
@@ -128,11 +128,6 @@ namespace Timotheus.Views.Dialogs
         public string ConsentComment { get; set; }
 
         /// <summary>
-        /// Error message given and shown in the dialog.
-        /// </summary>
-        public string Error { get; set; }
-
-        /// <summary>
         /// Constructor creating the dialog.
         /// </summary>
         public AddConsentForm()
@@ -170,8 +165,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                Error = ex.Message;
+                Program.Error(Localization.Localization.Exception_Name, ex, this);
             }
         }
 
@@ -197,7 +191,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (ArgumentException ex) 
             {
-                Timotheus.Log(ex);
+                Program.Log(ex);
             }
         }
 

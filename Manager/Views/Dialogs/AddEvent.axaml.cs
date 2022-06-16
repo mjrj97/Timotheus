@@ -87,7 +87,7 @@ namespace Timotheus.Views.Dialogs
                     }
                     catch (Exception ex)
                     {
-                        Timotheus.Log(ex);
+                        Program.Log(ex);
                         Start = new DateTime(Start.Year, Start.Month, 1);
                     }
                 }
@@ -162,7 +162,7 @@ namespace Timotheus.Views.Dialogs
                     }
                     catch (Exception ex)
                     {
-                        Timotheus.Log(ex);
+                        Program.Log(ex);
                         End = new DateTime(End.Year, End.Month, 1);
                     }
                 }
@@ -242,20 +242,6 @@ namespace Timotheus.Views.Dialogs
             {
                 _description = value;
                 NotifyPropertyChanged(nameof(Description));
-            }
-        }
-
-        private string _error = string.Empty;
-        /// <summary>
-        /// Error message shown on the buttom.
-        /// </summary>
-        public string Error
-        {
-            get => _error;
-            set
-            {
-                _error = value;
-                NotifyPropertyChanged(nameof(Error));
             }
         }
 
@@ -347,8 +333,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                Error = ex.Message;
+                Program.Error(Localization.Localization.Exception_Name, ex, this);
             }
         }
 
@@ -375,7 +360,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (ArgumentException ex) 
             {
-                Timotheus.Log(ex);
+                Program.Log(ex);
             }
         }
 
@@ -394,7 +379,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (ArgumentException ex)
             {
-                Timotheus.Log(ex);
+                Program.Log(ex);
             }
         }
     }

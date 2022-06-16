@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using Timotheus.Schedule;
 
@@ -160,11 +161,16 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// Exports the current Calendar in the selected period as a PDF.
         /// </summary>
-        /// <param name="name">File name</param>
         /// <param name="path">Path to save</param>
-        public void ExportCalendar(string name, string path)
+        public void ExportCalendar(string path, string archive, string title, string subtitle, string footer, string img)
         {
-            Calendar.Export(name, path, MainViewModel.Instance.Keys.Retrieve("Settings-Name"), MainViewModel.Instance.Keys.Retrieve("Settings-Address"), MainViewModel.Instance.Keys.Retrieve("Settings-Image"), calendarPeriod);
+            Calendar.Export(path, title, subtitle, footer, img, calendarPeriod);
+            if (archive != string.Empty)
+            {
+                if (!Directory.Exists(archive))
+                    throw new Exception(Localization.Localization.Exception_PDFArchiveNotFound);
+                File.Copy(path, Path.Combine(archive, calendarPeriod.ToFileName() + ".pdf"));
+            }
         }
 
         /// <summary>

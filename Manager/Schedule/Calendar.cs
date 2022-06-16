@@ -430,13 +430,7 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Exports the Calendar as a PDF.
         /// </summary>
-        /// <param name="name">Name of the PDF</param>
-        /// <param name="path">Path where to save the PDF</param>
-        /// <param name="orgName">Name of the organisation</param>
-        /// <param name="orgAddress">Address of the organisation</param>
-        /// <param name="orgImagePath">Path to the organisations image</param>
-        /// <param name="period">The period of events that should be included</param>
-        public void Export(string name, string path, string orgName, string orgAddress, string orgImagePath, Period period)
+        public void Export(string path, string title, string subtitle, string footer, string orgImagePath, Period period)
         {
             List<Event> exportEvents = new();
             for (int i = 0; i < Events.Count; i++)
@@ -444,7 +438,7 @@ namespace Timotheus.Schedule
                 if (Events[i].In(period))
                     exportEvents.Add(Events[i]);
             }
-            PDFCreator.CreatePDF(exportEvents, path, name, orgName, orgAddress, orgImagePath, period.ToString());
+            PDFCreator.CreatePDF(exportEvents, path, title, subtitle, footer, orgImagePath);
         }
 
         /// <summary>

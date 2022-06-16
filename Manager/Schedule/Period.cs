@@ -375,6 +375,32 @@ namespace Timotheus.Schedule
 
             return text;
         }
+
+        public string ToFileName()
+        {
+            string text = string.Empty;
+
+            switch (Type)
+            {
+                case PeriodType.All:
+                    text = all;
+                    break;
+                case PeriodType.Year:
+                    text = Start.Year.ToString();
+                    break;
+                case PeriodType.Halfyear:
+                    if (Start.Month > 6)
+                        text = Start.Year + " " + fall.ToLower();
+                    else
+                        text = Start.Year + " " + spring.ToLower();
+                    break;
+                case PeriodType.Month:
+                    text = Start.Year + " " + Start.ToString("MMMM", Timotheus.Culture);
+                    break;
+            }
+
+            return text;
+        }
     }
 
     /// <summary>

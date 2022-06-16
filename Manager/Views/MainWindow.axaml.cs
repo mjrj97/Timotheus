@@ -135,8 +135,7 @@ namespace Timotheus.Views
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                Error(Localization.Localization.Exception_NoKeys, ex.Message);
+                Program.Error(Localization.Localization.Exception_NoKeys, ex, this);
 
                 mvm.NewProject(new Register(':'));
                 InsertKey(null, null);
@@ -223,8 +222,7 @@ namespace Timotheus.Views
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                Error(Localization.Localization.Exception_Name, ex.Message);
+                Program.Error(Localization.Localization.Exception_Name, ex, this);
             }
 
             if (mvm.Keys.Retrieve("SSH-URL") != string.Empty)
@@ -323,8 +321,7 @@ namespace Timotheus.Views
                             }
                             catch (Exception ex)
                             {
-                                Timotheus.Log(ex);
-                                Error(Localization.Localization.Exception_Saving, ex.Message);
+                                Program.Error(Localization.Localization.Exception_Saving, ex, this);
                             }
                         }
                         else
@@ -340,8 +337,7 @@ namespace Timotheus.Views
                                 }
                                 catch (Exception ex)
                                 {
-                                    Timotheus.Log(ex);
-                                    Error(Localization.Localization.Exception_Saving, ex.Message);
+                                    Program.Error(Localization.Localization.Exception_Saving, ex, this);
                                 }
 
                                 if (dialog.Save)
@@ -359,8 +355,7 @@ namespace Timotheus.Views
                         }
                         catch (Exception ex)
                         {
-                            Timotheus.Log(ex);
-                            Error(Localization.Localization.Exception_Saving, ex.Message);
+                            Program.Error(Localization.Localization.Exception_Saving, ex, this);
                         }
                         break;
                 }
@@ -409,8 +404,7 @@ namespace Timotheus.Views
                             }
                             catch (Exception ex)
                             {
-                                Timotheus.Log(ex);
-                                Error(Localization.Localization.Exception_Saving, ex.Message);
+                                Program.Error(Localization.Localization.Exception_Saving, ex, this);
                             }
                         }
                         break;
@@ -421,8 +415,7 @@ namespace Timotheus.Views
                         }
                         catch (Exception ex)
                         {
-                            Timotheus.Log(ex);
-                            Error(Localization.Localization.Exception_Saving, ex.Message);
+                            Program.Error(Localization.Localization.Exception_Saving, ex, this);
                         }
                         break;
                 }
@@ -470,8 +463,7 @@ namespace Timotheus.Views
                             }
                             catch (Exception ex)
                             {
-                                Timotheus.Log(ex);
-                                Error(Localization.Localization.Exception_LoadFailed, ex.Message);
+                                Program.Error(Localization.Localization.Exception_LoadFailed, ex, this);
                             }
                         }
                         break;
@@ -483,8 +475,7 @@ namespace Timotheus.Views
                         }
                         catch (Exception ex)
                         {
-                            Timotheus.Log(ex);
-                            Error(Localization.Localization.Exception_LoadFailed, ex.Message);
+                            Program.Error(Localization.Localization.Exception_LoadFailed, ex, this);
                         }
                         break;
                 }
@@ -509,8 +500,7 @@ namespace Timotheus.Views
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    Error(Localization.Localization.Exception_Name, ex.Message);
+                    Program.Error(Localization.Localization.Exception_Name, ex, this);
                 }
             }
         }
@@ -658,16 +648,6 @@ namespace Timotheus.Views
             {
                 return false;
             }
-        }
-
-        public async void Error(string title, string message)
-        {
-            MessageBox msDialog = new()
-            {
-                DialogTitle = title,
-                DialogText = message
-            };
-            await msDialog.ShowDialog(this);
         }
     }
 }

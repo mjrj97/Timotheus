@@ -655,6 +655,24 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Archive could not be found. Try choosing another folder in &quot;Export&quot;..
+        /// </summary>
+        public static string Exception_PDFArchiveNotFound {
+            get {
+                return ResourceManager.GetString("Exception_PDFArchiveNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The export path cannot be empty..
+        /// </summary>
+        public static string Exception_PDFEmptyExport {
+            get {
+                return ResourceManager.GetString("Exception_PDFEmptyExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File saved!.
         /// </summary>
         public static string Exception_SaveSuccessful {
@@ -1033,11 +1051,47 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export PDF.
+        /// </summary>
+        public static string PDF {
+            get {
+                return ResourceManager.GetString("PDF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activity.
         /// </summary>
         public static string PDF_Activity {
             get {
                 return ResourceManager.GetString("PDF_Activity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Archive.
+        /// </summary>
+        public static string PDF_ArchivePath {
+            get {
+                return ResourceManager.GetString("PDF_ArchivePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse.
+        /// </summary>
+        public static string PDF_Browse {
+            get {
+                return ResourceManager.GetString("PDF_Browse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string PDF_Cancel {
+            get {
+                return ResourceManager.GetString("PDF_Cancel", resourceCulture);
             }
         }
         
@@ -1060,6 +1114,24 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        public static string PDF_ExportPath {
+            get {
+                return ResourceManager.GetString("PDF_ExportPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Footer.
+        /// </summary>
+        public static string PDF_Footer {
+            get {
+                return ResourceManager.GetString("PDF_Footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Leader.
         /// </summary>
         public static string PDF_Leader {
@@ -1069,11 +1141,29 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logo.
+        /// </summary>
+        public static string PDF_Logo {
+            get {
+                return ResourceManager.GetString("PDF_Logo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Musician.
         /// </summary>
         public static string PDF_Musician {
             get {
                 return ResourceManager.GetString("PDF_Musician", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        public static string PDF_Ok {
+            get {
+                return ResourceManager.GetString("PDF_Ok", resourceCulture);
             }
         }
         
@@ -1092,6 +1182,42 @@ namespace Timotheus.Localization {
         public static string PDF_Start {
             get {
                 return ResourceManager.GetString("PDF_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subtitle.
+        /// </summary>
+        public static string PDF_Subtitle {
+            get {
+                return ResourceManager.GetString("PDF_Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string PDF_Title {
+            get {
+                return ResourceManager.GetString("PDF_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book.
+        /// </summary>
+        public static string PDF_Type_Book {
+            get {
+                return ResourceManager.GetString("PDF_Type_Book", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table.
+        /// </summary>
+        public static string PDF_Type_Table {
+            get {
+                return ResourceManager.GetString("PDF_Type_Table", resourceCulture);
             }
         }
         

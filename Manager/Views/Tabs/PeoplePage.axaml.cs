@@ -83,8 +83,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Saving, ex.Message);
+                    Program.Error(Localization.Localization.Exception_Saving, ex, MainWindow.Instance);
                 }
             }
         }
@@ -169,7 +168,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex) 
                 {
-                    Timotheus.Log(ex);
+                    Program.Log(ex);
                     People = new();
                 }
             }

@@ -204,7 +204,7 @@ namespace Timotheus.IO
             }
             catch (IOException ex) 
             {
-                Timotheus.Log(ex);
+                Program.Log(ex);
                 string tempFile = Path.GetTempFileName();
                 File.Copy(local, tempFile, true);
                 using (FileStream fs = File.Open(tempFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -244,9 +244,7 @@ namespace Timotheus.IO
             }
             catch (SftpPathNotFoundException ex)
             {
-                Timotheus.Log(ex);
-                //Do something when file is not found
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Program.Log(ex);
             }
 
             if (!isPreconnected)
@@ -310,9 +308,7 @@ namespace Timotheus.IO
             }
             catch (SftpPathNotFoundException ex)
             {
-                Timotheus.Log(ex);
-                //Do something when file is not found
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Program.Log(ex);
             }
 
             if (!isPreconnected)

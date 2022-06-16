@@ -315,6 +315,12 @@
   <data name="Exception_NoKeys" xml:space="preserve">
     <value>Key file could not be loaded</value>
   </data>
+  <data name="Exception_PDFArchiveNotFound" xml:space="preserve">
+    <value>Archive could not be found. Try choosing another folder in "Export".</value>
+  </data>
+  <data name="Exception_PDFEmptyExport" xml:space="preserve">
+    <value>The export path cannot be empty.</value>
+  </data>
   <data name="Exception_SaveSuccessful" xml:space="preserve">
     <value>File saved!</value>
   </data>
@@ -441,8 +447,20 @@
   <data name="PasswordDialog_SaveBox" xml:space="preserve">
     <value>Save password</value>
   </data>
+  <data name="PDF" xml:space="preserve">
+    <value>Export PDF</value>
+  </data>
   <data name="PDF_Activity" xml:space="preserve">
     <value>Activity</value>
+  </data>
+  <data name="PDF_ArchivePath" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="PDF_Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="PDF_Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="PDF_Coffee" xml:space="preserve">
     <value>Coffee</value>
@@ -450,17 +468,41 @@
   <data name="PDF_Date" xml:space="preserve">
     <value>Date</value>
   </data>
+  <data name="PDF_ExportPath" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="PDF_Footer" xml:space="preserve">
+    <value>Footer</value>
+  </data>
   <data name="PDF_Leader" xml:space="preserve">
     <value>Leader</value>
   </data>
+  <data name="PDF_Logo" xml:space="preserve">
+    <value>Logo</value>
+  </data>
   <data name="PDF_Musician" xml:space="preserve">
     <value>Musician</value>
+  </data>
+  <data name="PDF_Ok" xml:space="preserve">
+    <value>Export</value>
   </data>
   <data name="PDF_Schedule" xml:space="preserve">
     <value>Schedule for</value>
   </data>
   <data name="PDF_Start" xml:space="preserve">
     <value>Start</value>
+  </data>
+  <data name="PDF_Subtitle" xml:space="preserve">
+    <value>Subtitle</value>
+  </data>
+  <data name="PDF_Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="PDF_Type_Book" xml:space="preserve">
+    <value>Book</value>
+  </data>
+  <data name="PDF_Type_Table" xml:space="preserve">
+    <value>Table</value>
   </data>
   <data name="PDF_Welcome" xml:space="preserve">
     <value>Welcome to</value>

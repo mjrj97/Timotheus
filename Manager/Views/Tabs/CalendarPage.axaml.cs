@@ -106,8 +106,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Sync, ex.Message);
+                    Program.Error(Localization.Localization.Exception_Sync, ex, MainWindow.Instance);
                 }
             }
         }
@@ -138,8 +137,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Saving, ex.Message);
+                    Program.Error(Localization.Localization.Exception_Saving, ex, MainWindow.Instance);
                 }
             }
         }
@@ -180,8 +178,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_InvalidCalendar, ex.Message);
+                    Program.Error(Localization.Localization.Exception_InvalidCalendar, ex, MainWindow.Instance);
                 }
             }
         }
@@ -221,8 +218,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_InvalidEvent, ex.Message);
+                    Program.Error(Localization.Localization.Exception_InvalidEvent, ex, MainWindow.Instance);
                 }
             }
         }
@@ -253,30 +249,37 @@ namespace Timotheus.Views.Tabs
         /// </summary>
         private async void ExportPDF_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new();
-            FileDialogFilter filter = new();
-            filter.Extensions.Add("pdf");
-            filter.Name = "PDF Files (.pdf)";
-
-            saveFileDialog.Filters = new()
+            try
             {
-                filter
-            };
+                PDFDialog dialog = new()
+                {
+                    TableLogoPath = MainViewModel.Instance.Keys.Retrieve("PDF_TableLogo"),
+                    TableTitle = MainViewModel.Instance.Keys.Retrieve("PDF_TableTitle"),
+                    TableSubtitle = MainViewModel.Instance.Keys.Retrieve("PDF_TableSubtitle"),
+                    TableFooter = MainViewModel.Instance.Keys.Retrieve("PDF_TableFooter"),
+                    ExportPath = MainViewModel.Instance.Keys.Retrieve("PDF_ExportPath"),
+                    ArchivePath = MainViewModel.Instance.Keys.Retrieve("PDF_ArchivePath")
+                };
 
-            string result = await saveFileDialog.ShowAsync(MainWindow.Instance);
+                await dialog.ShowDialog(MainWindow.Instance);
 
-            if (result != null)
+                MainViewModel.Instance.Keys.Update("PDF_TableLogo", dialog.TableLogoPath);
+                MainViewModel.Instance.Keys.Update("PDF_TableTitle", dialog.TableTitle);
+                MainViewModel.Instance.Keys.Update("PDF_TableSubtitle", dialog.TableSubtitle);
+                MainViewModel.Instance.Keys.Update("PDF_TableFooter", dialog.TableFooter);
+
+                MainViewModel.Instance.Keys.Update("PDF_ExportPath", dialog.ExportPath);
+                MainViewModel.Instance.Keys.Update("PDF_ArchivePath", dialog.ArchivePath);
+
+                if (dialog.DialogResult == DialogResult.OK)
+                {
+                    FileInfo file = new(dialog.ExportPath);
+                    Calendar.ExportCalendar(dialog.ExportPath, dialog.ArchivePath, dialog.TableTitle, dialog.TableSubtitle, dialog.TableFooter, dialog.TableLogoPath);
+                }
+            }
+            catch (Exception ex)
             {
-                try
-                {
-                    FileInfo file = new(result);
-                    Calendar.ExportCalendar(file.Name, file.DirectoryName);
-                }
-                catch (Exception ex)
-                {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Saving, ex.Message);
-                }
+                Program.Error(Localization.Localization.Exception_Saving, ex, MainWindow.Instance);
             }
         }
 
@@ -316,8 +319,7 @@ namespace Timotheus.Views.Tabs
                     }
                     catch (Exception ex)
                     {
-                        Timotheus.Log(ex);
-                        MainWindow.Instance.Error(Localization.Localization.Exception_InvalidEvent, ex.Message);
+                        Program.Error(Localization.Localization.Exception_InvalidEvent, ex, MainWindow.Instance);
                     }
                 }
             }
@@ -333,7 +335,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
+                    Program.Log(ex);
                     Calendar = new();
                 }
             }

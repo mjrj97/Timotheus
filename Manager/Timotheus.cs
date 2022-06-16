@@ -162,31 +162,5 @@ namespace Timotheus
                 Registry = new Register(fileName, ':');
             }
         }
-
-        /// <summary>
-        /// Adds text to the current log.
-        /// </summary>
-        public static void Log(string text)
-        {
-            try
-            {
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Timotheus/";
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-
-                File.AppendAllText(path + DateTime.Now.ToString("d") + ".txt", "[" + DateTime.Now + "]: " + text + "\n");
-            }
-            catch (Exception) { }
-        }
-
-        /// <summary>
-        /// Adds exception to the current log.
-        /// </summary>
-        public static void Log(Exception e)
-        {
-            Log(e.ToString());
-            if (e.InnerException != null)
-                Log(e.InnerException);
-        }
     }
 }

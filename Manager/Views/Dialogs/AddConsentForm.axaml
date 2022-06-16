@@ -26,7 +26,6 @@
 			<TextBox Text="{Binding ConsentComment}" Height="100" AcceptsReturn="True"/>
 		</DockPanel>
 		<DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-			<TextBlock Name="Error" Foreground="Red" VerticalAlignment="Center" Text="{Binding Error}" Width="230" TextWrapping="Wrap"/>
 			<Button Content="{x:Static i18n:Localization.AddConsentForm_AddButton}" Click="Add_Click" Margin="10 0"/>
 			<Button Content="{x:Static i18n:Localization.AddConsentForm_CancelButton}" Click="Cancel_Click"/>
 		</DockPanel>
