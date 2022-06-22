@@ -3,11 +3,11 @@ using System.IO;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
-using Timotheus.IO;
-using Timotheus.Utility;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Diagnostics;
+using Timotheus.IO;
+using Timotheus.Utility;
 
 namespace Timotheus.ViewModels
 {

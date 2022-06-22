@@ -1,11 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 using Avalonia.VisualTree;
 using System;
 using System.Linq;
-using System.Diagnostics;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
@@ -29,20 +27,6 @@ namespace Timotheus.Views.Tabs
                 Directory.GoToDirectory(Directory.RemotePath);
             }
         }
-
-        #region Colors
-        readonly IBrush NewLight = new SolidColorBrush(Color.FromRgb(230, 255, 230));
-        readonly IBrush NewDark = new SolidColorBrush(Color.FromRgb(210, 255, 210));
-
-        readonly IBrush UpdateLight = new SolidColorBrush(Color.FromRgb(255, 255, 230));
-        readonly IBrush UpdateDark = new SolidColorBrush(Color.FromRgb(255, 255, 200));
-
-        readonly IBrush DeleteLight = new SolidColorBrush(Color.FromRgb(255, 230, 230));
-        readonly IBrush DeleteDark = new SolidColorBrush(Color.FromRgb(255, 210, 210));
-
-        readonly IBrush StdLight = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-        readonly IBrush StdDark = new SolidColorBrush(Color.FromRgb(230, 230, 230));
-        #endregion
 
         public FilesPage()
         {

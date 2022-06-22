@@ -38,7 +38,7 @@
 					<DataGridTextColumn Header="{x:Static i18n:Localization.People_ConsentDate}" Width="125" Binding="{Binding Date}" SortMemberPath="SortableDate" IsReadOnly="True"/>
 					<DataGridTextColumn Header="{x:Static i18n:Localization.People_ConsentVersion}" Width="125" Binding="{Binding Version}" IsReadOnly="True"/>
 					<DataGridTextColumn Header="{x:Static i18n:Localization.People_Comment}" Width="*" Binding="{Binding Comment}"/>
-					<DataGridTemplateColumn Header="Active" SortMemberPath="{x:Static i18n:Localization.People_Active}">
+					<DataGridTemplateColumn Header="{x:Static i18n:Localization.People_Active}" SortMemberPath="{x:Static i18n:Localization.People_Active}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<DockPanel HorizontalAlignment="Right">

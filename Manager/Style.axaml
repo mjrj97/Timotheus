@@ -41,15 +41,18 @@
 	<Style Selector="DataGridCell">
 		<Setter Property="VerticalContentAlignment" Value="Top"/>
 	</Style>
+	<Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
+		<Setter Property="Fill" Value="#C0C0C0"/>
+	</Style>
+	<Style Selector="DataGridRow:pointerover /template/ TextBlock#Foreground">
+		<Setter Property="Foreground" Value="White"/>
+	</Style>
 	<Style Selector="Button">
 		<Setter Property="Background" Value="#999999"/>
 		<Setter Property="Foreground" Value="#FFFFFF"/>
 	</Style>
 	<Style Selector="Button:pointerover /template/ ContentPresenter">
 		<Setter Property="Background" Value="#696969"/>
-	</Style>
-	<Style Selector="Button:pointerover">
-		<Setter Property="Foreground" Value="#FFFFFF"/>
 	</Style>
 	<Style Selector="Border.t1">
 		<Setter Property="Background" Value="White"/>

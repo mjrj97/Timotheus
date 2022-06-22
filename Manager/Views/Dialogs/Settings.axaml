@@ -7,32 +7,7 @@
         x:Class="Timotheus.Views.Dialogs.Settings"
         Title="{x:Static i18n:Localization.Settings}" Width="500" SizeToContent="Height">
 	<StackPanel Margin="10">
-		<Border Classes="t1" DockPanel.Dock="Top" Padding="4">
-			<StackPanel Margin="5">
-				<TextBlock Margin="0 5 0 10" Text="{x:Static i18n:Localization.Settings_InfoBox}" FontWeight="Bold"/>
-				<DockPanel>
-					<Border Classes="t1" Padding="4">
-						<Image Source="{Binding Image}" Width="100" Height="100"/>
-					</Border>
-					<StackPanel Margin="10 0 0 0">
-						<DockPanel>
-							<TextBlock Text="{x:Static i18n:Localization.Settings_NameLabel}" VerticalAlignment="Center" Width="70"/>
-							<TextBox Text="{Binding AssociationName}"/>
-						</DockPanel>
-						<DockPanel Margin="0 7">
-							<TextBlock Text="{x:Static i18n:Localization.Settings_AddressLabel}" VerticalAlignment="Center" Width="70"/>
-							<TextBox Text="{Binding AssociationAddress}"/>
-						</DockPanel>
-						<DockPanel>
-							<TextBlock Text="{x:Static i18n:Localization.Settings_LogoLabel}" VerticalAlignment="Center" Width="70"/>
-							<TextBox Text="{Binding ImagePath}" Width="163"/>
-							<Button Content="{x:Static i18n:Localization.Settings_BrowseButton}" Click="Browse_Click" Width="100" Margin="7 0 0 0" HorizontalContentAlignment="Center"/>
-						</DockPanel>
-					</StackPanel>
-				</DockPanel>
-			</StackPanel>
-		</Border>
-		<Border Classes="t1" Margin="0 10 0 0" Padding="4">
+		<Border Classes="t1" Margin="0" Padding="4">
 			<StackPanel Margin="5">
 				<TextBlock Margin="0 5 0 10" Text="{x:Static i18n:Localization.Settings_Event}" FontWeight="Bold"/>
 				<DockPanel Margin="0 7">
@@ -41,6 +16,7 @@
 					<TextBox Watermark="00:00" Text="{Binding StartTime}" KeyUp="FixTime" Width="115" Margin="0 0 30 0"/>
 					<TextBlock Text="{x:Static i18n:Localization.Settings_EventEnd}" VerticalAlignment="Center" Width="50"/>
 					<TextBox Watermark="00:00" Text="{Binding EndTime}" KeyUp="FixTime" Width="115"/>
+					<!-- Missing setting about Address -->
 				</DockPanel>
 				<DockPanel>
 					<TextBlock Text="{x:Static i18n:Localization.Settings_EventDescription}" VerticalAlignment="Top" Width="100" Margin="0 7 0 0"/>

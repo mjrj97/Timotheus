@@ -101,7 +101,7 @@ namespace Timotheus.Views.Dialogs
             }
             set
             {
-                if (value <= 9999)
+                if (value > 0 && value <= 9999)
                     ConsentDate = new DateTime(value, ConsentDate.Month, ConsentDate.Day);
             }
         }

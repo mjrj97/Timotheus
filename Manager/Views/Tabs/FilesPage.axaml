@@ -4,21 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i18n="clr-namespace:Timotheus.Localization"
 			 x:Class="Timotheus.Views.Tabs.FilesPage" d:DesignHeight="400" d:DesignWidth="900">
-    <DockPanel>
+	<DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-			<Button Click="UpDirectory_Click" Height="32" ToolTip.Tip="{x:Static i18n:Localization.SFTP_GoUp_ToolTip}">
-				<DockPanel>
-					<Image Source="/Resources/Left.png" Height="17" VerticalAlignment="Center"/>
-					<TextBlock Text="{x:Static i18n:Localization.SFTP_GoUpButton}" Margin="5 0" VerticalAlignment="Center"/>
-				</DockPanel>
+			<Button Click="UpDirectory_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_GoUp_ToolTip}" Width="32" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+				<Image Source="/Resources/Left.png" Height="20" VerticalAlignment="Center"/>
+			</Button>
+			<Button Click="UpdateDirectory_Click" Height="32" Margin="10 0 0 0" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Refresh_ToolTip}">
+				<Image Source="/Resources/Update.png" Height="17" VerticalAlignment="Center"/>
 			</Button>
 			<DockPanel DockPanel.Dock="Right">
-				<Button Click="UpdateDirectory_Click" Height="32" Margin="0 0 10 0" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Refresh_ToolTip}">
-					<DockPanel>
-						<Image Source="/Resources/Update.png" Height="17" VerticalAlignment="Center"/>
-						<TextBlock Text="{x:Static i18n:Localization.SFTP_UpdateButton}" Margin="5 0" VerticalAlignment="Center"/>
-					</DockPanel>
-				</Button>
 				<Button Click="SyncFiles_Click" Height="32" Margin="0 0 10 0" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Sync_ToolTip}">
 					<DockPanel>
 						<Image Source="/Resources/Sync.png" Height="17" VerticalAlignment="Center"/>

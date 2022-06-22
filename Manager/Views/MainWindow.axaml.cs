@@ -521,9 +521,6 @@ namespace Timotheus.Views
         {
             Settings dialog = new()
             {
-                AssociationName = mvm.Keys.Retrieve("Settings-Name"),
-                AssociationAddress = mvm.Keys.Retrieve("Settings-Address"),
-                ImagePath = mvm.Keys.Retrieve("Settings-Image"),
                 Description = mvm.Keys.Retrieve("Settings-EventDescription"),
                 StartTime = mvm.Keys.Retrieve("Settings-EventStart"),
                 EndTime = mvm.Keys.Retrieve("Settings-EventEnd"),
@@ -537,12 +534,6 @@ namespace Timotheus.Views
             {
                 bool changed = false;
 
-                if (dialog.AssociationName != string.Empty)
-                    changed |= mvm.Keys.Update("Settings-Name", dialog.AssociationName);
-                if (dialog.AssociationAddress != string.Empty)
-                    changed |= mvm.Keys.Update("Settings-Address", dialog.AssociationAddress);
-                if (dialog.ImagePath != string.Empty)
-                    changed |= mvm.Keys.Update("Settings-Image", dialog.ImagePath);
                 if (dialog.Description != string.Empty)
                     changed |= mvm.Keys.Update("Settings-EventDescription", dialog.Description);
                 if (dialog.StartTime != string.Empty)

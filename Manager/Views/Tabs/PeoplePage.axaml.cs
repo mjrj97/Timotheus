@@ -2,7 +2,6 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 using System;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -23,9 +22,6 @@ namespace Timotheus.Views.Tabs
                 ViewModel = value;
             }
         }
-
-        readonly IBrush StdLight = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-        readonly IBrush StdDark = new SolidColorBrush(Color.FromRgb(230, 230, 230));
 
         public PeoplePage()
         {

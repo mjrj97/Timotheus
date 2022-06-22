@@ -120,7 +120,7 @@ namespace Timotheus.Views.Dialogs
             }
             set
             {
-                if (value <= 9999)
+                if (value > 0 && value <= 9999)
                     Start = new DateTime(value, Start.Month, Start.Day);
             }
         }
@@ -195,7 +195,7 @@ namespace Timotheus.Views.Dialogs
             }
             set
             {
-                if (value <= 9999)
+                if (value > 0 && value <= 9999)
                     End = new DateTime(value, End.Month, End.Day);
             }
         }

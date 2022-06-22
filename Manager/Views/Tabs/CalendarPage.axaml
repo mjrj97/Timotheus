@@ -51,7 +51,7 @@
 			</DockPanel>
 		</DockPanel>
 		<Border Classes="t1" Padding="4" DockPanel.Dock="Bottom">
-			<DataGrid Items="{Binding Events}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible">
+			<DataGrid Items="{Binding Events}" AlternatingRowBackground="#F0F0F0" VerticalScrollBarVisibility="Visible">
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding Start}" SortMemberPath="StartSort" CanUserSort="True" CanUserResize="True"/>
 					<DataGridTextColumn Header="{x:Static i18n:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding End}" SortMemberPath="EndSort" CanUserSort="True" CanUserResize="True"/>

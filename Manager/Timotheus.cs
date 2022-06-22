@@ -11,14 +11,14 @@ namespace Timotheus
 {
     public static class Timotheus
     {
-        private static Register _Registry;
+        private static Register _registry;
         /// <summary>
         /// A register containing all values found in the (Windows registry/macOS .plist/Linux etc folder) associated with Timotheus. Is loaded on start of program and saved on exit.
         /// </summary>
         public static Register Registry
         {
-            get { return _Registry; }
-            private set { _Registry = value; }
+            get { return _registry; }
+            private set { _registry = value; }
         }
         /// <summary>
         /// Text encoding used by the program. Is essential to decode the text from Windows Registry.
