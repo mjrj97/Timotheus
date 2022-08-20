@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,17 +11,28 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// Type of period used by Calendar_View.
         /// </summary>
-        private readonly Period calendarPeriod;
+        private Period _calendarPeriod;
+        public Period CalendarPeriod
+        {
+            get
+            {
+                return _calendarPeriod;
+            }
+            private set
+            {
+                _calendarPeriod = value;
+            }
+        }
 
         /// <summary>
         /// The index of the current period type.
         /// </summary>
         public int SelectedPeriod
         {
-            get { return (int)calendarPeriod.Type; }
+            get { return (int)CalendarPeriod.Type; }
             set
             {
-                calendarPeriod.SetType((PeriodType)value);
+                CalendarPeriod.SetType((PeriodType)value);
                 UpdateCalendarTable();
             }
         }
@@ -101,20 +111,20 @@ namespace Timotheus.ViewModels
         public CalendarViewModel(string username, string password, string url)
         {
             Calendar = new Calendar(username, password, url);
-            calendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
-            PeriodText = calendarPeriod.ToString();
+            CalendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
+            PeriodText = CalendarPeriod.ToString();
         }
         public CalendarViewModel(string path)
         {
             Calendar = new(path);
-            calendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
-            PeriodText = calendarPeriod.ToString();
+            CalendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
+            PeriodText = CalendarPeriod.ToString();
         }
         public CalendarViewModel()
         {
             Calendar = new();
-            calendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
-            PeriodText = calendarPeriod.ToString();
+            CalendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
+            PeriodText = CalendarPeriod.ToString();
         }
 
         public void AddEvent(DateTime Start, DateTime End, string Name, string Description, string Location, string UID)
@@ -144,9 +154,9 @@ namespace Timotheus.ViewModels
         public void UpdatePeriod(bool add)
         {
             if (add)
-                calendarPeriod.Add();
+                CalendarPeriod.Add();
             else
-                calendarPeriod.Subtract();
+                CalendarPeriod.Subtract();
             UpdateCalendarTable();
         }
         /// <summary>
@@ -154,22 +164,8 @@ namespace Timotheus.ViewModels
         /// </summary>
         public void UpdatePeriod(string text)
         {
-            calendarPeriod.SetPeriod(text);
+            CalendarPeriod.SetPeriod(text);
             NotifyPropertyChanged(nameof(SelectedPeriod));
-        }
-
-        /// <summary>
-        /// Exports the current Calendar in the selected period as a PDF.
-        /// </summary>
-        public void ExportCalendar(string path, string archive, string title, string subtitle, string footer, string img)
-        {
-            Calendar.Export(path, title, subtitle, footer, img, calendarPeriod);
-            if (archive != string.Empty)
-            {
-                if (!Directory.Exists(archive))
-                    throw new Exception(Localization.Localization.Exception_PDFArchiveNotFound);
-                File.Copy(path, Path.Combine(archive, calendarPeriod.ToFileName() + ".pdf"));
-            }
         }
 
         /// <summary>
@@ -180,11 +176,11 @@ namespace Timotheus.ViewModels
             Events.Clear();
             for (int i = 0; i < Calendar.Events.Count; i++)
             {
-                if (Calendar.Events[i].In(calendarPeriod) && !Calendar.Events[i].Deleted)
+                if (Calendar.Events[i].In(CalendarPeriod) && !Calendar.Events[i].Deleted)
                     Events.Add(new EventViewModel(Calendar.Events[i]));
             }
             Events = new ObservableCollection<EventViewModel>(Events.OrderBy(i => i.StartSort));
-            PeriodText = calendarPeriod.ToString();
+            PeriodText = CalendarPeriod.ToString();
         }
     }
 }

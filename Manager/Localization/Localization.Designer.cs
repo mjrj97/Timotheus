@@ -1078,6 +1078,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Backpage.
+        /// </summary>
+        public static string PDF_Backpage {
+            get {
+                return ResourceManager.GetString("PDF_Backpage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Browse.
         /// </summary>
         public static string PDF_Browse {
@@ -1101,6 +1110,15 @@ namespace Timotheus.Localization {
         public static string PDF_Coffee {
             get {
                 return ResourceManager.GetString("PDF_Coffee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment.
+        /// </summary>
+        public static string PDF_Comment {
+            get {
+                return ResourceManager.GetString("PDF_Comment", resourceCulture);
             }
         }
         
@@ -1632,6 +1650,15 @@ namespace Timotheus.Localization {
         public static string SFTP_ContextMenu_Public {
             get {
                 return ResourceManager.GetString("SFTP_ContextMenu_Public", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename.
+        /// </summary>
+        public static string SFTP_ContextMenu_Rename {
+            get {
+                return ResourceManager.GetString("SFTP_ContextMenu_Rename", resourceCulture);
             }
         }
         

@@ -4,6 +4,8 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
 using System.IO;
+using System.Linq;
+using System.Collections.Generic;
 using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -253,28 +255,74 @@ namespace Timotheus.Views.Tabs
             {
                 PDFDialog dialog = new()
                 {
-                    TableLogoPath = MainViewModel.Instance.Keys.Retrieve("PDF_TableLogo"),
-                    TableTitle = MainViewModel.Instance.Keys.Retrieve("PDF_TableTitle"),
-                    TableSubtitle = MainViewModel.Instance.Keys.Retrieve("PDF_TableSubtitle"),
-                    TableFooter = MainViewModel.Instance.Keys.Retrieve("PDF_TableFooter"),
+                    LogoPath = MainViewModel.Instance.Keys.Retrieve("PDF_Logo"),
+                    PDFTitle = MainViewModel.Instance.Keys.Retrieve("PDF_Title"),
+                    Subtitle = MainViewModel.Instance.Keys.Retrieve("PDF_Subtitle"),
+                    Footer = MainViewModel.Instance.Keys.Retrieve("PDF_Footer"),
+                    Backpage = MainViewModel.Instance.Keys.Retrieve("PDF_Backpage"),
+                    Comment = MainViewModel.Instance.Keys.Retrieve("PDF_Comment"),
                     ExportPath = MainViewModel.Instance.Keys.Retrieve("PDF_ExportPath"),
                     ArchivePath = MainViewModel.Instance.Keys.Retrieve("PDF_ArchivePath")
                 };
 
                 await dialog.ShowDialog(MainWindow.Instance);
 
-                MainViewModel.Instance.Keys.Update("PDF_TableLogo", dialog.TableLogoPath);
-                MainViewModel.Instance.Keys.Update("PDF_TableTitle", dialog.TableTitle);
-                MainViewModel.Instance.Keys.Update("PDF_TableSubtitle", dialog.TableSubtitle);
-                MainViewModel.Instance.Keys.Update("PDF_TableFooter", dialog.TableFooter);
+                bool Changed = false;
 
-                MainViewModel.Instance.Keys.Update("PDF_ExportPath", dialog.ExportPath);
-                MainViewModel.Instance.Keys.Update("PDF_ArchivePath", dialog.ArchivePath);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_Logo", dialog.LogoPath);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_Title", dialog.PDFTitle);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_Subtitle", dialog.Subtitle);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_Footer", dialog.Footer);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_Backpage", dialog.Backpage);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_Comment", dialog.Comment);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_ExportPath", dialog.ExportPath);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_ArchivePath", dialog.ArchivePath);
+
+                if (Changed)
+                {
+                    MessageBox messageBox = new()
+                    {
+                        DialogTitle = Localization.Localization.InsertKey_ChangeDetected,
+                        DialogText = Localization.Localization.InsertKey_DoYouWantToSave
+                    };
+                    await messageBox.ShowDialog(MainWindow.Instance);
+                    if (messageBox.DialogResult == DialogResult.OK)
+                    {
+                        MainWindow.Instance.SaveKey_Click(null, null);
+                    }
+                }
 
                 if (dialog.DialogResult == DialogResult.OK)
                 {
                     FileInfo file = new(dialog.ExportPath);
-                    Calendar.ExportCalendar(dialog.ExportPath, dialog.ArchivePath, dialog.TableTitle, dialog.TableSubtitle, dialog.TableFooter, dialog.TableLogoPath);
+
+                    List<Event> events = new();
+                    List<Event> cal = Calendar.Calendar.Events;
+                    for (int i = 0; i < cal.Count; i++)
+                    {
+                        if (cal[i].In(Calendar.CalendarPeriod))
+                            events.Add(cal[i]);
+                    }
+
+                    string tabName = string.Empty;
+                    switch (dialog.CurrentTab) {
+                        case 0:
+                            PDF.CreateTable(events, dialog.ExportPath, dialog.PDFTitle, dialog.Subtitle, dialog.Footer, dialog.LogoPath);
+                            tabName = Localization.Localization.PDF_Type_Table;
+                            break;
+                        case 1:
+                            PDF.CreateBook(events, dialog.ExportPath, dialog.PDFTitle, dialog.Subtitle, dialog.Comment, dialog.Backpage, dialog.LogoPath);
+                            tabName = Localization.Localization.PDF_Type_Book;
+                            break;
+                    }
+
+                    if (dialog.SaveToArchive)
+                    {
+                        if (!Directory.Exists(dialog.ArchivePath))
+                            throw new Exception(Localization.Localization.Exception_PDFArchiveNotFound);
+                        if (dialog.ArchivePath != string.Empty)
+                            File.Copy(dialog.ExportPath, Path.Combine(dialog.ArchivePath, Calendar.CalendarPeriod.ToFileName() + " (" + tabName + ")" + ".pdf"), true);
+                    }
                 }
             }
             catch (Exception ex)

@@ -26,6 +26,20 @@ namespace Timotheus.ViewModels
         /// </summary>
         private readonly DirectoryClient client;
 
+        private string _currentDirectoryPath = "/";
+        public string CurrentDirectoryPath 
+        { 
+            get
+            {
+                return _currentDirectoryPath;
+            }
+            set
+            {
+                _currentDirectoryPath = value;
+                NotifyPropertyChanged(nameof(CurrentDirectoryPath));
+            }
+        }
+
         private string _currentDirectory = string.Empty;
         /// <summary>
         /// The directory currently being shown.
@@ -39,6 +53,8 @@ namespace Timotheus.ViewModels
             set
             {
                 _currentDirectory = value;
+                if (RemotePath != string.Empty)
+                    CurrentDirectoryPath = value.Substring(RemotePath.Length - 1) + "/";
                 NotifyPropertyChanged(nameof(CurrentDirectory));
             }
         }
@@ -349,6 +365,7 @@ namespace Timotheus.ViewModels
         /// </summary>
         public void GoToDirectory(string path)
         {
+            System.Diagnostics.Debug.WriteLine("GOTO: " + path);
             CurrentDirectory = Path.TrimEndingDirectorySeparator(path.Replace('\\', '/'));
             List<DirectoryFile> files = GetFiles(CurrentDirectory);
             List<FileViewModel> viewFiles = new();
@@ -367,6 +384,21 @@ namespace Timotheus.ViewModels
         public void SetFilePermissions(FileViewModel file, short permissions)
         {
             client.SetPermissions(file.RemoteFullName, permissions);
+            GoToDirectory(CurrentDirectory);
+        }
+
+        /// <summary>
+        /// Renames the given file to the new name.
+        /// </summary>
+        public void RenameFile(FileViewModel file, string newName)
+        {
+            string newremote = Path.Combine(Path.GetDirectoryName(file.RemoteFullName), newName).Replace('\\','/');
+            string newlocal = Path.Combine(Path.GetDirectoryName(file.LocalFullName), newName);
+            if (file.IsDirectory)
+                Directory.Move(file.LocalFullName, newlocal);
+            else
+                File.Move(file.LocalFullName, newlocal);
+            client.RenameFile(file.RemoteFullName, newremote);
             GoToDirectory(CurrentDirectory);
         }
 

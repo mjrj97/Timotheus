@@ -9,79 +9,119 @@ namespace Timotheus.Views.Dialogs
 {
     public partial class PDFDialog : Dialog
     {
-        #region Table
-        private Bitmap _tableImage = null;
-        public Bitmap TableImage
+        private Bitmap _editorImage = null;
+        public Bitmap EditorImage
         {
             get
             {
-                return _tableImage;
+                return _editorImage;
             }
             set
             {
-                _tableImage = value;
-                NotifyPropertyChanged(nameof(TableImage));
+                _editorImage = value;
+                NotifyPropertyChanged(nameof(EditorImage));
             }
         }
 
-        private string _tableLogoPath = string.Empty;
-        public string TableLogoPath
+        private string _logoPath = string.Empty;
+        public string LogoPath
         {
             get
             {
-                return _tableLogoPath;
+                return _logoPath;
             }
             set
             {
-                _tableLogoPath = value;
+                _logoPath = value;
                 if (System.IO.File.Exists(value))
-                    TableImage = new Bitmap(value);
-                NotifyPropertyChanged(nameof(TableLogoPath));
+                    EditorImage = new Bitmap(value);
+                NotifyPropertyChanged(nameof(LogoPath));
             }
         }
 
-        private string _tableTitle = string.Empty;
-        public string TableTitle
+        private string _title = string.Empty;
+        public string PDFTitle
         {
             get
             {
-                return _tableTitle;
+                return _title;
             }
             set
             {
-                _tableTitle = value;
-                NotifyPropertyChanged(nameof(TableTitle));
+                _title = value;
+                NotifyPropertyChanged(nameof(PDFTitle));
             }
         }
 
-        private string _tableSubtitle = string.Empty;
-        public string TableSubtitle
+        private string _subtitle = string.Empty;
+        public string Subtitle
         {
             get
             {
-                return _tableSubtitle;
+                return _subtitle;
             }
             set
             {
-                _tableSubtitle = value;
-                NotifyPropertyChanged(nameof(TableSubtitle));
+                _subtitle = value;
+                NotifyPropertyChanged(nameof(Subtitle));
             }
         }
 
-        private string _tableFooter = string.Empty;
-        public string TableFooter
+        private string _footer = string.Empty;
+        public string Footer
         {
             get
             {
-                return _tableFooter;
+                return _footer;
             }
             set
             {
-                _tableFooter = value;
-                NotifyPropertyChanged(nameof(TableFooter));
+                _footer = value;
+                NotifyPropertyChanged(nameof(Footer));
             }
         }
-        #endregion
+
+        private string _comment = string.Empty;
+        public string Comment
+        {
+            get
+            {
+                return _comment;
+            }
+            set
+            {
+                _comment = value;
+                NotifyPropertyChanged(nameof(Comment));
+            }
+        }
+
+        private string _backpage = string.Empty;
+        public string Backpage
+        {
+            get
+            {
+                return _backpage;
+            }
+            set
+            {
+                _backpage = value;
+                NotifyPropertyChanged(nameof(Backpage));
+            }
+        }
+
+        private int _currentTab = 0;
+        public int CurrentTab 
+        { 
+            get
+            {
+                return _currentTab;
+            }
+            set
+            {
+                _currentTab = value;
+                NotifyPropertyChanged(nameof(CurrentTab));
+            }
+        }
 
         private string _exportPath = string.Empty;
         public string ExportPath
@@ -111,13 +151,26 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
+        private bool _saveToArchive = true;
+        public bool SaveToArchive 
+        { 
+            get
+            {
+                return _saveToArchive;
+            }
+            set
+            {
+                _saveToArchive = value;
+                NotifyPropertyChanged(nameof(SaveToArchive));
+            }
+        }
+
         public PDFDialog()
         {
             AvaloniaXamlLoader.Load(this);
             DataContext = this;
         }
 
-        #region Table
         private async void LogoBrowse_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new()
@@ -138,10 +191,9 @@ namespace Timotheus.Views.Dialogs
             string[] result = await openFileDialog.ShowAsync(this);
             if (result != null && result.Length > 0)
             {
-                TableLogoPath = result[0];
+                LogoPath = result[0];
             }
         }
-        #endregion
 
         private async void ExportBrowse_Click(object sender, RoutedEventArgs e)
         {

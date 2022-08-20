@@ -1,8 +1,10 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
 using System;
+using System.IO;
 using System.Linq;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -315,6 +317,60 @@ namespace Timotheus.Views.Tabs
             catch (Exception ex)
             {
                 Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+            }
+        }
+        
+        /// <summary>
+        /// Synchronizes the file.
+        /// </summary>
+        private async void RenameFile_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                TextDialog dialog = new()
+                {
+                    Title = Localization.Localization.SFTP_ContextMenu_Rename,
+                    Text = Directory.Selected.Name
+                };
+                await dialog.ShowDialog(MainWindow.Instance);
+                if (dialog.DialogResult == DialogResult.OK)
+                {
+                    Directory.RenameFile(Directory.Selected, dialog.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+            }
+        }
+
+        /// <summary>
+        /// Fix the directory path textbox
+        /// </summary>
+        private void DirectoryText_KeyDown(object sender, KeyEventArgs e)
+        {
+            string text = ((TextBox)sender).Text;
+            try
+            {
+                if (e.Key == Key.Enter)
+                {
+                    // GO TO DIRECTORY
+                    string path = Path.TrimEndingDirectorySeparator(Directory.RemotePath) + text;
+                    Directory.GoToDirectory(path);
+                    e.Handled = true;
+                }
+                else
+                {
+                    if (text.Trim() == string.Empty)
+                        text = "/";
+                    ((TextBox)sender).Text = text.Replace("\\", "/");
+                    NotifyPropertyChanged(nameof(Directory.CurrentDirectoryPath));
+                    e.Handled = true;
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                Program.Log(ex);
             }
         }
 

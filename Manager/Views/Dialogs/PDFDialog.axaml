@@ -8,35 +8,70 @@
         Title="{x:Static i18n:Localization.PDF}">
 	<StackPanel Margin="10">
 		<Border BorderBrush="Black" BorderThickness="1">
-			<TabControl>
+			<TabControl SelectedIndex="{Binding CurrentTab}">
 				<TabItem Header="{x:Static i18n:Localization.PDF_Type_Table}">
 					<StackPanel>
 						<Border Background="White" BorderBrush="Black" BorderThickness="1" Margin="0 0 0 10" Width="260" Height="180">
 							<Grid>
-								<Image Source="{Binding TableImage}" Margin="9 9 0 0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="25" Height="25"/>
-								<TextBlock Text="{Binding TableTitle}" Margin="9 38 0 0" FontSize="6" Foreground="#056973" FontWeight="Bold" FontFamily="Verdana"/>
-								<TextBlock Text="{Binding TableSubtitle}" Margin="9 45 0 0" FontSize="5" Foreground="#056973" FontFamily="Verdana"/>
+								<Image Source="{Binding EditorImage}" Margin="9 9 0 0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="25" Height="25"/>
+								<TextBlock Text="{Binding PDFTitle}" Margin="9 38 0 0" FontSize="6" Foreground="#056973" FontWeight="Bold" FontFamily="Verdana"/>
+								<TextBlock Text="{Binding Subtitle}" Margin="9 45 0 0" FontSize="5" Foreground="#056973" FontFamily="Verdana"/>
 								<Image Source="/Resources/TableColors.png" Margin="9 57 0 0" Width="240" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill"/>
 								<TextBlock Text="1/1" Margin="9 166 0 0" FontSize="3" FontFamily="Verdana"/>
-								<TextBlock Text="{Binding TableFooter}" Margin="45 166 0 0" FontSize="3" FontFamily="Verdana"/>
+								<TextBlock Text="{Binding Footer}" Margin="45 166 0 0" FontSize="3" FontFamily="Verdana"/>
 							</Grid>
 						</Border>
 						<DockPanel Margin="0 10">
 							<TextBlock Text="{x:Static i18n:Localization.PDF_Logo}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
 							<Button Content="{x:Static i18n:Localization.PDF_Browse}" Click="LogoBrowse_Click" DockPanel.Dock="Right" Margin="10 0 0 0"/>
-							<TextBox Text="{Binding TableLogoPath}" IsReadOnly="True" Watermark="C:/..."/>
+							<TextBox Text="{Binding LogoPath}" IsReadOnly="True" Watermark="C:/..."/>
 						</DockPanel>
 						<DockPanel>
 							<TextBlock Text="{x:Static i18n:Localization.PDF_Title}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
-							<TextBox Text="{Binding TableTitle}"/>
+							<TextBox Text="{Binding PDFTitle}"/>
 						</DockPanel>
 						<DockPanel Margin="0 10">
 							<TextBlock Text="{x:Static i18n:Localization.PDF_Subtitle}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
-							<TextBox Text="{Binding TableSubtitle}"/>
+							<TextBox Text="{Binding Subtitle}"/>
 						</DockPanel>
 						<DockPanel>
 							<TextBlock Text="{x:Static i18n:Localization.PDF_Footer}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
-							<TextBox Text="{Binding TableFooter}"/>
+							<TextBox Text="{Binding Footer}"/>
+						</DockPanel>
+					</StackPanel>
+				</TabItem>
+				<TabItem Header="Book">
+					<StackPanel>
+						<Border Background="White" BorderBrush="Black" BorderThickness="1" Margin="0 0 0 10" Width="260" Height="180">
+							<Grid>
+								<Line StartPoint="129,0" EndPoint="129,179" Stroke="Black" StrokeThickness="0.5"/>
+								<Image Source="{Binding EditorImage}" Margin="145 45 15 55" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform"/>
+								<TextBlock Text="{Binding PDFTitle}" Margin="145 22 15 15" FontSize="6" Foreground="#056973" FontWeight="Bold" TextAlignment="Center" FontFamily="Verdana"/>
+								<TextBlock Text="{Binding Subtitle}" Margin="145 136 15 15" FontSize="5" Foreground="#056973" FontWeight="Bold" TextAlignment="Center" FontFamily="Verdana"/>
+								<TextBlock Text="{Binding Comment}" Margin="145 144 15 15" FontSize="3" Foreground="Black" FontWeight="Bold" TextAlignment="Center" FontFamily="Verdana"/>
+								<TextBlock Text="{Binding Backpage}" Margin="15 15 145 15" TextWrapping="Wrap" FontSize="3" Foreground="Black" FontFamily="Verdana"/>
+							</Grid>
+						</Border>
+						<DockPanel Margin="0 10">
+							<TextBlock Text="{x:Static i18n:Localization.PDF_Logo}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
+							<Button Content="{x:Static i18n:Localization.PDF_Browse}" Click="LogoBrowse_Click" DockPanel.Dock="Right" Margin="10 0 0 0"/>
+							<TextBox Text="{Binding LogoPath}" IsReadOnly="True" Watermark="C:/..."/>
+						</DockPanel>
+						<DockPanel>
+							<TextBlock Text="{x:Static i18n:Localization.PDF_Title}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
+							<TextBox Text="{Binding PDFTitle}"/>
+						</DockPanel>
+						<DockPanel Margin="0 10">
+							<TextBlock Text="{x:Static i18n:Localization.PDF_Subtitle}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
+							<TextBox Text="{Binding Subtitle}"/>
+						</DockPanel>
+						<DockPanel>
+							<TextBlock Text="{x:Static i18n:Localization.PDF_Comment}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
+							<TextBox Text="{Binding Comment}"/>
+						</DockPanel>
+						<DockPanel Margin="0 10 0 0">
+							<TextBlock Text="{x:Static i18n:Localization.PDF_Backpage}" Width="90" VerticalAlignment="Top" Margin="0 5 10 0"/>
+							<TextBox Text="{Binding Backpage}" TextWrapping="Wrap" Height="100" AcceptsReturn="True"/>
 						</DockPanel>
 					</StackPanel>
 				</TabItem>
@@ -50,9 +85,10 @@
 					<TextBox Text="{Binding ExportPath}" Watermark="C:/..." IsReadOnly="True"/>
 				</DockPanel>
 				<DockPanel Margin="20 10 20 20">
-					<TextBlock Text="{x:Static i18n:Localization.PDF_ArchivePath}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
-					<Button Content="{x:Static i18n:Localization.PDF_Browse}" Click="ArchiveBrowse_Click" DockPanel.Dock="Right" Margin="10 0 0 0"/>
-					<TextBox Text="{Binding ArchivePath}" Watermark="C:/..." IsReadOnly="True"/>
+					<TextBlock Text="{x:Static i18n:Localization.PDF_ArchivePath}" Width="60" VerticalAlignment="Center" Margin="0 0 10 0"/>
+					<CheckBox IsChecked="{Binding SaveToArchive}" Width="30"/>
+					<Button IsEnabled="{Binding SaveToArchive}" Content="{x:Static i18n:Localization.PDF_Browse}" Click="ArchiveBrowse_Click" DockPanel.Dock="Right" Margin="10 0 0 0"/>
+					<TextBox IsEnabled="{Binding SaveToArchive}" Text="{Binding ArchivePath}" Watermark="C:/..." IsReadOnly="True"/>
 				</DockPanel>
 			</StackPanel>
 		</Border>

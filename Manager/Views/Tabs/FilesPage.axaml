@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i18n="clr-namespace:Timotheus.Localization"
-			 x:Class="Timotheus.Views.Tabs.FilesPage" d:DesignHeight="400" d:DesignWidth="900">
+			 x:Class="Timotheus.Views.Tabs.FilesPage" d:DesignHeight="400" d:DesignWidth="700">
 	<DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
 			<Button Click="UpDirectory_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_GoUp_ToolTip}" Width="32" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
@@ -26,7 +26,7 @@
 					</DockPanel>
 				</Button>
 			</DockPanel>
-			<TextBox Text="{Binding CurrentDirectory}" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Path_ToolTip}" Margin="10 0" IsReadOnly="True" Height="32"/>
+			<TextBox Text="{Binding CurrentDirectoryPath}" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Path_ToolTip}" Margin="10 0" Height="32" KeyUp="DirectoryText_KeyDown"/>
 		</DockPanel>
 		<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
 			<Border.ContextMenu>
@@ -46,6 +46,7 @@
 					<MenuItem Name="ContextPublic" Header="{x:Static i18n:Localization.SFTP_ContextMenu_Public}" Click="EditFilePermission_ContextMenu_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}"/>
 					<MenuItem Name="ContextPrivate" Header="{x:Static i18n:Localization.SFTP_ContextMenu_Private}" Click="EditFilePermission_ContextMenu_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}"/>
 					<Separator/>
+					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_Rename}" Click="RenameFile_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Delete_ToolTip}"/>
 					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_Delete}" Click="DeleteFile_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Delete_ToolTip}"/>
 				</ContextMenu>
 			</DataGrid.ContextMenu>

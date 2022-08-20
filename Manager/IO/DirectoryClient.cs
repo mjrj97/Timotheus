@@ -1,9 +1,9 @@
-﻿using Renci.SshNet;
-using FluentFTP;
+﻿using FluentFTP;
 using System.IO;
-using Renci.SshNet.Sftp;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+using Renci.SshNet;
+using Renci.SshNet.Sftp;
 using Renci.SshNet.Common;
 
 namespace Timotheus.IO
@@ -304,6 +304,36 @@ namespace Timotheus.IO
                     }
 
                     ftpClient.DeleteDirectory(remote);
+                }
+            }
+            catch (SftpPathNotFoundException ex)
+            {
+                Program.Log(ex);
+            }
+
+            if (!isPreconnected)
+            {
+                Disconnect();
+            }
+        }
+
+        public void RenameFile(string oldname, string newname)
+        {
+            bool isPreconnected = IsConnected;
+            if (!isPreconnected)
+            {
+                Connect();
+            }
+
+            try
+            {
+                if (port == 22)
+                {
+                    sftpClient.RenameFile(oldname, newname);
+                }
+                else
+                {
+                    ftpClient.Rename(oldname, newname);
                 }
             }
             catch (SftpPathNotFoundException ex)

@@ -426,20 +426,6 @@ namespace Timotheus.Schedule
             "END:STANDARD\n" +
             "END:VTIMEZONE";
         }
-        
-        /// <summary>
-        /// Exports the Calendar as a PDF.
-        /// </summary>
-        public void Export(string path, string title, string subtitle, string footer, string orgImagePath, Period period)
-        {
-            List<Event> exportEvents = new();
-            for (int i = 0; i < Events.Count; i++)
-            {
-                if (Events[i].In(period))
-                    exportEvents.Add(Events[i]);
-            }
-            PDFCreator.CreatePDF(exportEvents, path, title, subtitle, footer, orgImagePath);
-        }
 
         /// <summary>
         /// Returns a calendars iCal equivalent string.

@@ -202,7 +202,8 @@ namespace Timotheus.IO
             if (!found)
             {
                 keys.Add(new Key(name, value));
-                changed = true;
+                if (value != string.Empty)
+                    changed = true;
             }
             return changed;
         }

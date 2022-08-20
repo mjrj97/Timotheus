@@ -459,6 +459,9 @@
   <data name="PDF_ArchivePath" xml:space="preserve">
     <value>Arkiv</value>
   </data>
+  <data name="PDF_Backpage" xml:space="preserve">
+    <value>Bagside</value>
+  </data>
   <data name="PDF_Browse" xml:space="preserve">
     <value>Gennemse</value>
   </data>
@@ -467,6 +470,9 @@
   </data>
   <data name="PDF_Coffee" xml:space="preserve">
     <value>Kaffehold</value>
+  </data>
+  <data name="PDF_Comment" xml:space="preserve">
+    <value>Kommentar</value>
   </data>
   <data name="PDF_Date" xml:space="preserve">
     <value>Dato</value>
@@ -674,6 +680,9 @@
   </data>
   <data name="SFTP_ContextMenu_Public" xml:space="preserve">
     <value>Gør offentlig</value>
+  </data>
+  <data name="SFTP_ContextMenu_Rename" xml:space="preserve">
+    <value>Omdøb</value>
   </data>
   <data name="SFTP_ContextMenu_ShowInExplorer" xml:space="preserve">
     <value>Vis i stifinder</value>

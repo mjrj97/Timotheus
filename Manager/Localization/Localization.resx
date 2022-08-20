@@ -456,6 +456,9 @@
   <data name="PDF_ArchivePath" xml:space="preserve">
     <value>Archive</value>
   </data>
+  <data name="PDF_Backpage" xml:space="preserve">
+    <value>Backpage</value>
+  </data>
   <data name="PDF_Browse" xml:space="preserve">
     <value>Browse</value>
   </data>
@@ -464,6 +467,9 @@
   </data>
   <data name="PDF_Coffee" xml:space="preserve">
     <value>Coffee</value>
+  </data>
+  <data name="PDF_Comment" xml:space="preserve">
+    <value>Comment</value>
   </data>
   <data name="PDF_Date" xml:space="preserve">
     <value>Date</value>
@@ -671,6 +677,9 @@
   </data>
   <data name="SFTP_ContextMenu_Public" xml:space="preserve">
     <value>Make public</value>
+  </data>
+  <data name="SFTP_ContextMenu_Rename" xml:space="preserve">
+    <value>Rename</value>
   </data>
   <data name="SFTP_ContextMenu_ShowInExplorer" xml:space="preserve">
     <value>Show in file explorer</value>
