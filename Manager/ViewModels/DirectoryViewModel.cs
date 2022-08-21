@@ -27,6 +27,9 @@ namespace Timotheus.ViewModels
         private readonly DirectoryClient client;
 
         private string _currentDirectoryPath = "/";
+        /// <summary>
+        /// The directory text box on top of the tab.
+        /// </summary>
         public string CurrentDirectoryPath 
         { 
             get

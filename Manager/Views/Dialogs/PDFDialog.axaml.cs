@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
@@ -10,7 +11,10 @@ namespace Timotheus.Views.Dialogs
     public partial class PDFDialog : Dialog
     {
         private Bitmap _editorImage = null;
-        public Bitmap EditorImage
+        /// <summary>
+        /// Image that is shown in the editors preview.
+        /// </summary>
+        private Bitmap EditorImage
         {
             get
             {
@@ -24,6 +28,9 @@ namespace Timotheus.Views.Dialogs
         }
 
         private string _logoPath = string.Empty;
+        /// <summary>
+        /// Path to the logo on the local computer.
+        /// </summary>
         public string LogoPath
         {
             get
@@ -33,13 +40,14 @@ namespace Timotheus.Views.Dialogs
             set
             {
                 _logoPath = value;
-                if (System.IO.File.Exists(value))
-                    EditorImage = new Bitmap(value);
                 NotifyPropertyChanged(nameof(LogoPath));
             }
         }
 
         private string _title = string.Empty;
+        /// <summary>
+        /// Title of the PDF
+        /// </summary>
         public string PDFTitle
         {
             get
@@ -54,6 +62,9 @@ namespace Timotheus.Views.Dialogs
         }
 
         private string _subtitle = string.Empty;
+        /// <summary>
+        /// Subtitle of the PDF
+        /// </summary>
         public string Subtitle
         {
             get
@@ -68,6 +79,9 @@ namespace Timotheus.Views.Dialogs
         }
 
         private string _footer = string.Empty;
+        /// <summary>
+        /// Footer of the PDF
+        /// </summary>
         public string Footer
         {
             get
@@ -82,6 +96,9 @@ namespace Timotheus.Views.Dialogs
         }
 
         private string _comment = string.Empty;
+        /// <summary>
+        /// Comment on the PDF
+        /// </summary>
         public string Comment
         {
             get
@@ -96,6 +113,9 @@ namespace Timotheus.Views.Dialogs
         }
 
         private string _backpage = string.Empty;
+        /// <summary>
+        /// Text on the backpage of the PDF.
+        /// </summary>
         public string Backpage
         {
             get
@@ -110,6 +130,9 @@ namespace Timotheus.Views.Dialogs
         }
 
         private int _currentTab = 0;
+        /// <summary>
+        /// The index of the current tab.
+        /// </summary>
         public int CurrentTab 
         { 
             get
@@ -124,6 +147,9 @@ namespace Timotheus.Views.Dialogs
         }
 
         private string _exportPath = string.Empty;
+        /// <summary>
+        /// Path where the PDF should be exported.
+        /// </summary>
         public string ExportPath
         {
             get
@@ -138,6 +164,9 @@ namespace Timotheus.Views.Dialogs
         }
 
         private string _archivePath = string.Empty;
+        /// <summary>
+        /// Path to the folder where a copy of the exported PDF should be placed.
+        /// </summary>
         public string ArchivePath 
         { 
             get 
@@ -152,6 +181,9 @@ namespace Timotheus.Views.Dialogs
         }
 
         private bool _saveToArchive = true;
+        /// <summary>
+        /// Whether the PDF should be saved in a archive folder.
+        /// </summary>
         public bool SaveToArchive 
         { 
             get
@@ -165,12 +197,18 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
+        /// <summary>
+        /// Constructor of the dialog.
+        /// </summary>
         public PDFDialog()
         {
             AvaloniaXamlLoader.Load(this);
             DataContext = this;
         }
 
+        /// <summary>
+        /// What happens when 'Browse' is pressed on the dialog, where the user can select the logo to be used.
+        /// </summary>
         private async void LogoBrowse_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new()
@@ -192,9 +230,26 @@ namespace Timotheus.Views.Dialogs
             if (result != null && result.Length > 0)
             {
                 LogoPath = result[0];
+                if (System.IO.File.Exists(LogoPath))
+                    EditorImage = new Bitmap(LogoPath);
             }
         }
 
+        /// <summary>
+        /// Handles key presses in the window.
+        /// </summary>
+        private void LogoKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (System.IO.File.Exists(LogoPath))
+                    EditorImage = new Bitmap(LogoPath);
+            }
+        }
+
+        /// <summary>
+        /// Here the user chooses where to export the PDF to.
+        /// </summary>
         private async void ExportBrowse_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new();
@@ -212,6 +267,9 @@ namespace Timotheus.Views.Dialogs
                 ExportPath = result;
         }
 
+        /// <summary>
+        /// Here the user chooses where to archive the PDF to.
+        /// </summary>
         private async void ArchiveBrowse_Click(object sender, RoutedEventArgs e)
         {
             OpenFolderDialog openFolder = new();
@@ -220,6 +278,19 @@ namespace Timotheus.Views.Dialogs
                 ArchivePath = path;
         }
 
+        /// <summary>
+        /// Handles key presses in the window.
+        /// </summary>
+        private void KeyDown_Window(object sender, KeyEventArgs e)
+        {
+            IInputElement obj = ((FocusManager)FocusManager.Instance).GetFocusedElement(this);
+            if (e.Key == Key.Enter && obj is PDFDialog)
+                Ok_Click(null, null);
+        }
+
+        /// <summary>
+        /// What happens when 'OK' is pressed on the dialog.
+        /// </summary>
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -235,6 +306,9 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
+        /// <summary>
+        /// What happens when 'Cancel' is pressed on the dialog.
+        /// </summary>
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = DialogResult.Cancel;

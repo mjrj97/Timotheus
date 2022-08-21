@@ -288,6 +288,9 @@
   <data name="Exception_FolderNotFound" xml:space="preserve">
     <value>The local folder couldn't be found. Do you want to find a new folder for syncing?</value>
   </data>
+  <data name="Exception_ImageNotFound" xml:space="preserve">
+    <value>Image couldn't be found. Choose another.</value>
+  </data>
   <data name="Exception_InvalidCalendar" xml:space="preserve">
     <value>Calendar isn't formatted correctly</value>
   </data>

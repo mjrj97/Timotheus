@@ -291,6 +291,9 @@
   <data name="Exception_FolderNotFound" xml:space="preserve">
     <value>Mappen til fildeling kunne ikke findes. Vil du vælge en ny mappe?</value>
   </data>
+  <data name="Exception_ImageNotFound" xml:space="preserve">
+    <value>Billede kunne ikke findes. Vælg et andet.</value>
+  </data>
   <data name="Exception_InvalidCalendar" xml:space="preserve">
     <value>Kalender er ikke formateret korrekt</value>
   </data>

@@ -574,6 +574,15 @@ namespace Timotheus.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image couldn&apos;t be found. Choose another..
+        /// </summary>
+        public static string Exception_ImageNotFound {
+            get {
+                return ResourceManager.GetString("Exception_ImageNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calendar isn&apos;t formatted correctly.
         /// </summary>
         public static string Exception_InvalidCalendar {

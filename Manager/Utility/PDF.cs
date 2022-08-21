@@ -53,10 +53,12 @@ namespace Timotheus.Utility
             string musician = Localization.Localization.PDF_Musician;
             string coffee = Localization.Localization.PDF_Coffee;
             #endregion
-            
+
             //PAGE HEADER
             if (File.Exists(logoPath))
                 gfx.DrawImage(XImage.FromFile(logoPath), new XRect(28, 28, 85, 85));
+            else if (logoPath.Trim() != string.Empty)
+                throw new Exception(Localization.Localization.Exception_ImageNotFound);
             gfx.DrawString(title, heading1, headingColor, new XRect(28, 125, 200,18), XStringFormats.TopLeft);
             gfx.DrawString(subtitle, heading2, headingColor, new XRect(28, 148, 200, 18), XStringFormats.TopLeft);
 
@@ -147,7 +149,7 @@ namespace Timotheus.Utility
             p.Start();
         }
 
-        public static void CreateBook(List<Event> events, string path, string title, string subtitle, string comment, string backpage, string logopath)
+        public static void CreateBook(List<Event> events, string path, string title, string subtitle, string comment, string backpage, string logoPath)
         {
             List<Event> SortedList = events.OrderBy(o => o.Start).ToList();
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -168,7 +170,7 @@ namespace Timotheus.Utility
                 double rectWidth = page.Width / 2 - padding * 2;
                 gfx.DrawLine(new XPen(Biege, 0.1), new XPoint(842/2, 0), new XPoint(842/2, 595));
 
-                XImage Logo = XImage.FromFile(logopath);
+                XImage Logo = XImage.FromFile(logoPath);
                 XFont Title = new("Verdana", 20, XFontStyle.Bold);
                 XFont Subtitle = new("Verdana", 16, XFontStyle.Bold);
                 XFont Comment = new("Verdana", 12, XFontStyle.Regular);
@@ -177,7 +179,11 @@ namespace Timotheus.Utility
                 double ImageWidth = Logo.PixelWidth * ImageHeight / Logo.PixelHeight;
                 tf.PrepareDrawString(title, Title, new XRect(0, 0, rectWidth, double.MaxValue), out int lastFittingChar, out double titleHeight);
                 tf.PrepareDrawString(subtitle, Subtitle, new XRect(0, 0, rectWidth, double.MaxValue), out int lastFittingChar2, out double subtitleHeight);
-                gfx.DrawImage(Logo, new XRect(page.Width - padding - rectWidth / 2 - ImageWidth / 2, (page.Height - ImageHeight) / 2 - titleHeight, ImageWidth, ImageHeight));
+
+                if (File.Exists(logoPath))
+                    gfx.DrawImage(Logo, new XRect(page.Width - padding - rectWidth / 2 - ImageWidth / 2, (page.Height - ImageHeight) / 2 - titleHeight, ImageWidth, ImageHeight));
+                else if (logoPath.Trim() != string.Empty)
+                    throw new Exception(Localization.Localization.Exception_ImageNotFound);
 
                 gfx.DrawString(title, Title, Blue, new XRect(page.Width - padding - rectWidth, (page.Height - ImageHeight) / 2 - titleHeight * 4, rectWidth, titleHeight), XStringFormats.TopCenter);
 

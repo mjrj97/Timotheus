@@ -305,6 +305,8 @@ namespace Timotheus.Views.Tabs
                     }
 
                     string tabName = string.Empty;
+                    if (!Directory.Exists(Path.GetDirectoryName(dialog.ExportPath)))
+                        Directory.CreateDirectory(Path.GetDirectoryName(dialog.ExportPath));
                     switch (dialog.CurrentTab) {
                         case 0:
                             PDF.CreateTable(events, dialog.ExportPath, dialog.PDFTitle, dialog.Subtitle, dialog.Footer, dialog.LogoPath);
