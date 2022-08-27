@@ -80,7 +80,7 @@ namespace Timotheus.Views.Dialogs
             DialogResult = DialogResult.OK;
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
+        protected override void Cancel_Click(object sender, RoutedEventArgs e)
         {
             bw.CancelAsync();
         }

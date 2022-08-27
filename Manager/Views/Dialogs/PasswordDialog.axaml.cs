@@ -27,7 +27,7 @@ namespace Timotheus.Views.Dialogs
             DataContext = this;
         }
 
-        private void Ok_Click(object sender, RoutedEventArgs e)
+        protected virtual void Ok_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -39,11 +39,6 @@ namespace Timotheus.Views.Dialogs
             {
                 Program.Error(Localization.Localization.Exception_Name, ex, this);
             }
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
         }
     }
 }

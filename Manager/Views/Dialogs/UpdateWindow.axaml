@@ -9,8 +9,8 @@
 		<Image Source="/Resources/Icon.ico" Width="100"/>
 		<TextBlock HorizontalAlignment="Center" Text="{Binding DialogText}" Margin="10" TextWrapping="Wrap" MaxWidth="260"/>
 		<DockPanel Margin="0 5 0 0">
-			<CheckBox Content="Don't show again" IsChecked="{Binding DontShowAgain}"/>
-			<Button Content="OK" Click="Ok_Click" HorizontalAlignment="Right"/>
+			<CheckBox TabIndex="0" Content="Don't show again" IsChecked="{Binding DontShowAgain}"/>
+			<Button TabIndex="1" Content="OK" Click="Ok_Click" HorizontalAlignment="Right"/>
 		</DockPanel>
 	</StackPanel>
 </Window>

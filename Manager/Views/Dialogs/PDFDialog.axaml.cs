@@ -279,19 +279,9 @@ namespace Timotheus.Views.Dialogs
         }
 
         /// <summary>
-        /// Handles key presses in the window.
-        /// </summary>
-        private void KeyDown_Window(object sender, KeyEventArgs e)
-        {
-            IInputElement obj = ((FocusManager)FocusManager.Instance).GetFocusedElement(this);
-            if (e.Key == Key.Enter && obj is PDFDialog)
-                Ok_Click(null, null);
-        }
-
-        /// <summary>
         /// What happens when 'OK' is pressed on the dialog.
         /// </summary>
-        private void Ok_Click(object sender, RoutedEventArgs e)
+        protected override void Ok_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -304,14 +294,6 @@ namespace Timotheus.Views.Dialogs
             {
                 Program.Error(Localization.Localization.Exception_Name, ex, this);
             }
-        }
-
-        /// <summary>
-        /// What happens when 'Cancel' is pressed on the dialog.
-        /// </summary>
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
         }
     }
 }

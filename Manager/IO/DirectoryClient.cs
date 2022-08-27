@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Renci.SshNet;
 using Renci.SshNet.Sftp;
 using Renci.SshNet.Common;
+using System;
 
 namespace Timotheus.IO
 {
@@ -373,6 +374,20 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 Disconnect();
+            }
+        }
+
+        public bool CanConnect()
+        {
+            try
+            {
+                Connect();
+                Disconnect();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

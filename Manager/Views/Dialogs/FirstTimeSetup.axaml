@@ -16,8 +16,8 @@
 			<TextBlock Text=" "/>
 			<TextBlock Text="{x:Static i18n:Localization.FirstTime_3P}" HorizontalAlignment="Center" TextWrapping="Wrap"/>
 			<DockPanel HorizontalAlignment="Center" Margin="0 10 0 0">
-				<Button Content="{x:Static i18n:Localization.FirstTime_With}" Click="WithKey_Click" Margin="0 0 10 0"/>
-				<Button Content="{x:Static i18n:Localization.FirstTime_Without}" Click="WithoutKey_Click"/>
+				<Button TabIndex="0" Content="{x:Static i18n:Localization.FirstTime_With}" Click="Ok_Click" Margin="0 0 10 0"/>
+				<Button TabIndex="1" Content="{x:Static i18n:Localization.FirstTime_Without}" Click="Cancel_Click"/>
 			</DockPanel>
 		</StackPanel>
 	</StackPanel>

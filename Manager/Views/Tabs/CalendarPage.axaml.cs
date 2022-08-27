@@ -4,7 +4,6 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
 using System.IO;
-using System.Linq;
 using System.Collections.Generic;
 using Timotheus.Schedule;
 using Timotheus.Utility;

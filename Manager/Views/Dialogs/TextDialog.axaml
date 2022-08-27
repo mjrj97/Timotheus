@@ -8,11 +8,11 @@
         Title="{x:Static i18n:Localization.TextDialog}">
 	<DockPanel Margin="20">
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-			<TextBox Watermark="{Binding Title}" Text="{Binding Text}"/>
+			<TextBox TabIndex="0" Watermark="{Binding Title}" Text="{Binding Text}"/>
 		</DockPanel>
 		<DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-			<Button Content="{x:Static i18n:Localization.PasswordDialog_OKButton}" Click="Ok_Click" HorizontalContentAlignment="Center" Width="50" Margin="10 0"/>
-			<Button Content="{x:Static i18n:Localization.PasswordDialog_CancelButton}" Click="Cancel_Click" HorizontalContentAlignment="Center"/>
+			<Button TabIndex="1" Content="{x:Static i18n:Localization.PasswordDialog_OKButton}" Click="Ok_Click" HorizontalContentAlignment="Center" Width="50" Margin="10 0"/>
+			<Button TabIndex="2" Content="{x:Static i18n:Localization.PasswordDialog_CancelButton}" Click="Cancel_Click" HorizontalContentAlignment="Center"/>
 		</DockPanel>
 	</DockPanel>
 </Window>

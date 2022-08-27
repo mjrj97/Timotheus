@@ -1,5 +1,4 @@
-﻿using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Markup.Xaml;
 using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
@@ -32,16 +31,6 @@ namespace Timotheus.Views.Dialogs
         {
             DataContext = this;
             AvaloniaXamlLoader.Load(this);
-        }
-
-        private void Ok_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
-
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
         }
     }
 }

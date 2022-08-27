@@ -5,7 +5,7 @@
         xmlns:i18n="clr-namespace:Timotheus.Localization"
         mc:Ignorable="d" Width="430" SizeToContent="Height"
         x:Class="Timotheus.Views.Dialogs.PDFDialog"
-        Title="{x:Static i18n:Localization.PDF}" KeyDown="KeyDown_Window">
+        Title="{x:Static i18n:Localization.PDF}">
 	<StackPanel Margin="10">
 		<Border BorderBrush="Black" BorderThickness="1">
 			<TabControl SelectedIndex="{Binding CurrentTab}" TabIndex="0">

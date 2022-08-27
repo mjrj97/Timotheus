@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Net;
 using System.Net.Http;
+using System.Threading;
 using Timotheus.IO;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -73,8 +73,8 @@ namespace Timotheus.Views
         {
             try
             {
-                if (!CheckForInternetConnection())
-                    throw new Exception(Localization.Localization.Exception_NoInternet);
+                //if (!CheckForInternetConnection())
+                //    throw new Exception(Localization.Localization.Exception_NoInternet);
 
                 string keyPath = string.Empty;
 
@@ -262,16 +262,23 @@ namespace Timotheus.Views
         /// </summary>
         private void InsertKey(object sender, DoWorkEventArgs e)
         {
+            List<Thread> threads = new();
             for (int i = 0; i < Tabs.Count; i++)
             {
+                Thread thread = new(Tabs[i].Load);
+                threads.Add(thread);
+                thread.Start();
+            }
+
+            for (int i = 0; i < threads.Count; i++)
+            {
+                threads[i].Join();
                 if (sender != null && e != null)
                 {
-                    InsertingKey.ReportProgress(100/(Tabs.Count)*i, Tabs[i].LoadingTitle);
+                    InsertingKey.ReportProgress(100 / (Tabs.Count) * i, Tabs[i].LoadingTitle);
                     if (InsertingKey.CancellationPending == true)
                         return;
                 }
-
-                Tabs[i].Load();
             }
         }
 
@@ -615,30 +622,17 @@ namespace Timotheus.Views
             return isThereUnsavedProgress;
         }
 
-        public static bool CheckForInternetConnection(int timeoutMs = 10000, string url = null)
+        /// <summary>
+        /// Create an error dialog.
+        /// </summary>
+        public async void Error(Exception e)
         {
-            try
+            MessageBox msDialog = new()
             {
-                url ??= System.Globalization.CultureInfo.InstalledUICulture switch
-                {
-                    { Name: var n } when n.StartsWith("fa") => // Iran
-                        "http://www.aparat.com",
-                    { Name: var n } when n.StartsWith("zh") => // China
-                        "http://www.baidu.com",
-                    _ =>
-                        "http://www.gstatic.com/generate_204",
-                };
-
-                var request = (HttpWebRequest)WebRequest.Create(url);
-                request.KeepAlive = false;
-                request.Timeout = timeoutMs;
-                using var response = (HttpWebResponse)request.GetResponse();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+                DialogTitle = Localization.Localization.Exception_Name,
+                DialogText = e.Message
+            };
+            await msDialog.ShowDialog(this);
         }
     }
 }

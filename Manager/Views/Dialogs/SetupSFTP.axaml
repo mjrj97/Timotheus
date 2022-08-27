@@ -13,17 +13,17 @@
         <DockPanel>
           <DockPanel DockPanel.Dock="Top">
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_HostLabel}" Width="100" VerticalAlignment="Center"/>
-            <TextBox Watermark="ssh.domain.com" Text="{Binding Host}" Width="162"/>
+			  <TextBox TabIndex="0" Watermark="ssh.domain.com" Text="{Binding Host}" Width="162"/>
 			  <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_PortLabel}" Margin="10 0 0 0" Width="50" VerticalAlignment="Center"/>
-			  <TextBox Width="50" Watermark="22" Text="{Binding Port}"/>
+			  <TextBox TabIndex="1" Width="50" Watermark="22" Text="{Binding Port}"/>
           </DockPanel>
           <DockPanel DockPanel.Dock="Top" Margin="0 10">
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_UsernameLabel}" Width="100" VerticalAlignment="Center"/>
-            <TextBox Watermark="domain.com" Text="{Binding Username}"/>
+			  <TextBox TabIndex="2" Watermark="domain.com" Text="{Binding Username}"/>
           </DockPanel>
           <DockPanel>
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_PasswordLabel}" Width="100" VerticalAlignment="Center"/>
-            <TextBox Watermark="********" PasswordChar="*" Text="{Binding Password}"/>
+			  <TextBox TabIndex="3" Watermark="********" PasswordChar="*" Text="{Binding Password}"/>
           </DockPanel>
         </DockPanel>
       </Border>
@@ -33,19 +33,19 @@
         <DockPanel>
           <DockPanel DockPanel.Dock="Top">
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_LocalDirectoryLabel}" Width="100" VerticalAlignment="Center"/>
-            <TextBox Watermark="C:/..." Text="{Binding Local}" Width="182"/>
-            <Button Content="{x:Static i18n:Localization.SFTPSetup_BrowseButton}" Width="95" Click="Browse_Click" Margin="10 0 0 0" HorizontalContentAlignment="Center"/>
+			  <TextBox TabIndex="4" KeyUp="DirectoryText_KeyUp" Watermark="C:/..." Text="{Binding Local}" Width="182"/>
+			  <Button TabIndex="5" Content="{x:Static i18n:Localization.SFTPSetup_BrowseButton}" Width="95" Click="Browse_Click" Margin="10 0 0 0" HorizontalContentAlignment="Center"/>
           </DockPanel>
           <DockPanel DockPanel.Dock="Top" Margin="0 10 0 0">
             <TextBlock Text="{x:Static i18n:Localization.SFTPSetup_RemoteDirectoryLabel}" Width="100" VerticalAlignment="Center"/>
-            <TextBox Watermark="/..." Text="{Binding Remote}"/>
+			  <TextBox TabIndex="6" KeyUp="DirectoryText_KeyUp" Watermark="/..." Text="{Binding Remote}"/>
           </DockPanel>
         </DockPanel>
       </Border>
     </DockPanel>
     <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-      <Button Content="{x:Static i18n:Localization.SFTPSetup_SetupButton}" Click="Ok_Click" Margin="0 0 10 0"/>
-      <Button Content="{x:Static i18n:Localization.SFTPSetup_CancelButton}" Click="Cancel_Click"/>
+		<Button TabIndex="7" Content="{x:Static i18n:Localization.SFTPSetup_SetupButton}" Click="Ok_Click" Margin="0 0 10 0"/>
+		<Button TabIndex="8" Content="{x:Static i18n:Localization.SFTPSetup_CancelButton}" Click="Cancel_Click"/>
     </DockPanel>
   </DockPanel>
 </Window>

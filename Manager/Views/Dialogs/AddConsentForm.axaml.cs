@@ -147,7 +147,7 @@ namespace Timotheus.Views.Dialogs
         /// <summary>
         /// Closes the dialog and sets the DialogResult to OK.
         /// </summary>
-        private void Add_Click(object sender, RoutedEventArgs e)
+        protected override void Ok_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -167,14 +167,6 @@ namespace Timotheus.Views.Dialogs
             {
                 Program.Error(Localization.Localization.Exception_Name, ex, this);
             }
-        }
-
-        /// <summary>
-        /// Closes the dialog and sets the DialogResult to Cancel.
-        /// </summary>
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
         }
 
         /// <summary>

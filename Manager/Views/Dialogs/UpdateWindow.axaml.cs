@@ -44,10 +44,5 @@ namespace Timotheus.Views.Dialogs
             DataContext = this;
             AvaloniaXamlLoader.Load(this);
         }
-
-        private void Ok_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
     }
 }

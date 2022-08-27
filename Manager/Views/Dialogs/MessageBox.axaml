@@ -8,8 +8,8 @@
 	<StackPanel Margin="10">
 		<TextBlock HorizontalAlignment="Left" Text="{Binding DialogText}" Margin="10" TextWrapping="Wrap" MaxWidth="560"/>
 		<DockPanel HorizontalAlignment="Right">
-			<Button Content="OK" Click="Ok_Click" Margin="0 0 10 0"/>
-			<Button Content="Cancel" Click="Cancel_Click"/>
+			<Button TabIndex="0" Content="OK" Click="Ok_Click" Margin="0 0 10 0"/>
+			<Button TabIndex="1" Content="Cancel" Click="Cancel_Click"/>
 		</DockPanel>
 	</StackPanel>
 </Window>

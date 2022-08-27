@@ -9,11 +9,10 @@
 
   <DockPanel Margin="20">
     <DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-      <Button Content="{x:Static i18n:Localization.EditKeyDialog_CancelButton}" Click="Cancel_Click" DockPanel.Dock="Right"/>
-      <Button Content="{x:Static i18n:Localization.EditKeyDialog_OKButton}" Click="Ok_Click" DockPanel.Dock="Right" Margin="0 0 10 0"/>
-      <Button Content="{x:Static i18n:Localization.EditKeyDialog_AddStdButton}" Click="AddStdKeys_Click" DockPanel.Dock="Left"/>
+		<Button TabIndex="3" Content="{x:Static i18n:Localization.EditKeyDialog_CancelButton}" Click="Cancel_Click" DockPanel.Dock="Right"/>
+		<Button TabIndex="2" Content="{x:Static i18n:Localization.EditKeyDialog_OKButton}" Click="Ok_Click" DockPanel.Dock="Right" Margin="0 0 10 0"/>
+		<Button TabIndex="1" Content="{x:Static i18n:Localization.EditKeyDialog_AddStdButton}" Click="AddStdKeys_Click" DockPanel.Dock="Left"/>
     </DockPanel>
-
-	<TextBox Text="{Binding Text}" AcceptsReturn="True"/>
+	  <TextBox TabIndex="0" Text="{Binding Text}" AcceptsReturn="True"/>
   </DockPanel>
 </Window>

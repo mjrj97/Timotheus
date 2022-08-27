@@ -112,15 +112,5 @@ namespace Timotheus.Views.Dialogs
         {
             Timotheus.DeleteRegistry();
         }
-
-        private void Ok_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
-
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-        }
     }
 }

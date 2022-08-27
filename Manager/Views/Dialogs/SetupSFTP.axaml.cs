@@ -1,6 +1,8 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using System;
 using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
@@ -75,7 +77,7 @@ namespace Timotheus.Views.Dialogs
             get => _remote;
             set
             {
-                _remote = value;
+                _remote = value.Replace("\\", "/");
                 NotifyPropertyChanged(nameof(Remote));
             }
         }
@@ -89,7 +91,7 @@ namespace Timotheus.Views.Dialogs
             get => _local;
             set
             {
-                _local = value;
+                _local = value.Replace("\\", "/");
                 NotifyPropertyChanged(nameof(Local));
             }
         }
@@ -115,19 +117,21 @@ namespace Timotheus.Views.Dialogs
         }
 
         /// <summary>
-        /// Closes the dialog and sets the DialogResult to OK.
+        /// Fix the path textbox
         /// </summary>
-        private void Ok_Click(object sender, RoutedEventArgs e)
+        private void DirectoryText_KeyUp(object sender, KeyEventArgs e)
         {
-            DialogResult = DialogResult.OK;
-        }
-
-        /// <summary>
-        /// Closes the dialog and sets the DialogResult to Cancel.
-        /// </summary>
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
+            string text = ((TextBox)sender).Text;
+            try
+            {
+                string path = text.Trim();
+                path = path.Replace("\\", "/");
+                ((TextBox)sender).Text = path;
+            }
+            catch (ArgumentException ex)
+            {
+                Program.Log(ex);
+            }
         }
     }
 }

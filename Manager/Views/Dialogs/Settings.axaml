@@ -13,14 +13,14 @@
 				<DockPanel Margin="0 7">
 					<TextBlock Text="{x:Static i18n:Localization.Settings_EventTime}" VerticalAlignment="Center" Width="100"/>
 					<TextBlock Text="{x:Static i18n:Localization.Settings_EventStart}" VerticalAlignment="Center" Width="50"/>
-					<TextBox Watermark="00:00" Text="{Binding StartTime}" KeyUp="FixTime" Width="115" Margin="0 0 30 0"/>
+					<TextBox TabIndex="0" Watermark="00:00" Text="{Binding StartTime}" KeyUp="FixTime" Width="115" Margin="0 0 30 0"/>
 					<TextBlock Text="{x:Static i18n:Localization.Settings_EventEnd}" VerticalAlignment="Center" Width="50"/>
-					<TextBox Watermark="00:00" Text="{Binding EndTime}" KeyUp="FixTime" Width="115"/>
+					<TextBox TabIndex="1" Watermark="00:00" Text="{Binding EndTime}" KeyUp="FixTime" Width="115"/>
 					<!-- Missing setting about Address -->
 				</DockPanel>
 				<DockPanel>
 					<TextBlock Text="{x:Static i18n:Localization.Settings_EventDescription}" VerticalAlignment="Top" Width="100" Margin="0 7 0 0"/>
-					<TextBox Text="{Binding Description}" Height="100" AcceptsReturn="True"/>
+					<TextBox TabIndex="2" Text="{Binding Description}" Height="100" AcceptsReturn="True"/>
 				</DockPanel>
 			</StackPanel>
 		</Border>
@@ -29,20 +29,20 @@
 				<TextBlock Margin="0 5 0 10" Text="{x:Static i18n:Localization.Settings_Program}" FontWeight="Bold"/>
 				<DockPanel Margin="0 0 0 5">
 					<TextBlock Text="{x:Static i18n:Localization.Settings_Language}" VerticalAlignment="Center" Width="100"/>
-					<ComboBox SelectedIndex="{Binding SelectedLanguage}" Width="150">
+					<ComboBox TabIndex="3" SelectedIndex="{Binding SelectedLanguage}" Width="150">
 						<ComboBoxItem Content="{x:Static i18n:Localization.Settings_Language_English}"/>
 						<ComboBoxItem Content="{x:Static i18n:Localization.Settings_Language_Danish}"/>
 					</ComboBox>
 				</DockPanel>
 				<DockPanel>
-					<CheckBox Content="{x:Static i18n:Localization.Settings_LookForUpdates}" IsChecked="{Binding LookForUpdates}"/>
-					<Button Content="{x:Static i18n:Localization.Settings_DeleteSettings}" Click="DeleteSettings_Click" HorizontalAlignment="Right"/>
+					<CheckBox TabIndex="4" Content="{x:Static i18n:Localization.Settings_LookForUpdates}" IsChecked="{Binding LookForUpdates}"/>
+					<Button TabIndex="5" Content="{x:Static i18n:Localization.Settings_DeleteSettings}" Click="DeleteSettings_Click" HorizontalAlignment="Right"/>
 				</DockPanel>
 			</StackPanel>
 		</Border>
 		<DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-			<Button Content="{x:Static i18n:Localization.EditKeyDialog_OKButton}" Click="Ok_Click" Margin="0 0 10 0"/>
-			<Button Content="{x:Static i18n:Localization.EditKeyDialog_CancelButton}" Click="Cancel_Click"/>
+			<Button TabIndex="6" Content="{x:Static i18n:Localization.EditKeyDialog_OKButton}" Click="Ok_Click" Margin="0 0 10 0"/>
+			<Button TabIndex="7" Content="{x:Static i18n:Localization.EditKeyDialog_CancelButton}" Click="Cancel_Click"/>
 		</DockPanel>
 	</StackPanel>
 </Window>

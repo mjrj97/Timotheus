@@ -26,7 +26,7 @@
 					</DockPanel>
 				</Button>
 			</DockPanel>
-			<TextBox Text="{Binding CurrentDirectoryPath}" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Path_ToolTip}" Margin="10 0" Height="32" KeyUp="DirectoryText_KeyDown"/>
+			<TextBox Text="{Binding CurrentDirectory}" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Path_ToolTip}" Margin="10 0" Height="32" KeyUp="DirectoryText_KeyDown"/>
 		</DockPanel>
 		<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
 			<Border.ContextMenu>
@@ -43,8 +43,8 @@
 					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_Open}" Click="Open_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Open_ToolTip}"/>
 					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_ShowInExplorer}" Click="OpenInFolder_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_ShowInExplorer_ToolTip}"/>
 					<Separator/>
-					<MenuItem Name="ContextPublic" Header="{x:Static i18n:Localization.SFTP_ContextMenu_Public}" Click="EditFilePermission_ContextMenu_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}"/>
-					<MenuItem Name="ContextPrivate" Header="{x:Static i18n:Localization.SFTP_ContextMenu_Private}" Click="EditFilePermission_ContextMenu_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}"/>
+					<MenuItem Name="ContextPublic" IsEnabled="{Binding Connected}" Header="{x:Static i18n:Localization.SFTP_ContextMenu_Public}" Click="EditFilePermission_ContextMenu_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}"/>
+					<MenuItem Name="ContextPrivate" IsEnabled="{Binding Connected}" Header="{x:Static i18n:Localization.SFTP_ContextMenu_Private}" Click="EditFilePermission_ContextMenu_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}"/>
 					<Separator/>
 					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_Rename}" Click="RenameFile_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Delete_ToolTip}"/>
 					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_Delete}" Click="DeleteFile_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Delete_ToolTip}"/>
@@ -62,9 +62,9 @@
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 			<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
-			<DataGridTextColumn Header="" Width="*" MaxWidth="200" Binding="{Binding HandleText}" IsReadOnly="True"/>
+			<DataGridTextColumn Header="" Width="200" Binding="{Binding HandleText}" IsReadOnly="True" IsVisible="{Binding Connected}"/>
 			<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
-				<DataGridTemplateColumn>
+				<DataGridTemplateColumn IsVisible="{Binding Connected}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<DockPanel>

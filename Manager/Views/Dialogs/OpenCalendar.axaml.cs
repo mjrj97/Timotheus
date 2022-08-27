@@ -90,22 +90,6 @@ namespace Timotheus.Views.Dialogs
         }
 
         /// <summary>
-        /// Closes the dialog and sets the DialogResult to OK.
-        /// </summary>
-        private void Open_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
-
-        /// <summary>
-        /// Closes the dialog and sets the DialogResult to Cancel.
-        /// </summary>
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-        }
-
-        /// <summary>
         /// Opens a dialog where the user can specify a local .ics file.
         /// </summary>
         private async void Browse_Click(object sender, RoutedEventArgs e)

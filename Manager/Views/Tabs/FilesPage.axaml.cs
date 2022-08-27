@@ -26,10 +26,13 @@ namespace Timotheus.Views.Tabs
             set
             {
                 ViewModel = value;
-                Directory.GoToDirectory(Directory.RemotePath);
+                Directory.GoToDirectory("/");
             }
         }
 
+        /// <summary>
+        /// Creates the tab.
+        /// </summary>
         public FilesPage()
         {
             LoadingTitle = Localization.Localization.InsertKey_LoadFiles;
@@ -44,15 +47,7 @@ namespace Timotheus.Views.Tabs
         {
             if (MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory") != string.Empty)
             {
-                try
-                {
-                    Directory = new DirectoryViewModel(MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-RemoteDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-URL"), int.Parse(MainViewModel.Instance.Keys.Retrieve("SSH-Port") == string.Empty ? "22" : MainViewModel.Instance.Keys.Retrieve("SSH-Port")), MainViewModel.Instance.Keys.Retrieve("SSH-Username"), MainViewModel.Instance.Keys.Retrieve("SSH-Password"));
-                }
-                catch (Exception ex)
-                {
-                    Program.Log(ex);
-                    Directory = new();
-                }
+                Directory = new DirectoryViewModel(MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-RemoteDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-URL"), int.Parse(MainViewModel.Instance.Keys.Retrieve("SSH-Port") == string.Empty ? "22" : MainViewModel.Instance.Keys.Retrieve("SSH-Port")), MainViewModel.Instance.Keys.Retrieve("SSH-Username"), MainViewModel.Instance.Keys.Retrieve("SSH-Password"));
             }
             else
                 Directory = new();
@@ -78,7 +73,14 @@ namespace Timotheus.Views.Tabs
         /// </summary>
         private void UpdateDirectory_Click(object sender, RoutedEventArgs e)
         {
-            Directory.GoToDirectory(Directory.CurrentDirectory);
+            try
+            {
+                Directory.GoToDirectory(Directory.CurrentDirectory);
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Instance.Error(ex);
+            }
         }
 
         /// <summary>
@@ -93,10 +95,7 @@ namespace Timotheus.Views.Tabs
                     Title = Localization.Localization.SFTP_SyncWorker
                 };
                 await dialog.ShowDialog(MainWindow.Instance, Directory.Sync);
-                if (Directory.DirectoryExists(Directory.CurrentDirectory))
-                    Directory.GoToDirectory(Directory.CurrentDirectory);
-                else
-                    Directory.GoToDirectory(Directory.RemotePath);
+                Directory.GoToDirectory(Directory.CurrentDirectory);
             }
             catch (Exception ex)
             {
@@ -127,6 +126,7 @@ namespace Timotheus.Views.Tabs
                     if (dialog.Port == string.Empty)
                         dialog.Port = "22";
                     Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
+                    DataContext = ViewModel;
 
                     bool changed = false;
 
@@ -352,55 +352,75 @@ namespace Timotheus.Views.Tabs
             string text = ((TextBox)sender).Text;
             try
             {
-                if (e.Key == Key.Enter)
+                try
                 {
-                    // GO TO DIRECTORY
-                    string path = Path.TrimEndingDirectorySeparator(Directory.RemotePath) + text;
-                    Directory.GoToDirectory(path);
-                    e.Handled = true;
+                    string path = text.Trim();
+                    path = path.Replace("\\", "/");
+                    if (path.Length == 0)
+                        path = "/";
+                    else if (!path.StartsWith("/"))
+                        path = "/" + path;
+
+                    if (e.Key == Key.Enter)
+                    {
+                        // GO TO DIRECTORY
+                        Directory.GoToDirectory(path);
+                        e.Handled = true;
+                    }
+                    else
+                    {
+                        ((TextBox)sender).Text = path;
+                        NotifyPropertyChanged(nameof(Directory.CurrentDirectory));
+                        e.Handled = true;
+                    }
                 }
-                else
+                catch (ArgumentException ex)
                 {
-                    if (text.Trim() == string.Empty)
-                        text = "/";
-                    ((TextBox)sender).Text = text.Replace("\\", "/");
-                    NotifyPropertyChanged(nameof(Directory.CurrentDirectoryPath));
-                    e.Handled = true;
+                    Program.Log(ex);
                 }
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
-                Program.Log(ex);
+                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
+        /// <summary>
+        /// Handles coloring of the rows.
+        /// </summary>
         private void Files_RowLoading(object sender, DataGridRowEventArgs e)
         {
             if (e.Row.DataContext is FileViewModel file)
             {
-                if (e.Row.GetIndex() % 2 == 1)
+                if (Directory.Connected)
                 {
-                    e.Row.Background = file.Handle switch
+                    if (e.Row.GetIndex() % 2 == 1)
                     {
-                        SyncHandle.NewDownload or SyncHandle.NewUpload => NewDark,
-                        SyncHandle.Download or SyncHandle.Upload => UpdateDark,
-                        SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteDark,
-                        _ => StdDark,
-                    };
-                }
-                else
-                {
-                    e.Row.Background = file.Handle switch
+                        e.Row.Background = file.Handle switch
+                        {
+                            SyncHandle.NewDownload or SyncHandle.NewUpload => NewDark,
+                            SyncHandle.Download or SyncHandle.Upload => UpdateDark,
+                            SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteDark,
+                            _ => StdDark,
+                        };
+                    }
+                    else
                     {
-                        SyncHandle.NewDownload or SyncHandle.NewUpload => NewLight,
-                        SyncHandle.Download or SyncHandle.Upload => UpdateLight,
-                        SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteLight,
-                        _ => StdLight,
-                    };
+                        e.Row.Background = file.Handle switch
+                        {
+                            SyncHandle.NewDownload or SyncHandle.NewUpload => NewLight,
+                            SyncHandle.Download or SyncHandle.Upload => UpdateLight,
+                            SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteLight,
+                            _ => StdLight,
+                        };
+                    }
                 }
             }
         }
 
+        /// <summary>
+        /// Opens a file explorer at the selected file.
+        /// </summary>
         private void OpenInFolder_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
