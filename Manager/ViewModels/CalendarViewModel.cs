@@ -111,19 +111,19 @@ namespace Timotheus.ViewModels
         public CalendarViewModel(string username, string password, string url)
         {
             Calendar = new Calendar(username, password, url);
-            CalendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
+            CalendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Calendar_Fall : Localization.Calendar_Spring));
             PeriodText = CalendarPeriod.ToString();
         }
         public CalendarViewModel(string path)
         {
             Calendar = new(path);
-            CalendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
+            CalendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Calendar_Fall : Localization.Calendar_Spring));
             PeriodText = CalendarPeriod.ToString();
         }
         public CalendarViewModel()
         {
             Calendar = new();
-            CalendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Localization.Calendar_Fall : Localization.Localization.Calendar_Spring));
+            CalendarPeriod = new(DateTime.Now.Year + " " + (DateTime.Now.Month >= 7 ? Localization.Calendar_Fall : Localization.Calendar_Spring));
             PeriodText = CalendarPeriod.ToString();
         }
 

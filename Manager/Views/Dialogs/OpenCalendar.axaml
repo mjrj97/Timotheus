@@ -2,28 +2,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i18n="clr-namespace:Timotheus.Localization"
+        xmlns:local="clr-namespace:Timotheus"
         mc:Ignorable="d" Width="400" SizeToContent="Height"
         x:Class="Timotheus.Views.Dialogs.OpenCalendar"
-        Title="{x:Static i18n:Localization.OpenCalendar}">
+        Title="{x:Static local:Localization.OpenCalendar}">
 
   <DockPanel Margin="20">
     <Border Classes="t1" DockPanel.Dock="Top" Padding="10">
       <DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-			<RadioButton TabIndex="0" Content="{x:Static i18n:Localization.OpenCalendar_CalDAVButton}" GroupName="Open" IsChecked="{Binding IsRemote}"/>
+			<RadioButton TabIndex="0" Content="{x:Static local:Localization.OpenCalendar_CalDAVButton}" GroupName="Open" IsChecked="{Binding IsRemote}"/>
         </DockPanel>
         <DockPanel IsEnabled="{Binding IsRemote}">
           <DockPanel DockPanel.Dock="Top">
-            <TextBlock Text="{x:Static i18n:Localization.OpenCalendar_URLLabel}" Width="100" VerticalAlignment="Center"/>
+            <TextBlock Text="{x:Static local:Localization.OpenCalendar_URLLabel}" Width="100" VerticalAlignment="Center"/>
 			  <TextBox TabIndex="1" Watermark="https://caldav.domain.com" Text="{Binding URL}"/>
           </DockPanel>
           <DockPanel Margin="0 10" DockPanel.Dock="Top">
-            <TextBlock Text="{x:Static i18n:Localization.OpenCalendar_UsernameLabel}" Width="100" VerticalAlignment="Center"/>
+            <TextBlock Text="{x:Static local:Localization.OpenCalendar_UsernameLabel}" Width="100" VerticalAlignment="Center"/>
 			  <TextBox TabIndex="2" Watermark="example@domain.com" Text="{Binding Username}"/>
           </DockPanel>
           <DockPanel DockPanel.Dock="Top">
-            <TextBlock Text="{x:Static i18n:Localization.OpenCalendar_PasswordLabel}" Width="100" VerticalAlignment="Center"/>
+            <TextBlock Text="{x:Static local:Localization.OpenCalendar_PasswordLabel}" Width="100" VerticalAlignment="Center"/>
 			  <TextBox TabIndex="3" Watermark="********" PasswordChar="*" Text="{Binding Password}"/>
           </DockPanel>
         </DockPanel>
@@ -32,18 +32,18 @@
     <Border Classes="t1" DockPanel.Dock="Top" Padding="10" Margin="0 10 0 10">
       <DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-			<RadioButton TabIndex="4" Content="{x:Static i18n:Localization.OpenCalendar_ICSButton}" GroupName="Open" IsChecked="{Binding !IsRemote}"/>
+			<RadioButton TabIndex="4" Content="{x:Static local:Localization.OpenCalendar_ICSButton}" GroupName="Open" IsChecked="{Binding !IsRemote}"/>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" IsEnabled="{Binding !IsRemote}">
-          <TextBlock Text="{x:Static i18n:Localization.OpenCalendar_ICSLabel}" Width="100" VerticalAlignment="Center"/>
+          <TextBlock Text="{x:Static local:Localization.OpenCalendar_ICSLabel}" Width="100" VerticalAlignment="Center"/>
 			<TextBox TabIndex="5" Name="BrowseField" Width="132" Watermark="C:/path/to/file" Text="{Binding Path}"/>
-			<Button TabIndex="6" Content="{x:Static i18n:Localization.OpenCalendar_BrowseButton}" Width="95" Margin="10 0 0 0" HorizontalContentAlignment="Center" Click="Browse_Click"/>
+			<Button TabIndex="6" Content="{x:Static local:Localization.OpenCalendar_BrowseButton}" Width="95" Margin="10 0 0 0" HorizontalContentAlignment="Center" Click="Browse_Click"/>
         </DockPanel>
       </DockPanel>
     </Border>
     <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-		<Button TabIndex="7" Content="{x:Static i18n:Localization.OpenCalendar_OpenButton}" Click="Ok_Click" Margin="10 0"/>
-		<Button TabIndex="8" Content="{x:Static i18n:Localization.OpenCalendar_CancelButton}" Click="Cancel_Click"/>
+		<Button TabIndex="7" Content="{x:Static local:Localization.OpenCalendar_OpenButton}" Click="Ok_Click" Margin="10 0"/>
+		<Button TabIndex="8" Content="{x:Static local:Localization.OpenCalendar_CancelButton}" Click="Cancel_Click"/>
     </DockPanel>
   </DockPanel>
 </Window>

@@ -74,7 +74,7 @@ namespace Timotheus.Views
             try
             {
                 //if (!CheckForInternetConnection())
-                //    throw new Exception(Localization.Localization.Exception_NoInternet);
+                //    throw new Exception(Localization.Exception_NoInternet);
 
                 string keyPath = string.Empty;
 
@@ -135,7 +135,7 @@ namespace Timotheus.Views
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_NoKeys, ex, this);
+                Program.Error(Localization.Exception_NoKeys, ex, this);
 
                 mvm.NewProject(new Register(':'));
                 InsertKey(null, null);
@@ -170,8 +170,8 @@ namespace Timotheus.Views
                 {
                     UpdateWindow dialog = new()
                     {
-                        DialogTitle = Localization.Localization.UpdateDialog_Title,
-                        DialogText = Localization.Localization.UpdateDialog_Text.Replace("#", foundVersion)
+                        DialogTitle = Localization.UpdateDialog_Title,
+                        DialogText = Localization.UpdateDialog_Text.Replace("#", foundVersion)
                     };
                     await dialog.ShowDialog(this);
                     if (dialog.DontShowAgain)
@@ -216,13 +216,13 @@ namespace Timotheus.Views
             ProgressDialog dialog = new();
             try
             {
-                dialog.Title = Localization.Localization.InsertKey_Dialog;
+                dialog.Title = Localization.InsertKey_Dialog;
                 await dialog.ShowDialog(this, InsertingKey);
                 UpdateTabs();
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, this);
+                Program.Error(Localization.Exception_Name, ex, this);
             }
 
             if (mvm.Keys.Retrieve("SSH-URL") != string.Empty)
@@ -231,8 +231,8 @@ namespace Timotheus.Views
                 {
                     MessageBox messageBox = new()
                     {
-                        DialogTitle = Localization.Localization.Exception_Name,
-                        DialogText = Localization.Localization.Exception_FolderNotFound
+                        DialogTitle = Localization.Exception_Name,
+                        DialogText = Localization.Exception_FolderNotFound
                     };
                     await messageBox.ShowDialog(this);
                     if (messageBox.DialogResult == DialogResult.OK)
@@ -245,8 +245,8 @@ namespace Timotheus.Views
                             InsertKey();
                             messageBox = new()
                             {
-                                DialogTitle = Localization.Localization.InsertKey_ChangeDetected,
-                                DialogText = Localization.Localization.InsertKey_DoYouWantToSave
+                                DialogTitle = Localization.InsertKey_ChangeDetected,
+                                DialogText = Localization.InsertKey_DoYouWantToSave
                             };
                             await messageBox.ShowDialog(this);
                             if (messageBox.DialogResult == DialogResult.OK)
@@ -289,8 +289,8 @@ namespace Timotheus.Views
         {
             MessageBox msDialog = new()
             {
-                DialogTitle = Localization.Localization.ToolStrip_NewFile,
-                DialogText = Localization.Localization.ToolStrip_NewSecure
+                DialogTitle = Localization.ToolStrip_NewFile,
+                DialogText = Localization.ToolStrip_NewSecure
             };
             await msDialog.ShowDialog(this);
             if (msDialog.DialogResult == DialogResult.OK)
@@ -328,7 +328,7 @@ namespace Timotheus.Views
                             }
                             catch (Exception ex)
                             {
-                                Program.Error(Localization.Localization.Exception_Saving, ex, this);
+                                Program.Error(Localization.Exception_Saving, ex, this);
                             }
                         }
                         else
@@ -344,7 +344,7 @@ namespace Timotheus.Views
                                 }
                                 catch (Exception ex)
                                 {
-                                    Program.Error(Localization.Localization.Exception_Saving, ex, this);
+                                    Program.Error(Localization.Exception_Saving, ex, this);
                                 }
 
                                 if (dialog.Save)
@@ -362,7 +362,7 @@ namespace Timotheus.Views
                         }
                         catch (Exception ex)
                         {
-                            Program.Error(Localization.Localization.Exception_Saving, ex, this);
+                            Program.Error(Localization.Exception_Saving, ex, this);
                         }
                         break;
                 }
@@ -371,8 +371,8 @@ namespace Timotheus.Views
                 {
                     MessageBox msDialog = new()
                     {
-                        DialogTitle = Localization.Localization.Exception_Message,
-                        DialogText = Localization.Localization.Exception_SaveSuccessful
+                        DialogTitle = Localization.Exception_Message,
+                        DialogText = Localization.Exception_SaveSuccessful
                     };
                     await msDialog.ShowDialog(this);
                 }
@@ -411,7 +411,7 @@ namespace Timotheus.Views
                             }
                             catch (Exception ex)
                             {
-                                Program.Error(Localization.Localization.Exception_Saving, ex, this);
+                                Program.Error(Localization.Exception_Saving, ex, this);
                             }
                         }
                         break;
@@ -422,7 +422,7 @@ namespace Timotheus.Views
                         }
                         catch (Exception ex)
                         {
-                            Program.Error(Localization.Localization.Exception_Saving, ex, this);
+                            Program.Error(Localization.Exception_Saving, ex, this);
                         }
                         break;
                 }
@@ -470,7 +470,7 @@ namespace Timotheus.Views
                             }
                             catch (Exception ex)
                             {
-                                Program.Error(Localization.Localization.Exception_LoadFailed, ex, this);
+                                Program.Error(Localization.Exception_LoadFailed, ex, this);
                             }
                         }
                         break;
@@ -482,7 +482,7 @@ namespace Timotheus.Views
                         }
                         catch (Exception ex)
                         {
-                            Program.Error(Localization.Localization.Exception_LoadFailed, ex, this);
+                            Program.Error(Localization.Exception_LoadFailed, ex, this);
                         }
                         break;
                 }
@@ -507,7 +507,7 @@ namespace Timotheus.Views
                 }
                 catch (Exception ex)
                 {
-                    Program.Error(Localization.Localization.Exception_Name, ex, this);
+                    Program.Error(Localization.Exception_Name, ex, this);
                 }
             }
         }
@@ -552,8 +552,8 @@ namespace Timotheus.Views
                 {
                     MessageBox messageBox = new()
                     {
-                        DialogTitle = Localization.Localization.InsertKey_ChangeDetected,
-                        DialogText = Localization.Localization.InsertKey_DoYouWantToSave
+                        DialogTitle = Localization.InsertKey_ChangeDetected,
+                        DialogText = Localization.InsertKey_DoYouWantToSave
                     };
                     await messageBox.ShowDialog(this);
                     if (messageBox.DialogResult == DialogResult.OK)
@@ -568,8 +568,8 @@ namespace Timotheus.Views
 
                     MessageBox messageBox = new()
                     {
-                        DialogTitle = Localization.Localization.Settings,
-                        DialogText = Localization.Localization.Settings_LanguageChanged
+                        DialogTitle = Localization.Settings,
+                        DialogText = Localization.Settings_LanguageChanged
                     };
                     await messageBox.ShowDialog(this);
                     if (messageBox.DialogResult == DialogResult.OK)
@@ -593,8 +593,8 @@ namespace Timotheus.Views
 
                     MessageBox msDialog = new()
                     {
-                        DialogTitle = Localization.Localization.Exception_Warning,
-                        DialogText = Localization.Localization.Exception_UnsavedProgress
+                        DialogTitle = Localization.Exception_Warning,
+                        DialogText = Localization.Exception_UnsavedProgress
                     };
                     await msDialog.ShowDialog(this);
 
@@ -629,7 +629,7 @@ namespace Timotheus.Views
         {
             MessageBox msDialog = new()
             {
-                DialogTitle = Localization.Localization.Exception_Name,
+                DialogTitle = Localization.Exception_Name,
                 DialogText = e.Message
             };
             await msDialog.ShowDialog(this);

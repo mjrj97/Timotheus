@@ -286,13 +286,13 @@ namespace Timotheus.Views.Dialogs
             try
             {
                 if (ExportPath == string.Empty)
-                    throw new Exception(Localization.Localization.Exception_PDFEmptyExport);
+                    throw new Exception(Localization.Exception_PDFEmptyExport);
 
                 DialogResult = DialogResult.OK;
             }
             catch (Exception ex) 
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, this);
+                Program.Error(Localization.Exception_Name, ex, this);
             }
         }
     }

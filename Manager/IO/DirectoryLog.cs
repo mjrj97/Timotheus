@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Collections.Generic;
+using Timotheus.ViewModels;
 
 namespace Timotheus.IO
 {
@@ -66,7 +67,7 @@ namespace Timotheus.IO
             {
                 for (int i = 0; i < logItems.Count; i++)
                 {
-                    if (logItems[i].Name[0] != '.' && Path.GetExtension(localFiles[i].Name) != ".tkey")
+                    if (!DirectoryViewModel.Ignore(logItems[i].Name))
                         tw.WriteLine(logItems[i]);
                 }
             }

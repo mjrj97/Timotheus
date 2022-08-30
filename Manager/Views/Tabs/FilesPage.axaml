@@ -2,52 +2,52 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:i18n="clr-namespace:Timotheus.Localization"
+             xmlns:local="clr-namespace:Timotheus"
 			 x:Class="Timotheus.Views.Tabs.FilesPage" d:DesignHeight="400" d:DesignWidth="700">
 	<DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-			<Button Click="UpDirectory_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_GoUp_ToolTip}" Width="32" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+			<Button Click="UpDirectory_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_GoUp_ToolTip}" Width="32" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
 				<Image Source="/Resources/Left.png" Height="20" VerticalAlignment="Center"/>
 			</Button>
-			<Button Click="UpdateDirectory_Click" Height="32" Margin="10 0 0 0" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Refresh_ToolTip}">
+			<Button Click="UpdateDirectory_Click" Height="32" Margin="10 0 0 0" ToolTip.Tip="{x:Static local:Localization.SFTP_Refresh_ToolTip}">
 				<Image Source="/Resources/Update.png" Height="17" VerticalAlignment="Center"/>
 			</Button>
 			<DockPanel DockPanel.Dock="Right">
-				<Button Click="SyncFiles_Click" Height="32" Margin="0 0 10 0" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Sync_ToolTip}">
+				<Button Click="SyncFiles_Click" Height="32" Margin="0 0 10 0" ToolTip.Tip="{Binding SynchronizeToolTip}">
 					<DockPanel>
 						<Image Source="/Resources/Sync.png" Height="17" VerticalAlignment="Center"/>
-						<TextBlock Text="{x:Static i18n:Localization.SFTP_SyncButton}" Margin="5 0" VerticalAlignment="Center"/>
+						<TextBlock Text="{x:Static local:Localization.SFTP_SyncButton}" Margin="5 0" VerticalAlignment="Center"/>
 					</DockPanel>
 				</Button>
-				<Button Click="SetupFiles_Click" Height="32" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Setup_ToolTip}">
+				<Button Click="SetupFiles_Click" Height="32" ToolTip.Tip="{x:Static local:Localization.SFTP_Setup_ToolTip}">
 					<DockPanel>
 						<Image Source="/Resources/Setup.png" Height="17" VerticalAlignment="Center"/>
-						<TextBlock Text="{x:Static i18n:Localization.SFTP_SetupButton}" Margin="5 0" VerticalAlignment="Center"/>
+						<TextBlock Text="{x:Static local:Localization.SFTP_SetupButton}" Margin="5 0" VerticalAlignment="Center"/>
 					</DockPanel>
 				</Button>
 			</DockPanel>
-			<TextBox Text="{Binding CurrentDirectory}" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Path_ToolTip}" Margin="10 0" Height="32" KeyUp="DirectoryText_KeyDown"/>
+			<TextBox Text="{Binding CurrentDirectory}" ToolTip.Tip="{x:Static local:Localization.SFTP_Path_ToolTip}" Margin="10 0" Height="32" KeyUp="DirectoryText_KeyDown"/>
 		</DockPanel>
 		<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
 			<Border.ContextMenu>
 				<ContextMenu>
-					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_NewFolder}" Click="NewFolder_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_NewFolder_ToolTip}"/>
+					<MenuItem Header="{x:Static local:Localization.SFTP_ContextMenu_NewFolder}" Click="NewFolder_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_NewFolder_ToolTip}"/>
 					<Separator/>
-					<MenuItem Header="{x:Static i18n:Localization.SFTP_SyncButton}" Click="SyncFiles_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Sync_ToolTip}"/>
-					<MenuItem Header="{x:Static i18n:Localization.SFTP_UpdateButton}" Click="UpdateDirectory_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Refresh_ToolTip}"/>
+					<MenuItem Header="{x:Static local:Localization.SFTP_SyncButton}" Click="SyncFiles_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Sync_ToolTip}"/>
+					<MenuItem Header="{x:Static local:Localization.SFTP_UpdateButton}" Click="UpdateDirectory_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Refresh_ToolTip}"/>
 				</ContextMenu>
 			</Border.ContextMenu>
 			<DataGrid Name="Files" Items="{Binding Files}" SelectedItem="{Binding Selected}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
 			<DataGrid.ContextMenu>
 				<ContextMenu>
-					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_Open}" Click="Open_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Open_ToolTip}"/>
-					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_ShowInExplorer}" Click="OpenInFolder_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_ShowInExplorer_ToolTip}"/>
+					<MenuItem Header="{x:Static local:Localization.SFTP_ContextMenu_Open}" Click="Open_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Open_ToolTip}"/>
+					<MenuItem Header="{x:Static local:Localization.SFTP_ContextMenu_ShowInExplorer}" Click="OpenInFolder_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_ShowInExplorer_ToolTip}"/>
 					<Separator/>
-					<MenuItem Name="ContextPublic" IsEnabled="{Binding Connected}" Header="{x:Static i18n:Localization.SFTP_ContextMenu_Public}" Click="EditFilePermission_ContextMenu_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}"/>
-					<MenuItem Name="ContextPrivate" IsEnabled="{Binding Connected}" Header="{x:Static i18n:Localization.SFTP_ContextMenu_Private}" Click="EditFilePermission_ContextMenu_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}"/>
+					<MenuItem Name="ContextPublic" IsEnabled="{Binding Connected}" Header="{x:Static local:Localization.SFTP_ContextMenu_Public}" Click="EditFilePermission_ContextMenu_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Permission_ToolTip}"/>
+					<MenuItem Name="ContextPrivate" IsEnabled="{Binding Connected}" Header="{x:Static local:Localization.SFTP_ContextMenu_Private}" Click="EditFilePermission_ContextMenu_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Permission_ToolTip}"/>
 					<Separator/>
-					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_Rename}" Click="RenameFile_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Delete_ToolTip}"/>
-					<MenuItem Header="{x:Static i18n:Localization.SFTP_ContextMenu_Delete}" Click="DeleteFile_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Delete_ToolTip}"/>
+					<MenuItem Header="{x:Static local:Localization.SFTP_ContextMenu_Rename}" Click="RenameFile_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Delete_ToolTip}"/>
+					<MenuItem Header="{x:Static local:Localization.SFTP_ContextMenu_Delete}" Click="DeleteFile_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Delete_ToolTip}"/>
 				</ContextMenu>
 			</DataGrid.ContextMenu>
 			<DataGrid.Columns>
@@ -61,17 +61,17 @@
 				</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
+			<DataGridTextColumn Header="{x:Static local:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
 			<DataGridTextColumn Header="" Width="200" Binding="{Binding HandleText}" IsReadOnly="True" IsVisible="{Binding Connected}"/>
-			<DataGridTextColumn Header="{x:Static i18n:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
+			<DataGridTextColumn Header="{x:Static local:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
 				<DataGridTemplateColumn IsVisible="{Binding Connected}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<DockPanel>
-								<Button Name="Private" Click="EditFilePermission_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}" Margin="0 5 5 5" Width="30" Height="30" IsVisible="{Binding IsPrivate}">
+								<Button Name="Private" Click="EditFilePermission_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Permission_ToolTip}" Margin="0 5 5 5" Width="30" Height="30" IsVisible="{Binding IsPrivate}">
 									<Image Source="/Resources/Lock.png" Height="20" Width="20" VerticalAlignment="Center"/>
 								</Button>
-								<Button Name="Public" Click="EditFilePermission_Click" ToolTip.Tip="{x:Static i18n:Localization.SFTP_Permission_ToolTip}" Margin="0 5 5 5" Width="30" Height="30" IsVisible="{Binding IsPublic}">
+								<Button Name="Public" Click="EditFilePermission_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Permission_ToolTip}" Margin="0 5 5 5" Width="30" Height="30" IsVisible="{Binding IsPublic}">
 									<Image Source="/Resources/Eye.png" Height="20" Width="20" VerticalAlignment="Center"/>
 								</Button>
 							</DockPanel>

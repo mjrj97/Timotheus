@@ -2,34 +2,34 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i18n="clr-namespace:Timotheus.Localization"
+        xmlns:local="clr-namespace:Timotheus"
         mc:Ignorable="d" Width="400" SizeToContent="Height"
         x:Class="Timotheus.Views.Dialogs.SyncCalendar"
-        Title="{x:Static i18n:Localization.SyncCalendar}">
+        Title="{x:Static local:Localization.SyncCalendar}">
 
   <DockPanel Margin="20">
     <Border Classes="t1" DockPanel.Dock="Top" Padding="10">
       <DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-          <TextBlock Text="{x:Static i18n:Localization.SyncCalendar_Destination}" FontWeight="Bold"/>
+          <TextBlock Text="{x:Static local:Localization.SyncCalendar_Destination}" FontWeight="Bold"/>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-			<RadioButton TabIndex="0" Content="{x:Static i18n:Localization.SyncCalendar_UseExistingButton}" GroupName="SyncType" IsChecked="{Binding UseCurrent}" IsEnabled="{Binding CanUseCurrent}"/>
+			<RadioButton TabIndex="0" Content="{x:Static local:Localization.SyncCalendar_UseExistingButton}" GroupName="SyncType" IsChecked="{Binding UseCurrent}" IsEnabled="{Binding CanUseCurrent}"/>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-			<RadioButton TabIndex="1" Content="{x:Static i18n:Localization.SyncCalendar_NewCalendarButton}" GroupName="SyncType" IsChecked="{Binding !UseCurrent}"/>
+			<RadioButton TabIndex="1" Content="{x:Static local:Localization.SyncCalendar_NewCalendarButton}" GroupName="SyncType" IsChecked="{Binding !UseCurrent}"/>
         </DockPanel>
         <DockPanel IsEnabled="{Binding IsRemote}">
           <DockPanel DockPanel.Dock="Top">
-            <TextBlock Text="{x:Static i18n:Localization.SyncCalendar_CalDAVLabel}" Width="100" VerticalAlignment="Center"/>
+            <TextBlock Text="{x:Static local:Localization.SyncCalendar_CalDAVLabel}" Width="100" VerticalAlignment="Center"/>
 			  <TextBox TabIndex="2" Watermark="https://caldav.domain.com" Text="{Binding URL}"/>
           </DockPanel>
           <DockPanel Margin="0 10" DockPanel.Dock="Top">
-            <TextBlock Text="{x:Static i18n:Localization.SyncCalendar_UsernameLabel}" Width="100" VerticalAlignment="Center"/>
+            <TextBlock Text="{x:Static local:Localization.SyncCalendar_UsernameLabel}" Width="100" VerticalAlignment="Center"/>
 			  <TextBox TabIndex="3" Watermark="example@domain.com" Text="{Binding Username}"/>
           </DockPanel>
           <DockPanel DockPanel.Dock="Top">
-            <TextBlock Text="{x:Static i18n:Localization.SyncCalendar_PasswordLabel}" Width="100" VerticalAlignment="Center"/>
+            <TextBlock Text="{x:Static local:Localization.SyncCalendar_PasswordLabel}" Width="100" VerticalAlignment="Center"/>
 			  <TextBox TabIndex="4" Watermark="********" PasswordChar="*" Text="{Binding Password}"/>
           </DockPanel>
         </DockPanel>
@@ -38,16 +38,16 @@
     <Border Classes="t1" DockPanel.Dock="Top" Padding="10" Margin="0 10 0 10">
       <DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-          <TextBlock Text="{x:Static i18n:Localization.SyncCalendar_Settings}" FontWeight="Bold"/>
+          <TextBlock Text="{x:Static local:Localization.SyncCalendar_Settings}" FontWeight="Bold"/>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-			<RadioButton TabIndex="5" Content="{x:Static i18n:Localization.SyncCalendar_EntireCalendarButton}" GroupName="SyncPeriod" IsChecked="{Binding SyncAll}"/>
+			<RadioButton TabIndex="5" Content="{x:Static local:Localization.SyncCalendar_EntireCalendarButton}" GroupName="SyncPeriod" IsChecked="{Binding SyncAll}"/>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
 			<RadioButton TabIndex="6" Content="{Binding Period}" GroupName="SyncPeriod" IsChecked="{Binding SyncPeriod}"/>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-			<RadioButton TabIndex="7" Content="{x:Static i18n:Localization.SyncCalendar_CustomCalendarButton}" GroupName="SyncPeriod"/>
+			<RadioButton TabIndex="7" Content="{x:Static local:Localization.SyncCalendar_CustomCalendarButton}" GroupName="SyncPeriod"/>
         </DockPanel>
         <DockPanel IsEnabled="{Binding SyncCustomPeriod}">
           <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
@@ -60,8 +60,8 @@
       </DockPanel>
     </Border>
     <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-		<Button TabIndex="10" Content="{x:Static i18n:Localization.SyncCalendar_SyncButton}" Click="Ok_Click" Margin="10 0"/>
-		<Button TabIndex="11" Content="{x:Static i18n:Localization.SyncCalendar_CancelButton}" Click="Cancel_Click"/>
+		<Button TabIndex="10" Content="{x:Static local:Localization.SyncCalendar_SyncButton}" Click="Ok_Click" Margin="10 0"/>
+		<Button TabIndex="11" Content="{x:Static local:Localization.SyncCalendar_CancelButton}" Click="Cancel_Click"/>
     </DockPanel>
   </DockPanel>
 </Window>

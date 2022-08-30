@@ -31,7 +31,7 @@ namespace Timotheus.Views.Tabs
 
         public CalendarPage()
         {
-            LoadingTitle = Localization.Localization.InsertKey_LoadCalendar;
+            LoadingTitle = Localization.InsertKey_LoadCalendar;
             AvaloniaXamlLoader.Load(this);
             DataContext = Calendar;
         }
@@ -91,7 +91,7 @@ namespace Timotheus.Views.Tabs
 
                     ProgressDialog pDialog = new()
                     {
-                        Title = Localization.Localization.SyncCalendar_Worker
+                        Title = Localization.SyncCalendar_Worker
                     };
                     Period syncPeriod;
                     if (dialog.SyncAll)
@@ -107,7 +107,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Program.Error(Localization.Localization.Exception_Sync, ex, MainWindow.Instance);
+                    Program.Error(Localization.Exception_Sync, ex, MainWindow.Instance);
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Program.Error(Localization.Localization.Exception_Saving, ex, MainWindow.Instance);
+                    Program.Error(Localization.Exception_Saving, ex, MainWindow.Instance);
                 }
             }
         }
@@ -179,7 +179,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Program.Error(Localization.Localization.Exception_InvalidCalendar, ex, MainWindow.Instance);
+                    Program.Error(Localization.Exception_InvalidCalendar, ex, MainWindow.Instance);
                 }
             }
         }
@@ -219,7 +219,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Program.Error(Localization.Localization.Exception_InvalidEvent, ex, MainWindow.Instance);
+                    Program.Error(Localization.Exception_InvalidEvent, ex, MainWindow.Instance);
                 }
             }
         }
@@ -234,8 +234,8 @@ namespace Timotheus.Views.Tabs
             {
                 MessageBox msDialog = new()
                 {
-                    DialogTitle = Localization.Localization.Exception_Warning,
-                    DialogText = Localization.Localization.Calendar_DeleteEvent.Replace("#", ev.Name)
+                    DialogTitle = Localization.Exception_Warning,
+                    DialogText = Localization.Calendar_DeleteEvent.Replace("#", ev.Name)
                 };
                 await msDialog.ShowDialog(MainWindow.Instance);
                 if (msDialog.DialogResult == DialogResult.OK)
@@ -281,8 +281,8 @@ namespace Timotheus.Views.Tabs
                 {
                     MessageBox messageBox = new()
                     {
-                        DialogTitle = Localization.Localization.InsertKey_ChangeDetected,
-                        DialogText = Localization.Localization.InsertKey_DoYouWantToSave
+                        DialogTitle = Localization.InsertKey_ChangeDetected,
+                        DialogText = Localization.InsertKey_DoYouWantToSave
                     };
                     await messageBox.ShowDialog(MainWindow.Instance);
                     if (messageBox.DialogResult == DialogResult.OK)
@@ -309,18 +309,18 @@ namespace Timotheus.Views.Tabs
                     switch (dialog.CurrentTab) {
                         case 0:
                             PDF.CreateTable(events, dialog.ExportPath, dialog.PDFTitle, dialog.Subtitle, dialog.Footer, dialog.LogoPath);
-                            tabName = Localization.Localization.PDF_Type_Table;
+                            tabName = Localization.PDF_Type_Table;
                             break;
                         case 1:
                             PDF.CreateBook(events, dialog.ExportPath, dialog.PDFTitle, dialog.Subtitle, dialog.Comment, dialog.Backpage, dialog.LogoPath);
-                            tabName = Localization.Localization.PDF_Type_Book;
+                            tabName = Localization.PDF_Type_Book;
                             break;
                     }
 
                     if (dialog.SaveToArchive)
                     {
                         if (!Directory.Exists(dialog.ArchivePath))
-                            throw new Exception(Localization.Localization.Exception_PDFArchiveNotFound);
+                            throw new Exception(Localization.Exception_PDFArchiveNotFound);
                         if (dialog.ArchivePath != string.Empty)
                             File.Copy(dialog.ExportPath, Path.Combine(dialog.ArchivePath, Calendar.CalendarPeriod.ToFileName() + " (" + tabName + ")" + ".pdf"), true);
                     }
@@ -328,7 +328,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Saving, ex, MainWindow.Instance);
+                Program.Error(Localization.Exception_Saving, ex, MainWindow.Instance);
             }
         }
 
@@ -342,8 +342,8 @@ namespace Timotheus.Views.Tabs
             {
                 AddEvent dialog = new()
                 {
-                    Title = Localization.Localization.AddEvent_Edit,
-                    ButtonName = Localization.Localization.AddEvent_EditButton,
+                    Title = Localization.AddEvent_Edit,
+                    ButtonName = Localization.AddEvent_EditButton,
                     EventName = ev.Name,
                     Start = ev.StartSort,
                     End = ev.EndSort,
@@ -368,7 +368,7 @@ namespace Timotheus.Views.Tabs
                     }
                     catch (Exception ex)
                     {
-                        Program.Error(Localization.Localization.Exception_InvalidEvent, ex, MainWindow.Instance);
+                        Program.Error(Localization.Exception_InvalidEvent, ex, MainWindow.Instance);
                     }
                 }
             }

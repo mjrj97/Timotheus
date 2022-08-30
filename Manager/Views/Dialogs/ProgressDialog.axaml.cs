@@ -23,7 +23,7 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-        private string _message = Localization.Localization.SFTP_Message;
+        private string _message = Localization.SFTP_Message;
         private string Message
         {
             get

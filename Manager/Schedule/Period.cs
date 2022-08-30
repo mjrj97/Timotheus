@@ -47,15 +47,15 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Name of the spring period.
         /// </summary>
-        private static readonly string spring = Localization.Localization.Calendar_Spring;
+        private static readonly string spring = Localization.Calendar_Spring;
         /// <summary>
         /// Name of the fall period.
         /// </summary>
-        private static readonly string fall = Localization.Localization.Calendar_Fall;
+        private static readonly string fall = Localization.Calendar_Fall;
         /// <summary>
         /// Name of the all period.
         /// </summary>
-        private static readonly string all = Localization.Localization.Calendar_All;
+        private static readonly string all = Localization.Calendar_All;
         /// <summary>
         /// List of the names of the months.
         /// </summary>

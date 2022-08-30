@@ -35,7 +35,7 @@ namespace Timotheus.Views.Tabs
         /// </summary>
         public FilesPage()
         {
-            LoadingTitle = Localization.Localization.InsertKey_LoadFiles;
+            LoadingTitle = Localization.InsertKey_LoadFiles;
             AvaloniaXamlLoader.Load(this);
             DataContext = Directory;
         }
@@ -64,7 +64,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -92,14 +92,14 @@ namespace Timotheus.Views.Tabs
             {
                 ProgressDialog dialog = new()
                 {
-                    Title = Localization.Localization.SFTP_SyncWorker
+                    Title = Localization.SFTP_SyncWorker
                 };
                 await dialog.ShowDialog(MainWindow.Instance, Directory.Sync);
                 Directory.GoToDirectory(Directory.CurrentDirectory);
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -141,8 +141,8 @@ namespace Timotheus.Views.Tabs
                     {
                         MessageBox messageBox = new()
                         {
-                            DialogTitle = Localization.Localization.InsertKey_ChangeDetected,
-                            DialogText = Localization.Localization.InsertKey_DoYouWantToSave
+                            DialogTitle = Localization.InsertKey_ChangeDetected,
+                            DialogText = Localization.InsertKey_DoYouWantToSave
                         };
                         await messageBox.ShowDialog(MainWindow.Instance);
                         if (messageBox.DialogResult == DialogResult.OK)
@@ -153,7 +153,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+                    Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
                 }
             }
         }
@@ -168,13 +168,13 @@ namespace Timotheus.Views.Tabs
             {
                 try
                 {
-                    string first = file.IsPublic ? Localization.Localization.SFTP_Private : Localization.Localization.SFTP_Public;
-                    string second = file.IsPublic ? Localization.Localization.SFTP_Public : Localization.Localization.SFTP_Private;
+                    string first = file.IsPublic ? Localization.SFTP_Private : Localization.SFTP_Public;
+                    string second = file.IsPublic ? Localization.SFTP_Public : Localization.SFTP_Private;
 
                     MessageBox msDialog = new()
                     {
-                        DialogTitle = Localization.Localization.Exception_Warning,
-                        DialogText = Localization.Localization.SFTP_ChangePermission.Replace("#1", file.Name).Replace("#2", first.ToLower()).Replace("#3", second.ToLower())
+                        DialogTitle = Localization.Exception_Warning,
+                        DialogText = Localization.SFTP_ChangePermission.Replace("#1", file.Name).Replace("#2", first.ToLower()).Replace("#3", second.ToLower())
                     };
                     await msDialog.ShowDialog(MainWindow.Instance);
                     if (msDialog.DialogResult == DialogResult.OK)
@@ -192,7 +192,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+                    Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
                 }
             }
         }
@@ -209,13 +209,13 @@ namespace Timotheus.Views.Tabs
                 {
                     MenuItem button = (MenuItem)sender;
 
-                    string first = button.Name == "ContextPublic" ? Localization.Localization.SFTP_Public : Localization.Localization.SFTP_Private;
-                    string second = file.IsPublic ? Localization.Localization.SFTP_Public : Localization.Localization.SFTP_Private;
+                    string first = button.Name == "ContextPublic" ? Localization.SFTP_Public : Localization.SFTP_Private;
+                    string second = file.IsPublic ? Localization.SFTP_Public : Localization.SFTP_Private;
 
                     MessageBox msDialog = new()
                     {
-                        DialogTitle = Localization.Localization.Exception_Warning,
-                        DialogText = Localization.Localization.SFTP_ChangePermission.Replace("#1", file.Name).Replace("#2", first.ToLower()).Replace("#3", second.ToLower())
+                        DialogTitle = Localization.Exception_Warning,
+                        DialogText = Localization.SFTP_ChangePermission.Replace("#1", file.Name).Replace("#2", first.ToLower()).Replace("#3", second.ToLower())
                     };
                     await msDialog.ShowDialog(MainWindow.Instance);
                     if (msDialog.DialogResult == DialogResult.OK)
@@ -232,7 +232,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+                    Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
                 }
             }
         }
@@ -256,7 +256,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -271,7 +271,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -284,15 +284,15 @@ namespace Timotheus.Views.Tabs
             {
                 TextDialog dialog = new()
                 {
-                    Title = Localization.Localization.SFTP_NewFolder
+                    Title = Localization.SFTP_NewFolder
                 };
                 await dialog.ShowDialog(MainWindow.Instance);
                 if (dialog.DialogResult == DialogResult.OK)
-                    Directory.NewFolder(dialog.Text == string.Empty ? Localization.Localization.SFTP_NewFolder : dialog.Text);
+                    Directory.NewFolder(dialog.Text == string.Empty ? Localization.SFTP_NewFolder : dialog.Text);
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -305,8 +305,8 @@ namespace Timotheus.Views.Tabs
             {
                 MessageBox msDialog = new()
                 {
-                    DialogTitle = Localization.Localization.Exception_Warning,
-                    DialogText = Localization.Localization.SFTP_DeleteWarning.Replace("#", Directory.Selected.Name)
+                    DialogTitle = Localization.Exception_Warning,
+                    DialogText = Localization.SFTP_DeleteWarning.Replace("#", Directory.Selected.Name)
                 };
                 await msDialog.ShowDialog(MainWindow.Instance);
                 if (msDialog.DialogResult == DialogResult.OK)
@@ -316,7 +316,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
         
@@ -329,7 +329,7 @@ namespace Timotheus.Views.Tabs
             {
                 TextDialog dialog = new()
                 {
-                    Title = Localization.Localization.SFTP_ContextMenu_Rename,
+                    Title = Localization.SFTP_ContextMenu_Rename,
                     Text = Directory.Selected.Name
                 };
                 await dialog.ShowDialog(MainWindow.Instance);
@@ -340,7 +340,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -381,7 +381,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, MainWindow.Instance);
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 

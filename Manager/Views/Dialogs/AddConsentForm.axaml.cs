@@ -155,8 +155,8 @@ namespace Timotheus.Views.Dialogs
                 {
                     MessageBox messageBox = new()
                     {
-                        DialogTitle = Localization.Localization.Exception_Name,
-                        DialogText = Localization.Localization.AddConsentForm_EmptyName
+                        DialogTitle = Localization.Exception_Name,
+                        DialogText = Localization.AddConsentForm_EmptyName
                     };
                     messageBox.ShowDialog(this);
                 }
@@ -165,7 +165,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, this);
+                Program.Error(Localization.Exception_Name, ex, this);
             }
         }
 

@@ -37,7 +37,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, this);
+                Program.Error(Localization.Exception_Name, ex, this);
             }
         }
     }

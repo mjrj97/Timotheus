@@ -65,6 +65,8 @@ namespace Timotheus
             CultureInfo.CurrentUICulture = Culture;
             CultureInfo.CurrentCulture = Culture;
 
+            Localization.LocalizationCulture = Culture;
+
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
         }
 

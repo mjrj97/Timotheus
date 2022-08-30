@@ -44,21 +44,21 @@ namespace Timotheus.Utility
             XFont tableContent = new("Verdana", 10, XFontStyle.Regular);
 
             #region Localization
-            string welcome = Localization.Localization.PDF_Welcome;
-            string schedule = Localization.Localization.PDF_Schedule;
-            string date = Localization.Localization.PDF_Date;
-            string start = Localization.Localization.PDF_Start;
-            string activity = Localization.Localization.PDF_Activity;
-            string leader = Localization.Localization.PDF_Leader;
-            string musician = Localization.Localization.PDF_Musician;
-            string coffee = Localization.Localization.PDF_Coffee;
+            string welcome = Localization.PDF_Welcome;
+            string schedule = Localization.PDF_Schedule;
+            string date = Localization.PDF_Date;
+            string start = Localization.PDF_Start;
+            string activity = Localization.PDF_Activity;
+            string leader = Localization.PDF_Leader;
+            string musician = Localization.PDF_Musician;
+            string coffee = Localization.PDF_Coffee;
             #endregion
 
             //PAGE HEADER
             if (File.Exists(logoPath))
                 gfx.DrawImage(XImage.FromFile(logoPath), new XRect(28, 28, 85, 85));
             else if (logoPath.Trim() != string.Empty)
-                throw new Exception(Localization.Localization.Exception_ImageNotFound);
+                throw new Exception(Localization.Exception_ImageNotFound);
             gfx.DrawString(title, heading1, headingColor, new XRect(28, 125, 200,18), XStringFormats.TopLeft);
             gfx.DrawString(subtitle, heading2, headingColor, new XRect(28, 148, 200, 18), XStringFormats.TopLeft);
 
@@ -183,7 +183,7 @@ namespace Timotheus.Utility
                 if (File.Exists(logoPath))
                     gfx.DrawImage(Logo, new XRect(page.Width - padding - rectWidth / 2 - ImageWidth / 2, (page.Height - ImageHeight) / 2 - titleHeight, ImageWidth, ImageHeight));
                 else if (logoPath.Trim() != string.Empty)
-                    throw new Exception(Localization.Localization.Exception_ImageNotFound);
+                    throw new Exception(Localization.Exception_ImageNotFound);
 
                 gfx.DrawString(title, Title, Blue, new XRect(page.Width - padding - rectWidth, (page.Height - ImageHeight) / 2 - titleHeight * 4, rectWidth, titleHeight), XStringFormats.TopCenter);
 

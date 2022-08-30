@@ -245,7 +245,7 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-        private string _buttonName = Localization.Localization.AddEvent_AddButton;
+        private string _buttonName = Localization.AddEvent_AddButton;
         public string ButtonName
         {
             get
@@ -306,9 +306,9 @@ namespace Timotheus.Views.Dialogs
             try
             {
                 if (EventName.Trim() == string.Empty)
-                    throw new Exception(Localization.Localization.Exception_EmptyName);
+                    throw new Exception(Localization.Exception_EmptyName);
                 if (End < Start)
-                    throw new Exception(Localization.Localization.Exception_EndBeforeStart);
+                    throw new Exception(Localization.Exception_EndBeforeStart);
 
                 DateTime EndSaved = End.Date;
                 Start = Start.Date;
@@ -333,7 +333,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (Exception ex)
             {
-                Program.Error(Localization.Localization.Exception_Name, ex, this);
+                Program.Error(Localization.Exception_Name, ex, this);
             }
         }
 

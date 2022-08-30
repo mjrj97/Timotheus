@@ -2,19 +2,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i18n="clr-namespace:Timotheus.Localization"
         xmlns:uc="clr-namespace:Timotheus.Views.Tabs;assembly=Timotheus"
+        xmlns:local="clr-namespace:Timotheus"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Timotheus.Views.MainWindow"
         Title="Timotheus" CanResize="True" Background="#ffffff">
   <DockPanel>
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
-		<MenuItem Click="NewProject_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_NewFile_ToolTip}">
+		<MenuItem Click="NewProject_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_NewFile_ToolTip}">
 			 <MenuItem.Header>
 				 <DockPanel>
 					 <Image Source="/Resources/File.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
-					 <TextBlock Text="{x:Static i18n:Localization.ToolStrip_NewFile}" VerticalAlignment="Center"/>
+					 <TextBlock Text="{x:Static local:Localization.ToolStrip_NewFile}" VerticalAlignment="Center"/>
 				 </DockPanel>
 			 </MenuItem.Header>
         </MenuItem>
@@ -22,51 +22,51 @@
 			<MenuItem.Header>
 				<DockPanel>
 					<Image Source="/Resources/Key.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
-					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_Key}" VerticalAlignment="Center"/>
+					<TextBlock Text="{x:Static local:Localization.ToolStrip_Key}" VerticalAlignment="Center"/>
 				</DockPanel>
 			</MenuItem.Header>
-			<MenuItem Click="SaveKey_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_SaveKey_ToolTip}">
+			<MenuItem Click="SaveKey_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_SaveKey_ToolTip}">
 				<MenuItem.Header>
 					<DockPanel>
-						<TextBlock Text="{x:Static i18n:Localization.ToolStrip_SaveKey}" VerticalAlignment="Center"/>
+						<TextBlock Text="{x:Static local:Localization.ToolStrip_SaveKey}" VerticalAlignment="Center"/>
 					</DockPanel>
 				</MenuItem.Header>
 			</MenuItem>
-			<MenuItem Click="SaveAsKey_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_SaveAsKey_ToolTip}">
+			<MenuItem Click="SaveAsKey_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_SaveAsKey_ToolTip}">
 				<MenuItem.Header>
 					<DockPanel>
-						<TextBlock Text="{x:Static i18n:Localization.ToolStrip_SaveAsKey}" VerticalAlignment="Center"/>
+						<TextBlock Text="{x:Static local:Localization.ToolStrip_SaveAsKey}" VerticalAlignment="Center"/>
 					</DockPanel>
 				</MenuItem.Header>
 			</MenuItem>
-			<MenuItem Click="OpenKey_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_OpenKey_ToolTip}">
+			<MenuItem Click="OpenKey_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_OpenKey_ToolTip}">
 				<MenuItem.Header>
 					<DockPanel>
-						<TextBlock Text="{x:Static i18n:Localization.ToolStrip_LoadKey}" VerticalAlignment="Center"/>
+						<TextBlock Text="{x:Static local:Localization.ToolStrip_LoadKey}" VerticalAlignment="Center"/>
 					</DockPanel>
 				</MenuItem.Header>
 			</MenuItem>
-			<MenuItem Click="EditKey_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_EditKey_ToolTip}">
+			<MenuItem Click="EditKey_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_EditKey_ToolTip}">
 				<MenuItem.Header>
 					<DockPanel>
-						<TextBlock Text="{x:Static i18n:Localization.ToolStrip_EditKey}" VerticalAlignment="Center"/>
+						<TextBlock Text="{x:Static local:Localization.ToolStrip_EditKey}" VerticalAlignment="Center"/>
 					</DockPanel>
 				</MenuItem.Header>
 			</MenuItem>
 		</MenuItem>
-		<MenuItem Click="Settings_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_Settings_ToolTip}">
+		<MenuItem Click="Settings_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_Settings_ToolTip}">
 			<MenuItem.Header>
 				<DockPanel>
 					<Image Source="/Resources/Settings.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
-					<TextBlock Text="{x:Static i18n:Localization.Settings}" VerticalAlignment="Center"/>
+					<TextBlock Text="{x:Static local:Localization.Settings}" VerticalAlignment="Center"/>
 				</DockPanel>
 			</MenuItem.Header>
 		</MenuItem>
-        <MenuItem Click="Help_Click" ToolTip.Tip="{x:Static i18n:Localization.ToolStrip_Help_ToolTip}">
+        <MenuItem Click="Help_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_Help_ToolTip}">
 			<MenuItem.Header>
 				<DockPanel>
 					<Image Source="/Resources/Help.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
-					<TextBlock Text="{x:Static i18n:Localization.ToolStrip_Help}" VerticalAlignment="Center"/>
+					<TextBlock Text="{x:Static local:Localization.ToolStrip_Help}" VerticalAlignment="Center"/>
 				</DockPanel>
 			</MenuItem.Header>
 	    </MenuItem>
@@ -77,7 +77,7 @@
         <TabItem.Header>
           <DockPanel Margin="5">
             <Image Source="/Resources/Calendar.png" Height="32" VerticalAlignment="Center"/>
-            <TextBlock Text="{x:Static i18n:Localization.Calendar_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
+            <TextBlock Text="{x:Static local:Localization.Calendar_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
           </DockPanel>
         </TabItem.Header>
 		  <uc:CalendarPage Name="CalPage"/>
@@ -86,7 +86,7 @@
         <TabItem.Header>
           <DockPanel Margin="5">
             <Image Source="/Resources/Folder.png" Height="32" VerticalAlignment="Center"/>
-            <TextBlock Text="{x:Static i18n:Localization.SFTP_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
+            <TextBlock Text="{x:Static local:Localization.SFTP_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
           </DockPanel>
         </TabItem.Header>
 		<uc:FilesPage Name="FilPage"/>
@@ -95,7 +95,7 @@
 		<TabItem.Header>
 			<DockPanel Margin="5">
 				<Image Source="/Resources/People.png" Height="32" VerticalAlignment="Center"/>
-				<TextBlock Text="{x:Static i18n:Localization.People_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
+				<TextBlock Text="{x:Static local:Localization.People_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
 			</DockPanel>
 		</TabItem.Header>
 		<uc:PeoplePage Name="PeoPage"/>

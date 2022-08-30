@@ -15,7 +15,7 @@ namespace Timotheus.Views.Dialogs
         /// </summary>
         public string Period
         {
-            get => Localization.Localization.SyncCalendar_PeriodCalendarButton + ": " + _Period;
+            get => Localization.SyncCalendar_PeriodCalendarButton + ": " + _Period;
             set
             {
                 _Period = value;

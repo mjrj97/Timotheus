@@ -134,12 +134,12 @@ namespace Timotheus.ViewModels
             {
                 return file.Handle switch
                 {
-                    SyncHandle.NewDownload => Localization.Localization.SFTP_NewRemote,
-                    SyncHandle.Download => Localization.Localization.SFTP_ChangedRemote,
-                    SyncHandle.NewUpload => Localization.Localization.SFTP_NewLocal,
-                    SyncHandle.Upload => Localization.Localization.SFTP_ChangedLocal,
-                    SyncHandle.DeleteLocal => Localization.Localization.SFTP_DeleteRemote,
-                    SyncHandle.DeleteRemote => Localization.Localization.SFTP_DeleteLocal,
+                    SyncHandle.NewDownload => Localization.SFTP_NewRemote,
+                    SyncHandle.Download => Localization.SFTP_ChangedRemote,
+                    SyncHandle.NewUpload => Localization.SFTP_NewLocal,
+                    SyncHandle.Upload => Localization.SFTP_ChangedLocal,
+                    SyncHandle.DeleteLocal => Localization.SFTP_DeleteRemote,
+                    SyncHandle.DeleteRemote => Localization.SFTP_DeleteLocal,
                     _ => string.Empty,
                 };
             }

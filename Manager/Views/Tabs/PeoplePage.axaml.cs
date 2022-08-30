@@ -25,7 +25,7 @@ namespace Timotheus.Views.Tabs
 
         public PeoplePage()
         {
-            LoadingTitle = Localization.Localization.InsertKey_LoadPeople;
+            LoadingTitle = Localization.InsertKey_LoadPeople;
             AvaloniaXamlLoader.Load(this);
         }
 
@@ -39,8 +39,8 @@ namespace Timotheus.Views.Tabs
                 {
                     MessageBox messageBox = new()
                     {
-                        DialogTitle = Localization.Localization.Exception_Warning,
-                        DialogText = Localization.Localization.AddConsentForm_EmptyVersion
+                        DialogTitle = Localization.Exception_Warning,
+                        DialogText = Localization.AddConsentForm_EmptyVersion
                     };
                     await messageBox.ShowDialog(MainWindow.Instance);
                     if (messageBox.DialogResult == DialogResult.OK)
@@ -79,7 +79,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Program.Error(Localization.Localization.Exception_Saving, ex, MainWindow.Instance);
+                    Program.Error(Localization.Exception_Saving, ex, MainWindow.Instance);
                 }
             }
         }
@@ -132,8 +132,8 @@ namespace Timotheus.Views.Tabs
             {
                 MessageBox msDialog = new()
                 {
-                    DialogTitle = Localization.Localization.Exception_Warning,
-                    DialogText = Localization.Localization.People_Delete.Replace("#", person.Name)
+                    DialogTitle = Localization.Exception_Warning,
+                    DialogText = Localization.People_Delete.Replace("#", person.Name)
                 };
                 await msDialog.ShowDialog(MainWindow.Instance);
                 if (msDialog.DialogResult == DialogResult.OK)

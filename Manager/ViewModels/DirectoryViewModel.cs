@@ -62,6 +62,23 @@ namespace Timotheus.ViewModels
             }
         }
 
+        public string SynchronizeToolTip
+        {
+            get
+            {
+                string log = LocalPath + "/.tfilelog";
+                string text = Localization.SFTP_Sync_ToolTip;
+                if (File.Exists(log))
+                {
+                    FileInfo info = new(log);
+                    text = text.Replace("#", info.LastAccessTime.ToString());
+                }
+                else
+                    text = text.Replace("#", Localization.SFTP_NeverSynced);
+                return text;
+            }
+        }
+
         private ObservableCollection<FileViewModel> _Files = new();
         /// <summary>
         /// A list of files in the current directory.
@@ -247,6 +264,7 @@ namespace Timotheus.ViewModels
             {
                 MainWindow.Instance.Error(ex);
             }
+            NotifyPropertyChanged(nameof(SynchronizeToolTip));
         }
 
         /// <summary>
@@ -266,7 +284,7 @@ namespace Timotheus.ViewModels
                 }
                 catch (SocketException)
                 {
-                    throw new Exception(Localization.Localization.Exception_NoInternet);
+                    throw new Exception(Localization.Exception_NoInternet);
                 }
             }
             #endregion
@@ -281,52 +299,7 @@ namespace Timotheus.ViewModels
                 else
                 {
                     DirectoryFile file = files[i];
-                    //File.Handle is determined by the Directory file on initialization.
-                    switch (file.Handle)
-                    {
-                        case SyncHandle.Synchronize:
-                            if (file.IsDirectory)
-                                Synchronize(file.RemoteFile.FullName, file.LocalFile.FullName);
-                            break;
-                        case SyncHandle.NewDownload:
-                        case SyncHandle.Download:
-                            if (file.IsDirectory)
-                                DownloadDirectory(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
-                            else
-                                client.DownloadFile(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
-                            break;
-                        case SyncHandle.NewUpload:
-                        case SyncHandle.Upload:
-                            if (file.IsDirectory)
-                                UploadDirectory(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
-                            else
-                                client.UploadFile(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
-                            break;
-                        case SyncHandle.DeleteLocal:
-                            if (file.IsDirectory)
-                            {
-                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(file.LocalFile.FullName, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
-                                else
-                                    Directory.Delete(file.LocalFile.FullName, true);
-                            }
-                            else
-                            {
-                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(file.LocalFile.FullName, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
-                                else
-                                    File.Delete(file.LocalFile.FullName);
-                            }
-                            break;
-                        case SyncHandle.DeleteRemote:
-                            if (file.IsDirectory)
-                                client.DeleteDirectory(file.RemoteFile.FullName);
-                            else
-                                client.DeleteFile(file.RemoteFile.FullName);
-                            break;
-                    }
-
-                    //Report the progress to the ProgressDialog
+                    SynchronizeFile(file);
                     Sync.ReportProgress((i*100) / files.Count, file.Name);
                 }
             }
@@ -339,6 +312,57 @@ namespace Timotheus.ViewModels
                 client.Disconnect();
             }
             #endregion
+        }
+
+        /// <summary>
+        /// Synchronizes a specific file.
+        /// </summary>
+        public void SynchronizeFile(DirectoryFile file)
+        {
+            //File.Handle is determined by the Directory file on initialization.
+            switch (file.Handle)
+            {
+                case SyncHandle.Synchronize:
+                    if (file.IsDirectory)
+                        Synchronize(file.RemoteFile.FullName, file.LocalFile.FullName);
+                    break;
+                case SyncHandle.NewDownload:
+                case SyncHandle.Download:
+                    if (file.IsDirectory)
+                        DownloadDirectory(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
+                    else
+                        client.DownloadFile(file.RemoteFile.FullName, ConvertPath(file.RemoteFile.FullName));
+                    break;
+                case SyncHandle.NewUpload:
+                case SyncHandle.Upload:
+                    if (file.IsDirectory)
+                        UploadDirectory(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
+                    else
+                        client.UploadFile(ConvertPath(file.LocalFile.FullName), file.LocalFile.FullName);
+                    break;
+                case SyncHandle.DeleteLocal:
+                    if (file.IsDirectory)
+                    {
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                            Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(file.LocalFile.FullName, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                        else
+                            Directory.Delete(file.LocalFile.FullName, true);
+                    }
+                    else
+                    {
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                            Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(file.LocalFile.FullName, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                        else
+                            File.Delete(file.LocalFile.FullName);
+                    }
+                    break;
+                case SyncHandle.DeleteRemote:
+                    if (file.IsDirectory)
+                        client.DeleteDirectory(file.RemoteFile.FullName);
+                    else
+                        client.DeleteFile(file.RemoteFile.FullName);
+                    break;
+            }
         }
 
         /// <summary>
@@ -376,7 +400,7 @@ namespace Timotheus.ViewModels
             if (CurrentDirectory.Length > 1)
                 path = Path.GetDirectoryName(Path.GetDirectoryName(CurrentDirectory)).Replace("\\", "/");
             else
-                throw new Exception(Localization.Localization.Exception_CantGoUpDirectory);
+                throw new Exception(Localization.Exception_CantGoUpDirectory);
             if (!path.EndsWith('/'))
                 path += '/';
             GoToDirectory(path);
@@ -432,7 +456,7 @@ namespace Timotheus.ViewModels
             if (!ExistsLocally && !ExistsRemotely)
             {
                 GoToDirectory("/");
-                throw new Exception(Localization.Localization.Exception_SFTPInvalidPath);
+                throw new Exception(Localization.Exception_SFTPInvalidPath);
             }
 
             CurrentDirectory = path;
@@ -494,15 +518,20 @@ namespace Timotheus.ViewModels
             {
                 if (file.LocalFullName != string.Empty)
                 {
-                    Process p = new()
+                    if (File.Exists(file.LocalFullName))
                     {
-                        StartInfo = new ProcessStartInfo(file.LocalFullName)
+                        Process p = new()
                         {
-                            UseShellExecute = true
-                        }
-                    };
-                    p.Start();
+                            StartInfo = new ProcessStartInfo(file.LocalFullName)
+                            {
+                                UseShellExecute = true
+                            }
+                        };
+                        p.Start();
+                    }
                 }
+                else
+                    throw new Exception(Localization.Exception_OnlineFile);
             }
         }
 
@@ -515,7 +544,7 @@ namespace Timotheus.ViewModels
             if (!Directory.Exists(localpath))
                 Directory.CreateDirectory(localpath);
             else
-                throw new Exception(Localization.Localization.SFTP_FolderExists);
+                throw new Exception(Localization.SFTP_FolderExists);
             GoToDirectory(CurrentDirectory);
         }
 
@@ -623,7 +652,7 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// Checks whether the file should be ignored in the sync.
         /// </summary>
-        private static bool Ignore(string fileName)
+        public static bool Ignore(string fileName)
         {
             fileName = Path.GetFileName(fileName);
             return fileName[0] == '.' || Path.GetExtension(fileName) == ".tkey" || fileName.StartsWith("~$");
