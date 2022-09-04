@@ -32,6 +32,15 @@
 	<AvaloniaResource Include="Fonts\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\Dialogs\Messages\ErrorDialog.axaml.cs">
+      <DependentUpon>ErrorDialog.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Dialogs\Messages\WarningDialog.axaml.cs">
+      <DependentUpon>WarningDialog.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Dialogs\Messages\MessageDialog.axaml.cs">
+      <DependentUpon>MessageDialog.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Tabs\FilesPage.axaml.cs">
       <DependentUpon>FilesPage.axaml</DependentUpon>
     </Compile>

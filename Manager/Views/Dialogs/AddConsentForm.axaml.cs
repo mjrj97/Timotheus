@@ -153,7 +153,7 @@ namespace Timotheus.Views.Dialogs
             {
                 if (ConsentName == string.Empty)
                 {
-                    MessageBox messageBox = new()
+                    ErrorDialog messageBox = new()
                     {
                         DialogTitle = Localization.Exception_Name,
                         DialogText = Localization.AddConsentForm_EmptyName

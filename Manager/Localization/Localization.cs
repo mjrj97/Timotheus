@@ -807,6 +807,23 @@ namespace Timotheus
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Annullér";
+                    default:
+                        return "Cancel";
+                }
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string EditKeyDialog
@@ -904,6 +921,23 @@ namespace Timotheus
                         return "Du kan ikke gå længere tilbage.";
                     default:
                         return "You can't go further back. This is the root directory.";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Copy error
+        /// </summary>
+        public static string Exception_CopyError
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Kopiér fejl";
+                    default:
+                        return "Copy error";
                 }
             }
         }
@@ -1669,6 +1703,23 @@ namespace Timotheus
                         return "Indlæser personer";
                     default:
                         return "Loading people";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string OK
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "OK";
+                    default:
+                        return "OK";
                 }
             }
         }
@@ -4389,6 +4440,23 @@ namespace Timotheus
                         return "Der er en ny opdatering (#) tilgængelig på hjemmesiden: www.mjrj.dk";
                     default:
                         return "There is a new update (#) available on the website: www.mjrj.dk";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Don't show again.
+        /// </summary>
+        public static string UpdateDialog_DontShowAgain
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Vis ikke igen";
+                    default:
+                        return "Don't show again";
                 }
             }
         }

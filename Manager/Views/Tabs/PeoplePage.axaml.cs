@@ -37,7 +37,7 @@ namespace Timotheus.Views.Tabs
             {
                 if (dialog.ConsentVersion == string.Empty)
                 {
-                    MessageBox messageBox = new()
+                    WarningDialog messageBox = new()
                     {
                         DialogTitle = Localization.Exception_Warning,
                         DialogText = Localization.AddConsentForm_EmptyVersion
@@ -130,7 +130,7 @@ namespace Timotheus.Views.Tabs
             PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
             if (person != null)
             {
-                MessageBox msDialog = new()
+                WarningDialog msDialog = new()
                 {
                     DialogTitle = Localization.Exception_Warning,
                     DialogText = Localization.People_Delete.Replace("#", person.Name)

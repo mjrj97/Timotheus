@@ -62,6 +62,9 @@ namespace Timotheus.ViewModels
             }
         }
 
+        /// <summary>
+        /// Tool tip for Synchronize button
+        /// </summary>
         public string SynchronizeToolTip
         {
             get
@@ -373,22 +376,38 @@ namespace Timotheus.ViewModels
         {
             if (file.IsDirectory)
             {
+                try
+                {
+                    if (file.RemoteFullName != string.Empty && client.Exists(file.RemoteFullName, true))
+                        client.DeleteDirectory(file.RemoteFullName);
+                }
+                catch (SocketException)
+                {
+                    GoToDirectory(CurrentDirectory);
+                    throw new Exception(Localization.Exception_NoInternet);
+                }
                 if (file.LocalFullName != string.Empty && Directory.Exists(file.LocalFullName))
                     Directory.Delete(file.LocalFullName + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? '\\' : '/'), true);
-                if (file.RemoteFullName != string.Empty && client.Exists(file.RemoteFullName, true))
-                    client.DeleteDirectory(file.RemoteFullName);
             }
             else
             {
+                try
+                {
+                    if (file.RemoteFullName != string.Empty && client.Exists(file.RemoteFullName, false))
+                        client.DeleteFile(file.RemoteFullName);
+                }
+                catch (SocketException)
+                {
+                    GoToDirectory(CurrentDirectory);
+                    throw new Exception(Localization.Exception_NoInternet);
+                }
                 if (file.LocalFullName != string.Empty && File.Exists(file.LocalFullName))
                     File.Delete(file.LocalFullName);
-                if (file.RemoteFullName != string.Empty && client.Exists(file.RemoteFullName, false))
-                    client.DeleteFile(file.RemoteFullName);
             }
 
+            GoToDirectory(CurrentDirectory);
             if (Connected)
                 DirectoryLog.Save(LocalPath + CurrentDirectory, client.ListDirectory(RemotePath + CurrentDirectory));
-            GoToDirectory(CurrentDirectory);
         }
 
         /// <summary>
@@ -476,8 +495,18 @@ namespace Timotheus.ViewModels
         /// </summary>
         public void SetFilePermissions(FileViewModel file, short permissions)
         {
-            client.SetPermissions(file.RemoteFullName, permissions);
-            GoToDirectory(CurrentDirectory);
+            try
+            {
+                client.SetPermissions(file.RemoteFullName, permissions);
+            }
+            catch (SocketException)
+            {
+                throw new Exception(Localization.Exception_NoInternet);
+            }
+            finally
+            {
+                GoToDirectory(CurrentDirectory);
+            }
         }
 
         /// <summary>
@@ -487,7 +516,7 @@ namespace Timotheus.ViewModels
         {
             if (newName != file.Name)
             {
-                if (file.LocalFullName != null)
+                if (file.LocalFullName != null && file.LocalFullName != string.Empty)
                 {
                     string newlocal = Path.Combine(Path.GetDirectoryName(file.LocalFullName), newName);
                     if (file.IsDirectory)
@@ -495,10 +524,18 @@ namespace Timotheus.ViewModels
                     else
                         File.Move(file.LocalFullName, newlocal);
                 }
-                if (Connected && file.RemoteFullName != null)
+                if (Connected && file.RemoteFullName != null && file.RemoteFullName != string.Empty)
                 {
                     string newremote = Path.Combine(Path.GetDirectoryName(file.RemoteFullName), newName).Replace('\\', '/');
-                    client.RenameFile(file.RemoteFullName, newremote);
+                    try
+                    {
+                        client.RenameFile(file.RemoteFullName, newremote);
+                    }
+                    catch (SocketException)
+                    {
+                        GoToDirectory(CurrentDirectory);
+                        throw new Exception(Localization.Exception_NoInternet);
+                    }
                 }
             }
             GoToDirectory(CurrentDirectory);

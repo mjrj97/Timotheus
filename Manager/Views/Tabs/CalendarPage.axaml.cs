@@ -232,7 +232,7 @@ namespace Timotheus.Views.Tabs
             EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
             if (ev != null)
             {
-                MessageBox msDialog = new()
+                WarningDialog msDialog = new()
                 {
                     DialogTitle = Localization.Exception_Warning,
                     DialogText = Localization.Calendar_DeleteEvent.Replace("#", ev.Name)
@@ -279,7 +279,7 @@ namespace Timotheus.Views.Tabs
 
                 if (Changed)
                 {
-                    MessageBox messageBox = new()
+                    MessageDialog messageBox = new()
                     {
                         DialogTitle = Localization.InsertKey_ChangeDetected,
                         DialogText = Localization.InsertKey_DoYouWantToSave

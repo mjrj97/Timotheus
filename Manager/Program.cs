@@ -39,7 +39,7 @@ namespace Timotheus
         {
             Log(exception);
 
-            MessageBox msDialog = new()
+            ErrorDialog msDialog = new()
             {
                 DialogTitle = title,
                 DialogText = exception.Message

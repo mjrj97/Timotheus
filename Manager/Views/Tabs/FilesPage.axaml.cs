@@ -4,7 +4,6 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
 using System;
-using System.IO;
 using System.Linq;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -139,7 +138,7 @@ namespace Timotheus.Views.Tabs
 
                     if (changed)
                     {
-                        MessageBox messageBox = new()
+                        MessageDialog messageBox = new()
                         {
                             DialogTitle = Localization.InsertKey_ChangeDetected,
                             DialogText = Localization.InsertKey_DoYouWantToSave
@@ -171,7 +170,7 @@ namespace Timotheus.Views.Tabs
                     string first = file.IsPublic ? Localization.SFTP_Private : Localization.SFTP_Public;
                     string second = file.IsPublic ? Localization.SFTP_Public : Localization.SFTP_Private;
 
-                    MessageBox msDialog = new()
+                    WarningDialog msDialog = new()
                     {
                         DialogTitle = Localization.Exception_Warning,
                         DialogText = Localization.SFTP_ChangePermission.Replace("#1", file.Name).Replace("#2", first.ToLower()).Replace("#3", second.ToLower())
@@ -212,7 +211,7 @@ namespace Timotheus.Views.Tabs
                     string first = button.Name == "ContextPublic" ? Localization.SFTP_Public : Localization.SFTP_Private;
                     string second = file.IsPublic ? Localization.SFTP_Public : Localization.SFTP_Private;
 
-                    MessageBox msDialog = new()
+                    WarningDialog msDialog = new()
                     {
                         DialogTitle = Localization.Exception_Warning,
                         DialogText = Localization.SFTP_ChangePermission.Replace("#1", file.Name).Replace("#2", first.ToLower()).Replace("#3", second.ToLower())
@@ -303,7 +302,7 @@ namespace Timotheus.Views.Tabs
         {
             try
             {
-                MessageBox msDialog = new()
+                WarningDialog msDialog = new()
                 {
                     DialogTitle = Localization.Exception_Warning,
                     DialogText = Localization.SFTP_DeleteWarning.Replace("#", Directory.Selected.Name)

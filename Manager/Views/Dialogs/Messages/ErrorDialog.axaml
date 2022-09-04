@@ -1,0 +1,19 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:Timotheus"
+        mc:Ignorable="d"
+        x:Class="Timotheus.Views.Dialogs.ErrorDialog"
+		Title="{Binding DialogTitle}" SizeToContent="WidthAndHeight" MinWidth="250" MaxWidth="500">
+	<StackPanel Margin="10">
+		<DockPanel Margin="0 0 0 10">
+			<Image Source="/Resources/Messages/Error.png" Width="48" Margin="5 0 5 0"/>
+			<TextBlock HorizontalAlignment="Left" Text="{Binding DialogText}" Margin="10" TextWrapping="Wrap" MaxWidth="460"/>
+		</DockPanel>
+		<DockPanel HorizontalAlignment="Right">
+			<Button TabIndex="0" Content="{x:Static local:Localization.Exception_CopyError}" Click="CopyToClipboard_Click" Margin="10 0"/>
+			<Button TabIndex="1" Content="{x:Static local:Localization.OK}" Click="Ok_Click"/>
+		</DockPanel>
+	</StackPanel>
+</Window>

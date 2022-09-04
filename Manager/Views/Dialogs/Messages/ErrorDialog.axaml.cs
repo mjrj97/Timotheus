@@ -1,9 +1,11 @@
-﻿using Avalonia.Markup.Xaml;
+﻿using Avalonia;
+using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml;
 using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {
-    public partial class MessageBox : Dialog
+    public partial class ErrorDialog : Dialog
     {
         private string _dialogTitle = string.Empty;
         public string DialogTitle
@@ -27,10 +29,15 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-        public MessageBox()
+        public ErrorDialog()
         {
             DataContext = this;
             AvaloniaXamlLoader.Load(this);
+        }
+
+        public void CopyToClipboard_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Clipboard.SetTextAsync(DialogText);
         }
     }
 }

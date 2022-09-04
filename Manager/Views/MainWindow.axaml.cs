@@ -73,9 +73,6 @@ namespace Timotheus.Views
         {
             try
             {
-                //if (!CheckForInternetConnection())
-                //    throw new Exception(Localization.Exception_NoInternet);
-
                 string keyPath = string.Empty;
 
                 if (Timotheus.FirstTime)
@@ -154,16 +151,10 @@ namespace Timotheus.Views
 
                 // Fetch version from website
                 HttpClient client = new();
-                HttpResponseMessage response = await client.GetAsync("http://www.mjrj.dk/software/timotheus/index.html");
+                HttpResponseMessage response = await client.GetAsync("http://www.mjrj.dk/api/Version?name=Timotheus");
                 response.EnsureSuccessStatusCode();
                 string[] text = (await response.Content.ReadAsStringAsync()).Split(Environment.NewLine);
-
-                for (int i = 0; i < text.Length; i++)
-                {
-                    string line = text[i].Trim();
-                    if (line.StartsWith("v."))
-                        foundVersion = line[3..];
-                }
+                foundVersion = text[0];
 
                 // Show update dialog if user hasn't disabled it
                 if (foundVersion != Timotheus.Version && Timotheus.Registry.Retrieve("LookForUpdates") != "False")
@@ -175,7 +166,7 @@ namespace Timotheus.Views
                     };
                     await dialog.ShowDialog(this);
                     if (dialog.DontShowAgain)
-                        Timotheus.Registry.Update("ShowUpdateDialog", "false");
+                        Timotheus.Registry.Update("LookForUpdates", "False");
                 }
             }
             catch (Exception) 
@@ -229,13 +220,13 @@ namespace Timotheus.Views
             {
                 if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory")))
                 {
-                    MessageBox messageBox = new()
+                    WarningDialog warningBox = new()
                     {
                         DialogTitle = Localization.Exception_Name,
                         DialogText = Localization.Exception_FolderNotFound
                     };
-                    await messageBox.ShowDialog(this);
-                    if (messageBox.DialogResult == DialogResult.OK)
+                    await warningBox.ShowDialog(this);
+                    if (warningBox.DialogResult == DialogResult.OK)
                     {
                         OpenFolderDialog openFolder = new();
                         string path = await openFolder.ShowAsync(this);
@@ -243,7 +234,7 @@ namespace Timotheus.Views
                         {
                             mvm.Keys.Update("SSH-LocalDirectory", path);
                             InsertKey();
-                            messageBox = new()
+                            MessageDialog messageBox = new()
                             {
                                 DialogTitle = Localization.InsertKey_ChangeDetected,
                                 DialogText = Localization.InsertKey_DoYouWantToSave
@@ -287,7 +278,7 @@ namespace Timotheus.Views
         /// </summary>
         private async void NewProject_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox msDialog = new()
+            WarningDialog msDialog = new()
             {
                 DialogTitle = Localization.ToolStrip_NewFile,
                 DialogText = Localization.ToolStrip_NewSecure
@@ -369,7 +360,7 @@ namespace Timotheus.Views
 
                 if (sender != null)
                 {
-                    MessageBox msDialog = new()
+                    MessageDialog msDialog = new()
                     {
                         DialogTitle = Localization.Exception_Message,
                         DialogText = Localization.Exception_SaveSuccessful
@@ -550,7 +541,7 @@ namespace Timotheus.Views
 
                 if (changed)
                 {
-                    MessageBox messageBox = new()
+                    MessageDialog messageBox = new()
                     {
                         DialogTitle = Localization.InsertKey_ChangeDetected,
                         DialogText = Localization.InsertKey_DoYouWantToSave
@@ -566,7 +557,7 @@ namespace Timotheus.Views
                 {
                     Timotheus.Registry.Update("Language", dialog.SelectedLanguage == 0 ? "en-US" : "da-DK");
 
-                    MessageBox messageBox = new()
+                    MessageDialog messageBox = new()
                     {
                         DialogTitle = Localization.Settings,
                         DialogText = Localization.Settings_LanguageChanged
@@ -591,7 +582,7 @@ namespace Timotheus.Views
                 {
                     e.Cancel = true;
 
-                    MessageBox msDialog = new()
+                    WarningDialog msDialog = new()
                     {
                         DialogTitle = Localization.Exception_Warning,
                         DialogText = Localization.Exception_UnsavedProgress
@@ -627,7 +618,7 @@ namespace Timotheus.Views
         /// </summary>
         public async void Error(Exception e)
         {
-            MessageBox msDialog = new()
+            ErrorDialog msDialog = new()
             {
                 DialogTitle = Localization.Exception_Name,
                 DialogText = e.Message
