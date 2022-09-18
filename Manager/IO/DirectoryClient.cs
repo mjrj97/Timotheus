@@ -201,7 +201,7 @@ namespace Timotheus.IO
                 if (port == 22)
                     sftpClient.UploadFile(fs, remote, true);
                 else
-                    ftpClient.Upload(fs, remote);
+                    ftpClient.UploadFile(local, remote);
             }
             catch (IOException ex) 
             {
@@ -213,7 +213,7 @@ namespace Timotheus.IO
                     if (port == 22)
                         sftpClient.UploadFile(fs, remote, true);
                     else
-                        ftpClient.Upload(fs, remote);
+                        ftpClient.UploadFile(tempFile, remote);
                 }
                 File.Delete(tempFile);
             }
@@ -293,7 +293,7 @@ namespace Timotheus.IO
                     {
                         if ((file.Name != ".") && (file.Name != ".."))
                         {
-                            if (file.Type == FtpFileSystemObjectType.Directory)
+                            if (file.Type == FtpObjectType.Directory)
                             {
                                 DeleteDirectory(file.FullName);
                             }

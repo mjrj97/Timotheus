@@ -5,7 +5,6 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using System;
 using System.Text.RegularExpressions;
-using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {
@@ -69,6 +68,17 @@ namespace Timotheus.Views.Dialogs
             {
                 _selectedLanguage = value;
                 NotifyPropertyChanged(nameof(SelectedLanguage));
+            }
+        }
+
+        private bool _hideToSystemTray = true;
+        public bool HideToSystemTray
+        {
+            get { return _hideToSystemTray; }
+            set
+            {
+                _hideToSystemTray = value;
+                NotifyPropertyChanged(nameof(HideToSystemTray));
             }
         }
 

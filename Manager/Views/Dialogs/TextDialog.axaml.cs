@@ -1,5 +1,4 @@
 using Avalonia.Markup.Xaml;
-using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {

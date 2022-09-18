@@ -22,7 +22,7 @@ namespace Timotheus.IO
                 if (sftpFile != null)
                     return sftpFile.IsDirectory;
                 else
-                    return ftpFile.Type == FtpFileSystemObjectType.Directory;
+                    return ftpFile.Type == FtpObjectType.Directory;
             }
         }
 
@@ -36,7 +36,7 @@ namespace Timotheus.IO
                 if (sftpFile != null)
                     return sftpFile.IsSymbolicLink;
                 else
-                    return ftpFile.Type == FtpFileSystemObjectType.Link;
+                    return ftpFile.Type == FtpObjectType.Link;
             }
         }
 

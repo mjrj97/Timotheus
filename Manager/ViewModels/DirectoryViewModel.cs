@@ -142,10 +142,10 @@ namespace Timotheus.ViewModels
             Sync.DoWork += Synchronize;
             Sync.RunWorkerCompleted += SyncComplete;
 
-            /*var startTimeSpan = TimeSpan.Zero;
+            var startTimeSpan = TimeSpan.Zero;
             var periodTimeSpan = TimeSpan.FromMinutes(1);
 
-            BackgroundSync = new Timer((e) =>
+            /*BackgroundSync = new Timer((e) =>
             {
                 File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Test.txt", DateTime.Now.ToString() + "\n");
             }, null, startTimeSpan, periodTimeSpan);*/
@@ -701,21 +701,19 @@ namespace Timotheus.ViewModels
         /// <param name="path">Path to be converted.</param>
         private string ConvertPath(string path)
         {
+            path = path.Replace('\\', '/');
             string newPath;
             if (path.StartsWith(LocalPath))
             {
                 newPath = RemotePath + path[LocalPath.Length..];
-                newPath = newPath.Replace('\\', '/');
             }
             else if (path.StartsWith(RemotePath))
             {
                 newPath = LocalPath + path[RemotePath.Length..];
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    newPath = newPath.Replace('/', '\\');
             }
             else
-                throw new Exception("Exception_SFTPInvalidPath");
-            return newPath;
+                throw new Exception(Localization.Exception_ConversionError);
+            return newPath.Replace('\\', '/');
         }
     }
 }

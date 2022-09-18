@@ -2,11 +2,11 @@
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
+using System.ComponentModel;
+using System.Collections.Generic;
 using Timotheus.IO;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -62,7 +62,6 @@ namespace Timotheus.Views
                 this.FindControl<Tab>("PeoPage")
             };
 
-            Closing += OnWindowClose;
             DataContext = mvm;
         }
 
@@ -522,6 +521,7 @@ namespace Timotheus.Views
                 Description = mvm.Keys.Retrieve("Settings-EventDescription"),
                 StartTime = mvm.Keys.Retrieve("Settings-EventStart"),
                 EndTime = mvm.Keys.Retrieve("Settings-EventEnd"),
+                HideToSystemTray = Timotheus.Registry.Retrieve("HideToSystemTray") != "False",
                 LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates") != "False",
                 SelectedLanguage = Timotheus.Registry.Retrieve("Language") == "da-DK" ? 1 : 0
             };
@@ -569,31 +569,49 @@ namespace Timotheus.Views
                     }
                 }
 
+                Timotheus.Registry.Update("HideToSystemTray", dialog.HideToSystemTray.ToString());
                 Timotheus.Registry.Update("LookForUpdates", dialog.LookForUpdates.ToString());
             }
         }
-        
+
         private bool firstClose = true;
-        private async void OnWindowClose(object sender, CancelEventArgs e)
+        /// <summary>
+        /// Is activated when program is closed (Systemtray, Titlebar etc.)
+        /// </summary>
+        protected async override void OnClosing(CancelEventArgs e)
         {
+            bool closeFromTaskbar = !IsVisible;
+            e.Cancel = firstClose;
             if (firstClose)
             {
                 if (IsThereUnsavedProgress())
                 {
-                    e.Cancel = true;
-
                     WarningDialog msDialog = new()
                     {
                         DialogTitle = Localization.Exception_Warning,
                         DialogText = Localization.Exception_UnsavedProgress
                     };
+
+                    if (!IsVisible)
+                        Show();
+
                     await msDialog.ShowDialog(this);
 
                     if (msDialog.DialogResult == DialogResult.OK)
                     {
                         firstClose = false;
-                        Close();
                     }
+                }
+
+                if (closeFromTaskbar || !(Timotheus.Registry.Retrieve("HideToSystemTray") != "False"))
+                {
+                    firstClose = false;
+                    Close();
+                }
+                else
+                {
+                    firstClose = true;
+                    Hide();
                 }
             }
         }
@@ -623,6 +641,10 @@ namespace Timotheus.Views
                 DialogTitle = Localization.Exception_Name,
                 DialogText = e.Message
             };
+
+            if (!IsVisible)
+                Show();
+
             await msDialog.ShowDialog(this);
         }
     }

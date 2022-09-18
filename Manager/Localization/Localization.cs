@@ -928,6 +928,23 @@ namespace Timotheus
         /// <summary>
         ///   Looks up a localized string similar to Copy error
         /// </summary>
+        public static string Exception_ConversionError
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Det lykkedes ikke programmet at oversætte filsti.";
+                    default:
+                        return "The program failed to translate filepath.";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Copy error
+        /// </summary>
         public static string Exception_CopyError
         {
             get
@@ -2825,6 +2842,23 @@ namespace Timotheus
                         return "Tidspunkt";
                     default:
                         return "Time";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        public static string Settings_HideToSystemTray
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Luk programmet til systembakken";
+                    default:
+                        return "Close program to system tray";
                 }
             }
         }

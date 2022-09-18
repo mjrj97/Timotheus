@@ -2,7 +2,6 @@
 using Avalonia.Markup.Xaml;
 using System.Collections.Generic;
 using Timotheus.IO;
-using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {

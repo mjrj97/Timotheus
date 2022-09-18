@@ -3,7 +3,6 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {

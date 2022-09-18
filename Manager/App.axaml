@@ -6,4 +6,16 @@
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml"/>
 		<StyleInclude Source="/Style.axaml"/>
     </Application.Styles>
+	<TrayIcon.Icons>
+		<TrayIcons>
+			<TrayIcon Icon="/Resources/Icon.ico" ToolTipText="Timotheus">
+				<TrayIcon.Menu>
+					<NativeMenu>
+						<NativeMenuItem Header="Open" Click="Open_TrayClick"/>
+						<NativeMenuItem Header="Close" Click="Close_TrayClick"/>
+					</NativeMenu>
+				</TrayIcon.Menu>
+			</TrayIcon>
+		</TrayIcons>
+	</TrayIcon.Icons>
 </Application>

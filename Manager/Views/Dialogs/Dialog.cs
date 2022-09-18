@@ -3,7 +3,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using System.ComponentModel;
 
-namespace Timotheus.Utility
+namespace Timotheus.Views.Dialogs
 {
     public abstract class Dialog : Window, INotifyPropertyChanged
     {

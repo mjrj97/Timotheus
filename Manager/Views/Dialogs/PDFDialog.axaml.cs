@@ -4,7 +4,6 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using System;
-using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {
