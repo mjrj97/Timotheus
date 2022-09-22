@@ -8,6 +8,8 @@ using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
 using Timotheus.Views.Dialogs;
+using Avalonia.Controls.ApplicationLifetimes;
+using Timotheus.Utility;
 
 namespace Timotheus
 {
@@ -19,6 +21,11 @@ namespace Timotheus
         [STAThread]
         public static void Main(string[] args)
         {
+            for (int i = 0; i < args.Length; i++)
+            {
+                File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/args.txt", $"{DateTime.Now}: {args[0]}\n");
+            }
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // Source: https://stackoverflow.com/questions/229565/what-is-a-good-pattern-for-using-a-global-mutex-in-c/229567
@@ -46,7 +53,14 @@ namespace Timotheus
                                 string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp.tnote");
                                 if (File.Exists(path))
                                     File.Delete(path);
-                                File.Create(path);
+                                string lines = string.Empty;
+                                for (int i = 0; i < args.Length; i++)
+                                {
+                                    lines += args[i];
+                                    if (i != args.Length - 1)
+                                        lines += "\n";
+                                }
+                                File.WriteAllText(path, lines);
                                 ShowExistingWindow();
                                 throw new TimeoutException("Timeout waiting for exclusive access");
                             }
@@ -72,6 +86,35 @@ namespace Timotheus
                 Run(args);
         }
 
+        /// <summary>
+        /// Creates the application
+        /// </summary>
+        public static void Run(string[] args)
+        {
+#if !DEBUG
+            try
+            {
+#endif
+            Timotheus.Initalize();
+            AppBuilder builder = BuildAvaloniaApp();
+
+            DesktopLifetime lifetime = new()
+            {
+                Args = args,
+                ShutdownMode = ShutdownMode.OnLastWindowClose
+            };
+            builder.SetupWithLifetime(lifetime);
+            lifetime.Start(args);
+            //builder.StartWithClassicDesktopLifetime(args);
+#if !DEBUG
+            }
+            catch (Exception e)
+            {
+                Program.Log(e);
+            }
+#endif
+        }
+
         [DllImport("User32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
@@ -79,7 +122,7 @@ namespace Timotheus
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
         private const int SW_SHOWNORMAL = 1;
 
-        // shows the window of the single-instance that is already open
+        // Shows the window of the single-instance that is already open
         private static void ShowExistingWindow()
         {
             var currentProcess = Process.GetCurrentProcess();
@@ -100,25 +143,9 @@ namespace Timotheus
             }
         }
 
-        private static void Run(string[] args)
-        {
-#if DEBUG
-            Timotheus.Initalize();
-            AppBuilder builder = AppBuilder.Configure<App>().UsePlatformDetect();
-            builder.StartWithClassicDesktopLifetime(args);
-#else
-            try
-            {
-                Timotheus.Initalize();
-                AppBuilder builder = AppBuilder.Configure<App>().UsePlatformDetect();
-                builder.StartWithClassicDesktopLifetime(args);
-            }
-            catch (Exception e)
-            {
-                Program.Log(e);
-            }
-#endif
-        }
+        // This method is needed for IDE previewer infrastructure
+        public static AppBuilder BuildAvaloniaApp()
+            => AppBuilder.Configure<App>().UsePlatformDetect();
 
         /// <summary>
         /// Display an error dialog

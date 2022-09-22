@@ -38,10 +38,22 @@ namespace Timotheus.Views
         }
 
         /// <summary>
+        /// Handles whether the program is being opened for the first time.
+        /// </summary>
+        private bool FirstOpen = true;
+        /// <summary>
+        /// Handles whether the program is being closed for the first time.
+        /// </summary>
+        private bool FirstClose = true;
+
+        /// <summary>
         /// Worker that is used to track the progress of the inserting a key.
         /// </summary>
-        public BackgroundWorker InsertingKey { get; private set; }
+        public BackgroundWorker InsertingKey { get; private set; } = new();
 
+        /// <summary>
+        /// A list of the tabs currently in the MainWindow.
+        /// </summary>
         public List<Tab> Tabs { get; set; }
 
         /// <summary>
@@ -51,7 +63,7 @@ namespace Timotheus.Views
         {
             Instance = this;
             mvm = new();
-            InsertingKey = new();
+            Opened += OnOpened;
             InsertingKey.DoWork += InsertKey;
             AvaloniaXamlLoader.Load(this);
 
@@ -63,6 +75,84 @@ namespace Timotheus.Views
             };
 
             DataContext = mvm;
+        }
+
+        /// <summary>
+        /// Opens the window and retrieves last used key.
+        /// </summary>
+        public void OnOpened(object sender, EventArgs e)
+        {
+            if (FirstOpen)
+            {
+                StartUpKey();
+                LookForUpdates();
+                FirstOpen = false;
+            }
+        }
+
+        /// <summary>
+        /// Is activated when program is closed (Systemtray, Titlebar etc.)
+        /// </summary>
+        protected async override void OnClosing(CancelEventArgs e)
+        {
+            bool closeFromTaskbar = !IsVisible;
+            e.Cancel = FirstClose;
+            if (FirstClose)
+            {
+                if (IsThereUnsavedProgress())
+                {
+                    WarningDialog msDialog = new()
+                    {
+                        DialogTitle = Localization.Exception_Warning,
+                        DialogText = Localization.Exception_UnsavedProgress
+                    };
+
+                    if (!IsVisible)
+                        Show();
+
+                    await msDialog.ShowDialog(this);
+
+                    if (msDialog.DialogResult == DialogResult.OK)
+                    {
+                        FirstClose = false;
+                    }
+                }
+
+                if (closeFromTaskbar || !(Timotheus.Registry.Retrieve("HideToSystemTray") != "False"))
+                {
+                    FirstClose = false;
+                    Close();
+                }
+                else
+                {
+                    FirstClose = true;
+                    Hide();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Show the window and use the arguments given from start-up. Method is also called if the program is already running and user tries to open another instance.
+        /// </summary>
+        public void Show(string[] args)
+        {
+            Show();
+
+            string lines = string.Empty;
+            for (int i = 0; i < args.Length; i++)
+            {
+                lines += args[i];
+                if (i != args.Length - 1)
+                    lines += "\n";
+            }
+
+            MessageDialog dialog = new()
+            {
+                DialogTitle = "Test",
+                DialogText = lines
+            };
+
+            dialog.Show();
         }
 
         /// <summary>
@@ -187,20 +277,8 @@ namespace Timotheus.Views
         }
 
         /// <summary>
-        /// Opens the window and retrieves last used key.
+        /// Inserts the key
         /// </summary>
-        public override void Show()
-        {
-            base.Show();
-            if (!isShown)
-            {
-                StartUpKey();
-                LookForUpdates();
-                isShown = true;
-            }
-        }
-        private static bool isShown = false;
-
         private async void InsertKey()
         {
             ProgressDialog dialog = new();
@@ -571,48 +649,6 @@ namespace Timotheus.Views
 
                 Timotheus.Registry.Update("HideToSystemTray", dialog.HideToSystemTray.ToString());
                 Timotheus.Registry.Update("LookForUpdates", dialog.LookForUpdates.ToString());
-            }
-        }
-
-        private bool firstClose = true;
-        /// <summary>
-        /// Is activated when program is closed (Systemtray, Titlebar etc.)
-        /// </summary>
-        protected async override void OnClosing(CancelEventArgs e)
-        {
-            bool closeFromTaskbar = !IsVisible;
-            e.Cancel = firstClose;
-            if (firstClose)
-            {
-                if (IsThereUnsavedProgress())
-                {
-                    WarningDialog msDialog = new()
-                    {
-                        DialogTitle = Localization.Exception_Warning,
-                        DialogText = Localization.Exception_UnsavedProgress
-                    };
-
-                    if (!IsVisible)
-                        Show();
-
-                    await msDialog.ShowDialog(this);
-
-                    if (msDialog.DialogResult == DialogResult.OK)
-                    {
-                        firstClose = false;
-                    }
-                }
-
-                if (closeFromTaskbar || !(Timotheus.Registry.Retrieve("HideToSystemTray") != "False"))
-                {
-                    firstClose = false;
-                    Close();
-                }
-                else
-                {
-                    firstClose = true;
-                    Hide();
-                }
             }
         }
 

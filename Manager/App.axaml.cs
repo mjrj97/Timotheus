@@ -1,17 +1,17 @@
 ﻿using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using Timotheus.Utility;
 using Timotheus.Views;
 
 namespace Timotheus
 {
     public class App : Application
     {
-        private MainWindow window;
+        private static MainWindow window;
         private FileSystemWatcher watcher;
 
         public override void Initialize()
@@ -29,7 +29,7 @@ namespace Timotheus
                                  | NotifyFilters.Security
                                  | NotifyFilters.Size
                 };
-                watcher.Created += OnCreated;
+                watcher.Changed += OnFileChanged;
                 watcher.Filter = "*.tnote";
                 watcher.IncludeSubdirectories = false;
                 watcher.EnableRaisingEvents = true;
@@ -41,7 +41,7 @@ namespace Timotheus
 
         public override void OnFrameworkInitializationCompleted()
         {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            if (ApplicationLifetime is DesktopLifetime desktop)
             {
                 window = new MainWindow();
                 desktop.MainWindow = window;
@@ -50,19 +50,29 @@ namespace Timotheus
             base.OnFrameworkInitializationCompleted();
         }
 
-        private void OnCreated(object sender, FileSystemEventArgs e)
+        /// <summary>
+        /// Event that is called when a .tnote file is created in the directory.
+        /// </summary>
+        private void OnFileChanged(object sender, FileSystemEventArgs e)
         {
             Dispatcher.UIThread.InvokeAsync(delegate
             {
-                window.Show();
+                string[] args = File.ReadAllLines(e.FullPath);
+                window.Show(args);
             });
         }
 
+        /// <summary>
+        /// Called by the TrayIcon 'Open' button
+        /// </summary>
         void Open_TrayClick(object sender, EventArgs ags)
         {
             window.Show();
         }
 
+        /// <summary>
+        /// Called by the TrayIcon 'Open' button
+        /// </summary>
         void Close_TrayClick(object sender, EventArgs ags)
         {
             window.Close();

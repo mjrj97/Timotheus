@@ -16,6 +16,7 @@
     <None Remove="Fonts\Arvo-BoldItalic.ttf" />
     <None Remove="Fonts\Arvo-Italic.ttf" />
     <None Remove="Fonts\Arvo-Regular.ttf" />
+    <None Remove="Resources\ProjectFileIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.18" />
@@ -32,6 +33,19 @@
   <ItemGroup>
     <AvaloniaResource Include="Resources\**" />
 	<AvaloniaResource Include="Fonts\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Remove="Resources\ProjectFileIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\ProjectFileIcon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ProjectFileIcon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\Dialogs\Messages\ErrorDialog.axaml.cs">

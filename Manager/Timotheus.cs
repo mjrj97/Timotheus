@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using Timotheus.IO;
+using Timotheus.Utility;
 
 namespace Timotheus
 {
@@ -54,6 +55,8 @@ namespace Timotheus
         public static void Initalize()
         {
             LoadRegistry();
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                FileAssociations.EnsureAssociations();
 
             //Defines the security protocol
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
