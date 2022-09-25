@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:Timotheus"
+		Topmost="True"
         mc:Ignorable="d"
         x:Class="Timotheus.Views.Dialogs.WarningDialog"
 		Title="{Binding DialogTitle}" SizeToContent="WidthAndHeight" MinWidth="250" MaxWidth="500">

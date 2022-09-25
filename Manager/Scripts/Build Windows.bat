@@ -13,10 +13,10 @@ powershell -Command "(gc Timotheus.cs) -replace 'X.X.X', '%VERSION%' | Out-File 
 dotnet publish -c Release --runtime win-x64 --self-contained true -p:PublishReadyToRun=true --output %userprofile%\desktop\Timotheus\Windows\Application\
 
 REM INSTALLER SECTION
-"C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\AdvancedInstaller.com" /edit %userprofile%/OneDrive/Dokumenter/GitHub/Timotheus/Installer/Windows/Installer.aip /SetVersion %VERSION%
-"C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\AdvancedInstaller.com" /build %userprofile%/OneDrive/Dokumenter/GitHub/Timotheus/Installer/Windows/Installer.aip
-xcopy ..\Installer\Windows\Installer-SetupFiles\Installer*.msi %userprofile%\desktop\Timotheus\Windows\Installer\ /Y
-move %userprofile%\desktop\Timotheus\Windows\Installer\Installer.msi %userprofile%\desktop\Timotheus\Windows\Installer\Installer-%VERSION%.msi
+REM "C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\AdvancedInstaller.com" /edit %userprofile%/OneDrive/Dokumenter/GitHub/Timotheus/Installer/Windows/Installer.aip /SetVersion %VERSION%
+REM "C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\AdvancedInstaller.com" /build %userprofile%/OneDrive/Dokumenter/GitHub/Timotheus/Installer/Windows/Installer.aip
+REM xcopy ..\Installer\Windows\Installer-SetupFiles\Installer*.msi %userprofile%\desktop\Timotheus\Windows\Installer\ /Y
+REM move %userprofile%\desktop\Timotheus\Windows\Installer\Installer.msi %userprofile%\desktop\Timotheus\Windows\Installer\Installer-%VERSION%.msi
 
 REM CLEAN UP
 dotnet restore -r win-x64

@@ -35,15 +35,16 @@
 					</ComboBox>
 				</DockPanel>
 				<CheckBox TabIndex="4" Content="{x:Static local:Localization.Settings_HideToSystemTray}" IsChecked="{Binding HideToSystemTray}"/>
+				<CheckBox TabIndex="5" Content="{x:Static local:Localization.Settings_OpenOnStartUp}" IsChecked="{Binding OpenOnStartUp}"/>
 				<DockPanel>
-					<CheckBox TabIndex="5" Content="{x:Static local:Localization.Settings_LookForUpdates}" IsChecked="{Binding LookForUpdates}"/>
-					<Button TabIndex="6" Content="{x:Static local:Localization.Settings_DeleteSettings}" Click="DeleteSettings_Click" HorizontalAlignment="Right"/>
+					<CheckBox TabIndex="6" Content="{x:Static local:Localization.Settings_LookForUpdates}" IsChecked="{Binding LookForUpdates}"/>
+					<Button TabIndex="7" Content="{x:Static local:Localization.Settings_DeleteSettings}" Click="DeleteSettings_Click" HorizontalAlignment="Right"/>
 				</DockPanel>
 			</StackPanel>
 		</Border>
 		<DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-			<Button TabIndex="7" Content="{x:Static local:Localization.EditKeyDialog_OKButton}" Click="Ok_Click" Margin="0 0 10 0"/>
-			<Button TabIndex="8" Content="{x:Static local:Localization.EditKeyDialog_CancelButton}" Click="Cancel_Click"/>
+			<Button TabIndex="8" Content="{x:Static local:Localization.EditKeyDialog_OKButton}" Click="Ok_Click" Margin="0 0 10 0"/>
+			<Button TabIndex="9" Content="{x:Static local:Localization.EditKeyDialog_CancelButton}" Click="Cancel_Click"/>
 		</DockPanel>
 	</StackPanel>
 </Window>

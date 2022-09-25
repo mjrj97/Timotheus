@@ -46,6 +46,8 @@ namespace Timotheus.Views
         /// </summary>
         private bool FirstClose = true;
 
+        public bool IsDoneLoading { get; set; } = false;
+
         /// <summary>
         /// Worker that is used to track the progress of the inserting a key.
         /// </summary>
@@ -63,7 +65,6 @@ namespace Timotheus.Views
         {
             Instance = this;
             mvm = new();
-            Opened += OnOpened;
             InsertingKey.DoWork += InsertKey;
             AvaloniaXamlLoader.Load(this);
 
@@ -75,19 +76,6 @@ namespace Timotheus.Views
             };
 
             DataContext = mvm;
-        }
-
-        /// <summary>
-        /// Opens the window and retrieves last used key.
-        /// </summary>
-        public void OnOpened(object sender, EventArgs e)
-        {
-            if (FirstOpen)
-            {
-                StartUpKey();
-                LookForUpdates();
-                FirstOpen = false;
-            }
         }
 
         /// <summary>
@@ -134,98 +122,275 @@ namespace Timotheus.Views
         /// <summary>
         /// Show the window and use the arguments given from start-up. Method is also called if the program is already running and user tries to open another instance.
         /// </summary>
-        public void Show(string[] args)
+        public async void Start(string[] args)
         {
-            Show();
+            bool gui = true;
 
-            string lines = string.Empty;
-            for (int i = 0; i < args.Length; i++)
+            // Check if args contains a file/key
+            int i = 0;
+            bool found = false;
+            for (int j = 0; j < args.Length; j++)
             {
-                lines += args[i];
-                if (i != args.Length - 1)
-                    lines += "\n";
+                if (File.Exists(args[j]))
+                {
+                    found = true;
+                }
+                else
+                    i++;
+                if (args[j] == "nogui")
+                    gui = false;
             }
 
-            MessageDialog dialog = new()
+            if (gui)
+                Show();
+            
+            string path = string.Empty;
+            string password = string.Empty;
+
+            if (found)
             {
-                DialogTitle = "Test",
-                DialogText = lines
-            };
-
-            dialog.Show();
-        }
-
-        /// <summary>
-        /// Loads the key last used.
-        /// </summary>
-        private async void StartUpKey()
-        {
-            try
-            {
-                string keyPath = string.Empty;
-
-                if (Timotheus.FirstTime)
+                DialogResult result = DialogResult.Cancel;
+                if (!FirstOpen)
                 {
-                    FirstTimeSetup fts = new();
-                    await fts.ShowDialog(this);
-                    if (fts.DialogResult == DialogResult.OK)
+                    if (args[i] != Timotheus.Registry.Retrieve("KeyPath"))
                     {
-                        keyPath = fts.Path;
+                        WarningDialog dialog = new()
+                        {
+                            DialogTitle = Localization.InsertKey_Args,
+                            DialogText = Localization.InsertKey_ArgsMessage.Replace("#", Path.GetFileName(args[i]))
+                        };
+                        await dialog.ShowDialog(this);
+                        result = dialog.DialogResult;
                     }
                 }
                 else
-                    keyPath = Timotheus.Registry.Retrieve("KeyPath");
+                    result = DialogResult.OK;
+                
+                if (result == DialogResult.OK)
+                {
+                    path = args[i];
 
-                if (!File.Exists(keyPath))
-                {
-                    Timotheus.Registry.Delete("KeyPath");
-                }
-                switch (Path.GetExtension(keyPath))
-                {
-                    case ".tkey":
-                        string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword");
-                        string password = string.Empty;
-                        if (encodedPassword != string.Empty)
+                    if (path != Timotheus.Registry.Retrieve("KeyPath"))
+                    {
+                        PasswordDialog passDialog = new();
+                        await passDialog.ShowDialog(this);
+                        if (passDialog.DialogResult == DialogResult.OK)
                         {
-                            password = Cipher.Decrypt(encodedPassword);
-                            mvm.LoadKey(keyPath, password);
-                            InsertKey();
+                            password = passDialog.Password;
+                            if (passDialog.Save)
+                            {
+                                string encodedPassword = Cipher.Encrypt(password);
+                                Timotheus.Registry.Update("KeyPassword", encodedPassword);
+                            }
+                            else
+                            {
+                                Timotheus.Registry.Delete("KeyPassword");
+                            }
                         }
                         else
                         {
-                            PasswordDialog passDialog = new();
-                            await passDialog.ShowDialog(this);
-                            if (passDialog.DialogResult == DialogResult.OK)
-                            {
-                                password = passDialog.Password;
-                                mvm.LoadKey(keyPath, password);
-                                InsertKey();
+                            path = string.Empty;
+                            password = string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword");
+                        if (encodedPassword != string.Empty)
+                        {
+                            password = Cipher.Decrypt(encodedPassword);
+                        }
+                    }
+                }
+            }
 
-                                if (passDialog.Save)
+            if (FirstOpen)
+            {
+                FirstOpen = false;
+                if (gui)
+                    LookForUpdates();
+
+                if (path == string.Empty)
+                {
+                    try
+                    {
+                        if (Timotheus.FirstTime && gui)
+                        {
+                            FirstTimeSetup fts = new();
+                            await fts.ShowDialog(this);
+                            if (fts.DialogResult == DialogResult.OK)
+                                path = fts.Path;
+                        }
+                        else
+                            path = Timotheus.Registry.Retrieve("KeyPath");
+
+                        if (!File.Exists(path))
+                            Timotheus.Registry.Delete("KeyPath");
+
+                        if (path != string.Empty)
+                        {
+                            string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword");
+                            if (encodedPassword != string.Empty)
+                            {
+                                password = Cipher.Decrypt(encodedPassword);
+                            }
+                            else if (gui)
+                            {
+                                PasswordDialog passDialog = new();
+                                await passDialog.ShowDialog(this);
+                                if (passDialog.DialogResult == DialogResult.OK)
                                 {
-                                    encodedPassword = Cipher.Encrypt(password);
-                                    Timotheus.Registry.Update("KeyPassword", encodedPassword);
+                                    password = passDialog.Password;
+                                    if (passDialog.Save)
+                                    {
+                                        encodedPassword = Cipher.Encrypt(password);
+                                        Timotheus.Registry.Update("KeyPassword", encodedPassword);
+                                    }
+                                    else
+                                    {
+                                        Timotheus.Registry.Delete("KeyPassword");
+                                    }
+                                }
+                                else
+                                {
+                                    path = string.Empty;
+                                    password = string.Empty;
                                 }
                             }
                         }
-                        break;
-                    case ".txt":
-                        mvm.LoadKey(keyPath);
-                        InsertKey();
-                        break;
-                    default:
-                        InsertKey(null, null);
-                        UpdateTabs();
-                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (gui)
+                            Program.Error(Localization.Exception_NoKeys, ex, this);
+                        path = string.Empty;
+                        password = string.Empty;
+                    }
                 }
             }
-            catch (Exception ex)
-            {
-                Program.Error(Localization.Exception_NoKeys, ex, this);
 
+            if (FirstOpen || path != string.Empty)
+                InsertKey(path, password, gui);
+        }
+
+        /// <summary>
+        /// Inserts the key with the given path and password
+        /// </summary>
+        private async void InsertKey(string path, string password, bool gui = true)
+        {
+            if (path != string.Empty)
+            {
+                try
+                {
+                    try
+                    {
+                        mvm.LoadKey(path, password);
+                    }
+                    catch (Exception)
+                    {
+                        throw new Exception(Localization.Exception_InvalidPassword);
+                    }
+
+                    ProgressDialog dialog = new();
+                    if (gui)
+                    {
+                        try
+                        {
+                            dialog.Title = Localization.InsertKey_Dialog;
+                            await dialog.ShowDialog(this, InsertingKey);
+                        }
+                        catch (Exception ex)
+                        {
+                            Program.Error(Localization.Exception_Name, ex, this);
+                        }
+                    }
+                    else
+                        InsertKey(null, (DoWorkEventArgs)null);
+
+                    if (mvm.Keys.Retrieve("SSH-URL") != string.Empty && gui)
+                    {
+                        if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory")))
+                        {
+                            WarningDialog warningBox = new()
+                            {
+                                DialogTitle = Localization.Exception_Name,
+                                DialogText = Localization.Exception_FolderNotFound
+                            };
+                            await warningBox.ShowDialog(this);
+                            if (warningBox.DialogResult == DialogResult.OK)
+                            {
+                                OpenFolderDialog openFolder = new();
+                                string newPath = await openFolder.ShowAsync(this);
+                                if (newPath != string.Empty && newPath != null)
+                                {
+                                    mvm.Keys.Update("SSH-LocalDirectory", newPath);
+
+                                    try
+                                    {
+                                        dialog.Title = Localization.InsertKey_Dialog;
+                                        await dialog.ShowDialog(this, InsertingKey);
+
+                                        MessageDialog messageBox = new()
+                                        {
+                                            DialogTitle = Localization.InsertKey_ChangeDetected,
+                                            DialogText = Localization.InsertKey_DoYouWantToSave
+                                        };
+                                        await messageBox.ShowDialog(this);
+                                        if (messageBox.DialogResult == DialogResult.OK)
+                                            SaveKey_Click(null, null);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Program.Error(Localization.Exception_Name, ex, this);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Error(ex);
+                    mvm.NewProject(new Register(':'));
+                    InsertKey(null, (DoWorkEventArgs)null);
+                }
+            }
+            else
+            {
                 mvm.NewProject(new Register(':'));
-                InsertKey(null, null);
-                UpdateTabs();
+                InsertKey(null, (DoWorkEventArgs)null);
+            }
+
+            // Calls the Update method of all tabs.
+            foreach (Tab tab in Tabs)
+            {
+                tab.DataContext = tab.ViewModel;
+                tab.Update();
+            }
+        }
+
+        /// <summary>
+        /// "Inserts" the current key, and tries to open the Calendar and File sharing system.
+        /// </summary>
+        private void InsertKey(object sender, DoWorkEventArgs e)
+        {
+            List<Thread> threads = new();
+            for (int i = 0; i < Tabs.Count; i++)
+            {
+                Thread thread = new(Tabs[i].Load);
+                threads.Add(thread);
+                thread.Start();
+            }
+
+            for (int i = 0; i < threads.Count; i++)
+            {
+                threads[i].Join();
+                if (sender != null && e != null)
+                {
+                    InsertingKey.ReportProgress(100 / (Tabs.Count) * i, Tabs[i].LoadingTitle);
+                    if (InsertingKey.CancellationPending == true)
+                        return;
+                }
             }
         }
 
@@ -258,95 +423,9 @@ namespace Timotheus.Views
                         Timotheus.Registry.Update("LookForUpdates", "False");
                 }
             }
-            catch (Exception) 
+            catch (Exception ex) 
             {
-                //Timotheus.Log(ex); FIX
-            }
-        }
-
-        /// <summary>
-        /// Calls the Update method of all tabs.
-        /// </summary>
-        private void UpdateTabs()
-        {
-            foreach (Tab tab in Tabs)
-            {
-                tab.DataContext = tab.ViewModel;
-                tab.Update();
-            }
-        }
-
-        /// <summary>
-        /// Inserts the key
-        /// </summary>
-        private async void InsertKey()
-        {
-            ProgressDialog dialog = new();
-            try
-            {
-                dialog.Title = Localization.InsertKey_Dialog;
-                await dialog.ShowDialog(this, InsertingKey);
-                UpdateTabs();
-            }
-            catch (Exception ex)
-            {
-                Program.Error(Localization.Exception_Name, ex, this);
-            }
-
-            if (mvm.Keys.Retrieve("SSH-URL") != string.Empty)
-            {
-                if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory")))
-                {
-                    WarningDialog warningBox = new()
-                    {
-                        DialogTitle = Localization.Exception_Name,
-                        DialogText = Localization.Exception_FolderNotFound
-                    };
-                    await warningBox.ShowDialog(this);
-                    if (warningBox.DialogResult == DialogResult.OK)
-                    {
-                        OpenFolderDialog openFolder = new();
-                        string path = await openFolder.ShowAsync(this);
-                        if (path != string.Empty && path != null)
-                        {
-                            mvm.Keys.Update("SSH-LocalDirectory", path);
-                            InsertKey();
-                            MessageDialog messageBox = new()
-                            {
-                                DialogTitle = Localization.InsertKey_ChangeDetected,
-                                DialogText = Localization.InsertKey_DoYouWantToSave
-                            };
-                            await messageBox.ShowDialog(this);
-                            if (messageBox.DialogResult == DialogResult.OK)
-                                SaveKey_Click(null, null);
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// "Inserts" the current key, and tries to open the Calendar and File sharing system.
-        /// </summary>
-        private void InsertKey(object sender, DoWorkEventArgs e)
-        {
-            List<Thread> threads = new();
-            for (int i = 0; i < Tabs.Count; i++)
-            {
-                Thread thread = new(Tabs[i].Load);
-                threads.Add(thread);
-                thread.Start();
-            }
-
-            for (int i = 0; i < threads.Count; i++)
-            {
-                threads[i].Join();
-                if (sender != null && e != null)
-                {
-                    InsertingKey.ReportProgress(100 / (Tabs.Count) * i, Tabs[i].LoadingTitle);
-                    if (InsertingKey.CancellationPending == true)
-                        return;
-                }
+                Program.Log(ex);
             }
         }
 
@@ -365,10 +444,7 @@ namespace Timotheus.Views
             {
                 Timotheus.Registry.Delete("KeyPath");
                 Timotheus.Registry.Delete("KeyPassword");
-
-                mvm.NewProject(new Register(':'));
-                InsertKey(null, null);
-                UpdateTabs();
+                InsertKey(string.Empty, string.Empty);
             }
         }
 
@@ -382,57 +458,42 @@ namespace Timotheus.Views
                 SaveAsKey_Click(sender, e);
             else
             {
-                switch (Path.GetExtension(keyPath))
+                string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword");
+                string password;
+                if (encodedPassword != string.Empty)
                 {
-                    case ".tkey":
-                        string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword");
-                        string password;
-                        if (encodedPassword != string.Empty)
-                        {
-                            password = Cipher.Decrypt(encodedPassword);
-                            try
-                            {
-                                mvm.SaveKey(keyPath, password);
-                            }
-                            catch (Exception ex)
-                            {
-                                Program.Error(Localization.Exception_Saving, ex, this);
-                            }
-                        }
-                        else
-                        {
-                            PasswordDialog dialog = new();
-                            await dialog.ShowDialog(this);
-                            if (dialog.DialogResult == DialogResult.OK)
-                            {
-                                password = dialog.Password;
-                                try
-                                {
-                                    mvm.SaveKey(keyPath, password);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Program.Error(Localization.Exception_Saving, ex, this);
-                                }
-
-                                if (dialog.Save)
-                                {
-                                    encodedPassword = Cipher.Encrypt(password);
-                                    Timotheus.Registry.Update("KeyPassword", encodedPassword);
-                                }
-                            }
-                        }
-                        break;
-                    case ".txt":
+                    password = Cipher.Decrypt(encodedPassword);
+                    try
+                    {
+                        mvm.SaveKey(keyPath, password);
+                    }
+                    catch (Exception ex)
+                    {
+                        Program.Error(Localization.Exception_Saving, ex, this);
+                    }
+                }
+                else
+                {
+                    PasswordDialog dialog = new();
+                    await dialog.ShowDialog(this);
+                    if (dialog.DialogResult == DialogResult.OK)
+                    {
+                        password = dialog.Password;
                         try
                         {
-                            mvm.SaveKey(keyPath);
+                            mvm.SaveKey(keyPath, password);
                         }
                         catch (Exception ex)
                         {
                             Program.Error(Localization.Exception_Saving, ex, this);
                         }
-                        break;
+
+                        if (dialog.Save)
+                        {
+                            encodedPassword = Cipher.Encrypt(password);
+                            Timotheus.Registry.Update("KeyPassword", encodedPassword);
+                        }
+                    }
                 }
 
                 if (sender != null)
@@ -465,34 +526,19 @@ namespace Timotheus.Views
             string result = await saveFileDialog.ShowAsync(this);
             if (result != null)
             {
-                switch (Path.GetExtension(result))
+                PasswordDialog dialog = new();
+                await dialog.ShowDialog(this);
+                if (dialog.DialogResult == DialogResult.OK)
                 {
-                    case ".tkey":
-                        PasswordDialog dialog = new();
-                        await dialog.ShowDialog(this);
-                        if (dialog.DialogResult == DialogResult.OK)
-                        {
-                            string password = dialog.Password;
-                            try
-                            {
-                                mvm.SaveKey(result, password);
-                            }
-                            catch (Exception ex)
-                            {
-                                Program.Error(Localization.Exception_Saving, ex, this);
-                            }
-                        }
-                        break;
-                    case ".txt":
-                        try
-                        {
-                            mvm.SaveKey(result);
-                        }
-                        catch (Exception ex)
-                        {
-                            Program.Error(Localization.Exception_Saving, ex, this);
-                        }
-                        break;
+                    string password = dialog.Password;
+                    try
+                    {
+                        mvm.SaveKey(result, password);
+                    }
+                    catch (Exception ex)
+                    {
+                        Program.Error(Localization.Exception_Saving, ex, this);
+                    }
                 }
             }
         }
@@ -516,43 +562,26 @@ namespace Timotheus.Views
             string[] result = await openFileDialog.ShowAsync(this);
             if (result != null && result.Length > 0)
             {
-                switch (Path.GetExtension(result[0]))
+                PasswordDialog passDialog = new();
+                await passDialog.ShowDialog(this);
+                if (passDialog.DialogResult == DialogResult.OK)
                 {
-                    case ".tkey":
-                        PasswordDialog passDialog = new();
-                        await passDialog.ShowDialog(this);
-                        if (passDialog.DialogResult == DialogResult.OK)
-                        {
-                            string password = passDialog.Password;
-                            if (passDialog.Save)
-                            {
-                                string encodedPassword = Cipher.Encrypt(password);
-                                Timotheus.Registry.Update("KeyPassword", encodedPassword);
-                            }
-                            else
-                                Timotheus.Registry.Delete("KeyPassword");
-                            try
-                            {
-                                mvm.LoadKey(result[0], password);
-                                InsertKey();
-                            }
-                            catch (Exception ex)
-                            {
-                                Program.Error(Localization.Exception_LoadFailed, ex, this);
-                            }
-                        }
-                        break;
-                    case ".txt":
-                        try
-                        {
-                            mvm.LoadKey(result[0]);
-                            InsertKey();
-                        }
-                        catch (Exception ex)
-                        {
-                            Program.Error(Localization.Exception_LoadFailed, ex, this);
-                        }
-                        break;
+                    string password = passDialog.Password;
+                    if (passDialog.Save)
+                    {
+                        string encodedPassword = Cipher.Encrypt(password);
+                        Timotheus.Registry.Update("KeyPassword", encodedPassword);
+                    }
+                    else
+                        Timotheus.Registry.Delete("KeyPassword");
+                    try
+                    {
+                        InsertKey(result[0], password);
+                    }
+                    catch (Exception ex)
+                    {
+                        Program.Error(Localization.Exception_LoadFailed, ex, this);
+                    }
                 }
             }
         }
@@ -594,61 +623,66 @@ namespace Timotheus.Views
         /// </summary>
         private async void Settings_Click(object sender, RoutedEventArgs e)
         {
-            Settings dialog = new()
+            try
             {
-                Description = mvm.Keys.Retrieve("Settings-EventDescription"),
-                StartTime = mvm.Keys.Retrieve("Settings-EventStart"),
-                EndTime = mvm.Keys.Retrieve("Settings-EventEnd"),
-                HideToSystemTray = Timotheus.Registry.Retrieve("HideToSystemTray") != "False",
-                LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates") != "False",
-                SelectedLanguage = Timotheus.Registry.Retrieve("Language") == "da-DK" ? 1 : 0
-            };
-            int initialSelected = dialog.SelectedLanguage;
+                Settings dialog = new()
+                {
+                    Description = mvm.Keys.Retrieve("Settings-EventDescription"),
+                    StartTime = mvm.Keys.Retrieve("Settings-EventStart"),
+                    EndTime = mvm.Keys.Retrieve("Settings-EventEnd"),
+                    HideToSystemTray = Timotheus.Registry.Retrieve("HideToSystemTray") != "False",
+                    LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates") != "False",
+                    SelectedLanguage = Timotheus.Registry.Retrieve("Language") == "da-DK" ? 1 : 0,
+                    OpenOnStartUp = Timotheus.OpenOnStartUp
+                };
+                int initialSelected = dialog.SelectedLanguage;
 
-            await dialog.ShowDialog(this);
-            if (dialog.DialogResult == DialogResult.OK)
+                await dialog.ShowDialog(this);
+                if (dialog.DialogResult == DialogResult.OK)
+                {
+                    bool changed = false;
+
+                    if (dialog.Description != string.Empty)
+                        changed |= mvm.Keys.Update("Settings-EventDescription", dialog.Description);
+                    if (dialog.StartTime != string.Empty)
+                        changed |= mvm.Keys.Update("Settings-EventStart", dialog.StartTime);
+                    if (dialog.EndTime != string.Empty)
+                        changed |= mvm.Keys.Update("Settings-EventEnd", dialog.EndTime);
+
+                    if (changed)
+                    {
+                        MessageDialog messageBox = new()
+                        {
+                            DialogTitle = Localization.InsertKey_ChangeDetected,
+                            DialogText = Localization.InsertKey_DoYouWantToSave
+                        };
+                        await messageBox.ShowDialog(this);
+                        if (messageBox.DialogResult == DialogResult.OK)
+                        {
+                            SaveKey_Click(null, null);
+                        }
+                    }
+
+                    if (initialSelected != dialog.SelectedLanguage)
+                    {
+                        Timotheus.Registry.Update("Language", dialog.SelectedLanguage == 0 ? "en-US" : "da-DK");
+
+                        MessageDialog messageBox = new()
+                        {
+                            DialogTitle = Localization.Settings,
+                            DialogText = Localization.Settings_LanguageChanged
+                        };
+                        await messageBox.ShowDialog(this);
+                    }
+
+                    Timotheus.OpenOnStartUp = dialog.OpenOnStartUp;
+                    Timotheus.Registry.Update("HideToSystemTray", dialog.HideToSystemTray.ToString());
+                    Timotheus.Registry.Update("LookForUpdates", dialog.LookForUpdates.ToString());
+                }
+            }
+            catch (Exception ex)
             {
-                bool changed = false;
-
-                if (dialog.Description != string.Empty)
-                    changed |= mvm.Keys.Update("Settings-EventDescription", dialog.Description);
-                if (dialog.StartTime != string.Empty)
-                    changed |= mvm.Keys.Update("Settings-EventStart", dialog.StartTime);
-                if (dialog.EndTime != string.Empty)
-                    changed |= mvm.Keys.Update("Settings-EventEnd", dialog.EndTime);
-
-                if (changed)
-                {
-                    MessageDialog messageBox = new()
-                    {
-                        DialogTitle = Localization.InsertKey_ChangeDetected,
-                        DialogText = Localization.InsertKey_DoYouWantToSave
-                    };
-                    await messageBox.ShowDialog(this);
-                    if (messageBox.DialogResult == DialogResult.OK)
-                    {
-                        SaveKey_Click(null, null);
-                    }
-                }
-
-                if (initialSelected != dialog.SelectedLanguage)
-                {
-                    Timotheus.Registry.Update("Language", dialog.SelectedLanguage == 0 ? "en-US" : "da-DK");
-
-                    MessageDialog messageBox = new()
-                    {
-                        DialogTitle = Localization.Settings,
-                        DialogText = Localization.Settings_LanguageChanged
-                    };
-                    await messageBox.ShowDialog(this);
-                    if (messageBox.DialogResult == DialogResult.OK)
-                    {
-
-                    }
-                }
-
-                Timotheus.Registry.Update("HideToSystemTray", dialog.HideToSystemTray.ToString());
-                Timotheus.Registry.Update("LookForUpdates", dialog.LookForUpdates.ToString());
+                Program.Error(Localization.Exception_Name, ex, this);
             }
         }
 

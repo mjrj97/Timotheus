@@ -960,6 +960,23 @@ namespace Timotheus
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Directory with that name already exists
+        /// </summary>
+        public static string Exception_DirectoryAlreadyExists
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Mappe med det navn findes allerede";
+                    default:
+                        return "Directory with that name already exists";
+                }
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Address cannot be empty.
         /// </summary>
         public static string Exception_EmptyAddress
@@ -1023,6 +1040,23 @@ namespace Timotheus
                         return "Slut dato kan ikke være før start.";
                     default:
                         return "End date cannot be before the start date.";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Copy File with that name already exists
+        /// </summary>
+        public static string Exception_FileAlreadyExists
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Fil med det navn findes allerede";
+                    default:
+                        return "File with that name already exists";
                 }
             }
         }
@@ -1618,6 +1652,40 @@ namespace Timotheus
                         return "Version:";
                     default:
                         return "Version:";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to New key.
+        /// </summary>
+        public static string InsertKey_Args
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Ny nøgle";
+                    default:
+                        return "New key";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to open with the key '#'? Unsaved changes made with the current key, will not be saved..
+        /// </summary>
+        public static string InsertKey_ArgsMessage
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Vil du åbne med nøglen '#'? Det som ikke er gemt med den nuværende nøgle, vil ikke blive gemt.";
+                    default:
+                        return "Do you want to open with the key '#'? Unsaved changes made with the current key, will not be saved.";
                 }
             }
         }
@@ -2762,6 +2830,23 @@ namespace Timotheus
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Delete program settings.
+        /// </summary>
+        public static string Settings_DeleteSettings_Warning
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Er du sikker på at du vil slette alle system indstillinger til Timotheus? Dette inkluderer blandt andet: Sidst åbnet nøgle og evt. adgangskode, hvorvidt om programmet skal lukkes til systembakken, og om der skal kigges efter opdateringer.";
+                    default:
+                        return "Are you sure that you want to delete all system settings for Timotheus? This includes among other: Last opened key and its password, whether to close the program to system tray, and whether to look for updates.";
+                }
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Event settings.
         /// </summary>
         public static string Settings_Event
@@ -2856,9 +2941,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Luk programmet til systembakken";
+                        return "Luk til systembakken";
                     default:
-                        return "Close program to system tray";
+                        return "Close to system tray";
                 }
             }
         }
@@ -2995,6 +3080,23 @@ namespace Timotheus
                         return "Navn";
                     default:
                         return "Name";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Open program at startup (Without window)
+        /// </summary>
+        public static string Settings_OpenOnStartUp
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Åben når computeren tænder (Uden vindue)";
+                    default:
+                        return "Open at startup (Without window)";
                 }
             }
         }
@@ -4462,6 +4564,40 @@ namespace Timotheus
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        public static string TrayIcon_Open
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Åben";
+                    default:
+                        return "Open";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string TrayIcon_Close
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Luk";
+                    default:
+                        return "Close";
+                }
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to There is a new update (#) available on the website: www.mjrj.dk.
         /// </summary>
         public static string UpdateDialog_Text
@@ -4508,6 +4644,23 @@ namespace Timotheus
                         return "Opdatering";
                     default:
                         return "Update";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure that you don't want messages about new updates? You can miss new features, better performance and security..
+        /// </summary>
+        public static string UpdateDialog_AreYouSure
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Er du sikker på at du ikke vil have beskeder om nye opdateringer? Du kan gå glip af nye funktioner, bedre ydeevne og sikkerhed.";
+                    default:
+                        return "Are you sure that you don't want messages about new updates? You can miss new features, better performance and security.";
                 }
             }
         }

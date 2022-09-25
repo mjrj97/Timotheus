@@ -143,12 +143,12 @@ namespace Timotheus.ViewModels
             Sync.RunWorkerCompleted += SyncComplete;
 
             var startTimeSpan = TimeSpan.Zero;
-            var periodTimeSpan = TimeSpan.FromMinutes(1);
+            var periodTimeSpan = TimeSpan.FromMinutes(10);
 
-            /*BackgroundSync = new Timer((e) =>
+            BackgroundSync = new Timer((e) =>
             {
-                File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Test.txt", DateTime.Now.ToString() + "\n");
-            }, null, startTimeSpan, periodTimeSpan);*/
+                File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Sync.txt", DateTime.Now.ToString() + "\n");
+            }, null, startTimeSpan, periodTimeSpan);
         }
 
         /// <summary>
@@ -378,7 +378,7 @@ namespace Timotheus.ViewModels
             {
                 try
                 {
-                    if (file.RemoteFullName != string.Empty && client.Exists(file.RemoteFullName, true))
+                    if (file.RemoteFullName != string.Empty && file.Handle != SyncHandle.NewUpload && client.Exists(file.RemoteFullName, true))
                         client.DeleteDirectory(file.RemoteFullName);
                 }
                 catch (SocketException)
@@ -393,7 +393,7 @@ namespace Timotheus.ViewModels
             {
                 try
                 {
-                    if (file.RemoteFullName != string.Empty && client.Exists(file.RemoteFullName, false))
+                    if (file.RemoteFullName != string.Empty && file.Handle != SyncHandle.NewUpload && client.Exists(file.RemoteFullName, false))
                         client.DeleteFile(file.RemoteFullName);
                 }
                 catch (SocketException)
@@ -459,35 +459,38 @@ namespace Timotheus.ViewModels
                 }
             }
 
-            bool ExistsLocally = Directory.Exists(LocalPath + path);
-            bool ExistsRemotely = false;
-
-            try
+            if (client != null)
             {
-                ExistsRemotely = client.Exists(RemotePath + path, true);
-                Connected = true;
-            }
-            catch (Exception)
-            {
-                Connected = false;
-            }
+                bool ExistsLocally = Directory.Exists(LocalPath + path);
+                bool ExistsRemotely = false;
 
-            if (!ExistsLocally && !ExistsRemotely)
-            {
-                GoToDirectory("/");
-                throw new Exception(Localization.Exception_SFTPInvalidPath);
-            }
+                try
+                {
+                    ExistsRemotely = client.Exists(RemotePath + path, true);
+                    Connected = true;
+                }
+                catch (Exception)
+                {
+                    Connected = false;
+                }
 
-            CurrentDirectory = path;
-            List<DirectoryFile> files = GetFiles(CurrentDirectory);
-            List<FileViewModel> viewFiles = new();
-            for (int i = 0; i < files.Count; i++)
-            {
-                viewFiles.Add(new FileViewModel(files[i]));
-            }
-            viewFiles.Sort((x, y) => x.SortName.CompareTo(y.SortName));
+                if (!ExistsLocally && !ExistsRemotely)
+                {
+                    GoToDirectory("/");
+                    throw new Exception(Localization.Exception_SFTPInvalidPath);
+                }
 
-            Files = new ObservableCollection<FileViewModel>(viewFiles);
+                CurrentDirectory = path;
+                List<DirectoryFile> files = GetFiles(CurrentDirectory);
+                List<FileViewModel> viewFiles = new();
+                for (int i = 0; i < files.Count; i++)
+                {
+                    viewFiles.Add(new FileViewModel(files[i]));
+                }
+                viewFiles.Sort((x, y) => x.SortName.CompareTo(y.SortName));
+
+                Files = new ObservableCollection<FileViewModel>(viewFiles);
+            }
         }
 
         /// <summary>

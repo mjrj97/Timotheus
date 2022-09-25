@@ -118,8 +118,8 @@ namespace Timotheus.Utility
             // Note due to a bug in the JIT we wrap this in a method, otherwise MainWindow
             // gets stuffed into a local var and can not be GCed until after the program stops.
             // this method never exits until program end.
-            MainWindow.Show(args);
-
+            MainWindow.Start(args);
+            
             Dispatcher.UIThread.MainLoop(_cts.Token);
             Environment.ExitCode = _exitCode;
             return _exitCode;

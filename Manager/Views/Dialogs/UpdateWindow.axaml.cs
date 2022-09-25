@@ -43,5 +43,26 @@ namespace Timotheus.Views.Dialogs
             DataContext = this;
             AvaloniaXamlLoader.Load(this);
         }
+
+        /// <summary>
+        /// What happens when 'OK' is pressed on the dialog.
+        /// </summary>
+        protected override async void Ok_Click(object sender, RoutedEventArgs e)
+        {
+            if (DontShowAgain)
+            {
+                WarningDialog dialog = new()
+                {
+                    DialogTitle = Localization.Exception_Warning,
+                    DialogText = Localization.UpdateDialog_AreYouSure
+                };
+                await dialog.ShowDialog(this);
+
+                if (dialog.DialogResult == DialogResult.OK)
+                    DialogResult = DialogResult.OK;
+            }
+            else
+                DialogResult = DialogResult.OK;
+        }
     }
 }

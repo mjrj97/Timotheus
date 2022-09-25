@@ -1,5 +1,6 @@
 ﻿<Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:Timotheus"
              x:Class="Timotheus.App">
     <Application.Styles>
 		<FluentTheme Mode="Light"/>
@@ -11,8 +12,8 @@
 			<TrayIcon Icon="/Resources/Icon.ico" ToolTipText="Timotheus">
 				<TrayIcon.Menu>
 					<NativeMenu>
-						<NativeMenuItem Header="Open" Click="Open_TrayClick"/>
-						<NativeMenuItem Header="Close" Click="Close_TrayClick"/>
+						<NativeMenuItem Header="{x:Static local:Localization.TrayIcon_Open}" Click="Open_TrayClick"/>
+						<NativeMenuItem Header="{x:Static local:Localization.TrayIcon_Close}" Click="Close_TrayClick"/>
 					</NativeMenu>
 				</TrayIcon.Menu>
 			</TrayIcon>

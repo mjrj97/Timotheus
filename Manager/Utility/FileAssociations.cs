@@ -43,14 +43,9 @@ namespace Timotheus.Utility
         private static void EnsureAssociationsSet(params FileAssociation[] associations)
         {
             bool madeChanges = false;
-            foreach (var association in associations)
+            foreach (FileAssociation association in associations)
             {
-                madeChanges |= SetAssociation(
-                    association.Extension,
-                    association.ProgId,
-                    association.FileTypeDescription,
-                    association.IconFilePath,
-                    association.ExecutableFilePath);
+                madeChanges |= SetAssociation(association);
             }
 
             if (madeChanges)
@@ -59,13 +54,13 @@ namespace Timotheus.Utility
             }
         }
 
-        private static bool SetAssociation(string extension, string progId, string fileTypeDescription, string iconFilePath, string applicationFilePath)
+        private static bool SetAssociation(FileAssociation association)
         {
             bool madeChanges = false;
-            madeChanges |= SetKeyDefaultValue(@"Software\Classes\" + extension, progId);
-            madeChanges |= SetKeyDefaultValue(@"Software\Classes\" + progId, fileTypeDescription);
-            madeChanges |= SetKeyDefaultValue($@"Software\Classes\{progId}\DefaultIcon", iconFilePath);
-            madeChanges |= SetKeyDefaultValue($@"Software\Classes\{progId}\shell\open\command", "\"" + applicationFilePath + "\" \"%1\"");
+            madeChanges |= SetKeyDefaultValue(@"Software\Classes\" + association.Extension, association.ProgId);
+            madeChanges |= SetKeyDefaultValue(@"Software\Classes\" + association.ProgId, association.FileTypeDescription);
+            madeChanges |= SetKeyDefaultValue($@"Software\Classes\{association.ProgId}\DefaultIcon", association.IconFilePath);
+            madeChanges |= SetKeyDefaultValue($@"Software\Classes\{association.ProgId}\shell\open\command", "\"" + association.ExecutableFilePath + "\" \"%1\"");
             return madeChanges;
         }
 

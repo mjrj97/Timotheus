@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
 using System;
+using System.IO;
 using System.Linq;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -334,6 +335,16 @@ namespace Timotheus.Views.Tabs
                 await dialog.ShowDialog(MainWindow.Instance);
                 if (dialog.DialogResult == DialogResult.OK)
                 {
+                    if (Directory.Selected.IsDirectory)
+                    {
+                        if (System.IO.Directory.Exists(Directory.LocalPath + Directory.CurrentDirectory + dialog.Text))
+                            throw new Exception(Localization.Exception_DirectoryAlreadyExists);
+                    }
+                    else
+                    {
+                        if (File.Exists(Directory.LocalPath + Directory.CurrentDirectory + dialog.Text))
+                            throw new Exception(Localization.Exception_FileAlreadyExists);
+                    }
                     Directory.RenameFile(Directory.Selected, dialog.Text);
                 }
             }

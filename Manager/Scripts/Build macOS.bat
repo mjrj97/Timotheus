@@ -17,6 +17,7 @@ dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-x64 -property:Configuration
 REM MOVE BUNDLE
 robocopy .\bin\Release\net6.0\osx-x64\publish\Timotheus.app "%userprofile%\desktop\Timotheus\macOS\Application\Timotheus.app" /E
 xcopy Resources\macOS\Icon*.icns "%userprofile%\desktop\Timotheus\macOS\Application\Timotheus.app\Contents\Resources\" /Y
+xcopy Resources\macOS\ProjectFileIcon*.icns "%userprofile%\desktop\Timotheus\macOS\Application\Timotheus.app\Contents\Resources\" /Y
 xcopy Resources\macOS\Info*.plist "%userprofile%\desktop\Timotheus\macOS\Application\Timotheus.app\Contents\" /Y
 xcopy Resources\macOS\Timotheus*.entitlements "%userprofile%\desktop\Timotheus\macOS\Application\" /Y
 powershell -Command "(gc %userprofile%\desktop\Timotheus\macOS\Application\Timotheus.app\Contents\Info.plist) -replace 'X.X.X', '%VERSION%' | Out-File -encoding ASCII %userprofile%\desktop\Timotheus\macOS\Application\Timotheus.app\Contents\Info.plist"

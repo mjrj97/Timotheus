@@ -93,6 +93,17 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
+        private bool _openOnStartUp = true;
+        public bool OpenOnStartUp
+        {
+            get { return _openOnStartUp; }
+            set
+            {
+                _openOnStartUp = value;
+                NotifyPropertyChanged(nameof(OpenOnStartUp));
+            }
+        }
+
         public Settings()
         {
             DataContext = this;
@@ -118,9 +129,19 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-        private void DeleteSettings_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// This deletes the system settings for Timotheus, but opens a warning beforehand to ensure consent.
+        /// </summary>
+        private async void DeleteSettings_Click(object sender, RoutedEventArgs e)
         {
-            Timotheus.DeleteRegistry();
+            WarningDialog dialog = new()
+            {
+                DialogTitle = Localization.Exception_Warning,
+                DialogText = Localization.Settings_DeleteSettings_Warning
+            };
+            await dialog.ShowDialog(this);
+            if (dialog.DialogResult == DialogResult.OK)
+                Timotheus.DeleteRegistry();
         }
     }
 }
