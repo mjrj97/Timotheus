@@ -135,7 +135,7 @@ namespace Timotheus.Views
                 {
                     found = true;
                 }
-                else
+                else if (!found)
                     i++;
                 if (args[j] == "nogui")
                     gui = false;
@@ -269,7 +269,7 @@ namespace Timotheus.Views
                 }
             }
 
-            if (FirstOpen || path != string.Empty)
+            if (!(!FirstOpen && path == string.Empty) || (path == string.Empty && password == string.Empty))
                 InsertKey(path, password, gui);
         }
 
@@ -297,6 +297,7 @@ namespace Timotheus.Views
                         try
                         {
                             dialog.Title = Localization.InsertKey_Dialog;
+                            dialog.Message = Localization.InsertKey_Dialog;
                             await dialog.ShowDialog(this, InsertingKey);
                         }
                         catch (Exception ex)
@@ -350,15 +351,19 @@ namespace Timotheus.Views
                 }
                 catch (Exception ex)
                 {
-                    Error(ex);
+                    Program.Error(Localization.Exception_Name, ex, this);
                     mvm.NewProject(new Register(':'));
                     InsertKey(null, (DoWorkEventArgs)null);
+                    Timotheus.Registry.Delete("KeyPath");
+                    Timotheus.Registry.Delete("KeyPassword");
                 }
             }
             else
             {
                 mvm.NewProject(new Register(':'));
                 InsertKey(null, (DoWorkEventArgs)null);
+                Timotheus.Registry.Delete("KeyPath");
+                Timotheus.Registry.Delete("KeyPassword");
             }
 
             // Calls the Update method of all tabs.
@@ -387,7 +392,8 @@ namespace Timotheus.Views
                 threads[i].Join();
                 if (sender != null && e != null)
                 {
-                    InsertingKey.ReportProgress(100 / (Tabs.Count) * i, Tabs[i].LoadingTitle);
+                    InsertingKey.ReportProgress((int)(100 * ((float)(1+i) / Tabs.Count)), Tabs[i].LoadingTitle);
+                    Thread.Sleep(100);
                     if (InsertingKey.CancellationPending == true)
                         return;
                 }
@@ -699,23 +705,6 @@ namespace Timotheus.Views
             }
 
             return isThereUnsavedProgress;
-        }
-
-        /// <summary>
-        /// Create an error dialog.
-        /// </summary>
-        public async void Error(Exception e)
-        {
-            ErrorDialog msDialog = new()
-            {
-                DialogTitle = Localization.Exception_Name,
-                DialogText = e.Message
-            };
-
-            if (!IsVisible)
-                Show();
-
-            await msDialog.ShowDialog(this);
         }
     }
 }

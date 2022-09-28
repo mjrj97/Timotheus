@@ -27,7 +27,7 @@ namespace Timotheus.Views.Dialogs
             DataContext = this;
         }
 
-        protected virtual void Ok_Click(object sender, RoutedEventArgs e)
+        protected override void Ok_Click(object sender, RoutedEventArgs e)
         {
             try
             {

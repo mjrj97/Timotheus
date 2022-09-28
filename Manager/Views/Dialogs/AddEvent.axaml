@@ -18,14 +18,14 @@
 		  <TextBox TabIndex="1" Width="60" Watermark="00:00" Text="{Binding StartTime}" IsEnabled="{Binding !AllDayEvent}" KeyUp="FixTime"/>
 		  <ComboBox TabIndex="2" Margin="10 0 0 0" Items="{Binding StartDays}" SelectedIndex="{Binding StartDay}"/>
 		  <ComboBox TabIndex="3" Width="125" Items="{Binding Months}" SelectedIndex="{Binding StartMonth}"/>
-		  <TextBox TabIndex="4" Watermark="2021" Text="{Binding StartYear}" KeyUp="FixYear"/>
+		  <TextBox TabIndex="4" Watermark="2021" Text="{Binding StartYear}" KeyDown="IntBox"/>
       </DockPanel>
       <DockPanel DockPanel.Dock="Top">
         <TextBlock Text="{x:Static local:Localization.AddEvent_EndLabel}" Width="70" VerticalAlignment="Center"/>
 		  <TextBox TabIndex="5" Width="60" Watermark="00:00" Text="{Binding EndTime}" IsEnabled="{Binding !AllDayEvent}" KeyUp="FixTime"/>
 		  <ComboBox TabIndex="6" Margin="10 0 0 0" Items="{Binding EndDays}" SelectedIndex="{Binding EndDay}"/>
 		  <ComboBox TabIndex="7" Width="125" Items="{Binding Months}" SelectedIndex="{Binding EndMonth}"/>
-		  <TextBox TabIndex="8" Watermark="2021" Text="{Binding EndYear}" KeyUp="FixYear"/>
+		  <TextBox TabIndex="8" Watermark="2021" Text="{Binding EndYear}" KeyDown="IntBox"/>
       </DockPanel>
       <DockPanel DockPanel.Dock="Top">
 		  <CheckBox TabIndex="9" Margin="70 10 0 10" Content="All day event" IsChecked="{Binding AllDayEvent}"/>

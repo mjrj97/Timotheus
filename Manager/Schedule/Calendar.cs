@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
+using System.Net.Http;
 using Timotheus.IO;
 using Timotheus.Utility;
 
@@ -454,28 +456,34 @@ namespace Timotheus.Schedule
         /// </summary>
         private static string[] HttpRequest(string url, NetworkCredential credentials, string method = null, byte[] data = null)
         {
-            WebRequest request = WebRequest.Create(url);
-            request.Credentials = credentials;
+            HttpClient client = new();
+            HttpMethod httpMethod;
 
-            if (method != null)
-                request.Method = method;
             if (method == "PUT")
-            {
-                request.Headers.Add("Accept-charset", "UTF-8");
-                request.ContentType = "text/calendar";
-                request.ContentLength = data.Length;
+                httpMethod = HttpMethod.Put;
+            else if (method == "DELETE")
+                httpMethod = HttpMethod.Delete;
+            else if (method == "POST")
+                httpMethod = HttpMethod.Post;
+            else
+                httpMethod = HttpMethod.Get;
 
-                using var stream = request.GetRequestStream();
-                stream.Write(data, 0, data.Length);
-                stream.Close();
+            using HttpRequestMessage message = new(httpMethod, url);
+            message.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{credentials.UserName}:{credentials.Password}")));
+
+            if (httpMethod == HttpMethod.Put || httpMethod == HttpMethod.Post)
+            {
+                message.Content = new ByteArrayContent(data);
+                message.Content.Headers.ContentType = new MediaTypeHeaderValue("text/calendar");
+                message.Content.Headers.ContentLength = data.Length;
             }
 
-            WebResponse response = request.GetResponse();
-            StreamReader reader = new(response.GetResponseStream());
-            string text = reader.ReadToEnd().Replace("\r\n ", "");
-            string[] responseFromServer = Regex.Split(text, "\r\n|\r|\n");
-            response.Close();
-            return responseFromServer;
+            HttpResponseMessage response = client.SendAsync(message).Result;
+            response.EnsureSuccessStatusCode();
+            string text = response.Content.ReadAsStringAsync().Result.Replace("\r\n ", "");
+            string[] lines = Regex.Split(text, "\r\n|\r|\n");
+
+            return lines;
         }
 
         /// <summary>

@@ -95,6 +95,34 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
+        private bool _sync = false;
+        public bool Sync
+        {
+            get
+            {
+                return _sync;
+            }
+            set
+            {
+                _sync = value;
+                NotifyPropertyChanged(nameof(Sync));
+            }
+        }
+
+        private string _syncInterval = "60";
+        /// <summary>
+        /// Local path to sync with.
+        /// </summary>
+        public string SyncInterval
+        {
+            get => _syncInterval;
+            set
+            {
+                _syncInterval = value;
+                NotifyPropertyChanged(nameof(SyncInterval));
+            }
+        }
+
         /// <summary>
         /// Loads the XAML and sets the DataContext.
         /// </summary>
@@ -102,6 +130,24 @@ namespace Timotheus.Views.Dialogs
         {
             AvaloniaXamlLoader.Load(this);
             DataContext = this;
+        }
+
+        protected override void Ok_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int interval = int.Parse(SyncInterval);
+                if ((interval > 0 && Sync) || !Sync)
+                {
+                    base.Ok_Click(sender, e);
+                }
+                else
+                    throw new Exception(Localization.Exception_SyncInterval_MoreThanOne);
+            }
+            catch (Exception ex)
+            {
+                Program.Error(Localization.Exception_Name, ex, this);
+            }
         }
 
         /// <summary>

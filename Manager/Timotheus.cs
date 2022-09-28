@@ -85,7 +85,7 @@ namespace Timotheus
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
                     string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Library/LaunchAgents/dk.mjrj.Timotheus.plist";
-                    string plist = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n    <key>Label</key>\n    <string>dk.mjrj.Timotheus</string>\n    <key>ProgramArguments</key>\n    <array>\n        <string>/Applications/Timotheus.app/Contents/MacOS/Timotheus</string>\n        <string>nogui</string>\n    </array>\n    <key>RunAtLoad</key>\n    <true/>\n</dict>\n</plist>";
+                    string plist = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n    <key>Label</key>\n    <string>dk.mjrj.Timotheus</string>\n    <key>ProgramArguments</key>\n    <array>\n        <string>/Applications/Timotheus.app/Contents/MacOS/Timotheus</string>\n        <string>nogui</string>\n    </array>\n    <key>RunAtLoad</key>\n    <true/>\n    <key>ProcessType</key>\n    <string>Background</string>\n</dict>\n</plist>";
                     if (value)
                     {
                         if (!Directory.Exists(Path.GetDirectoryName(path)))
@@ -142,14 +142,27 @@ namespace Timotheus
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus") != null)
-                    Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(@"SOFTWARE\Timotheus");
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus");
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus", true);
+                key ??= Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus", true);
+
+                string[] values = key.GetValueNames();
+                bool[] found = new bool[values.Length];
 
                 List<Key> keys = Registry.RetrieveAll();
                 for (int i = 0; i < keys.Count; i++)
                 {
                     key.SetValue(keys[i].Name, keys[i].Value);
+                    for (int j = 0; j < values.Length; j++)
+                    {
+                        if (keys[i].Name == values[j])
+                            found[j] = true;
+                    }
+                }
+
+                for (int i = 0; i < values.Length; i++)
+                {
+                    if (!found[i])
+                        key.DeleteValue(values[i]);
                 }
 
                 key.Close();

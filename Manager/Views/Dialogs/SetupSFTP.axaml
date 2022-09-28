@@ -43,9 +43,23 @@
         </DockPanel>
       </Border>
     </DockPanel>
+	  <DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
+		  <Border Classes="t1" DockPanel.Dock="Top" Padding="10">
+			  <DockPanel>
+				  <DockPanel DockPanel.Dock="Top">
+					  <CheckBox IsChecked="{Binding Sync}" Content="{x:Static local:Localization.SFTPSetup_Sync}" Width="100" VerticalAlignment="Center"/>
+					  <DockPanel IsEnabled="{Binding Sync}">
+						  <TextBlock Text="{x:Static local:Localization.SFTPSetup_SyncEvery}" Margin="0 0 10 0" VerticalAlignment="Center"/>
+						  <TextBox Text="{Binding SyncInterval}" TabIndex="7" Width="50" KeyDown="IntBox"/>
+						  <TextBlock Text="{x:Static local:Localization.SFTPSetup_Minutes}" Margin="10 0" VerticalAlignment="Center"/>
+					  </DockPanel>
+				  </DockPanel>
+			  </DockPanel>
+		  </Border>
+	  </DockPanel>
     <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-		<Button TabIndex="7" Content="{x:Static local:Localization.SFTPSetup_SetupButton}" Click="Ok_Click" Margin="0 0 10 0"/>
-		<Button TabIndex="8" Content="{x:Static local:Localization.SFTPSetup_CancelButton}" Click="Cancel_Click"/>
+		<Button TabIndex="8" Content="{x:Static local:Localization.SFTPSetup_SetupButton}" Click="Ok_Click" Margin="0 0 10 0"/>
+		<Button TabIndex="9" Content="{x:Static local:Localization.SFTPSetup_CancelButton}" Click="Cancel_Click"/>
     </DockPanel>
   </DockPanel>
 </Window>

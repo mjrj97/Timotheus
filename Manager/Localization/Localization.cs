@@ -1249,6 +1249,23 @@ namespace Timotheus
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to The synchronization interval must be more than zero.
+        /// </summary>
+        public static string Exception_SyncInterval_MoreThanOne
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Synkroniserings intervallet skal være over nul.";
+                    default:
+                        return "The synchronization interval must be more than zero.";
+                }
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to File is only on the server. Synchronize first..
         /// </summary>
         public static string Exception_OnlineFile
@@ -3692,6 +3709,57 @@ namespace Timotheus
                         return "Opsætning";
                     default:
                         return "Setup";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Sync.
+        /// </summary>
+        public static string SFTPSetup_Sync
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Sync";
+                    default:
+                        return "Sync";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Sync.
+        /// </summary>
+        public static string SFTPSetup_SyncEvery
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Synkronisér hver";
+                    default:
+                        return "Synchronize every";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Sync.
+        /// </summary>
+        public static string SFTPSetup_Minutes
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "minutter";
+                    default:
+                        return "minutes";
                 }
             }
         }

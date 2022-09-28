@@ -354,24 +354,5 @@ namespace Timotheus.Views.Dialogs
                 Program.Log(ex);
             }
         }
-
-        /// <summary>
-        /// Makes sure that the year fields only contain numbers.
-        /// </summary>
-        private void FixYear(object sender, KeyEventArgs e)
-        {
-            string text = ((TextBox)sender).Text;
-            try
-            {
-                Regex regexObj = new(@"[^\d]");
-                ((TextBox)sender).Text = regexObj.Replace(text, "");
-                NotifyPropertyChanged(nameof(StartYear));
-                NotifyPropertyChanged(nameof(EndYear));
-            }
-            catch (ArgumentException ex)
-            {
-                Program.Log(ex);
-            }
-        }
     }
 }

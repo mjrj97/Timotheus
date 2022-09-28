@@ -169,24 +169,6 @@ namespace Timotheus.Views.Dialogs
         }
 
         /// <summary>
-        /// Makes sure that the year fields only contain numbers.
-        /// </summary>
-        private void FixYear(object sender, KeyEventArgs e)
-        {
-            string text = ((TextBox)sender).Text;
-            try
-            {
-                Regex regexObj = new(@"[^\d]");
-                ((TextBox)sender).Text = regexObj.Replace(text, "");
-                NotifyPropertyChanged(nameof(Year));
-            }
-            catch (ArgumentException ex) 
-            {
-                Program.Log(ex);
-            }
-        }
-
-        /// <summary>
         /// Returns the list of days in the month.
         /// </summary>
         private static List<int> GetDays(int month, int year)

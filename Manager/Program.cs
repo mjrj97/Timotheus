@@ -193,6 +193,7 @@ namespace Timotheus
             };
             if (!window.IsVisible)
                 window.Show();
+
             await msDialog.ShowDialog(window);
         }
 

@@ -10,6 +10,7 @@ using System.Net.Sockets;
 using Timotheus.IO;
 using Timotheus.Utility;
 using Timotheus.Views;
+using Avalonia.Threading;
 
 namespace Timotheus.ViewModels
 {
@@ -37,6 +38,17 @@ namespace Timotheus.ViewModels
             {
                 _connected = value;
                 NotifyPropertyChanged(nameof(Connected));
+            }
+        }
+
+        /// <summary>
+        /// Whether the tab is syncing files. It is NotSyncing because it has a binding to the Sync Button's IsEnabled. So True = Enabled Button.
+        /// </summary>
+        public bool NotSyncing
+        {
+            get
+            {
+                return !Sync.IsBusy;
             }
         }
 
@@ -122,6 +134,18 @@ namespace Timotheus.ViewModels
         /// <param name="password">Password to the (S)FTP connection</param>
         public DirectoryViewModel(string localPath, string remotePath, string host, int port, string username, string password) : this()
         {
+            if (MainViewModel.Instance.Keys.Retrieve("SSH-Sync") == "True")
+            {
+                int interval = int.Parse(MainViewModel.Instance.Keys.Retrieve("SSH-SyncInterval"));
+                TimeSpan startTimeSpan = TimeSpan.FromMinutes(interval < 10 ? interval : 10);
+                TimeSpan periodTimeSpan = TimeSpan.FromMinutes(interval);
+
+                BackgroundSync = new Timer((e) =>
+                {
+                    Sync.RunWorkerAsync();
+                }, null, startTimeSpan, periodTimeSpan);
+            }
+
             LocalPath = Path.TrimEndingDirectorySeparator(localPath);
             RemotePath = Path.TrimEndingDirectorySeparator(remotePath);
 
@@ -138,17 +162,12 @@ namespace Timotheus.ViewModels
         public DirectoryViewModel(string localPath, string remotePath, string host, string username, string password) : this(localPath, remotePath, host, 22, username, password) { }
         public DirectoryViewModel()
         {
-            Sync = new();
+            Sync = new()
+            {
+                WorkerReportsProgress = true
+            };
             Sync.DoWork += Synchronize;
             Sync.RunWorkerCompleted += SyncComplete;
-
-            var startTimeSpan = TimeSpan.Zero;
-            var periodTimeSpan = TimeSpan.FromMinutes(10);
-
-            BackgroundSync = new Timer((e) =>
-            {
-                File.AppendAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Sync.txt", DateTime.Now.ToString() + "\n");
-            }, null, startTimeSpan, periodTimeSpan);
         }
 
         /// <summary>
@@ -249,6 +268,7 @@ namespace Timotheus.ViewModels
         {
             try
             {
+                NotifyPropertyChanged(nameof(NotSyncing));
                 if (client != null)
                     Synchronize(RemotePath, LocalPath);
             }
@@ -256,18 +276,6 @@ namespace Timotheus.ViewModels
             {
                 e.Result = ex;
             }
-        }
-
-        /// <summary>
-        /// Event after the synchronization is complete.
-        /// </summary>
-        private void SyncComplete(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Result is Exception ex)
-            {
-                MainWindow.Instance.Error(ex);
-            }
-            NotifyPropertyChanged(nameof(SynchronizeToolTip));
         }
 
         /// <summary>
@@ -315,6 +323,22 @@ namespace Timotheus.ViewModels
                 client.Disconnect();
             }
             #endregion
+        }
+
+        /// <summary>
+        /// Event after the synchronization is complete.
+        /// </summary>
+        private void SyncComplete(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Result is Exception ex)
+            {
+                Dispatcher.UIThread.InvokeAsync(delegate
+                {
+                    Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+                });
+            }
+            NotifyPropertyChanged(nameof(NotSyncing));
+            NotifyPropertyChanged(nameof(SynchronizeToolTip));
         }
 
         /// <summary>

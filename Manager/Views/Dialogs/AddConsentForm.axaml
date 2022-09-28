@@ -15,7 +15,7 @@
 			<TextBlock Text="{x:Static local:Localization.AddConsentForm_Date}" Width="100" VerticalAlignment="Center"/>
 			<ComboBox TabIndex="1" Items="{Binding Days}" SelectedIndex="{Binding Day}"/>
 			<ComboBox TabIndex="2" Width="150" Items="{Binding Months}" SelectedIndex="{Binding Month}"/>
-			<TextBox TabIndex="3" Watermark="2021" Text="{Binding Year}" KeyUp="FixYear"/>
+			<TextBox TabIndex="3" Watermark="2021" Text="{Binding Year}" KeyDown="IntBox"/>
 		</DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 10 0 0">
 			<TextBlock Text="{x:Static local:Localization.AddConsentForm_Version}" Width="100" VerticalAlignment="Center"/>

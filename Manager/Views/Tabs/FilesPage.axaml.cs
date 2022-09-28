@@ -79,7 +79,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                MainWindow.Instance.Error(ex);
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -115,7 +115,9 @@ namespace Timotheus.Views.Tabs
                 Host = MainViewModel.Instance.Keys.Retrieve("SSH-URL"),
                 Port = MainViewModel.Instance.Keys.Retrieve("SSH-Port"),
                 Username = MainViewModel.Instance.Keys.Retrieve("SSH-Username"),
-                Password = MainViewModel.Instance.Keys.Retrieve("SSH-Password")
+                Password = MainViewModel.Instance.Keys.Retrieve("SSH-Password"),
+                Sync = MainViewModel.Instance.Keys.Retrieve("SSH-Sync") == "True",
+                SyncInterval = MainViewModel.Instance.Keys.Retrieve("SSH-SyncInterval") == string.Empty ? "60" : MainViewModel.Instance.Keys.Retrieve("SSH-SyncInterval")
             };
 
             await dialog.ShowDialog(MainWindow.Instance);
@@ -125,9 +127,7 @@ namespace Timotheus.Views.Tabs
                 {
                     if (dialog.Port == string.Empty)
                         dialog.Port = "22";
-                    Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
-                    DataContext = ViewModel;
-
+                    
                     bool changed = false;
 
                     changed |= MainViewModel.Instance.Keys.Update("SSH-LocalDirectory", dialog.Local);
@@ -136,6 +136,8 @@ namespace Timotheus.Views.Tabs
                     changed |= MainViewModel.Instance.Keys.Update("SSH-Port", dialog.Port);
                     changed |= MainViewModel.Instance.Keys.Update("SSH-Username", dialog.Username);
                     changed |= MainViewModel.Instance.Keys.Update("SSH-Password", dialog.Password);
+                    changed |= MainViewModel.Instance.Keys.Update("SSH-Sync", dialog.Sync.ToString());
+                    changed |= MainViewModel.Instance.Keys.Update("SSH-SyncInterval", dialog.SyncInterval);
 
                     if (changed)
                     {
@@ -150,6 +152,9 @@ namespace Timotheus.Views.Tabs
                             MainWindow.Instance.SaveKey_Click(null, null);
                         }
                     }
+
+                    Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
+                    DataContext = ViewModel;
                 }
                 catch (Exception ex)
                 {
