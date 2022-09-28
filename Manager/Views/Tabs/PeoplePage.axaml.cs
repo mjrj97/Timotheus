@@ -2,9 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 using System;
-using Timotheus.Utility;
 using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
 
@@ -24,12 +22,9 @@ namespace Timotheus.Views.Tabs
             }
         }
 
-        readonly IBrush StdLight = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-        readonly IBrush StdDark = new SolidColorBrush(Color.FromRgb(230, 230, 230));
-
         public PeoplePage()
         {
-            LoadingTitle = Localization.Localization.InsertKey_LoadPeople;
+            LoadingTitle = Localization.InsertKey_LoadPeople;
             AvaloniaXamlLoader.Load(this);
         }
 
@@ -41,10 +36,10 @@ namespace Timotheus.Views.Tabs
             {
                 if (dialog.ConsentVersion == string.Empty)
                 {
-                    MessageBox messageBox = new()
+                    WarningDialog messageBox = new()
                     {
-                        DialogTitle = Localization.Localization.Exception_Warning,
-                        DialogText = Localization.Localization.AddConsentForm_EmptyVersion
+                        DialogTitle = Localization.Exception_Warning,
+                        DialogText = Localization.AddConsentForm_EmptyVersion
                     };
                     await messageBox.ShowDialog(MainWindow.Instance);
                     if (messageBox.DialogResult == DialogResult.OK)
@@ -69,8 +64,10 @@ namespace Timotheus.Views.Tabs
             filter.Extensions.Add("csv");
             filter.Name = "CSV (.csv)";
 
-            saveFileDialog.Filters = new();
-            saveFileDialog.Filters.Add(filter);
+            saveFileDialog.Filters = new()
+            {
+                filter
+            };
 
             result = await saveFileDialog.ShowAsync(MainWindow.Instance);
             if (result != null)
@@ -81,8 +78,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Saving, ex.Message);
+                    Program.Error(Localization.Exception_Saving, ex, MainWindow.Instance);
                 }
             }
         }
@@ -95,13 +91,16 @@ namespace Timotheus.Views.Tabs
             txtFilter.Extensions.Add("csv");
             txtFilter.Name = "CSV (.csv)";
 
-            openFileDialog.Filters = new();
-            openFileDialog.Filters.Add(txtFilter);
+            openFileDialog.Filters = new()
+            {
+                txtFilter
+            };
 
             string[] result = await openFileDialog.ShowAsync(MainWindow.Instance);
             if (result != null && result.Length > 0)
             {
                 People = new(result[0]);
+                DataContext = People;
                 Update();
                 MainViewModel.Instance.Keys.Update("Person-File", result[0]);
             }
@@ -125,12 +124,21 @@ namespace Timotheus.Views.Tabs
             }
         }
 
-        private void RemovePerson_Click(object sender, RoutedEventArgs e)
+        private async void RemovePerson_Click(object sender, RoutedEventArgs e)
         {
             PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
             if (person != null)
             {
-                People.RemovePerson(person);
+                WarningDialog msDialog = new()
+                {
+                    DialogTitle = Localization.Exception_Warning,
+                    DialogText = Localization.People_Delete.Replace("#", person.Name)
+                };
+                await msDialog.ShowDialog(MainWindow.Instance);
+                if (msDialog.DialogResult == DialogResult.OK)
+                {
+                    People.RemovePerson(person);
+                }
             }
         }
 
@@ -155,7 +163,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex) 
                 {
-                    Timotheus.Log(ex);
+                    Program.Log(ex);
                     People = new();
                 }
             }

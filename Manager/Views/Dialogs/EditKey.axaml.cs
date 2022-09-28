@@ -2,7 +2,6 @@
 using Avalonia.Markup.Xaml;
 using System.Collections.Generic;
 using Timotheus.IO;
-using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {
@@ -81,22 +80,6 @@ namespace Timotheus.Views.Dialogs
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// The dialog closes and the values are assigned.
-        /// </summary>
-        private void Ok_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
-
-        /// <summary>
-        /// The dialog is closed without using the values.
-        /// </summary>
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
         }
     }
 }

@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
 using System.IO;
+using System.Collections.Generic;
 using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
@@ -30,7 +31,7 @@ namespace Timotheus.Views.Tabs
 
         public CalendarPage()
         {
-            LoadingTitle = Localization.Localization.InsertKey_LoadCalendar;
+            LoadingTitle = Localization.InsertKey_LoadCalendar;
             AvaloniaXamlLoader.Load(this);
             DataContext = Calendar;
         }
@@ -90,7 +91,7 @@ namespace Timotheus.Views.Tabs
 
                     ProgressDialog pDialog = new()
                     {
-                        Title = Localization.Localization.SyncCalendar_Worker
+                        Title = Localization.SyncCalendar_Worker
                     };
                     Period syncPeriod;
                     if (dialog.SyncAll)
@@ -106,8 +107,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Sync, ex.Message);
+                    Program.Error(Localization.Exception_Sync, ex, MainWindow.Instance);
                 }
             }
         }
@@ -138,8 +138,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Saving, ex.Message);
+                    Program.Error(Localization.Exception_Saving, ex, MainWindow.Instance);
                 }
             }
         }
@@ -180,8 +179,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_InvalidCalendar, ex.Message);
+                    Program.Error(Localization.Exception_InvalidCalendar, ex, MainWindow.Instance);
                 }
             }
         }
@@ -221,8 +219,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_InvalidEvent, ex.Message);
+                    Program.Error(Localization.Exception_InvalidEvent, ex, MainWindow.Instance);
                 }
             }
         }
@@ -230,12 +227,21 @@ namespace Timotheus.Views.Tabs
         /// <summary>
         /// Marks the selected event for deletion.
         /// </summary>
-        private void RemoveEvent_Click(object sender, RoutedEventArgs e)
+        private async void RemoveEvent_Click(object sender, RoutedEventArgs e)
         {
             EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
             if (ev != null)
             {
-                Calendar.RemoveEvent(ev);
+                WarningDialog msDialog = new()
+                {
+                    DialogTitle = Localization.Exception_Warning,
+                    DialogText = Localization.Calendar_DeleteEvent.Replace("#", ev.Name)
+                };
+                await msDialog.ShowDialog(MainWindow.Instance);
+                if (msDialog.DialogResult == DialogResult.OK)
+                {
+                    Calendar.RemoveEvent(ev);
+                }
             }
         }
 
@@ -244,30 +250,85 @@ namespace Timotheus.Views.Tabs
         /// </summary>
         private async void ExportPDF_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new();
-            FileDialogFilter filter = new();
-            filter.Extensions.Add("pdf");
-            filter.Name = "PDF Files (.pdf)";
-
-            saveFileDialog.Filters = new()
+            try
             {
-                filter
-            };
+                PDFDialog dialog = new()
+                {
+                    LogoPath = MainViewModel.Instance.Keys.Retrieve("PDF_Logo"),
+                    PDFTitle = MainViewModel.Instance.Keys.Retrieve("PDF_Title"),
+                    Subtitle = MainViewModel.Instance.Keys.Retrieve("PDF_Subtitle"),
+                    Footer = MainViewModel.Instance.Keys.Retrieve("PDF_Footer"),
+                    Backpage = MainViewModel.Instance.Keys.Retrieve("PDF_Backpage"),
+                    Comment = MainViewModel.Instance.Keys.Retrieve("PDF_Comment"),
+                    ExportPath = MainViewModel.Instance.Keys.Retrieve("PDF_ExportPath"),
+                    ArchivePath = MainViewModel.Instance.Keys.Retrieve("PDF_ArchivePath")
+                };
 
-            string result = await saveFileDialog.ShowAsync(MainWindow.Instance);
+                await dialog.ShowDialog(MainWindow.Instance);
 
-            if (result != null)
+                bool Changed = false;
+
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_Logo", dialog.LogoPath);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_Title", dialog.PDFTitle);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_Subtitle", dialog.Subtitle);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_Footer", dialog.Footer);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_Backpage", dialog.Backpage);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_Comment", dialog.Comment);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_ExportPath", dialog.ExportPath);
+                Changed |= MainViewModel.Instance.Keys.Update("PDF_ArchivePath", dialog.ArchivePath);
+
+                if (Changed)
+                {
+                    MessageDialog messageBox = new()
+                    {
+                        DialogTitle = Localization.InsertKey_ChangeDetected,
+                        DialogText = Localization.InsertKey_DoYouWantToSave
+                    };
+                    await messageBox.ShowDialog(MainWindow.Instance);
+                    if (messageBox.DialogResult == DialogResult.OK)
+                    {
+                        MainWindow.Instance.SaveKey_Click(null, null);
+                    }
+                }
+
+                if (dialog.DialogResult == DialogResult.OK)
+                {
+                    FileInfo file = new(dialog.ExportPath);
+
+                    List<Event> events = new();
+                    List<Event> cal = Calendar.Calendar.Events;
+                    for (int i = 0; i < cal.Count; i++)
+                    {
+                        if (cal[i].In(Calendar.CalendarPeriod))
+                            events.Add(cal[i]);
+                    }
+
+                    string tabName = string.Empty;
+                    if (!Directory.Exists(Path.GetDirectoryName(dialog.ExportPath)))
+                        Directory.CreateDirectory(Path.GetDirectoryName(dialog.ExportPath));
+                    switch (dialog.CurrentTab) {
+                        case 0:
+                            PDF.CreateTable(events, dialog.ExportPath, dialog.PDFTitle, dialog.Subtitle, dialog.Footer, dialog.LogoPath);
+                            tabName = Localization.PDF_Type_Table;
+                            break;
+                        case 1:
+                            PDF.CreateBook(events, dialog.ExportPath, dialog.PDFTitle, dialog.Subtitle, dialog.Comment, dialog.Backpage, dialog.LogoPath);
+                            tabName = Localization.PDF_Type_Book;
+                            break;
+                    }
+
+                    if (dialog.SaveToArchive)
+                    {
+                        if (!Directory.Exists(dialog.ArchivePath))
+                            throw new Exception(Localization.Exception_PDFArchiveNotFound);
+                        if (dialog.ArchivePath != string.Empty)
+                            File.Copy(dialog.ExportPath, Path.Combine(dialog.ArchivePath, Calendar.CalendarPeriod.ToFileName() + " (" + tabName + ")" + ".pdf"), true);
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                try
-                {
-                    FileInfo file = new(result);
-                    Calendar.ExportCalendar(file.Name, file.DirectoryName);
-                }
-                catch (Exception ex)
-                {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Saving, ex.Message);
-                }
+                Program.Error(Localization.Exception_Saving, ex, MainWindow.Instance);
             }
         }
 
@@ -281,8 +342,8 @@ namespace Timotheus.Views.Tabs
             {
                 AddEvent dialog = new()
                 {
-                    Title = Localization.Localization.AddEvent_Edit,
-                    ButtonName = Localization.Localization.AddEvent_EditButton,
+                    Title = Localization.AddEvent_Edit,
+                    ButtonName = Localization.AddEvent_EditButton,
                     EventName = ev.Name,
                     Start = ev.StartSort,
                     End = ev.EndSort,
@@ -307,8 +368,7 @@ namespace Timotheus.Views.Tabs
                     }
                     catch (Exception ex)
                     {
-                        Timotheus.Log(ex);
-                        MainWindow.Instance.Error(Localization.Localization.Exception_InvalidEvent, ex.Message);
+                        Program.Error(Localization.Exception_InvalidEvent, ex, MainWindow.Instance);
                     }
                 }
             }
@@ -324,7 +384,7 @@ namespace Timotheus.Views.Tabs
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
+                    Program.Log(ex);
                     Calendar = new();
                 }
             }

@@ -1,7 +1,8 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Timotheus.Utility;
+using System;
 
 namespace Timotheus.Views.Dialogs
 {
@@ -75,7 +76,7 @@ namespace Timotheus.Views.Dialogs
             get => _remote;
             set
             {
-                _remote = value;
+                _remote = value.Replace("\\", "/");
                 NotifyPropertyChanged(nameof(Remote));
             }
         }
@@ -89,8 +90,36 @@ namespace Timotheus.Views.Dialogs
             get => _local;
             set
             {
-                _local = value;
+                _local = value.Replace("\\", "/");
                 NotifyPropertyChanged(nameof(Local));
+            }
+        }
+
+        private bool _sync = false;
+        public bool Sync
+        {
+            get
+            {
+                return _sync;
+            }
+            set
+            {
+                _sync = value;
+                NotifyPropertyChanged(nameof(Sync));
+            }
+        }
+
+        private string _syncInterval = "60";
+        /// <summary>
+        /// Local path to sync with.
+        /// </summary>
+        public string SyncInterval
+        {
+            get => _syncInterval;
+            set
+            {
+                _syncInterval = value;
+                NotifyPropertyChanged(nameof(SyncInterval));
             }
         }
 
@@ -101,6 +130,24 @@ namespace Timotheus.Views.Dialogs
         {
             AvaloniaXamlLoader.Load(this);
             DataContext = this;
+        }
+
+        protected override void Ok_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int interval = int.Parse(SyncInterval);
+                if ((interval > 0 && Sync) || !Sync)
+                {
+                    base.Ok_Click(sender, e);
+                }
+                else
+                    throw new Exception(Localization.Exception_SyncInterval_MoreThanOne);
+            }
+            catch (Exception ex)
+            {
+                Program.Error(Localization.Exception_Name, ex, this);
+            }
         }
 
         /// <summary>
@@ -115,19 +162,21 @@ namespace Timotheus.Views.Dialogs
         }
 
         /// <summary>
-        /// Closes the dialog and sets the DialogResult to OK.
+        /// Fix the path textbox
         /// </summary>
-        private void Ok_Click(object sender, RoutedEventArgs e)
+        private void DirectoryText_KeyUp(object sender, KeyEventArgs e)
         {
-            DialogResult = DialogResult.OK;
-        }
-
-        /// <summary>
-        /// Closes the dialog and sets the DialogResult to Cancel.
-        /// </summary>
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
+            string text = ((TextBox)sender).Text;
+            try
+            {
+                string path = text.Trim();
+                path = path.Replace("\\", "/");
+                ((TextBox)sender).Text = path;
+            }
+            catch (ArgumentException ex)
+            {
+                Program.Log(ex);
+            }
         }
     }
 }

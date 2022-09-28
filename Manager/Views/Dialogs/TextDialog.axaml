@@ -1,0 +1,18 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Timotheus"
+        mc:Ignorable="d" Width="400" SizeToContent="Height"
+        x:Class="Timotheus.Views.Dialogs.TextDialog"
+        Title="{x:Static local:Localization.TextDialog}">
+	<DockPanel Margin="20">
+		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
+			<TextBox TabIndex="0" Watermark="{Binding Title}" Text="{Binding Text}"/>
+		</DockPanel>
+		<DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+			<Button TabIndex="1" Content="{x:Static local:Localization.PasswordDialog_OKButton}" Click="Ok_Click" HorizontalContentAlignment="Center" Width="50" Margin="10 0"/>
+			<Button TabIndex="2" Content="{x:Static local:Localization.PasswordDialog_CancelButton}" Click="Cancel_Click" HorizontalContentAlignment="Center"/>
+		</DockPanel>
+	</DockPanel>
+</Window>

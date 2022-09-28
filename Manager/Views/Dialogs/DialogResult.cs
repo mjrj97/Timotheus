@@ -1,4 +1,4 @@
-﻿namespace Timotheus.Utility
+﻿namespace Timotheus.Views.Dialogs
 {
     public enum DialogResult
     {

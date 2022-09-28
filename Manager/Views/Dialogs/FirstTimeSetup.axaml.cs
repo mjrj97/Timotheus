@@ -1,7 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {
@@ -14,7 +13,7 @@ namespace Timotheus.Views.Dialogs
             AvaloniaXamlLoader.Load(this);
         }
 
-        private async void WithKey_Click(object sender, RoutedEventArgs e)
+        protected override async void Ok_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new();
 
@@ -31,11 +30,6 @@ namespace Timotheus.Views.Dialogs
                 Path = result[0];
 
             DialogResult = DialogResult.OK;
-        }
-
-        private void WithoutKey_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
         }
     }
 }

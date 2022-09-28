@@ -1,6 +1,5 @@
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {
@@ -45,9 +44,25 @@ namespace Timotheus.Views.Dialogs
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void Ok_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// What happens when 'OK' is pressed on the dialog.
+        /// </summary>
+        protected override async void Ok_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = DialogResult.OK;
+            if (DontShowAgain)
+            {
+                WarningDialog dialog = new()
+                {
+                    DialogTitle = Localization.Exception_Warning,
+                    DialogText = Localization.UpdateDialog_AreYouSure
+                };
+                await dialog.ShowDialog(this);
+
+                if (dialog.DialogResult == DialogResult.OK)
+                    DialogResult = DialogResult.OK;
+            }
+            else
+                DialogResult = DialogResult.OK;
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using Avalonia.Interactivity;
+﻿using Avalonia;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {
-    public partial class MessageBox : Dialog
+    public partial class ErrorDialog : Dialog
     {
         private string _dialogTitle = string.Empty;
         public string DialogTitle
@@ -28,20 +28,15 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-        public MessageBox()
+        public ErrorDialog()
         {
             DataContext = this;
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void Ok_Click(object sender, RoutedEventArgs e)
+        public void CopyToClipboard_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = DialogResult.OK;
-        }
-
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
+            Application.Current.Clipboard.SetTextAsync(DialogText);
         }
     }
 }

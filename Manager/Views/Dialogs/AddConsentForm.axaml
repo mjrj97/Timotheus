@@ -2,33 +2,32 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i18n="clr-namespace:Timotheus.Localization"
+        xmlns:local="clr-namespace:Timotheus"
         x:Class="Timotheus.Views.Dialogs.AddConsentForm"
 		Width="440" SizeToContent="Height"
-        Title="{x:Static i18n:Localization.AddConsentForm}">
+        Title="{x:Static local:Localization.AddConsentForm}">
 	<DockPanel Margin="20">
 		<DockPanel DockPanel.Dock="Top">
-			<TextBlock Text="{x:Static i18n:Localization.AddConsentForm_Name}" Width="100" VerticalAlignment="Center"/>
-			<TextBox Text="{Binding ConsentName}"/>
+			<TextBlock Text="{x:Static local:Localization.AddConsentForm_Name}" Width="100" VerticalAlignment="Center"/>
+			<TextBox TabIndex="0" Text="{Binding ConsentName}"/>
 		</DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 10 0 0">
-			<TextBlock Text="{x:Static i18n:Localization.AddConsentForm_Date}" Width="100" VerticalAlignment="Center"/>
-			<ComboBox Items="{Binding Days}" SelectedIndex="{Binding Day}"/>
-			<ComboBox Width="150" Items="{Binding Months}" SelectedIndex="{Binding Month}"/>
-			<TextBox Watermark="2021" Text="{Binding Year}" KeyUp="FixYear"/>
+			<TextBlock Text="{x:Static local:Localization.AddConsentForm_Date}" Width="100" VerticalAlignment="Center"/>
+			<ComboBox TabIndex="1" Items="{Binding Days}" SelectedIndex="{Binding Day}"/>
+			<ComboBox TabIndex="2" Width="150" Items="{Binding Months}" SelectedIndex="{Binding Month}"/>
+			<TextBox TabIndex="3" Watermark="2021" Text="{Binding Year}" KeyDown="IntBox"/>
 		</DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 10 0 0">
-			<TextBlock Text="{x:Static i18n:Localization.AddConsentForm_Version}" Width="100" VerticalAlignment="Center"/>
-			<TextBox Text="{Binding ConsentVersion}"/>
+			<TextBlock Text="{x:Static local:Localization.AddConsentForm_Version}" Width="100" VerticalAlignment="Center"/>
+			<TextBox TabIndex="4" Text="{Binding ConsentVersion}"/>
 		</DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 10">
-			<TextBlock Text="{x:Static i18n:Localization.AddConsentForm_Comment}" Width="100" VerticalAlignment="Top" Margin="0 10"/>
-			<TextBox Text="{Binding ConsentComment}" Height="100" AcceptsReturn="True"/>
+			<TextBlock Text="{x:Static local:Localization.AddConsentForm_Comment}" Width="100" VerticalAlignment="Top" Margin="0 10"/>
+			<TextBox TabIndex="5" Text="{Binding ConsentComment}" Height="100" AcceptsReturn="True"/>
 		</DockPanel>
 		<DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-			<TextBlock Name="Error" Foreground="Red" VerticalAlignment="Center" Text="{Binding Error}" Width="230" TextWrapping="Wrap"/>
-			<Button Content="{x:Static i18n:Localization.AddConsentForm_AddButton}" Click="Add_Click" Margin="10 0"/>
-			<Button Content="{x:Static i18n:Localization.AddConsentForm_CancelButton}" Click="Cancel_Click"/>
+			<Button TabIndex="6" Content="{x:Static local:Localization.AddConsentForm_AddButton}" Click="Ok_Click" Margin="10 0"/>
+			<Button TabIndex="7" Content="{x:Static local:Localization.AddConsentForm_CancelButton}" Click="Cancel_Click"/>
 		</DockPanel>
 	</DockPanel>
 </Window>

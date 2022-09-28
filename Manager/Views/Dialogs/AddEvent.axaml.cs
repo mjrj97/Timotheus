@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {
@@ -87,7 +86,7 @@ namespace Timotheus.Views.Dialogs
                     }
                     catch (Exception ex)
                     {
-                        Timotheus.Log(ex);
+                        Program.Log(ex);
                         Start = new DateTime(Start.Year, Start.Month, 1);
                     }
                 }
@@ -120,7 +119,7 @@ namespace Timotheus.Views.Dialogs
             }
             set
             {
-                if (value <= 9999)
+                if (value > 0 && value <= 9999)
                     Start = new DateTime(value, Start.Month, Start.Day);
             }
         }
@@ -162,7 +161,7 @@ namespace Timotheus.Views.Dialogs
                     }
                     catch (Exception ex)
                     {
-                        Timotheus.Log(ex);
+                        Program.Log(ex);
                         End = new DateTime(End.Year, End.Month, 1);
                     }
                 }
@@ -195,7 +194,7 @@ namespace Timotheus.Views.Dialogs
             }
             set
             {
-                if (value <= 9999)
+                if (value > 0 && value <= 9999)
                     End = new DateTime(value, End.Month, End.Day);
             }
         }
@@ -245,21 +244,7 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-        private string _error = string.Empty;
-        /// <summary>
-        /// Error message shown on the buttom.
-        /// </summary>
-        public string Error
-        {
-            get => _error;
-            set
-            {
-                _error = value;
-                NotifyPropertyChanged(nameof(Error));
-            }
-        }
-
-        private string _buttonName = Localization.Localization.AddEvent_AddButton;
+        private string _buttonName = Localization.AddEvent_AddButton;
         public string ButtonName
         {
             get
@@ -315,17 +300,18 @@ namespace Timotheus.Views.Dialogs
         /// <summary>
         /// Closes the dialog and sets the DialogResult to OK.
         /// </summary>
-        private void Add_Click(object sender, RoutedEventArgs e)
+        protected override void Ok_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 if (EventName.Trim() == string.Empty)
-                    throw new Exception(Localization.Localization.Exception_EmptyName);
+                    throw new Exception(Localization.Exception_EmptyName);
                 if (End < Start)
-                    throw new Exception(Localization.Localization.Exception_EndBeforeStart);
+                    throw new Exception(Localization.Exception_EndBeforeStart);
 
+                DateTime EndSaved = End.Date;
                 Start = Start.Date;
-                End = End.Date;
+                End = EndSaved;
 
                 if (!AllDayEvent)
                 {
@@ -346,17 +332,8 @@ namespace Timotheus.Views.Dialogs
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                Error = ex.Message;
+                Program.Error(Localization.Exception_Name, ex, this);
             }
-        }
-
-        /// <summary>
-        /// Closes the dialog and sets the DialogResult to Cancel.
-        /// </summary>
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
         }
 
         /// <summary>
@@ -374,26 +351,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (ArgumentException ex) 
             {
-                Timotheus.Log(ex);
-            }
-        }
-
-        /// <summary>
-        /// Makes sure that the year fields only contain numbers.
-        /// </summary>
-        private void FixYear(object sender, KeyEventArgs e)
-        {
-            string text = ((TextBox)sender).Text;
-            try
-            {
-                Regex regexObj = new(@"[^\d]");
-                ((TextBox)sender).Text = regexObj.Replace(text, "");
-                NotifyPropertyChanged(nameof(StartYear));
-                NotifyPropertyChanged(nameof(EndYear));
-            }
-            catch (ArgumentException ex)
-            {
-                Timotheus.Log(ex);
+                Program.Log(ex);
             }
         }
     }

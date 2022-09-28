@@ -1,11 +1,11 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 using Avalonia.VisualTree;
 using System;
+using System.IO;
 using System.Linq;
-using System.Diagnostics;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
@@ -26,27 +26,16 @@ namespace Timotheus.Views.Tabs
             set
             {
                 ViewModel = value;
-                Directory.GoToDirectory(Directory.RemotePath);
+                Directory.GoToDirectory("/");
             }
         }
 
-        #region Colors
-        readonly IBrush NewLight = new SolidColorBrush(Color.FromRgb(230, 255, 230));
-        readonly IBrush NewDark = new SolidColorBrush(Color.FromRgb(210, 255, 210));
-
-        readonly IBrush UpdateLight = new SolidColorBrush(Color.FromRgb(255, 255, 230));
-        readonly IBrush UpdateDark = new SolidColorBrush(Color.FromRgb(255, 255, 200));
-
-        readonly IBrush DeleteLight = new SolidColorBrush(Color.FromRgb(255, 230, 230));
-        readonly IBrush DeleteDark = new SolidColorBrush(Color.FromRgb(255, 210, 210));
-
-        readonly IBrush StdLight = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-        readonly IBrush StdDark = new SolidColorBrush(Color.FromRgb(230, 230, 230));
-        #endregion
-
+        /// <summary>
+        /// Creates the tab.
+        /// </summary>
         public FilesPage()
         {
-            LoadingTitle = Localization.Localization.InsertKey_LoadFiles;
+            LoadingTitle = Localization.InsertKey_LoadFiles;
             AvaloniaXamlLoader.Load(this);
             DataContext = Directory;
         }
@@ -58,15 +47,7 @@ namespace Timotheus.Views.Tabs
         {
             if (MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory") != string.Empty)
             {
-                try
-                {
-                    Directory = new DirectoryViewModel(MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-RemoteDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-URL"), int.Parse(MainViewModel.Instance.Keys.Retrieve("SSH-Port") == string.Empty ? "22" : MainViewModel.Instance.Keys.Retrieve("SSH-Port")), MainViewModel.Instance.Keys.Retrieve("SSH-Username"), MainViewModel.Instance.Keys.Retrieve("SSH-Password"));
-                }
-                catch (Exception ex)
-                {
-                    Timotheus.Log(ex);
-                    Directory = new();
-                }
+                Directory = new DirectoryViewModel(MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-RemoteDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-URL"), int.Parse(MainViewModel.Instance.Keys.Retrieve("SSH-Port") == string.Empty ? "22" : MainViewModel.Instance.Keys.Retrieve("SSH-Port")), MainViewModel.Instance.Keys.Retrieve("SSH-Username"), MainViewModel.Instance.Keys.Retrieve("SSH-Password"));
             }
             else
                 Directory = new();
@@ -83,8 +64,7 @@ namespace Timotheus.Views.Tabs
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -93,7 +73,14 @@ namespace Timotheus.Views.Tabs
         /// </summary>
         private void UpdateDirectory_Click(object sender, RoutedEventArgs e)
         {
-            Directory.GoToDirectory(Directory.CurrentDirectory);
+            try
+            {
+                Directory.GoToDirectory(Directory.CurrentDirectory);
+            }
+            catch (Exception ex)
+            {
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+            }
         }
 
         /// <summary>
@@ -105,18 +92,14 @@ namespace Timotheus.Views.Tabs
             {
                 ProgressDialog dialog = new()
                 {
-                    Title = Localization.Localization.SFTP_SyncWorker
+                    Title = Localization.SFTP_SyncWorker
                 };
                 await dialog.ShowDialog(MainWindow.Instance, Directory.Sync);
-                if (Directory.DirectoryExists(Directory.CurrentDirectory))
-                    Directory.GoToDirectory(Directory.CurrentDirectory);
-                else
-                    Directory.GoToDirectory(Directory.RemotePath);
+                Directory.GoToDirectory(Directory.CurrentDirectory);
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
@@ -132,7 +115,9 @@ namespace Timotheus.Views.Tabs
                 Host = MainViewModel.Instance.Keys.Retrieve("SSH-URL"),
                 Port = MainViewModel.Instance.Keys.Retrieve("SSH-Port"),
                 Username = MainViewModel.Instance.Keys.Retrieve("SSH-Username"),
-                Password = MainViewModel.Instance.Keys.Retrieve("SSH-Password")
+                Password = MainViewModel.Instance.Keys.Retrieve("SSH-Password"),
+                Sync = MainViewModel.Instance.Keys.Retrieve("SSH-Sync") == "True",
+                SyncInterval = MainViewModel.Instance.Keys.Retrieve("SSH-SyncInterval") == string.Empty ? "60" : MainViewModel.Instance.Keys.Retrieve("SSH-SyncInterval")
             };
 
             await dialog.ShowDialog(MainWindow.Instance);
@@ -142,8 +127,7 @@ namespace Timotheus.Views.Tabs
                 {
                     if (dialog.Port == string.Empty)
                         dialog.Port = "22";
-                    Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
-
+                    
                     bool changed = false;
 
                     changed |= MainViewModel.Instance.Keys.Update("SSH-LocalDirectory", dialog.Local);
@@ -152,13 +136,15 @@ namespace Timotheus.Views.Tabs
                     changed |= MainViewModel.Instance.Keys.Update("SSH-Port", dialog.Port);
                     changed |= MainViewModel.Instance.Keys.Update("SSH-Username", dialog.Username);
                     changed |= MainViewModel.Instance.Keys.Update("SSH-Password", dialog.Password);
+                    changed |= MainViewModel.Instance.Keys.Update("SSH-Sync", dialog.Sync.ToString());
+                    changed |= MainViewModel.Instance.Keys.Update("SSH-SyncInterval", dialog.SyncInterval);
 
                     if (changed)
                     {
-                        MessageBox messageBox = new()
+                        MessageDialog messageBox = new()
                         {
-                            DialogTitle = Localization.Localization.InsertKey_ChangeDetected,
-                            DialogText = Localization.Localization.InsertKey_DoYouWantToSave
+                            DialogTitle = Localization.InsertKey_ChangeDetected,
+                            DialogText = Localization.InsertKey_DoYouWantToSave
                         };
                         await messageBox.ShowDialog(MainWindow.Instance);
                         if (messageBox.DialogResult == DialogResult.OK)
@@ -166,11 +152,13 @@ namespace Timotheus.Views.Tabs
                             MainWindow.Instance.SaveKey_Click(null, null);
                         }
                     }
+
+                    Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
+                    DataContext = ViewModel;
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                    Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
                 }
             }
         }
@@ -178,33 +166,84 @@ namespace Timotheus.Views.Tabs
         /// <summary>
         /// Marks the selected event for deletion.
         /// </summary>
-        private void EditFilePermission_Click(object sender, RoutedEventArgs e)
+        private async void EditFilePermission_Click(object sender, RoutedEventArgs e)
         {
             FileViewModel file = (FileViewModel)((Button)e.Source).DataContext;
             if (sender != null)
             {
                 try
                 {
-                    Button button = (Button)sender;
-                    if (button.Name == "Public")
+                    string first = file.IsPublic ? Localization.SFTP_Private : Localization.SFTP_Public;
+                    string second = file.IsPublic ? Localization.SFTP_Public : Localization.SFTP_Private;
+
+                    WarningDialog msDialog = new()
                     {
-                        Directory.SetFilePermissions(file, 770);
-                    }
-                    else if (button.Name == "Private")
+                        DialogTitle = Localization.Exception_Warning,
+                        DialogText = Localization.SFTP_ChangePermission.Replace("#1", file.Name).Replace("#2", first.ToLower()).Replace("#3", second.ToLower())
+                    };
+                    await msDialog.ShowDialog(MainWindow.Instance);
+                    if (msDialog.DialogResult == DialogResult.OK)
                     {
-                        Directory.SetFilePermissions(file, 775);
+                        Button button = (Button)sender;
+                        if (button.Name == "Public")
+                        {
+                            Directory.SetFilePermissions(file, 770);
+                        }
+                        else if (button.Name == "Private")
+                        {
+                            Directory.SetFilePermissions(file, 775);
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Timotheus.Log(ex);
-                    MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                    Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
                 }
             }
         }
 
         /// <summary>
-        /// Goes one level down into the selected directory.
+        /// Marks the selected event for deletion.
+        /// </summary>
+        private async void EditFilePermission_ContextMenu_Click(object sender, RoutedEventArgs e)
+        {
+            FileViewModel file = Directory.Selected;
+            if (sender != null)
+            {
+                try
+                {
+                    MenuItem button = (MenuItem)sender;
+
+                    string first = button.Name == "ContextPublic" ? Localization.SFTP_Public : Localization.SFTP_Private;
+                    string second = file.IsPublic ? Localization.SFTP_Public : Localization.SFTP_Private;
+
+                    WarningDialog msDialog = new()
+                    {
+                        DialogTitle = Localization.Exception_Warning,
+                        DialogText = Localization.SFTP_ChangePermission.Replace("#1", file.Name).Replace("#2", first.ToLower()).Replace("#3", second.ToLower())
+                    };
+                    await msDialog.ShowDialog(MainWindow.Instance);
+                    if (msDialog.DialogResult == DialogResult.OK)
+                    {
+                        if (button.Name == "ContextPrivate")
+                        {
+                            Directory.SetFilePermissions(file, 770);
+                        }
+                        else if (button.Name == "ContextPublic")
+                        {
+                            Directory.SetFilePermissions(file, 775);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Opens the file that is double clicked.
         /// </summary>
         private void File_Click(object sender, RoutedEventArgs e)
         {
@@ -217,61 +256,194 @@ namespace Timotheus.Views.Tabs
                 if (row != null)
                 {
                     FileViewModel file = row.DataContext as FileViewModel;
-                    if (file.IsDirectory)
-                    {
-                        if (file.RemoteFullName != string.Empty)
-                            Directory.GoToDirectory(file.RemoteFullName);
-                        else
-                            Directory.GoToDirectory(file.LocalFullName);
-                    }
-                    else
-                    {
-                        if (file.LocalFullName != string.Empty)
-                        {
-                            Process p = new()
-                            {
-                                StartInfo = new ProcessStartInfo(file.LocalFullName)
-                                {
-                                    UseShellExecute = true
-                                }
-                            };
-                            p.Start();
-                        }
-                    }
+                    Directory.Open(file);
                 }
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                MainWindow.Instance.Error(Localization.Localization.Exception_Name, ex.Message);
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
             }
         }
 
+        /// <summary>
+        /// Open the file from the context menu.
+        /// </summary>
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Directory.Open(Directory.Selected);
+            }
+            catch (Exception ex)
+            {
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+            }
+        }
+
+        /// <summary>
+        /// Open the file from the context menu.
+        /// </summary>
+        private async void NewFolder_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                TextDialog dialog = new()
+                {
+                    Title = Localization.SFTP_NewFolder
+                };
+                await dialog.ShowDialog(MainWindow.Instance);
+                if (dialog.DialogResult == DialogResult.OK)
+                    Directory.NewFolder(dialog.Text == string.Empty ? Localization.SFTP_NewFolder : dialog.Text);
+            }
+            catch (Exception ex)
+            {
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+            }
+        }
+
+        /// <summary>
+        /// Synchronizes the file.
+        /// </summary>
+        private async void DeleteFile_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WarningDialog msDialog = new()
+                {
+                    DialogTitle = Localization.Exception_Warning,
+                    DialogText = Localization.SFTP_DeleteWarning.Replace("#", Directory.Selected.Name)
+                };
+                await msDialog.ShowDialog(MainWindow.Instance);
+                if (msDialog.DialogResult == DialogResult.OK)
+                {
+                    Directory.Delete(Directory.Selected);
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+            }
+        }
+        
+        /// <summary>
+        /// Synchronizes the file.
+        /// </summary>
+        private async void RenameFile_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                TextDialog dialog = new()
+                {
+                    Title = Localization.SFTP_ContextMenu_Rename,
+                    Text = Directory.Selected.Name
+                };
+                await dialog.ShowDialog(MainWindow.Instance);
+                if (dialog.DialogResult == DialogResult.OK)
+                {
+                    if (Directory.Selected.IsDirectory)
+                    {
+                        if (System.IO.Directory.Exists(Directory.LocalPath + Directory.CurrentDirectory + dialog.Text))
+                            throw new Exception(Localization.Exception_DirectoryAlreadyExists);
+                    }
+                    else
+                    {
+                        if (File.Exists(Directory.LocalPath + Directory.CurrentDirectory + dialog.Text))
+                            throw new Exception(Localization.Exception_FileAlreadyExists);
+                    }
+                    Directory.RenameFile(Directory.Selected, dialog.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+            }
+        }
+
+        /// <summary>
+        /// Fix the directory path textbox
+        /// </summary>
+        private void DirectoryText_KeyDown(object sender, KeyEventArgs e)
+        {
+            string text = ((TextBox)sender).Text;
+            try
+            {
+                try
+                {
+                    string path = text.Trim();
+                    path = path.Replace("\\", "/");
+                    if (path.Length == 0)
+                        path = "/";
+                    else if (!path.StartsWith("/"))
+                        path = "/" + path;
+
+                    if (e.Key == Key.Enter)
+                    {
+                        // GO TO DIRECTORY
+                        Directory.GoToDirectory(path);
+                        e.Handled = true;
+                    }
+                    else
+                    {
+                        ((TextBox)sender).Text = path;
+                        NotifyPropertyChanged(nameof(Directory.CurrentDirectory));
+                        e.Handled = true;
+                    }
+                }
+                catch (ArgumentException ex)
+                {
+                    Program.Log(ex);
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+            }
+        }
+
+        /// <summary>
+        /// Handles coloring of the rows.
+        /// </summary>
         private void Files_RowLoading(object sender, DataGridRowEventArgs e)
         {
             if (e.Row.DataContext is FileViewModel file)
             {
-                if (e.Row.GetIndex() % 2 == 1)
+                if (Directory.Connected)
                 {
-                    e.Row.Background = file.Handle switch
+                    if (e.Row.GetIndex() % 2 == 1)
                     {
-                        SyncHandle.NewDownload or SyncHandle.NewUpload => NewDark,
-                        SyncHandle.Download or SyncHandle.Upload => UpdateDark,
-                        SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteDark,
-                        _ => StdDark,
-                    };
-                }
-                else
-                {
-                    e.Row.Background = file.Handle switch
+                        e.Row.Background = file.Handle switch
+                        {
+                            SyncHandle.NewDownload or SyncHandle.NewUpload => NewDark,
+                            SyncHandle.Download or SyncHandle.Upload => UpdateDark,
+                            SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteDark,
+                            _ => StdDark,
+                        };
+                    }
+                    else
                     {
-                        SyncHandle.NewDownload or SyncHandle.NewUpload => NewLight,
-                        SyncHandle.Download or SyncHandle.Upload => UpdateLight,
-                        SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteLight,
-                        _ => StdLight,
-                    };
+                        e.Row.Background = file.Handle switch
+                        {
+                            SyncHandle.NewDownload or SyncHandle.NewUpload => NewLight,
+                            SyncHandle.Download or SyncHandle.Upload => UpdateLight,
+                            SyncHandle.DeleteLocal or SyncHandle.DeleteRemote => DeleteLight,
+                            _ => StdLight,
+                        };
+                    }
                 }
             }
+        }
+
+        /// <summary>
+        /// Opens a file explorer at the selected file.
+        /// </summary>
+        private void OpenInFolder_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                FileName = System.IO.Path.GetDirectoryName(Directory.Selected.LocalFullName),
+                UseShellExecute = true,
+                Verb = "open"
+            });
         }
 
         public override void Update()

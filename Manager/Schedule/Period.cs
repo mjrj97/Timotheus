@@ -47,15 +47,15 @@ namespace Timotheus.Schedule
         /// <summary>
         /// Name of the spring period.
         /// </summary>
-        private static readonly string spring = Localization.Localization.Calendar_Spring;
+        private static readonly string spring = Localization.Calendar_Spring;
         /// <summary>
         /// Name of the fall period.
         /// </summary>
-        private static readonly string fall = Localization.Localization.Calendar_Fall;
+        private static readonly string fall = Localization.Calendar_Fall;
         /// <summary>
         /// Name of the all period.
         /// </summary>
-        private static readonly string all = Localization.Localization.Calendar_All;
+        private static readonly string all = Localization.Calendar_All;
         /// <summary>
         /// List of the names of the months.
         /// </summary>
@@ -68,7 +68,10 @@ namespace Timotheus.Schedule
         {
             if (months == null)
             {
-                months = new List<string>(Timotheus.Culture.DateTimeFormat.MonthNames);
+                if (Timotheus.Culture != null)
+                    months = new List<string>(Timotheus.Culture.DateTimeFormat.MonthNames);
+                else
+                    months = new List<string>(System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames);
                 months = months.ConvertAll(d => d.ToLower());
             }
         }
@@ -370,6 +373,32 @@ namespace Timotheus.Schedule
                     break;
                 case PeriodType.Month:
                     text = Start.ToString("MMMM", Timotheus.Culture) + " " + Start.Year;
+                    break;
+            }
+
+            return text;
+        }
+
+        public string ToFileName()
+        {
+            string text = string.Empty;
+
+            switch (Type)
+            {
+                case PeriodType.All:
+                    text = all;
+                    break;
+                case PeriodType.Year:
+                    text = Start.Year.ToString();
+                    break;
+                case PeriodType.Halfyear:
+                    if (Start.Month > 6)
+                        text = Start.Year + " " + fall.ToLower();
+                    else
+                        text = Start.Year + " " + spring.ToLower();
+                    break;
+                case PeriodType.Month:
+                    text = Start.Year + " " + Start.ToString("MMMM", Timotheus.Culture);
                     break;
             }
 

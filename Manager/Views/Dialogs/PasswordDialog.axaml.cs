@@ -27,7 +27,7 @@ namespace Timotheus.Views.Dialogs
             DataContext = this;
         }
 
-        private async void Ok_Click(object sender, RoutedEventArgs e)
+        protected override void Ok_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -37,19 +37,8 @@ namespace Timotheus.Views.Dialogs
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                MessageBox msDialog = new()
-                {
-                    DialogTitle = Localization.Localization.Exception_InvalidPassword,
-                    DialogText = Localization.Localization.Exception_Name
-                };
-                await msDialog.ShowDialog(this);
+                Program.Error(Localization.Exception_Name, ex, this);
             }
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
         }
     }
 }

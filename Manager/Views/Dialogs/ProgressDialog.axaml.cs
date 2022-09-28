@@ -3,7 +3,6 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {
@@ -23,8 +22,8 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-        private string _message = Localization.Localization.SFTP_Message;
-        private string Message
+        private string _message = Localization.SFTP_Message;
+        public string Message
         {
             get
             {
@@ -80,7 +79,7 @@ namespace Timotheus.Views.Dialogs
             DialogResult = DialogResult.OK;
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
+        protected override void Cancel_Click(object sender, RoutedEventArgs e)
         {
             bw.CancelAsync();
         }

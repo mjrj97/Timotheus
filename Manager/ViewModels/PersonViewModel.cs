@@ -54,6 +54,15 @@ namespace Timotheus.ViewModels
             {
                 person.Active = value;
                 NotifyPropertyChanged(nameof(Active));
+                NotifyPropertyChanged(nameof(Inactive));
+            }
+        }
+
+        public bool Inactive
+        {
+            get
+            {
+                return !person.Active;
             }
         }
 

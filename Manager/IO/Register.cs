@@ -38,7 +38,7 @@ namespace Timotheus.IO
         public Register(string path)
         {
             if (!File.Exists(path))
-                throw new System.Exception(Localization.Localization.Exception_NoKeys);
+                throw new System.Exception(Localization.Exception_NoKeys);
             Name = Path.GetFileName(path);
 
             string text = File.ReadAllText(path);
@@ -53,7 +53,7 @@ namespace Timotheus.IO
         {
             this.separator = separator;
             if (!File.Exists(path))
-                throw new System.Exception(Localization.Localization.Exception_NoKeys);
+                throw new System.Exception(Localization.Exception_NoKeys);
             Name = Path.GetFileName(path);
 
             string text = File.ReadAllText(path);
@@ -86,7 +86,7 @@ namespace Timotheus.IO
         public Register(string path, string password)
         {
             if (!File.Exists(path))
-                throw new System.Exception(Localization.Localization.Exception_NoKeys);
+                throw new System.Exception(Localization.Exception_NoKeys);
             Name = Path.GetFileName(path);
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
@@ -103,7 +103,7 @@ namespace Timotheus.IO
         {
             this.separator = separator;
             if (!File.Exists(path))
-                throw new System.Exception(Localization.Localization.Exception_NoKeys);
+                throw new System.Exception(Localization.Exception_NoKeys);
             Name = Path.GetFileName(path);
 
             byte[] data = Cipher.Decrypt(File.ReadAllBytes(path), password);
@@ -202,7 +202,8 @@ namespace Timotheus.IO
             if (!found)
             {
                 keys.Add(new Key(name, value));
-                changed = true;
+                if (value != string.Empty)
+                    changed = true;
             }
             return changed;
         }

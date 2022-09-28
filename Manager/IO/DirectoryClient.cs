@@ -1,10 +1,11 @@
-﻿using Renci.SshNet;
-using FluentFTP;
+﻿using FluentFTP;
 using System.IO;
-using Renci.SshNet.Sftp;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+using Renci.SshNet;
+using Renci.SshNet.Sftp;
 using Renci.SshNet.Common;
+using System;
 
 namespace Timotheus.IO
 {
@@ -200,11 +201,11 @@ namespace Timotheus.IO
                 if (port == 22)
                     sftpClient.UploadFile(fs, remote, true);
                 else
-                    ftpClient.Upload(fs, remote);
+                    ftpClient.UploadFile(local, remote);
             }
             catch (IOException ex) 
             {
-                Timotheus.Log(ex);
+                Program.Log(ex);
                 string tempFile = Path.GetTempFileName();
                 File.Copy(local, tempFile, true);
                 using (FileStream fs = File.Open(tempFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -212,7 +213,7 @@ namespace Timotheus.IO
                     if (port == 22)
                         sftpClient.UploadFile(fs, remote, true);
                     else
-                        ftpClient.Upload(fs, remote);
+                        ftpClient.UploadFile(tempFile, remote);
                 }
                 File.Delete(tempFile);
             }
@@ -244,9 +245,7 @@ namespace Timotheus.IO
             }
             catch (SftpPathNotFoundException ex)
             {
-                Timotheus.Log(ex);
-                //Do something when file is not found
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Program.Log(ex);
             }
 
             if (!isPreconnected)
@@ -294,7 +293,7 @@ namespace Timotheus.IO
                     {
                         if ((file.Name != ".") && (file.Name != ".."))
                         {
-                            if (file.Type == FtpFileSystemObjectType.Directory)
+                            if (file.Type == FtpObjectType.Directory)
                             {
                                 DeleteDirectory(file.FullName);
                             }
@@ -310,9 +309,37 @@ namespace Timotheus.IO
             }
             catch (SftpPathNotFoundException ex)
             {
-                Timotheus.Log(ex);
-                //Do something when file is not found
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Program.Log(ex);
+            }
+
+            if (!isPreconnected)
+            {
+                Disconnect();
+            }
+        }
+
+        public void RenameFile(string oldname, string newname)
+        {
+            bool isPreconnected = IsConnected;
+            if (!isPreconnected)
+            {
+                Connect();
+            }
+
+            try
+            {
+                if (port == 22)
+                {
+                    sftpClient.RenameFile(oldname, newname);
+                }
+                else
+                {
+                    ftpClient.Rename(oldname, newname);
+                }
+            }
+            catch (SftpPathNotFoundException ex)
+            {
+                Program.Log(ex);
             }
 
             if (!isPreconnected)
@@ -347,6 +374,20 @@ namespace Timotheus.IO
             if (!isPreconnected)
             {
                 Disconnect();
+            }
+        }
+
+        public bool CanConnect()
+        {
+            try
+            {
+                Connect();
+                Disconnect();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

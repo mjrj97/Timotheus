@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using Timotheus.Utility;
 
 namespace Timotheus.Views.Dialogs
 {
@@ -68,7 +67,7 @@ namespace Timotheus.Views.Dialogs
                     }
                     catch (Exception ex)
                     {
-                        Timotheus.Log(ex);
+                        Program.Log(ex);
                         ConsentDate = new DateTime(ConsentDate.Year, ConsentDate.Month, 1);
                     }
                 }
@@ -101,7 +100,7 @@ namespace Timotheus.Views.Dialogs
             }
             set
             {
-                if (value <= 9999)
+                if (value > 0 && value <= 9999)
                     ConsentDate = new DateTime(value, ConsentDate.Month, ConsentDate.Day);
             }
         }
@@ -128,11 +127,6 @@ namespace Timotheus.Views.Dialogs
         public string ConsentComment { get; set; }
 
         /// <summary>
-        /// Error message given and shown in the dialog.
-        /// </summary>
-        public string Error { get; set; }
-
-        /// <summary>
         /// Constructor creating the dialog.
         /// </summary>
         public AddConsentForm()
@@ -152,16 +146,16 @@ namespace Timotheus.Views.Dialogs
         /// <summary>
         /// Closes the dialog and sets the DialogResult to OK.
         /// </summary>
-        private void Add_Click(object sender, RoutedEventArgs e)
+        protected override void Ok_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 if (ConsentName == string.Empty)
                 {
-                    MessageBox messageBox = new()
+                    ErrorDialog messageBox = new()
                     {
-                        DialogTitle = Localization.Localization.Exception_Name,
-                        DialogText = Localization.Localization.AddConsentForm_EmptyName
+                        DialogTitle = Localization.Exception_Name,
+                        DialogText = Localization.AddConsentForm_EmptyName
                     };
                     messageBox.ShowDialog(this);
                 }
@@ -170,34 +164,7 @@ namespace Timotheus.Views.Dialogs
             }
             catch (Exception ex)
             {
-                Timotheus.Log(ex);
-                Error = ex.Message;
-            }
-        }
-
-        /// <summary>
-        /// Closes the dialog and sets the DialogResult to Cancel.
-        /// </summary>
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-        }
-
-        /// <summary>
-        /// Makes sure that the year fields only contain numbers.
-        /// </summary>
-        private void FixYear(object sender, KeyEventArgs e)
-        {
-            string text = ((TextBox)sender).Text;
-            try
-            {
-                Regex regexObj = new(@"[^\d]");
-                ((TextBox)sender).Text = regexObj.Replace(text, "");
-                NotifyPropertyChanged(nameof(Year));
-            }
-            catch (ArgumentException ex) 
-            {
-                Timotheus.Log(ex);
+                Program.Error(Localization.Exception_Name, ex, this);
             }
         }
 
