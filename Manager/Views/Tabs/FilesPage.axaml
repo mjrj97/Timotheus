@@ -6,10 +6,10 @@
 			 x:Class="Timotheus.Views.Tabs.FilesPage" d:DesignHeight="400" d:DesignWidth="700">
 	<DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-			<Button Click="UpDirectory_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_GoUp_ToolTip}" Width="32" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+			<Button Click="UpDirectory_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_GoUp_ToolTip}" Width="36" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
 				<Image Source="/Resources/Left.png" Height="20" VerticalAlignment="Center"/>
 			</Button>
-			<Button Click="UpdateDirectory_Click" Height="32" Margin="10 0 0 0" ToolTip.Tip="{x:Static local:Localization.SFTP_Refresh_ToolTip}">
+			<Button Click="UpdateDirectory_Click" Height="32" Width="36" Margin="10 0 0 0" ToolTip.Tip="{x:Static local:Localization.SFTP_Refresh_ToolTip}">
 				<Image Source="/Resources/Update.png" Height="17" VerticalAlignment="Center"/>
 			</Button>
 			<DockPanel DockPanel.Dock="Right">

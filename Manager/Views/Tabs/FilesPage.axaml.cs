@@ -1,12 +1,12 @@
-using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
+using Avalonia.Controls;
 using Avalonia.VisualTree;
+using Avalonia.Markup.Xaml;
+using Avalonia.Interactivity;
 using System;
 using System.IO;
 using System.Linq;
-using Timotheus.Utility;
+using Timotheus.IO;
 using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
 
@@ -17,27 +17,29 @@ namespace Timotheus.Views.Tabs
         /// <summary>
         /// A SFTP object connecting a local and remote directory.
         /// </summary>
-        public DirectoryViewModel Directory
+        public new DirectoryViewModel ViewModel
         {
             get
             {
-                return (DirectoryViewModel)ViewModel;
+                return (DirectoryViewModel)base.ViewModel;
             }
             set
             {
-                ViewModel = value;
-                Directory.GoToDirectory("/");
+                base.ViewModel = value;
+                value.GoToDirectory("/");
             }
         }
 
         /// <summary>
         /// Creates the tab.
         /// </summary>
-        public FilesPage()
+        public FilesPage() : base()
         {
-            LoadingTitle = Localization.InsertKey_LoadFiles;
             AvaloniaXamlLoader.Load(this);
-            DataContext = Directory;
+            Title = Localization.SFTP_Page;
+            LoadingTitle = Localization.InsertKey_LoadFiles;
+            Icon = "avares://Timotheus/Resources/Folder.png";
+            ViewModel = new DirectoryViewModel();
         }
 
         /// <summary>
@@ -45,12 +47,12 @@ namespace Timotheus.Views.Tabs
         /// </summary>
         public override void Load()
         {
-            if (MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory") != string.Empty)
+            if (Keys.Retrieve("SSH-LocalDirectory") != string.Empty)
             {
-                Directory = new DirectoryViewModel(MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-RemoteDirectory"), MainViewModel.Instance.Keys.Retrieve("SSH-URL"), int.Parse(MainViewModel.Instance.Keys.Retrieve("SSH-Port") == string.Empty ? "22" : MainViewModel.Instance.Keys.Retrieve("SSH-Port")), MainViewModel.Instance.Keys.Retrieve("SSH-Username"), MainViewModel.Instance.Keys.Retrieve("SSH-Password"));
+                ViewModel = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory"), Keys.Retrieve("SSH-RemoteDirectory"), Keys.Retrieve("SSH-URL"), int.Parse(Keys.Retrieve("SSH-Port") == string.Empty ? "22" : Keys.Retrieve("SSH-Port")), Keys.Retrieve("SSH-Username"), Keys.Retrieve("SSH-Password"), Keys.Retrieve("SSH-Sync") == "True", int.Parse(Keys.Retrieve("SSH-SyncInterval") == string.Empty ? "60" : Keys.Retrieve("SSH-SyncInterval")));
             }
             else
-                Directory = new();
+                ViewModel = new();
         }
 
         /// <summary>
@@ -60,7 +62,7 @@ namespace Timotheus.Views.Tabs
         {
             try
             {
-                Directory.GoUpDirectory();
+                ViewModel.GoUpDirectory();
             }
             catch (Exception ex)
             {
@@ -75,7 +77,7 @@ namespace Timotheus.Views.Tabs
         {
             try
             {
-                Directory.GoToDirectory(Directory.CurrentDirectory);
+                ViewModel.GoToDirectory(ViewModel.CurrentDirectory);
             }
             catch (Exception ex)
             {
@@ -94,8 +96,8 @@ namespace Timotheus.Views.Tabs
                 {
                     Title = Localization.SFTP_SyncWorker
                 };
-                await dialog.ShowDialog(MainWindow.Instance, Directory.Sync);
-                Directory.GoToDirectory(Directory.CurrentDirectory);
+                await dialog.ShowDialog(MainWindow.Instance, ViewModel.Sync);
+                ViewModel.GoToDirectory(ViewModel.CurrentDirectory);
             }
             catch (Exception ex)
             {
@@ -110,14 +112,14 @@ namespace Timotheus.Views.Tabs
         {
             SetupSFTP dialog = new()
             {
-                Local = MainViewModel.Instance.Keys.Retrieve("SSH-LocalDirectory"),
-                Remote = MainViewModel.Instance.Keys.Retrieve("SSH-RemoteDirectory"),
-                Host = MainViewModel.Instance.Keys.Retrieve("SSH-URL"),
-                Port = MainViewModel.Instance.Keys.Retrieve("SSH-Port"),
-                Username = MainViewModel.Instance.Keys.Retrieve("SSH-Username"),
-                Password = MainViewModel.Instance.Keys.Retrieve("SSH-Password"),
-                Sync = MainViewModel.Instance.Keys.Retrieve("SSH-Sync") == "True",
-                SyncInterval = MainViewModel.Instance.Keys.Retrieve("SSH-SyncInterval") == string.Empty ? "60" : MainViewModel.Instance.Keys.Retrieve("SSH-SyncInterval")
+                Local = Keys.Retrieve("SSH-LocalDirectory"),
+                Remote = Keys.Retrieve("SSH-RemoteDirectory"),
+                Host = Keys.Retrieve("SSH-URL"),
+                Port = Keys.Retrieve("SSH-Port"),
+                Username = Keys.Retrieve("SSH-Username"),
+                Password = Keys.Retrieve("SSH-Password"),
+                Sync = Keys.Retrieve("SSH-Sync") == "True",
+                SyncInterval = Keys.Retrieve("SSH-SyncInterval") == string.Empty ? "60" : Keys.Retrieve("SSH-SyncInterval")
             };
 
             await dialog.ShowDialog(MainWindow.Instance);
@@ -130,14 +132,14 @@ namespace Timotheus.Views.Tabs
                     
                     bool changed = false;
 
-                    changed |= MainViewModel.Instance.Keys.Update("SSH-LocalDirectory", dialog.Local);
-                    changed |= MainViewModel.Instance.Keys.Update("SSH-RemoteDirectory", dialog.Remote);
-                    changed |= MainViewModel.Instance.Keys.Update("SSH-URL", dialog.Host);
-                    changed |= MainViewModel.Instance.Keys.Update("SSH-Port", dialog.Port);
-                    changed |= MainViewModel.Instance.Keys.Update("SSH-Username", dialog.Username);
-                    changed |= MainViewModel.Instance.Keys.Update("SSH-Password", dialog.Password);
-                    changed |= MainViewModel.Instance.Keys.Update("SSH-Sync", dialog.Sync.ToString());
-                    changed |= MainViewModel.Instance.Keys.Update("SSH-SyncInterval", dialog.SyncInterval);
+                    changed |= Keys.Update("SSH-LocalDirectory", dialog.Local);
+                    changed |= Keys.Update("SSH-RemoteDirectory", dialog.Remote);
+                    changed |= Keys.Update("SSH-URL", dialog.Host);
+                    changed |= Keys.Update("SSH-Port", dialog.Port);
+                    changed |= Keys.Update("SSH-Username", dialog.Username);
+                    changed |= Keys.Update("SSH-Password", dialog.Password);
+                    changed |= Keys.Update("SSH-Sync", dialog.Sync.ToString());
+                    changed |= Keys.Update("SSH-SyncInterval", dialog.SyncInterval);
 
                     if (changed)
                     {
@@ -153,8 +155,7 @@ namespace Timotheus.Views.Tabs
                         }
                     }
 
-                    Directory = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password);
-                    DataContext = ViewModel;
+                    ViewModel = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password, dialog.Sync, int.Parse(dialog.SyncInterval));
                 }
                 catch (Exception ex)
                 {
@@ -187,11 +188,11 @@ namespace Timotheus.Views.Tabs
                         Button button = (Button)sender;
                         if (button.Name == "Public")
                         {
-                            Directory.SetFilePermissions(file, 770);
+                            ViewModel.SetFilePermissions(file, 770);
                         }
                         else if (button.Name == "Private")
                         {
-                            Directory.SetFilePermissions(file, 775);
+                            ViewModel.SetFilePermissions(file, 775);
                         }
                     }
                 }
@@ -207,7 +208,7 @@ namespace Timotheus.Views.Tabs
         /// </summary>
         private async void EditFilePermission_ContextMenu_Click(object sender, RoutedEventArgs e)
         {
-            FileViewModel file = Directory.Selected;
+            FileViewModel file = ViewModel.Selected;
             if (sender != null)
             {
                 try
@@ -227,11 +228,11 @@ namespace Timotheus.Views.Tabs
                     {
                         if (button.Name == "ContextPrivate")
                         {
-                            Directory.SetFilePermissions(file, 770);
+                            ViewModel.SetFilePermissions(file, 770);
                         }
                         else if (button.Name == "ContextPublic")
                         {
-                            Directory.SetFilePermissions(file, 775);
+                            ViewModel.SetFilePermissions(file, 775);
                         }
                     }
                 }
@@ -256,7 +257,7 @@ namespace Timotheus.Views.Tabs
                 if (row != null)
                 {
                     FileViewModel file = row.DataContext as FileViewModel;
-                    Directory.Open(file);
+                    ViewModel.Open(file);
                 }
             }
             catch (Exception ex)
@@ -272,7 +273,7 @@ namespace Timotheus.Views.Tabs
         {
             try
             {
-                Directory.Open(Directory.Selected);
+                ViewModel.Open(ViewModel.Selected);
             }
             catch (Exception ex)
             {
@@ -293,7 +294,7 @@ namespace Timotheus.Views.Tabs
                 };
                 await dialog.ShowDialog(MainWindow.Instance);
                 if (dialog.DialogResult == DialogResult.OK)
-                    Directory.NewFolder(dialog.Text == string.Empty ? Localization.SFTP_NewFolder : dialog.Text);
+                    ViewModel.NewFolder(dialog.Text == string.Empty ? Localization.SFTP_NewFolder : dialog.Text);
             }
             catch (Exception ex)
             {
@@ -311,12 +312,12 @@ namespace Timotheus.Views.Tabs
                 WarningDialog msDialog = new()
                 {
                     DialogTitle = Localization.Exception_Warning,
-                    DialogText = Localization.SFTP_DeleteWarning.Replace("#", Directory.Selected.Name)
+                    DialogText = Localization.SFTP_DeleteWarning.Replace("#", ViewModel.Selected.Name)
                 };
                 await msDialog.ShowDialog(MainWindow.Instance);
                 if (msDialog.DialogResult == DialogResult.OK)
                 {
-                    Directory.Delete(Directory.Selected);
+                    ViewModel.Delete(ViewModel.Selected);
                 }
             }
             catch (Exception ex)
@@ -335,22 +336,22 @@ namespace Timotheus.Views.Tabs
                 TextDialog dialog = new()
                 {
                     Title = Localization.SFTP_ContextMenu_Rename,
-                    Text = Directory.Selected.Name
+                    Text = ViewModel.Selected.Name
                 };
                 await dialog.ShowDialog(MainWindow.Instance);
                 if (dialog.DialogResult == DialogResult.OK)
                 {
-                    if (Directory.Selected.IsDirectory)
+                    if (ViewModel.Selected.IsDirectory)
                     {
-                        if (System.IO.Directory.Exists(Directory.LocalPath + Directory.CurrentDirectory + dialog.Text))
+                        if (System.IO.Directory.Exists(ViewModel.LocalPath + ViewModel.CurrentDirectory + dialog.Text))
                             throw new Exception(Localization.Exception_DirectoryAlreadyExists);
                     }
                     else
                     {
-                        if (File.Exists(Directory.LocalPath + Directory.CurrentDirectory + dialog.Text))
+                        if (File.Exists(ViewModel.LocalPath + ViewModel.CurrentDirectory + dialog.Text))
                             throw new Exception(Localization.Exception_FileAlreadyExists);
                     }
-                    Directory.RenameFile(Directory.Selected, dialog.Text);
+                    ViewModel.RenameFile(ViewModel.Selected, dialog.Text);
                 }
             }
             catch (Exception ex)
@@ -376,16 +377,16 @@ namespace Timotheus.Views.Tabs
                     else if (!path.StartsWith("/"))
                         path = "/" + path;
 
-                    if (e.Key == Key.Enter)
+                    if (e.Key == Avalonia.Input.Key.Enter)
                     {
                         // GO TO DIRECTORY
-                        Directory.GoToDirectory(path);
+                        ViewModel.GoToDirectory(path);
                         e.Handled = true;
                     }
                     else
                     {
                         ((TextBox)sender).Text = path;
-                        NotifyPropertyChanged(nameof(Directory.CurrentDirectory));
+                        NotifyPropertyChanged(nameof(ViewModel.CurrentDirectory));
                         e.Handled = true;
                     }
                 }
@@ -407,7 +408,7 @@ namespace Timotheus.Views.Tabs
         {
             if (e.Row.DataContext is FileViewModel file)
             {
-                if (Directory.Connected)
+                if (ViewModel.Connected)
                 {
                     if (e.Row.GetIndex() % 2 == 1)
                     {
@@ -440,15 +441,10 @@ namespace Timotheus.Views.Tabs
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
             {
-                FileName = System.IO.Path.GetDirectoryName(Directory.Selected.LocalFullName),
+                FileName = System.IO.Path.GetDirectoryName(ViewModel.Selected.LocalFullName),
                 UseShellExecute = true,
                 Verb = "open"
             });
-        }
-
-        public override void Update()
-        {
-            
         }
 
         public override bool HasBeenChanged()

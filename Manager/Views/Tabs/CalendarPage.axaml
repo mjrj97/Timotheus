@@ -6,21 +6,21 @@
 			 x:Class="Timotheus.Views.Tabs.CalendarPage" d:DesignHeight="400" d:DesignWidth="900">
 	<DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-			<Button Click="Save_Click" Height="32" ToolTip.Tip="{x:Static local:Localization.Calendar_Save_ToolTip}">
+			<Button Click="Save_Click" Height="32" Width="36" ToolTip.Tip="{x:Static local:Localization.Calendar_Save_ToolTip}">
 				<DockPanel>
 					<Image Source="/Resources/Save.png" Height="17" VerticalAlignment="Center"/>
 				</DockPanel>
 			</Button>
-			<Button Click="Open_Click" Height="32" Margin="10 0" ToolTip.Tip="{x:Static local:Localization.Calendar_Open_ToolTip}">
+			<Button Click="Open_Click" Height="32" Width="36" Margin="10 0" ToolTip.Tip="{x:Static local:Localization.Calendar_Open_ToolTip}">
 				<DockPanel>
 					<Image Source="/Resources/Open.png" Height="17" VerticalAlignment="Center"/>
 				</DockPanel>
 			</Button>
-			<Button Name="-" Click="Period_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_BackTime_ToolTip}" Width="32" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">
+			<Button Name="-" Click="Period_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_BackTime_ToolTip}" Width="36" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">
 				<Image Source="/Resources/Left.png" Height="20" VerticalAlignment="Center"/>
 			</Button>
 			<TextBox Width="150" Height="32" ToolTip.Tip="{x:Static local:Localization.Calendar_PeriodBox_ToolTip}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding PeriodText}" KeyDown="Period_KeyDown"/>
-			<Button Name="+" Click="Period_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_ForwardTime_ToolTip}" Width="32" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 0 0">
+			<Button Name="+" Click="Period_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_ForwardTime_ToolTip}" Width="36" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 0 0">
 				<Image Source="/Resources/Right.png" Height="20" VerticalAlignment="Center"/>
 			</Button>
 			<ComboBox SelectedIndex="{Binding SelectedPeriod}" ToolTip.Tip="{x:Static local:Localization.Calendar_PeriodType_ToolTip}" VerticalAlignment="Center" Margin="20 0" Height="32">
@@ -71,10 +71,10 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<DockPanel>
-									<Button Click="EditEvent_Click" Margin="0 5 5 5" Width="30" Height="30">
+									<Button Click="EditEvent_Click" Margin="0 5 5 5" Width="30" Height="30" ToolTip.Tip="{x:Static local:Localization.Calendar_EditEvent_Tooltip}">
 										<Image Source="/Resources/Pencil.png" Height="20" Width="20" VerticalAlignment="Center"/>
 									</Button>
-									<Button Click="RemoveEvent_Click" Margin="0 5 5 5" Width="30" Height="30">
+									<Button Click="RemoveEvent_Click" Margin="0 5 5 5" Width="30" Height="30" ToolTip.Tip="{x:Static local:Localization.Calendar_DeleteEvent_Tooltip}">
 										<Image Source="/Resources/Delete.png" Height="20" Width="20" VerticalAlignment="Center"/>
 									</Button>
 								</DockPanel>

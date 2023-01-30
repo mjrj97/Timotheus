@@ -1,8 +1,9 @@
-using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Interactivity;
 using System;
+using System.IO;
 using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
 
@@ -10,22 +11,26 @@ namespace Timotheus.Views.Tabs
 {
     public partial class PeoplePage : Tab
     {
-        public PeopleViewModel People
+        public new PeopleViewModel ViewModel
         {
             get
             {
-                return (PeopleViewModel)ViewModel;
+                return (PeopleViewModel)base.ViewModel;
             }
             set
             {
-                ViewModel = value;
+                base.ViewModel = value;
+                value.UpdatePeopleTable();
             }
         }
 
         public PeoplePage()
         {
-            LoadingTitle = Localization.InsertKey_LoadPeople;
             AvaloniaXamlLoader.Load(this);
+            Title = Localization.People_Page;
+            LoadingTitle = Localization.InsertKey_LoadPeople;
+            Icon = "avares://Timotheus/Resources/People.png";
+            ViewModel = new PeopleViewModel();
         }
 
         private async void AddPerson_Click(object sender, RoutedEventArgs e)
@@ -44,18 +49,39 @@ namespace Timotheus.Views.Tabs
                     await messageBox.ShowDialog(MainWindow.Instance);
                     if (messageBox.DialogResult == DialogResult.OK)
                     {
-                        People.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
+                        ViewModel.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
                     }
                 }
                 else
-                    People.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
+                    ViewModel.AddPerson(dialog.ConsentName, dialog.ConsentDate, dialog.ConsentVersion, dialog.ConsentComment);
+            }
+        }
+
+        /// <summary>
+        /// Saves the current file. If no file is in use, a SaveFileDialog is opened.
+        /// </summary>
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string path = Keys.Retrieve("Person-File");
+                if (!File.Exists(path))
+                    SaveAs_Click(null, e);
+                else
+                {
+                    ViewModel.Save(path);
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.Error(Localization.Exception_Saving, ex, MainWindow.Instance);
             }
         }
 
         /// <summary>
         /// Opens a SaveFileDialog to save the current Calendar.
         /// </summary>
-        private async void Save_Click(object sender, RoutedEventArgs e)
+        private async void SaveAs_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new();
             FileDialogFilter filter = new();
@@ -74,7 +100,9 @@ namespace Timotheus.Views.Tabs
             {
                 try
                 {
-                    People.Save(result);
+                    ViewModel.Save(result);
+                    if (sender == null)
+                        Keys.Update("Person-File", result);
                 }
                 catch (Exception ex)
                 {
@@ -99,10 +127,8 @@ namespace Timotheus.Views.Tabs
             string[] result = await openFileDialog.ShowAsync(MainWindow.Instance);
             if (result != null && result.Length > 0)
             {
-                People = new(result[0]);
-                DataContext = People;
-                Update();
-                MainViewModel.Instance.Keys.Update("Person-File", result[0]);
+                ViewModel = new(result[0]);
+                Keys.Update("Person-File", result[0]);
             }
         }
 
@@ -110,7 +136,7 @@ namespace Timotheus.Views.Tabs
         {
             PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
             person.Active = !person.Active;
-            Update();
+            NotifyPropertyChanged(nameof(ViewModel.People));
         }
 
         private void People_RowLoading(object sender, DataGridRowEventArgs e)
@@ -137,48 +163,43 @@ namespace Timotheus.Views.Tabs
                 await msDialog.ShowDialog(MainWindow.Instance);
                 if (msDialog.DialogResult == DialogResult.OK)
                 {
-                    People.RemovePerson(person);
+                    ViewModel.RemovePerson(person);
                 }
             }
         }
 
         private void ToggleInactive_Click(object sender, RoutedEventArgs e)
         {
-            People.ShowInactive = !People.ShowInactive;
-            Update();
+            ViewModel.ShowInactive = !ViewModel.ShowInactive;
+            ViewModel.UpdatePeopleTable();
         }
 
         private void SearchPeople(object sender, KeyEventArgs e)
         {
-            Update();
+            ViewModel.UpdatePeopleTable();
         }
 
         public override void Load()
         {
-            if (MainViewModel.Instance.Keys.Retrieve("Person-File") != string.Empty)
+            if (Keys.Retrieve("Person-File") != string.Empty)
             {
                 try
                 {
-                    People = new(MainViewModel.Instance.Keys.Retrieve("Person-File"));
+                    ViewModel = new(Keys.Retrieve("Person-File"));
                 }
                 catch (Exception ex) 
                 {
                     Program.Log(ex);
-                    People = new();
+                    ViewModel = new();
                 }
             }
             else
-                People = new();
-        }
-
-        public override void Update()
-        {
-            People.UpdatePeopleTable();
+                ViewModel = new();
         }
 
         public override bool HasBeenChanged()
         {
-            return People.HasBeenChanged;
+            return ViewModel.HasBeenChanged;
         }
     }
 }

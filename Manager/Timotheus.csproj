@@ -16,6 +16,7 @@
     <None Remove="Fonts\Arvo-BoldItalic.ttf" />
     <None Remove="Fonts\Arvo-Italic.ttf" />
     <None Remove="Fonts\Arvo-Regular.ttf" />
+    <None Remove="Resources\People.png" />
     <None Remove="Resources\ProjectFileIcon.ico" />
   </ItemGroup>
   <ItemGroup>

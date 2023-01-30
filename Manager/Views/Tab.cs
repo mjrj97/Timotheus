@@ -1,6 +1,8 @@
-﻿using Avalonia.Controls;
-using Avalonia.Media;
+﻿using Avalonia.Media;
+using Avalonia.Controls;
+using Avalonia.Threading;
 using System.ComponentModel;
+using Timotheus.IO;
 using Timotheus.ViewModels;
 
 namespace Timotheus.Views
@@ -21,13 +23,44 @@ namespace Timotheus.Views
         protected readonly IBrush StdDark = new SolidColorBrush(Color.FromRgb(240, 240, 240));
         #endregion
 
+        /// <summary>
+        /// Title of the tab shown in the TabControl.
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// Icon of the tab shown in the TabControl.
+        /// </summary>
+        public string Icon { get; set; }
+
+        /// <summary>
+        /// Title of the tab when loading the project.
+        /// </summary>
         public string LoadingTitle { get; set; }
+        
+        public Register Keys { get; set; }
 
-        public ViewModel ViewModel { get; protected set; }
+        public ViewModel ViewModel 
+        { 
+            get
+            {
+                return (ViewModel)DataContext;
+            }
+            protected set
+            {
+                Dispatcher.UIThread.InvokeAsync(delegate
+                {
+                    DataContext = value;
+                });
+            }
+        }
 
+        public Tab() { }
+
+        /// <summary>
+        /// Makes the tab load it's contents using it's current keys.
+        /// </summary>
         public abstract void Load();
-
-        public abstract void Update();
 
         /// <summary>
         /// Whether the tab has been changed since load.

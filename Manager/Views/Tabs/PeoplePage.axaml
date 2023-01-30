@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+<TabItem xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,12 +6,17 @@
 			 x:Class="Timotheus.Views.Tabs.PeoplePage" d:DesignHeight="400" d:DesignWidth="900">
 	<DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10" HorizontalAlignment="Stretch">
-			<Button Click="Save_Click" Height="32" ToolTip.Tip="{x:Static local:Localization.People_Save_ToolTip}">
+			<Button Click="Save_Click" Height="32" Width="36" Margin="0 0 10 0" ToolTip.Tip="{x:Static local:Localization.People_Save_ToolTip}">
 				<DockPanel>
 					<Image Source="/Resources/Save.png" Height="17" VerticalAlignment="Center"/>
 				</DockPanel>
 			</Button>
-			<Button Click="Open_Click" Height="32" Margin="10 0 0 0" ToolTip.Tip="{x:Static local:Localization.People_Open_ToolTip}">
+			<Button Click="SaveAs_Click" Height="32" Width="36" Margin="0 0 10 0" ToolTip.Tip="{x:Static local:Localization.People_SaveAs_ToolTip}">
+				<DockPanel>
+					<Image Source="/Resources/SaveAs.png" Height="17" VerticalAlignment="Center"/>
+				</DockPanel>
+			</Button>
+			<Button Click="Open_Click" Height="32" Width="36" Margin="0 0 10 0" ToolTip.Tip="{x:Static local:Localization.People_Open_ToolTip}">
 				<DockPanel>
 					<Image Source="/Resources/Open.png" Height="17" VerticalAlignment="Center"/>
 				</DockPanel>
@@ -29,7 +34,7 @@
 					<TextBlock Text="{x:Static local:Localization.People_Add}" Margin="5 0" VerticalAlignment="Center"/>
 				</DockPanel>
 			</Button>
-			<TextBox Margin="10 0" Text="{Binding SearchField}" ToolTip.Tip="{x:Static local:Localization.People_Search_ToolTip}" Watermark="{x:Static local:Localization.People_Search}" KeyUp="SearchPeople"/>
+			<TextBox  Margin="0 0 10 0" Text="{Binding SearchField}" ToolTip.Tip="{x:Static local:Localization.People_Search_ToolTip}" Watermark="{x:Static local:Localization.People_Search}" KeyUp="SearchPeople"/>
 		</DockPanel>
 		<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
 			<DataGrid Items="{Binding People}" VerticalScrollBarVisibility="Visible" LoadingRow="People_RowLoading">
@@ -59,4 +64,4 @@
 			</DataGrid>
 		</Border>
 	</DockPanel>
-</UserControl>
+</TabItem>

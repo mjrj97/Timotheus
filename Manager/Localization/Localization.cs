@@ -467,6 +467,23 @@ namespace Timotheus
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Delete event.
+        /// </summary>
+        public static string Calendar_DeleteEvent_Tooltip
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Slet begivenhed";
+                    default:
+                        return "Delete event";
+                }
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Calendar_DescriptionColumn
@@ -479,6 +496,23 @@ namespace Timotheus
                         return "Beskrivelse";
                     default:
                         return "Description";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Edit event.
+        /// </summary>
+        public static string Calendar_EditEvent_Tooltip
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Ændr begivenhed";
+                    default:
+                        return "Edit event";
                 }
             }
         }
@@ -2703,9 +2737,26 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Gem samtykkeerklæringer til en fil";
+                        return "Gem samtykkeerklæringer til den nuværende fil";
                     default:
-                        return "Save the people to a file";
+                        return "Save the people to the current file";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save the people to a file.
+        /// </summary>
+        public static string People_SaveAs_ToolTip
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Gem samtykkeerklæringer til en ny fil";
+                    default:
+                        return "Save the people to a new file";
                 }
             }
         }

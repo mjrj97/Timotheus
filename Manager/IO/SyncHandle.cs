@@ -1,4 +1,4 @@
-﻿namespace Timotheus.Utility
+﻿namespace Timotheus.IO
 {
     /// <summary>
     /// Enum that tells the software how to handle a file on sync.

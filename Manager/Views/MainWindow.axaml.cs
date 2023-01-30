@@ -4,10 +4,7 @@ using Avalonia.Markup.Xaml;
 using System;
 using System.IO;
 using System.Net.Http;
-using System.Threading;
 using System.ComponentModel;
-using System.Collections.Generic;
-using Timotheus.IO;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
@@ -17,12 +14,22 @@ namespace Timotheus.Views
     /// <summary>
     /// MainWindow of the Timotheus app. Contains Calendar and Filesharing tabs.
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         /// <summary>
         /// Data Context of the MainWindow.
         /// </summary>
-        private readonly MainViewModel mvm;
+        private Project project 
+        {
+            get
+            {
+                return (Project)DataContext;
+            }
+            set
+            {
+                DataContext = value;
+            }
+        }
 
         private static MainWindow s_instance;
         public static MainWindow Instance
@@ -49,33 +56,13 @@ namespace Timotheus.Views
         public bool IsDoneLoading { get; set; } = false;
 
         /// <summary>
-        /// Worker that is used to track the progress of the inserting a key.
-        /// </summary>
-        public BackgroundWorker InsertingKey { get; private set; } = new();
-
-        /// <summary>
-        /// A list of the tabs currently in the MainWindow.
-        /// </summary>
-        public List<Tab> Tabs { get; set; }
-
-        /// <summary>
         /// Constructor. Creates datacontext and loads XAML.
         /// </summary>
         public MainWindow()
         {
             Instance = this;
-            mvm = new();
-            InsertingKey.DoWork += InsertKey;
             AvaloniaXamlLoader.Load(this);
-
-            Tabs = new List<Tab>
-            {
-                this.FindControl<Tab>("CalPage"),
-                this.FindControl<Tab>("FilPage"),
-                this.FindControl<Tab>("PeoPage")
-            };
-
-            DataContext = mvm;
+            project = new();
         }
 
         /// <summary>
@@ -87,7 +74,7 @@ namespace Timotheus.Views
             e.Cancel = FirstClose;
             if (FirstClose)
             {
-                if (IsThereUnsavedProgress())
+                if (project.IsThereUnsavedProgress())
                 {
                     WarningDialog msDialog = new()
                     {
@@ -284,7 +271,7 @@ namespace Timotheus.Views
                 {
                     try
                     {
-                        mvm.LoadKey(path, password);
+                        project = new Project(path, password);
                     }
                     catch (Exception)
                     {
@@ -298,7 +285,7 @@ namespace Timotheus.Views
                         {
                             dialog.Title = Localization.InsertKey_Dialog;
                             dialog.Message = Localization.InsertKey_Dialog;
-                            await dialog.ShowDialog(this, InsertingKey);
+                            await dialog.ShowDialog(this, project.Loader);
                         }
                         catch (Exception ex)
                         {
@@ -306,11 +293,11 @@ namespace Timotheus.Views
                         }
                     }
                     else
-                        InsertKey(null, (DoWorkEventArgs)null);
+                        project.Loader.RunWorkerAsync();
 
-                    if (mvm.Keys.Retrieve("SSH-URL") != string.Empty && gui)
+                    if (project.Keys.Retrieve("SSH-URL") != string.Empty && gui)
                     {
-                        if (!Directory.Exists(mvm.Keys.Retrieve("SSH-LocalDirectory")))
+                        if (!Directory.Exists(project.Keys.Retrieve("SSH-LocalDirectory")))
                         {
                             WarningDialog warningBox = new()
                             {
@@ -324,12 +311,12 @@ namespace Timotheus.Views
                                 string newPath = await openFolder.ShowAsync(this);
                                 if (newPath != string.Empty && newPath != null)
                                 {
-                                    mvm.Keys.Update("SSH-LocalDirectory", newPath);
+                                    project.Keys.Update("SSH-LocalDirectory", newPath);
 
                                     try
                                     {
                                         dialog.Title = Localization.InsertKey_Dialog;
-                                        await dialog.ShowDialog(this, InsertingKey);
+                                        await dialog.ShowDialog(this, project.Loader);
 
                                         MessageDialog messageBox = new()
                                         {
@@ -352,51 +339,16 @@ namespace Timotheus.Views
                 catch (Exception ex)
                 {
                     Program.Error(Localization.Exception_Name, ex, this);
-                    mvm.NewProject(new Register(':'));
-                    InsertKey(null, (DoWorkEventArgs)null);
+                    project = new Project();
                     Timotheus.Registry.Delete("KeyPath");
                     Timotheus.Registry.Delete("KeyPassword");
                 }
             }
             else
             {
-                mvm.NewProject(new Register(':'));
-                InsertKey(null, (DoWorkEventArgs)null);
+                project = new Project();
                 Timotheus.Registry.Delete("KeyPath");
                 Timotheus.Registry.Delete("KeyPassword");
-            }
-
-            // Calls the Update method of all tabs.
-            foreach (Tab tab in Tabs)
-            {
-                tab.DataContext = tab.ViewModel;
-                tab.Update();
-            }
-        }
-
-        /// <summary>
-        /// "Inserts" the current key, and tries to open the Calendar and File sharing system.
-        /// </summary>
-        private void InsertKey(object sender, DoWorkEventArgs e)
-        {
-            List<Thread> threads = new();
-            for (int i = 0; i < Tabs.Count; i++)
-            {
-                Thread thread = new(Tabs[i].Load);
-                threads.Add(thread);
-                thread.Start();
-            }
-
-            for (int i = 0; i < threads.Count; i++)
-            {
-                threads[i].Join();
-                if (sender != null && e != null)
-                {
-                    InsertingKey.ReportProgress((int)(100 * ((float)(1+i) / Tabs.Count)), Tabs[i].LoadingTitle);
-                    Thread.Sleep(100);
-                    if (InsertingKey.CancellationPending == true)
-                        return;
-                }
             }
         }
 
@@ -448,9 +400,9 @@ namespace Timotheus.Views
             await msDialog.ShowDialog(this);
             if (msDialog.DialogResult == DialogResult.OK)
             {
+                project = new Project();
                 Timotheus.Registry.Delete("KeyPath");
                 Timotheus.Registry.Delete("KeyPassword");
-                InsertKey(string.Empty, string.Empty);
             }
         }
 
@@ -471,7 +423,7 @@ namespace Timotheus.Views
                     password = Cipher.Decrypt(encodedPassword);
                     try
                     {
-                        mvm.SaveKey(keyPath, password);
+                        project.SaveKey(keyPath, password);
                     }
                     catch (Exception ex)
                     {
@@ -487,7 +439,7 @@ namespace Timotheus.Views
                         password = dialog.Password;
                         try
                         {
-                            mvm.SaveKey(keyPath, password);
+                            project.SaveKey(keyPath, password);
                         }
                         catch (Exception ex)
                         {
@@ -515,7 +467,7 @@ namespace Timotheus.Views
         }
 
         /// <summary>
-        /// Opens a SaveFileDialog so the user can save the current key as a file.
+        /// Opens a SaveFileDialog so the user can save the current key as a file, but it doesn't update the current key path.
         /// </summary>
         public async void SaveAsKey_Click(object sender, RoutedEventArgs e)
         {
@@ -539,7 +491,7 @@ namespace Timotheus.Views
                     string password = dialog.Password;
                     try
                     {
-                        mvm.SaveKey(result, password);
+                        project.SaveKey(result, password);
                     }
                     catch (Exception ex)
                     {
@@ -593,29 +545,6 @@ namespace Timotheus.Views
         }
 
         /// <summary>
-        /// Opens an EditKey dialog where the user can change the values of the key.
-        /// </summary>
-        private async void EditKey_Click(object sender, RoutedEventArgs e)
-        {
-            EditKey dialog = new();
-            dialog.Title = dialog.Title + " (" + Timotheus.Registry.Retrieve("KeyPath") + ")";
-            dialog.Text = mvm.Keys.ToString();
-            await dialog.ShowDialog(this);
-            if (dialog.DialogResult == DialogResult.OK)
-            {
-                try
-                {
-                    mvm.NewProject(new Register(':', dialog.Text));
-                    InsertKey(null, null);
-                }
-                catch (Exception ex)
-                {
-                    Program.Error(Localization.Exception_Name, ex, this);
-                }
-            }
-        }
-
-        /// <summary>
         /// Opens a Help dialog.
         /// </summary>
         private void Help_Click(object sender, RoutedEventArgs e)
@@ -633,9 +562,9 @@ namespace Timotheus.Views
             {
                 Settings dialog = new()
                 {
-                    Description = mvm.Keys.Retrieve("Settings-EventDescription"),
-                    StartTime = mvm.Keys.Retrieve("Settings-EventStart"),
-                    EndTime = mvm.Keys.Retrieve("Settings-EventEnd"),
+                    Description = project.Keys.Retrieve("Settings-EventDescription"),
+                    StartTime = project.Keys.Retrieve("Settings-EventStart"),
+                    EndTime = project.Keys.Retrieve("Settings-EventEnd"),
                     HideToSystemTray = Timotheus.Registry.Retrieve("HideToSystemTray") != "False",
                     LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates") != "False",
                     SelectedLanguage = Timotheus.Registry.Retrieve("Language") == "da-DK" ? 1 : 0,
@@ -649,11 +578,11 @@ namespace Timotheus.Views
                     bool changed = false;
 
                     if (dialog.Description != string.Empty)
-                        changed |= mvm.Keys.Update("Settings-EventDescription", dialog.Description);
+                        changed |= project.Keys.Update("Settings-EventDescription", dialog.Description);
                     if (dialog.StartTime != string.Empty)
-                        changed |= mvm.Keys.Update("Settings-EventStart", dialog.StartTime);
+                        changed |= project.Keys.Update("Settings-EventStart", dialog.StartTime);
                     if (dialog.EndTime != string.Empty)
-                        changed |= mvm.Keys.Update("Settings-EventEnd", dialog.EndTime);
+                        changed |= project.Keys.Update("Settings-EventEnd", dialog.EndTime);
 
                     if (changed)
                     {
@@ -690,21 +619,6 @@ namespace Timotheus.Views
             {
                 Program.Error(Localization.Exception_Name, ex, this);
             }
-        }
-
-        /// <summary>
-        /// Returns whether the user has made progress that hasn't been saved.
-        /// </summary>
-        public bool IsThereUnsavedProgress()
-        {
-            bool isThereUnsavedProgress = false;
-
-            for (int i = 0; i < Tabs.Count; i++)
-            {
-                isThereUnsavedProgress |= Tabs[i].HasBeenChanged();
-            }
-
-            return isThereUnsavedProgress;
         }
     }
 }
