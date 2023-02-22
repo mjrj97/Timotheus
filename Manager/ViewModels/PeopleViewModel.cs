@@ -8,7 +8,12 @@ namespace Timotheus.ViewModels
 {
     public class PeopleViewModel : ViewModel
     {
-        private PersonRepository _personRepo = new();
+		/// <summary>
+		/// The currently selected person. Used for the context menu.
+		/// </summary>
+		public PersonViewModel Selected { get; set; }
+
+		private PersonRepository _personRepo = new();
         /// <summary>
         /// The repository containing all the people.
         /// </summary>

@@ -39,6 +39,8 @@ namespace Timotheus.Views.Dialogs
             set
             {
                 _logoPath = value;
+                if (System.IO.File.Exists(LogoPath))
+                    EditorImage = new Bitmap(LogoPath);
                 NotifyPropertyChanged(nameof(LogoPath));
             }
         }
@@ -229,8 +231,6 @@ namespace Timotheus.Views.Dialogs
             if (result != null && result.Length > 0)
             {
                 LogoPath = result[0];
-                if (System.IO.File.Exists(LogoPath))
-                    EditorImage = new Bitmap(LogoPath);
             }
         }
 

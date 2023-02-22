@@ -26,7 +26,18 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-        public MessageDialog()
+		private bool _dialogShowCancel = true;
+		public bool DialogShowCancel
+		{
+			get { return _dialogShowCancel; }
+			set
+			{
+				_dialogShowCancel = value;
+				NotifyPropertyChanged(nameof(DialogShowCancel));
+			}
+		}
+
+		public MessageDialog()
         {
             DataContext = this;
             AvaloniaXamlLoader.Load(this);

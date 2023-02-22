@@ -10,7 +10,11 @@ namespace Timotheus.ViewModels
         public string Name
         {
             get { return person.Name; }
-            set { person.Name = value; }
+            set
+            { 
+                person.Name = value;
+                NotifyPropertyChanged(nameof(Name));
+            }
         }
 
         public string Date
@@ -30,18 +34,32 @@ namespace Timotheus.ViewModels
             {
                 return person.ConsentDate;
             }
+            set
+            {
+                person.ConsentDate = value;
+                NotifyPropertyChanged(nameof(Date));
+                NotifyPropertyChanged(nameof(SortableDate));
+            }
         }
 
         public string Version
         {
             get { return person.ConsentVersion; }
-            set { person.ConsentVersion = value; }
+            set 
+            { 
+                person.ConsentVersion = value;
+                NotifyPropertyChanged(nameof(Version));
+            }
         }
 
         public string Comment
         {
             get { return person.Comment; }
-            set { person.Comment = value; }
+            set
+            { 
+                person.Comment = value;
+                NotifyPropertyChanged(nameof(Comment));
+            }
         }
 
         public bool Active

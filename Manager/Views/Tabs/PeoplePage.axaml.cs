@@ -60,7 +60,7 @@ namespace Timotheus.Views.Tabs
         /// <summary>
         /// Saves the current file. If no file is in use, a SaveFileDialog is opened.
         /// </summary>
-        private void Save_Click(object sender, RoutedEventArgs e)
+        private async void Save_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -70,6 +70,13 @@ namespace Timotheus.Views.Tabs
                 else
                 {
                     ViewModel.Save(path);
+					MessageDialog confirmation = new()
+					{
+						DialogTitle = Localization.Confirmation,
+						DialogText = Localization.Confirmation_SaveConsentForms,
+                        DialogShowCancel = false
+					};
+					await confirmation.ShowDialog(MainWindow.Instance);
                 }
             }
             catch (Exception ex)
@@ -136,8 +143,8 @@ namespace Timotheus.Views.Tabs
         {
             PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
             person.Active = !person.Active;
-            NotifyPropertyChanged(nameof(ViewModel.People));
-        }
+			ViewModel.UpdatePeopleTable();
+		}
 
         private void People_RowLoading(object sender, DataGridRowEventArgs e)
         {
@@ -147,6 +154,32 @@ namespace Timotheus.Views.Tabs
                     e.Row.Background = StdLight;
                 else
                     e.Row.Background = StdDark;
+            }
+        }
+
+        private async void EditPerson_Click(object sender, RoutedEventArgs e)
+        {
+            PersonViewModel person = (PersonViewModel)((Button)e.Source).DataContext;
+            if (person != null)
+            {
+                AddConsentForm dialog = new()
+                {
+                    ConsentName = person.Name,
+                    ConsentDate = person.SortableDate,
+                    ConsentVersion = person.Version,
+                    ConsentComment = person.Comment,
+                    Title = Localization.EditPersonDialog,
+                    ButtonName = Localization.AddConsentForm_EditButton
+                };
+
+                await dialog.ShowDialog(MainWindow.Instance);
+                if (dialog.DialogResult == DialogResult.OK)
+                {
+                    person.Name = dialog.ConsentName;
+                    person.SortableDate = dialog.ConsentDate;
+                    person.Version = dialog.ConsentVersion;
+                    person.Comment = dialog.ConsentComment;
+                }
             }
         }
 
@@ -168,7 +201,74 @@ namespace Timotheus.Views.Tabs
             }
         }
 
-        private void ToggleInactive_Click(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Marks the selected person for deletion.
+		/// </summary>
+		private async void EditPerson_ContextMenu_Click(object sender, RoutedEventArgs e)
+		{
+			PersonViewModel person = ViewModel.Selected;
+			if (sender != null)
+			{
+				try
+				{
+					if (person != null)
+					{
+						AddConsentForm dialog = new()
+						{
+							ConsentName = person.Name,
+							ConsentDate = person.SortableDate,
+							ConsentVersion = person.Version,
+							ConsentComment = person.Comment,
+							Title = Localization.EditPersonDialog,
+							ButtonName = Localization.AddConsentForm_EditButton
+						};
+
+						await dialog.ShowDialog(MainWindow.Instance);
+						if (dialog.DialogResult == DialogResult.OK)
+						{
+							person.Name = dialog.ConsentName;
+							person.SortableDate = dialog.ConsentDate;
+							person.Version = dialog.ConsentVersion;
+							person.Comment = dialog.ConsentComment;
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Marks the selected person for deletion.
+		/// </summary>
+		private async void RemovePerson_ContextMenu_Click(object sender, RoutedEventArgs e)
+		{
+			PersonViewModel person = ViewModel.Selected;
+			if (sender != null)
+			{
+				try
+				{
+					WarningDialog msDialog = new()
+					{
+						DialogTitle = Localization.Exception_Warning,
+						DialogText = Localization.People_Delete.Replace("#", person.Name)
+					};
+					await msDialog.ShowDialog(MainWindow.Instance);
+					if (msDialog.DialogResult == DialogResult.OK)
+					{
+						ViewModel.RemovePerson(person);
+					}
+				}
+				catch (Exception ex)
+				{
+					Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+				}
+			}
+		}
+
+		private void ToggleInactive_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ShowInactive = !ViewModel.ShowInactive;
             ViewModel.UpdatePeopleTable();

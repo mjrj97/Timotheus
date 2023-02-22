@@ -59,9 +59,43 @@ namespace Timotheus
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to Cancel.
+        ///   Looks up a localized string similar to Edit.
         /// </summary>
-        public static string AddConsentForm_CancelButton
+        public static string AddConsentForm_EditButton
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Ændr";
+                    default:
+                        return "Edit";
+                }
+            }
+        }
+
+		/// <summary>
+		///   Looks up a localized string similar to Edit.
+		/// </summary>
+		public static string AddConsentForm_DeleteButton
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Slet";
+					default:
+						return "Delete";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Cancel.
+		/// </summary>
+		public static string AddConsentForm_CancelButton
         {
             get
             {
@@ -493,9 +527,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Beskrivelse";
+                        return "  Beskrivelse";
                     default:
-                        return "Description";
+                        return "  Description";
                 }
             }
         }
@@ -853,6 +887,57 @@ namespace Timotheus
                         return "Annullér";
                     default:
                         return "Cancel";
+                }
+            }
+        }
+
+		/// <summary>
+		///   Looks up a localized string similar to Confirmation.
+		/// </summary>
+		public static string Confirmation
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Bekræftelse";
+					default:
+						return "Confirmation";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Confirmation.
+		/// </summary>
+		public static string Confirmation_SaveConsentForms
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Samtykkeerklæringerne er blevet gemt.";
+					default:
+						return "The list of people have been saved.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Edit person.
+		/// </summary>
+		public static string EditPersonDialog
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Ændr person";
+                    default:
+                        return "Edit person";
                 }
             }
         }

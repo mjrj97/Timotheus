@@ -65,6 +65,6 @@
 	    </MenuItem>
 	  </Menu>
     </DockPanel>
-    <TabControl Items="{Binding TabItems}"/>
+	  <TabControl Items="{Binding TabItems}"/>
   </DockPanel>
 </Window>

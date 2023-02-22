@@ -26,7 +26,7 @@
 			<TextBox TabIndex="5" Text="{Binding ConsentComment}" Height="100" AcceptsReturn="True"/>
 		</DockPanel>
 		<DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-			<Button TabIndex="6" Content="{x:Static local:Localization.AddConsentForm_AddButton}" Click="Ok_Click" Margin="10 0"/>
+			<Button TabIndex="6" Content="{Binding ButtonName}" Click="Ok_Click" Margin="10 0"/>
 			<Button TabIndex="7" Content="{x:Static local:Localization.AddConsentForm_CancelButton}" Click="Cancel_Click"/>
 		</DockPanel>
 	</DockPanel>

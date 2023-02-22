@@ -51,21 +51,36 @@
 			</DockPanel>
 		</DockPanel>
 		<Border Classes="t1" Padding="4" DockPanel.Dock="Bottom">
-			<DataGrid Items="{Binding Events}" AlternatingRowBackground="#F0F0F0" VerticalScrollBarVisibility="Visible">
+			<Border.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Ny begivenhed" ToolTip.Tip=""/>
+					<Separator/>
+					<MenuItem Header="Synkronisér" ToolTip.Tip=""/>
+					<MenuItem Header="Eksportér" ToolTip.Tip=""/>
+				</ContextMenu>
+			</Border.ContextMenu>
+			<DataGrid FontWeight="Bold" Items="{Binding Events}" AlternatingRowBackground="#F0F0F0" VerticalScrollBarVisibility="Visible">
+				<DataGrid.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Ændr" ToolTip.Tip=""/>
+						<MenuItem Header="Slet" ToolTip.Tip=""/>
+					</ContextMenu>
+				</DataGrid.ContextMenu>
+				
 				<DataGrid.Columns>
-					<DataGridTextColumn Header="{x:Static local:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding Start}" SortMemberPath="StartSort" CanUserSort="True" CanUserResize="True"/>
-					<DataGridTextColumn Header="{x:Static local:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding End}" SortMemberPath="EndSort" CanUserSort="True" CanUserResize="True"/>
-					<DataGridTextColumn Header="{x:Static local:Localization.Calendar_NameColumn}" Width="*" Binding="{Binding Name}" CanUserResize="True"/>
+					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding Start}" SortMemberPath="StartSort" CanUserSort="True" CanUserResize="True"/>
+					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding End}" SortMemberPath="EndSort" CanUserSort="True" CanUserResize="True"/>
+					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.Calendar_NameColumn}" Width="*" Binding="{Binding Name}" CanUserResize="True"/>
 
 					<DataGridTemplateColumn Header="{x:Static local:Localization.Calendar_DescriptionColumn}" Width="*" CanUserResize="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBox Text="{Binding Description}" AcceptsReturn="True" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+								<TextBox FontWeight="Normal" Text="{Binding Description}" AcceptsReturn="True" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 
-					<DataGridTextColumn Header="{x:Static local:Localization.Calendar_LocationColumn}" Width="*" MaxWidth="300" Binding="{Binding Location}" CanUserResize="True"/>
+					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.Calendar_LocationColumn}" Width="*" MaxWidth="300" Binding="{Binding Location}" CanUserResize="True"/>
 
 					<DataGridTemplateColumn>
 						<DataGridTemplateColumn.CellTemplate>

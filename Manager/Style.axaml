@@ -35,6 +35,9 @@
 		<Setter Property="Background" Value="#15808B"/>
 		<Setter Property="Foreground" Value="#F0F0F0"/>
 	</Style>
+	<Style Selector="TabItem:selected /template/ Border#PART_SelectedPipe">
+		<Setter Property="IsVisible" Value="False" />
+	</Style>
 	<Style Selector="DataGrid">
 		<Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
 	</Style>

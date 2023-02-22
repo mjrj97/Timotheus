@@ -37,6 +37,11 @@
 	<AvaloniaResource Include="Fonts\**" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Update="Resources\ProjectFileIcon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AvaloniaResource>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="Views\Dialogs\Messages\ErrorDialog.axaml.cs">
       <DependentUpon>ErrorDialog.axaml</DependentUpon>
     </Compile>

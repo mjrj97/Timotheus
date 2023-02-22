@@ -37,21 +37,38 @@
 			<TextBox  Margin="0 0 10 0" Text="{Binding SearchField}" ToolTip.Tip="{x:Static local:Localization.People_Search_ToolTip}" Watermark="{x:Static local:Localization.People_Search}" KeyUp="SearchPeople"/>
 		</DockPanel>
 		<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
-			<DataGrid Items="{Binding People}" VerticalScrollBarVisibility="Visible" LoadingRow="People_RowLoading">
+			<Border.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Tilføj samtykkeerklæring" ToolTip.Tip=""/>
+					<Separator/>
+					<MenuItem Header="Skjul inaktive" ToolTip.Tip=""/>
+				</ContextMenu>
+			</Border.ContextMenu>
+			<DataGrid FontWeight="Bold" Items="{Binding People}" SelectedItem="{Binding Selected}" VerticalScrollBarVisibility="Visible" LoadingRow="People_RowLoading">
+				<DataGrid.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="{x:Static local:Localization.AddConsentForm_EditButton}" Click="EditPerson_ContextMenu_Click" ToolTip.Tip="{x:Static local:Localization.EditPersonDialog}"/>
+						<MenuItem Header="{x:Static local:Localization.AddConsentForm_DeleteButton}" Click="RemovePerson_ContextMenu_Click" ToolTip.Tip="{x:Static local:Localization.People_Delete_ToolTip}"/>
+					</ContextMenu>
+				</DataGrid.ContextMenu>
+
 				<DataGrid.Columns>
-					<DataGridTextColumn Header="{x:Static local:Localization.People_Name}" Width="300" Binding="{Binding Name}"/>
-					<DataGridTextColumn Header="{x:Static local:Localization.People_ConsentDate}" Width="125" Binding="{Binding Date}" SortMemberPath="SortableDate" IsReadOnly="True"/>
-					<DataGridTextColumn Header="{x:Static local:Localization.People_ConsentVersion}" Width="125" Binding="{Binding Version}" IsReadOnly="True"/>
-					<DataGridTextColumn Header="{x:Static local:Localization.People_Comment}" Width="*" Binding="{Binding Comment}"/>
+					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.People_Name}" Width="300" Binding="{Binding Name}"/>
+					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.People_ConsentDate}" Width="125" Binding="{Binding Date}" SortMemberPath="SortableDate" IsReadOnly="True"/>
+					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.People_ConsentVersion}" Width="125" Binding="{Binding Version}" IsReadOnly="True"/>
+					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.People_Comment}" Width="*" Binding="{Binding Comment}"/>
 					<DataGridTemplateColumn Header="{x:Static local:Localization.People_Active}" SortMemberPath="{x:Static local:Localization.People_Active}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<DockPanel HorizontalAlignment="Right">
-									<Button Click="ToggleActivePerson_Click" ToolTip.Tip="{x:Static local:Localization.People_Active_ToolTip}" Margin="0 5 5 5" Height="30" IsVisible="{Binding IsPublic}">
+									<Button Click="ToggleActivePerson_Click" ToolTip.Tip="{x:Static local:Localization.People_Active_ToolTip}" Margin="0 5 5 5" Width="30"  Height="30" IsVisible="{Binding IsPublic}">
 										<DockPanel>
-											<TextBlock Text="{x:Static local:Localization.People_Active}" IsVisible="{Binding Active}"/>
-											<TextBlock Text="{x:Static local:Localization.People_InActive}" IsVisible="{Binding Inactive}"/>
+											<Image Source="/Resources/Sleep.png" Height="20" Width="20" VerticalAlignment="Center" IsVisible="{Binding Inactive}"/>
+											<Image Source="/Resources/Active.png" Height="20" Width="20" VerticalAlignment="Center" IsVisible="{Binding Active}"/>
 										</DockPanel>
+									</Button>
+									<Button Click="EditPerson_Click" ToolTip.Tip="{x:Static local:Localization.EditPersonDialog}" Width="30" Height="30" Margin="0 5 5 5">
+										<Image Source="/Resources/Pencil.png" Height="20" Width="20" VerticalAlignment="Center"/>
 									</Button>
 									<Button Click="RemovePerson_Click" ToolTip.Tip="{x:Static local:Localization.People_Delete_ToolTip}" Width="30" Height="30" Margin="0 5 5 5">
 										<Image Source="/Resources/Delete.png" Height="20" Width="20" VerticalAlignment="Center"/>

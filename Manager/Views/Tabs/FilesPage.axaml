@@ -37,7 +37,7 @@
 					<MenuItem Header="{x:Static local:Localization.SFTP_UpdateButton}" Click="UpdateDirectory_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Refresh_ToolTip}"/>
 				</ContextMenu>
 			</Border.ContextMenu>
-			<DataGrid Name="Files" Items="{Binding Files}" SelectedItem="{Binding Selected}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
+			<DataGrid FontWeight="Bold" Name="Files" Items="{Binding Files}" SelectedItem="{Binding Selected}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
 			<DataGrid.ContextMenu>
 				<ContextMenu>
 					<MenuItem Header="{x:Static local:Localization.SFTP_ContextMenu_Open}" Click="Open_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Open_ToolTip}"/>
@@ -61,9 +61,9 @@
 				</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTextColumn Header="{x:Static local:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
-			<DataGridTextColumn Header="" Width="200" Binding="{Binding HandleText}" IsReadOnly="True" IsVisible="{Binding Connected}"/>
-			<DataGridTextColumn Header="{x:Static local:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
+			<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
+			<DataGridTextColumn FontWeight="Normal" Header="" Width="200" Binding="{Binding HandleText}" IsReadOnly="True" IsVisible="{Binding Connected}"/>
+			<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
 				<DataGridTemplateColumn IsVisible="{Binding Connected}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
