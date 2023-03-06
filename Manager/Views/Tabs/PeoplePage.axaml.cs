@@ -108,8 +108,16 @@ namespace Timotheus.Views.Tabs
                 try
                 {
                     ViewModel.Save(result);
-                    if (sender == null)
-                        Keys.Update("Person-File", result);
+
+					MessageDialog confirmation = new()
+					{
+						DialogTitle = Localization.Confirmation,
+						DialogText = Localization.Confirmation_SaveConsentForms,
+						DialogShowCancel = false
+					};
+					await confirmation.ShowDialog(MainWindow.Instance);
+
+					Keys.Update("Person-File", result);
                 }
                 catch (Exception ex)
                 {
@@ -120,23 +128,40 @@ namespace Timotheus.Views.Tabs
 
         private async void Open_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new();
+            bool open = true;
 
-            FileDialogFilter txtFilter = new();
-            txtFilter.Extensions.Add("csv");
-            txtFilter.Name = "CSV (.csv)";
-
-            openFileDialog.Filters = new()
+            if (HasBeenChanged() || Keys.Retrieve("Person-File") != string.Empty)
             {
-                txtFilter
-            };
+				WarningDialog warning = new()
+				{
+					DialogTitle = Localization.Exception_Warning,
+					DialogText = Localization.AddConsentForm_OpenWarning,
+					DialogShowCancel = true
+				};
+				await warning.ShowDialog(MainWindow.Instance);
+                open = warning.DialogResult == DialogResult.OK;
+			}
 
-            string[] result = await openFileDialog.ShowAsync(MainWindow.Instance);
-            if (result != null && result.Length > 0)
+            if (open)
             {
-                ViewModel = new(result[0]);
-                Keys.Update("Person-File", result[0]);
-            }
+				OpenFileDialog openFileDialog = new();
+
+				FileDialogFilter txtFilter = new();
+				txtFilter.Extensions.Add("csv");
+				txtFilter.Name = "CSV (.csv)";
+
+				openFileDialog.Filters = new()
+			    {
+				    txtFilter
+			    };
+
+				string[] result = await openFileDialog.ShowAsync(MainWindow.Instance);
+				if (result != null && result.Length > 0)
+				{
+					ViewModel = new(result[0]);
+					Keys.Update("Person-File", result[0]);
+				}
+			}
         }
 
         private void ToggleActivePerson_Click(object sender, RoutedEventArgs e)

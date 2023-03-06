@@ -9,6 +9,7 @@ using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
+using Timotheus.IO;
 
 namespace Timotheus.Views.Tabs
 {
@@ -138,7 +139,15 @@ namespace Timotheus.Views.Tabs
                 try
                 {
                     ViewModel.Save(result);
-                }
+
+					MessageDialog confirmation = new()
+					{
+						DialogTitle = Localization.Confirmation,
+						DialogText = Localization.Confirmation_SaveCalendar,
+						DialogShowCancel = false
+					};
+					await confirmation.ShowDialog(MainWindow.Instance);
+				}
                 catch (Exception ex)
                 {
                     Program.Error(Localization.Exception_Saving, ex, MainWindow.Instance);
@@ -146,10 +155,18 @@ namespace Timotheus.Views.Tabs
             }
         }
 
-        /// <summary>
-        /// Opens a OpenCalendar dialog
-        /// </summary>
-        private async void Open_Click(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Opens a SaveFileDialog to save the current Calendar.
+		/// </summary>
+		private async void SaveAs_Click(object sender, RoutedEventArgs e)
+		{
+			
+		}
+
+		/// <summary>
+		/// Opens a OpenCalendar dialog
+		/// </summary>
+		private async void Open_Click(object sender, RoutedEventArgs e)
         {
             OpenCalendar dialog = new()
             {
@@ -245,11 +262,51 @@ namespace Timotheus.Views.Tabs
                 }
             }
         }
-
+		
         /// <summary>
-        /// Opens a SaveFileDialog to export the current Calendar (in the given period) as a PDF.
-        /// </summary>
-        private async void ExportPDF_Click(object sender, RoutedEventArgs e)
+		/// Marks the selected event for deletion.
+		/// </summary>
+		private void UndoRemoveEvent_Click(object sender, RoutedEventArgs e)
+		{
+			EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
+			if (ev != null)
+			{
+				ViewModel.RestoreEvent(ev);
+			}
+		}
+
+		/// <summary>
+		/// Marks the selected event for deletion.
+		/// </summary>
+		private async void RemoveEvent_ContextMenu_Click(object sender, RoutedEventArgs e)
+		{
+			EventViewModel ev = ViewModel.Selected;
+			if (sender != null)
+			{
+				try
+				{
+					WarningDialog msDialog = new()
+					{
+						DialogTitle = Localization.Exception_Warning,
+						DialogText = Localization.Calendar_DeleteEvent.Replace("#", ev.Name)
+					};
+					await msDialog.ShowDialog(MainWindow.Instance);
+					if (msDialog.DialogResult == DialogResult.OK)
+					{
+						ViewModel.RemoveEvent(ev);
+					}
+				}
+				catch (Exception ex)
+				{
+					Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Opens a SaveFileDialog to export the current Calendar (in the given period) as a PDF.
+		/// </summary>
+		private async void ExportPDF_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -375,7 +432,82 @@ namespace Timotheus.Views.Tabs
             }
         }
 
-        public override void Load()
+		/// <summary>
+		/// Marks the selected event for deletion.
+		/// </summary>
+		private async void EditEvent_ContextMenu_Click(object sender, RoutedEventArgs e)
+		{
+			EventViewModel ev = ViewModel.Selected;
+			if (sender != null)
+			{
+				try
+				{
+					AddEvent dialog = new()
+					{
+						Title = Localization.AddEvent_Edit,
+						ButtonName = Localization.AddEvent_EditButton,
+						EventName = ev.Name,
+						Start = ev.StartSort,
+						End = ev.EndSort,
+						AllDayEvent = ev.AllDayEvent,
+						Location = ev.Location,
+						Description = ev.Description
+					};
+
+					await dialog.ShowDialog(MainWindow.Instance);
+
+					if (dialog.DialogResult == DialogResult.OK)
+					{
+						try
+						{
+							ev.Name = dialog.EventName;
+							ev.Start = dialog.Start.ToString();
+							ev.End = dialog.End.ToString();
+							ev.Location = dialog.Location;
+							ev.Description = dialog.Description;
+
+							ViewModel.UpdateCalendarTable();
+						}
+						catch (Exception ex)
+						{
+							Program.Error(Localization.Exception_InvalidEvent, ex, MainWindow.Instance);
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Handles coloring of the rows.
+		/// </summary>
+		private void Calendar_RowLoading(object sender, DataGridRowEventArgs e)
+		{
+			if (e.Row.DataContext is EventViewModel ev)
+			{
+				if (e.Row.GetIndex() % 2 == 1)
+				{
+					e.Row.Background = ev.Deleted switch
+					{
+						true => DeleteDark,
+						_ => StdDark,
+					};
+				}
+				else
+				{
+					e.Row.Background = ev.Deleted switch
+					{
+						true => DeleteLight,
+						_ => StdLight,
+					};
+				}
+			}
+		}
+
+		public override void Load()
         {
             if (Keys.Retrieve("Calendar-Email") != string.Empty)
             {

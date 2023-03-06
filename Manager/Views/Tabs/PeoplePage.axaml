@@ -39,9 +39,10 @@
 		<Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Padding="4" DockPanel.Dock="Bottom">
 			<Border.ContextMenu>
 				<ContextMenu>
-					<MenuItem Header="Tilføj samtykkeerklæring" ToolTip.Tip=""/>
+					<MenuItem Click="AddPerson_Click" Header="{x:Static local:Localization.People_Add}" ToolTip.Tip="{x:Static local:Localization.People_Add_ToolTip}"/>
 					<Separator/>
-					<MenuItem Header="Skjul inaktive" ToolTip.Tip=""/>
+					<MenuItem Click="ToggleInactive_Click" Header="{x:Static local:Localization.People_HideInactive}" IsVisible="{Binding ShowInactive}" ToolTip.Tip="{x:Static local:Localization.People_ShowHide_ToolTip}"/>
+					<MenuItem Click="ToggleInactive_Click" Header="{x:Static local:Localization.People_ShowInactive}" IsVisible="{Binding HideInactive}" ToolTip.Tip="{x:Static local:Localization.People_ShowHide_ToolTip}"/>
 				</ContextMenu>
 			</Border.ContextMenu>
 			<DataGrid FontWeight="Bold" Items="{Binding People}" SelectedItem="{Binding Selected}" VerticalScrollBarVisibility="Visible" LoadingRow="People_RowLoading">

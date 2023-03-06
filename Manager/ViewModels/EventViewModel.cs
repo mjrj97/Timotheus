@@ -128,10 +128,21 @@ namespace Timotheus.ViewModels
             }
         }
 
-        /// <summary>
-        /// Whether the event is the entire day.
-        /// </summary>
-        public bool AllDayEvent
+		/// <summary>
+		/// Whether the event is marked for deletion or not.
+		/// </summary>
+		public bool NotDeleted
+		{
+			get
+			{
+				return !ev.Deleted;
+			}
+		}
+
+		/// <summary>
+		/// Whether the event is the entire day.
+		/// </summary>
+		public bool AllDayEvent
         {
             get
             {

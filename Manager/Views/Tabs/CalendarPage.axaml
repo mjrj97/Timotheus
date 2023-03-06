@@ -53,17 +53,17 @@
 		<Border Classes="t1" Padding="4" DockPanel.Dock="Bottom">
 			<Border.ContextMenu>
 				<ContextMenu>
-					<MenuItem Header="Ny begivenhed" ToolTip.Tip=""/>
+					<MenuItem Click="AddEvent_Click" Header="{x:Static local:Localization.Calendar_AddButton}" ToolTip.Tip="{x:Static local:Localization.Calendar_AddEvent_ToolTip}"/>
 					<Separator/>
-					<MenuItem Header="Synkronisér" ToolTip.Tip=""/>
-					<MenuItem Header="Eksportér" ToolTip.Tip=""/>
+					<MenuItem Click="SyncCalendar_Click" Header="{x:Static local:Localization.Calendar_SyncButton}" ToolTip.Tip="{x:Static local:Localization.Calendar_Sync_ToolTip}"/>
+					<MenuItem Click="ExportPDF_Click" Header="{x:Static local:Localization.Calendar_ExportButton}" ToolTip.Tip="{x:Static local:Localization.Calendar_Export_ToolTip}"/>
 				</ContextMenu>
 			</Border.ContextMenu>
-			<DataGrid FontWeight="Bold" Items="{Binding Events}" AlternatingRowBackground="#F0F0F0" VerticalScrollBarVisibility="Visible">
+			<DataGrid FontWeight="Bold" Items="{Binding Events}" SelectedItem="{Binding Selected}" AlternatingRowBackground="#F0F0F0" VerticalScrollBarVisibility="Visible" LoadingRow="Calendar_RowLoading">
 				<DataGrid.ContextMenu>
 					<ContextMenu>
-						<MenuItem Header="Ændr" ToolTip.Tip=""/>
-						<MenuItem Header="Slet" ToolTip.Tip=""/>
+						<MenuItem Header="{x:Static local:Localization.Calendar_Edit}" Click="EditEvent_ContextMenu_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_EditEvent_Tooltip}"/>
+						<MenuItem Header="{x:Static local:Localization.Calendar_Delete}" Click="RemoveEvent_ContextMenu_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_DeleteEvent_Tooltip}"/>
 					</ContextMenu>
 				</DataGrid.ContextMenu>
 				
@@ -86,11 +86,14 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<DockPanel>
-									<Button Click="EditEvent_Click" Margin="0 5 5 5" Width="30" Height="30" ToolTip.Tip="{x:Static local:Localization.Calendar_EditEvent_Tooltip}">
+									<Button Click="EditEvent_Click" Margin="0 5 5 5" Width="30" Height="30" ToolTip.Tip="{x:Static local:Localization.Calendar_EditEvent_Tooltip}" IsVisible="{Binding NotDeleted}">
 										<Image Source="/Resources/Pencil.png" Height="20" Width="20" VerticalAlignment="Center"/>
 									</Button>
-									<Button Click="RemoveEvent_Click" Margin="0 5 5 5" Width="30" Height="30" ToolTip.Tip="{x:Static local:Localization.Calendar_DeleteEvent_Tooltip}">
+									<Button Click="RemoveEvent_Click" Margin="0 5 5 5" Width="30" Height="30" ToolTip.Tip="{x:Static local:Localization.Calendar_DeleteEvent_Tooltip}" IsVisible="{Binding NotDeleted}">
 										<Image Source="/Resources/Delete.png" Height="20" Width="20" VerticalAlignment="Center"/>
+									</Button>
+									<Button Click="UndoRemoveEvent_Click" Margin="0 5 5 5" Width="30" Height="30" ToolTip.Tip="{x:Static local:Localization.Calendar_UndoDeleteEvent_Tooltip}" IsVisible="{Binding Deleted}">
+										<Image Source="/Resources/Undo.png" Height="20" Width="20" VerticalAlignment="Center"/>
 									</Button>
 								</DockPanel>
 							</DataTemplate>

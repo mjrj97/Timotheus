@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using DeviceId;
+using System.IO;
 using System.Security.Cryptography;
 
 namespace Timotheus.Utility
@@ -8,10 +9,33 @@ namespace Timotheus.Utility
     /// </summary>
     public static class Cipher
     {
-        /// <summary>
-        /// A default key that can be used to encrypt low-risk strings.
-        /// </summary>
-        private const string defkey = "9z9veMhA0Uq3p95diAuKZ9N4uB7xY5iL";
+        private static string _defkey = string.Empty;
+		/// <summary>
+		/// A default key that can be used to encrypt low-risk strings.
+		/// </summary>
+		private static string defkey
+        {
+            get
+            {
+                if (_defkey == null || _defkey == string.Empty)
+                {
+                    string deviceId = new DeviceIdBuilder().AddMachineName().AddMacAddress().ToString();
+
+                    if (deviceId.Length > 32)
+                    {
+						deviceId = deviceId.Substring(0, 32);
+					}
+                    else if (deviceId.Length < 32)
+                    {
+                        deviceId.PadRight(32, '0');
+                    }
+
+					_defkey = deviceId;
+				}
+
+				return _defkey;
+            }
+        }
 
         /// <summary>
         /// Method that encrypts a byte array using a key.
@@ -61,7 +85,7 @@ namespace Timotheus.Utility
         public static string Decrypt(string text)
         {
             byte[] encodedBytes = Timotheus.Encoding.GetBytes(text);
-            byte[] decodedBytes = Decrypt(encodedBytes, "9z9veMhA0Uq3p95diAuKZ9N4uB7xY5iL");
+            byte[] decodedBytes = Decrypt(encodedBytes, defkey);
             return Timotheus.Encoding.GetString(decodedBytes);
         }
 

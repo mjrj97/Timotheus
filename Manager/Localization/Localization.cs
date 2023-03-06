@@ -211,10 +211,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Add event.
-        /// </summary>
-        public static string AddEvent
+		/// <summary>
+		///   Looks up a localized string similar to Add person.
+		/// </summary>
+		public static string AddConsentForm_OpenWarning
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Er du sikker på at du vil åbne en fil med samtykkeerklæringer? Den nye fil vil bruges af Timotheus i fremtiden, til at hente samtykkeerklæringer. Alt data som ikke er gemt, vil blive slettet.";
+					default:
+						return "Are you sure that you want to open a file with a list of people? This new file will be used by Timotheus in the future to get the list. All data that has not been saved, will be deleted.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Add event.
+		/// </summary>
+		public static string AddEvent
         {
             get
             {
@@ -483,10 +500,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete the event &quot;#&quot;?.
-        /// </summary>
-        public static string Calendar_DeleteEvent
+		/// <summary>
+		///   Looks up a localized string similar to Delete.
+		/// </summary>
+		public static string Calendar_Delete
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Slet";
+					default:
+						return "Delete";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Are you sure you want to delete the event &quot;#&quot;?.
+		/// </summary>
+		public static string Calendar_DeleteEvent
         {
             get
             {
@@ -517,10 +551,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Description.
-        /// </summary>
-        public static string Calendar_DescriptionColumn
+		/// <summary>
+		///   Looks up a localized string similar to Delete event.
+		/// </summary>
+		public static string Calendar_UndoDeleteEvent_Tooltip
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Gendan denne begivenhed";
+					default:
+						return "Restore this event";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Description.
+		/// </summary>
+		public static string Calendar_DescriptionColumn
         {
             get
             {
@@ -534,10 +585,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Edit event.
-        /// </summary>
-        public static string Calendar_EditEvent_Tooltip
+		/// <summary>
+		///   Looks up a localized string similar to Edit.
+		/// </summary>
+		public static string Calendar_Edit
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Ændr";
+					default:
+						return "Edit";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Edit event.
+		/// </summary>
+		public static string Calendar_EditEvent_Tooltip
         {
             get
             {
@@ -920,7 +988,41 @@ namespace Timotheus
 					case Culture.daDK:
 						return "Samtykkeerklæringerne er blevet gemt.";
 					default:
-						return "The list of people have been saved.";
+						return "The list of people has been saved.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Confirmation.
+		/// </summary>
+		public static string Confirmation_SaveCalendar
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Kalenderen er blevet gemt.";
+					default:
+						return "The calendar has been saved.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Confirmation.
+		/// </summary>
+		public static string Confirmation_SaveKey
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Nøglen er blevet gemt.";
+					default:
+						return "The key has been saved.";
 				}
 			}
 		}
@@ -1027,10 +1129,61 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to You can&apos;t go further back. This is the root directory..
-        /// </summary>
-        public static string Exception_CantGoUpDirectory
+		/// <summary>
+		///   Looks up a localized string similar to Connection could not be establised to the file server. Check your internet connection or login details.
+		/// </summary>
+		public static string Exception_CantConnectToFiles
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Der kunne ikke etableres forbindelse til filserveren. Tjek din internetforbindelse eller loginoplysningerne.";
+					default:
+						return "Connection could not be establised to the file server. Check your internet connection or login details.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to The local folder could not be found. Check if the folder still exists, or if it is the correct folder.
+		/// </summary>
+		public static string Exception_CantFindFolder
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Denne lokale mappe findes ikke. Tjek om det er den rigtige mappe du har valgt, eller om den stadig findes.";
+					default:
+						return "The local folder could not be found. Check if the folder still exists, or if it is the correct folder.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to You can&apos;t go further back. This is the root directory..
+		/// </summary>
+		public static string Exception_CantFindKey
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Kunne ikke finde den sidst brugte nøgle (#1), er den blevet slettet eller flyttet?";
+					default:
+						return "Could not find the last used key (#1), has it been deleted or moved?";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to You can&apos;t go further back. This is the root directory..
+		/// </summary>
+		public static string Exception_CantGoUpDirectory
         {
             get
             {
@@ -1435,10 +1588,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to File saved!.
-        /// </summary>
-        public static string Exception_SaveSuccessful
+		/// <summary>
+		///   Looks up a localized string similar to This port is not supported. Use '21' for FTP or '22' for SFTP.
+		/// </summary>
+		public static string Exception_PortNotSupported
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Denne port er ikke understøttet. Brug '21' til FTP eller '22' til SFTP.";
+					default:
+						return "This port is not supported. Use '21' for FTP or '22' for SFTP.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to File saved!.
+		/// </summary>
+		public static string Exception_SaveSuccessful
         {
             get
             {

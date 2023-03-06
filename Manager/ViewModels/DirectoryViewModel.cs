@@ -151,11 +151,14 @@ namespace Timotheus.ViewModels
             RemotePath = RemotePath.Replace('\\', '/');
 
             if (!Directory.Exists(LocalPath))
-                throw new Exception();
+                throw new Exception(Localization.Exception_CantFindFolder);
             if (port != 22 && port != 21)
-                throw new Exception("Port is not supported.");
+                throw new Exception(Localization.Exception_PortNotSupported);
 
             client = new DirectoryClient(host, port, username, password);
+
+            if (!client.CanConnect())
+                throw new Exception(Localization.Exception_CantConnectToFiles);
         }
         public DirectoryViewModel()
         {
@@ -312,7 +315,8 @@ namespace Timotheus.ViewModels
                 }
             }
 
-            DirectoryLog.Save(localPath, client.ListDirectory(remotePath));
+			if (Sync.CancellationPending != true)
+				DirectoryLog.Save(localPath, client.ListDirectory(remotePath));
 
             #region DISCONNECTION
             if (!isPreconnected)

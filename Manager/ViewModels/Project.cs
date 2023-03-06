@@ -17,6 +17,29 @@ namespace Timotheus.ViewModels
     public class Project : ViewModel
     {
         /// <summary>
+        /// The title shown in the MainWindow
+        /// </summary>
+        public string WindowTitle
+        {
+            get
+            {
+                string windowTitle = "Timotheus";
+
+                if (projectPath != null && projectPath != string.Empty)
+                {
+					windowTitle += " (" + projectPath + ")";
+				}
+
+				return windowTitle;
+			}
+        }
+
+        /// <summary>
+        /// The path to the current project's file.
+        /// </summary>
+        private string projectPath = string.Empty;
+
+        /// <summary>
         /// Register containing all the keys loaded at startup or manually from a key file (.tkey or .txt)
         /// </summary>
         public Register Keys { get; set; }
@@ -56,7 +79,9 @@ namespace Timotheus.ViewModels
             Keys = new Register(path, password, ':');
             Timotheus.Registry.Update("KeyPath", path);
 
-            AddTab<CalendarPage>(Keys);
+			projectPath = path;
+
+			AddTab<CalendarPage>(Keys);
             AddTab<FilesPage>(Keys);
             AddTab<PeoplePage>(Keys);
         }
@@ -145,9 +170,11 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// Save the encrypted key to the path.
         /// </summary>
-        public void SaveKey(string path, string password)
+        public void Save(string path, string password)
         {
             Keys.Save(path, password);
+            projectPath = path;
+            NotifyPropertyChanged(nameof(WindowTitle));
         }
 
         /// <summary>

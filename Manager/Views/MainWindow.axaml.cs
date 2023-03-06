@@ -191,6 +191,8 @@ namespace Timotheus.Views
                 }
             }
 
+            bool lastUsedHasBeenMoved = false;
+
             if (FirstOpen)
             {
                 FirstOpen = false;
@@ -212,39 +214,51 @@ namespace Timotheus.Views
                             path = Timotheus.Registry.Retrieve("KeyPath");
 
                         if (!File.Exists(path))
-                            Timotheus.Registry.Delete("KeyPath");
-
-                        if (path != string.Empty)
                         {
-                            string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword");
-                            if (encodedPassword != string.Empty)
-                            {
-                                password = Cipher.Decrypt(encodedPassword);
-                            }
-                            else if (gui)
-                            {
-                                PasswordDialog passDialog = new();
-                                await passDialog.ShowDialog(this);
-                                if (passDialog.DialogResult == DialogResult.OK)
-                                {
-                                    password = passDialog.Password;
-                                    if (passDialog.Save)
-                                    {
-                                        encodedPassword = Cipher.Encrypt(password);
-                                        Timotheus.Registry.Update("KeyPassword", encodedPassword);
-                                    }
-                                    else
-                                    {
-                                        Timotheus.Registry.Delete("KeyPassword");
-                                    }
-                                }
-                                else
-                                {
-                                    path = string.Empty;
-                                    password = string.Empty;
-                                }
-                            }
-                        }
+							WarningDialog dialog = new()
+							{
+                                DialogTitle = Localization.Exception_Warning,
+								DialogText = Localization.Exception_CantFindKey.Replace("#1", path),
+                                DialogShowCancel = false
+							};
+							await dialog.ShowDialog(this);
+                            lastUsedHasBeenMoved = true;
+							Timotheus.Registry.Delete("KeyPath");
+						}
+                        else
+                        {
+							if (path != string.Empty)
+							{
+								string encodedPassword = Timotheus.Registry.Retrieve("KeyPassword");
+								if (encodedPassword != string.Empty)
+								{
+									password = Cipher.Decrypt(encodedPassword);
+								}
+								else if (gui)
+								{
+									PasswordDialog passDialog = new();
+									await passDialog.ShowDialog(this);
+									if (passDialog.DialogResult == DialogResult.OK)
+									{
+										password = passDialog.Password;
+										if (passDialog.Save)
+										{
+											encodedPassword = Cipher.Encrypt(password);
+											Timotheus.Registry.Update("KeyPassword", encodedPassword);
+										}
+										else
+										{
+											Timotheus.Registry.Delete("KeyPassword");
+										}
+									}
+									else
+									{
+										path = string.Empty;
+										password = string.Empty;
+									}
+								}
+							}
+						}
                     }
                     catch (Exception ex)
                     {
@@ -256,7 +270,7 @@ namespace Timotheus.Views
                 }
             }
 
-            if (!(!FirstOpen && path == string.Empty) || (path == string.Empty && password == string.Empty))
+            if ((!(!FirstOpen && path == string.Empty) || (path == string.Empty && password == string.Empty)) && !lastUsedHasBeenMoved)
                 InsertKey(path, password, gui);
         }
 
@@ -423,7 +437,7 @@ namespace Timotheus.Views
                     password = Cipher.Decrypt(encodedPassword);
                     try
                     {
-                        project.SaveKey(keyPath, password);
+                        project.Save(keyPath, password);
                     }
                     catch (Exception ex)
                     {
@@ -439,8 +453,8 @@ namespace Timotheus.Views
                         password = dialog.Password;
                         try
                         {
-                            project.SaveKey(keyPath, password);
-                        }
+                            project.Save(keyPath, password);
+						}
                         catch (Exception ex)
                         {
                             Program.Error(Localization.Exception_Saving, ex, this);
@@ -456,13 +470,14 @@ namespace Timotheus.Views
 
                 if (sender != null)
                 {
-                    MessageDialog msDialog = new()
-                    {
-                        DialogTitle = Localization.Exception_Message,
-                        DialogText = Localization.Exception_SaveSuccessful
-                    };
-                    await msDialog.ShowDialog(this);
-                }
+					MessageDialog confirmation = new()
+					{
+						DialogTitle = Localization.Confirmation,
+						DialogText = Localization.Confirmation_SaveKey,
+						DialogShowCancel = false
+					};
+					await confirmation.ShowDialog(Instance);
+				}
             }
         }
 
@@ -491,8 +506,16 @@ namespace Timotheus.Views
                     string password = dialog.Password;
                     try
                     {
-                        project.SaveKey(result, password);
-                    }
+                        project.Save(result, password);
+
+						MessageDialog confirmation = new()
+						{
+							DialogTitle = Localization.Confirmation,
+							DialogText = Localization.Confirmation_SaveKey,
+							DialogShowCancel = false
+						};
+						await confirmation.ShowDialog(Instance);
+					}
                     catch (Exception ex)
                     {
                         Program.Error(Localization.Exception_Saving, ex, this);

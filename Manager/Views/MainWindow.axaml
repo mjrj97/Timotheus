@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Timotheus"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Timotheus.Views.MainWindow"
-        Title="Timotheus" CanResize="True" Background="#ffffff">
+        Title="{Binding WindowTitle}" CanResize="True" Background="#ffffff">
   <DockPanel>
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
