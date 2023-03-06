@@ -213,7 +213,7 @@ namespace Timotheus.Views
                         else
                             path = Timotheus.Registry.Retrieve("KeyPath");
 
-                        if (!File.Exists(path))
+                        if (!File.Exists(path) && path != string.Empty)
                         {
 							WarningDialog dialog = new()
 							{

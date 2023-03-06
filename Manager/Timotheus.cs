@@ -72,14 +72,21 @@ namespace Timotheus
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-                    if (value)
-                        key.SetValue("Timotheus", "\"" + Environment.ProcessPath + "\" \"nogui\"");
+                    Microsoft.Win32.RegistryKey CURRENT_USER_KEY = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+					Microsoft.Win32.RegistryKey LOCAL_MACHINE_KEY = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run", true);
+					if (value)
+					{
+						CURRENT_USER_KEY.SetValue("Timotheus", "\"" + Environment.ProcessPath + "\" \"nogui\"");
+						LOCAL_MACHINE_KEY.SetValue("Timotheus", "\"" + Environment.ProcessPath + "\" \"nogui\"");
+					}
                     else
                     {
-                        object rkvalue = key.GetValue("Timotheus");
+                        object rkvalue = CURRENT_USER_KEY.GetValue("Timotheus");
                         if (rkvalue != null)
-                            key.DeleteValue("Timotheus");
+                        {
+							CURRENT_USER_KEY.DeleteValue("Timotheus");
+							LOCAL_MACHINE_KEY.DeleteValue("Timotheus");
+						}
                     }
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
