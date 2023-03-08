@@ -8,7 +8,6 @@ using System.Threading;
 using System.Diagnostics;
 using System.Net.Sockets;
 using Timotheus.IO;
-using Timotheus.Utility;
 using Timotheus.Views;
 using Avalonia.Threading;
 
@@ -132,13 +131,12 @@ namespace Timotheus.ViewModels
         /// <param name="host">Connection host/url</param>
         /// <param name="username">Username to the (S)FTP connection</param>
         /// <param name="password">Password to the (S)FTP connection</param>
-        public DirectoryViewModel(string localPath, string remotePath, string host, int port, string username, string password) : this()
+        public DirectoryViewModel(string localPath, string remotePath, string host, int port, string username, string password, bool sync, int syncInterval) : this()
         {
-            if (MainViewModel.Instance.Keys.Retrieve("SSH-Sync") == "True")
+            if (sync)
             {
-                int interval = int.Parse(MainViewModel.Instance.Keys.Retrieve("SSH-SyncInterval"));
-                TimeSpan startTimeSpan = TimeSpan.FromMinutes(interval < 10 ? interval : 10);
-                TimeSpan periodTimeSpan = TimeSpan.FromMinutes(interval);
+                TimeSpan startTimeSpan = TimeSpan.FromMinutes(syncInterval < 10 ? syncInterval : 10);
+                TimeSpan periodTimeSpan = TimeSpan.FromMinutes(syncInterval);
 
                 BackgroundSync = new Timer((e) =>
                 {
@@ -153,13 +151,12 @@ namespace Timotheus.ViewModels
             RemotePath = RemotePath.Replace('\\', '/');
 
             if (!Directory.Exists(LocalPath))
-                throw new Exception();
+                throw new Exception(Localization.Exception_CantFindFolder);
             if (port != 22 && port != 21)
-                throw new Exception("Port is not supported.");
+                throw new Exception(Localization.Exception_PortNotSupported);
 
             client = new DirectoryClient(host, port, username, password);
         }
-        public DirectoryViewModel(string localPath, string remotePath, string host, string username, string password) : this(localPath, remotePath, host, 22, username, password) { }
         public DirectoryViewModel()
         {
             Sync = new()
@@ -295,7 +292,7 @@ namespace Timotheus.ViewModels
                 }
                 catch (SocketException)
                 {
-                    throw new Exception(Localization.Exception_NoInternet);
+                    throw new Exception(Localization.Exception_CantConnectToServer);
                 }
             }
             #endregion
@@ -315,7 +312,8 @@ namespace Timotheus.ViewModels
                 }
             }
 
-            DirectoryLog.Save(localPath, client.ListDirectory(remotePath));
+			if (Sync.CancellationPending != true)
+				DirectoryLog.Save(localPath, client.ListDirectory(remotePath));
 
             #region DISCONNECTION
             if (!isPreconnected)

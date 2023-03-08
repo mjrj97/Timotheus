@@ -1,16 +1,27 @@
-using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace Timotheus.Views.Dialogs
 {
     public partial class AddConsentForm : Dialog
     {
+        private string _buttonName = Localization.AddConsentForm_AddButton;
+        public string ButtonName
+        {
+            get
+            {
+                return _buttonName;
+            }
+            set
+            {
+                _buttonName = value;
+                NotifyPropertyChanged(nameof(ButtonName));
+            }
+        }
+
         private string _consentName = string.Empty;
         /// <summary>
         /// The name of the person giving consent.
@@ -24,6 +35,7 @@ namespace Timotheus.Views.Dialogs
             set
             {
                 _consentName = value;
+                NotifyPropertyChanged(nameof(ConsentName));
             }
         }
 
@@ -118,13 +130,26 @@ namespace Timotheus.Views.Dialogs
             set
             {
                 _consentVersion = value;
+                NotifyPropertyChanged(nameof(ConsentVersion));
             }
         }
 
+        private string _consentComment = string.Empty;
         /// <summary>
         /// Any comment given to the consent.
         /// </summary>
-        public string ConsentComment { get; set; }
+        public string ConsentComment
+        {
+            get
+            {
+                return _consentComment;
+            }
+            set
+            {
+                _consentComment = value;
+                NotifyPropertyChanged(nameof(ConsentComment));
+            }
+        }
 
         /// <summary>
         /// Constructor creating the dialog.

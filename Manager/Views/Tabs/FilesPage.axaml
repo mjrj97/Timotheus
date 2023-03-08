@@ -6,10 +6,10 @@
 			 x:Class="Timotheus.Views.Tabs.FilesPage" d:DesignHeight="400" d:DesignWidth="700">
 	<DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-			<Button Click="UpDirectory_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_GoUp_ToolTip}" Width="32" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+			<Button Click="UpDirectory_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_GoUp_ToolTip}" Width="36" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
 				<Image Source="/Resources/Left.png" Height="20" VerticalAlignment="Center"/>
 			</Button>
-			<Button Click="UpdateDirectory_Click" Height="32" Margin="10 0 0 0" ToolTip.Tip="{x:Static local:Localization.SFTP_Refresh_ToolTip}">
+			<Button Click="UpdateDirectory_Click" Height="32" Width="36" Margin="10 0 0 0" ToolTip.Tip="{x:Static local:Localization.SFTP_Refresh_ToolTip}">
 				<Image Source="/Resources/Update.png" Height="17" VerticalAlignment="Center"/>
 			</Button>
 			<DockPanel DockPanel.Dock="Right">
@@ -37,7 +37,7 @@
 					<MenuItem Header="{x:Static local:Localization.SFTP_UpdateButton}" Click="UpdateDirectory_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Refresh_ToolTip}"/>
 				</ContextMenu>
 			</Border.ContextMenu>
-			<DataGrid Name="Files" Items="{Binding Files}" SelectedItem="{Binding Selected}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
+			<DataGrid FontWeight="Bold" Name="Files" Items="{Binding Files}" SelectedItem="{Binding Selected}" AlternatingRowBackground="#EEEEEE" VerticalScrollBarVisibility="Visible" DoubleTapped="File_Click" LoadingRow="Files_RowLoading">
 			<DataGrid.ContextMenu>
 				<ContextMenu>
 					<MenuItem Header="{x:Static local:Localization.SFTP_ContextMenu_Open}" Click="Open_Click" ToolTip.Tip="{x:Static local:Localization.SFTP_Open_ToolTip}"/>
@@ -61,9 +61,9 @@
 				</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTextColumn Header="{x:Static local:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
-			<DataGridTextColumn Header="" Width="200" Binding="{Binding HandleText}" IsReadOnly="True" IsVisible="{Binding Connected}"/>
-			<DataGridTextColumn Header="{x:Static local:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
+			<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.SFTP_NameColumn}" Width="*" Binding="{Binding Name}" SortMemberPath="SortName" IsReadOnly="True"/>
+			<DataGridTextColumn FontWeight="Normal" Header="" Width="200" Binding="{Binding HandleText}" IsReadOnly="True" IsVisible="{Binding Connected}"/>
+			<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.SFTP_SizeColumn}" Width="*" MaxWidth="130" Binding="{Binding Size}" IsReadOnly="True"/>
 				<DataGridTemplateColumn IsVisible="{Binding Connected}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>

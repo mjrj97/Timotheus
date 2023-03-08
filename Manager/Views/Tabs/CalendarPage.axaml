@@ -6,21 +6,21 @@
 			 x:Class="Timotheus.Views.Tabs.CalendarPage" d:DesignHeight="400" d:DesignWidth="900">
 	<DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-			<Button Click="Save_Click" Height="32" ToolTip.Tip="{x:Static local:Localization.Calendar_Save_ToolTip}">
+			<Button Click="Save_Click" Height="32" Width="36" ToolTip.Tip="{x:Static local:Localization.Calendar_Save_ToolTip}">
 				<DockPanel>
 					<Image Source="/Resources/Save.png" Height="17" VerticalAlignment="Center"/>
 				</DockPanel>
 			</Button>
-			<Button Click="Open_Click" Height="32" Margin="10 0" ToolTip.Tip="{x:Static local:Localization.Calendar_Open_ToolTip}">
+			<Button Click="Open_Click" Height="32" Width="36" Margin="10 0" ToolTip.Tip="{x:Static local:Localization.Calendar_Open_ToolTip}">
 				<DockPanel>
 					<Image Source="/Resources/Open.png" Height="17" VerticalAlignment="Center"/>
 				</DockPanel>
 			</Button>
-			<Button Name="-" Click="Period_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_BackTime_ToolTip}" Width="32" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">
+			<Button Name="-" Click="Period_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_BackTime_ToolTip}" Width="36" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 0 10 0">
 				<Image Source="/Resources/Left.png" Height="20" VerticalAlignment="Center"/>
 			</Button>
 			<TextBox Width="150" Height="32" ToolTip.Tip="{x:Static local:Localization.Calendar_PeriodBox_ToolTip}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding PeriodText}" KeyDown="Period_KeyDown"/>
-			<Button Name="+" Click="Period_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_ForwardTime_ToolTip}" Width="32" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 0 0">
+			<Button Name="+" Click="Period_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_ForwardTime_ToolTip}" Width="36" Height="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 0 0 0">
 				<Image Source="/Resources/Right.png" Height="20" VerticalAlignment="Center"/>
 			</Button>
 			<ComboBox SelectedIndex="{Binding SelectedPeriod}" ToolTip.Tip="{x:Static local:Localization.Calendar_PeriodType_ToolTip}" VerticalAlignment="Center" Margin="20 0" Height="32">
@@ -51,31 +51,49 @@
 			</DockPanel>
 		</DockPanel>
 		<Border Classes="t1" Padding="4" DockPanel.Dock="Bottom">
-			<DataGrid Items="{Binding Events}" AlternatingRowBackground="#F0F0F0" VerticalScrollBarVisibility="Visible">
+			<Border.ContextMenu>
+				<ContextMenu>
+					<MenuItem Click="AddEvent_Click" Header="{x:Static local:Localization.Calendar_AddButton}" ToolTip.Tip="{x:Static local:Localization.Calendar_AddEvent_ToolTip}"/>
+					<Separator/>
+					<MenuItem Click="SyncCalendar_Click" Header="{x:Static local:Localization.Calendar_SyncButton}" ToolTip.Tip="{x:Static local:Localization.Calendar_Sync_ToolTip}"/>
+					<MenuItem Click="ExportPDF_Click" Header="{x:Static local:Localization.Calendar_ExportButton}" ToolTip.Tip="{x:Static local:Localization.Calendar_Export_ToolTip}"/>
+				</ContextMenu>
+			</Border.ContextMenu>
+			<DataGrid FontWeight="Bold" Items="{Binding Events}" SelectedItem="{Binding Selected}" AlternatingRowBackground="#F0F0F0" VerticalScrollBarVisibility="Visible" LoadingRow="Calendar_RowLoading">
+				<DataGrid.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="{x:Static local:Localization.Calendar_Edit}" Click="EditEvent_ContextMenu_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_EditEvent_Tooltip}"/>
+						<MenuItem Header="{x:Static local:Localization.Calendar_Delete}" Click="RemoveEvent_ContextMenu_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_DeleteEvent_Tooltip}"/>
+					</ContextMenu>
+				</DataGrid.ContextMenu>
+				
 				<DataGrid.Columns>
-					<DataGridTextColumn Header="{x:Static local:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding Start}" SortMemberPath="StartSort" CanUserSort="True" CanUserResize="True"/>
-					<DataGridTextColumn Header="{x:Static local:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding End}" SortMemberPath="EndSort" CanUserSort="True" CanUserResize="True"/>
-					<DataGridTextColumn Header="{x:Static local:Localization.Calendar_NameColumn}" Width="*" Binding="{Binding Name}" CanUserResize="True"/>
+					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding Start}" SortMemberPath="StartSort" CanUserSort="True" CanUserResize="True"/>
+					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding End}" SortMemberPath="EndSort" CanUserSort="True" CanUserResize="True"/>
+					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.Calendar_NameColumn}" Width="*" Binding="{Binding Name}" CanUserResize="True"/>
 
 					<DataGridTemplateColumn Header="{x:Static local:Localization.Calendar_DescriptionColumn}" Width="*" CanUserResize="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBox Text="{Binding Description}" AcceptsReturn="True" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+								<TextBox FontWeight="Normal" Text="{Binding Description}" AcceptsReturn="True" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 
-					<DataGridTextColumn Header="{x:Static local:Localization.Calendar_LocationColumn}" Width="*" MaxWidth="300" Binding="{Binding Location}" CanUserResize="True"/>
+					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.Calendar_LocationColumn}" Width="*" MaxWidth="300" Binding="{Binding Location}" CanUserResize="True"/>
 
 					<DataGridTemplateColumn>
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<DockPanel>
-									<Button Click="EditEvent_Click" Margin="0 5 5 5" Width="30" Height="30">
+									<Button Click="EditEvent_Click" Margin="0 5 5 5" Width="30" Height="30" ToolTip.Tip="{x:Static local:Localization.Calendar_EditEvent_Tooltip}" IsVisible="{Binding NotDeleted}">
 										<Image Source="/Resources/Pencil.png" Height="20" Width="20" VerticalAlignment="Center"/>
 									</Button>
-									<Button Click="RemoveEvent_Click" Margin="0 5 5 5" Width="30" Height="30">
+									<Button Click="RemoveEvent_Click" Margin="0 5 5 5" Width="30" Height="30" ToolTip.Tip="{x:Static local:Localization.Calendar_DeleteEvent_Tooltip}" IsVisible="{Binding NotDeleted}">
 										<Image Source="/Resources/Delete.png" Height="20" Width="20" VerticalAlignment="Center"/>
+									</Button>
+									<Button Click="UndoRemoveEvent_Click" Margin="0 5 5 5" Width="30" Height="30" ToolTip.Tip="{x:Static local:Localization.Calendar_UndoDeleteEvent_Tooltip}" IsVisible="{Binding Deleted}">
+										<Image Source="/Resources/Undo.png" Height="20" Width="20" VerticalAlignment="Center"/>
 									</Button>
 								</DockPanel>
 							</DataTemplate>

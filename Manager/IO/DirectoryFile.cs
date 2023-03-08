@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Timotheus.Utility;
 
 namespace Timotheus.IO
 {

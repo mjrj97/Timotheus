@@ -318,6 +318,11 @@ namespace Timotheus.IO
             }
         }
 
+        /// <summary>
+        /// Renames a file on the remote directory
+        /// </summary>
+        /// <param name="oldname">Path to the file with its old name</param>
+        /// <param name="newname">Path to the file with its new name</param>
         public void RenameFile(string oldname, string newname)
         {
             bool isPreconnected = IsConnected;
@@ -377,6 +382,9 @@ namespace Timotheus.IO
             }
         }
 
+        /// <summary>
+        /// Whether the client can connect to the server
+        /// </summary>
         public bool CanConnect()
         {
             try

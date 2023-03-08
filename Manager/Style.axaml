@@ -31,9 +31,20 @@
 		<Setter Property="Margin" Value="0 0 0 0"/>
 		<Setter Property="Padding" Value="15 0 15 0"/>
 	</Style>
+	<Style Selector="TabItem:pointerover">
+		<Setter Property="Padding" Value="0"/>
+	</Style>
+	<Style Selector="TabItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="#188E99"/>
+		<Setter Property="Margin" Value="0"/>
+		<Setter Property="Padding" Value="15"/>
+	</Style>
 	<Style Selector="TabItem:selected">
 		<Setter Property="Background" Value="#15808B"/>
 		<Setter Property="Foreground" Value="#F0F0F0"/>
+	</Style>
+	<Style Selector="TabItem:selected /template/ Border#PART_SelectedPipe">
+		<Setter Property="IsVisible" Value="False" />
 	</Style>
 	<Style Selector="DataGrid">
 		<Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
@@ -44,11 +55,14 @@
 	<Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
 		<Setter Property="Fill" Value="#C0C0C0"/>
 	</Style>
+	<Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+		<Setter Property="Fill" Value="#B0B0B0"/>
+	</Style>
 	<Style Selector="DataGridRow:pointerover /template/ TextBlock#Foreground">
 		<Setter Property="Foreground" Value="White"/>
 	</Style>
 	<Style Selector="Button">
-		<Setter Property="Background" Value="#999999"/>
+		<Setter Property="Background" Value="#A0A0A0"/>
 		<Setter Property="Foreground" Value="#FFFFFF"/>
 	</Style>
 	<Style Selector="Button:pointerover /template/ ContentPresenter">

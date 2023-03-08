@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Timotheus"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Timotheus.Views.MainWindow"
-        Title="Timotheus" CanResize="True" Background="#ffffff">
+        Title="{Binding WindowTitle}" CanResize="True" Background="#ffffff">
   <DockPanel>
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
@@ -46,13 +46,6 @@
 					</DockPanel>
 				</MenuItem.Header>
 			</MenuItem>
-			<MenuItem Click="EditKey_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_EditKey_ToolTip}">
-				<MenuItem.Header>
-					<DockPanel>
-						<TextBlock Text="{x:Static local:Localization.ToolStrip_EditKey}" VerticalAlignment="Center"/>
-					</DockPanel>
-				</MenuItem.Header>
-			</MenuItem>
 		</MenuItem>
 		<MenuItem Click="Settings_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_Settings_ToolTip}">
 			<MenuItem.Header>
@@ -72,34 +65,6 @@
 	    </MenuItem>
 	  </Menu>
     </DockPanel>
-    <TabControl SelectedIndex="{Binding CurrentTab}">
-      <TabItem>
-        <TabItem.Header>
-          <DockPanel Margin="5">
-            <Image Source="/Resources/Calendar.png" Height="32" VerticalAlignment="Center"/>
-            <TextBlock Text="{x:Static local:Localization.Calendar_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
-          </DockPanel>
-        </TabItem.Header>
-		  <uc:CalendarPage Name="CalPage"/>
-      </TabItem>
-      <TabItem>
-        <TabItem.Header>
-          <DockPanel Margin="5">
-            <Image Source="/Resources/Folder.png" Height="32" VerticalAlignment="Center"/>
-            <TextBlock Text="{x:Static local:Localization.SFTP_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
-          </DockPanel>
-        </TabItem.Header>
-		<uc:FilesPage Name="FilPage"/>
-      </TabItem>
-	  <TabItem>
-		<TabItem.Header>
-			<DockPanel Margin="5">
-				<Image Source="/Resources/People.png" Height="32" VerticalAlignment="Center"/>
-				<TextBlock Text="{x:Static local:Localization.People_Page}" VerticalAlignment="Center" Margin="10 0 0 0"/>
-			</DockPanel>
-		</TabItem.Header>
-		<uc:PeoplePage Name="PeoPage"/>
-	  </TabItem>
-    </TabControl>
+	  <TabControl Items="{Binding TabItems}"/>
   </DockPanel>
 </Window>

@@ -1,7 +1,7 @@
-using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Interactivity;
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -9,31 +9,35 @@ using Timotheus.Schedule;
 using Timotheus.Utility;
 using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
+using Timotheus.IO;
 
 namespace Timotheus.Views.Tabs
 {
     public partial class CalendarPage : Tab
     {
         /// <summary>
-        /// A SFTP object connecting a local and remote directory.
+        /// The object presenting the calendar to the view.
         /// </summary>
-        public CalendarViewModel Calendar
+        public new CalendarViewModel ViewModel
         {
             get
             {
-                return (CalendarViewModel)ViewModel;
+                return (CalendarViewModel)base.ViewModel;
             }
             set
             {
-                ViewModel = value;
+                value.UpdateCalendarTable();
+                base.ViewModel = value;
             }
         }
 
-        public CalendarPage()
+        public CalendarPage() : base()
         {
-            LoadingTitle = Localization.InsertKey_LoadCalendar;
             AvaloniaXamlLoader.Load(this);
-            DataContext = Calendar;
+            Title = Localization.Calendar_Page;
+            LoadingTitle = Localization.InsertKey_LoadCalendar;
+            Icon = "avares://Timotheus/Resources/Calendar.png";
+            ViewModel = new CalendarViewModel();
         }
 
         /// <summary>
@@ -45,9 +49,9 @@ namespace Timotheus.Views.Tabs
             {
                 Button button = (Button)sender;
                 if (button.Name == "+")
-                    Calendar.UpdatePeriod(true);
+                    ViewModel.UpdatePeriod(true);
                 else if (button.Name == "-")
-                    Calendar.UpdatePeriod(false);
+                    ViewModel.UpdatePeriod(false);
             }
         }
 
@@ -58,8 +62,8 @@ namespace Timotheus.Views.Tabs
         {
             if (e.Key == Avalonia.Input.Key.Enter)
             {
-                Calendar.UpdatePeriod(((TextBox)sender).Text);
-                Update();
+                ViewModel.UpdatePeriod(((TextBox)sender).Text);
+                ViewModel.UpdateCalendarTable();
             }
         }
 
@@ -70,9 +74,9 @@ namespace Timotheus.Views.Tabs
         {
             SyncCalendar dialog = new()
             {
-                Period = Calendar.PeriodText,
-                UseCurrent = Calendar.IsSetup,
-                CanUseCurrent = Calendar.IsSetup
+                Period = ViewModel.PeriodText,
+                UseCurrent = ViewModel.IsSetup,
+                CanUseCurrent = ViewModel.IsSetup
             };
 
             await dialog.ShowDialog(MainWindow.Instance);
@@ -83,10 +87,10 @@ namespace Timotheus.Views.Tabs
                 {
                     if (!dialog.UseCurrent)
                     {
-                        Calendar.SetupSync(dialog.Username, dialog.Password, dialog.URL);
-                        MainViewModel.Instance.Keys.Update("Calendar-Email", dialog.Username);
-                        MainViewModel.Instance.Keys.Update("Calendar-Password", dialog.Password);
-                        MainViewModel.Instance.Keys.Update("Calendar-URL", dialog.URL);
+                        ViewModel.SetupSync(dialog.Username, dialog.Password, dialog.URL);
+                        Keys.Update("Calendar-Email", dialog.Username);
+                        Keys.Update("Calendar-Password", dialog.Password);
+                        Keys.Update("Calendar-URL", dialog.URL);
                     }
 
                     ProgressDialog pDialog = new()
@@ -97,13 +101,13 @@ namespace Timotheus.Views.Tabs
                     if (dialog.SyncAll)
                         syncPeriod = new Period(DateTime.MinValue, DateTime.MaxValue);
                     else if (dialog.SyncPeriod)
-                        syncPeriod = new Period(Calendar.PeriodText);
+                        syncPeriod = new Period(ViewModel.PeriodText);
                     else
                         syncPeriod = new Period(dialog.Start, dialog.End.AddDays(1));
 
-                    await pDialog.ShowDialog(MainWindow.Instance, Calendar.Sync, syncPeriod);
+                    await pDialog.ShowDialog(MainWindow.Instance, ViewModel.Sync, syncPeriod);
 
-                    Update();
+                    ViewModel.UpdateCalendarTable();
                 }
                 catch (Exception ex)
                 {
@@ -134,8 +138,16 @@ namespace Timotheus.Views.Tabs
             {
                 try
                 {
-                    Calendar.Save(result);
-                }
+                    ViewModel.Save(result);
+
+					MessageDialog confirmation = new()
+					{
+						DialogTitle = Localization.Confirmation,
+						DialogText = Localization.Confirmation_SaveCalendar,
+						DialogShowCancel = false
+					};
+					await confirmation.ShowDialog(MainWindow.Instance);
+				}
                 catch (Exception ex)
                 {
                     Program.Error(Localization.Exception_Saving, ex, MainWindow.Instance);
@@ -143,17 +155,25 @@ namespace Timotheus.Views.Tabs
             }
         }
 
-        /// <summary>
-        /// Opens a OpenCalendar dialog
-        /// </summary>
-        private async void Open_Click(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Opens a SaveFileDialog to save the current Calendar.
+		/// </summary>
+		private void SaveAs_Click(object sender, RoutedEventArgs e)
+		{
+			
+		}
+
+		/// <summary>
+		/// Opens a OpenCalendar dialog
+		/// </summary>
+		private async void Open_Click(object sender, RoutedEventArgs e)
         {
             OpenCalendar dialog = new()
             {
-                Username = MainViewModel.Instance.Keys.Retrieve("Calendar-Email"),
-                Password = MainViewModel.Instance.Keys.Retrieve("Calendar-Password"),
-                URL = MainViewModel.Instance.Keys.Retrieve("Calendar-URL"),
-                Path = MainViewModel.Instance.Keys.Retrieve("Calendar-Path")
+                Username = Keys.Retrieve("Calendar-Email"),
+                Password = Keys.Retrieve("Calendar-Password"),
+                URL = Keys.Retrieve("Calendar-URL"),
+                Path = Keys.Retrieve("Calendar-Path")
             };
 
             await dialog.ShowDialog(MainWindow.Instance);
@@ -164,17 +184,15 @@ namespace Timotheus.Views.Tabs
                 {
                     if (dialog.IsRemote)
                     {
-                        Calendar = new(dialog.Username, dialog.Password, dialog.URL);
-                        MainViewModel.Instance.Keys.Update("Calendar-Email", dialog.Username);
-                        MainViewModel.Instance.Keys.Update("Calendar-Password", dialog.Password);
-                        MainViewModel.Instance.Keys.Update("Calendar-URL", dialog.URL);
-                        Update();
+                        ViewModel = new(dialog.Username, dialog.Password, dialog.URL);
+                        Keys.Update("Calendar-Email", dialog.Username);
+                        Keys.Update("Calendar-Password", dialog.Password);
+                        Keys.Update("Calendar-URL", dialog.URL);
                     }
                     else
                     {
-                        Calendar = new(dialog.Path);
-                        MainViewModel.Instance.Keys.Update("Calendar-Path", dialog.Path);
-                        Update();
+                        ViewModel = new(dialog.Path);
+                        Keys.Update("Calendar-Path", dialog.Path);
                     }
                 }
                 catch (Exception ex)
@@ -192,16 +210,16 @@ namespace Timotheus.Views.Tabs
             AddEvent dialog = new();
 
             string text;
-            if ((text = MainViewModel.Instance.Keys.Retrieve("Settings-Address")) != string.Empty)
+            if ((text = Keys.Retrieve("Settings-Address")) != string.Empty)
                 dialog.Location = text;
-            if ((text = MainViewModel.Instance.Keys.Retrieve("Settings-EventDescription")) != string.Empty)
+            if ((text = Keys.Retrieve("Settings-EventDescription")) != string.Empty)
                 dialog.Description = text;
-            if ((text = MainViewModel.Instance.Keys.Retrieve("Settings-EventStart")) != string.Empty)
+            if ((text = Keys.Retrieve("Settings-EventStart")) != string.Empty)
                 dialog.StartTime = text;
-            if ((text = MainViewModel.Instance.Keys.Retrieve("Settings-EventEnd")) != string.Empty)
+            if ((text = Keys.Retrieve("Settings-EventEnd")) != string.Empty)
                 dialog.EndTime = text;
 
-            Period period = new(Calendar.PeriodText);
+            Period period = new(ViewModel.PeriodText);
             if (!period.In(DateTime.Now))
             {
                 dialog.Start = period.Start.Date;
@@ -214,8 +232,8 @@ namespace Timotheus.Views.Tabs
             {
                 try
                 {
-                    Calendar.AddEvent(dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location, string.Empty);
-                    Update();
+                    ViewModel.AddEvent(dialog.Start, dialog.End, dialog.EventName, dialog.Description, dialog.Location, string.Empty);
+                    ViewModel.UpdateCalendarTable();
                 }
                 catch (Exception ex)
                 {
@@ -240,44 +258,90 @@ namespace Timotheus.Views.Tabs
                 await msDialog.ShowDialog(MainWindow.Instance);
                 if (msDialog.DialogResult == DialogResult.OK)
                 {
-                    Calendar.RemoveEvent(ev);
+                    ViewModel.RemoveEvent(ev);
                 }
             }
         }
-
+		
         /// <summary>
-        /// Opens a SaveFileDialog to export the current Calendar (in the given period) as a PDF.
-        /// </summary>
-        private async void ExportPDF_Click(object sender, RoutedEventArgs e)
+		/// Marks the selected event for deletion.
+		/// </summary>
+		private void UndoRemoveEvent_Click(object sender, RoutedEventArgs e)
+		{
+			EventViewModel ev = (EventViewModel)((Button)e.Source).DataContext;
+			if (ev != null)
+			{
+				ViewModel.RestoreEvent(ev);
+			}
+		}
+
+		/// <summary>
+		/// Marks the selected event for deletion.
+		/// </summary>
+		private async void RemoveEvent_ContextMenu_Click(object sender, RoutedEventArgs e)
+		{
+			EventViewModel ev = ViewModel.Selected;
+			if (sender != null)
+			{
+				try
+				{
+					WarningDialog msDialog = new()
+					{
+						DialogTitle = Localization.Exception_Warning,
+						DialogText = Localization.Calendar_DeleteEvent.Replace("#", ev.Name)
+					};
+					await msDialog.ShowDialog(MainWindow.Instance);
+					if (msDialog.DialogResult == DialogResult.OK)
+					{
+						ViewModel.RemoveEvent(ev);
+					}
+				}
+				catch (Exception ex)
+				{
+					Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Opens a SaveFileDialog to export the current Calendar (in the given period) as a PDF.
+		/// </summary>
+		private async void ExportPDF_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 PDFDialog dialog = new()
                 {
-                    LogoPath = MainViewModel.Instance.Keys.Retrieve("PDF_Logo"),
-                    PDFTitle = MainViewModel.Instance.Keys.Retrieve("PDF_Title"),
-                    Subtitle = MainViewModel.Instance.Keys.Retrieve("PDF_Subtitle"),
-                    Footer = MainViewModel.Instance.Keys.Retrieve("PDF_Footer"),
-                    Backpage = MainViewModel.Instance.Keys.Retrieve("PDF_Backpage"),
-                    Comment = MainViewModel.Instance.Keys.Retrieve("PDF_Comment"),
-                    ExportPath = MainViewModel.Instance.Keys.Retrieve("PDF_ExportPath"),
-                    ArchivePath = MainViewModel.Instance.Keys.Retrieve("PDF_ArchivePath")
-                };
+                    LogoPath = Keys.Retrieve("PDF_Logo"),
+                    PDFTitle = Keys.Retrieve("PDF_Title"),
+                    Subtitle = Keys.Retrieve("PDF_Subtitle"),
+                    Footer = Keys.Retrieve("PDF_Footer"),
+                    Backpage = Keys.Retrieve("PDF_Backpage"),
+                    Comment = Keys.Retrieve("PDF_Comment"),
+                    ExportPath = Keys.Retrieve("PDF_ExportPath"),
+                    ArchivePath = Keys.Retrieve("PDF_ArchivePath")
+				};
+
+                if (Keys.Retrieve("PDF_Columns") != string.Empty)
+                {
+                    dialog.Columns = Keys.Retrieve("PDF_Columns");
+				}
 
                 await dialog.ShowDialog(MainWindow.Instance);
 
                 bool Changed = false;
 
-                Changed |= MainViewModel.Instance.Keys.Update("PDF_Logo", dialog.LogoPath);
-                Changed |= MainViewModel.Instance.Keys.Update("PDF_Title", dialog.PDFTitle);
-                Changed |= MainViewModel.Instance.Keys.Update("PDF_Subtitle", dialog.Subtitle);
-                Changed |= MainViewModel.Instance.Keys.Update("PDF_Footer", dialog.Footer);
-                Changed |= MainViewModel.Instance.Keys.Update("PDF_Backpage", dialog.Backpage);
-                Changed |= MainViewModel.Instance.Keys.Update("PDF_Comment", dialog.Comment);
-                Changed |= MainViewModel.Instance.Keys.Update("PDF_ExportPath", dialog.ExportPath);
-                Changed |= MainViewModel.Instance.Keys.Update("PDF_ArchivePath", dialog.ArchivePath);
+                Changed |= Keys.Update("PDF_Logo", dialog.LogoPath);
+                Changed |= Keys.Update("PDF_Title", dialog.PDFTitle);
+                Changed |= Keys.Update("PDF_Subtitle", dialog.Subtitle);
+                Changed |= Keys.Update("PDF_Footer", dialog.Footer);
+                Changed |= Keys.Update("PDF_Backpage", dialog.Backpage);
+                Changed |= Keys.Update("PDF_Comment", dialog.Comment);
+                Changed |= Keys.Update("PDF_ExportPath", dialog.ExportPath);
+                Changed |= Keys.Update("PDF_ArchivePath", dialog.ArchivePath);
+				Changed |= Keys.Update("PDF_Columns", dialog.Columns);
 
-                if (Changed)
+				if (Changed)
                 {
                     MessageDialog messageBox = new()
                     {
@@ -296,10 +360,10 @@ namespace Timotheus.Views.Tabs
                     FileInfo file = new(dialog.ExportPath);
 
                     List<Event> events = new();
-                    List<Event> cal = Calendar.Calendar.Events;
+                    List<Event> cal = ViewModel.Calendar.Events;
                     for (int i = 0; i < cal.Count; i++)
                     {
-                        if (cal[i].In(Calendar.CalendarPeriod))
+                        if (cal[i].In(ViewModel.CalendarPeriod))
                             events.Add(cal[i]);
                     }
 
@@ -308,7 +372,9 @@ namespace Timotheus.Views.Tabs
                         Directory.CreateDirectory(Path.GetDirectoryName(dialog.ExportPath));
                     switch (dialog.CurrentTab) {
                         case 0:
-                            PDF.CreateTable(events, dialog.ExportPath, dialog.PDFTitle, dialog.Subtitle, dialog.Footer, dialog.LogoPath);
+                            Register columns = new(':', dialog.Columns);
+
+                            PDF.CreateTable(events, dialog.ExportPath, dialog.PDFTitle, dialog.Subtitle, dialog.Footer, dialog.LogoPath, columns);
                             tabName = Localization.PDF_Type_Table;
                             break;
                         case 1:
@@ -322,7 +388,7 @@ namespace Timotheus.Views.Tabs
                         if (!Directory.Exists(dialog.ArchivePath))
                             throw new Exception(Localization.Exception_PDFArchiveNotFound);
                         if (dialog.ArchivePath != string.Empty)
-                            File.Copy(dialog.ExportPath, Path.Combine(dialog.ArchivePath, Calendar.CalendarPeriod.ToFileName() + " (" + tabName + ")" + ".pdf"), true);
+                            File.Copy(dialog.ExportPath, Path.Combine(dialog.ArchivePath, ViewModel.CalendarPeriod.ToFileName() + " (" + tabName + ")" + ".pdf"), true);
                     }
                 }
             }
@@ -364,7 +430,7 @@ namespace Timotheus.Views.Tabs
                         ev.Location = dialog.Location;
                         ev.Description = dialog.Description;
 
-                        Update();
+                        ViewModel.UpdateCalendarTable();
                     }
                     catch (Exception ex)
                     {
@@ -374,32 +440,102 @@ namespace Timotheus.Views.Tabs
             }
         }
 
-        public override void Load()
+		/// <summary>
+		/// Marks the selected event for deletion.
+		/// </summary>
+		private async void EditEvent_ContextMenu_Click(object sender, RoutedEventArgs e)
+		{
+			EventViewModel ev = ViewModel.Selected;
+			if (sender != null)
+			{
+				try
+				{
+					AddEvent dialog = new()
+					{
+						Title = Localization.AddEvent_Edit,
+						ButtonName = Localization.AddEvent_EditButton,
+						EventName = ev.Name,
+						Start = ev.StartSort,
+						End = ev.EndSort,
+						AllDayEvent = ev.AllDayEvent,
+						Location = ev.Location,
+						Description = ev.Description
+					};
+
+					await dialog.ShowDialog(MainWindow.Instance);
+
+					if (dialog.DialogResult == DialogResult.OK)
+					{
+						try
+						{
+							ev.Name = dialog.EventName;
+							ev.Start = dialog.Start.ToString();
+							ev.End = dialog.End.ToString();
+							ev.Location = dialog.Location;
+							ev.Description = dialog.Description;
+
+							ViewModel.UpdateCalendarTable();
+						}
+						catch (Exception ex)
+						{
+							Program.Error(Localization.Exception_InvalidEvent, ex, MainWindow.Instance);
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Handles coloring of the rows.
+		/// </summary>
+		private void Calendar_RowLoading(object sender, DataGridRowEventArgs e)
+		{
+			if (e.Row.DataContext is EventViewModel ev)
+			{
+				if (e.Row.GetIndex() % 2 == 1)
+				{
+					e.Row.Background = ev.Deleted switch
+					{
+						true => DeleteDark,
+						_ => StdDark,
+					};
+				}
+				else
+				{
+					e.Row.Background = ev.Deleted switch
+					{
+						true => DeleteLight,
+						_ => StdLight,
+					};
+				}
+			}
+		}
+
+		public override void Load()
         {
-            if (MainViewModel.Instance.Keys.Retrieve("Calendar-Email") != string.Empty)
+            if (Keys.Retrieve("Calendar-Email") != string.Empty)
             {
                 try
                 {
-                    Calendar = new(MainViewModel.Instance.Keys.Retrieve("Calendar-Email"), MainViewModel.Instance.Keys.Retrieve("Calendar-Password"), MainViewModel.Instance.Keys.Retrieve("Calendar-URL"));
+                    ViewModel = new(Keys.Retrieve("Calendar-Email"), Keys.Retrieve("Calendar-Password"), Keys.Retrieve("Calendar-URL"));
                 }
                 catch (Exception ex)
                 {
                     Program.Log(ex);
-                    Calendar = new();
+                    ViewModel = new();
                 }
             }
             else
-                Calendar = new();
-        }
-
-        public override void Update()
-        {
-            Calendar.UpdateCalendarTable();
+                ViewModel = new();
         }
 
         public override bool HasBeenChanged()
         {
-            return Calendar.HasBeenChanged;
+            return ViewModel.HasBeenChanged;
         }
     }
 }

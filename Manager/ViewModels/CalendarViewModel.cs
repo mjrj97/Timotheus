@@ -8,6 +8,11 @@ namespace Timotheus.ViewModels
 {
     public class CalendarViewModel : ViewModel
     {
+		/// <summary>
+		/// The currently selected event. Used for the context menu.
+		/// </summary>
+		public EventViewModel Selected { get; set; }
+
         /// <summary>
         /// Type of period used by Calendar_View.
         /// </summary>
@@ -143,7 +148,13 @@ namespace Timotheus.ViewModels
             UpdateCalendarTable();
         }
 
-        public void SetupSync(string username, string password, string url)
+		public void RestoreEvent(EventViewModel evm)
+		{
+			evm.Deleted = false;
+			UpdateCalendarTable();
+		}
+
+		public void SetupSync(string username, string password, string url)
         {
             Calendar.SetupSync(username, password, url);
         }
@@ -176,7 +187,7 @@ namespace Timotheus.ViewModels
             Events.Clear();
             for (int i = 0; i < Calendar.Events.Count; i++)
             {
-                if (Calendar.Events[i].In(CalendarPeriod) && !Calendar.Events[i].Deleted)
+                if (Calendar.Events[i].In(CalendarPeriod))
                     Events.Add(new EventViewModel(Calendar.Events[i]));
             }
             Events = new ObservableCollection<EventViewModel>(Events.OrderBy(i => i.StartSort));

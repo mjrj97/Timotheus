@@ -1,6 +1,5 @@
 ﻿using System;
 using Timotheus.IO;
-using Timotheus.Utility;
 
 namespace Timotheus.ViewModels
 {

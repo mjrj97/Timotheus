@@ -4,6 +4,8 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using System;
+using System.Collections.Generic;
+using Timotheus.IO;
 
 namespace Timotheus.Views.Dialogs
 {
@@ -39,6 +41,8 @@ namespace Timotheus.Views.Dialogs
             set
             {
                 _logoPath = value;
+                if (System.IO.File.Exists(LogoPath))
+                    EditorImage = new Bitmap(LogoPath);
                 NotifyPropertyChanged(nameof(LogoPath));
             }
         }
@@ -94,7 +98,24 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-        private string _comment = string.Empty;
+		private string _columns = $"{Localization.PDF_Leader}: 75\n{Localization.PDF_Musician}: 75\n{Localization.PDF_Technician}: 75\n{Localization.PDF_Coffee}: 150";
+		/// <summary>
+        /// Columns of the PDF
+        /// </summary>
+        public string Columns
+		{
+			get
+			{
+				return _columns;
+			}
+			set
+			{
+				_columns = value;
+				NotifyPropertyChanged(nameof(Columns));
+			}
+		}
+
+		private string _comment = string.Empty;
         /// <summary>
         /// Comment on the PDF
         /// </summary>
@@ -229,8 +250,6 @@ namespace Timotheus.Views.Dialogs
             if (result != null && result.Length > 0)
             {
                 LogoPath = result[0];
-                if (System.IO.File.Exists(LogoPath))
-                    EditorImage = new Bitmap(LogoPath);
             }
         }
 
@@ -239,7 +258,7 @@ namespace Timotheus.Views.Dialogs
         /// </summary>
         private void LogoKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Avalonia.Input.Key.Enter)
             {
                 if (System.IO.File.Exists(LogoPath))
                     EditorImage = new Bitmap(LogoPath);
@@ -284,12 +303,25 @@ namespace Timotheus.Views.Dialogs
         {
             try
             {
-                if (ExportPath == string.Empty)
+				Register columns = new(':', Columns);
+				List<IO.Key> keys = columns.RetrieveAll();
+
+				for (int i = 0; i < keys.Count; i++)
+				{
+					int value = int.Parse(keys[i].Value);
+				}
+
+				if (ExportPath == string.Empty)
                     throw new Exception(Localization.Exception_PDFEmptyExport);
 
                 DialogResult = DialogResult.OK;
             }
-            catch (Exception ex) 
+			catch (FormatException ex)
+			{
+                Exception outer = new(Localization.Exception_ColumnWidth, ex);
+				Program.Error(Localization.Exception_Name, outer, this);
+			}
+			catch (Exception ex) 
             {
                 Program.Error(Localization.Exception_Name, ex, this);
             }
