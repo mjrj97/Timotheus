@@ -13,9 +13,11 @@ namespace Timotheus.Utility
 {
     public static class PDF
     {
-        public static void CreateTable(List<Event> events, string path, string title, string subtitle, string footer, string logoPath)
+        public static void CreateTable(List<Event> events, string path, string title, string subtitle, string footer, string logoPath, Register columns)
         {
             List<Event> SortedList = events.OrderBy(o => o.Start).ToList();
+            List<Key> Columns = columns.RetrieveAll();
+
             int pages = 1;
             int eventsLeft = SortedList.Count - 28;
             while (eventsLeft > 0)
@@ -64,11 +66,20 @@ namespace Timotheus.Utility
 
             //TABLE COLUMN HEADERS
             gfx.DrawString(date, tableHeading, XBrushes.Black, new XRect(28, 177, 200, 10), XStringFormats.TopLeft);
-            gfx.DrawString(start, tableHeading, XBrushes.Black, new XRect(113, 177, 200, 10), XStringFormats.TopLeft);
-            gfx.DrawString(activity, tableHeading, XBrushes.Black, new XRect(170, 177, 200, 10), XStringFormats.TopLeft);
-            gfx.DrawString(leader, tableHeading, XBrushes.Black, new XRect(467, 177, 200, 10), XStringFormats.TopLeft);
-            gfx.DrawString(musician, tableHeading, XBrushes.Black, new XRect(546, 177, 200, 10), XStringFormats.TopLeft);
-            gfx.DrawString(coffee, tableHeading, XBrushes.Black, new XRect(625, 177, 200, 10), XStringFormats.TopLeft);
+            gfx.DrawString(start, tableHeading, XBrushes.Black, new XRect(110, 177, 200, 10), XStringFormats.TopLeft);
+            gfx.DrawString(activity, tableHeading, XBrushes.Black, new XRect(156, 177, 200, 10), XStringFormats.TopLeft);
+
+            {
+				int totalWidth = 0;
+				for (int i = 0; i < Columns.Count; i++)
+				{
+					int width = int.Parse(Columns[i].Value);
+
+					gfx.DrawString(Columns[i].Name, tableHeading, XBrushes.Black, new XRect(450 + totalWidth, 177, 200, 10), XStringFormats.TopLeft);
+
+					totalWidth += width;
+				}
+			}
 
             //TABLE CONTENTS
             bool gray = true;
@@ -83,17 +94,22 @@ namespace Timotheus.Utility
                 Register values = new(':', SortedList[i].Description);
                 DateTime time = SortedList[i].Start;
 
-                string eventLeader = values.Retrieve(leader);
-                string eventMusician = values.Retrieve(musician);
-                string eventCoffee = values.Retrieve(coffee);
-
                 if (i == 0 || (SortedList[i - 1].Start.Date != SortedList[i].Start.Date))
                     gfx.DrawString(time.ToString("ddd. d. MMM", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(28, 190 + 12 * i, 85, 12), XStringFormats.CenterLeft);
-                gfx.DrawString((time.Minute == 0 && time.Hour == 0) ? "" : time.ToString("t", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(113, 190 + 12 * i, 57, 12), XStringFormats.CenterLeft);
-                gfx.DrawString(name, tableContent, XBrushes.Black, new XRect(170, 190 + 12 * i, 294, 12), XStringFormats.CenterLeft);
-                gfx.DrawString(eventLeader, tableContent, XBrushes.Black, new XRect(464, 190 + 12 * i, 79, 12), XStringFormats.CenterLeft);
-                gfx.DrawString(eventMusician, tableContent, XBrushes.Black, new XRect(543, 190 + 12 * i, 79, 12), XStringFormats.CenterLeft);
-                gfx.DrawString(eventCoffee, tableContent, XBrushes.Black, new XRect(622, 190 + 12 * i, 164, 12), XStringFormats.CenterLeft);
+                gfx.DrawString((time.Minute == 0 && time.Hour == 0) ? "" : time.ToString("t", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(110, 190 + 12 * i, 57, 12), XStringFormats.CenterLeft);
+                gfx.DrawString(name, tableContent, XBrushes.Black, new XRect(156, 190 + 12 * i, 294, 12), XStringFormats.CenterLeft);
+
+				int totalWidth = 0;
+				for (int j = 0; j < Columns.Count; j++)
+				{
+					int width = int.Parse(Columns[j].Value);
+
+					string columnContent = values.Retrieve(Columns[j].Name);
+
+					gfx.DrawString(columnContent, tableContent, XBrushes.Black, new XRect(450 + totalWidth, 190 + 12 * i, 79, 12), XStringFormats.CenterLeft);
+
+					totalWidth += width;
+				}
             }
 
             //PAGE FOOTER
@@ -119,18 +135,23 @@ namespace Timotheus.Utility
                         Register values = new(':', SortedList[j+i].Description);
                         DateTime time = SortedList[j+i].Start;
 
-                        string eventLeader = values.Retrieve(leader);
-                        string eventMusician = values.Retrieve(musician);
-                        string eventCoffee = values.Retrieve(coffee);
-
                         if (SortedList[j + i - 1].Start.Date != SortedList[j + i].Start.Date)
                             addGFX.DrawString(time.ToString("ddd. d. MMM", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(28, 46 + 12 * i, 85, 12), XStringFormats.CenterLeft);
                         addGFX.DrawString((time.Minute == 0 && time.Hour == 0) ? "" : time.ToString("t", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(113, 46 + 12 * i, 57, 12), XStringFormats.CenterLeft);
                         addGFX.DrawString(name, tableContent, XBrushes.Black, new XRect(170, 46 + 12 * i, 294, 12), XStringFormats.CenterLeft);
-                        addGFX.DrawString(eventLeader, tableContent, XBrushes.Black, new XRect(464, 46 + 12 * i, 79, 12), XStringFormats.CenterLeft);
-                        addGFX.DrawString(eventMusician, tableContent, XBrushes.Black, new XRect(543, 46 + 12 * i, 79, 12), XStringFormats.CenterLeft);
-                        addGFX.DrawString(eventCoffee, tableContent, XBrushes.Black, new XRect(622, 46 + 12 * i, 164, 12), XStringFormats.CenterLeft);
-                    }
+
+						int totalWidth = 0;
+						for (int k = 0; k < Columns.Count; k++)
+						{
+							int width = int.Parse(Columns[k].Value);
+
+							string columnContent = values.Retrieve(Columns[k].Name);
+
+							addGFX.DrawString(columnContent, tableContent, XBrushes.Black, new XRect(450 + totalWidth, 46 + 12 * i, 79, 12), XStringFormats.CenterLeft);
+
+							totalWidth += width;
+						}
+					}
 
                     //PAGE FOOTER
                     addGFX.DrawString((h+2) + " / " + pages + "                            " + footer, xfooter, XBrushes.Black, new XRect(28, page.Height - 18 - 28, 200, 18), XStringFormats.TopLeft);

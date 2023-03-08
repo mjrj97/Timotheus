@@ -1130,6 +1130,23 @@ namespace Timotheus
         }
 
 		/// <summary>
+		///   Looks up a localized string similar to The program is already running. If you can&apos;t see it, check the system tray or task manager.
+		/// </summary>
+		public static string Exception_ColumnWidth
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Kolonnens bredde skal være et heltal. Formattet er [Kolonne]:[Bredde] (f.eks. Mødeleder:80)";
+					default:
+						return "The columns width must be a whole number. The format is [Column]:[Width] (ie. Leader:80)";
+				}
+			}
+		}
+
+		/// <summary>
 		///   Looks up a localized string similar to Connection could not be establised to the file server. Check your internet connection or login details.
 		/// </summary>
 		public static string Exception_CantConnectToFiles
@@ -1164,7 +1181,7 @@ namespace Timotheus
 		}
 
 		/// <summary>
-		///   Looks up a localized string similar to You can&apos;t go further back. This is the root directory..
+		///   Looks up a localized string similar to Could not find the last used key (#1), has it been deleted or moved?
 		/// </summary>
 		public static string Exception_CantFindKey
 		{
@@ -1486,10 +1503,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to A connection to the internet could not be established. Check your internet conneciton or firewall..
-        /// </summary>
-        public static string Exception_NoInternet
+		/// <summary>
+		///   Looks up a localized string similar to A connection to the internet could not be established. Check your internet conneciton or firewall..
+		/// </summary>
+		public static string Exception_CantConnectToServer
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Der kunne ikke skabes en forbindelse til filserveren. Tjek din internetforbindelse, firewall eller om oplysningerne er korrekte under 'Opsætning'.";
+					default:
+						return "A connection to the file server could not be established. Check your internet conneciton, firewall, or whether the info is correct under 'Setup'.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to A connection to the internet could not be established. Check your internet conneciton or firewall..
+		/// </summary>
+		public static string Exception_NoInternet
         {
             get
             {
@@ -2489,10 +2523,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Comment.
-        /// </summary>
-        public static string PDF_Comment
+		/// <summary>
+		///   Looks up a localized string similar to Columns.
+		/// </summary>
+		public static string PDF_Columns
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Kolonner";
+					default:
+						return "Columns";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Comment.
+		/// </summary>
+		public static string PDF_Comment
         {
             get
             {
@@ -2676,10 +2727,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Title.
-        /// </summary>
-        public static string PDF_Title
+		/// <summary>
+		///   Looks up a localized string similar to Technician.
+		/// </summary>
+		public static string PDF_Technician
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Teknik";
+					default:
+						return "Technician";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Title.
+		/// </summary>
+		public static string PDF_Title
         {
             get
             {
@@ -2727,10 +2795,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Welcome to.
-        /// </summary>
-        public static string PDF_Welcome
+		/// <summary>
+		///   Looks up a localized string similar to [Column]:[Width].
+		/// </summary>
+		public static string PDF_WatermarkColumns
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "[Kolonne]:[Bredde]";
+					default:
+						return "[Column]:[Width]";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Welcome to.
+		/// </summary>
+		public static string PDF_Welcome
         {
             get
             {

@@ -49,8 +49,16 @@ namespace Timotheus.Views.Tabs
         {
             if (Keys.Retrieve("SSH-LocalDirectory") != string.Empty)
             {
-                ViewModel = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory"), Keys.Retrieve("SSH-RemoteDirectory"), Keys.Retrieve("SSH-URL"), int.Parse(Keys.Retrieve("SSH-Port") == string.Empty ? "22" : Keys.Retrieve("SSH-Port")), Keys.Retrieve("SSH-Username"), Keys.Retrieve("SSH-Password"), Keys.Retrieve("SSH-Sync") == "True", int.Parse(Keys.Retrieve("SSH-SyncInterval") == string.Empty ? "60" : Keys.Retrieve("SSH-SyncInterval")));
-            }
+				try
+				{
+					ViewModel = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory"), Keys.Retrieve("SSH-RemoteDirectory"), Keys.Retrieve("SSH-URL"), int.Parse(Keys.Retrieve("SSH-Port") == string.Empty ? "22" : Keys.Retrieve("SSH-Port")), Keys.Retrieve("SSH-Username"), Keys.Retrieve("SSH-Password"), Keys.Retrieve("SSH-Sync") == "True", int.Parse(Keys.Retrieve("SSH-SyncInterval") == string.Empty ? "60" : Keys.Retrieve("SSH-SyncInterval")));
+				}
+				catch (Exception ex)
+				{
+					Program.Log(ex);
+					ViewModel = new();
+				}
+			}
             else
                 ViewModel = new();
         }

@@ -156,9 +156,6 @@ namespace Timotheus.ViewModels
                 throw new Exception(Localization.Exception_PortNotSupported);
 
             client = new DirectoryClient(host, port, username, password);
-
-            if (!client.CanConnect())
-                throw new Exception(Localization.Exception_CantConnectToFiles);
         }
         public DirectoryViewModel()
         {
@@ -295,7 +292,7 @@ namespace Timotheus.ViewModels
                 }
                 catch (SocketException)
                 {
-                    throw new Exception(Localization.Exception_NoInternet);
+                    throw new Exception(Localization.Exception_CantConnectToServer);
                 }
             }
             #endregion

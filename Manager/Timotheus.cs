@@ -145,7 +145,7 @@ namespace Timotheus
         /// <summary>
         /// Saves the registry to the (Windows registry/macOS .plist/Linux etc folder).
         /// </summary>
-        private static void SaveRegistry()
+        public static void SaveRegistry()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

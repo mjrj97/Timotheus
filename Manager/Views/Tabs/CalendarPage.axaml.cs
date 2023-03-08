@@ -158,7 +158,7 @@ namespace Timotheus.Views.Tabs
 		/// <summary>
 		/// Opens a SaveFileDialog to save the current Calendar.
 		/// </summary>
-		private async void SaveAs_Click(object sender, RoutedEventArgs e)
+		private void SaveAs_Click(object sender, RoutedEventArgs e)
 		{
 			
 		}
@@ -320,7 +320,12 @@ namespace Timotheus.Views.Tabs
                     Comment = Keys.Retrieve("PDF_Comment"),
                     ExportPath = Keys.Retrieve("PDF_ExportPath"),
                     ArchivePath = Keys.Retrieve("PDF_ArchivePath")
-                };
+				};
+
+                if (Keys.Retrieve("PDF_Columns") != string.Empty)
+                {
+                    dialog.Columns = Keys.Retrieve("PDF_Columns");
+				}
 
                 await dialog.ShowDialog(MainWindow.Instance);
 
@@ -334,8 +339,9 @@ namespace Timotheus.Views.Tabs
                 Changed |= Keys.Update("PDF_Comment", dialog.Comment);
                 Changed |= Keys.Update("PDF_ExportPath", dialog.ExportPath);
                 Changed |= Keys.Update("PDF_ArchivePath", dialog.ArchivePath);
+				Changed |= Keys.Update("PDF_Columns", dialog.Columns);
 
-                if (Changed)
+				if (Changed)
                 {
                     MessageDialog messageBox = new()
                     {
@@ -366,7 +372,9 @@ namespace Timotheus.Views.Tabs
                         Directory.CreateDirectory(Path.GetDirectoryName(dialog.ExportPath));
                     switch (dialog.CurrentTab) {
                         case 0:
-                            PDF.CreateTable(events, dialog.ExportPath, dialog.PDFTitle, dialog.Subtitle, dialog.Footer, dialog.LogoPath);
+                            Register columns = new(':', dialog.Columns);
+
+                            PDF.CreateTable(events, dialog.ExportPath, dialog.PDFTitle, dialog.Subtitle, dialog.Footer, dialog.LogoPath, columns);
                             tabName = Localization.PDF_Type_Table;
                             break;
                         case 1:
