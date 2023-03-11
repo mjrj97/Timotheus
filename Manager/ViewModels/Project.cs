@@ -180,16 +180,18 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// Returns whether the user has made progress that hasn't been saved.
         /// </summary>
-        public bool IsThereUnsavedProgress()
+        public List<string> IsThereUnsavedProgress()
         {
-            bool isThereUnsavedProgress = false;
+            List<string> UnsavedProgress = new();
 
             for (int i = 0; i < Tabs.Count; i++)
             {
-                isThereUnsavedProgress |= Tabs[i].HasBeenChanged();
+                string message = Tabs[i].HasBeenChanged();
+                if (message != string.Empty)
+                    UnsavedProgress.Add(message);
             }
 
-            return isThereUnsavedProgress;
+            return UnsavedProgress;
         }
     }
 }

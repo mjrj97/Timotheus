@@ -149,30 +149,45 @@ namespace Timotheus
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus", true);
-                key ??= Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus", true);
-
-                string[] values = key.GetValueNames();
-                bool[] found = new bool[values.Length];
-
-                List<Key> keys = Registry.RetrieveAll();
-                for (int i = 0; i < keys.Count; i++)
+                try
                 {
-                    key.SetValue(keys[i].Name, keys[i].Value);
-                    for (int j = 0; j < values.Length; j++)
+                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus", true);
+                    key ??= Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus", true);
+
+                    string[] values = key.GetValueNames();
+                    bool[] found = new bool[values.Length];
+
+                    List<Key> keys = Registry.RetrieveAll();
+                    for (int i = 0; i < keys.Count; i++)
                     {
-                        if (keys[i].Name == values[j])
-                            found[j] = true;
+                        key.SetValue(keys[i].Name, keys[i].Value);
+                        for (int j = 0; j < values.Length; j++)
+                        {
+                            if (keys[i].Name == values[j])
+                                found[j] = true;
+                        }
                     }
-                }
 
-                for (int i = 0; i < values.Length; i++)
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        if (!found[i])
+                            key.DeleteValue(values[i]);
+                    }
+
+                    key.Close();
+                }
+                catch (Exception exception)
                 {
-                    if (!found[i])
-                        key.DeleteValue(values[i]);
-                }
+                    Program.Log(exception);
 
-                key.Close();
+                    string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+                    string fileName = directory + "/" + "Registry.ini";
+                    if (!Directory.Exists(directory))
+                        Directory.CreateDirectory(directory);
+                    if (!File.Exists(fileName))
+                        File.Create(fileName).Close();
+                    Registry.Save(fileName);
+                }
             }
             else
             {
@@ -193,22 +208,40 @@ namespace Timotheus
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Registry = new();
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus");
-
-                if (key != null)
+                try
                 {
-                    string[] names = key.GetValueNames();
-                    for (int i = 0; i < names.Length; i++)
+                    Registry = new();
+                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus");
+                    
+                    if (key != null)
                     {
-                        string value = Convert.ToString(key.GetValue(names[i]));
-                        Registry.Create(names[i], value);
-                    }
+                        string[] names = key.GetValueNames();
+                        for (int i = 0; i < names.Length; i++)
+                        {
+                            string value = Convert.ToString(key.GetValue(names[i]));
+                            Registry.Create(names[i], value);
+                        }
 
-                    key.Close();
+                        key.Close();
+                    }
+                    else
+                        FirstTime = true;
                 }
-                else
-                    FirstTime = true;
+                catch (Exception exception)
+                {
+                    Program.Log(exception);
+
+                    string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+                    string fileName = directory + "/" + "Registry.ini";
+                    if (!Directory.Exists(directory))
+                        Directory.CreateDirectory(directory);
+                    if (!File.Exists(fileName))
+                    {
+                        FirstTime = true;
+                        File.Create(fileName).Close();
+                    }
+                    Registry = new Register(fileName, ':');
+                }
             }
             else
             {
@@ -240,6 +273,8 @@ namespace Timotheus
                 string fileName = directory + "/" + "Registry.ini";
                 Registry = new Register(fileName, ':');
             }
+
+            SaveRegistry();
         }
     }
 }

@@ -37,7 +37,10 @@ namespace Timotheus.Views.Dialogs
 			}
 		}
 
-		public WarningDialog()
+        public string Ok_Name { get; } = Localization.Yes;
+        public string Cancel_Name { get; } = Localization.No;
+
+        public WarningDialog()
         {
             DataContext = this;
             AvaloniaXamlLoader.Load(this);

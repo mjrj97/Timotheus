@@ -63,10 +63,9 @@ namespace Timotheus.Views
         public abstract void Load();
 
         /// <summary>
-        /// Whether the tab has been changed since load.
+        /// Whether the tab has been changed since load. The string is empty, if there has been not changes.
         /// </summary>
-        /// <returns></returns>
-        public abstract bool HasBeenChanged();
+        public abstract string HasBeenChanged();
 
         public new event PropertyChangedEventHandler PropertyChanged;
         internal void NotifyPropertyChanged(string propertyName)

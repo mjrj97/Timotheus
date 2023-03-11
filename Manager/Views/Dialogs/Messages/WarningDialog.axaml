@@ -13,8 +13,8 @@
 			<TextBlock HorizontalAlignment="Left" Text="{Binding DialogText}" Margin="10" TextWrapping="Wrap" MaxWidth="460"/>
 		</DockPanel>
 		<DockPanel HorizontalAlignment="Right">
-			<Button TabIndex="0" Content="{x:Static local:Localization.OK}" Click="Ok_Click"/>
-			<Button TabIndex="1" Content="{x:Static local:Localization.Cancel}" IsVisible="{Binding DialogShowCancel}" Click="Cancel_Click" Margin="10 0 0 0"/>
+			<Button TabIndex="0" Content="{Binding Ok_Name}" Click="Ok_Click"/>
+			<Button TabIndex="1" Content="{Binding Cancel_Name}" IsVisible="{Binding DialogShowCancel}" Click="Cancel_Click" Margin="10 0 0 0"/>
 		</DockPanel>
 	</StackPanel>
 </Window>

@@ -22,7 +22,15 @@ namespace Timotheus.IO
             using StreamReader reader = new(path);
             List<DirectoryLogItem> List = new();
 
-            string line;
+            string line = reader.ReadLine();
+            if (line != null)
+            {
+                if (line.Contains(';') || !File.Exists(line))
+                {
+                    return List;
+                }
+            }
+
             while ((line = reader.ReadLine()) != null)
             {
                 List.Add(new DirectoryLogItem(line));
@@ -65,6 +73,7 @@ namespace Timotheus.IO
             using FileStream fs = new(path, FileMode.Open);
             using (TextWriter tw = new StreamWriter(fs, Timotheus.Encoding, -1, true))
             {
+                tw.WriteLine(path);
                 for (int i = 0; i < logItems.Count; i++)
                 {
                     if (!DirectoryViewModel.Ignore(logItems[i].Name))

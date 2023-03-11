@@ -41,15 +41,21 @@ namespace Timotheus.Views.Dialogs
         /// <summary>
         /// Handles key presses in the window.
         /// </summary>
-        private void KeyDown_Window(object sender, KeyEventArgs e)
+        protected virtual void KeyDown_Window(object sender, KeyEventArgs e)
         {
             IInputElement obj = ((FocusManager)FocusManager.Instance).GetFocusedElement(this);
             if (obj is Dialog)
             {
                 if (e.Key == Key.Enter)
+                {
                     Ok_Click(null, null);
+                    e.Handled = true;
+                }
                 else if (e.Key == Key.Escape)
+                {
                     Cancel_Click(null, null);
+                    e.Handled = true;
+                }
             }
         }
 

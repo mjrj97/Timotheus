@@ -25,6 +25,40 @@ namespace Timotheus
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Ja";
+                    default:
+                        return "Yes";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Nej";
+                    default:
+                        return "No";
+                }
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Add person.
         /// </summary>
         public static string AddConsentForm
@@ -1453,6 +1487,23 @@ namespace Timotheus
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to This is an invalid password. Try another....
+        /// </summary>
+        public static string Exception_InvalidSavedPassword
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Den gemte adgangskode kunne ikke bruges til at åbne den senest brugte nøgle. Prøv at åbne nøglen igen.";
+                    default:
+                        return "The saved password could not be used to open the last used key. Try to open the key again.";
+                }
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t load file.
         /// </summary>
         public static string Exception_LoadFailed
@@ -1734,9 +1785,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Er du sikker på du vil lukke? Der er ændringer som ikke er blevet gemt.";
+                        return "Er du sikker på du vil lukke? Der er ændringer som ikke er blevet gemt i:";
                     default:
-                        return "Are you sure you want to quit? There is unsaved progress.";
+                        return "Are you sure you want to quit? There is unsaved progress in:";
                 }
             }
         }
@@ -1768,9 +1819,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Forkert adgangskode";
+                        return "Forkert adgangskode. Nøglen kan ikke bruges før den korrekte adgangskode angives.";
                     default:
-                        return "Wrong password";
+                        return "Wrong password. The key cannot be used before the correct password is entered.";
                 }
             }
         }
@@ -2337,6 +2388,40 @@ namespace Timotheus
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Give the correct password for this key.
+        /// </summary>
+        public static string PasswordDialog_Key
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Angiv den korrekte adgangskode";
+                    default:
+                        return "Give the correct password";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Give the correct password for this key.
+        /// </summary>
+        public static string PasswordDialog_SaveKey
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Giv en adgangskode nøglen skal låses med";
+                    default:
+                        return "Give a password this key should be locked with";
+                }
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string PasswordDialog_CancelButton
@@ -2383,6 +2468,108 @@ namespace Timotheus
                         return "Ok";
                     default:
                         return "Ok";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save password.
+        /// </summary>
+        public static string PasswordDialog_RegexHasNumber
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Adgangskoden skal have et nummer.";
+                    default:
+                        return "The password must have a number.";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save password.
+        /// </summary>
+        public static string PasswordDialog_RegexHasUpper
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Adgangskoden skal have et stort bogstav.";
+                    default:
+                        return "The password must have one uppercase letter.";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save password.
+        /// </summary>
+        public static string PasswordDialog_RegexHasLower
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Adgangskoden skal have et lille bogstav.";
+                    default:
+                        return "The password must have one lowercase letter.";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save password.
+        /// </summary>
+        public static string PasswordDialog_RegexHas8Char
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Adgangskoden skal min. have 8 bogstaver.";
+                    default:
+                        return "The password must have atleast 8 characters.";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save password.
+        /// </summary>
+        public static string PasswordDialog_RegexHasSymbol
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Adgangskoden skal et af symbolerne: !@#$%^&*()_+=\\[{\\]};:<>|./?,-";
+                    default:
+                        return "The password must have one of these symbols: !@#$%^&*()_+=\\[{\\]};:<>|./?,-";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save password.
+        /// </summary>
+        public static string PasswordDialog_RegexHasSpace
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Adgangskoden må ikke have mellemrum.";
+                    default:
+                        return "The password cannot contain a space.";
                 }
             }
         }

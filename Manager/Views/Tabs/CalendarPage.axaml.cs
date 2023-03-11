@@ -350,9 +350,7 @@ namespace Timotheus.Views.Tabs
                     };
                     await messageBox.ShowDialog(MainWindow.Instance);
                     if (messageBox.DialogResult == DialogResult.OK)
-                    {
                         MainWindow.Instance.SaveKey_Click(null, null);
-                    }
                 }
 
                 if (dialog.DialogResult == DialogResult.OK)
@@ -533,9 +531,9 @@ namespace Timotheus.Views.Tabs
                 ViewModel = new();
         }
 
-        public override bool HasBeenChanged()
+        public override string HasBeenChanged()
         {
-            return ViewModel.HasBeenChanged;
+            return ViewModel.HasBeenChanged ? Title : string.Empty;
         }
     }
 }

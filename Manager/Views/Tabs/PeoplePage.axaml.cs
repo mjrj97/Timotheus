@@ -130,7 +130,7 @@ namespace Timotheus.Views.Tabs
         {
             bool open = true;
 
-            if (HasBeenChanged() || Keys.Retrieve("Person-File") != string.Empty)
+            if (HasBeenChanged() != string.Empty || Keys.Retrieve("Person-File") != string.Empty)
             {
 				WarningDialog warning = new()
 				{
@@ -322,9 +322,9 @@ namespace Timotheus.Views.Tabs
                 ViewModel = new();
         }
 
-        public override bool HasBeenChanged()
+        public override string HasBeenChanged()
         {
-            return ViewModel.HasBeenChanged;
+            return ViewModel.HasBeenChanged ? Title : string.Empty;
         }
     }
 }

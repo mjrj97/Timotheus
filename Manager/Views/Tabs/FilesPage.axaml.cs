@@ -158,9 +158,7 @@ namespace Timotheus.Views.Tabs
                         };
                         await messageBox.ShowDialog(MainWindow.Instance);
                         if (messageBox.DialogResult == DialogResult.OK)
-                        {
                             MainWindow.Instance.SaveKey_Click(null, null);
-                        }
                     }
 
                     ViewModel = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password, dialog.Sync, int.Parse(dialog.SyncInterval));
@@ -455,9 +453,9 @@ namespace Timotheus.Views.Tabs
             });
         }
 
-        public override bool HasBeenChanged()
+        public override string HasBeenChanged()
         {
-            return false;
+            return string.Empty;
         }
     }
 }
