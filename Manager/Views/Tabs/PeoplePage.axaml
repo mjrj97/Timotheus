@@ -6,7 +6,7 @@
 			 x:Class="Timotheus.Views.Tabs.PeoplePage" d:DesignHeight="400" d:DesignWidth="900">
 	<DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10" HorizontalAlignment="Stretch">
-			<Button Click="Save_Click" Height="32" Width="36" Margin="0 0 10 0" ToolTip.Tip="{x:Static local:Localization.People_Save_ToolTip}">
+			<Button Click="Save_Click" Height="32" Width="36" Margin="0 0 10 0" ToolTip.Tip="{Binding Save_ToolTip}">
 				<DockPanel>
 					<Image Source="/Resources/Save.png" Height="17" VerticalAlignment="Center"/>
 				</DockPanel>

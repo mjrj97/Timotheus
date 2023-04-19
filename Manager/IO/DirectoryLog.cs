@@ -15,26 +15,26 @@ namespace Timotheus.IO
         /// <param name="path">Directory path</param>
         public static List<DirectoryLogItem> Load(string path)
         {
-            if (!Directory.Exists(path))
-                return new List<DirectoryLogItem>();
-            path = Path.Combine(path, ".tfilelog");
-            Secure(path);
-            using StreamReader reader = new(path);
-            List<DirectoryLogItem> List = new();
+			List<DirectoryLogItem> List = new();
 
-            string line = reader.ReadLine();
-            if (line != null)
-            {
-                if (line.Contains(';') || !File.Exists(line))
-                {
-                    return List;
-                }
-            }
+			if (Directory.Exists(path))
+			{
+				path = Path.Combine(path, ".tfilelog");
 
-            while ((line = reader.ReadLine()) != null)
-            {
-                List.Add(new DirectoryLogItem(line));
-            }
+				if (File.Exists(path))
+				{
+					using StreamReader reader = new(path);
+
+					string line;
+					while ((line = reader.ReadLine()) != null)
+					{
+						if (line.Contains(';'))
+						{
+							List.Add(new DirectoryLogItem(line));
+						}
+					}
+				}
+			}
 
             return List;
         }
@@ -69,34 +69,27 @@ namespace Timotheus.IO
             }
 
             path = Path.Combine(path, ".tfilelog");
-            Secure(path);
-            using FileStream fs = new(path, FileMode.Open);
-            using (TextWriter tw = new StreamWriter(fs, Timotheus.Encoding, -1, true))
+
+			if (!File.Exists(path))
+			{
+				FileStream stream = File.Create(path);
+				File.SetAttributes(path, FileAttributes.Hidden);
+				stream.Close();
+			}
+			else
+				File.SetAttributes(path, FileAttributes.Hidden);
+
+			using FileStream fileStream = new(path, FileMode.Open);
+            using (TextWriter textWriter = new StreamWriter(fileStream, Timotheus.Encoding, -1, true))
             {
-                tw.WriteLine(path);
+                textWriter.WriteLine(path);
                 for (int i = 0; i < logItems.Count; i++)
                 {
                     if (!DirectoryViewModel.Ignore(logItems[i].Name))
-                        tw.WriteLine(logItems[i]);
+                        textWriter.WriteLine(logItems[i]);
                 }
             }
-            fs.SetLength(fs.Position);
-        }
-
-        /// <summary>
-        /// Checks if the log file exists and makes it hidden.
-        /// </summary>
-        /// <param name="path"></param>
-        private static void Secure(string path)
-        {
-            if (!File.Exists(path))
-            {
-                FileStream stream = File.Create(path);
-                File.SetAttributes(path, FileAttributes.Hidden);
-                stream.Close();
-            }
-            else
-                File.SetAttributes(path, FileAttributes.Hidden);
+            fileStream.SetLength(fileStream.Position);
         }
     }
 }

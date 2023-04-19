@@ -1,0 +1,56 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Timotheus"
+        mc:Ignorable="d" Width="400" SizeToContent="Height"
+        x:Class="Timotheus.Views.Dialogs.SetupCalendar"
+        Title="{x:Static local:Localization.SyncCalendar}">
+
+  <StackPanel Margin="20">
+	  <Border Classes="t1" Margin="0 0 0 10" Padding="4">
+		  <StackPanel Margin="5">
+			  <TextBlock Margin="0 0 0 10" Text="{x:Static local:Localization.Settings_Event}" FontWeight="Bold"/>
+			  <DockPanel Margin="0 0 0 10">
+				  <TextBlock Text="{x:Static local:Localization.Settings_EventTime}" VerticalAlignment="Center" Width="100"/>
+				  <TextBox TabIndex="0" Watermark="00:00" Text="{Binding StartTime}" KeyUp="FixTime" Width="115" Margin="0 0 10 0"/>
+				  <TextBox TabIndex="1" Watermark="00:00" Text="{Binding EndTime}" KeyUp="FixTime" Width="115"/>
+				  <!-- Missing setting about Address -->
+			  </DockPanel>
+			  <DockPanel Margin="0 0 0 10">
+				  <TextBlock Text="Location" Width="100" VerticalAlignment="Center"/>
+				  <TextBox TabIndex="2" Watermark="" Text="{Binding Location}"/>
+			  </DockPanel>
+			  <DockPanel>
+				  <TextBlock Text="{x:Static local:Localization.Settings_EventDescription}" VerticalAlignment="Top" Width="100" Margin="0 7 0 0"/>
+				  <TextBox TabIndex="2" Text="{Binding Description}" Height="100" AcceptsReturn="True"/>
+			  </DockPanel>
+		  </StackPanel>
+	  </Border>
+	  <Border Classes="t1" Margin="0 0 0 10" DockPanel.Dock="Top" Padding="10">
+      <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
+          <TextBlock Text="{x:Static local:Localization.SyncCalendar_Destination}" FontWeight="Bold"/>
+        </DockPanel>
+        <DockPanel>
+          <DockPanel DockPanel.Dock="Top">
+            <TextBlock Text="{x:Static local:Localization.SyncCalendar_CalDAVLabel}" Width="100" VerticalAlignment="Center"/>
+			  <TextBox TabIndex="2" Watermark="https://caldav.domain.com" Text="{Binding URL}"/>
+          </DockPanel>
+          <DockPanel Margin="0 10" DockPanel.Dock="Top">
+            <TextBlock Text="{x:Static local:Localization.SyncCalendar_UsernameLabel}" Width="100" VerticalAlignment="Center"/>
+			  <TextBox TabIndex="3" Watermark="example@domain.com" Text="{Binding Username}"/>
+          </DockPanel>
+          <DockPanel DockPanel.Dock="Top">
+            <TextBlock Text="{x:Static local:Localization.SyncCalendar_PasswordLabel}" Width="100" VerticalAlignment="Center"/>
+			  <TextBox TabIndex="4" Watermark="********" PasswordChar="*" Text="{Binding Password}"/>
+          </DockPanel>
+        </DockPanel>
+      </DockPanel>
+    </Border>
+    <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+		<Button TabIndex="10" Content="{x:Static local:Localization.EditKeyDialog_OKButton}" Click="Ok_Click" Margin="10 0"/>
+		<Button TabIndex="11" Content="{x:Static local:Localization.SyncCalendar_CancelButton}" Click="Cancel_Click"/>
+    </DockPanel>
+  </StackPanel>
+</Window>

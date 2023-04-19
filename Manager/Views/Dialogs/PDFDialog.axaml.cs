@@ -166,23 +166,6 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-        private string _exportPath = string.Empty;
-        /// <summary>
-        /// Path where the PDF should be exported.
-        /// </summary>
-        public string ExportPath
-        {
-            get
-            {
-                return _exportPath;
-            }
-            set
-            {
-                _exportPath = value;
-                NotifyPropertyChanged(nameof(ExportPath));
-            }
-        }
-
         private string _archivePath = string.Empty;
         /// <summary>
         /// Path to the folder where a copy of the exported PDF should be placed.
@@ -231,26 +214,34 @@ namespace Timotheus.Views.Dialogs
         /// </summary>
         private async void LogoBrowse_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new()
+            try
             {
-                AllowMultiple = false
-            };
+				OpenFileDialog openFileDialog = new()
+				{
+					AllowMultiple = false
+				};
 
-            FileDialogFilter imgFilter = new();
-            imgFilter.Extensions.Add("png");
-            imgFilter.Extensions.Add("jpg");
-            imgFilter.Name = "Images (.png, .jpg)";
+				FileDialogFilter imgFilter = new();
+				imgFilter.Extensions.Add("png");
+				imgFilter.Extensions.Add("jpg");
+				imgFilter.Name = "Images (.png, .jpg)";
 
-            openFileDialog.Filters = new()
-            {
-                imgFilter
-            };
+				openFileDialog.Filters = new()
+			    {
+				    imgFilter
+			    };
 
-            string[] result = await openFileDialog.ShowAsync(this);
-            if (result != null && result.Length > 0)
-            {
-                LogoPath = result[0];
-            }
+				string[] result = await openFileDialog.ShowAsync(this);
+				if (result != null && result.Length > 0)
+				{
+					GetProjectPath(result[0]);
+					LogoPath = result[0];
+				}
+			}
+			catch (Exception exception)
+			{
+				Program.Error(Localization.Exception_Name, exception, this);
+			}
         }
 
         /// <summary>
@@ -258,31 +249,19 @@ namespace Timotheus.Views.Dialogs
         /// </summary>
         private void LogoKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Avalonia.Input.Key.Enter)
+            try
             {
-                if (System.IO.File.Exists(LogoPath))
-                    EditorImage = new Bitmap(LogoPath);
-            }
-        }
-
-        /// <summary>
-        /// Here the user chooses where to export the PDF to.
-        /// </summary>
-        private async void ExportBrowse_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog saveFileDialog = new();
-            FileDialogFilter filter = new();
-            filter.Extensions.Add("pdf");
-            filter.Name = "PDF Files (.pdf)";
-
-            saveFileDialog.Filters = new()
-            {
-                filter
-            };
-
-            string result = await saveFileDialog.ShowAsync(this);
-            if (result != null && result != string.Empty)
-                ExportPath = result;
+				if (e.Key == Avalonia.Input.Key.Enter)
+				{
+					GetProjectPath(LogoPath);
+					if (System.IO.File.Exists(LogoPath))
+						EditorImage = new Bitmap(LogoPath);
+				}
+			}
+			catch (Exception exception)
+			{
+				Program.Error(Localization.Exception_Name, exception, this);
+			}
         }
 
         /// <summary>
@@ -290,10 +269,18 @@ namespace Timotheus.Views.Dialogs
         /// </summary>
         private async void ArchiveBrowse_Click(object sender, RoutedEventArgs e)
         {
-            OpenFolderDialog openFolder = new();
-            string path = await openFolder.ShowAsync(this);
-            if (path != string.Empty && path != null)
-                ArchivePath = path;
+            try
+            {
+				OpenFolderDialog openFolder = new();
+				string path = await openFolder.ShowAsync(this);
+				GetProjectPath(path);
+				if (path != string.Empty && path != null)
+					ArchivePath = path;
+			}
+			catch (Exception exception)
+			{
+				Program.Error(Localization.Exception_Name, exception, this);
+			}
         }
 
         /// <summary>
@@ -303,6 +290,9 @@ namespace Timotheus.Views.Dialogs
         {
             try
             {
+				GetProjectPath(LogoPath);
+				GetProjectPath(ArchivePath);
+
 				Register columns = new(':', Columns);
 				List<IO.Key> keys = columns.RetrieveAll();
 
@@ -311,20 +301,32 @@ namespace Timotheus.Views.Dialogs
 					int value = int.Parse(keys[i].Value);
 				}
 
-				if (ExportPath == string.Empty)
-                    throw new Exception(Localization.Exception_PDFEmptyExport);
-
-                DialogResult = DialogResult.OK;
+				DialogResult = DialogResult.OK;
             }
-			catch (FormatException ex)
+			catch (FormatException exception)
 			{
-                Exception outer = new(Localization.Exception_ColumnWidth, ex);
+                Exception outer = new(Localization.Exception_ColumnWidth, exception);
 				Program.Error(Localization.Exception_Name, outer, this);
 			}
-			catch (Exception ex) 
+			catch (Exception exception) 
             {
-                Program.Error(Localization.Exception_Name, ex, this);
+                Program.Error(Localization.Exception_Name, exception, this);
             }
         }
-    }
+
+        public string DirectoryPath = string.Empty;
+		private string GetProjectPath(string path)
+		{
+			if (path.StartsWith(DirectoryPath))
+			{
+				path = path.Substring(DirectoryPath.Length);
+			}
+			else
+			{
+				throw new Exception(Localization.Exception_NotInProjectFolder.Replace("#1", DirectoryPath));
+			}
+
+			return path;
+		}
+	}
 }

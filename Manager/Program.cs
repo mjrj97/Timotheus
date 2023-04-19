@@ -12,6 +12,7 @@ using System.Security.AccessControl;
 using System.Runtime.InteropServices;
 using Timotheus.Views.Dialogs;
 using Timotheus.Utility;
+using Avalonia.Threading;
 
 namespace Timotheus
 {
@@ -182,19 +183,22 @@ namespace Timotheus
         /// <param name="title">Title of the dialog</param>
         /// <param name="exception">Error that occured and which should be shown</param>
         /// <param name="window">Parent window of the error</param>
-        internal async static void Error(string title, Exception exception, Window window)
+        internal static void Error(string title, Exception exception, Window window)
         {
             Log(exception);
 
-            ErrorDialog msDialog = new()
-            {
-                DialogTitle = title,
-                DialogText = exception.Message
-            };
-            if (!window.IsVisible)
-                window.Show();
+			Dispatcher.UIThread.InvokeAsync(async delegate
+			{
+				ErrorDialog msDialog = new()
+				{
+					DialogTitle = title,
+					DialogText = exception.Message
+				};
+				if (!window.IsVisible)
+					window.Show();
 
-            await msDialog.ShowDialog(window);
+				await msDialog.ShowDialog(window);
+			});
         }
 
         /// <summary>

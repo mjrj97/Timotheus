@@ -1,65 +1,11 @@
-using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
-using System;
-using System.Text.RegularExpressions;
 
 namespace Timotheus.Views.Dialogs
 {
     public partial class Settings : Dialog
     {
-        private string _description = string.Empty;
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
-            set
-            {
-                _description = value;
-                NotifyPropertyChanged(nameof(Description));
-            }
-        }
-
-        private string _startTime;
-        public string StartTime
-        {
-            get { return _startTime; }
-            set
-            {
-                _startTime = value;
-                NotifyPropertyChanged(nameof(StartTime));
-            }
-        }
-
-        private string _endTime;
-        public string EndTime
-        {
-            get { return _endTime; }
-            set
-            {
-                _endTime = value;
-                NotifyPropertyChanged(nameof(EndTime));
-            }
-        }
-
-        private Bitmap _image = null;
-        public Bitmap Image
-        {
-            get
-            {
-                return _image;
-            }
-            set
-            {
-                _image = value;
-                NotifyPropertyChanged(nameof(Image));
-            }
-        }
-
         private int _selectedLanguage = 0;
         public int SelectedLanguage
         {
@@ -108,25 +54,6 @@ namespace Timotheus.Views.Dialogs
         {
             DataContext = this;
             AvaloniaXamlLoader.Load(this);
-        }
-
-        /// <summary>
-        /// Makes sure that the year fields only contain numbers.
-        /// </summary>
-        private void FixTime(object sender, KeyEventArgs e)
-        {
-            string text = ((TextBox)sender).Text;
-            try
-            {
-                Regex regexObj = new(@"[^\d&&:&&.]");
-                ((TextBox)sender).Text = regexObj.Replace(text, "");
-                NotifyPropertyChanged(nameof(StartTime));
-                NotifyPropertyChanged(nameof(EndTime));
-            }
-            catch (ArgumentException ex)
-            {
-                Program.Log(ex);
-            }
         }
 
         /// <summary>

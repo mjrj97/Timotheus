@@ -22,6 +22,23 @@
 	<Style Selector="TextBox">
 		<Setter Property="Background" Value="#ffffff"/>
 	</Style>
+	
+	<Style Selector="TextBox.DataGridTextBox:disabled">
+		<Setter Property="Foreground" Value="Gray"/>
+	</Style>
+	<Style Selector="TextBox.DataGridTextBox /template/ Border#PART_BorderElement">
+		<Setter Property="Background" Value="Transparent"/>
+	</Style>
+	<Style Selector="TextBox.DataGridTextBox:disabled /template/ Border#PART_BorderElement">
+		<Setter Property="Background" Value="Transparent"/>
+	</Style>
+	<Style Selector="TextBox.DataGridTextBox:pointerover /template/ Border#PART_BorderElement">
+		<Setter Property="Background" Value="Transparent"/>
+	</Style>
+	<Style Selector="TextBox.DataGridTextBox:focus /template/ Border#PART_BorderElement">
+		<Setter Property="Background" Value="White"/>
+	</Style>
+	
 	<Style Selector="TabItem">
 		<Setter Property="FontSize" Value="24"/>
 		<Setter Property="Height" Value="64"/>

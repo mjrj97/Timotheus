@@ -118,6 +118,8 @@ namespace Timotheus.IO
         /// <returns></returns>
         private List<Key> Load(string text)
         {
+            if (text == null)
+                text = string.Empty;
             string[] lines = Regex.Split(text, "\r\n|\r|\n");
             List<Key> keys = new();
 

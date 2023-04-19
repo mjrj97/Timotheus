@@ -6,16 +6,16 @@ using System.IO;
 using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
+using Ical.Net.CalendarComponents;
 using Timotheus.IO;
-using Timotheus.Schedule;
 
 namespace Timotheus.Utility
 {
     public static class PDF
     {
-        public static void CreateTable(List<Event> events, string path, string title, string subtitle, string footer, string logoPath, Register columns)
+        public static void CreateTable(List<CalendarEvent> events, string path, string title, string subtitle, string footer, string logoPath, Register columns)
         {
-            List<Event> SortedList = events.OrderBy(o => o.Start).ToList();
+            List<CalendarEvent> SortedList = events.OrderBy(o => o.Start).ToList();
             List<Key> Columns = columns.RetrieveAll();
 
             int pages = 1;
@@ -90,9 +90,11 @@ namespace Timotheus.Utility
                 if (gray)
                     gfx.DrawRectangle(alternatingGray, new XRect(26, 190+12*i, 786, 12));
 
-                string name = SortedList[i].Name;
-                Register values = new(':', SortedList[i].Description);
-                DateTime time = SortedList[i].Start;
+                string name = SortedList[i].Summary;
+                string description = SortedList[i].Description != null ? SortedList[i].Description : string.Empty;
+
+				Register values = new(':', description);
+                DateTime time = SortedList[i].Start.Value;
 
                 if (i == 0 || (SortedList[i - 1].Start.Date != SortedList[i].Start.Date))
                     gfx.DrawString(time.ToString("ddd. d. MMM", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(28, 190 + 12 * i, 85, 12), XStringFormats.CenterLeft);
@@ -131,14 +133,16 @@ namespace Timotheus.Utility
                         if (gray)
                             addGFX.DrawRectangle(alternatingGray, new XRect(26, 46 + 12 * i, 786, 12));
 
-                        string name = SortedList[j+i].Name;
-                        Register values = new(':', SortedList[j+i].Description);
-                        DateTime time = SortedList[j+i].Start;
+                        string name = SortedList[j+i].Summary;
+                        string description = SortedList[j+i].Description != null ? SortedList[i].Description : string.Empty;
+
+						Register values = new(':', description);
+                        DateTime time = SortedList[j+i].Start.Value;
 
                         if (SortedList[j + i - 1].Start.Date != SortedList[j + i].Start.Date)
                             addGFX.DrawString(time.ToString("ddd. d. MMM", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(28, 46 + 12 * i, 85, 12), XStringFormats.CenterLeft);
                         addGFX.DrawString((time.Minute == 0 && time.Hour == 0) ? "" : time.ToString("t", Timotheus.Culture), tableContent, XBrushes.Black, new XRect(113, 46 + 12 * i, 57, 12), XStringFormats.CenterLeft);
-                        addGFX.DrawString(name, tableContent, XBrushes.Black, new XRect(170, 46 + 12 * i, 294, 12), XStringFormats.CenterLeft);
+                        addGFX.DrawString(name, tableContent, XBrushes.Black, new XRect(156, 46 + 12 * i, 294, 12), XStringFormats.CenterLeft);
 
 						int totalWidth = 0;
 						for (int k = 0; k < Columns.Count; k++)
@@ -170,9 +174,9 @@ namespace Timotheus.Utility
             p.Start();
         }
 
-        public static void CreateBook(List<Event> events, string path, string title, string subtitle, string comment, string backpage, string logoPath)
+        public static void CreateBook(List<CalendarEvent> events, string path, string title, string subtitle, string comment, string backpage, string logoPath)
         {
-            List<Event> SortedList = events.OrderBy(o => o.Start).ToList();
+            List<CalendarEvent> SortedList = events.OrderBy(o => o.Start).ToList();
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             PdfDocument document = new();
             double padding = 50;
@@ -289,7 +293,7 @@ namespace Timotheus.Utility
                 double totalHeight = 0.0;
                 for (int i = 0; i < SortedList.Count; i++)
                 {
-                    Event e = SortedList[i];
+					CalendarEvent e = SortedList[i];
                     if (i == 0 || SortedList[i - 1].Start.Month != e.Start.Month)
                     {
                         if (i != 0)
@@ -300,13 +304,13 @@ namespace Timotheus.Utility
 
                     //double height = GetTextHeight(gfx, Event, e.Name, rectWidth - dateWidth);
                     
-                    tf.PrepareDrawString(e.Name, Event, new XRect(), out int lastFittingChar, out double height);
+                    tf.PrepareDrawString(e.Summary, Event, new XRect(), out int lastFittingChar, out double height);
                     totalHeight += height + lineSpacing;
                 }
 
                 for (int i = 0; i < SortedList.Count; i++)
                 {
-                    Event e = SortedList[i];
+					CalendarEvent e = SortedList[i];
                     double monthHeight = 0.0;
                     if (i == 0 || SortedList[i - 1].Start.Month != e.Start.Month)
                     {
@@ -315,7 +319,7 @@ namespace Timotheus.Utility
                         tf.PrepareDrawString(months[e.Start.Month - 1], Month, new XRect(0, 0, rectWidth, double.MaxValue), out int lastFittingChar2, out monthHeight);
                     }
 
-                    tf.PrepareDrawString(e.Name, Event, new XRect(0,0, rectWidth - dateWidth,double.MaxValue), out int lastFittingChar, out double height);
+                    tf.PrepareDrawString(e.Summary, Event, new XRect(0,0, rectWidth - dateWidth,double.MaxValue), out int lastFittingChar, out double height);
                     if ((height + monthHeight) > (page.Height - 2 * padding - currentHeight))
                     {
                         currentHeight = 0.0;
@@ -337,7 +341,7 @@ namespace Timotheus.Utility
                             day = e.Start.Day.ToString() + ".";
                         tf.DrawString(day, Date, Black, new XRect(currentX, padding + currentHeight, dateWidth, height), XStringFormats.TopLeft);
                     }
-                    tf.DrawString(e.Name, Event, Black, new XRect(dateWidth + currentX, padding + currentHeight, rectWidth - dateWidth, height), XStringFormats.TopLeft);
+                    tf.DrawString(e.Summary, Event, Black, new XRect(dateWidth + currentX, padding + currentHeight, rectWidth - dateWidth, height), XStringFormats.TopLeft);
                     currentHeight += height + lineSpacing;
                 }
             }

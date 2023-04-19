@@ -21,30 +21,30 @@
 								<TextBlock Text="{Binding Footer}" Margin="45 166 0 0" FontSize="3" FontFamily="Verdana"/>
 							</Grid>
 						</Border>
-						<DockPanel Margin="0 10 0 0">
+						<DockPanel Margin="0 10 0 0" ToolTip.Tip="{x:Static local:Localization.PDF_Logo_ToolTip}">
 							<TextBlock Text="{x:Static local:Localization.PDF_Logo}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
 							<Button Content="{x:Static local:Localization.PDF_Browse}" TabIndex="2" Click="LogoBrowse_Click" DockPanel.Dock="Right" Margin="10 0 0 0"/>
 							<TextBox Text="{Binding LogoPath}" KeyDown="LogoKeyDown" Watermark="C:/..." TabIndex="1"/>
 						</DockPanel>
-						<DockPanel Margin="0 10 0 0">
+						<DockPanel Margin="0 10 0 0" ToolTip.Tip="{x:Static local:Localization.PDF_Title_ToolTip}">
 							<TextBlock Text="{x:Static local:Localization.PDF_Title}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
 							<TextBox Text="{Binding PDFTitle}" TabIndex="3"/>
 						</DockPanel>
-						<DockPanel Margin="0 10 0 0">
+						<DockPanel Margin="0 10 0 0" ToolTip.Tip="{x:Static local:Localization.PDF_Subtitle_ToolTip}">
 							<TextBlock Text="{x:Static local:Localization.PDF_Subtitle}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
 							<TextBox Text="{Binding Subtitle}" TabIndex="4"/>
 						</DockPanel>
-						<DockPanel Margin="0 10 0 0">
+						<DockPanel Margin="0 10 0 0" ToolTip.Tip="{x:Static local:Localization.PDF_Footer_ToolTip}">
 							<TextBlock Text="{x:Static local:Localization.PDF_Footer}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
 							<TextBox Text="{Binding Footer}" TabIndex="5"/>
 						</DockPanel>
-						<DockPanel Margin="0 10 0 0">
+						<DockPanel Margin="0 10 0 0" ToolTip.Tip="{x:Static local:Localization.PDF_Columns_ToolTip}">
 							<TextBlock Text="{x:Static local:Localization.PDF_Columns}" Width="90" VerticalAlignment="Top" Margin="0 10 10 0"/>
 							<TextBox Text="{Binding Columns}" Watermark="{x:Static local:Localization.PDF_WatermarkColumns}" TabIndex="6" TextWrapping="Wrap" Height="100" AcceptsReturn="True"/>
 						</DockPanel>
 					</StackPanel>
 				</TabItem>
-				<TabItem Header="Book">
+				<TabItem Header="{x:Static local:Localization.PDF_Type_Book}">
 					<StackPanel>
 						<Border Background="White" BorderBrush="Black" BorderThickness="1" Margin="0 0 0 10" Width="260" Height="180">
 							<Grid>
@@ -56,24 +56,24 @@
 								<TextBlock Text="{Binding Backpage}" Margin="15 15 145 15" TextWrapping="Wrap" FontSize="3" Foreground="Black" FontFamily="Verdana"/>
 							</Grid>
 						</Border>
-						<DockPanel Margin="0 10">
+						<DockPanel Margin="0 10" ToolTip.Tip="{x:Static local:Localization.PDF_Logo_ToolTip}">
 							<TextBlock Text="{x:Static local:Localization.PDF_Logo}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
 							<Button Content="{x:Static local:Localization.PDF_Browse}" TabIndex="8" Click="LogoBrowse_Click" DockPanel.Dock="Right" Margin="10 0 0 0"/>
 							<TextBox Text="{Binding LogoPath}" KeyDown="LogoKeyDown" TabIndex="7" Watermark="C:/..."/>
 						</DockPanel>
-						<DockPanel>
+						<DockPanel ToolTip.Tip="{x:Static local:Localization.PDF_Title_ToolTip}">
 							<TextBlock Text="{x:Static local:Localization.PDF_Title}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
 							<TextBox Text="{Binding PDFTitle}" TabIndex="9"/>
 						</DockPanel>
-						<DockPanel Margin="0 10">
+						<DockPanel Margin="0 10" ToolTip.Tip="{x:Static local:Localization.PDF_Subtitle_ToolTip}">
 							<TextBlock Text="{x:Static local:Localization.PDF_Subtitle}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
 							<TextBox Text="{Binding Subtitle}" TabIndex="10"/>
 						</DockPanel>
-						<DockPanel>
+						<DockPanel ToolTip.Tip="{x:Static local:Localization.PDF_Comment_ToolTip}">
 							<TextBlock Text="{x:Static local:Localization.PDF_Comment}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
 							<TextBox Text="{Binding Comment}" TabIndex="11"/>
 						</DockPanel>
-						<DockPanel Margin="0 10 0 0">
+						<DockPanel Margin="0 10 0 0" ToolTip.Tip="{x:Static local:Localization.PDF_Backpage_ToolTip}">
 							<TextBlock Text="{x:Static local:Localization.PDF_Backpage}" Width="90" VerticalAlignment="Top" Margin="0 10 10 0"/>
 							<TextBox Text="{Binding Backpage}" TabIndex="12" TextWrapping="Wrap" Height="100" AcceptsReturn="True"/>
 						</DockPanel>
@@ -83,12 +83,7 @@
 		</Border>
 		<Border BorderBrush="Black" BorderThickness="1" Margin="0 10">
 			<StackPanel>
-				<DockPanel Margin="20 20 20 0">
-					<TextBlock Text="{x:Static local:Localization.PDF_ExportPath}" Width="90" VerticalAlignment="Center" Margin="0 0 10 0"/>
-					<Button Content="{x:Static local:Localization.PDF_Browse}" TabIndex="14" Click="ExportBrowse_Click" DockPanel.Dock="Right" Margin="10 0 0 0"/>
-					<TextBox Text="{Binding ExportPath}" TabIndex="13" Watermark="C:/..."/>
-				</DockPanel>
-				<DockPanel Margin="20 10 20 20">
+				<DockPanel Margin="20" ToolTip.Tip="{x:Static local:Localization.PDF_Archive_ToolTip}">
 					<TextBlock Text="{x:Static local:Localization.PDF_ArchivePath}" Width="60" VerticalAlignment="Center" Margin="0 0 10 0"/>
 					<CheckBox IsChecked="{Binding SaveToArchive}" TabIndex="15" Width="30"/>
 					<Button IsEnabled="{Binding SaveToArchive}" TabIndex="17" Content="{x:Static local:Localization.PDF_Browse}" Click="ArchiveBrowse_Click" DockPanel.Dock="Right" Margin="10 0 0 0"/>

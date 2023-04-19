@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Threading;
-using System.Diagnostics;
 using System.Net.Sockets;
 using Timotheus.IO;
 using Timotheus.Views;
@@ -16,7 +15,7 @@ namespace Timotheus.ViewModels
     /// <summary>
     /// Class that contains (S)FTP related methods.
     /// </summary>
-    public class DirectoryViewModel : ViewModel
+    public class DirectoryViewModel : TabViewModel
     {
         /// <summary>
         /// The currently selected file. Used for the context menu.
@@ -70,7 +69,8 @@ namespace Timotheus.ViewModels
             {
                 _currentDirectory = value;
                 NotifyPropertyChanged(nameof(CurrentDirectory));
-            }
+				NotifyPropertyChanged(nameof(Refresh_ToolTip));
+			}
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Timotheus.ViewModels
         {
             get
             {
-                string log = LocalPath + "/.tfilelog";
+                string log = Path + "/.tfilelog";
                 string text = Localization.SFTP_Sync_ToolTip;
                 if (File.Exists(log))
                 {
@@ -88,12 +88,25 @@ namespace Timotheus.ViewModels
                     text = text.Replace("#", info.LastAccessTime.ToString());
                 }
                 else
-                    text = text.Replace("#", Localization.SFTP_NeverSynced);
+                {
+					text = text.Replace("#", Localization.SFTP_NeverSynced);
+				}
                 return text;
             }
         }
 
-        private ObservableCollection<FileViewModel> _Files = new();
+        /// <summary>
+        /// Tool tip for Refresh button
+        /// </summary>
+		public string Refresh_ToolTip
+		{
+			get
+			{
+				return Localization.SFTP_Refresh_ToolTip.Replace("#1", Path + CurrentDirectory);
+			}
+		}
+
+		private ObservableCollection<FileViewModel> _Files = new();
         /// <summary>
         /// A list of files in the current directory.
         /// </summary>
@@ -107,10 +120,6 @@ namespace Timotheus.ViewModels
             }
         }
 
-        /// <summary>
-        /// The path of the local directory to be watched and synced with.
-        /// </summary>
-        public readonly string LocalPath = string.Empty;
         /// <summary>
         /// The path of the remote directory to be watched and synced with.
         /// </summary>
@@ -144,13 +153,13 @@ namespace Timotheus.ViewModels
                 }, null, startTimeSpan, periodTimeSpan);
             }
 
-            LocalPath = Path.TrimEndingDirectorySeparator(localPath);
-            RemotePath = Path.TrimEndingDirectorySeparator(remotePath);
+            Path = System.IO.Path.TrimEndingDirectorySeparator(localPath);
+            RemotePath = System.IO.Path.TrimEndingDirectorySeparator(remotePath);
 
-            LocalPath = LocalPath.Replace('\\', '/');
+            Path = Path.Replace('\\', '/');
             RemotePath = RemotePath.Replace('\\', '/');
 
-            if (!Directory.Exists(LocalPath))
+            if (!Directory.Exists(Path))
                 throw new Exception(Localization.Exception_CantFindFolder);
             if (port != 22 && port != 21)
                 throw new Exception(Localization.Exception_PortNotSupported);
@@ -200,7 +209,7 @@ namespace Timotheus.ViewModels
                         System.Diagnostics.Debug.WriteLine("Symbolic link ignore: " + file.FullName);
                     else
                     {
-                        DirectoryInfo dir = Directory.CreateDirectory(Path.Combine(localPath, file.Name));
+                        DirectoryInfo dir = Directory.CreateDirectory(System.IO.Path.Combine(localPath, file.Name));
                         DownloadDirectory(file.FullName, dir.FullName);
                     }
                 }
@@ -237,7 +246,7 @@ namespace Timotheus.ViewModels
 
             for (int i = 0; i < localFilePaths.Length; i++)
             {
-                string name = Path.GetFileName(localFilePaths[i]);
+                string name = System.IO.Path.GetFileName(localFilePaths[i]);
                 if (Ignore(name))
                     continue;
                 client.UploadFile(ConvertPath(localFilePaths[i]), localFilePaths[i]);
@@ -267,7 +276,7 @@ namespace Timotheus.ViewModels
             {
                 NotifyPropertyChanged(nameof(NotSyncing));
                 if (client != null)
-                    Synchronize(RemotePath, LocalPath);
+					SynchronizeFolder(RemotePath, Path);
             }
             catch (Exception ex)
             {
@@ -280,7 +289,7 @@ namespace Timotheus.ViewModels
         /// </summary>
         /// <param name="remotePath">Path of the directory on the server.</param>
         /// <param name="localPath">Path of the directory on the local machine.</param>
-        private void Synchronize(string remotePath, string localPath)
+        private void SynchronizeFolder(string remotePath, string localPath)
         {
             #region CONNECTION
             bool isPreconnected = client.IsConnected;
@@ -324,22 +333,6 @@ namespace Timotheus.ViewModels
         }
 
         /// <summary>
-        /// Event after the synchronization is complete.
-        /// </summary>
-        private void SyncComplete(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Result is Exception ex)
-            {
-                Dispatcher.UIThread.InvokeAsync(delegate
-                {
-                    Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
-                });
-            }
-            NotifyPropertyChanged(nameof(NotSyncing));
-            NotifyPropertyChanged(nameof(SynchronizeToolTip));
-        }
-
-        /// <summary>
         /// Synchronizes a specific file.
         /// </summary>
         public void SynchronizeFile(DirectoryFile file)
@@ -349,7 +342,7 @@ namespace Timotheus.ViewModels
             {
                 case SyncHandle.Synchronize:
                     if (file.IsDirectory)
-                        Synchronize(file.RemoteFile.FullName, file.LocalFile.FullName);
+						SynchronizeFolder(file.RemoteFile.FullName, file.LocalFile.FullName);
                     break;
                 case SyncHandle.NewDownload:
                 case SyncHandle.Download:
@@ -390,11 +383,27 @@ namespace Timotheus.ViewModels
             }
         }
 
-        /// <summary>
-        /// Deletes the file in the local and remote directory.
-        /// </summary>
-        /// <param name="file"></param>
-        public void Delete(FileViewModel file)
+		/// <summary>
+		/// Event after the synchronization is complete.
+		/// </summary>
+		private void SyncComplete(object sender, RunWorkerCompletedEventArgs e)
+		{
+			if (e.Result is Exception ex)
+			{
+				Dispatcher.UIThread.InvokeAsync(delegate
+				{
+					Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+				});
+			}
+			NotifyPropertyChanged(nameof(NotSyncing));
+			NotifyPropertyChanged(nameof(SynchronizeToolTip));
+		}
+
+		/// <summary>
+		/// Deletes the file in the local and remote directory.
+		/// </summary>
+		/// <param name="file"></param>
+		public void Delete(FileViewModel file)
         {
             if (file.IsDirectory)
             {
@@ -429,7 +438,7 @@ namespace Timotheus.ViewModels
 
             GoToDirectory(CurrentDirectory);
             if (Connected)
-                DirectoryLog.Save(LocalPath + CurrentDirectory, client.ListDirectory(RemotePath + CurrentDirectory));
+                DirectoryLog.Save(Path + CurrentDirectory, client.ListDirectory(RemotePath + CurrentDirectory));
         }
 
         /// <summary>
@@ -439,7 +448,7 @@ namespace Timotheus.ViewModels
         {
             string path;
             if (CurrentDirectory.Length > 1)
-                path = Path.GetDirectoryName(Path.GetDirectoryName(CurrentDirectory)).Replace("\\", "/");
+                path = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(CurrentDirectory)).Replace("\\", "/");
             else
                 throw new Exception(Localization.Exception_CantGoUpDirectory);
             if (!path.EndsWith('/'))
@@ -461,18 +470,11 @@ namespace Timotheus.ViewModels
                     path = "/" + path;
                 if (!path.EndsWith("/"))
                 {
-                    string filePath = LocalPath + path;
+                    string filePath = Path + path;
                     if (File.Exists(filePath))
                     {
-                        Process p = new()
-                        {
-                            StartInfo = new ProcessStartInfo(filePath)
-                            {
-                                UseShellExecute = true
-                            }
-                        };
-                        p.Start();
-                        CurrentDirectory = Path.GetDirectoryName(path).Replace('\\', '/');
+                        Open(filePath);
+                        CurrentDirectory = System.IO.Path.GetDirectoryName(path).Replace('\\', '/');
                         GoToDirectory(CurrentDirectory);
                         return;
                     }
@@ -483,7 +485,7 @@ namespace Timotheus.ViewModels
 
             if (client != null)
             {
-                bool ExistsLocally = Directory.Exists(LocalPath + path);
+                bool ExistsLocally = Directory.Exists(Path + path);
                 bool ExistsRemotely = false;
 
                 try
@@ -543,7 +545,7 @@ namespace Timotheus.ViewModels
             {
                 if (file.LocalFullName != null && file.LocalFullName != string.Empty)
                 {
-                    string newlocal = Path.Combine(Path.GetDirectoryName(file.LocalFullName), newName);
+                    string newlocal = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(file.LocalFullName), newName);
                     if (file.IsDirectory)
                         Directory.Move(file.LocalFullName, newlocal);
                     else
@@ -551,7 +553,7 @@ namespace Timotheus.ViewModels
                 }
                 if (Connected && file.RemoteFullName != null && file.RemoteFullName != string.Empty)
                 {
-                    string newremote = Path.Combine(Path.GetDirectoryName(file.RemoteFullName), newName).Replace('\\', '/');
+                    string newremote = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(file.RemoteFullName), newName).Replace('\\', '/');
                     try
                     {
                         client.RenameFile(file.RemoteFullName, newremote);
@@ -580,29 +582,34 @@ namespace Timotheus.ViewModels
             {
                 if (file.LocalFullName != string.Empty)
                 {
-                    if (File.Exists(file.LocalFullName))
-                    {
-                        Process p = new()
-                        {
-                            StartInfo = new ProcessStartInfo(file.LocalFullName)
-                            {
-                                UseShellExecute = true
-                            }
-                        };
-                        p.Start();
-                    }
+                    Open(file.LocalFullName);
                 }
                 else
                     throw new Exception(Localization.Exception_OnlineFile);
             }
         }
 
+        public static void Open(string file)
+        {
+			if (File.Exists(file))
+			{
+				System.Diagnostics.Process p = new()
+				{
+					StartInfo = new System.Diagnostics.ProcessStartInfo(file)
+					{
+						UseShellExecute = true
+					}
+				};
+				p.Start();
+			}
+		}
+
         /// <summary>
         /// Creates a new folder with the given name in the current directory.
         /// </summary>
         public void NewFolder(string name)
         {
-            string localpath = LocalPath + CurrentDirectory + name;
+            string localpath = Path + CurrentDirectory + name;
             if (!Directory.Exists(localpath))
                 Directory.CreateDirectory(localpath);
             else
@@ -708,7 +715,7 @@ namespace Timotheus.ViewModels
         {
             if (path == string.Empty)
                 return new List<DirectoryFile>();
-            return GetFiles(RemotePath + path, LocalPath + path);
+            return GetFiles(RemotePath + path, Path + path);
         }
 
         /// <summary>
@@ -716,8 +723,8 @@ namespace Timotheus.ViewModels
         /// </summary>
         public static bool Ignore(string fileName)
         {
-            fileName = Path.GetFileName(fileName);
-            return fileName[0] == '.' || Path.GetExtension(fileName) == ".tkey" || fileName.StartsWith("~$");
+            fileName = System.IO.Path.GetFileName(fileName);
+            return fileName[0] == '.' || System.IO.Path.GetExtension(fileName) == ".tkey" || fileName.StartsWith("~$");
         }
 
         /// <summary>
@@ -728,13 +735,13 @@ namespace Timotheus.ViewModels
         {
             path = path.Replace('\\', '/');
             string newPath;
-            if (path.StartsWith(LocalPath))
+            if (path.StartsWith(Path))
             {
-                newPath = RemotePath + path[LocalPath.Length..];
+                newPath = RemotePath + path[Path.Length..];
             }
             else if (path.StartsWith(RemotePath))
             {
-                newPath = LocalPath + path[RemotePath.Length..];
+                newPath = Path + path[RemotePath.Length..];
             }
             else
                 throw new Exception(Localization.Exception_ConversionError);
