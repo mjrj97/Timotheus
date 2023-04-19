@@ -10,14 +10,7 @@
   <DockPanel>
     <DockPanel DockPanel.Dock="Top">
       <Menu DockPanel.Dock="Top">
-		<MenuItem Click="NewProject_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_NewFile_ToolTip}">
-			 <MenuItem.Header>
-				 <DockPanel>
-					 <Image Source="/Resources/File.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
-					 <TextBlock Text="{x:Static local:Localization.ToolStrip_NewFile}" VerticalAlignment="Center"/>
-				 </DockPanel>
-			 </MenuItem.Header>
-        </MenuItem>
+		
 		<MenuItem>
 			<MenuItem.Header>
 				<DockPanel>
@@ -25,9 +18,18 @@
 					<TextBlock Text="{x:Static local:Localization.ToolStrip_Key}" VerticalAlignment="Center"/>
 				</DockPanel>
 			</MenuItem.Header>
+			<MenuItem Click="NewProject_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_NewFile_ToolTip}">
+				<MenuItem.Header>
+					<DockPanel>
+						<Image Source="/Resources/File.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
+						<TextBlock Text="{x:Static local:Localization.ToolStrip_NewFile}" VerticalAlignment="Center"/>
+					</DockPanel>
+				</MenuItem.Header>
+			</MenuItem>
 			<MenuItem Click="SaveKey_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_SaveKey_ToolTip}">
 				<MenuItem.Header>
 					<DockPanel>
+						<Image Source="/Resources/Save.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
 						<TextBlock Text="{x:Static local:Localization.ToolStrip_SaveKey}" VerticalAlignment="Center"/>
 					</DockPanel>
 				</MenuItem.Header>
@@ -35,6 +37,7 @@
 			<MenuItem Click="SaveAsKey_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_SaveAsKey_ToolTip}">
 				<MenuItem.Header>
 					<DockPanel>
+						<Image Source="/Resources/SaveAs.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
 						<TextBlock Text="{x:Static local:Localization.ToolStrip_SaveAsKey}" VerticalAlignment="Center"/>
 					</DockPanel>
 				</MenuItem.Header>
@@ -42,6 +45,7 @@
 			<MenuItem Click="OpenKey_Click" ToolTip.Tip="{x:Static local:Localization.ToolStrip_OpenKey_ToolTip}">
 				<MenuItem.Header>
 					<DockPanel>
+						<Image Source="/Resources/Open.png" Height="16" VerticalAlignment="Center" Margin="0 0 5 0"/>
 						<TextBlock Text="{x:Static local:Localization.ToolStrip_LoadKey}" VerticalAlignment="Center"/>
 					</DockPanel>
 				</MenuItem.Header>

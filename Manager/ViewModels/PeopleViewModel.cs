@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Timotheus.Persons;
 
 namespace Timotheus.ViewModels
 {
-    public class PeopleViewModel : ViewModel
+    public class PeopleViewModel : TabViewModel
     {
 		/// <summary>
 		/// The currently selected person. Used for the context menu.
@@ -97,8 +97,20 @@ namespace Timotheus.ViewModels
             }
         }
 
-        public PeopleViewModel(string path = "")
+		public string Save_ToolTip
+		{
+			get
+			{
+				if (Path == string.Empty)
+					return Localization.People_Save_ToolTip.Replace("#1", Localization.Unsaved);
+				else
+					return Localization.People_Save_ToolTip.Replace("#1", Path);
+			}
+		}
+
+		public PeopleViewModel(string path = "")
         {
+            Path = path;
             if (path != string.Empty)
             {
                 PersonRepo = new(path);
@@ -109,7 +121,9 @@ namespace Timotheus.ViewModels
 
         public void Save(string path)
         {
-            PersonRepo.Save(path);
+            Path = path;
+			NotifyPropertyChanged(nameof(Save_ToolTip));
+			PersonRepo.Save(path);
         }
 
         /// <summary>

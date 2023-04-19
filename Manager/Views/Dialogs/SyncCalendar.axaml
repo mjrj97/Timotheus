@@ -8,34 +8,7 @@
         Title="{x:Static local:Localization.SyncCalendar}">
 
   <DockPanel Margin="20">
-    <Border Classes="t1" DockPanel.Dock="Top" Padding="10">
-      <DockPanel>
-        <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-          <TextBlock Text="{x:Static local:Localization.SyncCalendar_Destination}" FontWeight="Bold"/>
-        </DockPanel>
-        <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-			<RadioButton TabIndex="0" Content="{x:Static local:Localization.SyncCalendar_UseExistingButton}" GroupName="SyncType" IsChecked="{Binding UseCurrent}" IsEnabled="{Binding CanUseCurrent}"/>
-        </DockPanel>
-        <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
-			<RadioButton TabIndex="1" Content="{x:Static local:Localization.SyncCalendar_NewCalendarButton}" GroupName="SyncType" IsChecked="{Binding !UseCurrent}"/>
-        </DockPanel>
-        <DockPanel IsEnabled="{Binding IsRemote}">
-          <DockPanel DockPanel.Dock="Top">
-            <TextBlock Text="{x:Static local:Localization.SyncCalendar_CalDAVLabel}" Width="100" VerticalAlignment="Center"/>
-			  <TextBox TabIndex="2" Watermark="https://caldav.domain.com" Text="{Binding URL}"/>
-          </DockPanel>
-          <DockPanel Margin="0 10" DockPanel.Dock="Top">
-            <TextBlock Text="{x:Static local:Localization.SyncCalendar_UsernameLabel}" Width="100" VerticalAlignment="Center"/>
-			  <TextBox TabIndex="3" Watermark="example@domain.com" Text="{Binding Username}"/>
-          </DockPanel>
-          <DockPanel DockPanel.Dock="Top">
-            <TextBlock Text="{x:Static local:Localization.SyncCalendar_PasswordLabel}" Width="100" VerticalAlignment="Center"/>
-			  <TextBox TabIndex="4" Watermark="********" PasswordChar="*" Text="{Binding Password}"/>
-          </DockPanel>
-        </DockPanel>
-      </DockPanel>
-    </Border>
-    <Border Classes="t1" DockPanel.Dock="Top" Padding="10" Margin="0 10 0 10">
+    <Border Classes="t1" DockPanel.Dock="Top" Padding="10" Margin="0 0 0 10">
       <DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="0 0 0 5">
           <TextBlock Text="{x:Static local:Localization.SyncCalendar_Settings}" FontWeight="Bold"/>

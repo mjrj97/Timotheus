@@ -47,15 +47,15 @@ namespace Timotheus.Views.Tabs
         /// </summary>
         public override void Load()
         {
-            if (Keys.Retrieve("SSH-LocalDirectory") != string.Empty)
+            if (Project.FilePath != string.Empty)
             {
 				try
 				{
-					ViewModel = new DirectoryViewModel(Keys.Retrieve("SSH-LocalDirectory"), Keys.Retrieve("SSH-RemoteDirectory"), Keys.Retrieve("SSH-URL"), int.Parse(Keys.Retrieve("SSH-Port") == string.Empty ? "22" : Keys.Retrieve("SSH-Port")), Keys.Retrieve("SSH-Username"), Keys.Retrieve("SSH-Password"), Keys.Retrieve("SSH-Sync") == "True", int.Parse(Keys.Retrieve("SSH-SyncInterval") == string.Empty ? "60" : Keys.Retrieve("SSH-SyncInterval")));
+					ViewModel = new DirectoryViewModel(Project.DirectoryPath, Project.Keys.Retrieve("SSH-RemoteDirectory"), Project.Keys.Retrieve("SSH-URL"), int.Parse(Project.Keys.Retrieve("SSH-Port") == string.Empty ? "22" : Project.Keys.Retrieve("SSH-Port")), Project.Keys.Retrieve("SSH-Username"), Project.Keys.Retrieve("SSH-Password"), Project.Keys.Retrieve("SSH-Sync") == "True", int.Parse(Project.Keys.Retrieve("SSH-SyncInterval") == string.Empty ? "60" : Project.Keys.Retrieve("SSH-SyncInterval")));
 				}
-				catch (Exception ex)
+				catch (Exception exception)
 				{
-					Program.Log(ex);
+					Program.Error(Localization.Exception_Name, exception, MainWindow.Instance);
 					ViewModel = new();
 				}
 			}
@@ -72,9 +72,9 @@ namespace Timotheus.Views.Tabs
             {
                 ViewModel.GoUpDirectory();
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+                Program.Error(Localization.Exception_Name, exception, MainWindow.Instance);
             }
         }
 
@@ -87,9 +87,9 @@ namespace Timotheus.Views.Tabs
             {
                 ViewModel.GoToDirectory(ViewModel.CurrentDirectory);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+                Program.Error(Localization.Exception_Name, exception, MainWindow.Instance);
             }
         }
 
@@ -100,16 +100,19 @@ namespace Timotheus.Views.Tabs
         {
             try
             {
-                ProgressDialog dialog = new()
+				if (Project.FilePath == string.Empty)
+					throw new Exception(Localization.Exception_MustSaveKeyFirst);
+
+				ProgressDialog dialog = new()
                 {
                     Title = Localization.SFTP_SyncWorker
                 };
                 await dialog.ShowDialog(MainWindow.Instance, ViewModel.Sync);
                 ViewModel.GoToDirectory(ViewModel.CurrentDirectory);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+                Program.Error(Localization.Exception_Name, exception, MainWindow.Instance);
             }
         }
 
@@ -118,58 +121,59 @@ namespace Timotheus.Views.Tabs
         /// </summary>
         private async void SetupFiles_Click(object sender, RoutedEventArgs e)
         {
-            SetupSFTP dialog = new()
+            try
             {
-                Local = Keys.Retrieve("SSH-LocalDirectory"),
-                Remote = Keys.Retrieve("SSH-RemoteDirectory"),
-                Host = Keys.Retrieve("SSH-URL"),
-                Port = Keys.Retrieve("SSH-Port"),
-                Username = Keys.Retrieve("SSH-Username"),
-                Password = Keys.Retrieve("SSH-Password"),
-                Sync = Keys.Retrieve("SSH-Sync") == "True",
-                SyncInterval = Keys.Retrieve("SSH-SyncInterval") == string.Empty ? "60" : Keys.Retrieve("SSH-SyncInterval")
-            };
+				if (Project.FilePath == string.Empty)
+					throw new Exception(Localization.Exception_MustSaveKeyFirst);
 
-            await dialog.ShowDialog(MainWindow.Instance);
-            if (dialog.DialogResult == DialogResult.OK)
-            {
-                try
-                {
-                    if (dialog.Port == string.Empty)
-                        dialog.Port = "22";
-                    
-                    bool changed = false;
+				SetupSFTP dialog = new()
+				{
+					Local = Project.Keys.Retrieve("SSH-LocalDirectory"),
+					Remote = Project.Keys.Retrieve("SSH-RemoteDirectory"),
+					Host = Project.Keys.Retrieve("SSH-URL"),
+					Port = Project.Keys.Retrieve("SSH-Port"),
+					Username = Project.Keys.Retrieve("SSH-Username"),
+					Password = Project.Keys.Retrieve("SSH-Password"),
+					Sync = Project.Keys.Retrieve("SSH-Sync") == "True",
+					SyncInterval = Project.Keys.Retrieve("SSH-SyncInterval") == string.Empty ? "60" : Project.Keys.Retrieve("SSH-SyncInterval")
+				};
 
-                    changed |= Keys.Update("SSH-LocalDirectory", dialog.Local);
-                    changed |= Keys.Update("SSH-RemoteDirectory", dialog.Remote);
-                    changed |= Keys.Update("SSH-URL", dialog.Host);
-                    changed |= Keys.Update("SSH-Port", dialog.Port);
-                    changed |= Keys.Update("SSH-Username", dialog.Username);
-                    changed |= Keys.Update("SSH-Password", dialog.Password);
-                    changed |= Keys.Update("SSH-Sync", dialog.Sync.ToString());
-                    changed |= Keys.Update("SSH-SyncInterval", dialog.SyncInterval);
+				await dialog.ShowDialog(MainWindow.Instance);
+				if (dialog.DialogResult == DialogResult.OK)
+				{
+					if (dialog.Port == string.Empty)
+						dialog.Port = "22";
 
-                    if (changed)
-                    {
-                        MessageDialog messageBox = new()
-                        {
-                            DialogTitle = Localization.InsertKey_ChangeDetected,
-                            DialogText = Localization.InsertKey_DoYouWantToSave
-                        };
-                        await messageBox.ShowDialog(MainWindow.Instance);
-                        if (messageBox.DialogResult == DialogResult.OK)
-                        {
-                            MainWindow.Instance.SaveKey_Click(null, null);
-                        }
-                    }
+					bool changed = false;
 
-                    ViewModel = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password, dialog.Sync, int.Parse(dialog.SyncInterval));
-                }
-                catch (Exception ex)
-                {
-                    Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
-                }
-            }
+					changed |= Project.Keys.Update("SSH-LocalDirectory", dialog.Local);
+					changed |= Project.Keys.Update("SSH-RemoteDirectory", dialog.Remote);
+					changed |= Project.Keys.Update("SSH-URL", dialog.Host);
+					changed |= Project.Keys.Update("SSH-Port", dialog.Port);
+					changed |= Project.Keys.Update("SSH-Username", dialog.Username);
+					changed |= Project.Keys.Update("SSH-Password", dialog.Password);
+					changed |= Project.Keys.Update("SSH-Sync", dialog.Sync.ToString());
+					changed |= Project.Keys.Update("SSH-SyncInterval", dialog.SyncInterval);
+
+					if (changed)
+					{
+						MessageDialog messageBox = new()
+						{
+							DialogTitle = Localization.InsertKey_ChangeDetected,
+							DialogText = Localization.InsertKey_DoYouWantToSave
+						};
+						await messageBox.ShowDialog(MainWindow.Instance);
+						if (messageBox.DialogResult == DialogResult.OK)
+							MainWindow.Instance.SaveKey_Click(null, null);
+					}
+
+					ViewModel = new DirectoryViewModel(dialog.Local, dialog.Remote, dialog.Host, int.Parse(dialog.Port), dialog.Username, dialog.Password, dialog.Sync, int.Parse(dialog.SyncInterval));
+				}
+			}
+			catch (Exception ex)
+			{
+				Program.Error(Localization.Exception_Name, ex, MainWindow.Instance);
+			}
         }
 
         /// <summary>
@@ -289,10 +293,23 @@ namespace Timotheus.Views.Tabs
             }
         }
 
-        /// <summary>
-        /// Open the file from the context menu.
-        /// </summary>
-        private async void NewFolder_Click(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Opens a file explorer at the selected file.
+		/// </summary>
+		private void OpenInFolder_Click(object sender, RoutedEventArgs e)
+		{
+			System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+			{
+				FileName = Path.GetDirectoryName(ViewModel.Selected.LocalFullName),
+				UseShellExecute = true,
+				Verb = "open"
+			});
+		}
+
+		/// <summary>
+		/// Open the file from the context menu.
+		/// </summary>
+		private async void NewFolder_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -351,12 +368,12 @@ namespace Timotheus.Views.Tabs
                 {
                     if (ViewModel.Selected.IsDirectory)
                     {
-                        if (System.IO.Directory.Exists(ViewModel.LocalPath + ViewModel.CurrentDirectory + dialog.Text))
+                        if (Directory.Exists(ViewModel.Path + ViewModel.CurrentDirectory + dialog.Text))
                             throw new Exception(Localization.Exception_DirectoryAlreadyExists);
                     }
                     else
                     {
-                        if (File.Exists(ViewModel.LocalPath + ViewModel.CurrentDirectory + dialog.Text))
+                        if (File.Exists(ViewModel.Path + ViewModel.CurrentDirectory + dialog.Text))
                             throw new Exception(Localization.Exception_FileAlreadyExists);
                     }
                     ViewModel.RenameFile(ViewModel.Selected, dialog.Text);
@@ -443,21 +460,11 @@ namespace Timotheus.Views.Tabs
         }
 
         /// <summary>
-        /// Opens a file explorer at the selected file.
+        /// Whether the file tab has been changed.
         /// </summary>
-        private void OpenInFolder_Click(object sender, RoutedEventArgs e)
+        public override string HasBeenChanged()
         {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
-            {
-                FileName = System.IO.Path.GetDirectoryName(ViewModel.Selected.LocalFullName),
-                UseShellExecute = true,
-                Verb = "open"
-            });
-        }
-
-        public override bool HasBeenChanged()
-        {
-            return false;
+            return string.Empty;
         }
     }
 }

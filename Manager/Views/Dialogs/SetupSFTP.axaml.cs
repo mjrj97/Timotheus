@@ -151,17 +151,6 @@ namespace Timotheus.Views.Dialogs
         }
 
         /// <summary>
-        /// A OpenFolderDialog where the user can specify which local folder to sync the remote folder with.
-        /// </summary>
-        private async void Browse_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFolderDialog openFolder = new();
-            string path = await openFolder.ShowAsync(this);
-            if (path != string.Empty && path != null)
-                Local = path;
-        }
-
-        /// <summary>
         /// Fix the path textbox
         /// </summary>
         private void DirectoryText_KeyUp(object sender, KeyEventArgs e)

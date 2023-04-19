@@ -6,9 +6,14 @@
 			 x:Class="Timotheus.Views.Tabs.CalendarPage" d:DesignHeight="400" d:DesignWidth="900">
 	<DockPanel>
 		<DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
-			<Button Click="Save_Click" Height="32" Width="36" ToolTip.Tip="{x:Static local:Localization.Calendar_Save_ToolTip}">
+			<Button Click="Save_Click" Height="32" Width="36" ToolTip.Tip="{Binding Save_ToolTip}">
 				<DockPanel>
 					<Image Source="/Resources/Save.png" Height="17" VerticalAlignment="Center"/>
+				</DockPanel>
+			</Button>
+			<Button Click="SaveAs_Click" Height="32" Width="36" Margin="10 0 0 0" ToolTip.Tip="{x:Static local:Localization.Calendar_SaveAs_ToolTip}">
+				<DockPanel>
+					<Image Source="/Resources/SaveAs.png" Height="17" VerticalAlignment="Center"/>
 				</DockPanel>
 			</Button>
 			<Button Click="Open_Click" Height="32" Width="36" Margin="10 0" ToolTip.Tip="{x:Static local:Localization.Calendar_Open_ToolTip}">
@@ -30,16 +35,22 @@
 				<ComboBoxItem Content="{x:Static local:Localization.Calendar_MonthButton}"/>
 			</ComboBox>
 			<DockPanel HorizontalAlignment="Right">
-				<Button Click="AddEvent_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_AddEvent_ToolTip}" Height="32">
+				<Button Click="AddEvent_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_AddEvent_ToolTip}" Height="32" Margin="0 0 10 0">
 					<DockPanel>
 						<Image Source="/Resources/Add.png" Height="17" VerticalAlignment="Center"/>
 						<TextBlock Text="{x:Static local:Localization.Calendar_AddButton}" Margin="5 0" VerticalAlignment="Center"/>
 					</DockPanel>
 				</Button>
-				<Button Click="SyncCalendar_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_Sync_ToolTip}" Height="32" Margin="10 0">
+				<Button Click="SyncCalendar_Click" IsEnabled="{Binding Connected}" ToolTip.Tip="{x:Static local:Localization.Calendar_Sync_ToolTip}" Height="32" Margin="0 0 10 0">
 					<DockPanel>
-						<Image Source="/Resources/Sync.png" Height="17" VerticalAlignment="Center"/>
+						<Image Source="/Resources/Publish.png" Height="17" VerticalAlignment="Center"/>
 						<TextBlock Text="{x:Static local:Localization.Calendar_SyncButton}" Margin="5 0" VerticalAlignment="Center"/>
+					</DockPanel>
+				</Button>
+				<Button Click="SetupCalendar_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_Sync_ToolTip}" Height="32" Margin="0 0 10 0">
+					<DockPanel>
+						<Image Source="/Resources/Setup.png" Height="17" VerticalAlignment="Center"/>
+						<TextBlock Text="{x:Static local:Localization.SFTP_SetupButton}" Margin="5 0" VerticalAlignment="Center"/>
 					</DockPanel>
 				</Button>
 				<Button Click="ExportPDF_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_Export_ToolTip}" Height="32">
@@ -60,6 +71,7 @@
 				</ContextMenu>
 			</Border.ContextMenu>
 			<DataGrid FontWeight="Bold" Items="{Binding Events}" SelectedItem="{Binding Selected}" AlternatingRowBackground="#F0F0F0" VerticalScrollBarVisibility="Visible" LoadingRow="Calendar_RowLoading">
+
 				<DataGrid.ContextMenu>
 					<ContextMenu>
 						<MenuItem Header="{x:Static local:Localization.Calendar_Edit}" Click="EditEvent_ContextMenu_Click" ToolTip.Tip="{x:Static local:Localization.Calendar_EditEvent_Tooltip}"/>
@@ -68,19 +80,48 @@
 				</DataGrid.ContextMenu>
 				
 				<DataGrid.Columns>
-					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.Calendar_StartColumn}" Width="*" MaxWidth="130" Binding="{Binding Start}" SortMemberPath="StartSort" CanUserSort="True" CanUserResize="True"/>
-					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.Calendar_EndColumn}" Width="*" MaxWidth="130" Binding="{Binding End}" SortMemberPath="EndSort" CanUserSort="True" CanUserResize="True"/>
-					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.Calendar_NameColumn}" Width="*" Binding="{Binding Name}" CanUserResize="True"/>
-
-					<DataGridTemplateColumn Header="{x:Static local:Localization.Calendar_DescriptionColumn}" Width="*" CanUserResize="True">
+					<DataGridTemplateColumn Header="{x:Static local:Localization.Calendar_StartColumn}" MaxWidth="130" Width="*" CanUserResize="True" SortMemberPath="StartSort" CanUserSort="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBox FontWeight="Normal" Text="{Binding Description}" AcceptsReturn="True" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+								<TextBox Text="{Binding Start}" KeyDown="OnlyDate" Classes="DataGridTextBox" LostFocus="StartTextBox_LostFocus" IsEnabled="{Binding Editable}" FontWeight="Normal" AcceptsReturn="False" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 
-					<DataGridTextColumn FontWeight="Normal" Header="{x:Static local:Localization.Calendar_LocationColumn}" Width="*" MaxWidth="300" Binding="{Binding Location}" CanUserResize="True"/>
+					<DataGridTemplateColumn Header="{x:Static local:Localization.Calendar_EndColumn}" MaxWidth="130" Width="*" CanUserResize="True" SortMemberPath="EndSort" CanUserSort="True">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBox Text="{Binding End}" KeyDown="OnlyDate" Classes="DataGridTextBox" IsEnabled="{Binding Editable}" LostFocus="EndTextBox_LostFocus" FontWeight="Normal" AcceptsReturn="False" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+
+					<DataGridTemplateColumn Header="{x:Static local:Localization.Calendar_NameColumn}" Width="*" CanUserResize="True">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel>
+									<TextBox Classes="DataGridTextBox" IsEnabled="{Binding Editable}" FontWeight="Normal" Text="{Binding Name}" AcceptsReturn="False" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+									<TextBlock Text="{Binding SyncMessage}" IsVisible="{Binding ShowSyncMessage}" Foreground="Gray" FontWeight="Normal" FontStyle="Italic" FontSize="10" Margin="10 0 0 5"/>
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					
+					<DataGridTemplateColumn Header="{x:Static local:Localization.Calendar_DescriptionColumn}" Width="*" CanUserResize="True">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBox Classes="DataGridTextBox" IsEnabled="{Binding Editable}" FontWeight="Normal" Text="{Binding Description}" AcceptsReturn="True" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+
+					<DataGridTemplateColumn Header="{x:Static local:Localization.Calendar_LocationColumn}" Width="*" MaxWidth="300" CanUserResize="True">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBox Classes="DataGridTextBox" IsEnabled="{Binding Editable}" FontWeight="Normal" Text="{Binding Location}" AcceptsReturn="False" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
 
 					<DataGridTemplateColumn>
 						<DataGridTemplateColumn.CellTemplate>

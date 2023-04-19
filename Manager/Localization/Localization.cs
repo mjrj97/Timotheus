@@ -25,6 +25,40 @@ namespace Timotheus
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Ja";
+                    default:
+                        return "Yes";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Nej";
+                    default:
+                        return "No";
+                }
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Add person.
         /// </summary>
         public static string AddConsentForm
@@ -432,10 +466,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Add an event to the calendar.
-        /// </summary>
-        public static string Calendar_AddEvent_ToolTip
+		/// <summary>
+		///   Looks up a localized string similar to Add person.
+		/// </summary>
+		public static string Calendar_OpenWarning
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Er du sikker på at du vil åbne en kalender? Den nye fil vil bruges af Timotheus i fremtiden, til at hente begivenheder. Alt data som ikke er gemt, vil blive slettet.";
+					default:
+						return "Are you sure that you want to open a calendar? This new file will be used by Timotheus in the future to get the calendar. All data that has not been saved, will be deleted.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Add an event to the calendar.
+		/// </summary>
+		public static string Calendar_AddEvent_ToolTip
         {
             get
             {
@@ -449,10 +500,94 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to All.
-        /// </summary>
-        public static string Calendar_All
+		public static string Calendar_Sync_DeleteRemote
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Begivenheden er stadig på den online kalender.\nOffentliggør for at fjerne den.";
+					default:
+						return "The event is still in the online calendar.\nPublish to remove it.";
+				}
+			}
+		}
+
+		public static string Calendar_Sync_DeleteLocal
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Begivenheden ligger stadig gemt lokalt.\nGem kalenderen for at fjerne den.";
+					default:
+						return "The event is still saved locally.\nSave the calendar to remove it.";
+				}
+			}
+		}
+
+		public static string Calendar_Sync_Upload
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Begivenheden er blevet ændret lokalt.\nOffentliggør for at opdatere den online kalender.";
+					default:
+						return "The event has been changed locally.\nPublish to update the online calendar.";
+				}
+			}
+		}
+
+		public static string Calendar_Sync_NewUpload
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Begivenheden er endnu ikke blevet offentliggjort.";
+					default:
+						return "The event hasn't been publish yet.";
+				}
+			}
+		}
+
+		public static string Calendar_Sync_Download
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Begivenheden er blevet ændret. Gem for at bevare ændringen.";
+					default:
+						return "The event has been edited. Save to keep the change.";
+				}
+			}
+		}
+
+		public static string Calendar_Sync_NewDownload
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Begivenheden er ny. Gem for at bevare den.";
+					default:
+						return "The event is new. Save to keep it.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to All.
+		/// </summary>
+		public static string Calendar_All
         {
             get
             {
@@ -629,9 +764,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Slut";
+                        return "  Slut";
                     default:
-                        return "End";
+                        return "  End";
                 }
             }
         }
@@ -731,9 +866,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Adresse";
+                        return "  Adresse";
                     default:
-                        return "Location";
+                        return "  Location";
                 }
             }
         }
@@ -765,9 +900,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Navn";
+                        return "  Navn";
                     default:
-                        return "Name";
+                        return "  Name";
                 }
             }
         }
@@ -850,17 +985,34 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Gem kalenderen som en .ics fil. Dette synkronisere IKKE kalenderen.";
+                        return "Gem den nuværende kalender (#1). Dette synkronisere IKKE kalenderen.";
                     default:
-                        return "Save the calendar as a .ics file. This does NOT synchronize the calendar.";
+                        return "Save the current calendar (#1). This does NOT synchronize the calendar.";
                 }
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Spring.
-        /// </summary>
-        public static string Calendar_Spring
+		/// <summary>
+		///   Looks up a localized string similar to Save the calendar as a .ics file. This does NOT synchronize the calendar..
+		/// </summary>
+		public static string Calendar_SaveAs_ToolTip
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Gem kalenderen som en ny .ics fil. Dette synkronisere IKKE kalenderen.";
+					default:
+						return "Save the calendar as a new .ics file. This does NOT synchronize the calendar.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Spring.
+		/// </summary>
+		public static string Calendar_Spring
         {
             get
             {
@@ -884,9 +1036,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Start";
+                        return "  Start";
                     default:
-                        return "Start";
+                        return "  Start";
                 }
             }
         }
@@ -918,9 +1070,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Synkronisér";
+                        return "Offentliggør";
                     default:
-                        return "Synchronize";
+                        return "Publish";
                 }
             }
         }
@@ -1128,6 +1280,119 @@ namespace Timotheus
                 }
             }
         }
+
+		public static string Exception_CancelledKeyOpening
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Åbning af nøglen blev annulleret.";
+					default:
+						return "Opening of the key was cancelled.";
+				}
+			}
+		}
+
+		public static string Exception_EmptyEventName
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Begivenheder kan ikke have et tomt navn";
+					default:
+						return "Events cannot have a empty name";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to The program is already running. If you can&apos;t see it, check the system tray or task manager.
+		/// </summary>
+		public static string Exception_BadKeyPath
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Nøglen er placeret et upraktisk sted. Er du sikker på at du vil have nøglen der (#1)? Alle filer i denne mappe vil blive synkroniseret med serveren næste gang der synkroniseres.";
+					default:
+						return "The key is placed in a unpractical place. Are you sure that you want the key there (#1)? All files in this folder will be synchronized with the server next time there is a synchronization.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to The program is already running. If you can&apos;t see it, check the system tray or task manager.
+		/// </summary>
+		public static string Exception_MustSaveKeyFirst
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+                        return "Du kan ikke åbne, gemme eller synkronisere, før nøglen er blevet gemt. Alle filer skal være i den samme mappe som nøglen, og derfor skal nøglen være i en mappe først.";
+					default:
+                        return "You cannot open, save or synchronize until the key has been saved once. All files must be in the same folder as the key, and therefore the key must be in a folder first.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to This file is not in the project folder (#1). You cannot open files that are outside of this folder.
+		/// </summary>
+		public static string Exception_NotInProjectFolder
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Denne fil er ikke i projektmappen (#1). Du kan ikke åbne filer som er udenfor projektmappen.";
+					default:
+						return "This file is not in the project folder (#1). You cannot open files that are outside of this folder.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to This file is not in the project folder (#1). You cannot open files that are outside of this folder.
+		/// </summary>
+		public static string Exception_CantFindCalendar
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Kalenderen kunne ikke findes i projektmappen (#1). Den er enten blevet flyttet eller slettet. Prøv at finde filen gennem 'Åben' under kalender-fanen.";
+					default:
+						return "The calendar could not be found in the project folder (#1). It has either been moved or deleted. Try to find the file through 'Open' under the calendar tab.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to This file is not in the project folder (#1). You cannot open files that are outside of this folder.
+		/// </summary>
+		public static string Exception_CantFindPeople
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Samtykkeerlæringerne kunne ikke findes (#1). De er enten blevet flyttet eller slettet. Prøv at finde filen gennem 'Åben' under samtykkeerklæringer-fanen.";
+					default:
+						return "The list of pepole could not be found (#1). It has either been moved or deleted. Try to find the file through 'Open' under the people tab.";
+				}
+			}
+		}
 
 		/// <summary>
 		///   Looks up a localized string similar to The program is already running. If you can&apos;t see it, check the system tray or task manager.
@@ -1435,10 +1700,44 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to This is an invalid password. Try another....
-        /// </summary>
-        public static string Exception_InvalidPassword
+		/// <summary>
+		///   Looks up a localized string similar to Invalid input.
+		/// </summary>
+		public static string Exception_InvalidDate
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Ugyldig input. Datoen skal følge formattet DD.MM.YYYY hh.mm";
+					default:
+						return "Invalid input";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Invalid input.
+		/// </summary>
+		public static string Exception_StartLaterThanEnd
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Ugyldig input. Starttidspunktet skal være før sluttidspunktet.";
+					default:
+						return "Invalid input. The start must be earlier than the end.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to This is an invalid password. Try another....
+		/// </summary>
+		public static string Exception_InvalidPassword
         {
             get
             {
@@ -1448,6 +1747,23 @@ namespace Timotheus
                         return "Dette er ikke en brugbar password. Prøv en anden...";
                     default:
                         return "This is an invalid password. Try another...";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to This is an invalid password. Try another....
+        /// </summary>
+        public static string Exception_InvalidSavedPassword
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Den gemte adgangskode kunne ikke bruges til at åbne den senest brugte nøgle. Prøv at åbne nøglen igen.";
+                    default:
+                        return "The saved password could not be used to open the last used key. Try to open the key again.";
                 }
             }
         }
@@ -1673,10 +1989,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to The file is not in the directory.
-        /// </summary>
-        public static string Exception_SFTPInvalidPath
+		/// <summary>
+		///   Looks up a localized string similar to Couldn&apos;t save file.
+		/// </summary>
+		public static string Exception_Opening
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Kunne ikke åbne fil";
+					default:
+						return "Couldn't open file";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to The file is not in the directory.
+		/// </summary>
+		public static string Exception_SFTPInvalidPath
         {
             get
             {
@@ -1734,9 +2067,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Er du sikker på du vil lukke? Der er ændringer som ikke er blevet gemt.";
+                        return "Er du sikker på du vil lukke? Der er ændringer som ikke er blevet gemt i:";
                     default:
-                        return "Are you sure you want to quit? There is unsaved progress.";
+                        return "Are you sure you want to quit? There is unsaved progress in:";
                 }
             }
         }
@@ -1768,9 +2101,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Forkert adgangskode";
+                        return "Forkert adgangskode. Nøglen kan ikke bruges før den korrekte adgangskode angives.";
                     default:
-                        return "Wrong password";
+                        return "Wrong password. The key cannot be used before the correct password is entered.";
                 }
             }
         }
@@ -2337,6 +2670,40 @@ namespace Timotheus
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Give the correct password for this key.
+        /// </summary>
+        public static string PasswordDialog_Key
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Angiv den korrekte adgangskode";
+                    default:
+                        return "Give the correct password";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Give the correct password for this key.
+        /// </summary>
+        public static string PasswordDialog_SaveKey
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Giv en adgangskode nøglen skal låses med";
+                    default:
+                        return "Give a password this key should be locked with";
+                }
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string PasswordDialog_CancelButton
@@ -2383,6 +2750,108 @@ namespace Timotheus
                         return "Ok";
                     default:
                         return "Ok";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save password.
+        /// </summary>
+        public static string PasswordDialog_RegexHasNumber
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Adgangskoden skal have et nummer.";
+                    default:
+                        return "The password must have a number.";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save password.
+        /// </summary>
+        public static string PasswordDialog_RegexHasUpper
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Adgangskoden skal have et stort bogstav.";
+                    default:
+                        return "The password must have one uppercase letter.";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save password.
+        /// </summary>
+        public static string PasswordDialog_RegexHasLower
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Adgangskoden skal have et lille bogstav.";
+                    default:
+                        return "The password must have one lowercase letter.";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save password.
+        /// </summary>
+        public static string PasswordDialog_RegexHas8Char
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Adgangskoden skal min. have 8 bogstaver.";
+                    default:
+                        return "The password must have atleast 8 characters.";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save password.
+        /// </summary>
+        public static string PasswordDialog_RegexHasSymbol
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Adgangskoden skal et af symbolerne: !@#$%^&*()_+=\\[{\\]};:<>|./?,-";
+                    default:
+                        return "The password must have one of these symbols: !@#$%^&*()_+=\\[{\\]};:<>|./?,-";
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save password.
+        /// </summary>
+        public static string PasswordDialog_RegexHasSpace
+        {
+            get
+            {
+                switch (CurrentCulture)
+                {
+                    case Culture.daDK:
+                        return "Adgangskoden må ikke have mellemrum.";
+                    default:
+                        return "The password cannot contain a space.";
                 }
             }
         }
@@ -2455,10 +2924,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Backpage.
-        /// </summary>
-        public static string PDF_Backpage
+		/// <summary>
+		///   Looks up a localized string similar to Archive.
+		/// </summary>
+		public static string PDF_Archive_ToolTip
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Hvis aktiveret, vil der blive sendt en kopi af PDF'en til denne mappe.";
+					default:
+						return "If activated, there will be sent a copy of the PDF to this folder.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Backpage.
+		/// </summary>
+		public static string PDF_Backpage
         {
             get
             {
@@ -2472,10 +2958,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Browse.
-        /// </summary>
-        public static string PDF_Browse
+		/// <summary>
+		///   Looks up a localized string similar to Backpage.
+		/// </summary>
+		public static string PDF_Backpage_ToolTip
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Denne tekst vil stå på bagsiden af bogen/PDF'en. Hver linje der starter med et #, vil blive tolket som en overskrift.";
+					default:
+						return "This text will be on the backpage of the book/PDF. Every line that starts with a #, will become a title.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Browse.
+		/// </summary>
+		public static string PDF_Browse
         {
             get
             {
@@ -2541,6 +3044,23 @@ namespace Timotheus
 		}
 
 		/// <summary>
+		///   Looks up a localized string similar to Columns.
+		/// </summary>
+		public static string PDF_Columns_ToolTip
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Dette er kolonnerne som vil blive vist i PDF'en udover dato, tid, og titel. Hver linje er en kolonne og angives som [Navn]:[Bredde].";
+					default:
+						return "This is the columns that will be shown in the PDF (Date, time and title is included automatically). Every line is a column and is written in the format [Name]:[Width].";
+				}
+			}
+		}
+
+		/// <summary>
 		///   Looks up a localized string similar to Comment.
 		/// </summary>
 		public static string PDF_Comment
@@ -2557,10 +3077,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Date.
-        /// </summary>
-        public static string PDF_Date
+		/// <summary>
+		///   Looks up a localized string similar to Comment.
+		/// </summary>
+		public static string PDF_Comment_ToolTip
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Kommentaren står lige under undertitlen på forsiden.";
+					default:
+						return "The comment will be placed under the subtitle on the front page.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Date.
+		/// </summary>
+		public static string PDF_Date
         {
             get
             {
@@ -2608,10 +3145,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Leader.
-        /// </summary>
-        public static string PDF_Leader
+		/// <summary>
+		///   Looks up a localized string similar to Footer.
+		/// </summary>
+		public static string PDF_Footer_ToolTip
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Sidefoden er tekst som vil stå i bunden af hver side.";
+					default:
+						return "The footer contains text that will be at the bottom of the every page.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Leader.
+		/// </summary>
+		public static string PDF_Leader
         {
             get
             {
@@ -2642,10 +3196,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Musician.
-        /// </summary>
-        public static string PDF_Musician
+		/// <summary>
+		///   Looks up a localized string similar to Logo.
+		/// </summary>
+		public static string PDF_Logo_ToolTip
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Dette logo vil blive vist på PDF'en.";
+					default:
+						return "This logo will be shown on the PDF.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Musician.
+		/// </summary>
+		public static string PDF_Musician
         {
             get
             {
@@ -2728,6 +3299,23 @@ namespace Timotheus
         }
 
 		/// <summary>
+		///   Looks up a localized string similar to Subtitle.
+		/// </summary>
+		public static string PDF_Subtitle_ToolTip
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Denne undertitel vil blive vist i PDF'en.";
+					default:
+						return "This subtitle will be shown in the PDF.";
+				}
+			}
+		}
+
+		/// <summary>
 		///   Looks up a localized string similar to Technician.
 		/// </summary>
 		public static string PDF_Technician
@@ -2761,10 +3349,27 @@ namespace Timotheus
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Book.
-        /// </summary>
-        public static string PDF_Type_Book
+		/// <summary>
+		///   Looks up a localized string similar to Title.
+		/// </summary>
+		public static string PDF_Title_ToolTip
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Dette er titlen som vil blive vist i PDF'en.";
+					default:
+						return "This is the title which will be shown in the PDF.";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Book.
+		/// </summary>
+		public static string PDF_Type_Book
         {
             get
             {
@@ -3077,17 +3682,34 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Gem samtykkeerklæringer til den nuværende fil";
+                        return "Gem samtykkeerklæringer til den nuværende fil (#1)";
                     default:
-                        return "Save the people to the current file";
+                        return "Save the people to the current file (#1)";
                 }
             }
         }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Save the people to a file.
-        /// </summary>
-        public static string People_SaveAs_ToolTip
+		/// <summary>
+		///   Looks up a localized string similar to Unsaved.
+		/// </summary>
+		public static string Unsaved
+		{
+			get
+			{
+				switch (CurrentCulture)
+				{
+					case Culture.daDK:
+						return "Ikke gemt";
+					default:
+						return "Unsaved";
+				}
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to Save the people to a file.
+		/// </summary>
+		public static string People_SaveAs_ToolTip
         {
             get
             {
@@ -4063,9 +4685,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Genindlæs mappen og se om der er sket ændringer";
+                        return "Genindlæs mappen (#1) og se om der er sket ændringer";
                     default:
-                        return "Refresh the folder and look for updates";
+                        return "Refresh the folder (#1) and look for updates";
                 }
             }
         }
@@ -4454,9 +5076,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Synkronisér";
+                        return "Offentliggør";
                     default:
-                        return "Synchronize";
+                        return "Publish";
                 }
             }
         }
@@ -4505,9 +5127,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Synkronisér brugerdefineret periode";
+                        return "Offentliggør brugerdefineret periode";
                     default:
-                        return "Sync custom period";
+                        return "Publish custom period";
                 }
             }
         }
@@ -4522,9 +5144,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Destination";
+                        return "Online kalender";
                     default:
-                        return "Destination";
+                        return "Online calendar";
                 }
             }
         }
@@ -4539,9 +5161,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Synkronisér hele kalenderen";
+                        return "Offentliggør hele kalenderen";
                     default:
-                        return "Sync the entire calendar";
+                        return "Publish the entire calendar";
                 }
             }
         }
@@ -4590,9 +5212,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Synkronisér denne periode";
+                        return "Offentliggør denne periode";
                     default:
-                        return "Sync the period";
+                        return "Publish the period";
                 }
             }
         }
@@ -4607,9 +5229,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Indstillinger";
+                        return "Vælg periode";
                     default:
-                        return "Settings";
+                        return "Choose period";
                 }
             }
         }
@@ -4624,9 +5246,9 @@ namespace Timotheus
                 switch (CurrentCulture)
                 {
                     case Culture.daDK:
-                        return "Synkronisér";
+                        return "Offentliggør";
                     default:
-                        return "Sync";
+                        return "Publish";
                 }
             }
         }

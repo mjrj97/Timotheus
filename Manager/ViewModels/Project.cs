@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Platform;
 using Avalonia.Media.Imaging;
 using System;
+using System.IO;
 using System.Threading;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -25,9 +26,9 @@ namespace Timotheus.ViewModels
             {
                 string windowTitle = "Timotheus";
 
-                if (projectPath != null && projectPath != string.Empty)
+                if (FilePath != null && FilePath != string.Empty)
                 {
-					windowTitle += " (" + projectPath + ")";
+					windowTitle += " (" + FilePath + ")";
 				}
 
 				return windowTitle;
@@ -37,8 +38,33 @@ namespace Timotheus.ViewModels
         /// <summary>
         /// The path to the current project's file.
         /// </summary>
-        private string projectPath = string.Empty;
+        private string _filePath = string.Empty;
+        public string FilePath 
+        { 
+            get 
+            { 
+                return _filePath;
+            }
+            protected set
+            {
+                _filePath = value;
+                NotifyPropertyChanged(nameof(FilePath));
+				NotifyPropertyChanged(nameof(WindowTitle));
+			}
+        }
 
+        /// <summary>
+        /// Directory of the project.
+        /// </summary>
+        public string DirectoryPath
+        {
+            get
+            {
+                return Path.GetDirectoryName(FilePath);
+            }
+        }
+
+        private string InitialKeys;
         /// <summary>
         /// Register containing all the keys loaded at startup or manually from a key file (.tkey or .txt)
         /// </summary>
@@ -77,37 +103,38 @@ namespace Timotheus.ViewModels
             Loader.WorkerReportsProgress = true;
 
             Keys = new Register(path, password, ':');
-            Timotheus.Registry.Update("KeyPath", path);
+			InitialKeys = Keys.ToString();
+			Timotheus.Registry.Update("KeyPath", path);
 
-			projectPath = path;
+			FilePath = path;
 
-			AddTab<CalendarPage>(Keys);
-            AddTab<FilesPage>(Keys);
-            AddTab<PeoplePage>(Keys);
-        }
+			TabItems.Add(GenerateTab<CalendarPage>());
+			TabItems.Add(GenerateTab<FilesPage>());
+			TabItems.Add(GenerateTab<PeoplePage>());
+		}
         public Project()
         {
             Loader.DoWork += Load;
             Loader.WorkerReportsProgress = true;
 
             Keys = new Register(':');
+            InitialKeys = Keys.ToString();
 
-            AddTab<CalendarPage>(Keys);
-            AddTab<FilesPage>(Keys);
-            AddTab<PeoplePage>(Keys);
+			TabItems.Add(GenerateTab<CalendarPage>());
+			TabItems.Add(GenerateTab<FilesPage>());
+			TabItems.Add(GenerateTab<PeoplePage>());
         }
 
         /// <summary>
         /// Adds a tab to the project with the specified tab type.
         /// </summary>
         /// <typeparam name="T">Tab type</typeparam>
-        /// <param name="Keys">Keys to be used by the tab.</param>
-        private void AddTab<T>(Register Keys) where T : Tab, new()
+        private TabItem GenerateTab<T>() where T : Tab, new()
         {
             TabItem tab = new();
             T page = new()
             {
-                Keys = Keys
+                Project = this
             };
             Tabs.Add(page);
 
@@ -138,8 +165,8 @@ namespace Timotheus.ViewModels
             tab.Header = panel;
             tab.Content = page;
 
-            TabItems.Add(tab);
-        }
+            return tab;
+		}
 
         /// <summary>
         /// "Inserts" the current key, and tries to open the Calendar and File sharing system.
@@ -172,24 +199,66 @@ namespace Timotheus.ViewModels
         /// </summary>
         public void Save(string path, string password)
         {
+            InitialKeys = Keys.ToString(); 
             Keys.Save(path, password);
-            projectPath = path;
-            NotifyPropertyChanged(nameof(WindowTitle));
+            FilePath = path;
+        }
+
+        /// <summary>
+        /// Returns the given path relative to the projects directory.
+        /// </summary>
+        public string GetProjectPath(string path)
+        {
+            if (path.StartsWith(DirectoryPath))
+            {
+                path = path.Substring(DirectoryPath.Length);
+            }
+            else
+            {
+				throw new Exception(Localization.Exception_NotInProjectFolder.Replace("#1", DirectoryPath));
+			}
+
+			return path;
+        }
+
+        /// <summary>
+        /// Returns whether this is a good place for a key.
+        /// </summary>
+        public static bool IsSafeProjectPath(string path)
+        {
+            string path1 = Path.GetFullPath(path);
+
+            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+			string desktopDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+			string commonDocuments = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+			string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+			return path1 != desktop && path1 != desktopDirectory && path1 != commonDocuments && path1 != myDocuments;
         }
 
         /// <summary>
         /// Returns whether the user has made progress that hasn't been saved.
         /// </summary>
-        public bool IsThereUnsavedProgress()
+        public List<string> IsThereUnsavedProgress()
         {
-            bool isThereUnsavedProgress = false;
+            List<string> UnsavedProgress = new();
+
+            if (FilePath != string.Empty && File.Exists(FilePath))
+            {
+                string dataFromMemory = Keys.ToString();
+
+                if (InitialKeys != dataFromMemory)
+                    UnsavedProgress.Add(Localization.ToolStrip_Key);
+			}
 
             for (int i = 0; i < Tabs.Count; i++)
             {
-                isThereUnsavedProgress |= Tabs[i].HasBeenChanged();
+                string message = Tabs[i].HasBeenChanged();
+                if (message != string.Empty)
+                    UnsavedProgress.Add(message);
             }
 
-            return isThereUnsavedProgress;
+            return UnsavedProgress;
         }
     }
 }

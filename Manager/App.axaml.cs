@@ -148,7 +148,7 @@ namespace Timotheus
         /// </summary>
         void Close_TrayClick(object sender, EventArgs ags)
         {
-            window.Close();
+            window.CloseTray();
         }
     }
 }

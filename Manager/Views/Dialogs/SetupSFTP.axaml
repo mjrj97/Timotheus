@@ -17,33 +17,22 @@
 			  <TextBlock Text="{x:Static local:Localization.SFTPSetup_PortLabel}" Margin="10 0 0 0" Width="50" VerticalAlignment="Center"/>
 			  <TextBox TabIndex="1" Width="50" Watermark="22" Text="{Binding Port}"/>
           </DockPanel>
-          <DockPanel DockPanel.Dock="Top" Margin="0 10">
+          <DockPanel DockPanel.Dock="Top" Margin="0 10 0 0">
             <TextBlock Text="{x:Static local:Localization.SFTPSetup_UsernameLabel}" Width="100" VerticalAlignment="Center"/>
 			  <TextBox TabIndex="2" Watermark="domain.com" Text="{Binding Username}"/>
           </DockPanel>
-          <DockPanel>
-            <TextBlock Text="{x:Static local:Localization.SFTPSetup_PasswordLabel}" Width="100" VerticalAlignment="Center"/>
-			  <TextBox TabIndex="3" Watermark="********" PasswordChar="*" Text="{Binding Password}"/>
-          </DockPanel>
-        </DockPanel>
+			<DockPanel DockPanel.Dock="Top" Margin="0 10 0 0">
+				<TextBlock Text="{x:Static local:Localization.SFTPSetup_PasswordLabel}" Width="100" VerticalAlignment="Center"/>
+				<TextBox TabIndex="3" Watermark="********" PasswordChar="*" Text="{Binding Password}"/>
+			</DockPanel>
+			<DockPanel Margin="0 10 0 0">
+				<TextBlock Text="{x:Static local:Localization.SFTPSetup_RemoteDirectoryLabel}" Width="100" VerticalAlignment="Center"/>
+				<TextBox TabIndex="6" KeyUp="DirectoryText_KeyUp" Watermark="/..." Text="{Binding Remote}"/>
+			</DockPanel>
+		</DockPanel>
       </Border>
     </DockPanel>
-    <DockPanel DockPanel.Dock="Top" Margin="0 10">
-      <Border Classes="t1" DockPanel.Dock="Top" Padding="10">
-        <DockPanel>
-          <DockPanel DockPanel.Dock="Top">
-            <TextBlock Text="{x:Static local:Localization.SFTPSetup_LocalDirectoryLabel}" Width="100" VerticalAlignment="Center"/>
-			  <TextBox TabIndex="4" KeyUp="DirectoryText_KeyUp" Watermark="C:/..." Text="{Binding Local}" Width="182"/>
-			  <Button TabIndex="5" Content="{x:Static local:Localization.SFTPSetup_BrowseButton}" Width="95" Click="Browse_Click" Margin="10 0 0 0" HorizontalContentAlignment="Center"/>
-          </DockPanel>
-          <DockPanel DockPanel.Dock="Top" Margin="0 10 0 0">
-            <TextBlock Text="{x:Static local:Localization.SFTPSetup_RemoteDirectoryLabel}" Width="100" VerticalAlignment="Center"/>
-			  <TextBox TabIndex="6" KeyUp="DirectoryText_KeyUp" Watermark="/..." Text="{Binding Remote}"/>
-          </DockPanel>
-        </DockPanel>
-      </Border>
-    </DockPanel>
-	  <DockPanel DockPanel.Dock="Top" Margin="0 0 0 10">
+	  <DockPanel DockPanel.Dock="Top" Margin="0 10">
 		  <Border Classes="t1" DockPanel.Dock="Top" Padding="10">
 			  <DockPanel>
 				  <DockPanel DockPanel.Dock="Top">

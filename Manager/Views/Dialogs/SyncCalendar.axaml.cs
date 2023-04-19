@@ -22,36 +22,7 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-        private bool _UseCurrent = false;
-        /// <summary>
-        /// Whether the current Calendars sync settings should be used.
-        /// </summary>
-        public bool UseCurrent
-        {
-            get => _UseCurrent;
-            set
-            {
-                _UseCurrent = value;
-                NotifyPropertyChanged(nameof(UseCurrent));
-                NotifyPropertyChanged(nameof(IsRemote));
-            }
-        }
-
-        private bool _CanUseCurrent = false;
-        /// <summary>
-        /// Whether the current Calendars sync settings can be used.
-        /// </summary>
-        public bool CanUseCurrent
-        {
-            get => _CanUseCurrent;
-            set
-            {
-                _CanUseCurrent = value;
-                NotifyPropertyChanged(nameof(CanUseCurrent));
-            }
-        }
-
-        private bool _SyncAll = true;
+        private bool _SyncAll = false;
         /// <summary>
         /// Whether the calendar should be sync in its entirety.
         /// </summary>
@@ -66,7 +37,7 @@ namespace Timotheus.Views.Dialogs
             }
         }
 
-        private bool _SyncPeriod = false;
+        private bool _SyncPeriod = true;
         /// <summary>
         /// Whether the calendar should only be synced in the period shown in the program.
         /// </summary>
@@ -128,14 +99,6 @@ namespace Timotheus.Views.Dialogs
             get
             {
                 return !(SyncPeriod || SyncAll);
-            }
-        }
-
-        private bool IsRemote
-        {
-            get
-            {
-                return !UseCurrent;
             }
         }
 
