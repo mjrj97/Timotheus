@@ -3,8 +3,7 @@
 </p>
 
 # :memo: Description
-The purpose of this project is to create free open-source software that can manage a small association's calendar, data storage, consent forms etc. in a GDPR compliant fashion (or atleast to its best ability). The program is perfectly suited for organizations, that needs to securely share files internally without using services like Dropbox, Google Drive, and OneDrive, that has been shown to comprise with GDPR guidelines. The program can also help handle a calendar/schedule, and manage a list of consent forms. The project is primarily aimed towards small associations e.g. the Danish LM and IM, that handle sensitive data (names, ages, addresses etc.).
-
+The purpose of this project is to create free open-source software that can manage a small association's calendar, data storage, consent forms etc. in a GDPR compliant fashion (or atleast to its best ability). The program is perfectly suited for organizations, that needs to securely share files internally without using services like Dropbox, Google Drive, and OneDrive, that has been shown to comprise with GDPR guidelines. The program can also help handle a calendar/schedule, and manage a list of consent forms. The project is primarily aimed towards small associations e.g. the Danish [LM](https://dlm.dk/english) and [IM](https://indremission.dk/hvem-er-vi/hvem-er-vi/in-english), that handle sensitive data (names, ages, addresses etc.).
 
 # :fire: Features
 :heavy_check_mark: Platform-Independent (Windows, macOS)<br/>
@@ -31,7 +30,9 @@ Send an e-mail to martin.jensen.1997@hotmail.com for further information.
 </br></br>
 All commits should be on their own branch before being merged into the pre-release branch. On the pre-release branch the program is thoroughly tested before being pulled to the master branch with a version number (Pull requests to the master are done by Martin). The program is being used by an association to handle sensitive data, so quality and security is a priority! :lock:
 </br></br>
-This project has taken a lot of effort, so donations of all sizes are greatly appreciated. The money will first and foremost go to pay for the $99 / 779 kr. Apple Developer License, so the macOS version can keep getting updates.</br></br>
+Find issues and their status & priority in the [project](https://github.com/mjrj97/Timotheus/projects/1).
+</br></br>
+This project has taken a lot of effort, so donations of all sizes are greatly appreciated. The money will first and foremost go to pay for the yearly $99 / 99€ / 779 kr. [Apple Developer License](https://developer.apple.com/support/enrollment/), so the macOS version can keep getting updates.</br></br>
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=XUQ6GLJNQFGCC)
 
 # :card_file_box: Libraries
