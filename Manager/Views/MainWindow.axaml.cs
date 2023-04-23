@@ -12,6 +12,8 @@ using Timotheus.ViewModels;
 using Timotheus.Views.Dialogs;
 using Avalonia.Controls.Shapes;
 using System.Threading.Tasks;
+using static Timotheus.Localization;
+using Timotheus.Extender;
 
 namespace Timotheus.Views
 {
@@ -667,14 +669,14 @@ namespace Timotheus.Views
         {
             try
             {
-                Settings dialog = new()
-                {
-                    HideToSystemTray = Timotheus.Registry.Retrieve("HideToSystemTray") != "False",
-                    LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates") != "False",
-                    SelectedLanguage = Timotheus.Registry.Retrieve("Language") == "da-DK" ? 1 : 0,
+				Settings dialog = new()
+				{
+					HideToSystemTray = Timotheus.Registry.Retrieve("HideToSystemTray") != "False",
+					LookForUpdates = Timotheus.Registry.Retrieve("LookForUpdates") != "False",
+					SelectedLanguage = RetrieveCulture(),
                     OpenOnStartUp = Timotheus.OpenOnStartUp
                 };
-                int initialSelected = dialog.SelectedLanguage;
+                Culture initialSelected = dialog.SelectedLanguage;
 
                 await dialog.ShowDialog(this);
                 if (dialog.DialogResult == DialogResult.OK)
@@ -682,7 +684,7 @@ namespace Timotheus.Views
                     LanguageChanged = initialSelected == dialog.SelectedLanguage;
                     if (initialSelected != dialog.SelectedLanguage)
                     {
-                        Timotheus.Registry.Update("Language", dialog.SelectedLanguage == 0 ? "en-US" : "da-DK");
+                        Timotheus.Registry.Update("Language", dialog.SelectedLanguage.GetStringValue());
                         LanguageChanged = true;
 
                         MessageDialog messageBox = new()
@@ -703,5 +705,15 @@ namespace Timotheus.Views
                 Program.Error(Localization.Exception_Name, ex, this);
             }
         }
-    }
+
+		private Culture RetrieveCulture()
+		{
+			var language = Timotheus.Registry.Retrieve("Language");
+			if (language == "de-DE")
+				return Culture.deDE;
+			else if (language == "da-DK")
+				return Culture.daDK;
+			return Culture.Default;
+		}
+	}
 }

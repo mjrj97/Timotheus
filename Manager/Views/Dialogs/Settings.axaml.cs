@@ -1,13 +1,14 @@
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
+using static Timotheus.Localization;
 
 namespace Timotheus.Views.Dialogs
 {
     public partial class Settings : Dialog
     {
-        private int _selectedLanguage = 0;
-        public int SelectedLanguage
+        private Culture _selectedLanguage = 0;
+        public Culture SelectedLanguage
         {
             get { return _selectedLanguage; }
             set

@@ -15,6 +15,7 @@
 					<ComboBox TabIndex="3" SelectedIndex="{Binding SelectedLanguage}" Width="150">
 						<ComboBoxItem Content="{x:Static local:Localization.Settings_Language_English}"/>
 						<ComboBoxItem Content="{x:Static local:Localization.Settings_Language_Danish}"/>
+						<ComboBoxItem Content="{x:Static local:Localization.Settings_Language_German}"/>
 					</ComboBox>
 				</DockPanel>
 				<CheckBox TabIndex="4" Content="{x:Static local:Localization.Settings_HideToSystemTray}" IsChecked="{Binding HideToSystemTray}"/>
