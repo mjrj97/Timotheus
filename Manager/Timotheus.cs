@@ -1,280 +1,296 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Text;
-using System.Globalization;
 using System.Runtime.InteropServices;
-using System.Collections.Generic;
+using System.Security.Principal;
+using System.Text;
 using Timotheus.IO;
 using Timotheus.Utility;
 
 namespace Timotheus
 {
-    internal sealed class Timotheus
-    {
-        private static Register _registry;
-        /// <summary>
-        /// A register containing all values found in the (Windows registry/macOS .plist/Linux etc folder) associated with Timotheus. Is loaded on start of program and saved on exit.
-        /// </summary>
-        public static Register Registry
-        {
-            get { return _registry; }
-            private set { _registry = value; }
-        }
-        /// <summary>
-        /// Text encoding used by the program. Is essential to decode the text from Windows Registry.
-        /// </summary>
-        public readonly static Encoding Encoding = Encoding.BigEndianUnicode;
-        private static CultureInfo _culture;
-        /// <summary>
-        /// Text encoding used by the program. Is essential to decode the text from Windows Registry.
-        /// </summary>
-        public static CultureInfo Culture
-        {
-            get
-            {
-                return _culture;
-            }
-            private set
-            {
-                _culture = value;
-            }
-        }
-        /// <summary>
-        /// Version of the software.
-        /// </summary>
-        public const string Version = "X.X.X";
-        /// <summary>
-        /// Whether this is the first time the software runs on this computer.
-        /// </summary>
-        public static bool FirstTime { get; private set; }
-        /// <summary>
-        /// Whether the program should open on start up (with nogui as argument).
-        /// </summary>
-        public static bool OpenOnStartUp
-        {
-            get
-            {
-                bool openOnStartUp = false;
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-                    object rkvalue = key.GetValue("Timotheus");
-                    openOnStartUp = rkvalue != null;
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    openOnStartUp = File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Library/LaunchAgents/dk.mjrj.Timotheus.plist");
-                }
-                return openOnStartUp;
-            }
-            set
-            {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    Microsoft.Win32.RegistryKey CURRENT_USER_KEY = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-					Microsoft.Win32.RegistryKey LOCAL_MACHINE_KEY = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run", true);
+	internal sealed class Timotheus
+	{
+		private static Register _registry;
+		/// <summary>
+		/// A register containing all values found in the (Windows registry/macOS .plist/Linux etc folder) associated with Timotheus. Is loaded on start of program and saved on exit.
+		/// </summary>
+		public static Register Registry
+		{
+			get { return _registry; }
+			private set { _registry = value; }
+		}
+		/// <summary>
+		/// Text encoding used by the program. Is essential to decode the text from Windows Registry.
+		/// </summary>
+		public readonly static Encoding Encoding = Encoding.BigEndianUnicode;
+		private static CultureInfo _culture;
+		/// <summary>
+		/// Text encoding used by the program. Is essential to decode the text from Windows Registry.
+		/// </summary>
+		public static CultureInfo Culture
+		{
+			get
+			{
+				return _culture;
+			}
+			private set
+			{
+				_culture = value;
+			}
+		}
+		/// <summary>
+		/// Version of the software.
+		/// </summary>
+		public const string Version = "X.X.X";
+		/// <summary>
+		/// Whether this is the first time the software runs on this computer.
+		/// </summary>
+		public static bool FirstTime { get; private set; }
+		/// <summary>
+		/// Whether the program should open on start up (with nogui as argument).
+		/// </summary>
+		public static bool OpenOnStartUp
+		{
+			get
+			{
+				bool openOnStartUp = false;
+				if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+				{
+					Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+					object rkvalue = key.GetValue("Timotheus");
+					openOnStartUp = rkvalue != null;
+				}
+				else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+				{
+					openOnStartUp = File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Library/LaunchAgents/dk.mjrj.Timotheus.plist");
+				}
+				return openOnStartUp;
+			}
+			set
+			{
+				if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+				{
+					Microsoft.Win32.RegistryKey CURRENT_USER_KEY = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+					Microsoft.Win32.RegistryKey LOCAL_MACHINE_KEY = IsElevatedProcess() ? Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run", true) : null;
 					if (value)
 					{
 						CURRENT_USER_KEY.SetValue("Timotheus", "\"" + Environment.ProcessPath + "\" \"nogui\"");
-						LOCAL_MACHINE_KEY.SetValue("Timotheus", "\"" + Environment.ProcessPath + "\" \"nogui\"");
+						if (LOCAL_MACHINE_KEY != null)
+							LOCAL_MACHINE_KEY.SetValue("Timotheus", "\"" + Environment.ProcessPath + "\" \"nogui\"");
 					}
-                    else
-                    {
-                        object rkvalue = CURRENT_USER_KEY.GetValue("Timotheus");
-                        if (rkvalue != null)
-                        {
+					else
+					{
+						object rkvalue = CURRENT_USER_KEY.GetValue("Timotheus");
+						if (rkvalue != null)
+						{
 							CURRENT_USER_KEY.DeleteValue("Timotheus");
-							LOCAL_MACHINE_KEY.DeleteValue("Timotheus");
+							if (LOCAL_MACHINE_KEY != null)
+								LOCAL_MACHINE_KEY.DeleteValue("Timotheus");
 						}
-                    }
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Library/LaunchAgents/dk.mjrj.Timotheus.plist";
-                    string plist = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n    <key>Label</key>\n    <string>dk.mjrj.Timotheus</string>\n    <key>ProgramArguments</key>\n    <array>\n        <string>/Applications/Timotheus.app/Contents/MacOS/Timotheus</string>\n        <string>nogui</string>\n    </array>\n    <key>RunAtLoad</key>\n    <true/>\n    <key>ProcessType</key>\n    <string>Background</string>\n</dict>\n</plist>";
-                    if (value)
-                    {
-                        if (!Directory.Exists(Path.GetDirectoryName(path)))
-                            Directory.CreateDirectory(Path.GetDirectoryName(path));
-                        File.WriteAllText(path, plist);
-                    }
-                    else
-                    {
-                        if (File.Exists(path))
-                            File.Delete(path);
-                    }
-                }
-            }
-        }
+					}
+				}
+				else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+				{
+					string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Library/LaunchAgents/dk.mjrj.Timotheus.plist";
+					string plist = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n    <key>Label</key>\n    <string>dk.mjrj.Timotheus</string>\n    <key>ProgramArguments</key>\n    <array>\n        <string>/Applications/Timotheus.app/Contents/MacOS/Timotheus</string>\n        <string>nogui</string>\n    </array>\n    <key>RunAtLoad</key>\n    <true/>\n    <key>ProcessType</key>\n    <string>Background</string>\n</dict>\n</plist>";
+					if (value)
+					{
+						if (!Directory.Exists(Path.GetDirectoryName(path)))
+							Directory.CreateDirectory(Path.GetDirectoryName(path));
+						File.WriteAllText(path, plist);
+					}
+					else
+					{
+						if (File.Exists(path))
+							File.Delete(path);
+					}
+				}
+			}
+		}
 
-        /// <summary>
-        /// Initializes the static variables and loads the Registry.
-        /// </summary>
-        internal static void Initalize()
-        {
-            LoadRegistry();
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                FileAssociations.EnsureAssociations();
-            if (FirstTime)
-                OpenOnStartUp = true;
+		/// <summary>
+		/// Initializes the static variables and loads the Registry.
+		/// </summary>
+		internal static void Initalize()
+		{
+			LoadRegistry();
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+				FileAssociations.EnsureAssociations();
+			if (FirstTime)
+				OpenOnStartUp = true;
 
-            //Defines the security protocol
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+			//Defines the security protocol
+			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
-            if (Registry.Retrieve("Language") == string.Empty)
-                Registry.Create("Language", CultureInfo.CurrentUICulture.Name);
-            Culture = CultureInfo.GetCultureInfo(Registry.Retrieve("Language"));
+			if (Registry.Retrieve("Language") == string.Empty)
+				Registry.Create("Language", CultureInfo.CurrentUICulture.Name);
+			Culture = CultureInfo.GetCultureInfo(Registry.Retrieve("Language"));
 
-            CultureInfo.CurrentUICulture = Culture;
-            CultureInfo.CurrentCulture = Culture;
+			CultureInfo.CurrentUICulture = Culture;
+			CultureInfo.CurrentCulture = Culture;
 
-            Localization.LocalizationCulture = Culture;
+			Localization.LocalizationCulture = Culture;
 
-            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
-        }
+			AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
+		}
 
-        /// <summary>
-        /// Handles operations to do before the program closes.
-        /// </summary>
-        private static void OnProcessExit(object sender, EventArgs e)
-        {
-            SaveRegistry();
-        }
+		/// <summary>
+		/// Handles operations to do before the program closes.
+		/// </summary>
+		private static void OnProcessExit(object sender, EventArgs e)
+		{
+			SaveRegistry();
+		}
 
-        /// <summary>
-        /// Saves the registry to the (Windows registry/macOS .plist/Linux etc folder).
-        /// </summary>
-        public static void SaveRegistry()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                try
-                {
-                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus", true);
-                    key ??= Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus", true);
+		/// <summary>
+		/// Saves the registry to the (Windows registry/macOS .plist/Linux etc folder).
+		/// </summary>
+		public static void SaveRegistry()
+		{
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				try
+				{
+					Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus", true);
+					key ??= Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Timotheus", true);
 
-                    string[] values = key.GetValueNames();
-                    bool[] found = new bool[values.Length];
+					string[] values = key.GetValueNames();
+					bool[] found = new bool[values.Length];
 
-                    List<Key> keys = Registry.RetrieveAll();
-                    for (int i = 0; i < keys.Count; i++)
-                    {
-                        key.SetValue(keys[i].Name, keys[i].Value);
-                        for (int j = 0; j < values.Length; j++)
-                        {
-                            if (keys[i].Name == values[j])
-                                found[j] = true;
-                        }
-                    }
+					List<Key> keys = Registry.RetrieveAll();
+					for (int i = 0; i < keys.Count; i++)
+					{
+						key.SetValue(keys[i].Name, keys[i].Value);
+						for (int j = 0; j < values.Length; j++)
+						{
+							if (keys[i].Name == values[j])
+								found[j] = true;
+						}
+					}
 
-                    for (int i = 0; i < values.Length; i++)
-                    {
-                        if (!found[i])
-                            key.DeleteValue(values[i]);
-                    }
+					for (int i = 0; i < values.Length; i++)
+					{
+						if (!found[i])
+							key.DeleteValue(values[i]);
+					}
 
-                    key.Close();
-                }
-                catch (Exception exception)
-                {
-                    Program.Log(exception);
+					key.Close();
+				}
+				catch (Exception exception)
+				{
+					Program.Log(exception);
 
-                    string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
-                    string fileName = directory + "/" + "Registry.ini";
-                    if (!Directory.Exists(directory))
-                        Directory.CreateDirectory(directory);
-                    if (!File.Exists(fileName))
-                        File.Create(fileName).Close();
-                    Registry.Save(fileName);
-                }
-            }
-            else
-            {
-                string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
-                string fileName = directory + "/" + "Registry.ini";
-                if (!Directory.Exists(directory))
-                    Directory.CreateDirectory(directory);
-                if (!File.Exists(fileName))
-                    File.Create(fileName).Close();
-                Registry.Save(fileName);
-            }
-        }
+					string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+					string fileName = directory + "/" + "Registry.ini";
+					if (!Directory.Exists(directory))
+						Directory.CreateDirectory(directory);
+					if (!File.Exists(fileName))
+						File.Create(fileName).Close();
+					Registry.Save(fileName);
+				}
+			}
+			else
+			{
+				string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+				string fileName = directory + "/" + "Registry.ini";
+				if (!Directory.Exists(directory))
+					Directory.CreateDirectory(directory);
+				if (!File.Exists(fileName))
+					File.Create(fileName).Close();
+				Registry.Save(fileName);
+			}
+		}
 
-        /// <summary>
-        /// Loads the values stored in the (Windows registry/macOS .plist/Linux etc folder) associated with Timotheus.
-        /// </summary>
-        private static void LoadRegistry()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                try
-                {
-                    Registry = new();
-                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus");
-                    
-                    if (key != null)
-                    {
-                        string[] names = key.GetValueNames();
-                        for (int i = 0; i < names.Length; i++)
-                        {
-                            string value = Convert.ToString(key.GetValue(names[i]));
-                            Registry.Create(names[i], value);
-                        }
+		/// <summary>
+		/// Loads the values stored in the (Windows registry/macOS .plist/Linux etc folder) associated with Timotheus.
+		/// </summary>
+		private static void LoadRegistry()
+		{
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				try
+				{
+					Registry = new();
+					Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Timotheus");
 
-                        key.Close();
-                    }
-                    else
-                        FirstTime = true;
-                }
-                catch (Exception exception)
-                {
-                    Program.Log(exception);
+					if (key != null)
+					{
+						string[] names = key.GetValueNames();
+						for (int i = 0; i < names.Length; i++)
+						{
+							string value = Convert.ToString(key.GetValue(names[i]));
+							Registry.Create(names[i], value);
+						}
 
-                    string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
-                    string fileName = directory + "/" + "Registry.ini";
-                    if (!Directory.Exists(directory))
-                        Directory.CreateDirectory(directory);
-                    if (!File.Exists(fileName))
-                    {
-                        FirstTime = true;
-                        File.Create(fileName).Close();
-                    }
-                    Registry = new Register(fileName, ':');
-                }
-            }
-            else
-            {
-                string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
-                string fileName = directory + "/" + "Registry.ini";
-                if (!Directory.Exists(directory))
-                    Directory.CreateDirectory(directory);
-                if (!File.Exists(fileName))
-                {
-                    FirstTime = true;
-                    File.Create(fileName).Close();
-                }
-                Registry = new Register(fileName, ':');
-            }
-        }
+						key.Close();
+					}
+					else
+						FirstTime = true;
+				}
+				catch (Exception exception)
+				{
+					Program.Log(exception);
 
-        /// <summary>
-        /// Deletes the settings saved in the registry
-        /// </summary>
-        public static void DeleteRegistry()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Registry = new();
-            }
-            else
-            {
-                string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
-                string fileName = directory + "/" + "Registry.ini";
-                Registry = new Register(fileName, ':');
-            }
+					string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+					string fileName = directory + "/" + "Registry.ini";
+					if (!Directory.Exists(directory))
+						Directory.CreateDirectory(directory);
+					if (!File.Exists(fileName))
+					{
+						FirstTime = true;
+						File.Create(fileName).Close();
+					}
+					Registry = new Register(fileName, ':');
+				}
+			}
+			else
+			{
+				string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+				string fileName = directory + "/" + "Registry.ini";
+				if (!Directory.Exists(directory))
+					Directory.CreateDirectory(directory);
+				if (!File.Exists(fileName))
+				{
+					FirstTime = true;
+					File.Create(fileName).Close();
+				}
+				Registry = new Register(fileName, ':');
+			}
+		}
 
-            SaveRegistry();
-        }
-    }
+		private static bool IsElevatedProcess()
+		{
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+				{
+					WindowsPrincipal principal = new WindowsPrincipal(identity);
+					return principal.IsInRole(WindowsBuiltInRole.Administrator);
+				}
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Deletes the settings saved in the registry
+		/// </summary>
+		public static void DeleteRegistry()
+		{
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				Registry = new();
+			}
+			else
+			{
+				string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Programs/Timotheus";
+				string fileName = directory + "/" + "Registry.ini";
+				Registry = new Register(fileName, ':');
+			}
+
+			SaveRegistry();
+		}
+	}
 }
