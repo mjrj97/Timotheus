@@ -168,15 +168,15 @@ namespace Timotheus.Views.Tabs
             {
 				if (Project.FilePath == string.Empty)
 					throw new Exception(Localization.Exception_MustSaveKeyFirst);
+				string calendarPath = Project.Keys.Retrieve("Calendar-Path");
 
-				string path = Project.DirectoryPath + Project.Keys.Retrieve("Calendar-Path");
-
-				if (path == string.Empty)
+				if (calendarPath == string.Empty)
                 {
                     SaveAs_Click(null, null);
                 }
                 else
-                {
+				{
+					string path = Project.DirectoryPath + calendarPath;
 					ViewModel.Save(path);
 				}
             }
