@@ -246,7 +246,7 @@ namespace Timotheus.IO
         }
 
         /// <summary>
-        /// Returns the value of the key with a given name.
+        /// Returns the value of the key with a given name. If a key with the given name doesn't exist, it returns string.Empty
         /// </summary>
         /// <param name="name">Name of the key.</param>
         public string Retrieve(string name)
@@ -263,39 +263,10 @@ namespace Timotheus.IO
                 else
                     i++;
             }
+
             if (found)
             {
-                string value = keys[i].Value;
-                StringBuilder v = new();
-                i = 0;
-                bool endFound = false;
-                while (i < value.Length)
-                {
-                    if (value[i] == '{')
-                    {
-                        int j = i;
-                        while (j < value.Length && !endFound)
-                        {
-                            if (value[j] == '}')
-                            {
-                                string otherName = value[(i + 1)..j];
-                                string otherValue = Retrieve(otherName);
-                                if (otherValue != string.Empty)
-                                    v.Append(otherValue);
-                                else
-                                    v.Append("{" + otherName + "}");
-                                i = j+1;
-                                endFound = true;
-                            }
-                            j++;
-                        }
-                    }
-                    if (i < value.Length)
-                        v.Append(value[i]);
-                    endFound = false;
-                    i++;
-                }
-                return v.ToString();
+                return keys[i].Value;
             }
             else
                 return string.Empty;
