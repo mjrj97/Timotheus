@@ -17,15 +17,16 @@ namespace Timotheus.Views.Dialogs
         {
             OpenFileDialog openFileDialog = new();
 
-            FileDialogFilter txtFilter = new();
-            txtFilter.Extensions.Add("txt");
-            txtFilter.Extensions.Add("tkey");
-            txtFilter.Name = "Key files (.txt, .tkey)";
+            FileDialogFilter filter = new();
+            filter.Extensions.Add("tkey");
+            filter.Name = "Key files (.tkey)";
 
-            openFileDialog.Filters = new();
-            openFileDialog.Filters.Add(txtFilter);
+			openFileDialog.Filters = new()
+			{
+				filter
+			};
 
-            string[] result = await openFileDialog.ShowAsync(this);
+			string[] result = await openFileDialog.ShowAsync(this);
             if (result != null && result.Length > 0)
                 Path = result[0];
 
