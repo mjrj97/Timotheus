@@ -1133,6 +1133,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Foråret";
+					case Culture.deDE:
+						return "Frühling";
 					default:
 						return "Spring";
 				}
@@ -1168,6 +1170,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Synkroniser kalenderen med en anden";
+					case Culture.deDE:
+						return "Sychronisiert den Kalender mit dem online Kalender";
 					default:
 						return "Synchronize the calendar with a remote calendar";
 				}
@@ -1185,6 +1189,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Offentliggør";
+					case Culture.deDE:
+						return "Veröffentlichen";
 					default:
 						return "Publish";
 				}
@@ -1240,6 +1246,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Bekræftelse";
+					case Culture.deDE:
+						return "Bestätigung";
 					default:
 						return "Confirmation";
 				}
@@ -1257,6 +1265,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Samtykkeerklæringerne er blevet gemt.";
+					case Culture.deDE:
+						return "Die Liste der Personen wurde gespeichert";
 					default:
 						return "The list of people has been saved.";
 				}
@@ -1274,6 +1284,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Kalenderen er blevet gemt.";
+					case Culture.deDE:
+						return "Der Kalender wurde gespeichert";
 					default:
 						return "The calendar has been saved.";
 				}
@@ -1291,6 +1303,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Nøglen er blevet gemt.";
+					case Culture.deDE:
+						return "Der Schlüssel wurde gespeichert.";
 					default:
 						return "The key has been saved.";
 				}
@@ -1308,6 +1322,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Ændr person";
+					case Culture.deDE:
+						return "Person bearbeiten";
 					default:
 						return "Edit person";
 				}
@@ -1325,6 +1341,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Redigér";
+					case Culture.deDE:
+						return "Bearbeieten";
 					default:
 						return "Edit";
 				}
@@ -1342,6 +1360,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Tilføj standard nøgler";
+					case Culture.deDE:
+						return "Standardschlüssel hinzufügen";
 					default:
 						return "Add standard keys";
 				}
@@ -1359,6 +1379,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Annullér";
+					case Culture.deDE:
+						return "Abbrechen";
 					default:
 						return "Cancel";
 				}
@@ -1376,6 +1398,7 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Ok";
+					case Culture.deDE:
 					default:
 						return "Ok";
 				}
@@ -1393,6 +1416,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Programmet kører allerede, hvis du ikke kan se det, tjek systembakken eller joblisten";
+					case Culture.deDE:
+						return "Das Programm wird bereits ausgeführt. Wenn Sie es nicht sehen können, überprüfen Sie die Taskleiste oder den Task-Manager";
 					default:
 						return "The program is already running. If you can't see it, check the system tray or task manager";
 				}
@@ -1407,6 +1432,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Åbning af nøglen blev annulleret.";
+					case Culture.deDE:
+						return "Öffnen des Schlüssels wurde abgebrochen.";
 					default:
 						return "Opening of the key was cancelled.";
 				}
@@ -1421,6 +1448,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Begivenheder kan ikke have et tomt navn";
+					case Culture.deDE:
+						return "Ereignisse können keinen leeren Namen haben";
 					default:
 						return "Events cannot have a empty name";
 				}
@@ -1438,6 +1467,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Nøglen er placeret et upraktisk sted. Er du sikker på at du vil have nøglen der (#1)? Alle filer i denne mappe vil blive synkroniseret med serveren næste gang der synkroniseres.";
+					case Culture.deDE:
+						return "Der Schlüssel befindet sich an einer unpraktischen Stelle. Sind Sie sicher, dass Sie den Schlüssel dort haben wollen (#1)? Alle Dateien in diesem Ordner werden bei der nächsten Synchronisierung mit dem Server synchronisiert.";
 					default:
 						return "The key is placed in a unpractical place. Are you sure that you want the key there (#1)? All files in this folder will be synchronized with the server next time there is a synchronization.";
 				}
@@ -1455,6 +1486,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Du kan ikke åbne, gemme eller synkronisere, før nøglen er blevet gemt. Alle filer skal være i den samme mappe som nøglen, og derfor skal nøglen være i en mappe først.";
+					case Culture.deDE:
+						return "Sie können nicht öffnen, speichern oder synchronisieren, bevor der Schlüssel nicht einmal gespeichert wurde. Alle Dateien müssen sich im selben Ordner wie der Schlüssel befinden, daher muss sich der Schlüssel zuerst in einem Ordner befinden.";
 					default:
 						return "You cannot open, save or synchronize until the key has been saved once. All files must be in the same folder as the key, and therefore the key must be in a folder first.";
 				}
@@ -1472,6 +1505,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Denne fil er ikke i projektmappen (#1). Du kan ikke åbne filer som er udenfor projektmappen.";
+					case Culture.deDE:
+						return "Diese Datei befindet sich nicht im Projektordner (#1). Sie können keine Dateien öffnen, die sich außerhalb dieses Ordners befinden.";
 					default:
 						return "This file is not in the project folder (#1). You cannot open files that are outside of this folder.";
 				}
@@ -1489,6 +1524,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Kalenderen kunne ikke findes i projektmappen (#1). Den er enten blevet flyttet eller slettet. Prøv at finde filen gennem 'Åben' under kalender-fanen.";
+					case Culture.deDE:
+						return "Der Kalender konnte im Projektordner (#1) nicht gefunden werden. Er wurde entweder verschoben oder gelöscht. Versuchen Sie, die Datei über 'Öffnen' auf der Registerkarte 'Kalender' zu finden.";
 					default:
 						return "The calendar could not be found in the project folder (#1). It has either been moved or deleted. Try to find the file through 'Open' under the calendar tab.";
 				}
@@ -4177,6 +4214,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Engelsk";
+					case Culture.deDE:
+						return "Englisch";
 					default:
 						return "English";
 				}
@@ -4194,6 +4233,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Genstart programmet for at skifte programmet sprog";
+					case Culture.deDE:
+						return "Programm neustarten, um die Sprache zu ändern";
 					default:
 						return "Restart the program to change the language of the program";
 				}
@@ -4210,7 +4251,7 @@ namespace Timotheus
 				switch (CurrentCulture)
 				{
 					case Culture.daDK:
-						return "Logo";
+					case Culture.deDE:
 					default:
 						return "Logo";
 				}
@@ -4228,6 +4269,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Led efter opdateringer";
+					case Culture.deDE:
+						return "Nach Updates suchen";
 					default:
 						return "Look for updates";
 				}
@@ -4245,6 +4288,7 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Navn";
+					case Culture.deDE:
 					default:
 						return "Name";
 				}
@@ -4262,6 +4306,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Åben når computeren tænder (Uden vindue)";
+					case Culture.deDE:
+						return "Beim starten öffnen (ohne Fenster)";
 					default:
 						return "Open at startup (Without window)";
 				}
@@ -4279,6 +4325,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Program indstillinger";
+					case Culture.deDE:
+						return "Programmeinstellungen";
 					default:
 						return "Program settings";
 				}
@@ -4296,6 +4344,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Ændringer skal uploades";
+					case Culture.deDE:
+						return "Änderungen müssen hochgeladen werden";
 					default:
 						return "Changes need to be uploaded";
 				}
@@ -4313,6 +4363,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Ændringer skal downloades";
+					case Culture.deDE:
+						return "Änderungen müssen heruntergeladen werden";
 					default:
 						return "Changes need to be downloaded";
 				}
@@ -4330,6 +4382,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Er du sikker på at du vil gøre \"#1\" #2 med øjeblikkelig virkning? Den er #3 lige nu.";
+					case Culture.deDE:
+						return "Sind Sie sicher, dass Sie \"#1\" machen wollen? #2 mit sofortiger Wirkung? Derzeit ist es die Nummer #3.";
 					default:
 						return "Are you sure you want to make \"#1\" #2 with immediate effect? It is currently #3.";
 				}
@@ -4347,6 +4401,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Slet";
+					case Culture.deDE:
+						return "Löschen";
 					default:
 						return "Delete";
 				}
@@ -4364,6 +4420,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Ny mappe";
+					case Culture.deDE:
+						return "Neuer Ordner";
 					default:
 						return "New folder";
 				}
@@ -4381,6 +4439,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Åben";
+					case Culture.deDE:
+						return "Öffnen";
 					default:
 						return "Open";
 				}
@@ -4398,6 +4458,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Gør privat";
+					case Culture.deDE:
+						return "Privat stellen";
 					default:
 						return "Make private";
 				}
@@ -4415,6 +4477,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Gør offentlig";
+					case Culture.deDE:
+						return "Öffentlich machen";
 					default:
 						return "Make public";
 				}
@@ -4432,6 +4496,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Omdøb";
+					case Culture.deDE:
+						return "Umbenennen";
 					default:
 						return "Rename";
 				}
@@ -4449,6 +4515,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Vis i stifinder";
+					case Culture.deDE:
+						return "Im Dateiexplorer anzeigen";
 					default:
 						return "Show in file explorer";
 				}
@@ -4466,6 +4534,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Synkronisér fil";
+					case Culture.deDE:
+						return "Datei sychronisieren";
 					default:
 						return "Synchronize file";
 				}
@@ -4483,6 +4553,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Sletter filen lokalt og online";
+					case Culture.deDE:
+						return "Datei lokal und remote löschen";
 					default:
 						return "Deletes the file locally and remotely";
 				}
@@ -4500,6 +4572,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Slettet på computer";
+					case Culture.deDE:
+						return "Auf dem Computer gelöscht";
 					default:
 						return "Deleted on computer";
 				}
@@ -4517,6 +4591,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Slettet på server";
+					case Culture.deDE:
+						return "Auf dem Server gelöscht";
 					default:
 						return "Deleted on server";
 				}
@@ -4534,6 +4610,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Er du sikker på at du vil slette \"#\" lokalt og online?";
+					case Culture.deDE:
+						return "Sind sie sicher, dass sie \"#\" lokal und online löschen möchten?";
 					default:
 						return "Are you sure you want to delete \"#\" locally and remotely?";
 				}
@@ -4551,6 +4629,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "En mappe med det navn findes allerede";
+					case Culture.deDE:
+						return "Es existiert bereits ein Ordner mit dem Namen";
 					default:
 						return "A folder with that name already exists.";
 				}
@@ -4568,6 +4648,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Gå tilbage til den sidste mappe";
+					case Culture.deDE:
+						return "Zum letzten Ordner zurückgehen";
 					default:
 						return "Go back to the last folder";
 				}
@@ -4585,6 +4667,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Tilbage";
+					case Culture.deDE:
+						return "Zurück";
 					default:
 						return "Back";
 				}
@@ -4602,6 +4686,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Synkroniserer";
+					case Culture.deDE:
+						return "Sychronisation";
 					default:
 						return "Synchronizing";
 				}
@@ -4619,6 +4705,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Filnavn";
+					case Culture.deDE:
+						return "Dateiname";
 					default:
 						return "File name";
 				}
@@ -4636,6 +4724,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Ikke synkroniseret endnu";
+					case Culture.deDE:
+						return "Wurde noch nicht sychronisiert";
 					default:
 						return "Hasn't been synced";
 				}
@@ -4653,6 +4743,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Ny mappe";
+					case Culture.deDE:
+						return "Neuer Ordner";
 					default:
 						return "New folder";
 				}
@@ -4670,6 +4762,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Lav en ny mappe";
+					case Culture.deDE:
+						return "Neuen Ordner erstellen";
 					default:
 						return "Create a new folder";
 				}
@@ -4687,6 +4781,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Skal uploades";
+					case Culture.deDE:
+						return "Muss hochgeladen werden";
 					default:
 						return "Needs to be uploaded";
 				}
@@ -4704,6 +4800,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Skal downloades";
+					case Culture.deDE:
+						return "Muss heruntergeladen werden";
 					default:
 						return "Needs to be downloaded";
 				}
@@ -4721,6 +4819,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Åbner den valgte fil. Hvis det er en mappe, går man ind i mappen.";
+					case Culture.deDE:
+						return "Öffnet die Datei. Wenn es ein Dateiverzeichnis ist, werden die Dateien in dem Verzeichnis angezeigt.";
 					default:
 						return "Opens the file. If it is a directory, then the files in the directory are shown.";
 				}
@@ -4757,6 +4857,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Den nuværende mappes sti";
+					case Culture.deDE:
+						return "Der aktuelle Ordnerpfad";
 					default:
 						return "The current folder path";
 				}
@@ -4774,6 +4876,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Ændr tilladelse";
+					case Culture.deDE:
+						return "Berechtigung ändern";
 					default:
 						return "Change permission";
 				}
@@ -4790,6 +4894,7 @@ namespace Timotheus
 				switch (CurrentCulture)
 				{
 					case Culture.daDK:
+					case Culture.deDE:
 						return "Privat";
 					default:
 						return "Private";
@@ -4808,6 +4913,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Offentlig";
+					case Culture.deDE:
+						return "Öffentlich";
 					default:
 						return "Public";
 				}
@@ -4825,6 +4932,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Genindlæs mappen (#1) og se om der er sket ændringer";
+					case Culture.deDE:
+						return "Den Ordner (#1) aktualisieren und nach Aktu suchen";
 					default:
 						return "Refresh the folder (#1) and look for updates";
 				}
@@ -4842,6 +4951,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Indstil hvilken mappe der skal synkroniseres med";
+					case Culture.deDE:
+						return "Einrichten des Ordners, mit dem synchronisiert werden soll";
 					default:
 						return "Setup which folder to synchronize with";
 				}
@@ -4859,6 +4970,7 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Opsætning";
+					case Culture.deDE:
 					default:
 						return "Setup";
 				}
@@ -4876,6 +4988,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Sync";
+					case Culture.deDE:
+						return "Sychronisieren";
 					default:
 						return "Sync";
 				}
@@ -4893,6 +5007,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Synkronisér hver";
+					case Culture.deDE:
+						return "Alles sychronisieren";
 					default:
 						return "Synchronize every";
 				}
@@ -4910,6 +5026,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "minutter";
+					case Culture.deDE:
+						return "Minuten";
 					default:
 						return "minutes";
 				}
@@ -4927,6 +5045,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Viser den valgte fil på computeren";
+					case Culture.deDE:
+						return "Zeigt die Datei auf dem Computer an";
 					default:
 						return "Shows the file on the computer.";
 				}
@@ -4944,6 +5064,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Filstørrelse";
+					case Culture.deDE:
+						return "Dateigröße";
 					default:
 						return "File size";
 				}
@@ -4961,6 +5083,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Synkroniser alle filer og mapper (Sidst synkroniseret #)";
+					case Culture.deDE:
+						return "Sychronisiert alle Dateien und Ordner (Letzte Sychronisation #)";
 					default:
 						return "Synchronize all files and folders (Last synced #)";
 				}
@@ -4978,6 +5102,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Synkronisér";
+					case Culture.deDE:
+						return "Sychronisieren";
 					default:
 						return "Synchronize";
 				}
@@ -4995,6 +5121,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Synkronisér den valgte fil";
+					case Culture.deDE:
+						return "Sychronisiert die Datei";
 					default:
 						return "Synchronizes the file";
 				}
@@ -5012,6 +5140,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Synkroniserer filer";
+					case Culture.deDE:
+						return "Dateien sychronisieren";
 					default:
 						return "Synchronizing files";
 				}
@@ -5029,6 +5159,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Opdatér";
+					case Culture.deDE:
+						return "Aktualisieren";
 					default:
 						return "Refresh";
 				}
@@ -5046,6 +5178,7 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Opsætning";
+					case Culture.deDE:
 					default:
 						return "Setup";
 				}
@@ -5063,6 +5196,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Gennemsé";
+					case Culture.deDE:
+						return "Durchsuchen";
 					default:
 						return "Browse";
 				}
@@ -5080,6 +5215,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Annullér";
+					case Culture.deDE:
+						return "Abbrechen";
 					default:
 						return "Cancel";
 				}
@@ -5097,6 +5234,7 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Host";
+					case Culture.deDE:
 					default:
 						return "Host";
 				}
@@ -5113,6 +5251,7 @@ namespace Timotheus
 				switch (CurrentCulture)
 				{
 					case Culture.daDK:
+					case Culture.deDE:
 						return "Lokal";
 					default:
 						return "Local";
@@ -5131,6 +5270,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Adgangskode";
+					case Culture.deDE:
+						return "Passwort";
 					default:
 						return "Password";
 				}
@@ -5147,7 +5288,7 @@ namespace Timotheus
 				switch (CurrentCulture)
 				{
 					case Culture.daDK:
-						return "Port";
+					case Culture.deDE:
 					default:
 						return "Port";
 				}
@@ -5165,6 +5306,7 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Fjern";
+					case Culture.deDE:
 					default:
 						return "Remote";
 				}
@@ -5182,6 +5324,7 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Opsæt";
+					case Culture.deDE:
 					default:
 						return "Setup";
 				}
@@ -5199,6 +5342,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Brugernavn";
+					case Culture.deDE:
+						return "Benutzername";
 					default:
 						return "Username";
 				}
@@ -5216,6 +5361,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Offentliggør";
+					case Culture.deDE:
+						return "Veröffentlichen";
 					default:
 						return "Publish";
 				}
@@ -5233,6 +5380,7 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "URL";
+					case Culture.deDE:
 					default:
 						return "URL";
 				}
@@ -5250,6 +5398,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Annullér";
+					case Culture.deDE:
+						return "Abbrechen";
 					default:
 						return "Cancel";
 				}
@@ -5267,6 +5417,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Offentliggør brugerdefineret periode";
+					case Culture.deDE:
+						return "Benutzerdefinierten Zeitraum veröffentlichen";
 					default:
 						return "Publish custom period";
 				}
@@ -5284,6 +5436,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Online kalender";
+					case Culture.deDE:
+						return "Online Kalender";
 					default:
 						return "Online calendar";
 				}
@@ -5301,6 +5455,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Offentliggør hele kalenderen";
+					case Culture.deDE:
+						return "Den gesamten Kalender veröffentlichen";
 					default:
 						return "Publish the entire calendar";
 				}
@@ -5318,6 +5474,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "En anden kalender";
+					case Culture.deDE:
+						return "Anderen Kalender";
 					default:
 						return "Another calendar";
 				}
@@ -5335,6 +5493,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Adgangskode";
+					case Culture.deDE:
+						return "Passwort";
 					default:
 						return "Password";
 				}
@@ -5352,6 +5512,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Offentliggør denne periode";
+					case Culture.deDE:
+						return "Zeitraum veröffentlichen";
 					default:
 						return "Publish the period";
 				}
@@ -5369,6 +5531,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Vælg periode";
+					case Culture.deDE:
+						return "Zeitraum veröffentlichen";
 					default:
 						return "Choose period";
 				}
@@ -5386,6 +5550,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Offentliggør";
+					case Culture.deDE:
+						return "Veröffentlichen";
 					default:
 						return "Publish";
 				}
@@ -5403,6 +5569,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Nuværende kalender";
+					case Culture.deDE:
+						return "Aktueller Kalender";
 					default:
 						return "Current calendar";
 				}
@@ -5420,6 +5588,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Brugernavn";
+					case Culture.deDE:
+						return "Benutzername";
 					default:
 						return "Username";
 				}
@@ -5437,6 +5607,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Synkroniserer kalender";
+					case Culture.deDE:
+						return "Kalender sychronisieren";
 					default:
 						return "Synchronizing calendar";
 				}
@@ -5454,6 +5626,7 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Tekst";
+					case Culture.deDE:
 					default:
 						return "Text";
 				}
@@ -5471,6 +5644,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Redigér";
+					case Culture.deDE:
+						return "Bearbeiten";
 					default:
 						return "Edit";
 				}
@@ -5488,6 +5663,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Lav ændringer til den nuværende nøgle";
+					case Culture.deDE:
+						return "Änderungen an aktuellem Schlüssel vornehmen";
 					default:
 						return "Make changes to the current key";
 				}
@@ -5505,6 +5682,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Luk";
+					case Culture.deDE:
+						return "Schließen";
 					default:
 						return "Exit";
 				}
@@ -5522,6 +5701,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Filer";
+					case Culture.deDE:
+						return "Datei";
 					default:
 						return "File";
 				}
@@ -5539,6 +5720,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Hjælp";
+					case Culture.deDE:
+						return "Hilfe";
 					default:
 						return "Help";
 				}
@@ -5556,6 +5739,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Find information omkring programmet";
+					case Culture.deDE:
+						return "Informationen über das Programm finden";
 					default:
 						return "Find information about the program";
 				}
@@ -5573,6 +5758,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Nøgle";
+					case Culture.deDE:
+						return "Schlüssel";
 					default:
 						return "Key";
 				}
@@ -5590,6 +5777,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Åben";
+					case Culture.deDE:
+						return "Öffnen";
 					default:
 						return "Open";
 				}
@@ -5607,6 +5796,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Ny";
+					case Culture.deDE:
+						return "Neu";
 					default:
 						return "New";
 				}
@@ -5624,6 +5815,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Lav et nyt projekt";
+					case Culture.deDE:
+						return "Erstellt ein neues Projekt";
 					default:
 						return "Creates a new project";
 				}
@@ -5641,6 +5834,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Er du sikker på at du vil lave et nyt projekt? Alt der ikke er gemt, vil blive slettet.";
+					case Culture.deDE:
+						return "Sind Sie sicher, dass Sie ein neues Projekt erstellen wollen? Nicht gespeicherte Fortschritte gehen verloren.";
 					default:
 						return "Are you sure you want to create a new project? Unsaved progress will be lost.";
 				}
@@ -5658,6 +5853,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Åben";
+					case Culture.deDE:
+						return "Öffnen";
 					default:
 						return "Open";
 				}
@@ -5675,6 +5872,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Find en nøgle og åben den";
+					case Culture.deDE:
+						return "Einen Schlüssel finden und öffnen";
 					default:
 						return "Find a key and open it";
 				}
@@ -5692,6 +5891,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Gem som";
+					case Culture.deDE:
+						return "Speichern als";
 					default:
 						return "Save as";
 				}
@@ -5709,6 +5910,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Gem en kobi af den nuværende nøgle til et bestemt sted";
+					case Culture.deDE:
+						return "Speichern einer Kopie des aktuellen Schlüssels an einem bestimmten Ort";
 					default:
 						return "Save a copy of the current key to a specific location";
 				}
@@ -5726,6 +5929,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Gem";
+					case Culture.deDE:
+						return "Speichern";
 					default:
 						return "Save";
 				}
@@ -5743,6 +5948,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Gem";
+					case Culture.deDE:
+						return "Speichern";
 					default:
 						return "Save";
 				}
@@ -5760,6 +5967,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Gem den nuværende nøgle";
+					case Culture.deDE:
+						return "Speichert den aktuellen Schlüssel";
 					default:
 						return "Save the current key";
 				}
@@ -5777,6 +5986,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Her kan du lave om på diverse indstillinger";
+					case Culture.deDE:
+						return "Hier können sie die Programmeinstellungen ändern";
 					default:
 						return "Here you can change the settings of the program";
 				}
@@ -5794,6 +6005,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Åben";
+					case Culture.deDE:
+						return "Öffnen";
 					default:
 						return "Open";
 				}
@@ -5811,6 +6024,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Luk";
+					case Culture.deDE:
+						return "Schließen";
 					default:
 						return "Close";
 				}
@@ -5828,6 +6043,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Der er en ny opdatering (#) tilgængelig på hjemmesiden: www.mjrj.dk";
+					case Culture.deDE:
+						return "Ein neues Update (#) ist auf der Website verfügbar: www.mjrj.dk";
 					default:
 						return "There is a new update (#) available on the website: www.mjrj.dk";
 				}
@@ -5845,6 +6062,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Vis ikke igen";
+					case Culture.deDE:
+						return "Nicht erneut anzeigen";
 					default:
 						return "Don't show again";
 				}
@@ -5862,6 +6081,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Opdatering";
+					case Culture.deDE:
+						return "Aktualisieren";
 					default:
 						return "Update";
 				}
@@ -5879,6 +6100,8 @@ namespace Timotheus
 				{
 					case Culture.daDK:
 						return "Er du sikker på at du ikke vil have beskeder om nye opdateringer? Du kan gå glip af nye funktioner, bedre ydeevne og sikkerhed.";
+					case Culture.deDE:
+						return "Sind Sie sicher, dass Sie keine Nachrichten über neue Updates erhalten möchten? Sie könnten neue Funktionen, bessere Leistung und Sicherheit verpassen.";
 					default:
 						return "Are you sure that you don't want messages about new updates? You can miss new features, better performance and security.";
 				}
